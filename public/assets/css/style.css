@@ -231,7 +231,7 @@ ul, ol {
 
 a {
   text-decoration: none;
-  color: #69acc7; }
+  color: #D01C44; }
 
 address {
   font-style: normal; }
@@ -252,7 +252,7 @@ form textarea {
   resize: vertical; }
 form input[type="submit"], form button, form input[type="reset"] {
   border: none;
-  background-color: #69acc7; }
+  background-color: #D01C44; }
 
 /*
  * Reusable Components Style
@@ -271,7 +271,7 @@ form input[type="submit"], form button, form input[type="reset"] {
   .button img, form input[type="submit"] img, form button img, form input[type="reset"] img {
     margin-right: 10px; }
   .button:hover, form input[type="submit"]:hover, form button:hover, form input[type="reset"]:hover {
-    box-shadow: inset 0 0 100px #69acc7;
+    box-shadow: inset 0 0 100px #D01C44;
     color: white; }
   .button.white, form input.white[type="submit"], form button.white, form input.white[type="reset"] {
     background: white; }
@@ -1175,12 +1175,12 @@ form input[type="submit"], form button, form input[type="reset"] {
     border: none;
     font-size: 20px;
     font-size: 1.3333333333em;
-    color: #8e9ca5;
+    color: #000000;
     outline: none;
     display: none;
     padding: 20px; }
     .main-navigation .menu-toggle:hover, .main-navigation .menu-toggle:active {
-      color: #69acc7; }
+      color: #D01C44; }
     @media screen and (max-width: 990px) {
       .main-navigation .menu-toggle {
         display: block; } }
@@ -1215,8 +1215,8 @@ form input[type="submit"], form button, form input[type="reset"] {
         border-bottom: 2px solid transparent;
         line-height: normal; }
       .main-navigation .menu .menu-item.current-menu-item a, .main-navigation .menu .menu-item:hover a {
-        color: #69acc7;
-        border-bottom: 2px solid #69acc7; }
+        color: #D01C44;
+        border-bottom: 2px solid #D01C44; }
 
 .mobile-navigation {
   padding: 30px;
@@ -1316,7 +1316,7 @@ form input[type="submit"], form button, form input[type="reset"] {
           top: 0;
           bottom: 0;
           margin: auto;
-          background: #69acc7;
+          background: #D01C44;
           border-radius: 50%;
           opacity: 0;
           -webkit-transition: .3s ease;
@@ -1433,7 +1433,7 @@ form input[type="submit"], form button, form input[type="reset"] {
       max-width: 100%;
       padding: 20px 100px 20px 20px; }
       .subscribe-form form input[type="text"]:hover, .subscribe-form form input[type="text"]:focus, .subscribe-form form input[type="email"]:hover, .subscribe-form form input[type="email"]:focus {
-        border-color: #69acc7; }
+        border-color: #D01C44; }
     .subscribe-form form input[type="submit"] {
       position: absolute;
       top: 0px;
@@ -1488,12 +1488,12 @@ form input[type="submit"], form button, form input[type="reset"] {
     position: absolute;
     left: 20px;
     top: 30px;
-    color: #69acc7;
+    color: #D01C44;
     text-align: center;
     line-height: 2; }
   .checked-box h3 {
     font-weight: 300;
-    color: #69acc7;
+    color: #D01C44;
     margin-bottom: 10px; }
 
 ol.circle {
@@ -1509,7 +1509,7 @@ ol.circle {
       content: counter(circled);
       width: 70px;
       height: 70px;
-      border: 4px solid #69acc7;
+      border: 4px solid #D01C44;
       display: block;
       border-radius: 50%;
       text-align: center;
@@ -1520,12 +1520,12 @@ ol.circle {
       position: absolute;
       top: 0;
       left: 0;
-      color: #69acc7; }
+      color: #D01C44; }
     ol.circle li h3 {
       font-size: 16px;
       font-size: 1.0666666667em;
       font-weight: 400;
-      color: #69acc7;
+      color: #D01C44;
       margin-bottom: 10px; }
 
 .testimonial-list {
@@ -1680,14 +1680,14 @@ figure {
   border-radius: 50%;
   border: 1px solid #cddbe1;
   text-align: center;
-  color: #69acc7;
+  color: #D01C44;
   display: inline-block;
   padding-top: 8px;
   -webkit-transition: .3s ease;
           transition: .3s ease; }
   .social-links a:hover {
-    background: #69acc7;
-    border-color: #69acc7;
+    background: #D01C44;
+    border-color: #D01C44;
     color: white; }
 
 .arrow-list {
@@ -1702,7 +1702,7 @@ figure {
       -webkit-transition: .3s ease;
               transition: .3s ease; }
       .arrow-list li a:hover {
-        color: #69acc7; }
+        color: #D01C44; }
   .arrow-list.has-border li {
     border-bottom: 1px solid #edf2f4; }
     .arrow-list.has-border li:last-child {
