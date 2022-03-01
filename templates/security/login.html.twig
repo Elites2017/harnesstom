@@ -22,11 +22,11 @@
                                     </div>
                                 {% endif %}
   
-                                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                                <h1 class="h3 mb-3 font-weight-normal"><p style="color:#D01C44;">Please sign in</p></h1>
                                 <div class="form-group">
                                     <label for="inputEmail">Email</label>
                                     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                    <small id="emailHelp" class="form-text text-muted"><p style="color:#D01C44;">We'll never share your email with anyone else.</p></small>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputPassword">Password</label>
@@ -59,7 +59,7 @@
                             </form>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{path('app_register')}}">
-                                <p class="form-text text-muted">New around here? Sign up</p>
+                                <p style="color:#D01C44;">New around here? Sign up</p>
                             </a>
                         </div>
                     </div>
