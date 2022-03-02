@@ -6,14 +6,104 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            <link href="{{ asset('assets/btdist/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('assets/btdist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+		    <!-- Loading main css file -->
+		    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
         {% endblock %}
+
+    </head>
+    <body>
+        <div class="site-content">
+			<header class="site-header collapsed-nav" data-bg-image="">
+				<div class="container">
+					<div class="header-bar">
+						<a href="{{path('app_home')}}" class="branding">
+							<img src="{{ asset('assets/images/logo/harnesstomlogo.png') }}" width="15%" alt="" class="logo">
+							<div class="logo-type">
+								<h1 class="site-title">HarnessTom</h1>
+								<small class="site-description">Harness Tomato</small>
+							</div>
+						</a>
+
+						<nav class="main-navigation">
+							<button class="menu-toggle"><i class="fa fa-bars"></i></button>
+							<ul class="menu">
+								<li class="home menu-item current-menu-item"><a href="{{path('app_home')}}"><img src="images/home-icon.png" alt="Home"></a></li>
+								<li class="menu-item"><a href="about.html">About</a></li>
+								<li class="menu-item"><a href="services.html">Services</a></li>
+								<li class="menu-item"><a href="projects.html">Our projects</a></li>
+								<li class="menu-item"><a href="contact.html">Contact</a></li>
+                                <li class="menu-item"><a href="{{path('app_login')}}">Login</a></li>
+							</ul>
+						</nav>
+
+						<div class="mobile-navigation"></div>
+					</div>
+				</div>
+			</header>
+
+            {% block body %}
+        
+            {% endblock %}
+
+			<footer class="site-footer">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="widget">
+								<h3 class="widget-title">Our address</h3>
+								<strong>ENSAT</strong>
+								<address>Av. de l'Agrobiopole, 31326 Auzeville-Tolosane</address>
+								<a href="tel:+33 01 02 03 04">+33 01 02 03 04</a> <br>
+								<a href="mailto:ensat@ensat.com">ensat@ensat.com</a>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="widget">
+								<h3 class="widget-title">Press room</h3>
+								<ul class="arrow-list">
+									<li><a href="#">Accusantium doloremque</a></li> 
+									<li><a href="#">Laudantium totam aperiam</a></li>
+									<li><a href="#">Eaque ipsa quae illo inventore</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="widget">
+								<h3 class="widget-title">Research summary</h3>
+								<ul class="arrow-list">
+									<li><a href="#">Accusantium doloremque</a></li> 
+									<li><a href="#">Laudantium totam aperiam</a></li>
+									<li><a href="#">Eaque ipsa quae illo inventore</a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-3">
+							<div class="widget">
+								<h3 class="widget-title">Social media</h3>
+								<p>Deserunt mollitia animi id est laborum dolorum fuga harum quidem rerum facilis.</p>
+								<div class="social-links">
+									<a href="#"><i class="fa fa-facebook"></i></a>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+									<a href="#"><i class="fa fa-google-plus"></i></a>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</div>
+							</div>
+						</div>
+					</div> <!-- .row -->
+
+					<p class="colophon">copyright 2022 HarnessTom. Designed by <a href="#" title="Powered by me" target="_blank">Me</a>. All rights reserved</p>
+				</div> <!-- .container -->
+			</footer>
+		</div>
 
         {% block javascripts %}
             {#{{ encore_entry_script_tags('app') }}#}
+            <script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
+            <script src="{{ asset('assets/js/plugins.js') }}"></script>
+            <script src="{{ asset('assets/js/app.js') }}"></script>
         {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
     </body>
 </html>
