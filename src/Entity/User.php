@@ -274,6 +274,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $scales;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ObservationVariableMethod::class, mappedBy="createdBy")
+     */
+    private $observationVariableMethods;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -321,6 +326,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->people = new ArrayCollection();
         $this->parameters = new ArrayCollection();
         $this->scales = new ArrayCollection();
+        $this->observationVariableMethods = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1790,6 +1796,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($scale->getCreatedBy() === $this) {
                 $scale->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObservationVariableMethod>
+     */
+    public function getObservationVariableMethods(): Collection
+    {
+        return $this->observationVariableMethods;
+    }
+
+    public function addObservationVariableMethod(ObservationVariableMethod $observationVariableMethod): self
+    {
+        if (!$this->observationVariableMethods->contains($observationVariableMethod)) {
+            $this->observationVariableMethods[] = $observationVariableMethod;
+            $observationVariableMethod->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservationVariableMethod(ObservationVariableMethod $observationVariableMethod): self
+    {
+        if ($this->observationVariableMethods->removeElement($observationVariableMethod)) {
+            // set the owning side to null (unless already changed)
+            if ($observationVariableMethod->getCreatedBy() === $this) {
+                $observationVariableMethod->setCreatedBy(null);
             }
         }
 
