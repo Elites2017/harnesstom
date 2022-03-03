@@ -269,6 +269,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $parameters;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Scale::class, mappedBy="createdBy")
+     */
+    private $scales;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -315,6 +320,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->attributes = new ArrayCollection();
         $this->people = new ArrayCollection();
         $this->parameters = new ArrayCollection();
+        $this->scales = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1754,6 +1760,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($parameter->getCreatedBy() === $this) {
                 $parameter->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scale>
+     */
+    public function getScales(): Collection
+    {
+        return $this->scales;
+    }
+
+    public function addScale(Scale $scale): self
+    {
+        if (!$this->scales->contains($scale)) {
+            $this->scales[] = $scale;
+            $scale->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScale(Scale $scale): self
+    {
+        if ($this->scales->removeElement($scale)) {
+            // set the owning side to null (unless already changed)
+            if ($scale->getCreatedBy() === $this) {
+                $scale->setCreatedBy(null);
             }
         }
 
