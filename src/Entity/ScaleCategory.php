@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ScaleCategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class ScaleCategory
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="scaleCategories")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Scale::class, mappedBy="scaleCategory")
+     */
+    private $scales;
+
+    public function __construct()
+    {
+        $this->scales = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,36 @@ class ScaleCategory
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scale>
+     */
+    public function getScales(): Collection
+    {
+        return $this->scales;
+    }
+
+    public function addScale(Scale $scale): self
+    {
+        if (!$this->scales->contains($scale)) {
+            $this->scales[] = $scale;
+            $scale->setScaleCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScale(Scale $scale): self
+    {
+        if ($this->scales->removeElement($scale)) {
+            // set the owning side to null (unless already changed)
+            if ($scale->getScaleCategory() === $this) {
+                $scale->setScaleCategory(null);
+            }
+        }
 
         return $this;
     }
