@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MethodClassRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class MethodClass
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="methodClasses")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ObservationVariableMethod::class, mappedBy="methodClass")
+     */
+    private $observationVariableMethods;
+
+    public function __construct()
+    {
+        $this->observationVariableMethods = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +115,36 @@ class MethodClass
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObservationVariableMethod>
+     */
+    public function getObservationVariableMethods(): Collection
+    {
+        return $this->observationVariableMethods;
+    }
+
+    public function addObservationVariableMethod(ObservationVariableMethod $observationVariableMethod): self
+    {
+        if (!$this->observationVariableMethods->contains($observationVariableMethod)) {
+            $this->observationVariableMethods[] = $observationVariableMethod;
+            $observationVariableMethod->setMethodClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservationVariableMethod(ObservationVariableMethod $observationVariableMethod): self
+    {
+        if ($this->observationVariableMethods->removeElement($observationVariableMethod)) {
+            // set the owning side to null (unless already changed)
+            if ($observationVariableMethod->getMethodClass() === $this) {
+                $observationVariableMethod->setMethodClass(null);
+            }
+        }
 
         return $this;
     }
