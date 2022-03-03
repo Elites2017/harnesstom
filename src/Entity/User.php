@@ -244,6 +244,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $developmentalStages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Location::class, mappedBy="createdBy")
+     */
+    private $locations;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -286,6 +291,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->varCallSoftware = new ArrayCollection();
         $this->anatomicalEntities = new ArrayCollection();
         $this->developmentalStages = new ArrayCollection();
+        $this->locations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1583,6 +1589,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($developmentalStage->getCreatedBy() === $this) {
                 $developmentalStage->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Location>
+     */
+    public function getLocations(): Collection
+    {
+        return $this->locations;
+    }
+
+    public function addLocation(Location $location): self
+    {
+        if (!$this->locations->contains($location)) {
+            $this->locations[] = $location;
+            $location->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLocation(Location $location): self
+    {
+        if ($this->locations->removeElement($location)) {
+            // set the owning side to null (unless already changed)
+            if ($location->getCreatedBy() === $this) {
+                $location->setCreatedBy(null);
             }
         }
 
