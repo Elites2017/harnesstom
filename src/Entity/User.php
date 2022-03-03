@@ -264,6 +264,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $people;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Parameter::class, mappedBy="createdBy")
+     */
+    private $parameters;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -309,6 +314,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->locations = new ArrayCollection();
         $this->attributes = new ArrayCollection();
         $this->people = new ArrayCollection();
+        $this->parameters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1718,6 +1724,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($person->getCreatedBy() === $this) {
                 $person->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Parameter>
+     */
+    public function getParameters(): Collection
+    {
+        return $this->parameters;
+    }
+
+    public function addParameter(Parameter $parameter): self
+    {
+        if (!$this->parameters->contains($parameter)) {
+            $this->parameters[] = $parameter;
+            $parameter->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParameter(Parameter $parameter): self
+    {
+        if ($this->parameters->removeElement($parameter)) {
+            // set the owning side to null (unless already changed)
+            if ($parameter->getCreatedBy() === $this) {
+                $parameter->setCreatedBy(null);
             }
         }
 
