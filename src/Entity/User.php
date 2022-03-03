@@ -279,6 +279,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $observationVariableMethods;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Institute::class, mappedBy="createdBy")
+     */
+    private $institutes;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -327,6 +332,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->parameters = new ArrayCollection();
         $this->scales = new ArrayCollection();
         $this->observationVariableMethods = new ArrayCollection();
+        $this->institutes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1826,6 +1832,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($observationVariableMethod->getCreatedBy() === $this) {
                 $observationVariableMethod->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Institute>
+     */
+    public function getInstitutes(): Collection
+    {
+        return $this->institutes;
+    }
+
+    public function addInstitute(Institute $institute): self
+    {
+        if (!$this->institutes->contains($institute)) {
+            $this->institutes[] = $institute;
+            $institute->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInstitute(Institute $institute): self
+    {
+        if ($this->institutes->removeElement($institute)) {
+            // set the owning side to null (unless already changed)
+            if ($institute->getCreatedBy() === $this) {
+                $institute->setCreatedBy(null);
             }
         }
 
