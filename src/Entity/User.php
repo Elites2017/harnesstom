@@ -254,6 +254,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $attributes;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Person::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $person;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="createdBy")
+     */
+    private $people;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -298,6 +308,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->developmentalStages = new ArrayCollection();
         $this->locations = new ArrayCollection();
         $this->attributes = new ArrayCollection();
+        $this->people = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1655,6 +1666,58 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($attribute->getCreatedBy() === $this) {
                 $attribute->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPerson(): ?Person
+    {
+        return $this->person;
+    }
+
+    public function setPerson(?Person $person): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($person === null && $this->person !== null) {
+            $this->person->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($person !== null && $person->getUser() !== $this) {
+            $person->setUser($this);
+        }
+
+        $this->person = $person;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getPeople(): Collection
+    {
+        return $this->people;
+    }
+
+    public function addPerson(Person $person): self
+    {
+        if (!$this->people->contains($person)) {
+            $this->people[] = $person;
+            $person->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removePerson(Person $person): self
+    {
+        if ($this->people->removeElement($person)) {
+            // set the owning side to null (unless already changed)
+            if ($person->getCreatedBy() === $this) {
+                $person->setCreatedBy(null);
             }
         }
 
