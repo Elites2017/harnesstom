@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DataTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class DataType
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="dataTypes")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Scale::class, mappedBy="dataType")
+     */
+    private $scales;
+
+    public function __construct()
+    {
+        $this->scales = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,36 @@ class DataType
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scale>
+     */
+    public function getScales(): Collection
+    {
+        return $this->scales;
+    }
+
+    public function addScale(Scale $scale): self
+    {
+        if (!$this->scales->contains($scale)) {
+            $this->scales[] = $scale;
+            $scale->setDataType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScale(Scale $scale): self
+    {
+        if ($this->scales->removeElement($scale)) {
+            // set the owning side to null (unless already changed)
+            if ($scale->getDataType() === $this) {
+                $scale->setDataType(null);
+            }
+        }
 
         return $this;
     }
