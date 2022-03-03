@@ -59,9 +59,15 @@ class Unit
      */
     private $parameters;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Scale::class, mappedBy="unit")
+     */
+    private $scales;
+
     public function __construct()
     {
         $this->parameters = new ArrayCollection();
+        $this->scales = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,6 +183,36 @@ class Unit
             // set the owning side to null (unless already changed)
             if ($parameter->getUnit() === $this) {
                 $parameter->setUnit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scale>
+     */
+    public function getScales(): Collection
+    {
+        return $this->scales;
+    }
+
+    public function addScale(Scale $scale): self
+    {
+        if (!$this->scales->contains($scale)) {
+            $this->scales[] = $scale;
+            $scale->setUnit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScale(Scale $scale): self
+    {
+        if ($this->scales->removeElement($scale)) {
+            // set the owning side to null (unless already changed)
+            if ($scale->getUnit() === $this) {
+                $scale->setUnit(null);
             }
         }
 
