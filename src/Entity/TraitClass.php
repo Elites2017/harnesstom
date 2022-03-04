@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TraitClassRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class TraitClass
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="traitClasses")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ObservationVariable::class, mappedBy="trait")
+     */
+    private $observationVariables;
+
+    public function __construct()
+    {
+        $this->observationVariables = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,36 @@ class TraitClass
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObservationVariable>
+     */
+    public function getObservationVariables(): Collection
+    {
+        return $this->observationVariables;
+    }
+
+    public function addObservationVariable(ObservationVariable $observationVariable): self
+    {
+        if (!$this->observationVariables->contains($observationVariable)) {
+            $this->observationVariables[] = $observationVariable;
+            $observationVariable->setTrait($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservationVariable(ObservationVariable $observationVariable): self
+    {
+        if ($this->observationVariables->removeElement($observationVariable)) {
+            // set the owning side to null (unless already changed)
+            if ($observationVariable->getTrait() === $this) {
+                $observationVariable->setTrait(null);
+            }
+        }
 
         return $this;
     }
