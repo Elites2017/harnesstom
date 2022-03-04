@@ -284,6 +284,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $institutes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Contact::class, mappedBy="createdBy")
+     */
+    private $contacts;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -333,6 +338,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->scales = new ArrayCollection();
         $this->observationVariableMethods = new ArrayCollection();
         $this->institutes = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1862,6 +1868,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($institute->getCreatedBy() === $this) {
                 $institute->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts[] = $contact;
+            $contact->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->removeElement($contact)) {
+            // set the owning side to null (unless already changed)
+            if ($contact->getCreatedBy() === $this) {
+                $contact->setCreatedBy(null);
             }
         }
 
