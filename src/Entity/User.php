@@ -289,6 +289,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $contacts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CollectingMission::class, mappedBy="createdBy")
+     */
+    private $collectingMissions;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -339,6 +344,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->observationVariableMethods = new ArrayCollection();
         $this->institutes = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+        $this->collectingMissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1898,6 +1904,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($contact->getCreatedBy() === $this) {
                 $contact->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CollectingMission>
+     */
+    public function getCollectingMissions(): Collection
+    {
+        return $this->collectingMissions;
+    }
+
+    public function addCollectingMission(CollectingMission $collectingMission): self
+    {
+        if (!$this->collectingMissions->contains($collectingMission)) {
+            $this->collectingMissions[] = $collectingMission;
+            $collectingMission->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollectingMission(CollectingMission $collectingMission): self
+    {
+        if ($this->collectingMissions->removeElement($collectingMission)) {
+            // set the owning side to null (unless already changed)
+            if ($collectingMission->getCreatedBy() === $this) {
+                $collectingMission->setCreatedBy(null);
             }
         }
 
