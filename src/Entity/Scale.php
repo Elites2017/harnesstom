@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ScaleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +58,16 @@ class Scale
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="scales")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ObservationVariable::class, mappedBy="scale")
+     */
+    private $observationVariables;
+
+    public function __construct()
+    {
+        $this->observationVariables = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -154,6 +166,36 @@ class Scale
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObservationVariable>
+     */
+    public function getObservationVariables(): Collection
+    {
+        return $this->observationVariables;
+    }
+
+    public function addObservationVariable(ObservationVariable $observationVariable): self
+    {
+        if (!$this->observationVariables->contains($observationVariable)) {
+            $this->observationVariables[] = $observationVariable;
+            $observationVariable->setScale($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservationVariable(ObservationVariable $observationVariable): self
+    {
+        if ($this->observationVariables->removeElement($observationVariable)) {
+            // set the owning side to null (unless already changed)
+            if ($observationVariable->getScale() === $this) {
+                $observationVariable->setScale(null);
+            }
+        }
 
         return $this;
     }
