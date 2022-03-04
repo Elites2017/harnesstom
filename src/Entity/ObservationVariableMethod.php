@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ObservationVariableMethodRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,6 +63,16 @@ class ObservationVariableMethod
      * @ORM\ManyToOne(targetEntity=MethodClass::class, inversedBy="observationVariableMethods")
      */
     private $methodClass;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ObservationVariable::class, mappedBy="observationVariableMethod")
+     */
+    private $observationVariables;
+
+    public function __construct()
+    {
+        $this->observationVariables = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -171,6 +183,36 @@ class ObservationVariableMethod
     public function setMethodClass(?MethodClass $methodClass): self
     {
         $this->methodClass = $methodClass;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObservationVariable>
+     */
+    public function getObservationVariables(): Collection
+    {
+        return $this->observationVariables;
+    }
+
+    public function addObservationVariable(ObservationVariable $observationVariable): self
+    {
+        if (!$this->observationVariables->contains($observationVariable)) {
+            $this->observationVariables[] = $observationVariable;
+            $observationVariable->setObservationVariableMethod($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservationVariable(ObservationVariable $observationVariable): self
+    {
+        if ($this->observationVariables->removeElement($observationVariable)) {
+            // set the owning side to null (unless already changed)
+            if ($observationVariable->getObservationVariableMethod() === $this) {
+                $observationVariable->setObservationVariableMethod(null);
+            }
+        }
 
         return $this;
     }
