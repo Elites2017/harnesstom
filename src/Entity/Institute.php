@@ -74,9 +74,15 @@ class Institute
      */
     private $contacts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CollectingMission::class, mappedBy="institute")
+     */
+    private $collectingMissions;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
+        $this->collectingMissions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -228,6 +234,36 @@ class Institute
             // set the owning side to null (unless already changed)
             if ($contact->getInstitute() === $this) {
                 $contact->setInstitute(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CollectingMission>
+     */
+    public function getCollectingMissions(): Collection
+    {
+        return $this->collectingMissions;
+    }
+
+    public function addCollectingMission(CollectingMission $collectingMission): self
+    {
+        if (!$this->collectingMissions->contains($collectingMission)) {
+            $this->collectingMissions[] = $collectingMission;
+            $collectingMission->setInstitute($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollectingMission(CollectingMission $collectingMission): self
+    {
+        if ($this->collectingMissions->removeElement($collectingMission)) {
+            // set the owning side to null (unless already changed)
+            if ($collectingMission->getInstitute() === $this) {
+                $collectingMission->setInstitute(null);
             }
         }
 
