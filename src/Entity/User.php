@@ -304,6 +304,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $analyteClasses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Enzyme::class, mappedBy="createdBy")
+     */
+    private $enzymes;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -357,6 +362,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->collectingMissions = new ArrayCollection();
         $this->observationVariables = new ArrayCollection();
         $this->analyteClasses = new ArrayCollection();
+        $this->enzymes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2006,6 +2012,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($analyteClass->getCreatedBy() === $this) {
                 $analyteClass->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Enzyme>
+     */
+    public function getEnzymes(): Collection
+    {
+        return $this->enzymes;
+    }
+
+    public function addEnzyme(Enzyme $enzyme): self
+    {
+        if (!$this->enzymes->contains($enzyme)) {
+            $this->enzymes[] = $enzyme;
+            $enzyme->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEnzyme(Enzyme $enzyme): self
+    {
+        if ($this->enzymes->removeElement($enzyme)) {
+            // set the owning side to null (unless already changed)
+            if ($enzyme->getCreatedBy() === $this) {
+                $enzyme->setCreatedBy(null);
             }
         }
 
