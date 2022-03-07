@@ -329,6 +329,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $analyteFlavorHealths;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Analyte::class, mappedBy="createdBy")
+     */
+    private $analytes;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -387,6 +392,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->markers = new ArrayCollection();
         $this->variantSetMetadata = new ArrayCollection();
         $this->analyteFlavorHealths = new ArrayCollection();
+        $this->analytes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2186,6 +2192,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($analyteFlavorHealth->getCreatedBy() === $this) {
                 $analyteFlavorHealth->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Analyte>
+     */
+    public function getAnalytes(): Collection
+    {
+        return $this->analytes;
+    }
+
+    public function addAnalyte(Analyte $analyte): self
+    {
+        if (!$this->analytes->contains($analyte)) {
+            $this->analytes[] = $analyte;
+            $analyte->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyte(Analyte $analyte): self
+    {
+        if ($this->analytes->removeElement($analyte)) {
+            // set the owning side to null (unless already changed)
+            if ($analyte->getCreatedBy() === $this) {
+                $analyte->setCreatedBy(null);
             }
         }
 
