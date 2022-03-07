@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\IdentificationLevelRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class IdentificationLevel
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="identificationLevels")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Analyte::class, mappedBy="identificationLevel")
+     */
+    private $analytes;
+
+    public function __construct()
+    {
+        $this->analytes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +115,36 @@ class IdentificationLevel
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Analyte>
+     */
+    public function getAnalytes(): Collection
+    {
+        return $this->analytes;
+    }
+
+    public function addAnalyte(Analyte $analyte): self
+    {
+        if (!$this->analytes->contains($analyte)) {
+            $this->analytes[] = $analyte;
+            $analyte->setIdentificationLevel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyte(Analyte $analyte): self
+    {
+        if ($this->analytes->removeElement($analyte)) {
+            // set the owning side to null (unless already changed)
+            if ($analyte->getIdentificationLevel() === $this) {
+                $analyte->setIdentificationLevel(null);
+            }
+        }
 
         return $this;
     }
