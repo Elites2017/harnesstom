@@ -324,6 +324,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $variantSetMetadata;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AnalyteFlavorHealth::class, mappedBy="createdBy")
+     */
+    private $analyteFlavorHealths;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -381,6 +386,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->genotypingPlatforms = new ArrayCollection();
         $this->markers = new ArrayCollection();
         $this->variantSetMetadata = new ArrayCollection();
+        $this->analyteFlavorHealths = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2150,6 +2156,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($variantSetMetadata->getCreatedBy() === $this) {
                 $variantSetMetadata->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AnalyteFlavorHealth>
+     */
+    public function getAnalyteFlavorHealths(): Collection
+    {
+        return $this->analyteFlavorHealths;
+    }
+
+    public function addAnalyteFlavorHealth(AnalyteFlavorHealth $analyteFlavorHealth): self
+    {
+        if (!$this->analyteFlavorHealths->contains($analyteFlavorHealth)) {
+            $this->analyteFlavorHealths[] = $analyteFlavorHealth;
+            $analyteFlavorHealth->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyteFlavorHealth(AnalyteFlavorHealth $analyteFlavorHealth): self
+    {
+        if ($this->analyteFlavorHealths->removeElement($analyteFlavorHealth)) {
+            // set the owning side to null (unless already changed)
+            if ($analyteFlavorHealth->getCreatedBy() === $this) {
+                $analyteFlavorHealth->setCreatedBy(null);
             }
         }
 
