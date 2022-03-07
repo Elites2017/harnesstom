@@ -334,6 +334,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $analytes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Program::class, mappedBy="createdBy")
+     */
+    private $programs;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -393,6 +398,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->variantSetMetadata = new ArrayCollection();
         $this->analyteFlavorHealths = new ArrayCollection();
         $this->analytes = new ArrayCollection();
+        $this->programs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2222,6 +2228,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($analyte->getCreatedBy() === $this) {
                 $analyte->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Program>
+     */
+    public function getPrograms(): Collection
+    {
+        return $this->programs;
+    }
+
+    public function addProgram(Program $program): self
+    {
+        if (!$this->programs->contains($program)) {
+            $this->programs[] = $program;
+            $program->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgram(Program $program): self
+    {
+        if ($this->programs->removeElement($program)) {
+            // set the owning side to null (unless already changed)
+            if ($program->getCreatedBy() === $this) {
+                $program->setCreatedBy(null);
             }
         }
 
