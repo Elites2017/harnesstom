@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnalyteFlavorHealthRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class AnalyteFlavorHealth
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="analyteFlavorHealths")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Analyte::class, mappedBy="healthAndFlavor")
+     */
+    private $analytes;
+
+    public function __construct()
+    {
+        $this->analytes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,36 @@ class AnalyteFlavorHealth
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Analyte>
+     */
+    public function getAnalytes(): Collection
+    {
+        return $this->analytes;
+    }
+
+    public function addAnalyte(Analyte $analyte): self
+    {
+        if (!$this->analytes->contains($analyte)) {
+            $this->analytes[] = $analyte;
+            $analyte->setHealthAndFlavor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyte(Analyte $analyte): self
+    {
+        if ($this->analytes->removeElement($analyte)) {
+            // set the owning side to null (unless already changed)
+            if ($analyte->getHealthAndFlavor() === $this) {
+                $analyte->setHealthAndFlavor(null);
+            }
+        }
 
         return $this;
     }
