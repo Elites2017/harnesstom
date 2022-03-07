@@ -69,9 +69,15 @@ class ObservationVariableMethod
      */
     private $observationVariables;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Analyte::class, mappedBy="observationVariableMethod")
+     */
+    private $analytes;
+
     public function __construct()
     {
         $this->observationVariables = new ArrayCollection();
+        $this->analytes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +217,36 @@ class ObservationVariableMethod
             // set the owning side to null (unless already changed)
             if ($observationVariable->getObservationVariableMethod() === $this) {
                 $observationVariable->setObservationVariableMethod(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Analyte>
+     */
+    public function getAnalytes(): Collection
+    {
+        return $this->analytes;
+    }
+
+    public function addAnalyte(Analyte $analyte): self
+    {
+        if (!$this->analytes->contains($analyte)) {
+            $this->analytes[] = $analyte;
+            $analyte->setObservationVariableMethod($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyte(Analyte $analyte): self
+    {
+        if ($this->analytes->removeElement($analyte)) {
+            // set the owning side to null (unless already changed)
+            if ($analyte->getObservationVariableMethod() === $this) {
+                $analyte->setObservationVariableMethod(null);
             }
         }
 
