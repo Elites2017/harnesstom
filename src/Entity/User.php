@@ -299,6 +299,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $observationVariables;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AnalyteClass::class, mappedBy="createdBy")
+     */
+    private $analyteClasses;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -351,6 +356,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->contacts = new ArrayCollection();
         $this->collectingMissions = new ArrayCollection();
         $this->observationVariables = new ArrayCollection();
+        $this->analyteClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1970,6 +1976,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($observationVariable->getCreatedBy() === $this) {
                 $observationVariable->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AnalyteClass>
+     */
+    public function getAnalyteClasses(): Collection
+    {
+        return $this->analyteClasses;
+    }
+
+    public function addAnalyteClass(AnalyteClass $analyteClass): self
+    {
+        if (!$this->analyteClasses->contains($analyteClass)) {
+            $this->analyteClasses[] = $analyteClass;
+            $analyteClass->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyteClass(AnalyteClass $analyteClass): self
+    {
+        if ($this->analyteClasses->removeElement($analyteClass)) {
+            // set the owning side to null (unless already changed)
+            if ($analyteClass->getCreatedBy() === $this) {
+                $analyteClass->setCreatedBy(null);
             }
         }
 
