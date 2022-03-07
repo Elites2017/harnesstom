@@ -314,6 +314,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $genotypingPlatforms;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Marker::class, mappedBy="createdBy")
+     */
+    private $markers;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -369,6 +374,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->analyteClasses = new ArrayCollection();
         $this->enzymes = new ArrayCollection();
         $this->genotypingPlatforms = new ArrayCollection();
+        $this->markers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2078,6 +2084,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($genotypingPlatform->getCreatedBy() === $this) {
                 $genotypingPlatform->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Marker>
+     */
+    public function getMarkers(): Collection
+    {
+        return $this->markers;
+    }
+
+    public function addMarker(Marker $marker): self
+    {
+        if (!$this->markers->contains($marker)) {
+            $this->markers[] = $marker;
+            $marker->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMarker(Marker $marker): self
+    {
+        if ($this->markers->removeElement($marker)) {
+            // set the owning side to null (unless already changed)
+            if ($marker->getCreatedBy() === $this) {
+                $marker->setCreatedBy(null);
             }
         }
 
