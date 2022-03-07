@@ -319,6 +319,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $markers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=VariantSetMetadata::class, mappedBy="createdBy")
+     */
+    private $variantSetMetadata;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -375,6 +380,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->enzymes = new ArrayCollection();
         $this->genotypingPlatforms = new ArrayCollection();
         $this->markers = new ArrayCollection();
+        $this->variantSetMetadata = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2114,6 +2120,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($marker->getCreatedBy() === $this) {
                 $marker->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VariantSetMetadata>
+     */
+    public function getVariantSetMetadata(): Collection
+    {
+        return $this->variantSetMetadata;
+    }
+
+    public function addVariantSetMetadata(VariantSetMetadata $variantSetMetadata): self
+    {
+        if (!$this->variantSetMetadata->contains($variantSetMetadata)) {
+            $this->variantSetMetadata[] = $variantSetMetadata;
+            $variantSetMetadata->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariantSetMetadata(VariantSetMetadata $variantSetMetadata): self
+    {
+        if ($this->variantSetMetadata->removeElement($variantSetMetadata)) {
+            // set the owning side to null (unless already changed)
+            if ($variantSetMetadata->getCreatedBy() === $this) {
+                $variantSetMetadata->setCreatedBy(null);
             }
         }
 
