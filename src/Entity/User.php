@@ -309,6 +309,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $enzymes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GenotypingPlatform::class, mappedBy="createdBy")
+     */
+    private $genotypingPlatforms;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -363,6 +368,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->observationVariables = new ArrayCollection();
         $this->analyteClasses = new ArrayCollection();
         $this->enzymes = new ArrayCollection();
+        $this->genotypingPlatforms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2042,6 +2048,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($enzyme->getCreatedBy() === $this) {
                 $enzyme->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GenotypingPlatform>
+     */
+    public function getGenotypingPlatforms(): Collection
+    {
+        return $this->genotypingPlatforms;
+    }
+
+    public function addGenotypingPlatform(GenotypingPlatform $genotypingPlatform): self
+    {
+        if (!$this->genotypingPlatforms->contains($genotypingPlatform)) {
+            $this->genotypingPlatforms[] = $genotypingPlatform;
+            $genotypingPlatform->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGenotypingPlatform(GenotypingPlatform $genotypingPlatform): self
+    {
+        if ($this->genotypingPlatforms->removeElement($genotypingPlatform)) {
+            // set the owning side to null (unless already changed)
+            if ($genotypingPlatform->getCreatedBy() === $this) {
+                $genotypingPlatform->setCreatedBy(null);
             }
         }
 
