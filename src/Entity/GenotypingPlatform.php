@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GenotypingPlatformRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -91,6 +93,16 @@ class GenotypingPlatform
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="genotypingPlatforms")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Marker::class, mappedBy="genotypingPlatform")
+     */
+    private $markers;
+
+    public function __construct()
+    {
+        $this->markers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -273,6 +285,36 @@ class GenotypingPlatform
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Marker>
+     */
+    public function getMarkers(): Collection
+    {
+        return $this->markers;
+    }
+
+    public function addMarker(Marker $marker): self
+    {
+        if (!$this->markers->contains($marker)) {
+            $this->markers[] = $marker;
+            $marker->setGenotypingPlatform($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMarker(Marker $marker): self
+    {
+        if ($this->markers->removeElement($marker)) {
+            // set the owning side to null (unless already changed)
+            if ($marker->getGenotypingPlatform() === $this) {
+                $marker->setGenotypingPlatform(null);
+            }
+        }
 
         return $this;
     }
