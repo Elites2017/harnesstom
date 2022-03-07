@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SequencingInstrumentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class SequencingInstrument
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="sequencingInstruments")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GenotypingPlatform::class, mappedBy="sequencingInstrument")
+     */
+    private $genotypingPlatforms;
+
+    public function __construct()
+    {
+        $this->genotypingPlatforms = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,36 @@ class SequencingInstrument
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GenotypingPlatform>
+     */
+    public function getGenotypingPlatforms(): Collection
+    {
+        return $this->genotypingPlatforms;
+    }
+
+    public function addGenotypingPlatform(GenotypingPlatform $genotypingPlatform): self
+    {
+        if (!$this->genotypingPlatforms->contains($genotypingPlatform)) {
+            $this->genotypingPlatforms[] = $genotypingPlatform;
+            $genotypingPlatform->setSequencingInstrument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGenotypingPlatform(GenotypingPlatform $genotypingPlatform): self
+    {
+        if ($this->genotypingPlatforms->removeElement($genotypingPlatform)) {
+            // set the owning side to null (unless already changed)
+            if ($genotypingPlatform->getSequencingInstrument() === $this) {
+                $genotypingPlatform->setSequencingInstrument(null);
+            }
+        }
 
         return $this;
     }
