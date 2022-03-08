@@ -102,6 +102,11 @@ class Synonym
      */
     private $accession;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="synonyms")
+     */
+    private $createdBy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -307,6 +312,18 @@ class Synonym
     public function setAccession(?Accession $accession): self
     {
         $this->accession = $accession;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }
