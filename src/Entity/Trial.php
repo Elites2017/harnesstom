@@ -94,9 +94,15 @@ class Trial
      */
     private $sharedWiths;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Study::class, mappedBy="trial")
+     */
+    private $studies;
+
     public function __construct()
     {
         $this->sharedWiths = new ArrayCollection();
+        $this->studies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -296,6 +302,36 @@ class Trial
             // set the owning side to null (unless already changed)
             if ($sharedWith->getTrial() === $this) {
                 $sharedWith->setTrial(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Study>
+     */
+    public function getStudies(): Collection
+    {
+        return $this->studies;
+    }
+
+    public function addStudy(Study $study): self
+    {
+        if (!$this->studies->contains($study)) {
+            $this->studies[] = $study;
+            $study->setTrial($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudy(Study $study): self
+    {
+        if ($this->studies->removeElement($study)) {
+            // set the owning side to null (unless already changed)
+            if ($study->getTrial() === $this) {
+                $study->setTrial(null);
             }
         }
 
