@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TrialTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class TrialType
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="trialTypes")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Trial::class, mappedBy="trialType")
+     */
+    private $trials;
+
+    public function __construct()
+    {
+        $this->trials = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,36 @@ class TrialType
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trial>
+     */
+    public function getTrials(): Collection
+    {
+        return $this->trials;
+    }
+
+    public function addTrial(Trial $trial): self
+    {
+        if (!$this->trials->contains($trial)) {
+            $this->trials[] = $trial;
+            $trial->setTrialType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrial(Trial $trial): self
+    {
+        if ($this->trials->removeElement($trial)) {
+            // set the owning side to null (unless already changed)
+            if ($trial->getTrialType() === $this) {
+                $trial->setTrialType(null);
+            }
+        }
 
         return $this;
     }
