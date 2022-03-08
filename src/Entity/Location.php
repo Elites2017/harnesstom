@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LocationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,6 +63,16 @@ class Location
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="locations")
      */
     private $country;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Study::class, mappedBy="location")
+     */
+    private $studies;
+
+    public function __construct()
+    {
+        $this->studies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -171,6 +183,36 @@ class Location
     public function setCountry(?Country $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Study>
+     */
+    public function getStudies(): Collection
+    {
+        return $this->studies;
+    }
+
+    public function addStudy(Study $study): self
+    {
+        if (!$this->studies->contains($study)) {
+            $this->studies[] = $study;
+            $study->setLocation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudy(Study $study): self
+    {
+        if ($this->studies->removeElement($study)) {
+            // set the owning side to null (unless already changed)
+            if ($study->getLocation() === $this) {
+                $study->setLocation(null);
+            }
+        }
 
         return $this;
     }
