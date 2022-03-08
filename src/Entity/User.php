@@ -359,6 +359,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $attributeTraitValues;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Synonym::class, mappedBy="createdBy")
+     */
+    private $synonyms;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -423,6 +428,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->trials = new ArrayCollection();
         $this->accessions = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
+        $this->synonyms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2402,6 +2408,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($attributeTraitValue->getCreatedBy() === $this) {
                 $attributeTraitValue->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Synonym>
+     */
+    public function getSynonyms(): Collection
+    {
+        return $this->synonyms;
+    }
+
+    public function addSynonym(Synonym $synonym): self
+    {
+        if (!$this->synonyms->contains($synonym)) {
+            $this->synonyms[] = $synonym;
+            $synonym->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSynonym(Synonym $synonym): self
+    {
+        if ($this->synonyms->removeElement($synonym)) {
+            // set the owning side to null (unless already changed)
+            if ($synonym->getCreatedBy() === $this) {
+                $synonym->setCreatedBy(null);
             }
         }
 
