@@ -79,10 +79,16 @@ class Institute
      */
     private $collectingMissions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="instcode")
+     */
+    private $accessions;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
         $this->collectingMissions = new ArrayCollection();
+        $this->accessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -264,6 +270,36 @@ class Institute
             // set the owning side to null (unless already changed)
             if ($collectingMission->getInstitute() === $this) {
                 $collectingMission->setInstitute(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Accession>
+     */
+    public function getAccessions(): Collection
+    {
+        return $this->accessions;
+    }
+
+    public function addAccession(Accession $accession): self
+    {
+        if (!$this->accessions->contains($accession)) {
+            $this->accessions[] = $accession;
+            $accession->setInstcode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccession(Accession $accession): self
+    {
+        if ($this->accessions->removeElement($accession)) {
+            // set the owning side to null (unless already changed)
+            if ($accession->getInstcode() === $this) {
+                $accession->setInstcode(null);
             }
         }
 
