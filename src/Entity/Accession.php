@@ -169,10 +169,16 @@ class Accession
      */
     private $attributeTraitValues;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="accession")
+     */
+    private $germplasms;
+
     public function __construct()
     {
         $this->synonyms = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
+        $this->germplasms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -570,6 +576,36 @@ class Accession
             // set the owning side to null (unless already changed)
             if ($attributeTraitValue->getAccession() === $this) {
                 $attributeTraitValue->setAccession(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Germplasm>
+     */
+    public function getGermplasms(): Collection
+    {
+        return $this->germplasms;
+    }
+
+    public function addGermplasm(Germplasm $germplasm): self
+    {
+        if (!$this->germplasms->contains($germplasm)) {
+            $this->germplasms[] = $germplasm;
+            $germplasm->setAccession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasm(Germplasm $germplasm): self
+    {
+        if ($this->germplasms->removeElement($germplasm)) {
+            // set the owning side to null (unless already changed)
+            if ($germplasm->getAccession() === $this) {
+                $germplasm->setAccession(null);
             }
         }
 
