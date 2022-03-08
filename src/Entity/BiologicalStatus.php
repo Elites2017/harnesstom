@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BiologicalStatusRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,16 @@ class BiologicalStatus
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="biologicalStatuses")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="sampstat")
+     */
+    private $accessions;
+
+    public function __construct()
+    {
+        $this->accessions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +132,36 @@ class BiologicalStatus
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Accession>
+     */
+    public function getAccessions(): Collection
+    {
+        return $this->accessions;
+    }
+
+    public function addAccession(Accession $accession): self
+    {
+        if (!$this->accessions->contains($accession)) {
+            $this->accessions[] = $accession;
+            $accession->setSampstat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccession(Accession $accession): self
+    {
+        if ($this->accessions->removeElement($accession)) {
+            // set the owning side to null (unless already changed)
+            if ($accession->getSampstat() === $this) {
+                $accession->setSampstat(null);
+            }
+        }
 
         return $this;
     }
