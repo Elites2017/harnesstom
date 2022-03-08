@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StorageTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,16 @@ class StorageType
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="storageTypes")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="storage")
+     */
+    private $accessions;
+
+    public function __construct()
+    {
+        $this->accessions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +132,36 @@ class StorageType
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Accession>
+     */
+    public function getAccessions(): Collection
+    {
+        return $this->accessions;
+    }
+
+    public function addAccession(Accession $accession): self
+    {
+        if (!$this->accessions->contains($accession)) {
+            $this->accessions[] = $accession;
+            $accession->setStorage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccession(Accession $accession): self
+    {
+        if ($this->accessions->removeElement($accession)) {
+            // set the owning side to null (unless already changed)
+            if ($accession->getStorage() === $this) {
+                $accession->setStorage(null);
+            }
+        }
 
         return $this;
     }
