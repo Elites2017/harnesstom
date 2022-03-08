@@ -64,9 +64,15 @@ class Scale
      */
     private $observationVariables;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Metabolite::class, mappedBy="scale")
+     */
+    private $metabolites;
+
     public function __construct()
     {
         $this->observationVariables = new ArrayCollection();
+        $this->metabolites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,6 +200,36 @@ class Scale
             // set the owning side to null (unless already changed)
             if ($observationVariable->getScale() === $this) {
                 $observationVariable->setScale(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Metabolite>
+     */
+    public function getMetabolites(): Collection
+    {
+        return $this->metabolites;
+    }
+
+    public function addMetabolite(Metabolite $metabolite): self
+    {
+        if (!$this->metabolites->contains($metabolite)) {
+            $this->metabolites[] = $metabolite;
+            $metabolite->setScale($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetabolite(Metabolite $metabolite): self
+    {
+        if ($this->metabolites->removeElement($metabolite)) {
+            // set the owning side to null (unless already changed)
+            if ($metabolite->getScale() === $this) {
+                $metabolite->setScale(null);
             }
         }
 
