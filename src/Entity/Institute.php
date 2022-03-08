@@ -84,11 +84,17 @@ class Institute
      */
     private $accessions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Study::class, mappedBy="institute")
+     */
+    private $studies;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
         $this->collectingMissions = new ArrayCollection();
         $this->accessions = new ArrayCollection();
+        $this->studies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -300,6 +306,36 @@ class Institute
             // set the owning side to null (unless already changed)
             if ($accession->getInstcode() === $this) {
                 $accession->setInstcode(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Study>
+     */
+    public function getStudies(): Collection
+    {
+        return $this->studies;
+    }
+
+    public function addStudy(Study $study): self
+    {
+        if (!$this->studies->contains($study)) {
+            $this->studies[] = $study;
+            $study->setInstitute($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudy(Study $study): self
+    {
+        if ($this->studies->removeElement($study)) {
+            // set the owning side to null (unless already changed)
+            if ($study->getInstitute() === $this) {
+                $study->setInstitute(null);
             }
         }
 
