@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AttributeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +58,16 @@ class Attribute
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="attributes")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AttributeTraitValue::class, mappedBy="attribute")
+     */
+    private $attributeTraitValues;
+
+    public function __construct()
+    {
+        $this->attributeTraitValues = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -154,6 +166,36 @@ class Attribute
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AttributeTraitValue>
+     */
+    public function getAttributeTraitValues(): Collection
+    {
+        return $this->attributeTraitValues;
+    }
+
+    public function addAttributeTraitValue(AttributeTraitValue $attributeTraitValue): self
+    {
+        if (!$this->attributeTraitValues->contains($attributeTraitValue)) {
+            $this->attributeTraitValues[] = $attributeTraitValue;
+            $attributeTraitValue->setAttribute($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttributeTraitValue(AttributeTraitValue $attributeTraitValue): self
+    {
+        if ($this->attributeTraitValues->removeElement($attributeTraitValue)) {
+            // set the owning side to null (unless already changed)
+            if ($attributeTraitValue->getAttribute() === $this) {
+                $attributeTraitValue->setAttribute(null);
+            }
+        }
 
         return $this;
     }
