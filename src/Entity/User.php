@@ -354,6 +354,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $accessions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AttributeTraitValue::class, mappedBy="createdBy")
+     */
+    private $attributeTraitValues;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -417,6 +422,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->metabolites = new ArrayCollection();
         $this->trials = new ArrayCollection();
         $this->accessions = new ArrayCollection();
+        $this->attributeTraitValues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2366,6 +2372,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($accession->getCreatedBy() === $this) {
                 $accession->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AttributeTraitValue>
+     */
+    public function getAttributeTraitValues(): Collection
+    {
+        return $this->attributeTraitValues;
+    }
+
+    public function addAttributeTraitValue(AttributeTraitValue $attributeTraitValue): self
+    {
+        if (!$this->attributeTraitValues->contains($attributeTraitValue)) {
+            $this->attributeTraitValues[] = $attributeTraitValue;
+            $attributeTraitValue->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttributeTraitValue(AttributeTraitValue $attributeTraitValue): self
+    {
+        if ($this->attributeTraitValues->removeElement($attributeTraitValue)) {
+            // set the owning side to null (unless already changed)
+            if ($attributeTraitValue->getCreatedBy() === $this) {
+                $attributeTraitValue->setCreatedBy(null);
             }
         }
 
