@@ -369,6 +369,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $sharedWiths;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Study::class, mappedBy="createdBy")
+     */
+    private $studies;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -435,6 +440,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->attributeTraitValues = new ArrayCollection();
         $this->synonyms = new ArrayCollection();
         $this->sharedWiths = new ArrayCollection();
+        $this->studies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2474,6 +2480,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($sharedWith->getUser() === $this) {
                 $sharedWith->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Study>
+     */
+    public function getStudies(): Collection
+    {
+        return $this->studies;
+    }
+
+    public function addStudy(Study $study): self
+    {
+        if (!$this->studies->contains($study)) {
+            $this->studies[] = $study;
+            $study->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudy(Study $study): self
+    {
+        if ($this->studies->removeElement($study)) {
+            // set the owning side to null (unless already changed)
+            if ($study->getCreatedBy() === $this) {
+                $study->setCreatedBy(null);
             }
         }
 
