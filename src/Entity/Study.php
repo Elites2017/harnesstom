@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StudyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -106,6 +108,16 @@ class Study
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="studies")
      */
     private $createdBy;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Germplasm::class, mappedBy="study")
+     */
+    private $germplasms;
+
+    public function __construct()
+    {
+        $this->germplasms = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -324,6 +336,33 @@ class Study
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Germplasm>
+     */
+    public function getGermplasms(): Collection
+    {
+        return $this->germplasms;
+    }
+
+    public function addGermplasm(Germplasm $germplasm): self
+    {
+        if (!$this->germplasms->contains($germplasm)) {
+            $this->germplasms[] = $germplasm;
+            $germplasm->addStudy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasm(Germplasm $germplasm): self
+    {
+        if ($this->germplasms->removeElement($germplasm)) {
+            $germplasm->removeStudy($this);
+        }
 
         return $this;
     }
