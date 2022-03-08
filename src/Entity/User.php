@@ -349,6 +349,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $trials;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="createdBy")
+     */
+    private $accessions;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -411,6 +416,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->programs = new ArrayCollection();
         $this->metabolites = new ArrayCollection();
         $this->trials = new ArrayCollection();
+        $this->accessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2330,6 +2336,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($trial->getCreatedBy() === $this) {
                 $trial->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Accession>
+     */
+    public function getAccessions(): Collection
+    {
+        return $this->accessions;
+    }
+
+    public function addAccession(Accession $accession): self
+    {
+        if (!$this->accessions->contains($accession)) {
+            $this->accessions[] = $accession;
+            $accession->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccession(Accession $accession): self
+    {
+        if ($this->accessions->removeElement($accession)) {
+            // set the owning side to null (unless already changed)
+            if ($accession->getCreatedBy() === $this) {
+                $accession->setCreatedBy(null);
             }
         }
 
