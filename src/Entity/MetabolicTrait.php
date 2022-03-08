@@ -79,9 +79,15 @@ class MetabolicTrait
      */
     private $metabolites;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AttributeTraitValue::class, mappedBy="metabolicTrait")
+     */
+    private $attributeTraitValues;
+
     public function __construct()
     {
         $this->metabolites = new ArrayCollection();
+        $this->attributeTraitValues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -245,6 +251,36 @@ class MetabolicTrait
             // set the owning side to null (unless already changed)
             if ($metabolite->getMetabolicTrait() === $this) {
                 $metabolite->setMetabolicTrait(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AttributeTraitValue>
+     */
+    public function getAttributeTraitValues(): Collection
+    {
+        return $this->attributeTraitValues;
+    }
+
+    public function addAttributeTraitValue(AttributeTraitValue $attributeTraitValue): self
+    {
+        if (!$this->attributeTraitValues->contains($attributeTraitValue)) {
+            $this->attributeTraitValues[] = $attributeTraitValue;
+            $attributeTraitValue->setMetabolicTrait($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttributeTraitValue(AttributeTraitValue $attributeTraitValue): self
+    {
+        if ($this->attributeTraitValues->removeElement($attributeTraitValue)) {
+            // set the owning side to null (unless already changed)
+            if ($attributeTraitValue->getMetabolicTrait() === $this) {
+                $attributeTraitValue->setMetabolicTrait(null);
             }
         }
 
