@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TrialRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -86,6 +88,16 @@ class Trial
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="trials")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SharedWith::class, mappedBy="trial")
+     */
+    private $sharedWiths;
+
+    public function __construct()
+    {
+        $this->sharedWiths = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -256,6 +268,36 @@ class Trial
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SharedWith>
+     */
+    public function getSharedWiths(): Collection
+    {
+        return $this->sharedWiths;
+    }
+
+    public function addSharedWith(SharedWith $sharedWith): self
+    {
+        if (!$this->sharedWiths->contains($sharedWith)) {
+            $this->sharedWiths[] = $sharedWith;
+            $sharedWith->setTrial($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSharedWith(SharedWith $sharedWith): self
+    {
+        if ($this->sharedWiths->removeElement($sharedWith)) {
+            // set the owning side to null (unless already changed)
+            if ($sharedWith->getTrial() === $this) {
+                $sharedWith->setTrial(null);
+            }
+        }
 
         return $this;
     }
