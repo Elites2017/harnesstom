@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AccessionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -156,6 +158,22 @@ class Accession
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="accessions")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Synonym::class, mappedBy="accession")
+     */
+    private $synonyms;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AttributeTraitValue::class, mappedBy="accession")
+     */
+    private $attributeTraitValues;
+
+    public function __construct()
+    {
+        $this->synonyms = new ArrayCollection();
+        $this->attributeTraitValues = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -494,6 +512,66 @@ class Accession
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Synonym>
+     */
+    public function getSynonyms(): Collection
+    {
+        return $this->synonyms;
+    }
+
+    public function addSynonym(Synonym $synonym): self
+    {
+        if (!$this->synonyms->contains($synonym)) {
+            $this->synonyms[] = $synonym;
+            $synonym->setAccession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSynonym(Synonym $synonym): self
+    {
+        if ($this->synonyms->removeElement($synonym)) {
+            // set the owning side to null (unless already changed)
+            if ($synonym->getAccession() === $this) {
+                $synonym->setAccession(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AttributeTraitValue>
+     */
+    public function getAttributeTraitValues(): Collection
+    {
+        return $this->attributeTraitValues;
+    }
+
+    public function addAttributeTraitValue(AttributeTraitValue $attributeTraitValue): self
+    {
+        if (!$this->attributeTraitValues->contains($attributeTraitValue)) {
+            $this->attributeTraitValues[] = $attributeTraitValue;
+            $attributeTraitValue->setAccession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttributeTraitValue(AttributeTraitValue $attributeTraitValue): self
+    {
+        if ($this->attributeTraitValues->removeElement($attributeTraitValue)) {
+            // set the owning side to null (unless already changed)
+            if ($attributeTraitValue->getAccession() === $this) {
+                $attributeTraitValue->setAccession(null);
+            }
+        }
 
         return $this;
     }
