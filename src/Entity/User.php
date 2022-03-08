@@ -344,6 +344,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $metabolites;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Trial::class, mappedBy="createdBy")
+     */
+    private $trials;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -405,6 +410,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->analytes = new ArrayCollection();
         $this->programs = new ArrayCollection();
         $this->metabolites = new ArrayCollection();
+        $this->trials = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2294,6 +2300,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($metabolite->getCreatedBy() === $this) {
                 $metabolite->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trial>
+     */
+    public function getTrials(): Collection
+    {
+        return $this->trials;
+    }
+
+    public function addTrial(Trial $trial): self
+    {
+        if (!$this->trials->contains($trial)) {
+            $this->trials[] = $trial;
+            $trial->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrial(Trial $trial): self
+    {
+        if ($this->trials->removeElement($trial)) {
+            // set the owning side to null (unless already changed)
+            if ($trial->getCreatedBy() === $this) {
+                $trial->setCreatedBy(null);
             }
         }
 
