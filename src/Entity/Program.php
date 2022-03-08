@@ -69,9 +69,15 @@ class Program
      */
     private $trials;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="program")
+     */
+    private $germplasms;
+
     public function __construct()
     {
         $this->trials = new ArrayCollection();
+        $this->germplasms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +217,36 @@ class Program
             // set the owning side to null (unless already changed)
             if ($trial->getProgram() === $this) {
                 $trial->setProgram(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Germplasm>
+     */
+    public function getGermplasms(): Collection
+    {
+        return $this->germplasms;
+    }
+
+    public function addGermplasm(Germplasm $germplasm): self
+    {
+        if (!$this->germplasms->contains($germplasm)) {
+            $this->germplasms[] = $germplasm;
+            $germplasm->setProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasm(Germplasm $germplasm): self
+    {
+        if ($this->germplasms->removeElement($germplasm)) {
+            // set the owning side to null (unless already changed)
+            if ($germplasm->getProgram() === $this) {
+                $germplasm->setProgram(null);
             }
         }
 
