@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProgramRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,6 +63,16 @@ class Program
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="programs")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Trial::class, mappedBy="program")
+     */
+    private $trials;
+
+    public function __construct()
+    {
+        $this->trials = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -171,6 +183,36 @@ class Program
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trial>
+     */
+    public function getTrials(): Collection
+    {
+        return $this->trials;
+    }
+
+    public function addTrial(Trial $trial): self
+    {
+        if (!$this->trials->contains($trial)) {
+            $this->trials[] = $trial;
+            $trial->setProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrial(Trial $trial): self
+    {
+        if ($this->trials->removeElement($trial)) {
+            // set the owning side to null (unless already changed)
+            if ($trial->getProgram() === $this) {
+                $trial->setProgram(null);
+            }
+        }
 
         return $this;
     }
