@@ -59,9 +59,15 @@ class TraitClass
      */
     private $observationVariables;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AttributeTraitValue::class, mappedBy="trait")
+     */
+    private $attributeTraitValues;
+
     public function __construct()
     {
         $this->observationVariables = new ArrayCollection();
+        $this->attributeTraitValues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,6 +183,36 @@ class TraitClass
             // set the owning side to null (unless already changed)
             if ($observationVariable->getTrait() === $this) {
                 $observationVariable->setTrait(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AttributeTraitValue>
+     */
+    public function getAttributeTraitValues(): Collection
+    {
+        return $this->attributeTraitValues;
+    }
+
+    public function addAttributeTraitValue(AttributeTraitValue $attributeTraitValue): self
+    {
+        if (!$this->attributeTraitValues->contains($attributeTraitValue)) {
+            $this->attributeTraitValues[] = $attributeTraitValue;
+            $attributeTraitValue->setTrait($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttributeTraitValue(AttributeTraitValue $attributeTraitValue): self
+    {
+        if ($this->attributeTraitValues->removeElement($attributeTraitValue)) {
+            // set the owning side to null (unless already changed)
+            if ($attributeTraitValue->getTrait() === $this) {
+                $attributeTraitValue->setTrait(null);
             }
         }
 
