@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnalyteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -76,6 +78,16 @@ class Analyte
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="analytes")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Metabolite::class, mappedBy="analyte")
+     */
+    private $metabolites;
+
+    public function __construct()
+    {
+        $this->metabolites = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -222,6 +234,36 @@ class Analyte
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Metabolite>
+     */
+    public function getMetabolites(): Collection
+    {
+        return $this->metabolites;
+    }
+
+    public function addMetabolite(Metabolite $metabolite): self
+    {
+        if (!$this->metabolites->contains($metabolite)) {
+            $this->metabolites[] = $metabolite;
+            $metabolite->setAnalyte($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetabolite(Metabolite $metabolite): self
+    {
+        if ($this->metabolites->removeElement($metabolite)) {
+            // set the owning side to null (unless already changed)
+            if ($metabolite->getAnalyte() === $this) {
+                $metabolite->setAnalyte(null);
+            }
+        }
 
         return $this;
     }
