@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MetabolicTraitRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -71,6 +73,16 @@ class MetabolicTrait
      * @ORM\Column(type="boolean")
      */
     private $isActive;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Metabolite::class, mappedBy="metabolicTrait")
+     */
+    private $metabolites;
+
+    public function __construct()
+    {
+        $this->metabolites = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -205,6 +217,36 @@ class MetabolicTrait
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Metabolite>
+     */
+    public function getMetabolites(): Collection
+    {
+        return $this->metabolites;
+    }
+
+    public function addMetabolite(Metabolite $metabolite): self
+    {
+        if (!$this->metabolites->contains($metabolite)) {
+            $this->metabolites[] = $metabolite;
+            $metabolite->setMetabolicTrait($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetabolite(Metabolite $metabolite): self
+    {
+        if ($this->metabolites->removeElement($metabolite)) {
+            // set the owning side to null (unless already changed)
+            if ($metabolite->getMetabolicTrait() === $this) {
+                $metabolite->setMetabolicTrait(null);
+            }
+        }
 
         return $this;
     }
