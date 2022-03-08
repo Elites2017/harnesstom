@@ -374,6 +374,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $studies;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="createdBy")
+     */
+    private $germplasms;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -441,6 +446,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->synonyms = new ArrayCollection();
         $this->sharedWiths = new ArrayCollection();
         $this->studies = new ArrayCollection();
+        $this->germplasms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2510,6 +2516,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($study->getCreatedBy() === $this) {
                 $study->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Germplasm>
+     */
+    public function getGermplasms(): Collection
+    {
+        return $this->germplasms;
+    }
+
+    public function addGermplasm(Germplasm $germplasm): self
+    {
+        if (!$this->germplasms->contains($germplasm)) {
+            $this->germplasms[] = $germplasm;
+            $germplasm->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasm(Germplasm $germplasm): self
+    {
+        if ($this->germplasms->removeElement($germplasm)) {
+            // set the owning side to null (unless already changed)
+            if ($germplasm->getCreatedBy() === $this) {
+                $germplasm->setCreatedBy(null);
             }
         }
 
