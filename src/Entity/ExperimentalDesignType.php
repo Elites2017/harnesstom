@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ExperimentalDesignTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class ExperimentalDesignType
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="experimentalDesignTypes")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Study::class, mappedBy="experimentalDesignType")
+     */
+    private $studies;
+
+    public function __construct()
+    {
+        $this->studies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,36 @@ class ExperimentalDesignType
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Study>
+     */
+    public function getStudies(): Collection
+    {
+        return $this->studies;
+    }
+
+    public function addStudy(Study $study): self
+    {
+        if (!$this->studies->contains($study)) {
+            $this->studies[] = $study;
+            $study->setExperimentalDesignType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudy(Study $study): self
+    {
+        if ($this->studies->removeElement($study)) {
+            // set the owning side to null (unless already changed)
+            if ($study->getExperimentalDesignType() === $this) {
+                $study->setExperimentalDesignType(null);
+            }
+        }
 
         return $this;
     }
