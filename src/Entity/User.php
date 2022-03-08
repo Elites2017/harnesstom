@@ -364,6 +364,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $synonyms;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SharedWith::class, mappedBy="user")
+     */
+    private $sharedWiths;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -429,6 +434,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->accessions = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
         $this->synonyms = new ArrayCollection();
+        $this->sharedWiths = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2438,6 +2444,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($synonym->getCreatedBy() === $this) {
                 $synonym->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SharedWith>
+     */
+    public function getSharedWiths(): Collection
+    {
+        return $this->sharedWiths;
+    }
+
+    public function addSharedWith(SharedWith $sharedWith): self
+    {
+        if (!$this->sharedWiths->contains($sharedWith)) {
+            $this->sharedWiths[] = $sharedWith;
+            $sharedWith->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSharedWith(SharedWith $sharedWith): self
+    {
+        if ($this->sharedWiths->removeElement($sharedWith)) {
+            // set the owning side to null (unless already changed)
+            if ($sharedWith->getUser() === $this) {
+                $sharedWith->setUser(null);
             }
         }
 
