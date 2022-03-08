@@ -339,6 +339,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $programs;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Metabolite::class, mappedBy="createdBy")
+     */
+    private $metabolites;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -399,6 +404,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->analyteFlavorHealths = new ArrayCollection();
         $this->analytes = new ArrayCollection();
         $this->programs = new ArrayCollection();
+        $this->metabolites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2258,6 +2264,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($program->getCreatedBy() === $this) {
                 $program->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Metabolite>
+     */
+    public function getMetabolites(): Collection
+    {
+        return $this->metabolites;
+    }
+
+    public function addMetabolite(Metabolite $metabolite): self
+    {
+        if (!$this->metabolites->contains($metabolite)) {
+            $this->metabolites[] = $metabolite;
+            $metabolite->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetabolite(Metabolite $metabolite): self
+    {
+        if ($this->metabolites->removeElement($metabolite)) {
+            // set the owning side to null (unless already changed)
+            if ($metabolite->getCreatedBy() === $this) {
+                $metabolite->setCreatedBy(null);
             }
         }
 
