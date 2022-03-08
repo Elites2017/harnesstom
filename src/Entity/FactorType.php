@@ -59,9 +59,15 @@ class FactorType
      */
     private $parameters;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Study::class, mappedBy="factor")
+     */
+    private $studies;
+
     public function __construct()
     {
         $this->parameters = new ArrayCollection();
+        $this->studies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,6 +183,36 @@ class FactorType
             // set the owning side to null (unless already changed)
             if ($parameter->getFactorType() === $this) {
                 $parameter->setFactorType(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Study>
+     */
+    public function getStudies(): Collection
+    {
+        return $this->studies;
+    }
+
+    public function addStudy(Study $study): self
+    {
+        if (!$this->studies->contains($study)) {
+            $this->studies[] = $study;
+            $study->setFactor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudy(Study $study): self
+    {
+        if ($this->studies->removeElement($study)) {
+            // set the owning side to null (unless already changed)
+            if ($study->getFactor() === $this) {
+                $study->setFactor(null);
             }
         }
 
