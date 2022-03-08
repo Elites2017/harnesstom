@@ -59,11 +59,17 @@ class Country
      */
     private $institutes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="origcty")
+     */
+    private $accessions;
+
     public function __construct()
     {
         $this->locations = new ArrayCollection();
         $this->people = new ArrayCollection();
         $this->institutes = new ArrayCollection();
+        $this->accessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,6 +221,36 @@ class Country
             // set the owning side to null (unless already changed)
             if ($institute->getCountry() === $this) {
                 $institute->setCountry(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Accession>
+     */
+    public function getAccessions(): Collection
+    {
+        return $this->accessions;
+    }
+
+    public function addAccession(Accession $accession): self
+    {
+        if (!$this->accessions->contains($accession)) {
+            $this->accessions[] = $accession;
+            $accession->setOrigcty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccession(Accession $accession): self
+    {
+        if ($this->accessions->removeElement($accession)) {
+            // set the owning side to null (unless already changed)
+            if ($accession->getOrigcty() === $this) {
+                $accession->setOrigcty(null);
             }
         }
 
