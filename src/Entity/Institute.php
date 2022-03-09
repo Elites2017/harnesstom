@@ -89,12 +89,18 @@ class Institute
      */
     private $studies;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="institute")
+     */
+    private $crosses;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
         $this->collectingMissions = new ArrayCollection();
         $this->accessions = new ArrayCollection();
         $this->studies = new ArrayCollection();
+        $this->crosses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -336,6 +342,36 @@ class Institute
             // set the owning side to null (unless already changed)
             if ($study->getInstitute() === $this) {
                 $study->setInstitute(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cross>
+     */
+    public function getCrosses(): Collection
+    {
+        return $this->crosses;
+    }
+
+    public function addCross(Cross $cross): self
+    {
+        if (!$this->crosses->contains($cross)) {
+            $this->crosses[] = $cross;
+            $cross->setInstitute($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCross(Cross $cross): self
+    {
+        if ($this->crosses->removeElement($cross)) {
+            // set the owning side to null (unless already changed)
+            if ($cross->getInstitute() === $this) {
+                $cross->setInstitute(null);
             }
         }
 
