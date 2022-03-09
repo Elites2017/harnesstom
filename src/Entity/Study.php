@@ -124,10 +124,16 @@ class Study
      */
     private $crosses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=StudyImage::class, mappedBy="study")
+     */
+    private $studyImages;
+
     public function __construct()
     {
         $this->germplasms = new ArrayCollection();
         $this->crosses = new ArrayCollection();
+        $this->studyImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -419,6 +425,36 @@ class Study
             // set the owning side to null (unless already changed)
             if ($cross->getStudy() === $this) {
                 $cross->setStudy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StudyImage>
+     */
+    public function getStudyImages(): Collection
+    {
+        return $this->studyImages;
+    }
+
+    public function addStudyImage(StudyImage $studyImage): self
+    {
+        if (!$this->studyImages->contains($studyImage)) {
+            $this->studyImages[] = $studyImage;
+            $studyImage->setStudy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudyImage(StudyImage $studyImage): self
+    {
+        if ($this->studyImages->removeElement($studyImage)) {
+            // set the owning side to null (unless already changed)
+            if ($studyImage->getStudy() === $this) {
+                $studyImage->setStudy(null);
             }
         }
 
