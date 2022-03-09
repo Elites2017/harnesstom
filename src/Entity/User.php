@@ -384,6 +384,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $studyParameterValues;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Collection::class, mappedBy="createdBy")
+     */
+    private $collections;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -453,6 +458,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->studies = new ArrayCollection();
         $this->germplasms = new ArrayCollection();
         $this->studyParameterValues = new ArrayCollection();
+        $this->collections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2582,6 +2588,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($studyParameterValue->getCreatedBy() === $this) {
                 $studyParameterValue->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Collection>
+     */
+    public function getCollections(): Collection
+    {
+        return $this->collections;
+    }
+
+    public function addCollection(Collection $collection): self
+    {
+        if (!$this->collections->contains($collection)) {
+            $this->collections[] = $collection;
+            $collection->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollection(Collection $collection): self
+    {
+        if ($this->collections->removeElement($collection)) {
+            // set the owning side to null (unless already changed)
+            if ($collection->getCreatedBy() === $this) {
+                $collection->setCreatedBy(null);
             }
         }
 
