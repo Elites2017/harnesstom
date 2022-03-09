@@ -119,9 +119,15 @@ class Study
      */
     private $studyParameterValue;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="study")
+     */
+    private $crosses;
+
     public function __construct()
     {
         $this->germplasms = new ArrayCollection();
+        $this->crosses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -385,6 +391,36 @@ class Study
         }
 
         $this->studyParameterValue = $studyParameterValue;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cross>
+     */
+    public function getCrosses(): Collection
+    {
+        return $this->crosses;
+    }
+
+    public function addCross(Cross $cross): self
+    {
+        if (!$this->crosses->contains($cross)) {
+            $this->crosses[] = $cross;
+            $cross->setStudy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCross(Cross $cross): self
+    {
+        if ($this->crosses->removeElement($cross)) {
+            // set the owning side to null (unless already changed)
+            if ($cross->getStudy() === $this) {
+                $cross->setStudy(null);
+            }
+        }
 
         return $this;
     }
