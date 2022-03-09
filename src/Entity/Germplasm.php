@@ -70,9 +70,15 @@ class Germplasm
      */
     private $study;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="parent1")
+     */
+    private $crosses;
+
     public function __construct()
     {
         $this->study = new ArrayCollection();
+        $this->crosses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -208,6 +214,36 @@ class Germplasm
     public function removeStudy(Study $study): self
     {
         $this->study->removeElement($study);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cross>
+     */
+    public function getCrosses(): Collection
+    {
+        return $this->crosses;
+    }
+
+    public function addCross(Cross $cross): self
+    {
+        if (!$this->crosses->contains($cross)) {
+            $this->crosses[] = $cross;
+            $cross->setParent1($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCross(Cross $cross): self
+    {
+        if ($this->crosses->removeElement($cross)) {
+            // set the owning side to null (unless already changed)
+            if ($cross->getParent1() === $this) {
+                $cross->setParent1(null);
+            }
+        }
 
         return $this;
     }
