@@ -404,6 +404,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $observationLevels;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GWAS::class, mappedBy="createdBy")
+     */
+    private $gWAS;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -477,6 +482,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->crosses = new ArrayCollection();
         $this->studyImages = new ArrayCollection();
         $this->observationLevels = new ArrayCollection();
+        $this->gWAS = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2726,6 +2732,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($observationLevel->getCreatedBy() === $this) {
                 $observationLevel->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GWAS>
+     */
+    public function getGWAS(): Collection
+    {
+        return $this->gWAS;
+    }
+
+    public function addGWA(GWAS $gWA): self
+    {
+        if (!$this->gWAS->contains($gWA)) {
+            $this->gWAS[] = $gWA;
+            $gWA->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGWA(GWAS $gWA): self
+    {
+        if ($this->gWAS->removeElement($gWA)) {
+            // set the owning side to null (unless already changed)
+            if ($gWA->getCreatedBy() === $this) {
+                $gWA->setCreatedBy(null);
             }
         }
 
