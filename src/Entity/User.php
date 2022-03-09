@@ -389,6 +389,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $collections;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="createdBy")
+     */
+    private $crosses;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -459,6 +464,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->germplasms = new ArrayCollection();
         $this->studyParameterValues = new ArrayCollection();
         $this->collections = new ArrayCollection();
+        $this->crosses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2618,6 +2624,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($collection->getCreatedBy() === $this) {
                 $collection->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cross>
+     */
+    public function getCrosses(): Collection
+    {
+        return $this->crosses;
+    }
+
+    public function addCross(Cross $cross): self
+    {
+        if (!$this->crosses->contains($cross)) {
+            $this->crosses[] = $cross;
+            $cross->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCross(Cross $cross): self
+    {
+        if ($this->crosses->removeElement($cross)) {
+            // set the owning side to null (unless already changed)
+            if ($cross->getCreatedBy() === $this) {
+                $cross->setCreatedBy(null);
             }
         }
 
