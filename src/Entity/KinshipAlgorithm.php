@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\KinshipAlgorithmRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,16 @@ class KinshipAlgorithm
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="kinshipAlgorithms")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GWAS::class, mappedBy="kinshipAlgorithm")
+     */
+    private $gWAS;
+
+    public function __construct()
+    {
+        $this->gWAS = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +132,36 @@ class KinshipAlgorithm
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GWAS>
+     */
+    public function getGWAS(): Collection
+    {
+        return $this->gWAS;
+    }
+
+    public function addGWA(GWAS $gWA): self
+    {
+        if (!$this->gWAS->contains($gWA)) {
+            $this->gWAS[] = $gWA;
+            $gWA->setKinshipAlgorithm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGWA(GWAS $gWA): self
+    {
+        if ($this->gWAS->removeElement($gWA)) {
+            // set the owning side to null (unless already changed)
+            if ($gWA->getKinshipAlgorithm() === $this) {
+                $gWA->setKinshipAlgorithm(null);
+            }
+        }
 
         return $this;
     }
