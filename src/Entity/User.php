@@ -409,6 +409,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $gWAS;
 
+    /**
+     * @ORM\OneToMany(targetEntity=CollectionClass::class, mappedBy="createdBy")
+     */
+    private $collectionClasses;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -483,6 +488,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->studyImages = new ArrayCollection();
         $this->observationLevels = new ArrayCollection();
         $this->gWAS = new ArrayCollection();
+        $this->collectionClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2762,6 +2768,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($gWA->getCreatedBy() === $this) {
                 $gWA->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CollectionClass>
+     */
+    public function getCollectionClasses(): Collection
+    {
+        return $this->collectionClasses;
+    }
+
+    public function addCollectionClass(CollectionClass $collectionClass): self
+    {
+        if (!$this->collectionClasses->contains($collectionClass)) {
+            $this->collectionClasses[] = $collectionClass;
+            $collectionClass->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollectionClass(CollectionClass $collectionClass): self
+    {
+        if ($this->collectionClasses->removeElement($collectionClass)) {
+            // set the owning side to null (unless already changed)
+            if ($collectionClass->getCreatedBy() === $this) {
+                $collectionClass->setCreatedBy(null);
             }
         }
 
