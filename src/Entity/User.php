@@ -399,6 +399,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $studyImages;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ObservationLevel::class, mappedBy="createdBy")
+     */
+    private $observationLevels;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -471,6 +476,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->collections = new ArrayCollection();
         $this->crosses = new ArrayCollection();
         $this->studyImages = new ArrayCollection();
+        $this->observationLevels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2690,6 +2696,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($studyImage->getCreatedBy() === $this) {
                 $studyImage->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObservationLevel>
+     */
+    public function getObservationLevels(): Collection
+    {
+        return $this->observationLevels;
+    }
+
+    public function addObservationLevel(ObservationLevel $observationLevel): self
+    {
+        if (!$this->observationLevels->contains($observationLevel)) {
+            $this->observationLevels[] = $observationLevel;
+            $observationLevel->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservationLevel(ObservationLevel $observationLevel): self
+    {
+        if ($this->observationLevels->removeElement($observationLevel)) {
+            // set the owning side to null (unless already changed)
+            if ($observationLevel->getCreatedBy() === $this) {
+                $observationLevel->setCreatedBy(null);
             }
         }
 
