@@ -54,9 +54,15 @@ class Parameter
      */
     private $studies;
 
+    /**
+     * @ORM\OneToMany(targetEntity=StudyParameterValue::class, mappedBy="parameter")
+     */
+    private $studyParameterValues;
+
     public function __construct()
     {
         $this->studies = new ArrayCollection();
+        $this->studyParameterValues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +166,36 @@ class Parameter
             // set the owning side to null (unless already changed)
             if ($study->getParameter() === $this) {
                 $study->setParameter(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StudyParameterValue>
+     */
+    public function getStudyParameterValues(): Collection
+    {
+        return $this->studyParameterValues;
+    }
+
+    public function addStudyParameterValue(StudyParameterValue $studyParameterValue): self
+    {
+        if (!$this->studyParameterValues->contains($studyParameterValue)) {
+            $this->studyParameterValues[] = $studyParameterValue;
+            $studyParameterValue->setParameter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudyParameterValue(StudyParameterValue $studyParameterValue): self
+    {
+        if ($this->studyParameterValues->removeElement($studyParameterValue)) {
+            // set the owning side to null (unless already changed)
+            if ($studyParameterValue->getParameter() === $this) {
+                $studyParameterValue->setParameter(null);
             }
         }
 
