@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BreedingMethodRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class BreedingMethod
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="breedingMethods")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="breedingMethod")
+     */
+    private $crosses;
+
+    public function __construct()
+    {
+        $this->crosses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,36 @@ class BreedingMethod
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cross>
+     */
+    public function getCrosses(): Collection
+    {
+        return $this->crosses;
+    }
+
+    public function addCross(Cross $cross): self
+    {
+        if (!$this->crosses->contains($cross)) {
+            $this->crosses[] = $cross;
+            $cross->setBreedingMethod($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCross(Cross $cross): self
+    {
+        if ($this->crosses->removeElement($cross)) {
+            // set the owning side to null (unless already changed)
+            if ($cross->getBreedingMethod() === $this) {
+                $cross->setBreedingMethod(null);
+            }
+        }
 
         return $this;
     }
