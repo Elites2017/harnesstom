@@ -114,6 +114,11 @@ class Study
      */
     private $germplasms;
 
+    /**
+     * @ORM\OneToOne(targetEntity=StudyParameterValue::class, mappedBy="study", cascade={"persist", "remove"})
+     */
+    private $studyParameterValue;
+
     public function __construct()
     {
         $this->germplasms = new ArrayCollection();
@@ -363,6 +368,23 @@ class Study
         if ($this->germplasms->removeElement($germplasm)) {
             $germplasm->removeStudy($this);
         }
+
+        return $this;
+    }
+
+    public function getStudyParameterValue(): ?StudyParameterValue
+    {
+        return $this->studyParameterValue;
+    }
+
+    public function setStudyParameterValue(StudyParameterValue $studyParameterValue): self
+    {
+        // set the owning side of the relation if necessary
+        if ($studyParameterValue->getStudy() !== $this) {
+            $studyParameterValue->setStudy($this);
+        }
+
+        $this->studyParameterValue = $studyParameterValue;
 
         return $this;
     }
