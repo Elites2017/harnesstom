@@ -75,10 +75,16 @@ class Germplasm
      */
     private $crosses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ObservationLevel::class, mappedBy="germaplasm")
+     */
+    private $observationLevels;
+
     public function __construct()
     {
         $this->study = new ArrayCollection();
         $this->crosses = new ArrayCollection();
+        $this->observationLevels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -242,6 +248,36 @@ class Germplasm
             // set the owning side to null (unless already changed)
             if ($cross->getParent1() === $this) {
                 $cross->setParent1(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObservationLevel>
+     */
+    public function getObservationLevels(): Collection
+    {
+        return $this->observationLevels;
+    }
+
+    public function addObservationLevel(ObservationLevel $observationLevel): self
+    {
+        if (!$this->observationLevels->contains($observationLevel)) {
+            $this->observationLevels[] = $observationLevel;
+            $observationLevel->setGermaplasm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservationLevel(ObservationLevel $observationLevel): self
+    {
+        if ($this->observationLevels->removeElement($observationLevel)) {
+            // set the owning side to null (unless already changed)
+            if ($observationLevel->getGermaplasm() === $this) {
+                $observationLevel->setGermaplasm(null);
             }
         }
 
