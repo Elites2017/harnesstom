@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GeneticTestingModelRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class GeneticTestingModel
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="geneticTestingModels")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GWAS::class, mappedBy="geneticTestingModel")
+     */
+    private $gWAS;
+
+    public function __construct()
+    {
+        $this->gWAS = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,36 @@ class GeneticTestingModel
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GWAS>
+     */
+    public function getGWAS(): Collection
+    {
+        return $this->gWAS;
+    }
+
+    public function addGWA(GWAS $gWA): self
+    {
+        if (!$this->gWAS->contains($gWA)) {
+            $this->gWAS[] = $gWA;
+            $gWA->setGeneticTestingModel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGWA(GWAS $gWA): self
+    {
+        if ($this->gWAS->removeElement($gWA)) {
+            // set the owning side to null (unless already changed)
+            if ($gWA->getGeneticTestingModel() === $this) {
+                $gWA->setGeneticTestingModel(null);
+            }
+        }
 
         return $this;
     }
