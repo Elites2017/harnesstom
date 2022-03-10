@@ -54,9 +54,15 @@ class Software
      */
     private $gWAS;
 
+    /**
+     * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="software")
+     */
+    private $qTLStudies;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
+        $this->qTLStudies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +166,36 @@ class Software
             // set the owning side to null (unless already changed)
             if ($gWA->getSoftware() === $this) {
                 $gWA->setSoftware(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLStudy>
+     */
+    public function getQTLStudies(): Collection
+    {
+        return $this->qTLStudies;
+    }
+
+    public function addQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if (!$this->qTLStudies->contains($qTLStudy)) {
+            $this->qTLStudies[] = $qTLStudy;
+            $qTLStudy->setSoftware($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if ($this->qTLStudies->removeElement($qTLStudy)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLStudy->getSoftware() === $this) {
+                $qTLStudy->setSoftware(null);
             }
         }
 
