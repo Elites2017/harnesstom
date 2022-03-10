@@ -134,12 +134,18 @@ class Study
      */
     private $observationLevels;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Sample::class, mappedBy="study")
+     */
+    private $samples;
+
     public function __construct()
     {
         $this->germplasms = new ArrayCollection();
         $this->crosses = new ArrayCollection();
         $this->studyImages = new ArrayCollection();
         $this->observationLevels = new ArrayCollection();
+        $this->samples = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -491,6 +497,36 @@ class Study
             // set the owning side to null (unless already changed)
             if ($observationLevel->getStudy() === $this) {
                 $observationLevel->setStudy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sample>
+     */
+    public function getSamples(): Collection
+    {
+        return $this->samples;
+    }
+
+    public function addSample(Sample $sample): self
+    {
+        if (!$this->samples->contains($sample)) {
+            $this->samples[] = $sample;
+            $sample->setStudy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSample(Sample $sample): self
+    {
+        if ($this->samples->removeElement($sample)) {
+            // set the owning side to null (unless already changed)
+            if ($sample->getStudy() === $this) {
+                $sample->setStudy(null);
             }
         }
 
