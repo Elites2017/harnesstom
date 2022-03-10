@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ObservationLevelRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -106,6 +108,16 @@ class ObservationLevel
      * @ORM\ManyToOne(targetEntity=Study::class, inversedBy="observationLevels")
      */
     private $study;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Sample::class, mappedBy="observationLevel")
+     */
+    private $samples;
+
+    public function __construct()
+    {
+        $this->samples = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -324,6 +336,36 @@ class ObservationLevel
     public function setStudy(?Study $study): self
     {
         $this->study = $study;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sample>
+     */
+    public function getSamples(): Collection
+    {
+        return $this->samples;
+    }
+
+    public function addSample(Sample $sample): self
+    {
+        if (!$this->samples->contains($sample)) {
+            $this->samples[] = $sample;
+            $sample->setObservationLevel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSample(Sample $sample): self
+    {
+        if ($this->samples->removeElement($sample)) {
+            // set the owning side to null (unless already changed)
+            if ($sample->getObservationLevel() === $this) {
+                $sample->setObservationLevel(null);
+            }
+        }
 
         return $this;
     }
