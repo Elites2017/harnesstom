@@ -109,10 +109,16 @@ class Marker
      */
     private $variantSets;
 
+    /**
+     * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="closestMarker")
+     */
+    private $qTLVariants;
+
     public function __construct()
     {
         $this->gWASVariants = new ArrayCollection();
         $this->variantSets = new ArrayCollection();
+        $this->qTLVariants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -366,6 +372,36 @@ class Marker
             // set the owning side to null (unless already changed)
             if ($variantSet->getMarker() === $this) {
                 $variantSet->setMarker(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLVariant>
+     */
+    public function getQTLVariants(): Collection
+    {
+        return $this->qTLVariants;
+    }
+
+    public function addQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if (!$this->qTLVariants->contains($qTLVariant)) {
+            $this->qTLVariants[] = $qTLVariant;
+            $qTLVariant->setClosestMarker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if ($this->qTLVariants->removeElement($qTLVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLVariant->getClosestMarker() === $this) {
+                $qTLVariant->setClosestMarker(null);
             }
         }
 
