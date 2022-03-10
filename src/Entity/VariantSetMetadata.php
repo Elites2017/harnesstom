@@ -84,9 +84,15 @@ class VariantSetMetadata
      */
     private $gWAS;
 
+    /**
+     * @ORM\OneToMany(targetEntity=VariantSet::class, mappedBy="variantSetMetadata")
+     */
+    private $variantSets;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
+        $this->variantSets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -262,6 +268,36 @@ class VariantSetMetadata
             // set the owning side to null (unless already changed)
             if ($gWA->getVariantSetMetada() === $this) {
                 $gWA->setVariantSetMetada(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VariantSet>
+     */
+    public function getVariantSets(): Collection
+    {
+        return $this->variantSets;
+    }
+
+    public function addVariantSet(VariantSet $variantSet): self
+    {
+        if (!$this->variantSets->contains($variantSet)) {
+            $this->variantSets[] = $variantSet;
+            $variantSet->setVariantSetMetadata($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariantSet(VariantSet $variantSet): self
+    {
+        if ($this->variantSets->removeElement($variantSet)) {
+            // set the owning side to null (unless already changed)
+            if ($variantSet->getVariantSetMetadata() === $this) {
+                $variantSet->setVariantSetMetadata(null);
             }
         }
 
