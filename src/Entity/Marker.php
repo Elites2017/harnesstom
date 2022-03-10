@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MarkerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -96,6 +98,16 @@ class Marker
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="markers")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GWASVariant::class, mappedBy="marker")
+     */
+    private $gWASVariants;
+
+    public function __construct()
+    {
+        $this->gWASVariants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -290,6 +302,36 @@ class Marker
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GWASVariant>
+     */
+    public function getGWASVariants(): Collection
+    {
+        return $this->gWASVariants;
+    }
+
+    public function addGWASVariant(GWASVariant $gWASVariant): self
+    {
+        if (!$this->gWASVariants->contains($gWASVariant)) {
+            $this->gWASVariants[] = $gWASVariant;
+            $gWASVariant->setMarker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGWASVariant(GWASVariant $gWASVariant): self
+    {
+        if ($this->gWASVariants->removeElement($gWASVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($gWASVariant->getMarker() === $this) {
+                $gWASVariant->setMarker(null);
+            }
+        }
 
         return $this;
     }
