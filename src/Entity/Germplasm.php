@@ -85,12 +85,18 @@ class Germplasm
      */
     private $samples;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Pedigree::class, mappedBy="germplasm")
+     */
+    private $pedigrees;
+
     public function __construct()
     {
         $this->study = new ArrayCollection();
         $this->crosses = new ArrayCollection();
         $this->observationLevels = new ArrayCollection();
         $this->samples = new ArrayCollection();
+        $this->pedigrees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -315,6 +321,33 @@ class Germplasm
             if ($sample->getGermplasm() === $this) {
                 $sample->setGermplasm(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pedigree>
+     */
+    public function getPedigrees(): Collection
+    {
+        return $this->pedigrees;
+    }
+
+    public function addPedigree(Pedigree $pedigree): self
+    {
+        if (!$this->pedigrees->contains($pedigree)) {
+            $this->pedigrees[] = $pedigree;
+            $pedigree->addGermplasm($this);
+        }
+
+        return $this;
+    }
+
+    public function removePedigree(Pedigree $pedigree): self
+    {
+        if ($this->pedigrees->removeElement($pedigree)) {
+            $pedigree->removeGermplasm($this);
         }
 
         return $this;
