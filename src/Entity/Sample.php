@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SampleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -76,6 +78,16 @@ class Sample
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="samples")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=VariantSet::class, mappedBy="sample")
+     */
+    private $variantSets;
+
+    public function __construct()
+    {
+        $this->variantSets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -222,6 +234,36 @@ class Sample
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VariantSet>
+     */
+    public function getVariantSets(): Collection
+    {
+        return $this->variantSets;
+    }
+
+    public function addVariantSet(VariantSet $variantSet): self
+    {
+        if (!$this->variantSets->contains($variantSet)) {
+            $this->variantSets[] = $variantSet;
+            $variantSet->setSample($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariantSet(VariantSet $variantSet): self
+    {
+        if ($this->variantSets->removeElement($variantSet)) {
+            // set the owning side to null (unless already changed)
+            if ($variantSet->getSample() === $this) {
+                $variantSet->setSample(null);
+            }
+        }
 
         return $this;
     }
