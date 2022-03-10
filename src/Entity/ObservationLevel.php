@@ -114,9 +114,15 @@ class ObservationLevel
      */
     private $samples;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ObservationValue::class, mappedBy="observationLevel")
+     */
+    private $observationValues;
+
     public function __construct()
     {
         $this->samples = new ArrayCollection();
+        $this->observationValues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -364,6 +370,36 @@ class ObservationLevel
             // set the owning side to null (unless already changed)
             if ($sample->getObservationLevel() === $this) {
                 $sample->setObservationLevel(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObservationValue>
+     */
+    public function getObservationValues(): Collection
+    {
+        return $this->observationValues;
+    }
+
+    public function addObservationValue(ObservationValue $observationValue): self
+    {
+        if (!$this->observationValues->contains($observationValue)) {
+            $this->observationValues[] = $observationValue;
+            $observationValue->setObservationLevel($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservationValue(ObservationValue $observationValue): self
+    {
+        if ($this->observationValues->removeElement($observationValue)) {
+            // set the owning side to null (unless already changed)
+            if ($observationValue->getObservationLevel() === $this) {
+                $observationValue->setObservationLevel(null);
             }
         }
 
