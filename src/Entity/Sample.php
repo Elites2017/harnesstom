@@ -84,9 +84,15 @@ class Sample
      */
     private $variantSets;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MetaboliteValue::class, mappedBy="sample")
+     */
+    private $metaboliteValues;
+
     public function __construct()
     {
         $this->variantSets = new ArrayCollection();
+        $this->metaboliteValues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -262,6 +268,36 @@ class Sample
             // set the owning side to null (unless already changed)
             if ($variantSet->getSample() === $this) {
                 $variantSet->setSample(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MetaboliteValue>
+     */
+    public function getMetaboliteValues(): Collection
+    {
+        return $this->metaboliteValues;
+    }
+
+    public function addMetaboliteValue(MetaboliteValue $metaboliteValue): self
+    {
+        if (!$this->metaboliteValues->contains($metaboliteValue)) {
+            $this->metaboliteValues[] = $metaboliteValue;
+            $metaboliteValue->setSample($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetaboliteValue(MetaboliteValue $metaboliteValue): self
+    {
+        if ($this->metaboliteValues->removeElement($metaboliteValue)) {
+            // set the owning side to null (unless already changed)
+            if ($metaboliteValue->getSample() === $this) {
+                $metaboliteValue->setSample(null);
             }
         }
 
