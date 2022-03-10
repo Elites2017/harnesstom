@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QTLStudyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -101,6 +103,16 @@ class QTLStudy
      * @ORM\ManyToOne(targetEntity=QTLStatistic::class, inversedBy="qTLStudies")
      */
     private $statistic;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="qtlStudy")
+     */
+    private $qTLVariants;
+
+    public function __construct()
+    {
+        $this->qTLVariants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -307,6 +319,36 @@ class QTLStudy
     public function setStatistic(?QTLStatistic $statistic): self
     {
         $this->statistic = $statistic;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLVariant>
+     */
+    public function getQTLVariants(): Collection
+    {
+        return $this->qTLVariants;
+    }
+
+    public function addQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if (!$this->qTLVariants->contains($qTLVariant)) {
+            $this->qTLVariants[] = $qTLVariant;
+            $qTLVariant->setQtlStudy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if ($this->qTLVariants->removeElement($qTLVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLVariant->getQtlStudy() === $this) {
+                $qTLVariant->setQtlStudy(null);
+            }
+        }
 
         return $this;
     }
