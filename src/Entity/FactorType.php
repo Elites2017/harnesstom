@@ -64,10 +64,16 @@ class FactorType
      */
     private $studies;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GermplasmStudyImage::class, mappedBy="factor")
+     */
+    private $germplasmStudyImages;
+
     public function __construct()
     {
         $this->parameters = new ArrayCollection();
         $this->studies = new ArrayCollection();
+        $this->germplasmStudyImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,6 +219,36 @@ class FactorType
             // set the owning side to null (unless already changed)
             if ($study->getFactor() === $this) {
                 $study->setFactor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GermplasmStudyImage>
+     */
+    public function getGermplasmStudyImages(): Collection
+    {
+        return $this->germplasmStudyImages;
+    }
+
+    public function addGermplasmStudyImage(GermplasmStudyImage $germplasmStudyImage): self
+    {
+        if (!$this->germplasmStudyImages->contains($germplasmStudyImage)) {
+            $this->germplasmStudyImages[] = $germplasmStudyImage;
+            $germplasmStudyImage->setFactor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasmStudyImage(GermplasmStudyImage $germplasmStudyImage): self
+    {
+        if ($this->germplasmStudyImages->removeElement($germplasmStudyImage)) {
+            // set the owning side to null (unless already changed)
+            if ($germplasmStudyImage->getFactor() === $this) {
+                $germplasmStudyImage->setFactor(null);
             }
         }
 
