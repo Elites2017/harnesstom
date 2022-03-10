@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QTLVariantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -161,6 +163,16 @@ class QTLVariant
      * @ORM\ManyToOne(targetEntity=Germplasm::class, inversedBy="qTLVariants")
      */
     private $positiveAlleleParent;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLEpistatisticEffect::class, mappedBy="qtlVariant1")
+     */
+    private $qTLEpistatisticEffects;
+
+    public function __construct()
+    {
+        $this->qTLEpistatisticEffects = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -511,6 +523,36 @@ class QTLVariant
     public function setPositiveAlleleParent(?Germplasm $positiveAlleleParent): self
     {
         $this->positiveAlleleParent = $positiveAlleleParent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLEpistatisticEffect>
+     */
+    public function getQTLEpistatisticEffects(): Collection
+    {
+        return $this->qTLEpistatisticEffects;
+    }
+
+    public function addQTLEpistatisticEffect(QTLEpistatisticEffect $qTLEpistatisticEffect): self
+    {
+        if (!$this->qTLEpistatisticEffects->contains($qTLEpistatisticEffect)) {
+            $this->qTLEpistatisticEffects[] = $qTLEpistatisticEffect;
+            $qTLEpistatisticEffect->setQtlVariant1($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLEpistatisticEffect(QTLEpistatisticEffect $qTLEpistatisticEffect): self
+    {
+        if ($this->qTLEpistatisticEffects->removeElement($qTLEpistatisticEffect)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLEpistatisticEffect->getQtlVariant1() === $this) {
+                $qTLEpistatisticEffect->setQtlVariant1(null);
+            }
+        }
 
         return $this;
     }
