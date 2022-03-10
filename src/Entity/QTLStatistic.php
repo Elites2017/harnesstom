@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QTLStatisticRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class QTLStatistic
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="qTLStatistics")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="multiEnvironmentStat")
+     */
+    private $qTLStudies;
+
+    public function __construct()
+    {
+        $this->qTLStudies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,36 @@ class QTLStatistic
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLStudy>
+     */
+    public function getQTLStudies(): Collection
+    {
+        return $this->qTLStudies;
+    }
+
+    public function addQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if (!$this->qTLStudies->contains($qTLStudy)) {
+            $this->qTLStudies[] = $qTLStudy;
+            $qTLStudy->setMultiEnvironmentStat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if ($this->qTLStudies->removeElement($qTLStudy)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLStudy->getMultiEnvironmentStat() === $this) {
+                $qTLStudy->setMultiEnvironmentStat(null);
+            }
+        }
 
         return $this;
     }
