@@ -54,9 +54,15 @@ class ThresholdMethod
      */
     private $gWAS;
 
+    /**
+     * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="thresholdMethod")
+     */
+    private $qTLStudies;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
+        $this->qTLStudies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +166,36 @@ class ThresholdMethod
             // set the owning side to null (unless already changed)
             if ($gWA->getThresholdMethod() === $this) {
                 $gWA->setThresholdMethod(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLStudy>
+     */
+    public function getQTLStudies(): Collection
+    {
+        return $this->qTLStudies;
+    }
+
+    public function addQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if (!$this->qTLStudies->contains($qTLStudy)) {
+            $this->qTLStudies[] = $qTLStudy;
+            $qTLStudy->setThresholdMethod($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if ($this->qTLStudies->removeElement($qTLStudy)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLStudy->getThresholdMethod() === $this) {
+                $qTLStudy->setThresholdMethod(null);
             }
         }
 
