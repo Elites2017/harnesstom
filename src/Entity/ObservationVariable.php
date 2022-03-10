@@ -74,10 +74,16 @@ class ObservationVariable
      */
     private $gWASVariants;
 
+    /**
+     * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="observationVariable")
+     */
+    private $qTLVariants;
+
     public function __construct()
     {
         $this->observationValues = new ArrayCollection();
         $this->gWASVariants = new ArrayCollection();
+        $this->qTLVariants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -247,6 +253,36 @@ class ObservationVariable
             // set the owning side to null (unless already changed)
             if ($gWASVariant->getObservationVariable() === $this) {
                 $gWASVariant->setObservationVariable(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLVariant>
+     */
+    public function getQTLVariants(): Collection
+    {
+        return $this->qTLVariants;
+    }
+
+    public function addQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if (!$this->qTLVariants->contains($qTLVariant)) {
+            $this->qTLVariants[] = $qTLVariant;
+            $qTLVariant->setObservationVariable($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if ($this->qTLVariants->removeElement($qTLVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLVariant->getObservationVariable() === $this) {
+                $qTLVariant->setObservationVariable(null);
             }
         }
 
