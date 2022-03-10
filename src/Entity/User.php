@@ -414,6 +414,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $samples;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Pedigree::class, mappedBy="createdBy")
+     */
+    private $pedigrees;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ObservationValue::class, mappedBy="createdBy")
+     */
+    private $observationValues;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -489,6 +499,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->gWAS = new ArrayCollection();
         $this->collectionClasses = new ArrayCollection();
         $this->samples = new ArrayCollection();
+        $this->pedigrees = new ArrayCollection();
+        $this->observationValues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2798,6 +2810,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($sample->getCreatedBy() === $this) {
                 $sample->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pedigree>
+     */
+    public function getPedigrees(): Collection
+    {
+        return $this->pedigrees;
+    }
+
+    public function addPedigree(Pedigree $pedigree): self
+    {
+        if (!$this->pedigrees->contains($pedigree)) {
+            $this->pedigrees[] = $pedigree;
+            $pedigree->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removePedigree(Pedigree $pedigree): self
+    {
+        if ($this->pedigrees->removeElement($pedigree)) {
+            // set the owning side to null (unless already changed)
+            if ($pedigree->getCreatedBy() === $this) {
+                $pedigree->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObservationValue>
+     */
+    public function getObservationValues(): Collection
+    {
+        return $this->observationValues;
+    }
+
+    public function addObservationValue(ObservationValue $observationValue): self
+    {
+        if (!$this->observationValues->contains($observationValue)) {
+            $this->observationValues[] = $observationValue;
+            $observationValue->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservationValue(ObservationValue $observationValue): self
+    {
+        if ($this->observationValues->removeElement($observationValue)) {
+            // set the owning side to null (unless already changed)
+            if ($observationValue->getCreatedBy() === $this) {
+                $observationValue->setCreatedBy(null);
             }
         }
 
