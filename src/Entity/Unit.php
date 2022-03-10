@@ -64,10 +64,16 @@ class Unit
      */
     private $scales;
 
+    /**
+     * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="genomeMapUnit")
+     */
+    private $qTLStudies;
+
     public function __construct()
     {
         $this->parameters = new ArrayCollection();
         $this->scales = new ArrayCollection();
+        $this->qTLStudies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -213,6 +219,36 @@ class Unit
             // set the owning side to null (unless already changed)
             if ($scale->getUnit() === $this) {
                 $scale->setUnit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLStudy>
+     */
+    public function getQTLStudies(): Collection
+    {
+        return $this->qTLStudies;
+    }
+
+    public function addQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if (!$this->qTLStudies->contains($qTLStudy)) {
+            $this->qTLStudies[] = $qTLStudy;
+            $qTLStudy->setGenomeMapUnit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if ($this->qTLStudies->removeElement($qTLStudy)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLStudy->getGenomeMapUnit() === $this) {
+                $qTLStudy->setGenomeMapUnit(null);
             }
         }
 
