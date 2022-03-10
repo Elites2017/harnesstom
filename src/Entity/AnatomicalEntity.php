@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnatomicalEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class AnatomicalEntity
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="anatomicalEntities")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Sample::class, mappedBy="anatomicalEntity")
+     */
+    private $samples;
+
+    public function __construct()
+    {
+        $this->samples = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,36 @@ class AnatomicalEntity
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sample>
+     */
+    public function getSamples(): Collection
+    {
+        return $this->samples;
+    }
+
+    public function addSample(Sample $sample): self
+    {
+        if (!$this->samples->contains($sample)) {
+            $this->samples[] = $sample;
+            $sample->setAnatomicalEntity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSample(Sample $sample): self
+    {
+        if ($this->samples->removeElement($sample)) {
+            // set the owning side to null (unless already changed)
+            if ($sample->getAnatomicalEntity() === $this) {
+                $sample->setAnatomicalEntity(null);
+            }
+        }
 
         return $this;
     }
