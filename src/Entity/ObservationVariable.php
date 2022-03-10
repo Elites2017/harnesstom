@@ -69,9 +69,15 @@ class ObservationVariable
      */
     private $observationValues;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GWASVariant::class, mappedBy="observationVariable")
+     */
+    private $gWASVariants;
+
     public function __construct()
     {
         $this->observationValues = new ArrayCollection();
+        $this->gWASVariants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +217,36 @@ class ObservationVariable
             // set the owning side to null (unless already changed)
             if ($observationValue->getObservationVariable() === $this) {
                 $observationValue->setObservationVariable(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GWASVariant>
+     */
+    public function getGWASVariants(): Collection
+    {
+        return $this->gWASVariants;
+    }
+
+    public function addGWASVariant(GWASVariant $gWASVariant): self
+    {
+        if (!$this->gWASVariants->contains($gWASVariant)) {
+            $this->gWASVariants[] = $gWASVariant;
+            $gWASVariant->setObservationVariable($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGWASVariant(GWASVariant $gWASVariant): self
+    {
+        if ($this->gWASVariants->removeElement($gWASVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($gWASVariant->getObservationVariable() === $this) {
+                $gWASVariant->setObservationVariable(null);
             }
         }
 
