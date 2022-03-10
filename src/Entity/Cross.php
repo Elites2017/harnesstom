@@ -89,6 +89,11 @@ class Cross
      */
     private $createdBy;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Pedigree::class, mappedBy="pedigreeCross", cascade={"persist", "remove"})
+     */
+    private $pedigree;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -258,6 +263,28 @@ class Cross
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getPedigree(): ?Pedigree
+    {
+        return $this->pedigree;
+    }
+
+    public function setPedigree(?Pedigree $pedigree): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($pedigree === null && $this->pedigree !== null) {
+            $this->pedigree->setPedigreeCross(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($pedigree !== null && $pedigree->getPedigreeCross() !== $this) {
+            $pedigree->setPedigreeCross($this);
+        }
+
+        $this->pedigree = $pedigree;
 
         return $this;
     }
