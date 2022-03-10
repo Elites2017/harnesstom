@@ -59,10 +59,16 @@ class Metabolite
      */
     private $metaboliteValues;
 
+    /**
+     * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="metabolite")
+     */
+    private $qTLVariants;
+
     public function __construct()
     {
         $this->gWASVariants = new ArrayCollection();
         $this->metaboliteValues = new ArrayCollection();
+        $this->qTLVariants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,6 +202,36 @@ class Metabolite
             // set the owning side to null (unless already changed)
             if ($metaboliteValue->getMetabolite() === $this) {
                 $metaboliteValue->setMetabolite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLVariant>
+     */
+    public function getQTLVariants(): Collection
+    {
+        return $this->qTLVariants;
+    }
+
+    public function addQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if (!$this->qTLVariants->contains($qTLVariant)) {
+            $this->qTLVariants[] = $qTLVariant;
+            $qTLVariant->setMetabolite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if ($this->qTLVariants->removeElement($qTLVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLVariant->getMetabolite() === $this) {
+                $qTLVariant->setMetabolite(null);
             }
         }
 
