@@ -59,9 +59,15 @@ class AnatomicalEntity
      */
     private $samples;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GermplasmStudyImage::class, mappedBy="plantAnatomicalEntity")
+     */
+    private $germplasmStudyImages;
+
     public function __construct()
     {
         $this->samples = new ArrayCollection();
+        $this->germplasmStudyImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -177,6 +183,36 @@ class AnatomicalEntity
             // set the owning side to null (unless already changed)
             if ($sample->getAnatomicalEntity() === $this) {
                 $sample->setAnatomicalEntity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GermplasmStudyImage>
+     */
+    public function getGermplasmStudyImages(): Collection
+    {
+        return $this->germplasmStudyImages;
+    }
+
+    public function addGermplasmStudyImage(GermplasmStudyImage $germplasmStudyImage): self
+    {
+        if (!$this->germplasmStudyImages->contains($germplasmStudyImage)) {
+            $this->germplasmStudyImages[] = $germplasmStudyImage;
+            $germplasmStudyImage->setPlantAnatomicalEntity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasmStudyImage(GermplasmStudyImage $germplasmStudyImage): self
+    {
+        if ($this->germplasmStudyImages->removeElement($germplasmStudyImage)) {
+            // set the owning side to null (unless already changed)
+            if ($germplasmStudyImage->getPlantAnatomicalEntity() === $this) {
+                $germplasmStudyImage->setPlantAnatomicalEntity(null);
             }
         }
 
