@@ -104,9 +104,15 @@ class Marker
      */
     private $gWASVariants;
 
+    /**
+     * @ORM\OneToMany(targetEntity=VariantSet::class, mappedBy="marker")
+     */
+    private $variantSets;
+
     public function __construct()
     {
         $this->gWASVariants = new ArrayCollection();
+        $this->variantSets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -330,6 +336,36 @@ class Marker
             // set the owning side to null (unless already changed)
             if ($gWASVariant->getMarker() === $this) {
                 $gWASVariant->setMarker(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VariantSet>
+     */
+    public function getVariantSets(): Collection
+    {
+        return $this->variantSets;
+    }
+
+    public function addVariantSet(VariantSet $variantSet): self
+    {
+        if (!$this->variantSets->contains($variantSet)) {
+            $this->variantSets[] = $variantSet;
+            $variantSet->setMarker($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariantSet(VariantSet $variantSet): self
+    {
+        if ($this->variantSets->removeElement($variantSet)) {
+            // set the owning side to null (unless already changed)
+            if ($variantSet->getMarker() === $this) {
+                $variantSet->setMarker(null);
             }
         }
 
