@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\VariantSetRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class VariantSet
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="variantSet")
+     */
+    private $qTLStudies;
+
+    public function __construct()
+    {
+        $this->qTLStudies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,36 @@ class VariantSet
     public function setCreatedBy(?string $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLStudy>
+     */
+    public function getQTLStudies(): Collection
+    {
+        return $this->qTLStudies;
+    }
+
+    public function addQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if (!$this->qTLStudies->contains($qTLStudy)) {
+            $this->qTLStudies[] = $qTLStudy;
+            $qTLStudy->setVariantSet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if ($this->qTLStudies->removeElement($qTLStudy)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLStudy->getVariantSet() === $this) {
+                $qTLStudy->setVariantSet(null);
+            }
+        }
 
         return $this;
     }
