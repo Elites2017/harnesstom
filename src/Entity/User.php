@@ -424,6 +424,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $observationValues;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GermplasmStudyImage::class, mappedBy="createdBy")
+     */
+    private $germplasmStudyImages;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -501,6 +506,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->samples = new ArrayCollection();
         $this->pedigrees = new ArrayCollection();
         $this->observationValues = new ArrayCollection();
+        $this->germplasmStudyImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2870,6 +2876,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($observationValue->getCreatedBy() === $this) {
                 $observationValue->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GermplasmStudyImage>
+     */
+    public function getGermplasmStudyImages(): Collection
+    {
+        return $this->germplasmStudyImages;
+    }
+
+    public function addGermplasmStudyImage(GermplasmStudyImage $germplasmStudyImage): self
+    {
+        if (!$this->germplasmStudyImages->contains($germplasmStudyImage)) {
+            $this->germplasmStudyImages[] = $germplasmStudyImage;
+            $germplasmStudyImage->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasmStudyImage(GermplasmStudyImage $germplasmStudyImage): self
+    {
+        if ($this->germplasmStudyImages->removeElement($germplasmStudyImage)) {
+            // set the owning side to null (unless already changed)
+            if ($germplasmStudyImage->getCreatedBy() === $this) {
+                $germplasmStudyImage->setCreatedBy(null);
             }
         }
 
