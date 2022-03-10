@@ -80,11 +80,17 @@ class Germplasm
      */
     private $observationLevels;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Sample::class, mappedBy="germplasm")
+     */
+    private $samples;
+
     public function __construct()
     {
         $this->study = new ArrayCollection();
         $this->crosses = new ArrayCollection();
         $this->observationLevels = new ArrayCollection();
+        $this->samples = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -278,6 +284,36 @@ class Germplasm
             // set the owning side to null (unless already changed)
             if ($observationLevel->getGermaplasm() === $this) {
                 $observationLevel->setGermaplasm(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sample>
+     */
+    public function getSamples(): Collection
+    {
+        return $this->samples;
+    }
+
+    public function addSample(Sample $sample): self
+    {
+        if (!$this->samples->contains($sample)) {
+            $this->samples[] = $sample;
+            $sample->setGermplasm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSample(Sample $sample): self
+    {
+        if ($this->samples->removeElement($sample)) {
+            // set the owning side to null (unless already changed)
+            if ($sample->getGermplasm() === $this) {
+                $sample->setGermplasm(null);
             }
         }
 
