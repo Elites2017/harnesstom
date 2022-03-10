@@ -90,6 +90,11 @@ class Germplasm
      */
     private $pedigrees;
 
+    /**
+     * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="positiveAlleleParent")
+     */
+    private $qTLVariants;
+
     public function __construct()
     {
         $this->study = new ArrayCollection();
@@ -97,6 +102,7 @@ class Germplasm
         $this->observationLevels = new ArrayCollection();
         $this->samples = new ArrayCollection();
         $this->pedigrees = new ArrayCollection();
+        $this->qTLVariants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -348,6 +354,36 @@ class Germplasm
     {
         if ($this->pedigrees->removeElement($pedigree)) {
             $pedigree->removeGermplasm($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLVariant>
+     */
+    public function getQTLVariants(): Collection
+    {
+        return $this->qTLVariants;
+    }
+
+    public function addQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if (!$this->qTLVariants->contains($qTLVariant)) {
+            $this->qTLVariants[] = $qTLVariant;
+            $qTLVariant->setPositiveAlleleParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if ($this->qTLVariants->removeElement($qTLVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLVariant->getPositiveAlleleParent() === $this) {
+                $qTLVariant->setPositiveAlleleParent(null);
+            }
         }
 
         return $this;
