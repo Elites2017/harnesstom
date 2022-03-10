@@ -409,6 +409,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $collectionClasses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Sample::class, mappedBy="createdBy")
+     */
+    private $samples;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -483,6 +488,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->observationLevels = new ArrayCollection();
         $this->gWAS = new ArrayCollection();
         $this->collectionClasses = new ArrayCollection();
+        $this->samples = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2762,6 +2768,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($collectionClass->getCreatedBy() === $this) {
                 $collectionClass->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sample>
+     */
+    public function getSamples(): Collection
+    {
+        return $this->samples;
+    }
+
+    public function addSample(Sample $sample): self
+    {
+        if (!$this->samples->contains($sample)) {
+            $this->samples[] = $sample;
+            $sample->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSample(Sample $sample): self
+    {
+        if ($this->samples->removeElement($sample)) {
+            // set the owning side to null (unless already changed)
+            if ($sample->getCreatedBy() === $this) {
+                $sample->setCreatedBy(null);
             }
         }
 
