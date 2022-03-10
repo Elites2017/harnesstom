@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GWASRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -101,6 +103,16 @@ class GWAS
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="gWAS")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GWASVariant::class, mappedBy="gwas")
+     */
+    private $gWASVariants;
+
+    public function __construct()
+    {
+        $this->gWASVariants = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -307,6 +319,36 @@ class GWAS
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GWASVariant>
+     */
+    public function getGWASVariants(): Collection
+    {
+        return $this->gWASVariants;
+    }
+
+    public function addGWASVariant(GWASVariant $gWASVariant): self
+    {
+        if (!$this->gWASVariants->contains($gWASVariant)) {
+            $this->gWASVariants[] = $gWASVariant;
+            $gWASVariant->setGwas($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGWASVariant(GWASVariant $gWASVariant): self
+    {
+        if ($this->gWASVariants->removeElement($gWASVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($gWASVariant->getGwas() === $this) {
+                $gWASVariant->setGwas(null);
+            }
+        }
 
         return $this;
     }
