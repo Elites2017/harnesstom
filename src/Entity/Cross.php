@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CrossRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -93,6 +95,16 @@ class Cross
      * @ORM\OneToOne(targetEntity=Pedigree::class, mappedBy="pedigreeCross", cascade={"persist", "remove"})
      */
     private $pedigree;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MappingPopulation::class, mappedBy="mappingPopulationCross")
+     */
+    private $mappingPopulations;
+
+    public function __construct()
+    {
+        $this->mappingPopulations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -285,6 +297,36 @@ class Cross
         }
 
         $this->pedigree = $pedigree;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MappingPopulation>
+     */
+    public function getMappingPopulations(): Collection
+    {
+        return $this->mappingPopulations;
+    }
+
+    public function addMappingPopulation(MappingPopulation $mappingPopulation): self
+    {
+        if (!$this->mappingPopulations->contains($mappingPopulation)) {
+            $this->mappingPopulations[] = $mappingPopulation;
+            $mappingPopulation->setMappingPopulationCross($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMappingPopulation(MappingPopulation $mappingPopulation): self
+    {
+        if ($this->mappingPopulations->removeElement($mappingPopulation)) {
+            // set the owning side to null (unless already changed)
+            if ($mappingPopulation->getMappingPopulationCross() === $this) {
+                $mappingPopulation->setMappingPopulationCross(null);
+            }
+        }
 
         return $this;
     }
