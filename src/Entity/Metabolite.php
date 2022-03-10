@@ -54,9 +54,15 @@ class Metabolite
      */
     private $gWASVariants;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MetaboliteValue::class, mappedBy="metabolite")
+     */
+    private $metaboliteValues;
+
     public function __construct()
     {
         $this->gWASVariants = new ArrayCollection();
+        $this->metaboliteValues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +166,36 @@ class Metabolite
             // set the owning side to null (unless already changed)
             if ($gWASVariant->getMetabolite() === $this) {
                 $gWASVariant->setMetabolite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MetaboliteValue>
+     */
+    public function getMetaboliteValues(): Collection
+    {
+        return $this->metaboliteValues;
+    }
+
+    public function addMetaboliteValue(MetaboliteValue $metaboliteValue): self
+    {
+        if (!$this->metaboliteValues->contains($metaboliteValue)) {
+            $this->metaboliteValues[] = $metaboliteValue;
+            $metaboliteValue->setMetabolite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetaboliteValue(MetaboliteValue $metaboliteValue): self
+    {
+        if ($this->metaboliteValues->removeElement($metaboliteValue)) {
+            // set the owning side to null (unless already changed)
+            if ($metaboliteValue->getMetabolite() === $this) {
+                $metaboliteValue->setMetabolite(null);
             }
         }
 
