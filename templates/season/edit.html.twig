@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Season</h1>
+                            {{ form_start(seasonForm) }}
+                                {{ form_row(seasonForm.name) }}
+                                {{ form_row(seasonForm.description) }}
+                                {{ form_row(seasonForm.createdAt) }}
+                                {{ form_row(seasonForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(seasonForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
