@@ -13,9 +13,12 @@
                         <div class="card-body">
                             <h1 class="tomato-color">Season</h1>
                             {{ form_start(seasonForm) }}
-                                {{ form_row(seasonForm.name) }}
-                                {{ form_row(seasonForm.description) }}
-                                <button type="submit" class="btn">Create</button>
+                                {{ form_row(seasonForm.name, {'attr': {'placeholder': "Enter the season name" }}) }}
+                                {{ form_row(seasonForm.description, {'attr': {'placeholder': "Enter the season description" }}) }}
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-outline-primary">Create</button>
+                                    <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                                </div>
                             {{ form_end(seasonForm) }}
                         </div>
                     </div>
