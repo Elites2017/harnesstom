@@ -11,7 +11,7 @@
                 <div class="row">
                         <div class="card-body">
                             {% if units | length > 0 %}
-                                <h1 class="tomato-color">Seasons list</h1>
+                                <h1 class="tomato-color">Units List</h1>
                                 <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -23,7 +23,7 @@
                                 <tbody>
                                 {% for unit in units %}
                                     <tr>
-                                        <td><a href="{{ path('season_details', {id: unit.id}) }}">{{ unit.name }}</a></td>
+                                        <td><a href="{{ path('unit_details', {id: unit.id}) }}">{{ unit.name }}</a></td>
                                         <td><a href="{{ path('unit_details', {id: unit.id}) }}">{{ unit.description }}</a></td>
                                         <td>
                                             <a href="{{ path('unit_details', {id: unit.id}) }}"><button class="btn btn-outline-primary">View</button></a>
