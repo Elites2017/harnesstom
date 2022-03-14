@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Scale Category</h1>
+                            {{ form_start(scaleCategoryForm) }}
+                                {{ form_row(scaleCategoryForm.label) }}
+                                {{ form_row(scaleCategoryForm.score) }}
+                                {{ form_row(scaleCategoryForm.min) }}
+                                {{ form_row(scaleCategoryForm.max) }}
+                                {{ form_row(scaleCategoryForm.createdAt) }}
+                                {{ form_row(scaleCategoryForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(scaleCategoryForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
