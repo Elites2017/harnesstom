@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if scaleCategories | length > 0 %}
+                                <h1 class="tomato-color">Scale Category list</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for scaleCategory in scaleCategories %}
+                                    <tr>
+                                        <td><a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">{{ scaleCategory.label }}</a></td>
+                                        <td><a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">{{ scaleCategory.score }}</a></td>
+                                        <td>
+                                            <a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No unit has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
