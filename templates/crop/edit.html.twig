@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Country</h1>
+                            {{ form_start(cropForm) }}
+                                {{ form_row(cropForm.commonCropName) }}
+                                {{ form_row(cropForm.createdAt) }}
+                                {{ form_row(cropForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(cropForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
