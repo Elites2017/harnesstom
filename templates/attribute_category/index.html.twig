@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if attributeCategories | length > 0 %}
+                                <h1 class="tomato-color">Anatomical Entity List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Abbreviation</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for attributeCategory in attributeCategories %}
+                                    <tr>
+                                        <td><a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.abbreviation }}</a></td>
+                                        <td><a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.name }}</a></td>
+                                        <td><a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.description }}</a></td>
+                                        <td>
+                                            <a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No attribute category has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
