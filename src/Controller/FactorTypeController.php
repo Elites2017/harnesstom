@@ -38,7 +38,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
  // set a class level route
  /**
- * @Route("factor_type", name="factor_type_")
+ * @Route("factor/type", name="factor_type_")
  */
 class FactorTypeController extends AbstractController
 {
