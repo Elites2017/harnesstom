@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Kinship Algorithm Edition</h1>
+                            {{ form_start(kinshipAlgorithmForm) }}
+                                {{ form_row(kinshipAlgorithmForm.name) }}
+                                {{ form_row(kinshipAlgorithmForm.parentTerm) }}
+                                {{ form_row(kinshipAlgorithmForm.ontology_id) }}
+                                {{ form_row(kinshipAlgorithmForm.createdAt) }}
+                                {{ form_row(kinshipAlgorithmForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(kinshipAlgorithmForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
