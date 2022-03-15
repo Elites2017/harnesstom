@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Develomental Stage</h1>
+                            {{ form_start(developmentalStageForm) }}
+                                {{ form_row(developmentalStageForm.name) }}
+                                {{ form_row(developmentalStageForm.description) }}
+                                {{ form_row(developmentalStageForm.parentTerm) }}
+                                {{ form_row(developmentalStageForm.ontology_id) }}
+                                {{ form_row(developmentalStageForm.createdAt) }}
+                                {{ form_row(developmentalStageForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(developmentalStageForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
