@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Growth Facility Type</h1>
+                            {{ form_start(growthFacilityTypeForm) }}
+                                <div class="form-group">
+                                    {{ form_row(growthFacilityTypeForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(growthFacilityTypeForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(growthFacilityTypeForm.name, {'attr': {'placeholder' : 'Enter the name'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(growthFacilityTypeForm.description, {'attr': {'placeholder' : 'Enter the breeding method description'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-outline-primary">Create</button>
+                                    <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                                </div>
+                            {{ form_end(growthFacilityTypeForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
