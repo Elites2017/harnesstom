@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">GWAS Model</h1>
+                            {{ form_start(gwasModelForm) }}
+                                {{ form_row(gwasModelForm.name) }}
+                                {{ form_row(gwasModelForm.parentTerm) }}
+                                {{ form_row(gwasModelForm.ontology_id) }}
+                                {{ form_row(gwasModelForm.createdAt) }}
+                                {{ form_row(gwasModelForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(gwasModelForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
