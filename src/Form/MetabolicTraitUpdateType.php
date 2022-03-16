@@ -22,6 +22,7 @@ class MetabolicTraitUpdateType extends AbstractType
             ->add('chebiLink')
             ->add('createdAt')
             ->add('isActive')
+            ->add('createdBy')
         ;
     }
 
