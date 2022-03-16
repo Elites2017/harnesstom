@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if storageTypes | length > 0 %}
+                                <h1 class="tomato-color">Storage Type List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Label</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for storageType in storageTypes %}
+                                    <tr>
+                                        <td><a href="{{ path('storage_type_details', {id: storageType.id}) }}">{{ storageType.Label }}</a></td>
+                                        <td><a href="{{ path('storage_type_details', {id: storageType.id}) }}">{{ storageType.code }}</a></td>
+                                        <td>
+                                            <a href="{{ path('storage_type_details', {id: storageType.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No storage type has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
