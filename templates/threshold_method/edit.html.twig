@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Threshold Method Edition</h1>
+                            {{ form_start(thresholdMethodForm) }}
+                                {{ form_row(thresholdMethodForm.name) }}
+                                {{ form_row(thresholdMethodForm.parentTerm) }}
+                                {{ form_row(thresholdMethodForm.ontology_id) }}
+                                {{ form_row(thresholdMethodForm.createdAt) }}
+                                {{ form_row(thresholdMethodForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(thresholdMethodForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
