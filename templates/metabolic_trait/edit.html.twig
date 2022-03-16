@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Metabolic Trait Edition</h1>
+                            {{ form_start(metabolicTraitForm) }}
+                                {{ form_row(metabolicTraitForm.name) }}
+                                {{ form_row(metabolicTraitForm.description) }}
+                                {{ form_row(metabolicTraitForm.parentTerm) }}
+                                {{ form_row(metabolicTraitForm.ontology_id) }}
+                                {{ form_row(metabolicTraitForm.chebiMonoIsoTopicMass) }}
+                                {{ form_row(metabolicTraitForm.chebiMass) }}
+                                {{ form_row(metabolicTraitForm.chebiLink) }}
+                                {{ form_row(metabolicTraitForm.synonym) }}
+                                {{ form_row(metabolicTraitForm.createdAt) }}
+                                {{ form_row(metabolicTraitForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(metabolicTraitForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
