@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if mlsStatuses | length > 0 %}
+                                <h1 class="tomato-color">MLS Status List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Label</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for mlsStatus in mlsStatuses %}
+                                    <tr>
+                                        <td><a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">{{ mlsStatus.Label }}</a></td>
+                                        <td><a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">{{ mlsStatus.code }}</a></td>
+                                        <td>
+                                            <a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No mls status has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
