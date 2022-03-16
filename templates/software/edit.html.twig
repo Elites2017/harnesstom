@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Software Edition</h1>
+                            {{ form_start(softwareForm) }}
+                                {{ form_row(softwareForm.name) }}
+                                {{ form_row(softwareForm.parentTerm) }}
+                                {{ form_row(softwareForm.ontology_id) }}
+                                {{ form_row(softwareForm.createdAt) }}
+                                {{ form_row(softwareForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(softwareForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
