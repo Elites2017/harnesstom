@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if metabolicTraits | length > 0 %}
+                                <h1 class="tomato-color">Metabolic Trait List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Parent Term</th>
+                                    <th scope="col">Ontology ID</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for metabolicTrait in metabolicTraits %}
+                                    <tr>
+                                        <td><a href="{{ path('metabolic_trait_details', {id: metabolicTrait.id}) }}">{{ metabolicTrait.name }}</a></td>
+                                        <td><a href="{{ path('metabolic_trait_details', {id: metabolicTrait.id}) }}">{{ metabolicTrait.description }}</a></td>
+                                        <td><a href="{{ path('metabolic_trait_details', {id: metabolicTrait.id}) }}">{{ metabolicTrait.parentTerm }}</a></td>
+                                        <td><a href="{{ path('metabolic_trait_details', {id: metabolicTrait.id}) }}">{{ metabolicTrait.ontologyID }}</a></td>
+                                        <td>
+                                            <a href="{{ path('metabolic_trait_details', {id: metabolicTrait.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No metabolic trait has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
