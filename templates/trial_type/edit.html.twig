@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Trial Type Edition</h1>
+                            {{ form_start(trialTypeForm) }}
+                                {{ form_row(trialTypeForm.name) }}
+                                {{ form_row(trialTypeForm.description) }}
+                                {{ form_row(trialTypeForm.parentTerm) }}
+                                {{ form_row(trialTypeForm.ontology_id) }}
+                                {{ form_row(trialTypeForm.createdAt) }}
+                                {{ form_row(trialTypeForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(trialTypeForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
