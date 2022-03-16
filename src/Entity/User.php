@@ -610,6 +610,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    // create a toString method to return the user email which will appear
+    // in user (createdBy) related form field
+    public function __toString()
+    {
+        return (string) $this->email;
+    }
+
     /**
      * @return Collection<int, Country>
      */
