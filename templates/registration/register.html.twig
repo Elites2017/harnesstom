@@ -17,7 +17,20 @@
                             {% endfor %}
 
                             <h1 class="tomato-color">Register</h1>
+                            <h2 class="tomato-color">User Personal Information</h1>
+                            {{ form_start(personForm) }}
+                                <div class="tomato-color">{{ form_row
+                                    (personForm.firstName,
+                                        { label: "First Name *",
+                                          'attr': {'placeholder': "Enter the data type name"}
+                                        }
+                                    )
+                                }}</label>
 
+                            {{ form_end(personForm) }}
+
+                            
+                            <h2 class="tomato-color">User Connection Credentials</h1>
                             {{ form_start(registrationForm) }}
                                 {{ form_row(registrationForm.email) }}
                                 {{ form_row(registrationForm.plainPassword, {
