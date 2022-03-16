@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Var Call Software Edition</h1>
+                            {{ form_start(varCallSoftwareForm) }}
+                                {{ form_row(varCallSoftwareForm.name) }}
+                                {{ form_row(varCallSoftwareForm.createdAt) }}
+                                {{ form_row(varCallSoftwareForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(varCallSoftwareForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
