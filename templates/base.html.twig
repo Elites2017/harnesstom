@@ -36,7 +36,27 @@
 								<li class="menu-item"><a href="services.html">Services</a></li>
 								<li class="menu-item"><a href="projects.html">Our projects</a></li>
 								<li class="menu-item"><a href="contact.html">Contact</a></li>
-                                <li class="menu-item"><a href="{{path('app_login')}}">Login</a></li>
+								{% if app.user %}
+									<a class="btn-xs btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										{% if app.user.person %}
+											Hi {{ app.user.person.lastName | upper }},
+										{% else %}
+											Hi {{ app.user.username }}
+										{% endif %}
+									</a>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" href="#">Action</a>
+										<a class="dropdown-item" href="">Edit Profile</a>
+										<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+									</div>
+									</div>
+									<div class="dropdown">
+  
+							{% else %}
+								<li class="menu-item">
+									<a class="menu-link" href="{{ path('app_login') }}">Login</a>
+								</li>
+							{% endif %}
 							</ul>
 						</nav>
 
@@ -105,6 +125,8 @@
             <script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
             <script src="{{ asset('assets/js/plugins.js') }}"></script>
             <script src="{{ asset('assets/js/app.js') }}"></script>
+			<script src="{{ asset('assets/btdist/js/bootstrap.bundle.js') }}"></script>
+			<script src="{{ asset('assets/btdist/js/bootstrap.bundle.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>
