@@ -19,11 +19,9 @@ class PersonUpdateType extends AbstractType
             ->add('streetNumber')
             ->add('postalCode')
             ->add('city')
-            ->add('createdAt')
             ->add('isActive')
             ->add('country')
             ->add('user')
-            ->add('createdBy')
         ;
     }
 
