@@ -37,6 +37,7 @@ class PersonController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $person = new person();
         $form = $this->createForm(PersonType::class, $person);
         $form->handleRequest($request);
