@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Experimental Design</h1>
+                            {{ form_start(experimentalDesignForm) }}
+                                {{ form_row(experimentalDesignForm.name) }}
+                                {{ form_row(experimentalDesignForm.description) }}
+                                {{ form_row(experimentalDesignForm.parentTerm) }}
+                                {{ form_row(experimentalDesignForm.ontology_id) }}
+                                {{ form_row(experimentalDesignForm.createdAt) }}
+                                {{ form_row(experimentalDesignForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(experimentalDesignForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if thresholdMethods | length > 0 %}
+                                <h1 class="tomato-color">Threshold Method List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Ontology ID</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for thresholdMethod in thresholdMethods %}
+                                    <tr>
+                                        <td><a href="{{ path('threshold_method_details', {id: thresholdMethod.id}) }}">{{ thresholdMethod.name }}</a></td>
+                                        <td><a href="{{ path('threshold_method_details', {id: thresholdMethod.id}) }}">{{ thresholdMethod.ontologyID }}</a></td>
+                                        <td>
+                                            <a href="{{ path('threshold_method_details', {id: thresholdMethod.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No threshold method has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">MLS Status Edition</h1>
+                            {{ form_start(mlsStatusForm) }}
+                                {{ form_row(mlsStatusForm.label) }}
+                                {{ form_row(mlsStatusForm.code) }}
+                                {{ form_row(mlsStatusForm.createdAt) }}
+                                {{ form_row(mlsStatusForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(mlsStatusForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

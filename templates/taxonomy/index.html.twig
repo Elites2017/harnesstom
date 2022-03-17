@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if taxonomies | length > 0 %}
+                                <h1 class="tomato-color">Taxonomy List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Taxon ID</th>
+                                    <th scope="col">Genus</th>
+                                    <th scope="col">Species</th>
+                                    <th scope="col">Subtaxa</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for taxonomy in taxonomies %}
+                                    <tr>
+                                        <td><a href="{{ path('taxonomy_details', {id: taxonomy.id}) }}">{{ taxonomy.taxonid }}</a></td>
+                                        <td><a href="{{ path('taxonomy_details', {id: taxonomy.id}) }}">{{ taxonomy.genus }}</a></td>
+                                        <td><a href="{{ path('taxonomy_details', {id: taxonomy.id}) }}">{{ taxonomy.species }}</a></td>
+                                        <td><a href="{{ path('taxonomy_details', {id: taxonomy.id}) }}">{{ taxonomy.subtaxa }}</a></td>
+                                        <td>
+                                            <a href="{{ path('taxonomy_details', {id: taxonomy.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No taxonomy has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

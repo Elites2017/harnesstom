@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Taxonomy Edition</h1>
+                            {{ form_start(taxonomyForm) }}
+                                {{ form_row(taxonomyForm.taxonid) }}
+                                {{ form_row(taxonomyForm.genus) }}
+                                {{ form_row(taxonomyForm.species) }}
+                                {{ form_row(taxonomyForm.subtaxa) }}
+                                {{ form_row(taxonomyForm.createdAt) }}
+                                {{ form_row(taxonomyForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(taxonomyForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

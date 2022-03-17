@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Method Class Creation</h1>
+                            {{ form_start(methodClassForm) }}
+                                {{ form_row(methodClassForm.name, {'attr': {'placeholder': "Enter the name" }}) }}
+                                {{ form_row(methodClassForm.description, {'attr': {'placeholder': "Enter the description" }}) }}
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-outline-primary">Create</button>
+                                    <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                                </div>
+                            {{ form_end(methodClassForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

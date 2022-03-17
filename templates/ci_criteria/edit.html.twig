@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Ci Criteria</h1>
+                            {{ form_start(ciCriteriaForm) }}
+                                {{ form_row(ciCriteriaForm.name) }}
+                                {{ form_row(ciCriteriaForm.parentTerm) }}
+                                {{ form_row(ciCriteriaForm.ontology_id) }}
+                                {{ form_row(ciCriteriaForm.createdAt) }}
+                                {{ form_row(ciCriteriaForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(ciCriteriaForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

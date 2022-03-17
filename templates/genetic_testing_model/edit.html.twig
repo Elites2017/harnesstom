@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Geneting Testing Model</h1>
+                            {{ form_start(geneticTestingModelForm) }}
+                                {{ form_row(geneticTestingModelForm.name) }}
+                                {{ form_row(geneticTestingModelForm.description) }}
+                                {{ form_row(geneticTestingModelForm.createdAt) }}
+                                {{ form_row(geneticTestingModelForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(geneticTestingModelForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

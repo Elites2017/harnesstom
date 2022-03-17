@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if allelicEffectEstimators | length > 0 %}
+                                <h1 class="tomato-color">Allelic Effect Estimator List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Allelic Effect Estimator Name</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for allelicEffectEstimator in allelicEffectEstimators %}
+                                    <tr>
+                                        <td><a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">{{ allelicEffectEstimator.name }}</a></td>
+                                        <td>
+                                            <a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No allelic effect estimator has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

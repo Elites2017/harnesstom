@@ -8,6 +8,7 @@
         {% block stylesheets %}
             <link href="{{ asset('assets/btdist/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
             <link href="{{ asset('assets/btdist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+			<link href="{{ asset('assets/btdist/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
             <link href="{{ asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 		    <!-- Loading main css file -->
 		    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
@@ -31,11 +32,31 @@
 							<button class="menu-toggle"><i class="fa fa-bars"></i></button>
 							<ul class="menu">
 								<li class="home menu-item current-menu-item"><a href="{{path('app_home')}}"><img src="images/home-icon.png" alt="Home"></a></li>
-								<li class="menu-item"><a href="about.html">About</a></li>
-								<li class="menu-item"><a href="services.html">Services</a></li>
-								<li class="menu-item"><a href="projects.html">Our projects</a></li>
-								<li class="menu-item"><a href="contact.html">Contact</a></li>
-                                <li class="menu-item"><a href="{{path('app_login')}}">Login</a></li>
+								<li class="menu-item"><a href="#">About</a></li>
+								<li class="menu-item"><a href="#">Services</a></li>
+								<li class="menu-item"><a href="#">Our projects</a></li>
+								<li class="menu-item"><a href="#">Contact</a></li>
+								{% if app.user %}
+									<a class="btn-xs btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										{% if app.user.person %}
+											Hi {{ app.user.person.lastName | upper }},
+										{% else %}
+											Hi {{ app.user.username }}
+										{% endif %}
+									</a>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" href="#">Action</a>
+										<a class="dropdown-item" href="">Edit Profile</a>
+										<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+									</div>
+									</div>
+									<div class="dropdown">
+  
+							{% else %}
+								<li class="menu-item">
+									<a class="menu-link" href="{{ path('app_login') }}">Login</a>
+								</li>
+							{% endif %}
 							</ul>
 						</nav>
 
@@ -62,39 +83,22 @@
 						</div>
 						<div class="col-md-3">
 							<div class="widget">
-								<h3 class="widget-title">Press room</h3>
-								<ul class="arrow-list">
-									<li><a href="#">Accusantium doloremque</a></li> 
-									<li><a href="#">Laudantium totam aperiam</a></li>
-									<li><a href="#">Eaque ipsa quae illo inventore</a></li>
-								</ul>
+								
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="widget">
-								<h3 class="widget-title">Research summary</h3>
-								<ul class="arrow-list">
-									<li><a href="#">Accusantium doloremque</a></li> 
-									<li><a href="#">Laudantium totam aperiam</a></li>
-									<li><a href="#">Eaque ipsa quae illo inventore</a></li>
-								</ul>
+								
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="widget">
-								<h3 class="widget-title">Social media</h3>
-								<p>Deserunt mollitia animi id est laborum dolorum fuga harum quidem rerum facilis.</p>
-								<div class="social-links">
-									<a href="#"><i class="fa fa-facebook"></i></a>
-									<a href="#"><i class="fa fa-twitter"></i></a>
-									<a href="#"><i class="fa fa-google-plus"></i></a>
-									<a href="#"><i class="fa fa-pinterest"></i></a>
-								</div>
+								
 							</div>
 						</div>
 					</div> <!-- .row -->
 
-					<p class="colophon">copyright 2022 HarnessTom. Designed by <a href="#" title="Powered by me" target="_blank">Me</a>. All rights reserved</p>
+					<p class="colophon">© 2022 HarnessTom. Designed by <a href="#" title="Powered by me" target="_blank">David PIERRE</a>. For HarnessTom - All rights reserved</p>
 				</div> <!-- .container -->
 			</footer>
 		</div>
@@ -104,6 +108,8 @@
             <script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
             <script src="{{ asset('assets/js/plugins.js') }}"></script>
             <script src="{{ asset('assets/js/app.js') }}"></script>
+			<script src="{{ asset('assets/btdist/js/bootstrap.bundle.js') }}"></script>
+			<script src="{{ asset('assets/btdist/js/bootstrap.bundle.min.js') }}"></script>
         {% endblock %}
     </body>
 </html>

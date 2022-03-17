@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Metabolic Trait Creation</h1>
+                            {{ form_start(metabolicTraitForm) }}
+                                <div class="form-group">
+                                    {{ form_row(metabolicTraitForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(metabolicTraitForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(metabolicTraitForm.name, {'attr': {'placeholder' : 'Enter the name'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(metabolicTraitForm.description, {'attr': {'placeholder' : 'Enter the description'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(metabolicTraitForm.chebiMonoIsoTopicMass, {'attr': {'placeholder' : 'Enter the chebi mono isotopic mass'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(metabolicTraitForm.chebiMass, {'attr': {'placeholder' : 'Enter the chebi mass'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(metabolicTraitForm.chebiLink, {'attr': {'placeholder' : 'Enter the chebi link'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(metabolicTraitForm.synonym, {'attr': {'placeholder' : 'Enter the synonym'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-outline-primary">Create</button>
+                                    <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                                </div>
+                            {{ form_end(metabolicTraitForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

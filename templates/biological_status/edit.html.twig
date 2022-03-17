@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Biological Status</h1>
+                            {{ form_start(biologicalStatusForm) }}
+                                {{ form_row(biologicalStatusForm.label) }}
+                                {{ form_row(biologicalStatusForm.code) }}
+                                {{ form_row(biologicalStatusForm.parentTerm) }}
+                                {{ form_row(biologicalStatusForm.createdAt) }}
+                                {{ form_row(biologicalStatusForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(biologicalStatusForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

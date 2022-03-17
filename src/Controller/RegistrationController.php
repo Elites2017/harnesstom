@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Person;
 use App\Entity\User;
+use App\Form\PersonType;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
@@ -37,6 +39,12 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // 16/03/2022 - David PIERRE
+            $createdPerson = $form->get('person')->getData();
+            $createdPerson->setIsActive(true);
+            $createdPerson->setCreatedAt(new \DateTime());
+            $createdPerson->setCreatedBy($user);
+            
             // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
@@ -66,7 +74,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'registrationForm' => $form->createView()
         ]);
     }
 

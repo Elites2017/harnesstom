@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Storage Type Edition</h1>
+                            {{ form_start(storageTypeForm) }}
+                                {{ form_row(storageTypeForm.label) }}
+                                {{ form_row(storageTypeForm.code) }}
+                                {{ form_row(storageTypeForm.parentTerm) }}
+                                {{ form_row(storageTypeForm.createdAt) }}
+                                {{ form_row(storageTypeForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(storageTypeForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

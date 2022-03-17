@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">QTL Statistic Edition</h1>
+                            {{ form_start(qtlStatisticForm) }}
+                                {{ form_row(qtlStatisticForm.name) }}
+                                {{ form_row(qtlStatisticForm.createdAt) }}
+                                {{ form_row(qtlStatisticForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(qtlStatisticForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

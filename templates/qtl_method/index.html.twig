@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if qtlMethods | length > 0 %}
+                                <h1 class="tomato-color">QTL Method List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Ontology ID</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for qtlMethod in qtlMethods %}
+                                    <tr>
+                                        <td><a href="{{ path('qtl_method_details', {id: qtlMethod.id}) }}">{{ qtlMethod.name }}</a></td>
+                                        <td><a href="{{ path('qtl_method_details', {id: qtlMethod.id}) }}">{{ qtlMethod.ontologyID }}</a></td>
+                                        <td>
+                                            <a href="{{ path('qtl_method_details', {id: qtlMethod.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No qtl method has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

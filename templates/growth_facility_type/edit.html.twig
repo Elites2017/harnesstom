@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Growth Facility Type</h1>
+                            {{ form_start(growthFacilityTypeForm) }}
+                                {{ form_row(growthFacilityTypeForm.name) }}
+                                {{ form_row(growthFacilityTypeForm.description) }}
+                                {{ form_row(growthFacilityTypeForm.parentTerm) }}
+                                {{ form_row(growthFacilityTypeForm.ontology_id) }}
+                                {{ form_row(growthFacilityTypeForm.createdAt) }}
+                                {{ form_row(growthFacilityTypeForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(growthFacilityTypeForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

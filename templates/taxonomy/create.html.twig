@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Taxonomy Creation</h1>
+                            {{ form_start(taxonomyForm) }}
+                                <div class="form-group">
+                                    {{ form_row(taxonomyForm.taxonid, {'attr': {'placeholder' : 'Enter the taxon id'}}) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(taxonomyForm.genus, {'attr': {'placeholder' : 'Enter the parent genus'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(taxonomyForm.species, {'attr': {'placeholder' : 'Enter the species'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    {{ form_row(taxonomyForm.subtaxa, {'attr': {'placeholder' : 'Enter the subtaxa'}}) }} 
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-outline-primary">Create</button>
+                                    <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                                </div>
+                            {{ form_end(taxonomyForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
