@@ -165,4 +165,11 @@ class StorageType
 
         return $this;
     }
+
+    // create a toString method to return the object name / code which will appear
+    // in an upper level related form field from a foreign key
+    public function __toString()
+    {
+        return (string) $this->label;
+    }
 }
