@@ -36,6 +36,7 @@ class CropController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $crop = new Crop();
         $form = $this->createForm(cropType::class, $crop);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class CropController extends AbstractController
      */
     public function details(Crop $cropSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Crop Details',
             'crop' => $cropSelected
@@ -71,6 +73,7 @@ class CropController extends AbstractController
      */
     public function edit(Crop $crop, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(CropUpdateType::class, $crop);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class CropController extends AbstractController
      */
     public function delete(Crop $crop, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($crop->getId()) {
             $crop->setIsActive(!$crop->getIsActive());
         }

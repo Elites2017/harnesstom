@@ -36,6 +36,7 @@ class KinshipAlgorithmController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $kinshipAlgorithm = new KinshipAlgorithm();
         $form = $this->createForm(KinshipAlgorithmType::class, $kinshipAlgorithm);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class KinshipAlgorithmController extends AbstractController
      */
     public function details(KinshipAlgorithm $kinshipAlgorithmSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Kinship Algorithm Details',
             'kinshipAlgorithm' => $kinshipAlgorithmSelected
@@ -71,6 +73,7 @@ class KinshipAlgorithmController extends AbstractController
      */
     public function edit(KinshipAlgorithm $kinshipAlgorithm, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(KinshipAlgorithmUpdateType::class, $kinshipAlgorithm);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class KinshipAlgorithmController extends AbstractController
      */
     public function delete(kinshipAlgorithm $kinshipAlgorithm, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($kinshipAlgorithm->getId()) {
             $kinshipAlgorithm->setIsActive(!$kinshipAlgorithm->getIsActive());
         }

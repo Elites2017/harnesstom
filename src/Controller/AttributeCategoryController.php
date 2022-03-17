@@ -36,6 +36,7 @@ class AttributeCategoryController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $attributeCategory = new AttributeCategory();
         $form = $this->createForm(AttributeCategoryType::class, $attributeCategory);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class AttributeCategoryController extends AbstractController
      */
     public function details(AttributeCategory $attributeCategorySelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Attribute Category',
             'attributeCategory' => $attributeCategorySelected
@@ -71,6 +73,7 @@ class AttributeCategoryController extends AbstractController
      */
     public function edit(AttributeCategory $attributeCategory, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(AttributeCategoryUpdateType::class, $attributeCategory);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class AttributeCategoryController extends AbstractController
      */
     public function delete(AttributeCategory $attributeCategory, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($attributeCategory->getId()) {
             $attributeCategory->setIsActive(!$attributeCategory->getIsActive());
         }

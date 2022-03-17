@@ -62,6 +62,7 @@ class SeasonController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $season = new Season();
         $form = $this->createForm(SeasonType::class, $season);
         $form->handleRequest($request);
@@ -85,6 +86,7 @@ class SeasonController extends AbstractController
      */
     public function details(Season $seasonSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Season Details',
             'season' => $seasonSelected
@@ -97,6 +99,7 @@ class SeasonController extends AbstractController
      */
     public function edit(Season $season, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(SeasonUpdateType::class, $season);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -117,6 +120,7 @@ class SeasonController extends AbstractController
      */
     public function delete(Season $season, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($season->getId()) {
             $season->setIsActive(!$season->getIsActive());
         }

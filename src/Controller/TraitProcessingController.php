@@ -36,6 +36,7 @@ class TraitProcessingController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $traitProcessing = new TraitProcessing();
         $form = $this->createForm(TraitProcessingType::class, $traitProcessing);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class TraitProcessingController extends AbstractController
      */
     public function details(TraitProcessing $traitProcessingselected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Trait Processing Details',
             'traitProcessing' => $traitProcessingselected
@@ -71,6 +73,7 @@ class TraitProcessingController extends AbstractController
      */
     public function edit(TraitProcessing $traitProcessing, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(TraitProcessingUpdateType::class, $traitProcessing);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class TraitProcessingController extends AbstractController
      */
     public function delete(TraitProcessing $traitProcessing, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($traitProcessing->getId()) {
             $traitProcessing->setIsActive(!$traitProcessing->getIsActive());
         }

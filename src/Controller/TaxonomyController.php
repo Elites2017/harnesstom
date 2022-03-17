@@ -36,6 +36,7 @@ class TaxonomyController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $taxonomy = new Taxonomy();
         $form = $this->createForm(TaxonomyType::class, $taxonomy);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class TaxonomyController extends AbstractController
      */
     public function details(Taxonomy $taxonomySelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Taxonomy Details',
             'taxonomy' => $taxonomySelected
@@ -71,6 +73,7 @@ class TaxonomyController extends AbstractController
      */
     public function edit(Taxonomy $taxonomy, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(TaxonomyUpdateType::class, $taxonomy);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class TaxonomyController extends AbstractController
      */
     public function delete(Taxonomy $taxonomy, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($taxonomy->getId()) {
             $taxonomy->setIsActive(!$taxonomy->getIsActive());
         }

@@ -36,6 +36,7 @@ class TraitClassController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $traitClass = new TraitClass();
         $form = $this->createForm(TraitClassType::class, $traitClass);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class TraitClassController extends AbstractController
      */
     public function details(TraitClass $traitClasseSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Trait Details',
             'traitClass' => $traitClasseSelected
@@ -71,6 +73,7 @@ class TraitClassController extends AbstractController
      */
     public function edit(TraitClass $traitClass, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(TraitClassUpdateType::class, $traitClass);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class TraitClassController extends AbstractController
      */
     public function delete(TraitClass $traitClass, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($traitClass->getId()) {
             $traitClass->setIsActive(!$traitClass->getIsActive());
         }

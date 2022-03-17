@@ -37,6 +37,7 @@ class GeneticTestingModelController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $geneticTestingModel = new GeneticTestingModel();
         $form = $this->createForm(GeneticTestingModelType::class, $geneticTestingModel);
         $form->handleRequest($request);
@@ -60,6 +61,7 @@ class GeneticTestingModelController extends AbstractController
      */
     public function details(GeneticTestingModel $geneticTestingModelSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Genetic Testing Model Details',
             'geneticTestingModel' => $geneticTestingModelSelected
@@ -72,6 +74,7 @@ class GeneticTestingModelController extends AbstractController
      */
     public function edit(GeneticTestingModel $geneticTestingModel, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(GeneticTestingModelUpdateType::class, $geneticTestingModel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,6 +95,7 @@ class GeneticTestingModelController extends AbstractController
      */
     public function delete(GeneticTestingModel $geneticTestingModel, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($geneticTestingModel->getId()) {
             $geneticTestingModel->setIsActive(!$geneticTestingModel->getIsActive());
         }

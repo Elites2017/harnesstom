@@ -35,6 +35,7 @@ class CountryController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $country = new Country();
         $form = $this->createForm(CountryType::class, $country);
         $form->handleRequest($request);
@@ -58,6 +59,7 @@ class CountryController extends AbstractController
      */
     public function details(Country $countrySelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Country Details',
             'country' => $countrySelected
@@ -70,6 +72,7 @@ class CountryController extends AbstractController
      */
     public function edit(Country $country, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(CountryUpdateType::class, $country);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -90,6 +93,7 @@ class CountryController extends AbstractController
      */
     public function delete(Country $country, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($country->getId()) {
             $country->setIsActive(!$country->getIsActive());
         }

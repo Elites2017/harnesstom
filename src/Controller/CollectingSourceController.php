@@ -36,6 +36,7 @@ class CollectingSourceController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $collectingSource = new CollectingSource();
         $form = $this->createForm(CollectingSourceType::class, $collectingSource);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class CollectingSourceController extends AbstractController
      */
     public function details(collectingSource $collectingSourceselected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Collecting Source Details',
             'collectingSource' => $collectingSourceselected
@@ -71,6 +73,7 @@ class CollectingSourceController extends AbstractController
      */
     public function edit(CollectingSource $collectingSource, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(CollectingSourceUpdateType::class, $collectingSource);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class CollectingSourceController extends AbstractController
      */
     public function delete(CollectingSource $collectingSource, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($collectingSource->getId()) {
             $collectingSource->setIsActive(!$collectingSource->getIsActive());
         }

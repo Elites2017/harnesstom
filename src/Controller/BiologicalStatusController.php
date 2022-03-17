@@ -36,6 +36,7 @@ class BiologicalStatusController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $biologicalStatus = new BiologicalStatus();
         $form = $this->createForm(BiologicalStatusType::class, $biologicalStatus);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class BiologicalStatusController extends AbstractController
      */
     public function details(BiologicalStatus $biologicalStatusSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Biological Status',
             'biologicalStatus' => $biologicalStatusSelected
@@ -71,6 +73,7 @@ class BiologicalStatusController extends AbstractController
      */
     public function edit(BiologicalStatus $biologicalStatus, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(BiologicalStatusUpdateType::class, $biologicalStatus);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class BiologicalStatusController extends AbstractController
      */
     public function delete(BiologicalStatus $biologicalStatus, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($biologicalStatus->getId()) {
             $biologicalStatus->setIsActive(!$biologicalStatus->getIsActive());
         }

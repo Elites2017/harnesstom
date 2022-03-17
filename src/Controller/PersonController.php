@@ -64,6 +64,7 @@ class PersonController extends AbstractController
      */
     public function details(Person $personSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Person Details',
             'person' => $personSelected
@@ -76,6 +77,7 @@ class PersonController extends AbstractController
      */
     public function edit(Person $person, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(PersonUpdateType::class, $person);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -96,6 +98,7 @@ class PersonController extends AbstractController
      */
     public function delete(Person $person, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($person->getId()) {
             $person->setIsActive(!$person->getIsActive());
         }

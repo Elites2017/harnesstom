@@ -36,6 +36,7 @@ class UnitController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $unit = new Unit();
         $form = $this->createForm(UnitType::class, $unit);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class UnitController extends AbstractController
      */
     public function details(Unit $unitSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Unit Details',
             'unit' => $unitSelected
@@ -71,6 +73,7 @@ class UnitController extends AbstractController
      */
     public function edit(Unit $unit, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(UnitUpdateType::class, $unit);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class UnitController extends AbstractController
      */
     public function delete(Unit $unit, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($unit->getId()) {
             $unit->setIsActive(!$unit->getIsActive());
         }

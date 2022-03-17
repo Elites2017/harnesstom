@@ -36,6 +36,7 @@ class DataTypeController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $dataType = new DataType();
         $form = $this->createForm(DataCreateType::class, $dataType);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class DataTypeController extends AbstractController
      */
     public function details(DataType $dataTypeSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Data Type Details',
             'dataType' => $dataTypeSelected
@@ -71,6 +73,7 @@ class DataTypeController extends AbstractController
      */
     public function edit(DataType $dataType, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(DataUpdateType::class, $dataType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class DataTypeController extends AbstractController
      */
     public function delete(DataType $dataType, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($dataType->getId()) {
             $dataType->setIsActive(!$dataType->getIsActive());
         }

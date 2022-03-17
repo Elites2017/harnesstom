@@ -60,6 +60,7 @@ class FactorTypeController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $factorType = new FactorType();
         $form = $this->createForm(FactorCreateType::class, $factorType);
         $form->handleRequest($request);
@@ -83,6 +84,7 @@ class FactorTypeController extends AbstractController
      */
     public function details(FactorType $factorTypeSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'FactorType Details',
             'factor_type' => $factorTypeSelected
@@ -95,6 +97,7 @@ class FactorTypeController extends AbstractController
      */
     public function edit(FactorType $factorType, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(FactorUpdateType::class, $factorType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -115,6 +118,7 @@ class FactorTypeController extends AbstractController
      */
     public function delete(FactorType $factorType, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($factorType->getId()) {
             $factorType->setIsActive(!$factorType->getIsActive());
         }

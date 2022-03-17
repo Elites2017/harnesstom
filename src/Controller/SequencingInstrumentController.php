@@ -36,6 +36,7 @@ class SequencingInstrumentController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $sequencingInstrument = new SequencingInstrument();
         $form = $this->createForm(SequencingInstrumentType::class, $sequencingInstrument);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class SequencingInstrumentController extends AbstractController
      */
     public function details(SequencingInstrument $sequencingInstrumentSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Sequencing Instrument Details',
             'sequencingInstrument' => $sequencingInstrumentSelected
@@ -71,6 +73,7 @@ class SequencingInstrumentController extends AbstractController
      */
     public function edit(SequencingInstrument $sequencingInstrument, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(SequencingInstrumentUpdateType::class, $sequencingInstrument);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class SequencingInstrumentController extends AbstractController
      */
     public function delete(SequencingInstrument $sequencingInstrument, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($sequencingInstrument->getId()) {
             $sequencingInstrument->setIsActive(!$sequencingInstrument->getIsActive());
         }

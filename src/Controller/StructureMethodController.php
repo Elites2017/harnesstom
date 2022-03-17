@@ -36,6 +36,7 @@ class StructureMethodController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $structureMethod = new StructureMethod();
         $form = $this->createForm(StructureMethodType::class, $structureMethod);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class StructureMethodController extends AbstractController
      */
     public function details(StructureMethod $structureMethodSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Structure Method Details',
             'structureMethod' => $structureMethodSelected
@@ -71,6 +73,7 @@ class StructureMethodController extends AbstractController
      */
     public function edit(StructureMethod $structureMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(StructureMethodUpdateType::class, $structureMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class StructureMethodController extends AbstractController
      */
     public function delete(StructureMethod $structureMethod, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($structureMethod->getId()) {
             $structureMethod->setIsActive(!$structureMethod->getIsActive());
         }

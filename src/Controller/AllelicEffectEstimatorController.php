@@ -37,6 +37,7 @@ class AllelicEffectEstimatorController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $allelicEffectEstimator = new AllelicEffectEstimator();
         $form = $this->createForm(AllelicEffectEstimatorType::class, $allelicEffectEstimator);
         $form->handleRequest($request);
@@ -60,6 +61,7 @@ class AllelicEffectEstimatorController extends AbstractController
      */
     public function details(AllelicEffectEstimator $allelicEffectEstimatorselected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Allelic Effect Estimator Details',
             'allelicEffectEstimator' => $allelicEffectEstimatorselected
@@ -72,6 +74,7 @@ class AllelicEffectEstimatorController extends AbstractController
      */
     public function edit(AllelicEffectEstimator $allelicEffectEstimator, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(AllelicEffectEstimatorUpdateType::class, $allelicEffectEstimator);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,6 +95,7 @@ class AllelicEffectEstimatorController extends AbstractController
      */
     public function delete(AllelicEffectEstimator $allelicEffectEstimator, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($allelicEffectEstimator->getId()) {
             $allelicEffectEstimator->setIsActive(!$allelicEffectEstimator->getIsActive());
         }

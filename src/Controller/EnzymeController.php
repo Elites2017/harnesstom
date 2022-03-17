@@ -36,6 +36,7 @@ class EnzymeController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $enzyme = new Enzyme();
         $form = $this->createForm(EnzymeType::class, $enzyme);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class EnzymeController extends AbstractController
      */
     public function details(Enzyme $enzymeSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Enzyme Details',
             'enzyme' => $enzymeSelected
@@ -71,6 +73,7 @@ class EnzymeController extends AbstractController
      */
     public function edit(Enzyme $enzyme, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(EnzymeUpdateType::class, $enzyme);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class EnzymeController extends AbstractController
      */
     public function delete(Enzyme $enzyme, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($enzyme->getId()) {
             $enzyme->setIsActive(!$enzyme->getIsActive());
         }

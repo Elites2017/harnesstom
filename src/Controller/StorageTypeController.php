@@ -36,6 +36,7 @@ class StorageTypeController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $storageType = new StorageType();
         $form = $this->createForm(StorageCreateType::class, $storageType);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class StorageTypeController extends AbstractController
      */
     public function details(StorageType $storageTypeSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Storage Type Details',
             'storageType' => $storageTypeSelected
@@ -71,6 +73,7 @@ class StorageTypeController extends AbstractController
      */
     public function edit(StorageType $storageType, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(StorageUpdateType::class, $storageType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class StorageTypeController extends AbstractController
      */
     public function delete(StorageType $storageType, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($storageType->getId()) {
             $storageType->setIsActive(!$storageType->getIsActive());
         }

@@ -36,6 +36,7 @@ class DevelopmentalStageController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $developmentalStage = new DevelopmentalStage();
         $form = $this->createForm(DevelomentalStageType::class, $developmentalStage);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class DevelopmentalStageController extends AbstractController
      */
     public function details(DevelopmentalStage $developmentalStageSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Developmental Stage Details',
             'developmentalStage' => $developmentalStageSelected
@@ -71,6 +73,7 @@ class DevelopmentalStageController extends AbstractController
      */
     public function edit(DevelopmentalStage $developmentalStage, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(DevelomentalStageUpdateType::class, $developmentalStage);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class DevelopmentalStageController extends AbstractController
      */
     public function delete(DevelopmentalStage $developmentalStage, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($developmentalStage->getId()) {
             $developmentalStage->setIsActive(!$developmentalStage->getIsActive());
         }

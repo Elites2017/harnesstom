@@ -36,6 +36,7 @@ class SoftwareController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $software = new Software();
         $form = $this->createForm(SoftwareType::class, $software);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class SoftwareController extends AbstractController
      */
     public function details(Software $softwareSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Software Details',
             'software' => $softwareSelected
@@ -71,6 +73,7 @@ class SoftwareController extends AbstractController
      */
     public function edit(Software $software, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(SoftwareUpdateType::class, $software);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class SoftwareController extends AbstractController
      */
     public function delete(Software $software, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($software->getId()) {
             $software->setIsActive(!$software->getIsActive());
         }

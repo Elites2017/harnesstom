@@ -36,6 +36,7 @@ class MethodClassController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $methodClass = new MethodClass();
         $form = $this->createForm(MethodClassType::class, $methodClass);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class MethodClassController extends AbstractController
      */
     public function details(MethodClass $methodClassSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Method Class Details',
             'methodClass' => $methodClassSelected
@@ -71,6 +73,7 @@ class MethodClassController extends AbstractController
      */
     public function edit(MethodClass $methodClass, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(MethodClassUpdateType::class, $methodClass);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class MethodClassController extends AbstractController
      */
     public function delete(MethodClass $methodClass, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($methodClass->getId()) {
             $methodClass->setIsActive(!$methodClass->getIsActive());
         }

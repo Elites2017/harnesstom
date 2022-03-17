@@ -36,6 +36,7 @@ class GWASModelController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $gwasModel = new GWASModel();
         $form = $this->createForm(GWASModelType::class, $gwasModel);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class GWASModelController extends AbstractController
      */
     public function details(GWASModel $gwasModelSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'GWAS Model Details',
             'gwasModel' => $gwasModelSelected
@@ -71,6 +73,7 @@ class GWASModelController extends AbstractController
      */
     public function edit(GWASModel $gwasModel, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(GWASModelUpdateType::class, $gwasModel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class GWASModelController extends AbstractController
      */
     public function delete(GWASModel $gwasModel, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($gwasModel->getId()) {
             $gwasModel->setIsActive(!$gwasModel->getIsActive());
         }

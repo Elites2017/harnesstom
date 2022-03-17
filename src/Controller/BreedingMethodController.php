@@ -36,6 +36,7 @@ class BreedingMethodController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $breedingMethod = new BreedingMethod();
         $form = $this->createForm(BreedingMethodType::class, $breedingMethod);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class BreedingMethodController extends AbstractController
      */
     public function details(BreedingMethod $breedingMethodSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Breeding Method Details',
             'breedingMethod' => $breedingMethodSelected
@@ -71,6 +73,7 @@ class BreedingMethodController extends AbstractController
      */
     public function edit(BreedingMethod $breedingMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(BreedingMethodUpdateType::class, $breedingMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class BreedingMethodController extends AbstractController
      */
     public function delete(BreedingMethod $breedingMethod, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($breedingMethod->getId()) {
             $breedingMethod->setIsActive(!$breedingMethod->getIsActive());
         }

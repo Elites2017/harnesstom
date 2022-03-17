@@ -36,6 +36,7 @@ class SequencingTypeController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $sequencingType = new SequencingType();
         $form = $this->createForm(SequencingCreateType::class, $sequencingType);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class SequencingTypeController extends AbstractController
      */
     public function details(SequencingType $sequencingTypeSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Sequencing Type Details',
             'sequencingType' => $sequencingTypeSelected
@@ -71,6 +73,7 @@ class SequencingTypeController extends AbstractController
      */
     public function edit(SequencingType $sequencingType, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(SequencingUpdateType::class, $sequencingType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class SequencingTypeController extends AbstractController
      */
     public function delete(SequencingType $sequencingType, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($sequencingType->getId()) {
             $sequencingType->setIsActive(!$sequencingType->getIsActive());
         }

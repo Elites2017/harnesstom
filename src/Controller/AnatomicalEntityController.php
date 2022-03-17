@@ -36,6 +36,7 @@ class AnatomicalEntityController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $anatomicalEntity = new AnatomicalEntity();
         $form = $this->createForm(AnatomicalEntityType::class, $anatomicalEntity);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class AnatomicalEntityController extends AbstractController
      */
     public function details(AnatomicalEntity $anatomicalEntitySelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Anatomical Entity Details',
             'anatomicalEntity' => $anatomicalEntitySelected
@@ -71,6 +73,7 @@ class AnatomicalEntityController extends AbstractController
      */
     public function edit(AnatomicalEntity $anatomicalEntity, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(AnatomicalEntityUpdateType::class, $anatomicalEntity);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class AnatomicalEntityController extends AbstractController
      */
     public function delete(AnatomicalEntity $anatomicalEntity, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($anatomicalEntity->getId()) {
             $anatomicalEntity->setIsActive(!$anatomicalEntity->getIsActive());
         }

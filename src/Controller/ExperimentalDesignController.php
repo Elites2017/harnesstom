@@ -36,6 +36,7 @@ class ExperimentalDesignController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $experimentalDesign = new ExperimentalDesignType();
         $form = $this->createForm(ExperimentalDesignCreateType::class, $experimentalDesign);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class ExperimentalDesignController extends AbstractController
      */
     public function details(ExperimentalDesignType $experimentalDesignSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Experimental Design Details',
             'experimentalDesign' => $experimentalDesignSelected
@@ -71,6 +73,7 @@ class ExperimentalDesignController extends AbstractController
      */
     public function edit(ExperimentalDesignType $experimentalDesign, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(ExperimentalDesignUpdateType::class, $experimentalDesign);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class ExperimentalDesignController extends AbstractController
      */
     public function delete(ExperimentalDesignType $experimentalDesign, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($experimentalDesign->getId()) {
             $experimentalDesign->setIsActive(!$experimentalDesign->getIsActive());
         }

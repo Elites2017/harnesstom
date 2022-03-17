@@ -36,6 +36,7 @@ class QTLMethodController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $qtlMethod = new QTLMethod();
         $form = $this->createForm(QTLMethodType::class, $qtlMethod);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class QTLMethodController extends AbstractController
      */
     public function details(QTLMethod $qtlMethodSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'QTL Method Details',
             'qtlMethod' => $qtlMethodSelected
@@ -71,6 +73,7 @@ class QTLMethodController extends AbstractController
      */
     public function edit(QTLMethod $qtlMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(QTLMethodUpdateType::class, $qtlMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class QTLMethodController extends AbstractController
      */
     public function delete(QTLMethod $qtlMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($qtlMethod->getId()) {
             $qtlMethod->setIsActive(!$qtlMethod->getIsActive());
         }

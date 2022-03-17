@@ -36,6 +36,7 @@ class VarCallSoftwareController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $varCallSoftware = new VarCallSoftware();
         $form = $this->createForm(VarCallSoftwareType::class, $varCallSoftware);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class VarCallSoftwareController extends AbstractController
      */
     public function details(VarCallSoftware $varCallSoftwareSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Var Call Software Details',
             'varCallSoftware' => $varCallSoftwareSelected
@@ -71,6 +73,7 @@ class VarCallSoftwareController extends AbstractController
      */
     public function edit(VarCallSoftware $varCallSoftware, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(VarCallSoftwareUpdateType::class, $varCallSoftware);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class VarCallSoftwareController extends AbstractController
      */
     public function delete(VarCallSoftware $varCallSoftware, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($varCallSoftware->getId()) {
             $varCallSoftware->setIsActive(!$varCallSoftware->getIsActive());
         }

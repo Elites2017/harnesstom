@@ -36,6 +36,7 @@ class GrowthFacilityTypeController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $growthFacilityType = new GrowthFacilityType();
         $form = $this->createForm(GrowthFacilityCreateType::class, $growthFacilityType);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class GrowthFacilityTypeController extends AbstractController
      */
     public function details(GrowthFacilityType $growthFacilityTypeSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Growth Facility Type Details',
             'growthFacilityType' => $growthFacilityTypeSelected
@@ -71,6 +73,7 @@ class GrowthFacilityTypeController extends AbstractController
      */
     public function edit(GrowthFacilityType $growthFacilityType, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(GrowthFacilityUpdateType::class, $growthFacilityType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class GrowthFacilityTypeController extends AbstractController
      */
     public function delete(GrowthFacilityType $growthFacilityType, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($growthFacilityType->getId()) {
             $growthFacilityType->setIsActive(!$growthFacilityType->getIsActive());
         }

@@ -36,6 +36,7 @@ class AnnotationLevelController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $annotationLevel = new AnnotationLevel();
         $form = $this->createForm(AnnotationLevelType::class, $annotationLevel);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class AnnotationLevelController extends AbstractController
      */
     public function details(AnnotationLevel $annotationLevelSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Annotation Level Details',
             'annotationLevel' => $annotationLevelSelected
@@ -71,6 +73,7 @@ class AnnotationLevelController extends AbstractController
      */
     public function edit(AnnotationLevel $annotationLevel, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(AnnotationLevelUpdateType::class, $annotationLevel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class AnnotationLevelController extends AbstractController
      */
     public function delete(AnnotationLevel $annotationLevel, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($annotationLevel->getId()) {
             $annotationLevel->setIsActive(!$annotationLevel->getIsActive());
         }

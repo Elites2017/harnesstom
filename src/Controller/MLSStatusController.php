@@ -36,6 +36,7 @@ class MLSStatusController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $mlsStatus = new MLSStatus();
         $form = $this->createForm(MLSStatusType::class, $mlsStatus);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class MLSStatusController extends AbstractController
      */
     public function details(MLSStatus $mlsStatusSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'MLS Staus Details',
             'mlsStatus' => $mlsStatusSelected
@@ -71,6 +73,7 @@ class MLSStatusController extends AbstractController
      */
     public function edit(MLSStatus $mlsStatus, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(MLSStatusUpdateType::class, $mlsStatus);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class MLSStatusController extends AbstractController
      */
     public function delete(MLSStatus $mlsStatus, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($mlsStatus->getId()) {
             $mlsStatus->setIsActive(!$mlsStatus->getIsActive());
         }

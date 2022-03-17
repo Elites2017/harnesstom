@@ -36,6 +36,7 @@ class TrialTypeController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $trialType = new TrialType();
         $form = $this->createForm(TrialCreateType::class, $trialType);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class TrialTypeController extends AbstractController
      */
     public function details(TrialType $trialTypeSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Trial Type Details',
             'trialType' => $trialTypeSelected
@@ -71,6 +73,7 @@ class TrialTypeController extends AbstractController
      */
     public function edit(TrialType $trialType, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(TrialUpdateType::class, $trialType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class TrialTypeController extends AbstractController
      */
     public function delete(TrialType $trialType, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($trialType->getId()) {
             $trialType->setIsActive(!$trialType->getIsActive());
         }

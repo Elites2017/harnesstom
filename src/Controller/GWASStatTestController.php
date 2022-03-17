@@ -36,6 +36,7 @@ class GWASStatTestController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $gwasStatTest = new GWASStatTest();
         $form = $this->createForm(GWASStatTestType::class, $gwasStatTest);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class GWASStatTestController extends AbstractController
      */
     public function details(GWASStatTest $gwasStatTestSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'GWAS Stat Test Details',
             'gwasStatTest' => $gwasStatTestSelected
@@ -71,6 +73,7 @@ class GWASStatTestController extends AbstractController
      */
     public function edit(GWASStatTest $gwasStatTest, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(GWASStatTestUpdateType::class, $gwasStatTest);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class GWASStatTestController extends AbstractController
      */
     public function delete(GWASStatTest $gwasStatTest, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($gwasStatTest->getId()) {
             $gwasStatTest->setIsActive(!$gwasStatTest->getIsActive());
         }

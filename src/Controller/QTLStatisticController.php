@@ -36,6 +36,7 @@ class QTLStatisticController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $qtlStatistic = new QTLStatistic();
         $form = $this->createForm(QTLStatisticType::class, $qtlStatistic);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class QTLStatisticController extends AbstractController
      */
     public function details(QTLStatistic $qtlStatisticSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'QTL Statistic Details',
             'qtlStatistic' => $qtlStatisticSelected
@@ -71,6 +73,7 @@ class QTLStatisticController extends AbstractController
      */
     public function edit(QTLStatistic $qtlStatistic, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(QTLStatisticUpdateType::class, $qtlStatistic);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class QTLStatisticController extends AbstractController
      */
     public function delete(QTLStatistic $qtlStatistic, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($qtlStatistic->getId()) {
             $qtlStatistic->setIsActive(!$qtlStatistic->getIsActive());
         }

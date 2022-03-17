@@ -36,6 +36,7 @@ class CiCriteriaController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $ciCriteria = new CiCriteria();
         $form = $this->createForm(CiCriteriaType::class, $ciCriteria);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class CiCriteriaController extends AbstractController
      */
     public function details(CiCriteria $ciCriteriaSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Ci Criteria Details',
             'ciCriteria' => $ciCriteriaSelected
@@ -71,6 +73,7 @@ class CiCriteriaController extends AbstractController
      */
     public function edit(CiCriteria $ciCriteria, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(CiCriteriaUpdateType::class, $ciCriteria);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class CiCriteriaController extends AbstractController
      */
     public function delete(CiCriteria $ciCriteria, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($ciCriteria->getId()) {
             $ciCriteria->setIsActive(!$ciCriteria->getIsActive());
         }

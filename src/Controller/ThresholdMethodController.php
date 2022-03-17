@@ -36,6 +36,7 @@ class ThresholdMethodController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $thresholdMethod = new ThresholdMethod();
         $form = $this->createForm(ThresholdMethodType::class, $thresholdMethod);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class ThresholdMethodController extends AbstractController
      */
     public function details(ThresholdMethod $thresholdMethodSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Threshold Method Details',
             'thresholdMethod' => $thresholdMethodSelected
@@ -71,6 +73,7 @@ class ThresholdMethodController extends AbstractController
      */
     public function edit(ThresholdMethod $thresholdMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(ThresholdMethodUpdateType::class, $thresholdMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class ThresholdMethodController extends AbstractController
      */
     public function delete(ThresholdMethod $thresholdMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($thresholdMethod->getId()) {
             $thresholdMethod->setIsActive(!$thresholdMethod->getIsActive());
         }

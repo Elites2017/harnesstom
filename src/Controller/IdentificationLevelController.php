@@ -36,6 +36,7 @@ class IdentificationLevelController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $identificationLevel = new IdentificationLevel();
         $form = $this->createForm(IdentificationLevelType::class, $identificationLevel);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class IdentificationLevelController extends AbstractController
      */
     public function details(IdentificationLevel $identificationLevelSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Identification Level Details',
             'identificationLevel' => $identificationLevelSelected
@@ -71,6 +73,7 @@ class IdentificationLevelController extends AbstractController
      */
     public function edit(IdentificationLevel $identificationLevel, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(IdentificationLevelUpdateType::class, $identificationLevel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class IdentificationLevelController extends AbstractController
      */
     public function delete(IdentificationLevel $identificationLevel, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($identificationLevel->getId()) {
             $identificationLevel->setIsActive(!$identificationLevel->getIsActive());
         }

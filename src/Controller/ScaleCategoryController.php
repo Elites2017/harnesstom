@@ -36,6 +36,7 @@ class ScaleCategoryController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $scaleCategory = new ScaleCategory();
         $form = $this->createForm(ScaleCategoryType::class, $scaleCategory);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class ScaleCategoryController extends AbstractController
      */
     public function details(ScaleCategory $scaleCategorySelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Scale Category Details',
             'scaleCategory' => $scaleCategorySelected
@@ -71,6 +73,7 @@ class ScaleCategoryController extends AbstractController
      */
     public function edit(ScaleCategory $scaleCategory, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(ScaleCategoryUpdateType::class, $scaleCategory);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class ScaleCategoryController extends AbstractController
      */
     public function delete(ScaleCategory $scaleCategory, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($scaleCategory->getId()) {
             $scaleCategory->setIsActive(!$scaleCategory->getIsActive());
         }

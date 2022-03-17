@@ -36,6 +36,7 @@ class MetabolicTraitController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $metabolicTrait = new MetabolicTrait();
         $form = $this->createForm(MetabolicTraitType::class, $metabolicTrait);
         $form->handleRequest($request);
@@ -59,6 +60,7 @@ class MetabolicTraitController extends AbstractController
      */
     public function details(MetabolicTrait $metabolicTraitSelected): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Metabolic Trait Details',
             'metabolicTrait' => $metabolicTraitSelected
@@ -71,6 +73,7 @@ class MetabolicTraitController extends AbstractController
      */
     public function edit(MetabolicTrait $metabolicTrait, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(MetabolicTraitUpdateType::class, $metabolicTrait);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,6 +94,7 @@ class MetabolicTraitController extends AbstractController
      */
     public function delete(MetabolicTrait $metabolicTrait, Request $request, EntityManagerInterface $entmanager): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($metabolicTrait->getId()) {
             $metabolicTrait->setIsActive(!$metabolicTrait->getIsActive());
         }
