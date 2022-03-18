@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Genotyping Platform Edition</h1>
+                            {{ form_start(genotypingPlatformForm) }}
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the genotyping platform name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.description,
+                                            { label: "Description",
+                                            'attr': {'placeholder': "Enter the genotyping platform description"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.methodDescription,
+                                            { label: "Method description",
+                                            'attr': {'placeholder': "Enter the genotyping platform method description"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.refSetName,
+                                            { label: "Reference set name",
+                                            'attr': {'placeholder': "Enter the genotyping platform reference set name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.publishedDate,
+                                            { label: "Published date",
+                                            'attr': {'placeholder': "Enter the genotyping platform published date"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.bioProjectID,
+                                            { label: "Bio project ID",
+                                            'attr': {'placeholder': "Enter the genotyping platform bio project ID"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.markerCount,
+                                            { label: "Marker count",
+                                            'attr': {'placeholder': "Enter the genotyping platform marker count"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.assemblyPUI,
+                                            { label: "Assembly PUI",
+                                            'attr': {'placeholder': "Enter the genotyping platform assembly PUI"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.publicationRef,
+                                            { label: "Publication reference",
+                                            'attr': {'placeholder': "Enter the genotyping platform publication reference"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.sequencingInstrument,
+                                            { label: "Sequencing instrument",
+                                            'attr': {'placeholder': "Select the genotyping platform sequencing instrument"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.sequencingType,
+                                            { label: "Sequencing type",
+                                            'attr': {'placeholder': "Enter the genotyping platform sequencing type"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (genotypingPlatformForm.varCallSoftware,
+                                            { label: "Var call software",
+                                            'attr': {'placeholder': "Enter the genotyping platform var call software"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>{{ form_row(genotypingPlatformForm.isActive) }}</div>
+                                <button type="submit" class="btn">Update</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(genotypingPlatformForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
