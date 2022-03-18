@@ -20,10 +20,7 @@ class LocationUpdateType extends AbstractType
             ->add('altitudeCo')
             ->add('siteStatus')
             ->add('isActive')
-            ->add('country', EntityType::class, [
-                'class' => Country::class,
-                'choice_label' => 'iso3'
-            ])
+            ->add('country')
         ;
     }
 

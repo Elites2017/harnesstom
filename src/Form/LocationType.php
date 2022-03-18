@@ -19,10 +19,7 @@ class LocationType extends AbstractType
             ->add('latitudeCo')
             ->add('altitudeCo')
             ->add('siteStatus')
-            ->add('country', EntityType::class, [
-                'class' => Country::class,
-                'choice_label' => 'iso3'
-            ])
+            ->add('country')
         ;
     }
 
