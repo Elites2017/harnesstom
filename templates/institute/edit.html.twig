@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Institute Edition</h1>
+                            {{ form_start(instituteForm) }}
+                                <div>
+                                    {{ form_row
+                                        (instituteForm.instcode,
+                                            { label: "Institue code *",
+                                            'attr': {'placeholder': "Enter the institute code (instcode)"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (instituteForm.acronym,
+                                            { label: "Acronym *",
+                                            'attr': {'placeholder': "Enter the institute acronym"}
+                                            }
+                                        )
+                                    }}
+                                </div><div>
+                                    {{ form_row
+                                        (instituteForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the institute name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (instituteForm.streetNumber,
+                                            { label: "Street number & name",
+                                            'attr': {'placeholder': "Enter the street number & name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (instituteForm.city,
+                                            { label: "City",
+                                            'attr': {'placeholder': "Enter the institute city"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (instituteForm.postalCode,
+                                            { label: "Postal code",
+                                            'attr': {'placeholder': "Enter the institute postal code"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (instituteForm.country,
+                                            { label: "Country",
+                                            'attr': {'placeholder': "Select the country"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>{{ form_row(instituteForm.isActive) }}</div>
+                                <button type="submit" class="btn">Update</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(instituteForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
