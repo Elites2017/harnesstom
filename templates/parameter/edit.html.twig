@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Parameter Edition</h1>
+                            {{ form_start(parameterForm) }}
+                                <div>
+                                    {{ form_row
+                                        (parameterForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the parameter name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (parameterForm.factorType,
+                                            { label: "Factor Type",
+                                            'attr': {'placeholder': "Select the parameter fator type"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (parameterForm.unit,
+                                            { label: "Unit",
+                                            'attr': {'placeholder': "Select the parameter unit"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row(parameterForm.isActive) }}
+                                </div>
+                                <button type="submit" class="btn">Update</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(parameterForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
