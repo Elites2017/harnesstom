@@ -22,10 +22,7 @@ class PersonType extends AbstractType
             ->add('streetNumber')
             ->add('postalCode')
             ->add('city')
-            ->add('country', EntityType::class, [
-                'class' => Country::class,
-                'choice_label' => 'iso3'
-            ])
+            ->add('country')
         ;
     }
 
