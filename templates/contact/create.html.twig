@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Contact Creation</h1>
+                            {{ form_start(contactForm) }}
+                                <div>
+                                    {{ form_row
+                                        (contactForm.orcid,
+                                            { label: "ORCID *",
+                                            'attr': {'placeholder': "Enter the contact orcid"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (contactForm.person,
+                                            { label: "Email of the contact",
+                                            'attr': {'placeholder': "Select the contact's name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (contactForm.institute,
+                                            { label: "Institute of the contact",
+                                            'attr': {'placeholder': "Select the contact's institute"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (contactForm.type,
+                                            { label: "Type",
+                                            'attr': {'placeholder': "Select the contact type"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <button type="submit" class="btn">Create</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(contactForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
