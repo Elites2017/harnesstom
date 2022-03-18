@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if observationVariableMethods | length > 0 %}
+                                <h1 class="tomato-color">Observation Variable Method List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Instrument</th>
+                                    <th scope="col">Software</th>
+                                    <th scope="col">Method Class</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for observationVariableMethod in observationVariableMethods %}
+                                    <tr>
+                                        <td><a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.name }}</a></td>
+                                        <td><a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.description }}</a></td>
+                                        <td><a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.instrument }}</a></td>
+                                        <td><a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.software }}</a></td>
+                                        <td><a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.methodClass }}</a></td>
+                                        <td>
+                                            <a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No observation variable method has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

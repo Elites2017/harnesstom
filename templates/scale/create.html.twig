@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Scale Creation</h1>
+                            {{ form_start(scaleForm) }}
+                                <div>
+                                    {{ form_row
+                                        (scaleForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the scale name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (scaleForm.description,
+                                            { label: "Description",
+                                            'attr': {'placeholder': "Enter the scale description"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (scaleForm.scaleCategory,
+                                            { label: "Category",
+                                            'attr': {'placeholder': "Select the scale category"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (scaleForm.dataType,
+                                            { label: "Data type",
+                                            'attr': {'placeholder': "Enter the scale data type reference"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (scaleForm.unit,
+                                            { label: "Unit",
+                                            'attr': {'placeholder': "Enter the scale unit"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <button type="submit" class="btn">Create</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(scaleForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

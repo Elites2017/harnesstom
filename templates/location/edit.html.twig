@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Location Edition</h1>
+                            {{ form_start(locationForm) }}
+                                <div>
+                                    {{ form_row
+                                        (locationForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the location name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (locationForm.longitudeCo,
+                                            { label: "Longitude *",
+                                            'attr': {'placeholder': "Enter the location longitude"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (locationForm.latitudeCo,
+                                            { label: "Latitude *",
+                                            'attr': {'placeholder': "Enter the location latitude"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (locationForm.altitudeCo,
+                                            { label: "Altitude *",
+                                            'attr': {'placeholder': "Enter the location altitude"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (locationForm.siteStatus,
+                                            { label: "Site Status",
+                                            'attr': {'placeholder': "Enter the location site status"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (locationForm.country,
+                                            { label: "Country",
+                                            'attr': {'placeholder': "Select the country"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row(locationForm.isActive) }}
+                                </div>
+                                <button type="submit" class="btn">Create</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(locationForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

@@ -2,23 +2,19 @@
 
 namespace App\Form;
 
-use App\Entity\Country;
-use App\Entity\Person;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Institute;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PersonType extends AbstractType
+class InstituteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName')
-            ->add('middleName')
-            ->add('lastName')
-            ->add('phoneNumber')
+            ->add('instcode')
+            ->add('acronym')
+            ->add('name')
             ->add('streetNumber')
             ->add('postalCode')
             ->add('city')
@@ -29,7 +25,7 @@ class PersonType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Person::class,
+            'data_class' => Institute::class,
         ]);
     }
 }

@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Observation Variable Method Creation</h1>
+                            {{ form_start(observationVariableMethodForm) }}
+                                <div>
+                                    {{ form_row
+                                        (observationVariableMethodForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the observation variable method name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (observationVariableMethodForm.description,
+                                            { label: "Description",
+                                            'attr': {'placeholder': "Enter the observation variable method description"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (observationVariableMethodForm.instrument,
+                                            { label: "Instrument",
+                                            'attr': {'placeholder': "Select the observation variable method instrument"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (observationVariableMethodForm.software,
+                                            { label: "Software",
+                                            'attr': {'placeholder': "Enter the observation variable method software"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (observationVariableMethodForm.publicationReference,
+                                            { label: "Publication reference",
+                                            'attr': {'placeholder': "Enter the observation variable method publication reference"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (observationVariableMethodForm.methodClass,
+                                            { label: "Method class",
+                                            'attr': {'placeholder': "Enter the observation variable method method class"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <button type="submit" class="btn">Create</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(observationVariableMethodForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

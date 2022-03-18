@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if institutes | length > 0 %}
+                                <h1 class="tomato-color">Institute List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Institute Code</th>
+                                    <th scope="col">Acronym</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for institute in institutes %}
+                                    <tr>
+                                        <td><a href="{{ path('institute_details', {id: institute.id}) }}">{{ institute.instcode }}</a></td>
+                                        <td><a href="{{ path('institute_details', {id: institute.id}) }}">{{ institute.acronym }}</a></td>
+                                        <td><a href="{{ path('institute_details', {id: institute.id}) }}">{{ institute.name }}</a></td>
+                                        <td><a href="{{ path('institute_details', {id: institute.id}) }}">{{ institute.country }}</a></td>
+                                        <td>
+                                            <a href="{{ path('institute_details', {id: institute.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No institute has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
