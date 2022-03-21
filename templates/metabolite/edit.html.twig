@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Metabolite Edition</h1>
+                            {{ form_start(metaboliteForm) }}
+                                <div>
+                                    {{ form_row
+                                        (metaboliteForm.analyte,
+                                            { label: "Analyte",
+                                            'attr': {'placeholder': "Enter the metabolite analyte"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (metaboliteForm.metabolicTrait,
+                                            { label: "Metabolic trait",
+                                            'attr': {'placeholder': "Select the metabolite metabolic trait"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (metaboliteForm.scale,
+                                            { label: "Scale",
+                                            'attr': {'placeholder': "Select the metabolite scale"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>{{ form_row(metaboliteForm.isActive) }}</div>
+                                <button type="submit" class="btn">Update</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(metaboliteForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
