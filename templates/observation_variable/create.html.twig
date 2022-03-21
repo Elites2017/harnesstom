@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Observation Variable Creation</h1>
+                            {{ form_start(observationVariableForm) }}
+                                <div>
+                                    {{ form_row
+                                        (observationVariableForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the observation variable name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (observationVariableForm.mainAbbreviaition,
+                                            { label: "Main abbreviation",
+                                            'attr': {'placeholder': "Enter the observation variable main abbreviation"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (observationVariableForm.description,
+                                            { label: "Desciption",
+                                            'attr': {'placeholder': "Enter the observation variable description"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (observationVariableForm.trait,
+                                            { label: "Trait",
+                                            'attr': {'placeholder': "Select the observation variable trait"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (observationVariableForm.scale,
+                                            { label: "Scale",
+                                            'attr': {'placeholder': "Select the observation variable scale"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (observationVariableForm.observationVariableMethod,
+                                            { label: "Observation variable method",
+                                            'attr': {'placeholder': "Select the observation variable method"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <button type="submit" class="btn">Create</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(observationVariableForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
