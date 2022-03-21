@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Collecting Mission Creation</h1>
+                            {{ form_start(collectingMissionForm) }}
+                                <div>
+                                    {{ form_row
+                                        (collectingMissionForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the name of the mission"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (collectingMissionForm.species,
+                                            { label: "Species",
+                                            'attr': {'placeholder': "Enter the name of the species"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (collectingMissionForm.institute,
+                                            { label: "Institute",
+                                            'attr': {'placeholder': "Select the institute"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <button type="submit" class="btn">Create</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(collectingMissionForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
