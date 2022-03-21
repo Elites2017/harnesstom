@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Variant Set Metadata Creation</h1>
+                            {{ form_start(variantSetMetadataForm) }}
+                                <div>
+                                    {{ form_row
+                                        (variantSetMetadataForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (variantSetMetadataForm.description,
+                                            { label: "Description",
+                                            'attr': {'placeholder': "Enter the description"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (variantSetMetadataForm.filters,
+                                            { label: "Filters",
+                                            'attr': {'placeholder': "Enter the filters"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (variantSetMetadataForm.variantCount,
+                                            { label: "Variant count",
+                                            'attr': {'placeholder': "Enter the variant count"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (variantSetMetadataForm.publicationRef,
+                                            { label: "Publication reference",
+                                            'attr': {'placeholder': "Enter the publication reference"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (variantSetMetadataForm.dataUpload,
+                                            { label: "Data upload",
+                                            'attr': {'placeholder': "Enter the data upload"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (variantSetMetadataForm.fileUrl,
+                                            { label: "URL of the file",
+                                            'attr': {'placeholder': "Select the url of the associated file"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (variantSetMetadataForm.genotypingPlatform,
+                                            { label: "Genotyping platform",
+                                            'attr': {'placeholder': "Select the genotyping platform type"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <button type="submit" class="btn">Create</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(variantSetMetadataForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
