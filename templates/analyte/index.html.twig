@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if analytes | length > 0 %}
+                                <h1 class="tomato-color">Analyte List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Retention Time</th>
+                                    <th scope="col">Mass To Charage Ratio Time</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for analyte in analytes %}
+                                    <tr>
+                                        <td><a href="{{ path('analyte_details', {id: analyte.id}) }}">{{ analyte.name }}</a></td>
+                                        <td><a href="{{ path('analyte_details', {id: analyte.id}) }}">{{ analyte.analyteCode }}</a></td>
+                                        <td><a href="{{ path('analyte_details', {id: analyte.id}) }}">{{ analyte.retentionTime }}</a></td>
+                                        <td><a href="{{ path('analyte_details', {id: analyte.id}) }}">{{ analyte.massToChargeRatio }}</a></td>
+                                        <td>
+                                            <a href="{{ path('analyte_details', {id: analyte.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No analyte has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
