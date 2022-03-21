@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Analyte Edition</h1>
+                            {{ form_start(analyteForm) }}
+                                <div>
+                                    {{ form_row
+                                        (analyteForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the analyte name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (analyteForm.analyteCode,
+                                            { label: "Code",
+                                            'attr': {'placeholder': "Enter the analyte code"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (analyteForm.retentionTime,
+                                            { label: "Retention time",
+                                            'attr': {'placeholder': "Enter the analyte retention time"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (analyteForm.massToChargeRatio,
+                                            { label: "Mass to charge ratio",
+                                            'attr': {'placeholder': "Enter the analyte mass to charge ratio"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (analyteForm.annotationLevel,
+                                            { label: "Annotation level",
+                                            'attr': {'placeholder': "Select the analyte type"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (analyteForm.identificationLevel,
+                                            { label: "identification level",
+                                            'attr': {'placeholder': "Select the analyte identification level"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (analyteForm.observationVariableMethod,
+                                            { label: "Observation variable method",
+                                            'attr': {'placeholder': "Select the analyte observation variable method type"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (analyteForm.analyteClass,
+                                            { label: "Analyte class",
+                                            'attr': {'placeholder': "Select the analyte class"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (analyteForm.healthAndFlavor,
+                                            { label: "Health & flavor",
+                                            'attr': {'placeholder': "Select the analyte health and flavor"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>{{ form_row(analyteForm.isActive) }}</div>
+                                <button type="submit" class="btn">Update</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(analyteForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

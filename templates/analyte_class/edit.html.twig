@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Analyte Class Edition</h1>
+                            {{ form_start(analyteClassForm) }}
+                                {{ form_row(analyteClassForm.name) }}
+                                {{ form_row(analyteClassForm.isActive) }}
+                                <button type="submit" class="btn">Udpate</button>
+                            {{ form_end(analyteClassForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

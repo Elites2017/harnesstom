@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if contacts | length > 0 %}
+                                <h1 class="tomato-color">Contact List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">ORCID</th>
+                                    <th scope="col">Person Name</th>
+                                    <th scope="col">Institue Code</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for contact in contacts %}
+                                    <tr>
+                                        <td><a href="{{ path('contact_details', {id: contact.id}) }}">{{ contact.orcid }}</a></td>
+                                        <td><a href="{{ path('contact_details', {id: contact.id}) }}">{{ contact.person }}</a></td>
+                                        <td><a href="{{ path('contact_details', {id: contact.id}) }}">{{ contact.institute }}</a></td>
+                                        <td><a href="{{ path('contact_details', {id: contact.id}) }}">{{ contact.type }}</a></td>
+                                        <td>
+                                            <a href="{{ path('contact_details', {id: contact.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No contact has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}

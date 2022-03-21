@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Marker Creation</h1>
+                            {{ form_start(markerForm) }}
+                                <div>
+                                    {{ form_row
+                                        (markerForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.type,
+                                            { label: "Type",
+                                            'attr': {'placeholder': "Enter the type"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.linkageGroupName,
+                                            { label: "Linkage group name",
+                                            'attr': {'placeholder': "Enter the linkage groupe name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.position,
+                                            { label: "Position",
+                                            'attr': {'placeholder': "Enter the position"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.start,
+                                            { label: "Start",
+                                            'attr': {'placeholder': "Enter the start"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.end,
+                                            { label: "End",
+                                            'attr': {'placeholder': "Enter the end"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.refAllele,
+                                            { label: "Reference Allele",
+                                            'attr': {'placeholder': "Enter the reference allele"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.altAllele,
+                                            { label: "Alternative allele",
+                                            'attr': {'placeholder': "Enter the alternative allele"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.primerName1,
+                                            { label: "Primer name 1",
+                                            'attr': {'placeholder': "Enter the primer name 1"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.primerSeq1,
+                                            { label: "Primer seq 1",
+                                            'attr': {'placeholder': "Enter the primer seq 1"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.primerName2,
+                                            { label: "Primer name 2",
+                                            'attr': {'placeholder': "Enter the primer name 2"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.primerSeq2,
+                                            { label: "Primer seq 2",
+                                            'attr': {'placeholder': "Enter the primer seq 2"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (markerForm.genotypingPlatform,
+                                            { label: "Genotyping platform",
+                                            'attr': {'placeholder': "Select the genotyping platform type"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <button type="submit" class="btn">Create</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(markerForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
