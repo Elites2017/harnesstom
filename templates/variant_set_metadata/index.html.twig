@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if variantSetMetadatas | length > 0 %}
+                                <h1 class="tomato-color">Variant Set Metadata List</h1>
+                                <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Filsters</th>
+                                    <th scope="col">Variant Count</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for variantSetMetadata in variantSetMetadatas %}
+                                    <tr>
+                                        <td><a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">{{ variantSetMetadata.name }}</a></td>
+                                        <td><a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">{{ variantSetMetadata.description }}</a></td>
+                                        <td><a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">{{ variantSetMetadata.filters }}</a></td>
+                                        <td><a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">{{ variantSetMetadata.variantCount }}</a></td>
+                                        <td>
+                                            <a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No variant set metadata has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
