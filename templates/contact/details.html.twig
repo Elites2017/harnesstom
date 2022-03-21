@@ -31,6 +31,7 @@
                                     <td>{{ contact.orcid }}</td>
                                     <td><a href="{{ path('person_details', {id: contact.person.id}) }}">{{ contact.person }}</td>
                                     <td><a href="{{ path('institute_details', {id: contact.institute.id}) }}">{{ contact.institute }}</a></td>
+                                    <td>{{ contact.type }}</td>
                                     <td>{{ contact.createdBy }}</td>
                                     <td>{{ contact.createdAt | date('d/m/Y h:m:s') }}</td>
                                     <td><a href="{{ path('contact_delete', {id: contact.id}) }}" class="changeStatusLink" id="{{ contact.id }}">
