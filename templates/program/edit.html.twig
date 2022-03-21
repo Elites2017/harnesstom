@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Program Creation</h1>
+                            {{ form_start(programForm) }}
+                                <div>
+                                    {{ form_row
+                                        (programForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the program name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (programForm.abbreviation,
+                                            { label: "Abbreviation",
+                                            'attr': {'placeholder': "Enter the program abbreviation"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (programForm.objective,
+                                            { label: "Objective",
+                                            'attr': {'placeholder': "Enter the program objective"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (programForm.externalRef,
+                                            { label: "External reference",
+                                            'attr': {'placeholder': "Enter the program external reference"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (programForm.crop,
+                                            { label: "Crop",
+                                            'attr': {'placeholder': "Select the program crop"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (programForm.contact,
+                                            { label: "Contact",
+                                            'attr': {'placeholder': "Select the program contact"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>{{ form_row(programForm.isActive) }}</div>
+                                <button type="submit" class="btn">Update</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(programForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
