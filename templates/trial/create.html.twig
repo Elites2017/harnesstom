@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Trial Creation</h1>
+                            {{ form_start(trialForm) }}
+                                <div>
+                                    {{ form_row
+                                        (trialForm.name,
+                                            { label: "Name *",
+                                            'attr': {'placeholder': "Enter the trial name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (trialForm.description,
+                                            { label: "Description *",
+                                            'attr': {'placeholder': "Enter the trial description"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (trialForm.abbreviation,
+                                            { label: "Abbreviation",
+                                            'attr': {'placeholder': "Enter the trial abbreviation"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (trialForm.startDate,
+                                            { label: "Start Date",
+                                            'attr': {'placeholder': "Enter the trial start date"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (trialForm.endDate,
+                                            { label: "End date",
+                                            'attr': {'placeholder': "Enter the trial end date"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (trialForm.license,
+                                            { label: "Licence",
+                                            'attr': {'placeholder': "Enter the trial licence"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (trialForm.pui,
+                                            { label: "PUI",
+                                            'attr': {'placeholder': "Enter the trial pui"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (trialForm.publicReleaseDate,
+                                            { label: "Public Release Date",
+                                            'attr': {'placeholder': "Enter the trial public release date"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (trialForm.publicationReference,
+                                            { label: "Publication Reference",
+                                            'attr': {'placeholder': "Enter the trial publication reference"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (trialForm.program,
+                                            { label: "Program",
+                                            'attr': {'placeholder': "Select the program"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (trialForm.trialType,
+                                            { label: "Trial Type",
+                                            'attr': {'placeholder': "Select the trial type"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <button type="submit" class="btn">Create</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(trialForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
