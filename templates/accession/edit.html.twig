@@ -1,0 +1,253 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            <h1 class="tomato-color">Accession Edition</h1>
+                            {{ form_start(accessionForm) }}
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.accenumb,
+                                            { label: "Accession Number *",
+                                            'attr': {'placeholder': "Enter the accession number"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.accename,
+                                            { label: "Accession Name *",
+                                            'attr': {'placeholder': "Enter the accession name"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.puid,
+                                            { label: "PUID *",
+                                            'attr': {'placeholder': "Enter the accession puid"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.origmuni,
+                                            { label: "Origmuni",
+                                            'attr': {'placeholder': "Enter the accession origmuni"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.origadmin1,
+                                            { label: "Origadmin1",
+                                            'attr': {'placeholder': "Enter the accession origadmin1"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.origadmin2,
+                                            { label: "Origadmin2",
+                                            'attr': {'placeholder': "Enter the accession origadmin2"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.maintainernumb,
+                                            { label: "Maintainer number",
+                                            'attr': {'placeholder': "Enter the accession maintainer number"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.acqdate,
+                                            { label: "Acquisition date",
+                                            'attr': {'placeholder': "Enter the accession acquisition date"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.donornumb,
+                                            { label: "Donor number",
+                                            'attr': {'placeholder': "Enter the accession donor number"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.collnumb,
+                                            { label: "Collnumb",
+                                            'attr': {'placeholder': "Enter the accession collecting number"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.colldate,
+                                            { label: "Colldate",
+                                            'attr': {'placeholder': "Enter the accession collecting date"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.declatitude,
+                                            { label: "Declatitude",
+                                            'attr': {'placeholder': "Enter the accession collecting declatitude"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.declongitude,
+                                            { label: "Declongitude",
+                                            'attr': {'placeholder': "Enter the accession declongitude"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.elevation,
+                                            { label: "Elevation",
+                                            'attr': {'placeholder': "Enter the accession elecation"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.collsite,
+                                            { label: "Collecting site",
+                                            'attr': {'placeholder': "Enter the collecting site"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.origcty,
+                                            { label: "Country of origin",
+                                            'attr': {'placeholder': "Select the accession origin country"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.collsrc,
+                                            { label: "Collecting source",
+                                            'attr': {'placeholder': "Select the accession collecting source"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.sampstat,
+                                            { label: "Sampstat",
+                                            'attr': {'placeholder': "Select the accession sampstat"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.taxon,
+                                            { label: "Taxon",
+                                            'attr': {'placeholder': "Select the accession taxon"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.instcode,
+                                            { label: "Instcode",
+                                            'attr': {'placeholder': "Select the accession instcode"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.storage,
+                                            { label: "Storage",
+                                            'attr': {'placeholder': "Select the accession storage place"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.donorcode,
+                                            { label: "Donnor Code",
+                                            'attr': {'placeholder': "Select the accession donnor code"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.collcode,
+                                            { label: "Collcode",
+                                            'attr': {'placeholder': "Select the accession collecting code"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.collmissid,
+                                            { label: "Collecting mission",
+                                            'attr': {'placeholder': "Select the accession collecting mission"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>
+                                    {{ form_row
+                                        (accessionForm.bredcode,
+                                            { label: "Bredcode",
+                                            'attr': {'placeholder': "Select the accession bredcode"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                <div>{{ form_row(accessionForm.isActive) }}<div>
+                                <button type="submit" class="btn">Create</button>
+                                <button type="reset" class="btn">Cancel</button>
+                            {{ form_end(accessionForm) }}
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
