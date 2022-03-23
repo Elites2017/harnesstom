@@ -38,6 +38,8 @@ class AccessionUpdateType extends AbstractType
             ->add('collcode')
             ->add('collmissid')
             ->add('bredcode')
+            ->add('mlsStatus')
+            ->add('breedingInfo')
         ;
     }
 

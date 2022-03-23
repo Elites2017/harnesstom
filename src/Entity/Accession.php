@@ -174,6 +174,16 @@ class Accession
      */
     private $germplasms;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=MLSStatus::class, inversedBy="accessions")
+     */
+    private $mlsStatus;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $breedingInfo;
+
     public function __construct()
     {
         $this->synonyms = new ArrayCollection();
@@ -617,5 +627,29 @@ class Accession
     public function __toString()
     {
         return (string) $this->accenumb;
+    }
+
+    public function getMlsStatus(): ?MLSStatus
+    {
+        return $this->mlsStatus;
+    }
+
+    public function setMlsStatus(?MLSStatus $mlsStatus): self
+    {
+        $this->mlsStatus = $mlsStatus;
+
+        return $this;
+    }
+
+    public function getBreedingInfo(): ?string
+    {
+        return $this->breedingInfo;
+    }
+
+    public function setBreedingInfo(?string $breedingInfo): self
+    {
+        $this->breedingInfo = $breedingInfo;
+
+        return $this;
     }
 }
