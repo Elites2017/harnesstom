@@ -1,115 +1,300 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            <link href="{{ asset('assets/btdist/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
-            <link href="{{ asset('assets/btdist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-			<link href="{{ asset('assets/btdist/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
-            <link href="{{ asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-		    <!-- Loading main css file -->
-		    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
-        {% endblock %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>HARNESSTOM - Home</title>
 
-    </head>
-    <body>
-        <div class="site-content">
-			<header class="site-header collapsed-nav" data-bg-image="">
-				<div class="container">
-					<div class="header-bar">
-						<a href="{{path('app_home')}}" class="branding">
-							<img src="{{ asset('assets/images/logo/harnesstomlogo.png') }}" width="15%" alt="" class="logo">
-							<div class="logo-type">
-								<h1 class="site-title">HarnessTom</h1>
-								<small class="site-description">Harness Tomato</small>
-							</div>
-						</a>
+	{% block stylesheets %}
+		<!-- Bootstrap core CSS -->
+		<link href="{{ asset('assets/css1/bootstrap.min.css') }}" rel="stylesheet">
+		<link href="{{ asset('assets/css1/dropdown_link_right.css') }}" rel="stylesheet">
+		<link href="{{ asset('assets/btdist/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+		<link href="{{ asset('assets/btdist/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
+	{% endblock %}
 
-						<nav class="main-navigation">
-							<button class="menu-toggle"><i class="fa fa-bars"></i></button>
-							<ul class="menu">
-								<li class="home menu-item current-menu-item"><a href="{{path('app_home')}}"><img src="images/home-icon.png" alt="Home"></a></li>
-								<li class="menu-item"><a href="#">About</a></li>
-								<li class="menu-item"><a href="#">Services</a></li>
-								<li class="menu-item"><a href="#">Our projects</a></li>
-								<li class="menu-item"><a href="#">Contact</a></li>
-								{% if app.user %}
-									<a class="btn-xs btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										{% if app.user.person %}
-											Hi {{ app.user.person.lastName | upper }},
-										{% else %}
-											Hi {{ app.user.username }}
-										{% endif %}
-									</a>
-									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-										<a class="dropdown-item" href="#">Action</a>
-										<a class="dropdown-item" href="">Edit Profile</a>
-										<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
-									</div>
-									</div>
-									<div class="dropdown">
-  
-							{% else %}
-								<li class="menu-item">
-									<a class="menu-link" href="{{ path('app_login') }}">Login</a>
-								</li>
-							{% endif %}
-							</ul>
-						</nav>
+    
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
 
-						<div class="mobile-navigation"></div>
-					</div>
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    
+    <!-- Custom styles for this template -->
+  </head>
+  <body>
+	<nav class="site-header sticky-top py-1">
+	<div class="container d-flex flex-column flex-md-row justify-content-between">
+		<a href="{{path('app_home')}}" class="branding">
+			<img src="{{ asset('assets/images/logo/harnesstomlogo.png') }}" width="15%" alt="" class="logo">
+			<div class="logo-type">
+				<h5 class="site-title">HarnessTom</h5>
+			</div>
+		</a>
+		<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Experimental Data</a>
+				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<li>
+					<a class="dropdown-item" href="#">
+					Program &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="{{path('program_create')}}">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{{path('program_index')}}">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Trial &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="{{path('trial_create')}}">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{{path('trial_index')}}">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Study &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				</ul>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Germplasm</a>
+				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<li>
+					<a class="dropdown-item" href="#">
+					Collection &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Accession &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="{{path('accession_create')}}">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{{path('accession_index')}}">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Pedigree &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				</ul>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Phenotyping Data</a>
+				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<li>
+					<a class="dropdown-item" href="#">
+					Metabolite &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Observation Variable &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				</ul>
+			</li>
+
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Genotyping Data</a>
+				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<li>
+					<a class="dropdown-item" href="#">
+					Markers &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Genotyping Platform &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Variant Set Metadata &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				</ul>
+			</li>
+			
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Variant Catalogue</a>
+				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<li>
+					<a class="dropdown-item" href="#">
+					QTL Study &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					GWAS &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Variants Set &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				</ul>
+			</li>
+		</ul>
+		<form class="form-inline my-2 my-lg-0">
+			{% if app.user %}
+				<a class="btn-xs btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{% if app.user.person %}
+						Hi {{ app.user.person.lastName }},
+					{% else %}
+						Hi {{ app.user.username }}
+					{% endif %}
+				</a>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
 				</div>
-			</header>
+			{% else %}
+				<li class="menu-item">
+					<a class="menu-link" href="{{ path('app_login') }}">Login</a>
+				</li>
+			{% endif %}
+		</form>
+		
+	</nav>
 
-            {% block body %}
+	{% block body %}
         
-            {% endblock %}
+    {% endblock %}
 
-			<footer class="site-footer">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-3">
-							<div class="widget">
-								<h3 class="widget-title">Our address</h3>
-								<strong>ENSAT</strong>
-								<address>Av. de l'Agrobiopole, 31326 Auzeville-Tolosane</address>
-								<a href="tel:+33 01 02 03 04">+33 01 02 03 04</a> <br>
-								<a href="mailto:ensat@ensat.com">ensat@ensat.com</a>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="widget">
-								
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="widget">
-								
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="widget">
-								
-							</div>
-						</div>
-					</div> <!-- .row -->
-
-					<p class="colophon">© 2022 HarnessTom. Designed by <a href="#" title="Powered by me" target="_blank">David PIERRE</a>. For HarnessTom - All rights reserved</p>
-				</div> <!-- .container -->
-			</footer>
+	<footer class="pt-4 my-md-5 pt-md-5 border-top">
+		<div class="container">
+		<p class="float-right">
+			<a href="#">Back to top</a>
+		</p>
+		<p class="colophon">© 2022 HarnessTom. Designed by <a href="#" title="Powered by me" target="_blank">David PIERRE / Clara PONS</a>. For HarnessTom - All rights reserved</p>
 		</div>
+	</footer>
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-            <script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
-            <script src="{{ asset('assets/js/plugins.js') }}"></script>
-            <script src="{{ asset('assets/js/app.js') }}"></script>
-			<script src="{{ asset('assets/btdist/js/bootstrap.bundle.js') }}"></script>
-			<script src="{{ asset('assets/btdist/js/bootstrap.bundle.min.js') }}"></script>
-        {% endblock %}
-    </body>
+	{% block javascripts %}
+    	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
+		<script src="{{ asset('assets/js1/bootstrap.bundle.min.js') }}"></script>        
+    {% endblock %}  
+  </body>
 </html>
