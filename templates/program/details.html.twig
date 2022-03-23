@@ -21,10 +21,12 @@
                                 <th scope="col">External Reference</th>
                                 <th scope="col">Crop</th>
                                 <th scope="col">Contact ORCID</th>
-                                <th scope="col">Created By</th>
-                                <th scope="col">Creation Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <th scope="col">Created By</th>
+                                    <th scope="col">Creation Date</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,17 +38,19 @@
                                     <td>{{ program.externalRef }}</td>
                                     <td><a href="{{ path('crop_details', {id: program.crop.id}) }}">{{ program.crop }}</td>
                                     <td><a href="{{ path('contact_details', {id: program.contact.id}) }}">{{ program.contact }}</a></td>
-                                    <td><a href="{{ path('person_details', {id: program.createdBy.id}) }}">{{ program.createdBy }}</a></td>
-                                    <td>{{ program.createdAt | date('d/m/Y h:m:s') }}</td>
-                                    <td><a href="{{ path('program_delete', {id: program.id}) }}" class="changeStatusLink" id="{{ program.id }}">
-                                        <span class="changeStatusSpan" >
-                                            <input type="checkbox" {{ program.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-                                        </span>
-                                    </a></td>
-                                    
-                                    <td>
-                                        <a href="{{ path('program_edit', {id: program.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
-                                    </td>
+                                    {% if is_granted("ROLE_ADMIN") %}
+                                        <td><a href="{{ path('person_details', {id: program.createdBy.id}) }}">{{ program.createdBy }}</a></td>
+                                        <td>{{ program.createdAt | date('d/m/Y h:m:s') }}</td>
+                                        <td><a href="{{ path('program_delete', {id: program.id}) }}" class="changeStatusLink" id="{{ program.id }}">
+                                            <span class="changeStatusSpan" >
+                                                <input type="checkbox" {{ program.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+                                            </span>
+                                        </a></td>
+                                        
+                                        <td>
+                                            <a href="{{ path('program_edit', {id: program.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
+                                        </td>
+                                    {% endif %}
                                 </tr>
                             </tbody>
                         </table>

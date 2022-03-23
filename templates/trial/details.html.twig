@@ -25,10 +25,12 @@
                                 <th scope="col">Public Release Date</th>
                                 <th scope="col">Program</th>
                                 <th scope="col">Trial Type</th>
-                                <th scope="col">Created By</th>
-                                <th scope="col">Creation Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <th scope="col">Created By</th>
+                                    <th scope="col">Creation Date</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,17 +46,19 @@
                                     <td>{{ trial.publicReleaseDate | date('d/m/Y') }}</td>
                                     <td><a href="{{ path('program_details', {id: trial.program.id}) }}">{{ trial.program }}</td>
                                     <td><a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">{{ trial.trialType }}</a></td>
-                                    <td><a href="{{ path('person_details', {id: trial.createdBy.id}) }}">{{ trial.createdBy }}</a></td>
-                                    <td>{{ trial.createdAt | date('d/m/Y h:m:s') }}</td>
-                                    <td><a href="{{ path('trial_delete', {id: trial.id}) }}" class="changeStatusLink" id="{{ trial.id }}">
-                                        <span class="changeStatusSpan" >
-                                            <input type="checkbox" {{ trial.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-                                        </span>
-                                    </a></td>
-                                    
-                                    <td>
-                                        <a href="{{ path('trial_edit', {id: trial.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
-                                    </td>
+                                    {% if is_granted("ROLE_ADMIN") %}
+                                        <td><a href="{{ path('person_details', {id: trial.createdBy.id}) }}">{{ trial.createdBy }}</a></td>                                
+                                        <td>{{ trial.createdAt | date('d/m/Y h:m:s') }}</td>
+                                        <td><a href="{{ path('trial_delete', {id: trial.id}) }}" class="changeStatusLink" id="{{ trial.id }}">
+                                            <span class="changeStatusSpan" >
+                                                <input type="checkbox" {{ trial.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+                                            </span>
+                                        </a></td>
+                                        
+                                        <td>
+                                            <a href="{{ path('trial_edit', {id: trial.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
+                                        </td>
+                                    {% endif %}
                                 </tr>
                             </tbody>
                         </table>
