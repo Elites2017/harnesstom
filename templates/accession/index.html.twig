@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/btdist/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/btdist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/btdist/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <!-- Loading main css file -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
+    <!-- DataTables CSS -->
+    <link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if accessions | length > 0 %}
+                                <h1 class="tomato-color">Accession List</h1>
+                                <table id="datatable" class="table table-striped table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Taxon</th>
+                                    <th scope="col">Accession Number</th>
+                                    <th scope="col">Accession Name</th>
+                                    <th scope="col">Accession PUID</th>
+                                    <th scope="col">Country of Origin</th>
+                                    <th scope="col">Collecting Source</th>
+                                    <th scope="col">Biological Status</th>
+                                    <th scope="col">MLS Status</th>
+                                    <th scope="col">Collecting Number</th>
+                                    <th scope="col">Collecting Institute</th>
+                                    <th scope="col">Breding Institute</th>
+                                    <th scope="col">Maintaining Institute</th>
+                                    <th scope="col">Maintainer Number</th>
+                                    <th scope="col">Storage Type</th>
+                                    <th scope="col">Donnor number</th>
+                                    <th scope="col">Donnor Institute</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for accession in accessions %}
+                                    <tr>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.taxon }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accenumb }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accename }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.puid }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.origcty }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.collsrc }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.sampstat }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.mlsStatus }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.collnumb }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.collcode }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.bredcode }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.instcode }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.maintainernumb }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.storage }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.donornumb }}</a></td>
+                                        <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.donorcode }}</a></td>
+                                        <td>
+                                            <a href="{{ path('accession_details', {id: accession.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No accession has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins.js') }}"></script>
+<script src="{{ asset('assets/js/app.js') }}"></script>
+<script src="{{ asset('assets/btdist/js/bootstrap.bundle.js') }}"></script>
+<script src="{{ asset('assets/btdist/js/bootstrap.bundle.min.js') }}"></script>
+<!-- DataTables JavaScript -->
+    <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable();
+    } );
+</script>
+{% endblock %}

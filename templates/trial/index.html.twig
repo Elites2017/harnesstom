@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/btdist/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/btdist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/btdist/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <!-- Loading main css file -->
+    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
+    <!-- DataTables CSS -->
+    <link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+        <div class="fullwidth-block">
+            <div class="container">
+                <div class="row">
+                        <div class="card-body">
+                            {% if trials | length > 0 %}
+                                <h1 class="tomato-color">Trial List</h1>
+                                <table id="datatable" class="table table-striped table-bordered" width="100%">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Desciption</th>
+                                    <th scope="col">Abbreviation</th>
+                                    <th scope="col">Start Date</th>
+                                    <th scope="col">End Date</th>
+                                    <th scope="col">Licence</th>
+                                    <th scope="col">PUI</th>
+                                    <th scope="col">Public Release Date</th>
+                                    <th scope="col">Program</th>
+                                    <th scope="col">Trial Type</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for trial in trials %}
+                                    <tr>
+                                        <td><a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.name }}</a></td>
+                                        <td><a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.description }}</a></td>
+                                        <td><a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.abbreviation }}</a></td>
+                                        <td><a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.startDate | date('d/m/Y') }}</a></td>
+                                        <td><a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.endDate | date('d/m/Y') }}</a></td>
+                                        <td><a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.license }}</a></td>
+                                        <td><a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.pui }}</a></td>
+                                        <td><a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.publicReleaseDate | date('d/m/Y') }}</a></td>
+                                        <td><a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.program }}</a></td>
+                                        <td><a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.trialType }}</a></td>
+                                        <td>
+                                            <a href="{{ path('trial_details', {id: trial.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %} 
+                                <p class="tomato-color">No trial has been provided in our system</p>
+                            {% endif %}
+                        </tbody>
+                        </table>
+                     
+                        </div>
+                    </div>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins.js') }}"></script>
+<script src="{{ asset('assets/js/app.js') }}"></script>
+<script src="{{ asset('assets/btdist/js/bootstrap.bundle.js') }}"></script>
+<script src="{{ asset('assets/btdist/js/bootstrap.bundle.min.js') }}"></script>
+<!-- DataTables JavaScript -->
+    <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable();
+    } );
+</script>
+{% endblock %}

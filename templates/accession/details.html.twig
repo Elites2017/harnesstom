@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+            <div class="container">
+                <div class="row">
+                    <div class="card-body">
+                        <h1 class="tomato-color">Details</h1>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                <th scope="col">Number</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">PUID</th>
+                                <th scope="col">Municipality of origin</th>
+                                <th scope="col">Origadmin 1</th>
+                                <th scope="col">Origadmin 2</th>
+                                <th scope="col">Maintainer Number</th>
+                                <th scope="col">Acquisition Date</th>
+                                <th scope="col">Donnor number</th>
+                                <th scope="col">Collecting Number</th>
+                                <th scope="col">Collecting Date</th>
+                                <th scope="col">Declatitude</th>
+                                <th scope="col">Declongitude</th>
+                                <th scope="col">Elevation</th>
+                                <th scope="col">Country of Origin</th>
+                                <th scope="col">Collecting Source</th>
+                                <th scope="col">Samp Stat</th>
+                                <th scope="col">Taxon</th>
+                                <th scope="col">Instcode</th>
+                                <th scope="col">Storage</th>
+                                <th scope="col">Donnor Code</th>
+                                <th scope="col">Collecting Code</th>
+                                <th scope="col">Collecting Mission</th>
+                                <th scope="col">Bredcode</th>
+                                <th scope="col">Created By</th>
+                                <th scope="col">Creation Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ accession.accenumb }}</td>
+                                    <td>{{ accession.accename }}</td>
+                                    <td>{{ accession.puid }}</td>
+                                    <td>{{ accession.origmuni }}</td>
+                                    <td>{{ accession.origadmin1 }}</td>
+                                    <td>{{ accession.origadmin2 }}</td>
+                                    <td>{{ accession.maintainernumb }}</td>
+                                    <td>{{ accession.acqdate | date('d/m/Y') }}</td>
+                                    <td>{{ accession.donornumb }}</td>
+                                    <td>{{ accession.collnumb }}</td>
+                                    <td>{{ accession.colldate | date('d/m/Y') }}</td>
+                                    <td>{{ accession.declatitude }}</td>
+                                    <td>{{ accession.declongitude }}</td>
+                                    <td>{{ accession.elevation }}</td>
+                                    <td><a href="{{ path('country_details', {id: accession.origcty.id}) }}">{{ accession.origcty }}</a></td>
+                                    <td><a href="{{ path('collecting_source_details', {id: accession.collsrc.id}) }}">{{ accession.collsrc }}</a></td>
+                                    <td><a href="{{ path('accession_details', {id: accession.sampstat.id}) }}">{{ accession.sampstat }}</a></td>
+                                    <td><a href="{{ path('taxonomy_details', {id: accession.taxon.id}) }}">{{ accession.taxon }}</a></td>
+                                    <td>{{ accession.instcode }}</td>
+                                    <td><a href="{{ path('accession_details', {id: accession.storage.id}) }}">{{ accession.storage }}</a></td>
+                                    <td>{{ accession.donorcode }}</td>
+                                    <td>{{ accession.collcode }}</td>
+                                    <td><a href="{{ path('accession_details', {id: accession.collmissid.id}) }}">{{ accession.collmissid }}</a></td>
+                                    <td>{{ accession.bredcode }}</td>
+                                    <td><a href="{{ path('person_details', {id: accession.createdBy.id}) }}">{{ accession.createdBy }}</a></td>
+                                    <td>{{ accession.createdAt | date('d/m/Y h:m:s') }}</td>
+                                    <td><a href="{{ path('accession_delete', {id: accession.id}) }}" class="changeStatusLink" id="{{ accession.id }}">
+                                        <span class="changeStatusSpan" >
+                                            <input type="checkbox" {{ accession.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+                                        </span>
+                                    </a></td>
+                                    
+                                    <td>
+                                        <a href="{{ path('accession_edit', {id: accession.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins.js') }}"></script>
+<script src="{{ asset('assets/js/app.js') }}"></script>
+<script src="{{ asset('assets/btdist/js/bootstrap4-toggle.min.js') }}"></script>
+<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+<script src="{{ asset('assets/btdist/js/bootstrap.bundle.js') }}"></script>
+<script src="{{ asset('assets/btdist/js/bootstrap.bundle.min.js') }}"></script>
+
+<script>
+    /*
+        This function is to change the status of the object.
+        It is called each time the corresponding link is clicked (the event happened).
+        1. It prevents the default behavior (behavior of showing the json response) of the function
+        in the controller class.
+
+        2. It gets the url of the link
+
+        3. It get the html document of the span which is the checkbox to change the object status 
+
+        4. It passes the url to axios which returns a response which is the message of the json
+            coming from the function in the controller.
+            4.1 set the checked property of the checkbox based on the response value.
+    */
+    function changeStatus(event){
+        event.preventDefault();
+        const url = this.href;
+        const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+        
+        axios.get(url).then(function(res){
+            const jsonResponse = res.data.message;
+            if(jsonResponse) {
+                statusCheckbox.checked = true;
+            }
+            else {
+                statusCheckbox.checked = false;
+            }
+        })
+    }
+    
+    document.querySelectorAll('a.changeStatusLink').forEach(function(link){
+        link.addEventListener('click', changeStatus);  
+    })
+</script>
+{% endblock %}

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MLSStatusRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class MLSStatus
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="mLSStatuses")
      */
     private $createdBy;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="mlsStatus")
+     */
+    private $accessions;
+
+    public function __construct()
+    {
+        $this->accessions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -112,5 +124,35 @@ class MLSStatus
     public function __toString()
     {
         return (string) $this->label;
+    }
+
+    /**
+     * @return Collection<int, Accession>
+     */
+    public function getAccessions(): Collection
+    {
+        return $this->accessions;
+    }
+
+    public function addAccession(Accession $accession): self
+    {
+        if (!$this->accessions->contains($accession)) {
+            $this->accessions[] = $accession;
+            $accession->setMlsStatus($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccession(Accession $accession): self
+    {
+        if ($this->accessions->removeElement($accession)) {
+            // set the owning side to null (unless already changed)
+            if ($accession->getMlsStatus() === $this) {
+                $accession->setMlsStatus(null);
+            }
+        }
+
+        return $this;
     }
 }

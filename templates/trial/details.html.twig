@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <main class="main-content">
+        <div class="fullwidth-block">
+		</div> <!-- .fullwidth-block -->
+
+            <div class="container">
+                <div class="row">
+                    <div class="card-body">
+                        <h1 class="tomato-color">Details</h1>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Abbreviation</th>
+                                <th scope="col">Desciption</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                                <th scope="col">Licence</th>
+                                <th scope="col">PUI</th>
+                                <th scope="col">Public Release Date</th>
+                                <th scope="col">Program</th>
+                                <th scope="col">Trial Type</th>
+                                <th scope="col">Created By</th>
+                                <th scope="col">Creation Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ trial.id }}</td>
+                                    <td>{{ trial.name }}</td>
+                                    <td>{{ trial.abbreviation }}</td>
+                                    <td>{{ trial.description }}</td>
+                                    <td>{{ trial.startDate | date('d/m/Y') }}</td>
+                                    <td>{{ trial.endDate | date('d/m/Y') }}</td>
+                                    <td>{{ trial.license }}</td>
+                                    <td>{{ trial.pui }}</td>
+                                    <td>{{ trial.publicReleaseDate | date('d/m/Y') }}</td>
+                                    <td><a href="{{ path('program_details', {id: trial.program.id}) }}">{{ trial.program }}</td>
+                                    <td><a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">{{ trial.trialType }}</a></td>
+                                    <td><a href="{{ path('person_details', {id: trial.createdBy.id}) }}">{{ trial.createdBy }}</a></td>
+                                    <td>{{ trial.createdAt | date('d/m/Y h:m:s') }}</td>
+                                    <td><a href="{{ path('trial_delete', {id: trial.id}) }}" class="changeStatusLink" id="{{ trial.id }}">
+                                        <span class="changeStatusSpan" >
+                                            <input type="checkbox" {{ trial.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+                                        </span>
+                                    </a></td>
+                                    
+                                    <td>
+                                        <a href="{{ path('trial_edit', {id: trial.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> <!-- .row -->
+            </div> <!-- .container -->
+        </div> <!-- .fullwidth-block -->
+    </main> <!-- .main-content -->
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins.js') }}"></script>
+<script src="{{ asset('assets/js/app.js') }}"></script>
+<script src="{{ asset('assets/btdist/js/bootstrap4-toggle.min.js') }}"></script>
+<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+<script src="{{ asset('assets/btdist/js/bootstrap.bundle.js') }}"></script>
+<script src="{{ asset('assets/btdist/js/bootstrap.bundle.min.js') }}"></script>
+
+<script>
+    /*
+        This function is to change the status of the object.
+        It is called each time the corresponding link is clicked (the event happened).
+        1. It prevents the default behavior (behavior of showing the json response) of the function
+        in the controller class.
+
+        2. It gets the url of the link
+
+        3. It get the html document of the span which is the checkbox to change the object status 
+
+        4. It passes the url to axios which returns a response which is the message of the json
+            coming from the function in the controller.
+            4.1 set the checked property of the checkbox based on the response value.
+    */
+    function changeStatus(event){
+        event.preventDefault();
+        const url = this.href;
+        const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+        
+        axios.get(url).then(function(res){
+            const jsonResponse = res.data.message;
+            if(jsonResponse) {
+                statusCheckbox.checked = true;
+            }
+            else {
+                statusCheckbox.checked = false;
+            }
+        })
+    }
+    
+    document.querySelectorAll('a.changeStatusLink').forEach(function(link){
+        link.addEventListener('click', changeStatus);  
+    })
+</script>
+{% endblock %}
