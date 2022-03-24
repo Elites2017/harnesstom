@@ -6,12 +6,14 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.88.1">
-    <title>HARNESSTOM - Home</title>
+    <title>Home</title>
 
 	{% block stylesheets %}
 		<!-- Bootstrap core CSS -->
+		<link href="{{ asset('assets/css1/added.css') }}" rel="stylesheet">
 		<link href="{{ asset('assets/css1/bootstrap.min.css') }}" rel="stylesheet">
 		<link href="{{ asset('assets/css1/dropdown_link_right.css') }}" rel="stylesheet">
+		<!-- Bootstrap core CSS toggle mode-->
 		<link href="{{ asset('assets/btdist/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
 		<link href="{{ asset('assets/btdist/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
@@ -38,14 +40,14 @@
     <!-- Custom styles for this template -->
   </head>
   <body>
-  <nav class="navbar navbar-expand-lg navbar-light"  style="background-color: #d01c44;">
+  <nav class="navbar navbar-expand-lg navbar-light">
   <a href="{{path('app_home')}}" class="branding">
-	<div class="logo-type" style="color: #fff;">
-		<h6 class="site-title">HarnessTom</h6>
+	<div class="logo-type">
+		{# <h6 class="site-title">HarnessTom</h6> #}
 		<img src="{{ asset('assets/images/logo/harnesstomlogo.png') }}" width="15%" alt="" class="logo">
 	</div>
 	</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" style="background-color: #d01c44;" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse justify-content-md-center" id="navbarNavAltMarkup">
@@ -259,10 +261,11 @@
 				</li>
 				</ul>
 			</li>
+			
         </ul>
-		<li class="nav-item dropdown">
+		<div class="nav-item dropdown">
 	  	{% if app.user %}
-				<a class="btn-xs btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<a class="btn-sm btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					{% if app.user.person %}
 						Hi {{ app.user.person.lastName }},
 					{% else %}
@@ -273,11 +276,9 @@
 					<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
 				</div>
 			{% else %}
-				<li class="menu-item">
-					<a class="menu-link" href="{{ path('app_login') }}">Login</a>
-				</li>
+				<a class="btn-sm btn-info" type="button" href="{{ path('app_login') }}">Login</a>
 			{% endif %}
-	  </li>
+	  </di>
       </div>
 </nav>
 
