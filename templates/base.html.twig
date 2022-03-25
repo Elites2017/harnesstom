@@ -44,7 +44,7 @@
   <a href="{{path('app_home')}}" class="branding">
 	<div class="logo-type">
 		{# <h6 class="site-title">HarnessTom</h6> #}
-		<img src="{{ asset('assets/images/logo/harnesstomlogo.png') }}" width="20%" alt="" class="logo">
+		<img src="{{ asset('assets/images/logo/harnesstomlogo.png') }}" width="50%" alt="" class="logo">
 	</div>
 	</a>
   <button class="navbar-toggler" style="background-color: #d01c44;" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,11 +94,50 @@
 					</li>
 					</ul>
 				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Factor &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="{{path('factor_type_create')}}">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{{path('factor_type_index')}}">Search</a>
+					</li>
+					</ul>
+				</li>
 				</ul>
 			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Germplasm</a>
 				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<li>
+					<a class="dropdown-item" href="#">
+					Species &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Germplasm &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
 				<li>
 					<a class="dropdown-item" href="#">
 					Collection &raquo;
@@ -127,7 +166,46 @@
 				</li>
 				<li>
 					<a class="dropdown-item" href="#">
+					Attribute &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="{{path('attribute_create')}}">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{{path('attribute_index')}}">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
 					Pedigree &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Country of origin &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Mapping Population &raquo;
 					</a>
 					<ul class="dropdown-menu dropdown-submenu">
 					<li>
@@ -146,6 +224,32 @@
 				<li>
 					<a class="dropdown-item" href="#">
 					Metabolite &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Analyte &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">
+					Traits &raquo;
 					</a>
 					<ul class="dropdown-menu dropdown-submenu">
 					<li>
@@ -203,14 +307,30 @@
 				</li>
 				<li>
 					<a class="dropdown-item" href="#">
-					Variant Set Metadata &raquo;
+					Variants &raquo;
 					</a>
 					<ul class="dropdown-menu dropdown-submenu">
 					<li>
-						<a class="dropdown-item" href="#">Create</a>
+						<a class="dropdown-item" href="#">Metadata &raquo;</a>
+						<ul class="dropdown-menu dropdown-submenu">
+						<li>
+							<a class="dropdown-item" href="#">Create</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">Search</a>
+						</li>
+						</ul>
 					</li>
 					<li>
-						<a class="dropdown-item" href="#">Search</a>
+						<a class="dropdown-item" href="#">Variant Set &raquo;</a>
+						<ul class="dropdown-menu dropdown-submenu">
+						<li>
+							<a class="dropdown-item" href="#">Create</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="#">Search</a>
+						</li>
+						</ul>
 					</li>
 					</ul>
 				</li>
@@ -235,7 +355,21 @@
 				</li>
 				<li>
 					<a class="dropdown-item" href="#">
-					GWAS &raquo;
+					GWAS Study &raquo;
+					</a>
+					<ul class="dropdown-menu dropdown-submenu">
+					<li>
+						<a class="dropdown-item" href="#">Create</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="#">Search</a>
+					</li>
+					</ul>
+				</li>
+				
+				<li>
+					<a class="dropdown-item" href="#">
+					GWAS Variant &raquo;
 					</a>
 					<ul class="dropdown-menu dropdown-submenu">
 					<li>
@@ -248,7 +382,7 @@
 				</li>
 				<li>
 					<a class="dropdown-item" href="#">
-					Variants Set &raquo;
+					QTL Variant &raquo;
 					</a>
 					<ul class="dropdown-menu dropdown-submenu">
 					<li>
@@ -288,11 +422,65 @@
     {% endblock %}
 
 	<footer class="pt-4 my-md-5 pt-md-5 border-top">
-		<div class="container">
-		<p class="float-right">
-			<a href="#">Back to top</a>
-		</p>
-		<p class="colophon">© 2022 HarnessTom. Designed by <a href="#" title="Powered by me" target="_blank">David PIERRE / Clara PONS</a>. For HarnessTom - All rights reserved</p>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12 col-md">
+					<img class="mb-2" src="{{ asset('assets/images/logo/harnesstomlogo.png') }}" width="20%" alt="" class="logo">
+					<small class="d-block mb-3 text-muted">&copy; 2011-2022</small>
+				</div>
+				<div class="col-6 col-md">
+					<h5>Abou us</h5>
+					<ul class="list-unstyled text-small">
+						<li><a class="text-muted" href="#">About us</a></li>
+						<li><a class="text-muted" href="#">Project Partners</a></li>
+						<li><a class="text-muted" href="#">Contact us</a></li>
+						<li><a class="text-muted" href="#">Terms of use</a></li>
+						<li><a class="text-muted" href="#">Citing HarnessTom</a></li>
+					</ul>
+				</div>
+				<div class="col-6 col-md">
+					<h5>Get help</h5>
+					<ul class="list-unstyled text-small">
+						<li><a class="text-muted" href="#">Using this website</a></li>
+						<li><a class="text-muted" href="#">Uploading data</a></li>
+						<li><a class="text-muted" href="#">Downloading data</a></li>
+						<li><a class="text-muted" href="#">Videos tutorials</a></li>
+					</ul>
+				</div>
+				<div class="col-6 col-md">
+					<h5>Follow us</h5>
+					<ul class="list-unstyled text-small">
+						<li><a class="text-muted" href="#">Twitter</a></li>
+					</ul>
+				</div>
+				<div class="col-6 col-md">
+					<div class="row">
+						<div class="container">
+							<div class="col-3 col-md">
+								<a href="">
+									<p>Funding Provided By</p>
+									<img class="mb-2" src="{{ asset('assets/images/eu.png') }}" width="20%" alt="" class="logo">
+								</a>
+							</div>
+						</div>
+						<div class="container">
+							<div class="col-3 col-md">
+								<a href="">
+									<p>Hosted By</p>
+									<img class="mb-2" src="{{ asset('assets/images/inpt.jpg') }}" width="20%" alt="" class="logo">
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="dropdown-divider"></div>
+			<div class="container">
+				<p class="colophon">© 2022 HarnessTom. Designed by <a href="#" title="Powered by me" target="_blank">David PIERRE / Clara PONS / Eden GARNIDGE</a>. For HarnessTom - All rights reserved</p>
+				<p class="float-center">
+				<a href="#">Back to top</a>
+				</p>
+			</div>
 		</div>
 	</footer>
 
