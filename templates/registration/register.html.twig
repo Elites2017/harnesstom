@@ -1,117 +1,146 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Register
+{% endblock %}
 
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				{% for flash_error in app.flashes('verify_email_error') %}
+					<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+				{% endfor %}
+				<h4 class="mb-3 text-center text-muted">User Personal Information</h4>
+				{{ form_start(registrationForm) }}
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row
+                (registrationForm.person.firstName,
+                    { label: "First Name*",
+                    'attr': {'placeholder': "Enter the person first name"}
+                    }
+                )
+            }}
+					</div>
+					<div class="col-md-4 mb-3">
+						{{ form_row
+                (registrationForm.person.middleName,
+                    { label: "Middle Name",
+                    'attr': {'placeholder': "Enter the person middle name"}
+                    }
+                )
+            }}
+					</div>
+					<div class="col-md-4 mb-3">
+						{{ form_row
+                (registrationForm.person.lastName,
+                    { label: "Last Name*",
+                    'attr': {'placeholder': "Enter the person last name"}
+                    }
+                )
+            }}
+					</div>
+				</div>
 
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            {% for flash_error in app.flashes('verify_email_error') %}
-                                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                            {% endfor %}
+				<div class="row">
+					<div class="col-md-8 mb-3">
+						{{ form_row
+                (registrationForm.person.streetNumber,
+                    { label: "Street Number And Name",
+                    'attr': {'placeholder': "Enter the street number and its name"}
+                    }
+                )
+            }}
+					</div>
+					<div class="col-md-4 mb-3">
+						{{ form_row
+                (registrationForm.person.postalCode,
+                    { label: "Postal Code",
+                    'attr': {'placeholder': "Enter the postal code"}
+                    }
+                )
+            }}
+					</div>
+				</div>
 
-                            <h1 class="tomato-color">User Registration</h1>
-                            {{ form_start(registrationForm) }}
-                                <h2 class="tomato-color">User Personal Information</h1>
-                                <div>
-                                    {{ form_row
-                                        (registrationForm.person.firstName,
-                                            { label: "First Name*",
-                                            'attr': {'placeholder': "Enter the person first name"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (registrationForm.person.middleName,
-                                            { label: "Middle Name",
-                                            'attr': {'placeholder': "Enter the person middle name"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (registrationForm.person.lastName,
-                                            { label: "Last Name*",
-                                            'attr': {'placeholder': "Enter the person last name"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (registrationForm.person.phoneNumber,
-                                            { label: "Phone Code",
-                                            'attr': {'placeholder': "Enter the phone number"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (registrationForm.person.streetNumber,
-                                            { label: "Street Number And Name",
-                                            'attr': {'placeholder': "Enter the street number and its name"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (registrationForm.person.postalCode,
-                                            { label: "Postal Code",
-                                            'attr': {'placeholder': "Enter the postal code"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (registrationForm.person.city,
-                                            { label: "City",
-                                            'attr': {'placeholder': "Enter the city"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (registrationForm.person.country,
-                                            { label: "Country",
-                                            'attr': {'placeholder': "Select the country"}
-                                            }
-                                        )
-                                    }}
-                                </div>
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row
+                (registrationForm.person.phoneNumber,
+                    { label: "Phone Number",
+                    'attr': {'placeholder': "Enter the phone number"}
+                    }
+                )
+            }}
+					</div>
+					<div class="col-md-4 mb-3">
+						{{ form_row
+                (registrationForm.person.city,
+                    { label: "Street Number And Name",
+                    'attr': {'placeholder': "Enter the street number and its name"}
+                    }
+                )
+            }}
+					</div>
+					<div class="col-md-4 mb-3">
+						{{ form_row
+                (registrationForm.person.country,
+                    { label: "Country",
+                    'attr':
+                        {
+                            'placeholder': "Select the country",
+                            'class': "custom-select d-block w-100"
+                        }
+                    }
+                )
+            }}
+					</div>
+				</div>
 
-                                
+				<h4 class="mb-3 mt-3 text-center text-muted">User Credentials</h4>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row
+                (registrationForm.email,
+                    { label: "Email *",
+                    'attr': {'placeholder': "Enter the person's email"}
+                    }
+                )
+            }}
+					</div>
+					<div class="col-md-6 mb-3">
+						{{ form_row
+                (registrationForm.plainPassword,
+                    { label: "Password",
+                    'attr': {'placeholder': "Enter the person's password"}
+                    }
+                )
+            }}
+					</div>
 
-                                <h2 class="tomato-color">User Connection Credentials</h1>
-                                {{ form_row(registrationForm.email) }}
-                                {{ form_row(registrationForm.plainPassword, {
-                                    label: 'Password'
-                                }) }}
-                                {{ form_row(registrationForm.agreeTerms) }}
+					<div class="col-md-3 mb-3">
+						{{ form_row(registrationForm.agreeTerms) }}
+					</div>
+				</div>
 
-                                <button type="submit" class="btn">Register</button>
-                            {{ form_end(registrationForm) }}
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{path('app_login')}}">
-                                <p style="color:#D01C44;">Already have an account? Sign in</p>
-                            </a>
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
-{% endblock %}
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Register</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+
+
+				{{ form_end(registrationForm) }}
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" href="{{path('app_login')}}">
+					<p>Already have an account? Sign in</p>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}
