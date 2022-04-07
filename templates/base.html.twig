@@ -1,493 +1,525 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.88.1">
-    <title>Home</title>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+		<meta name="generator" content="Hugo 0.88.1">
+		<title>Tomato</title>
 
-	{% block stylesheets %}
-		<!-- Bootstrap core CSS -->
-		<link href="{{ asset('assets/css1/added.css') }}" rel="stylesheet">
-		<link href="{{ asset('assets/css1/bootstrap.min.css') }}" rel="stylesheet">
-		<link href="{{ asset('assets/css1/dropdown_link_right.css') }}" rel="stylesheet">
-		<!-- Bootstrap core CSS toggle mode-->
-		<link href="{{ asset('assets/btdist/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
-		<link href="{{ asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-		<link href="{{ asset('assets/btdist/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
-	{% endblock %}
+		{% block stylesheets %}
+			<!-- Bootstrap core CSS -->
+			<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+			<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
 
-    
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
+			<!-- Custom styles for this template -->
+			<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+			<link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+		{% endblock %}
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-    
-    <!-- Custom styles for this template -->
-  </head>
-  <body>
-  <nav class="navbar navbar-expand-lg navbar-light">
-  <a href="{{path('app_home')}}" class="branding">
-	<div class="logo-type">
-		{# <h6 class="site-title">HarnessTom</h6> #}
-		<img src="{{ asset('assets/images/logo/harnesstomlogo.png') }}" width="auto%" alt="" class="logo">
-	</div>
-	</a>
-  <button class="navbar-toggler" style="background-color: #d01c44;" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-md-center" id="navbarNavAltMarkup">
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" style="color: #d01c44;" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Experimental Data</a>
-				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				<li>
-					<a class="dropdown-item" href="#">
-					Program &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="{{path('program_create')}}">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="{{path('program_index')}}">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Trial &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="{{path('trial_create')}}">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="{{path('trial_index')}}">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Study &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Factor &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="{{path('factor_type_create')}}">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="{{path('factor_type_index')}}">Search</a>
-					</li>
-					</ul>
-				</li>
-				</ul>
-			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" style="color: #d01c44;" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Germplasm</a>
-				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				<li>
-					<a class="dropdown-item" href="#">
-					Species &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Germplasm &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Collection &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Accession &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="{{path('accession_create')}}">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="{{path('accession_index')}}">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Attribute &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="{{path('attribute_create')}}">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="{{path('attribute_index')}}">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Pedigree &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Country of origin &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Mapping Population &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				</ul>
-			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" style="color: #d01c44;" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Phenotyping Data</a>
-				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				<li>
-					<a class="dropdown-item" href="#">
-					Metabolite &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Analyte &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Traits &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Observation Variable &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				</ul>
-			</li>
+		<style>
+			.bd-placeholder-img {
+				font-size: 1.125rem;
+				text-anchor: middle;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+			}
 
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" style="color: #d01c44;" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Genotyping Data</a>
-				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				<li>
-					<a class="dropdown-item" href="#">
-					Markers &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Genotyping Platform &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					Variants &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Metadata &raquo;</a>
-						<ul class="dropdown-menu dropdown-submenu">
-						<li>
-							<a class="dropdown-item" href="#">Create</a>
+			@media(min-width: 768px) {
+				.bd-placeholder-img-lg {
+					font-size: 3.5rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- nav start -->
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<a href="{{path('app_home')}}" class="branding">
+				<div class="logo-type">
+					<img src="{{ asset('assets/images/harnesstomlogo.png') }}" width="auto" alt="" class="logo">
+				</div>
+			</a>
+			<!-- <a class="navbar-brand" href="#">Navbar</a> -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div
+				class="collapse navbar-collapse justify-content-md-center" id="navbarNavAltMarkup">
+				<!-- start of menu -->
+				<div class="container">
+					<ul class="navbar-nav">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Experimental Data</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<li>
+									<a class="dropdown-item" href="#">
+										Program &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('program_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('program_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Trial &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('trial_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('trial_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Study &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Factor &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('factor_type_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('factor_type_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
-						<li>
-							<a class="dropdown-item" href="#">Search</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Germplasm</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<li>
+									<a class="dropdown-item" href="#">
+										Species &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Germplasm &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Collection &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Accession &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('accession_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('accession_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Attribute &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('attribute_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('attribute_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Pedigree &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Country of origin &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Mapping Population &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
-						</ul>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Variant Set &raquo;</a>
-						<ul class="dropdown-menu dropdown-submenu">
-						<li>
-							<a class="dropdown-item" href="#">Create</a>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Phenotyping Data</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<li>
+									<a class="dropdown-item" href="#">
+										Metabolite &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Analyte &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Traits &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Observation Variable &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
-						<li>
-							<a class="dropdown-item" href="#">Search</a>
+
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Genotyping Data</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<li>
+									<a class="dropdown-item" href="#">
+										Markers &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Genotyping Platform &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Variants &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Metadata &raquo;</a>
+											<ul class="dropdown-menu dropdown-submenu">
+												<li>
+													<a class="dropdown-item" href="#">Create</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="#">Search</a>
+												</li>
+											</ul>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Variant Set &raquo;</a>
+											<ul class="dropdown-menu dropdown-submenu">
+												<li>
+													<a class="dropdown-item" href="#">Create</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="#">Search</a>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
-						</ul>
-					</li>
-					</ul>
-				</li>
-				</ul>
-			</li>
-			
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" style="color: #d01c44;" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Variant Catalogue</a>
-				<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-				<li>
-					<a class="dropdown-item" href="#">
-					QTL Study &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					GWAS Study &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				
-				<li>
-					<a class="dropdown-item" href="#">
-					GWAS Variant &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				<li>
-					<a class="dropdown-item" href="#">
-					QTL Variant &raquo;
-					</a>
-					<ul class="dropdown-menu dropdown-submenu">
-					<li>
-						<a class="dropdown-item" href="#">Create</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="#">Search</a>
-					</li>
-					</ul>
-				</li>
-				</ul>
-			</li>
-			
-        </ul>
-		<div class="nav-item dropdown">
-	  	{% if app.user %}
-				<a class="btn-sm btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					{% if app.user.person %}
-						Hi {{ app.user.person.lastName }},
-					{% else %}
-						Hi {{ app.user.username }}
-					{% endif %}
-				</a>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
-				</div>
-			{% else %}
-				<a class="btn-sm btn-info" type="button" href="{{ path('app_login') }}">Login</a>
-			{% endif %}
-	  </di>
-      </div>
-</nav>
 
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Variant Catalogue</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<li>
+									<a class="dropdown-item" href="#">
+										QTL Study &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										GWAS Study &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
 
-	{% block body %}
-        
-    {% endblock %}
+								<li>
+									<a class="dropdown-item" href="#">
+										GWAS Variant &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										QTL Variant &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="#">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="#">Search</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
 
-	<footer class="pt-4 my-md-5 pt-md-5 border-top">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-12 col-md">
-					<img class="mb-2" src="{{ asset('assets/images/logo/harnesstomlogo.png') }}" width="auto%" alt="" class="logo">
-					<small class="d-block mb-3 text-muted">&copy; 2011-2022</small>
-				</div>
-				<div class="col-6 col-md">
-					<h5>Abou us</h5>
-					<ul class="list-unstyled text-small">
-						<li><a class="text-muted" href="#">About us</a></li>
-						<li><a class="text-muted" href="#">Project Partners</a></li>
-						<li><a class="text-muted" href="#">Contact us</a></li>
-						<li><a class="text-muted" href="#">Terms of use</a></li>
-						<li><a class="text-muted" href="#">Citing HarnessTom</a></li>
 					</ul>
 				</div>
-				<div class="col-6 col-md">
-					<h5>Get help</h5>
-					<ul class="list-unstyled text-small">
-						<li><a class="text-muted" href="#">Using this website</a></li>
-						<li><a class="text-muted" href="#">Uploading data</a></li>
-						<li><a class="text-muted" href="#">Downloading data</a></li>
-						<li><a class="text-muted" href="#">Videos tutorials</a></li>
-					</ul>
-				</div>
-				<div class="col-6 col-md">
-					<h5>Follow us</h5>
-					<ul class="list-unstyled text-small">
-						<li><a class="text-muted" href="#">Twitter</a></li>
-					</ul>
-				</div>
-				<div class="col-6 col-md">
-					<div class="row">
-						<div class="container">
-							<div class="col-3 col-md">
-								<a href="">
-									<p>Funding Provided By</p>
-									<img class="mb-2" src="{{ asset('assets/images/eu.png') }}" width="20%" alt="" class="logo">
-								</a>
-							</div>
+				<!-- end of menu -->
+				<div class="nav-item dropdown">
+					{% if app.user %}
+						<a class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							{% if app.user.person %}
+								Hi
+								{{ app.user.person.lastName }},
+							{% else %}
+								Hi
+								{{ app.user.username }}
+							{% endif %}
+						</a>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
 						</div>
-						<div class="container">
-							<div class="col-3 col-md">
-								<a href="">
-									<p>Hosted By</p>
-									<img class="mb-2" src="{{ asset('assets/images/inpt.jpg') }}" width="20%" alt="" class="logo">
-								</a>
+					{% else %}
+						<a class="btn btn-info" type="button" href="{{ path('app_login') }}">Login</a>
+					{% endif %}
+
+				</div>
+			</div>
+		</nav>
+		<!-- nav end -->
+
+		{% block body %}
+		
+		{% endblock %}
+
+		<!-- footer start -->
+		<footer class="pt-4 my-md-5 pt-md-5 border-top">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12 col-md">
+						<img class="mb-2" src="{{ asset('assets/images/harnesstomlogo.png') }}" width="auto" alt="" class="logo">
+						<small class="d-block mb-3 text-muted">&copy; 2020-2022</small>
+					</div>
+					<div class="col-6 col-md">
+						<h5>Abou us</h5>
+						<ul class="list-unstyled text-small">
+							<li>
+								<a class="text-muted" href="#">About us</a>
+							</li>
+							<li>
+								<a class="text-muted" href="#">Project Partners</a>
+							</li>
+							<li>
+								<a class="text-muted" href="#">Contact us</a>
+							</li>
+							<li>
+								<a class="text-muted" href="#">Terms of use</a>
+							</li>
+							<li>
+								<a class="text-muted" href="#">Citing HarnessTom</a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-6 col-md">
+						<h5>Get help</h5>
+						<ul class="list-unstyled text-small">
+							<li>
+								<a class="text-muted" href="#">Using this website</a>
+							</li>
+							<li>
+								<a class="text-muted" href="#">Uploading data</a>
+							</li>
+							<li>
+								<a class="text-muted" href="#">Downloading data</a>
+							</li>
+							<li>
+								<a class="text-muted" href="#">Videos tutorials</a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-6 col-md">
+						<h5>Follow us</h5>
+						<ul class="list-unstyled text-small">
+							<li>
+								<a class="text-muted" href="#">Twitter</a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-6 col-md">
+						<div class="row">
+							<div class="container">
+								<div class="col-3 col-md">
+									<a href="">
+										<p>Funding Provided By</p>
+										<img class="mb-2" src="{{ asset('assets/images/eu.png') }}" width="20%" alt="" class="logo">
+									</a>
+								</div>
+							</div>
+							<div class="container">
+								<div class="col-3 col-md">
+									<a href="">
+										<p>Hosted By</p>
+										<img class="mb-2" src="{{ asset('assets/images/inpt.jpg') }}" width="20%" alt="" class="logo">
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				<div class="dropdown-divider"></div>
+				<div class="text-center text-lg-start bg-light text-muted">
+					<p class="colophon tomato-color">© 2022 HarnessTom. Designed by
+						<a href="#" title="Powered by me" target="_blank">David PIERRE / Clara PONS / Eden GARNIDGE</a>. For HarnessTom - All rights reserved</p>
+					<p class="float-center">
+						<a href="#">Back to top</a>
+					</p>
+				</div>
 			</div>
-			<div class="dropdown-divider"></div>
-			<div class="text-center text-lg-start bg-light text-muted">
-				<p class="colophon">© 2022 HarnessTom. Designed by <a href="#" title="Powered by me" target="_blank">David PIERRE / Clara PONS / Eden GARNIDGE</a>. For HarnessTom - All rights reserved</p>
-				<p class="float-center">
-				<a href="#">Back to top</a>
-				</p>
-			</div>
-		</div>
-	</footer>
+		</footer>
+		<!-- footer end -->
 
-	{% block javascripts %}
-    	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
-		<script src="{{ asset('assets/js1/bootstrap.bundle.min.js') }}"></script>        
-    {% endblock %}  
-  </body>
+		{% block javascripts %}
+			<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+			<script>
+				window.jQuery || document.write('<script src="  {{ asset('../assets/js/vendor/jquery.slim.min.js') }}"><\/script>')
+			</script>
+			<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+			<!-- <script src="assets/js1/bootstrap.bundle.min.js"></script> -->
+		{% endblock %}
+	</body>
 </html>
