@@ -3,11 +3,13 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('assets/css1/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css1/dropdown_link_right.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/btdist/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/btdist/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
     <!-- DataTables CSS -->
     <link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 

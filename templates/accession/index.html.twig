@@ -3,12 +3,13 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('assets/btdist/css/bootstrap.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/btdist/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/btdist/css/bootstrap4-toggle.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/fonts/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <!-- Loading main css file -->
-    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css">
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
     <!-- DataTables CSS -->
     <link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
@@ -88,20 +89,18 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/js/jquery-1.11.1.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins.js') }}"></script>
-<script src="{{ asset('assets/js/app.js') }}"></script>
-<script src="{{ asset('assets/btdist/js/bootstrap.bundle.js') }}"></script>
-<script src="{{ asset('assets/btdist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
+		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 <!-- DataTables JavaScript -->
     <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script>
-    $(document).ready(function() {
-        $('#datatable').DataTable();
-    } );
-</script>
+    <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable();
+        } );
+    </script>
 {% endblock %}
