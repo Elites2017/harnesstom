@@ -1,74 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Name</th>
+							<th scope="col">Abbreviation</th>
+							<th scope="col">Objective</th>
+							<th scope="col">External Reference</th>
+							<th scope="col">Crop</th>
+							<th scope="col">Contact ORCID</th>
+							{% if is_granted("ROLE_ADMIN") %}
+								<th scope="col">Created By</th>
+								<th scope="col">Creation Date</th>
+								<th scope="col">Status</th>
+								<th scope="col">Action</th>
+							{% endif %}
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{{ program.id }}</td>
+							<td>{{ program.name }}</td>
+							<td>{{ program.abbreviation }}</td>
+							<td>{{ program.objective }}</td>
+							<td>{{ program.externalRef }}</td>
+							<td>
+								<a href="{{ path('crop_details', {id: program.crop.id}) }}">{{ program.crop }}</td>
+							</td>
+							<td>
+								<a href="{{ path('contact_details', {id: program.contact.id}) }}">{{ program.contact }}</a>
+							</td>
+							{% if is_granted("ROLE_ADMIN") %}
+								<td>
+									<a href="{{ path('person_details', {id: program.createdBy.id}) }}">{{ program.createdBy }}</a>
+								</td>
+								<td>{{ program.createdAt | date('d/m/Y h:m:s') }}</td>
+								<td>
+									<a href="{{ path('program_delete', {id: program.id}) }}" class="changeStatusLink" id="{{ program.id }}">
+										<span class="changeStatusSpan">
+											<input type="checkbox" {{ program.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+										</span>
+									</a>
+								</td>
 
-            <div class="container">
-                <div class="row">
-                    <div class="card-body">
-                        <h1 class="tomato-color">Details</h1>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Abbreviation</th>
-                                <th scope="col">Objective</th>
-                                <th scope="col">External Reference</th>
-                                <th scope="col">Crop</th>
-                                <th scope="col">Contact ORCID</th>
-                                {% if is_granted("ROLE_ADMIN") %}
-                                    <th scope="col">Created By</th>
-                                    <th scope="col">Creation Date</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
-                                {% endif %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{ program.id }}</td>
-                                    <td>{{ program.name }}</td>
-                                    <td>{{ program.abbreviation }}</td>
-                                    <td>{{ program.objective }}</td>
-                                    <td>{{ program.externalRef }}</td>
-                                    <td><a href="{{ path('crop_details', {id: program.crop.id}) }}">{{ program.crop }}</td>
-                                    <td><a href="{{ path('contact_details', {id: program.contact.id}) }}">{{ program.contact }}</a></td>
-                                    {% if is_granted("ROLE_ADMIN") %}
-                                        <td><a href="{{ path('person_details', {id: program.createdBy.id}) }}">{{ program.createdBy }}</a></td>
-                                        <td>{{ program.createdAt | date('d/m/Y h:m:s') }}</td>
-                                        <td><a href="{{ path('program_delete', {id: program.id}) }}" class="changeStatusLink" id="{{ program.id }}">
-                                            <span class="changeStatusSpan" >
-                                                <input type="checkbox" {{ program.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-                                            </span>
-                                        </a></td>
-                                        
-                                        <td>
-                                            <a href="{{ path('program_edit', {id: program.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
-                                        </td>
-                                    {% endif %}
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+								<td>
+									<a href="{{ path('program_edit', {id: program.id}) }}">
+										<button class="btn btn-outline-warning">Edit</button>
+									</a>
+								</td>
+							{% endif %}
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
-<script>
-    /*
+	<script>
+		/*
         This function is to change the status of the object.
         It is called each time the corresponding link is clicked (the event happened).
         1. It prevents the default behavior (behavior of showing the json response) of the function
@@ -82,24 +90,23 @@
             coming from the function in the controller.
             4.1 set the checked property of the checkbox based on the response value.
     */
-    function changeStatus(event){
-        event.preventDefault();
-        const url = this.href;
-        const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-        
-        axios.get(url).then(function(res){
-            const jsonResponse = res.data.message;
-            if(jsonResponse) {
-                statusCheckbox.checked = true;
-            }
-            else {
-                statusCheckbox.checked = false;
-            }
-        })
-    }
-    
-    document.querySelectorAll('a.changeStatusLink').forEach(function(link){
-        link.addEventListener('click', changeStatus);  
-    })
-</script>
+function changeStatus(event) {
+event.preventDefault();
+const url = this.href;
+const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+
+axios.get(url).then(function (res) {
+const jsonResponse = res.data.message;
+if (jsonResponse) {
+statusCheckbox.checked = true;
+} else {
+statusCheckbox.checked = false;
+}
+})
+}
+
+document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
+link.addEventListener('click', changeStatus);
+})
+	</script>
 {% endblock %}
