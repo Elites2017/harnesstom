@@ -6,8 +6,10 @@
   <!-- main start -->
     <main role="main">
       <!-- start of the app page -->
-      {% for flash_success in app.flashes('password_successfully_updated') %}
-          <div class="alert alert-success" role="alert">{{ flash_success }}</div>
+      {% for label, messages in app.flashes(['success', 'warning']) %}
+          {% for message in messages %}
+            <div class="alert alert-{{ label }}" role="alert">{{ message }}</div>
+            {% endfor %}
       {% endfor %}
       <div
         class="bg-image p-5 text-center shadow-1-strong rounded mb-5 text-white"
