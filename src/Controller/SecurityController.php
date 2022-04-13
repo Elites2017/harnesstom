@@ -50,7 +50,7 @@ class SecurityController extends AbstractController
                 $user->setPassword($passwordEncoder->hashPassword($user, $new_pwd));
                 $entmanager->persist($user);
                 $entmanager->flush();
-                $this->addFlash('password_successfully_updated', "Your password has been successfuly updated");
+                $this->addFlash('success', "Your password has been successfuly updated");
                 return $this->redirect($this->generateUrl('app_home'));
             } else {
                 $this->addFlash('old_password_error', "The password you typed doesn't match your old password");
