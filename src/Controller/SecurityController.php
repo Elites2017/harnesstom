@@ -47,13 +47,17 @@ class SecurityController extends AbstractController
             $checkPassword = $passwordEncoder->isPasswordValid($user, $old_pwd);
             if ($checkPassword) {
                 $new_pwd = $form->get('plainPassword')->getData();
-                $user->setPassword($passwordEncoder->hashPassword($user, $new_pwd));
-                $entmanager->persist($user);
-                $entmanager->flush();
-                $this->addFlash('success', "Your password has been successfuly updated");
-                return $this->redirect($this->generateUrl('app_home'));
+                if ($old_pwd == $new_pwd) {
+                    $this->addFlash('danger', "Your new password must be different from your old password");
+                } else {
+                    $user->setPassword($passwordEncoder->hashPassword($user, $new_pwd));
+                    $entmanager->persist($user);
+                    $entmanager->flush();
+                    $this->addFlash('success', "Your password has been successfuly updated");
+                    return $this->redirect($this->generateUrl('app_home'));
+                }
             } else {
-                $this->addFlash('old_password_error', "The password you typed doesn't match your old password");
+                $this->addFlash('danger', "The password you typed doesn't match your old password");
             }
         }
         $context = [
