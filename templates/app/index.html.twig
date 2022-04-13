@@ -6,10 +6,14 @@
   <!-- main start -->
     <main role="main">
       <!-- start of the app page -->
-      {% for label, messages in app.flashes(['success', 'warning']) %}
+      {% for category, messages in app.flashes(['success', 'warning']) %}
           {% for message in messages %}
-            <div class="alert alert-{{ label }}" role="alert">{{ message }}</div>
-            {% endfor %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endfor %}
       {% endfor %}
       <div
         class="bg-image p-5 text-center shadow-1-strong rounded mb-5 text-white"
@@ -256,3 +260,12 @@
     <!-- end of the app page -->
     <!-- main end -->
 {% endblock %}
+
+{% block javascripts %}
+			<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+			<script>
+				window.jQuery || document.write('<script src="  {{ asset('../assets/js/vendor/jquery.slim.min.js') }}"><\/script>')
+			</script>
+			<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+			<!-- <script src="assets/js1/bootstrap.bundle.min.js"></script> -->
+		{% endblock %}
