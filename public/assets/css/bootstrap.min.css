@@ -3226,6 +3226,12 @@ input[type="submit"].btn-block {
   /* added by DP */
   background-color: #d01c44;
 }
+
+/* added by DP */
+.tomato-bg-color {
+  background-color: #d01c44;
+}
+
 .dropdown-item.active,
 .dropdown-item:active {
   color: #fff;
