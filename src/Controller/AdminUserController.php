@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Person;
 use App\Entity\User;
 use App\Repository\PersonRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -81,9 +82,15 @@ class AdminUserController extends AbstractController
     public function changeStatus(User $user, EntityManagerInterface $entmanager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $repositoryPer = $this->getDoctrine()->getRepository(Person::class);
+        $onePerson = $repositoryPer->findOneBy(['user' => $user]);
         if ($user->getId()) {
             $user->setIsActive(!$user->getIsActive());
+            if ($onePerson) {
+                $onePerson->setIsActive(!$onePerson->getIsActive());
+            }
         }
+
         $entmanager->persist($user);
         $entmanager->flush();
 
@@ -91,6 +98,6 @@ class AdminUserController extends AbstractController
             'code' => 200,
             'message' => $user->getIsActive()
         ], 200);
-        //return $this->redirect($this->generateUrl('season_home'));
+        return $this->redirect($this->generateUrl('season_home'));
     }
 }
