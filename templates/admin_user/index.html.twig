@@ -78,7 +78,7 @@
                                     <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.country }}</a></td>
                                     <td>
                                         <a href="{{ path('admin_user_change_role', {id: person.user.id}) }}" class="changeRoleLink" id="{{ person.user.id }}">
-										    <button class="btn btn-outline-primary changeRoleSpan">
+										    <button class="btn btn-outline-primary changeRoleBtn">
                                             {% if person.user.roles | length == 1 %}
                                                 Make Admin
                                             {% elseif person.user.roles | length == 2 %}
@@ -91,8 +91,7 @@
                                                 Remove Admin
                                             {% endif %}
                                             </button>
-                                        </a>
-                                        
+                                        </a>  
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -165,7 +164,7 @@
         function changeRole(event) {
         event.preventDefault();
         const url = this.href;
-        const statusCheckboxsss = this.querySelector('button.changeRoleSpan');
+        const statusCheckboxsss = this.querySelector('button.changeRoleBtn');
 
         axios.get(url).then(function (res) {
         const jsonResponseMessage = res.data.message;
