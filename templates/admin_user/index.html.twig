@@ -50,14 +50,17 @@
                                     <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.user.email }}</a></td>
                                     <td>
                                         <a href="{{ path('admin_user_details', {id: person.user.id}) }}">
-                                            {% for personRole in person.user.roles %}
-                                                {% if personRole == "ROLE_USER" %}
-                                                    User
-                                                {% endif %}
-                                                {% if personRole == "ROLE_ADMIN" %}
+                                            {% if person.user.roles | length == 1 %}
+                                                User
+                                            {% elseif person.user.roles | length == 2 %}
+                                                {% if (person.user.roles[0] or person.user.role[1]) != "ROLE_ADMIN" %}
+                                                    Validator
+                                                {% else %}
                                                     Administrator
                                                 {% endif %}
-                                            {% endfor %}
+                                            {% else %}
+                                                Administrator
+                                            {% endif %}
                                         </a></td>
                                     <td>
                                         <a href="{{ path('admin_user_delete', {id: person.user.id}) }}" class="changeStatusLink" id="{{ person.user.id }}">
@@ -76,16 +79,20 @@
                                     <td>
                                         <a href="{{ path('admin_user_change_role', {id: person.user.id}) }}" class="changeRoleLink" id="{{ person.user.id }}">
 										    <button class="btn btn-outline-primary changeRoleSpan">
-                                            {% for personRole in person.user.roles %}
-                                                {% if personRole == "ROLE_USER" %}
+                                            {% if person.user.roles | length == 1 %}
+                                                Make Admin
+                                            {% elseif person.user.roles | length == 2 %}
+                                                {% if (person.user.roles[0] or person.user.role[1]) != "ROLE_ADMIN" %}
                                                     Make Admin
+                                                {% else %}
+                                                    Remove Admin
                                                 {% endif %}
-                                                {% if personRole == "ROLE_ADMIN" %}
-                                                    Make Administrator
-                                                {% endif %}
-                                            {% endfor %}
+                                            {% else %}
+                                                Remove Admin
+                                            {% endif %}
                                             </button>
                                         </a>
+                                        
                                     </td>
                                 </tr>
                             {% endfor %}
