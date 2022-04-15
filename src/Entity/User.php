@@ -429,6 +429,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $germplasmStudyImages;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -2915,6 +2920,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $germplasmStudyImage->setCreatedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
