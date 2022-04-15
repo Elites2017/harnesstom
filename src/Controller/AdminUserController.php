@@ -50,22 +50,19 @@ class AdminUserController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($user->getId()) {
             $roles = $user->getRoles();
-            $myV = false;
+            $roleSearchBool = false;
             $ind = "";
             // search for the ROLE_ADMIN
             foreach (array_keys($roles, 'ROLE_ADMIN') as $key) {
-                $myV = true;
-                //unset($array[$key]);
-               $ind = $key;
+                $roleSearchBool = true;
+                $ind = $key;
             }
-            if ($myV) {
+            if ($roleSearchBool) {
                 unset($roles[$ind]);
                 $roles = array_values($roles);
-                
             } else {
                 $roles [] = "ROLE_ADMIN";
             }
-            
             $user->setRoles($roles);
         }
         $entmanager->persist($user);
@@ -73,10 +70,9 @@ class AdminUserController extends AbstractController
 
         return $this->json([
             'code' => 200,
-            'ccc' => $myV,
-            'message' => $myV ? ' Make Admin ' : 'Remove Admin'
+            'roleSearchBool' => $roleSearchBool,
+            'message' => $roleSearchBool ? ' Make Admin ' : 'Remove Admin'
         ], 200);
-        //return $this->redirect($this->generateUrl('season_home'));
     }
 
     /**
