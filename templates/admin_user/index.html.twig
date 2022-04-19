@@ -49,7 +49,7 @@
                                 <tr>
                                     <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.user.email }}</a></td>
                                     <td>
-                                        <a href="{{ path('admin_user_details', {id: person.user.id}) }}">
+                                        <a data-id="{{ person.user.id }}" href="{{ path('admin_user_details', {id: person.user.id}) }}">
                                             {% if person.user.roles | length == 1 %}
                                                 User
                                             {% elseif person.user.roles | length == 2 %}
@@ -159,16 +159,21 @@
         link.addEventListener('click', changeStatus);
         })
 
-        //
-
+        // Change the role and update the new role name
         function changeRole(event) {
         event.preventDefault();
         const url = this.href;
-        const statusCheckboxsss = this.querySelector('button.changeRoleBtn');
-
+        const roleBtn = this.querySelector('button.changeRoleBtn');
+        // get the element matching the id of the row of the clicked button,
+        const element = document.querySelector(`[data-id="${this.id}"]`);
+        if (element.innerText == "Administrator") {
+            element.innerText = "User";
+        } else {
+            element.innerText = "Administrator";
+        }
         axios.get(url).then(function (res) {
         const jsonResponseMessage = res.data.message;
-        statusCheckboxsss.innerText = jsonResponseMessage;
+        roleBtn.innerText = jsonResponseMessage;
         })
         }
 
