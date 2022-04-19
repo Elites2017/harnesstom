@@ -413,6 +413,9 @@
 							{% endif %}
 						</a>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							{% if is_granted("ROLE_ADMIN") %}
+								<a class="dropdown-item" href="{{ path('admin_user_index') }}">Admin User</a>
+							{% endif %}
 							<a class="dropdown-item" href="{{ path('change_password') }}">Change password</a>
 							<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
 						</div>
