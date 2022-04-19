@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">ID</th>
+							<th scope="col">Name</th>
+							<th scope="col">Abbreviation</th>
+							<th scope="col">Description</th>
+							<th scope="col">Start Date</th>
+							<th scope="col">End Date</th>
+							<th scope="col">Trial</th>
+							<th scope="col">Factor</th>
+							<th scope="col">Season</th>
+							<th scope="col">Institute</th>
+							<th scope="col">Location</th>
+							<th scope="col">GrowthFacility</th>
+							<th scope="col">Parameter</th>
+							<th scope="col">Experimental Type</th>
+							{% if is_granted("canEdit") %}
+								<th scope="col">Action</th>
+							{% elseif is_granted("ROLE_ADMIN") %}
+								<th scope="col">Created By</th>
+								<th scope="col">Creation Date</th>
+								<th scope="col">Status</th>
+							{% endif %}
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{{ study.id }}</td>
+							<td>{{ study.name }}</td>
+							<td>{{ study.abbreviation }}</td>
+							<td>{{ study.description }}</td>
+							<td>{{ study.startDate | date('m/d/Y')}}</td>
+							<td>{{ study.endDate | date('m/d/Y')}}</td>
+							<td>
+								<a href="{{ path('trial_details', {id: study.trial.id}) }}">{{ study.trial }}</td>
+							</td>
+							<td>
+								<a href="{{ path('factor_type_details', {id: study.factor.id}) }}">{{ study.factor }}</a>
+							</td>
+							<td>
+								<a href="{{ path('season_details', {id: study.season.id}) }}">{{ study.season }}</a>
+							</td>
+							<td>
+								<a href="{{ path('institute_details', {id: study.institute.id}) }}">{{ study.institute }}</a>
+							</td>
+							<td>
+								<a href="{{ path('location_details', {id: study.location.id}) }}">{{ study.location }}</a>
+							</td>
+							<td>
+								<a href="{{ path('growth_facility_type_details', {id: study.growthFacility.id}) }}">{{ study.growthFacility }}</a>
+							</td>
+							<td>
+								<a href="{{ path('parameter_details', {id: study.parameter.id}) }}">{{ study.parameter }}</a>
+							</td>
+							<td>
+								<a href="{{ path('experimental_design_details', {id: study.experimentalDesignType.id}) }}">{{ study.experimentalDesignType }}</a>
+							</td>
+							{% if is_granted("ROLE_ADMIN") %}
+								<td>
+									<a href="{{ path('person_details', {id: study.createdBy.id}) }}">{{ study.createdBy }}</a>
+								</td>
+								<td>{{ study.createdAt | date('d/m/Y h:m:s') }}</td>
+								<td>
+									<a href="{{ path('study_delete', {id: study.id}) }}" class="changeStatusLink" id="{{ study.id }}">
+										<span class="changeStatusSpan">
+											<input type="checkbox" {{ study.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+										</span>
+									</a>
+								</td>
+							{% elseif is_granted("canEdit") %}
+								<td>
+									<a href="{{ path('study_edit', {id: study.id}) }}">
+										<button class="btn btn-outline-warning">Edit</button>
+									</a>
+								</td>
+							{% endif %}
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+	<script>
+		/*
+        This function is to change the status of the object.
+        It is called each time the corresponding link is clicked (the event happened).
+        1. It prevents the default behavior (behavior of showing the json response) of the function
+        in the controller class.
+
+        2. It gets the url of the link
+
+        3. It get the html document of the span which is the checkbox to change the object status 
+
+        4. It passes the url to axios which returns a response which is the message of the json
+            coming from the function in the controller.
+            4.1 set the checked property of the checkbox based on the response value.
+    */
+function changeStatus(event) {
+event.preventDefault();
+const url = this.href;
+const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+
+axios.get(url).then(function (res) {
+const jsonResponse = res.data.message;
+if (jsonResponse) {
+statusCheckbox.checked = true;
+} else {
+statusCheckbox.checked = false;
+}
+})
+}
+
+document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
+link.addEventListener('click', changeStatus);
+})
+	</script>
+{% endblock %}
