@@ -85,7 +85,7 @@ class SynonymController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$form->get('accession')->getData() instanceof \App\Entity\Accession) {
-                $this->addFlash('danger', "You must choose an accession from the liste");
+                $this->addFlash('danger', "You must choose an accession from the list");
             } else {
                 $entmanager->persist($synonym);
                 $entmanager->flush();
