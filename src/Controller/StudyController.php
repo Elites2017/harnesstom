@@ -82,7 +82,7 @@ class StudyController extends AbstractController
      */
     public function edit(Study $study, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('study_edit', $study);
         $form = $this->createForm(StudyUpdateType::class, $study);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
