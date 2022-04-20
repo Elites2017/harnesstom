@@ -23,50 +23,52 @@
 			<div class="col-md-12 order-md-1">
 				{% if studies | length > 0 %}
                     <h2 class="mb-3 text-center tomato-color font-weight-bold">Study List</h2>
-                    <table id="datatable" class="table table-hover text-nowrap" width="100%">
-                        <thead class="table-dark">
-                            <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Abbreviation</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Start Date</th>
-                            <th scope="col">End Date</th>
-                            <th scope="col">Trial</th>
-                            <th scope="col">Factor</th>
-                            <th scope="col">Season</th>
-                            <th scope="col">Institute</th>
-                            <th scope="col">Location</th>
-                            <th scope="col">GrowthFacility</th>
-                            <th scope="col">Parameter</th>
-                            <th scope="col">Experimental Design</th>
-                            <th scope="col">Cultural Practice</th>
-                            <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for study in studies %}
+                    <div class="table-responsive"> 
+                        <table id="datatable" class="table table-hover text-nowrap" width="100%">
+                            <thead class="table-dark">
                                 <tr>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.name }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.abbreviation }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.description }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.startDate | date ('d/m/Y') }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.endDate | date ('d/m/Y') }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.trial }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.factor }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.season }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.institute }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.location }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.growthFacility }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.parameter }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.experimentalDesignType }}</a></td>
-                                    <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.culturalPractice }}</a></td>
-                                    <td>
-                                        <a href="{{ path('study_details', {id: study.id}) }}"><button class="btn btn-outline-primary">View</button></a>
-                                    </td>
+                                <th scope="col">Name</th>
+                                <th scope="col">Abbreviation</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                                <th scope="col">Trial</th>
+                                <th scope="col">Factor</th>
+                                <th scope="col">Season</th>
+                                <th scope="col">Institute</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">GrowthFacility</th>
+                                <th scope="col">Parameter</th>
+                                <th scope="col">Experimental Design</th>
+                                <th scope="col">Cultural Practice</th>
+                                <th scope="col">Action</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-				    </table>
+                            </thead>
+                            <tbody>
+                                {% for study in studies %}
+                                    <tr>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.name }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.abbreviation }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.description }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.startDate | date ('d/m/Y') }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.endDate | date ('d/m/Y') }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.trial }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.factor }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.season }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.institute }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.location }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.growthFacility }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.parameter }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.experimentalDesignType }}</a></td>
+                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.culturalPractice }}</a></td>
+                                        <td>
+                                            <a href="{{ path('study_details', {id: study.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 {% else %} 
                     <h5 class="mb-3 text-center tomato-color font-weight-bold">No study has been provided in our system</h5>
                 {% endif %}     

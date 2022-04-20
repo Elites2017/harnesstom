@@ -9,104 +9,106 @@
 		<div class="row">
 			<div class="col-md-12 order-md-1">
 				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th scope="col">ID</th>
-							<th scope="col">Name</th>
-							<th scope="col">Abbreviation</th>
-							<th scope="col">Description</th>
-							<th scope="col">Start Date</th>
-							<th scope="col">End Date</th>
-							<th scope="col">Trial</th>
-							<th scope="col">Factor</th>
-							<th scope="col">Season</th>
-							<th scope="col">Institute</th>
-							<th scope="col">Location</th>
-							<th scope="col">GrowthFacility</th>
-							<th scope="col">Parameter</th>
-							<th scope="col">Experimental Type</th>
-							{% if is_granted("ROLE_ADMIN") %}
-								<th scope="col">Created By</th>
-								<th scope="col">Creation Date</th>
-								<th scope="col">Status</th>
-							{% endif %}
-							{% if is_granted("study_edit", study) %}
-								<th scope="col">Action</th>
-							{% endif %}
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>{{ study.id }}</td>
-							<td>{{ study.name }}</td>
-							<td>{{ study.abbreviation }}</td>
-							<td>{{ study.description }}</td>
-							<td>{{ study.startDate | date('m/d/Y')}}</td>
-							<td>{{ study.endDate | date('m/d/Y')}}</td>
-							<td>
-								{% if study.trial %}
-									<a href="{{ path('trial_details', {id: study.trial.id}) }}">{{ study.trial }}</a>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Abbreviation</th>
+								<th scope="col">Description</th>
+								<th scope="col">Start Date</th>
+								<th scope="col">End Date</th>
+								<th scope="col">Trial</th>
+								<th scope="col">Factor</th>
+								<th scope="col">Season</th>
+								<th scope="col">Institute</th>
+								<th scope="col">Location</th>
+								<th scope="col">GrowthFacility</th>
+								<th scope="col">Parameter</th>
+								<th scope="col">Experimental Type</th>
+								{% if is_granted("ROLE_ADMIN") %}
+									<th scope="col">Created By</th>
+									<th scope="col">Creation Date</th>
+									<th scope="col">Status</th>
 								{% endif %}
-							</td>
-							<td>
-								{% if study.factor %}
-									<a href="{{ path('factor_type_details', {id: study.factor.id}) }}">{{ study.factor }}</a>
+								{% if is_granted("study_edit", study) %}
+									<th scope="col">Action</th>
 								{% endif %}
-							</td>
-							<td>
-								{% if study.season %}
-									<a href="{{ path('season_details', {id: study.season.id}) }}">{{ study.season }}</a>
-								{% endif %}
-							</td>
-							<td>
-								{% if study.institute %}
-									<a href="{{ path('institute_details', {id: study.institute.id}) }}">{{ study.institute }}</a>
-								{% endif %}
-							</td>
-							<td>
-								{% if study.location %}
-									<a href="{{ path('location_details', {id: study.location.id}) }}">{{ study.location }}</a>
-								{% endif %}
-							</td>
-							<td>
-								{% if study.growthFacility %}
-									<a href="{{ path('growth_facility_type_details', {id: study.growthFacility.id}) }}">{{ study.growthFacility }}</a>
-								{% endif %}
-							</td>
-							<td>
-								{% if study.parameter %}
-									<a href="{{ path('parameter_details', {id: study.parameter.id}) }}">{{ study.parameter }}</a>
-								{% endif %}
-							</td>
-							<td>
-								{% if study.experimentalDesignType %}
-									<a href="{{ path('experimental_design_details', {id: study.experimentalDesignType.id}) }}">{{ study.experimentalDesignType }}</a>
-								{% endif %}
-							</td>
-							{% if is_granted("ROLE_ADMIN") %}
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{{ study.id }}</td>
+								<td>{{ study.name }}</td>
+								<td>{{ study.abbreviation }}</td>
+								<td>{{ study.description }}</td>
+								<td>{{ study.startDate | date('m/d/Y')}}</td>
+								<td>{{ study.endDate | date('m/d/Y')}}</td>
 								<td>
-									<a href="{{ path('person_details', {id: study.createdBy.id}) }}">{{ study.createdBy }}</a>
+									{% if study.trial %}
+										<a href="{{ path('trial_details', {id: study.trial.id}) }}">{{ study.trial }}</a>
+									{% endif %}
 								</td>
-								<td>{{ study.createdAt | date('d/m/Y h:m:s') }}</td>
 								<td>
-									<a href="{{ path('study_delete', {id: study.id}) }}" class="changeStatusLink" id="{{ study.id }}">
-										<span class="changeStatusSpan">
-											<input type="checkbox" {{ study.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-										</span>
-									</a>
+									{% if study.factor %}
+										<a href="{{ path('factor_type_details', {id: study.factor.id}) }}">{{ study.factor }}</a>
+									{% endif %}
 								</td>
-							{% endif %}
-							{% if is_granted("study_edit", study) %}
 								<td>
-									<a href="{{ path('study_edit', {id: study.id}) }}">
-										<button class="btn btn-outline-warning">Edit</button>
-									</a>
+									{% if study.season %}
+										<a href="{{ path('season_details', {id: study.season.id}) }}">{{ study.season }}</a>
+									{% endif %}
 								</td>
-							{% endif %}
-						</tr>
-					</tbody>
-				</table>
+								<td>
+									{% if study.institute %}
+										<a href="{{ path('institute_details', {id: study.institute.id}) }}">{{ study.institute }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{% if study.location %}
+										<a href="{{ path('location_details', {id: study.location.id}) }}">{{ study.location }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{% if study.growthFacility %}
+										<a href="{{ path('growth_facility_type_details', {id: study.growthFacility.id}) }}">{{ study.growthFacility }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{% if study.parameter %}
+										<a href="{{ path('parameter_details', {id: study.parameter.id}) }}">{{ study.parameter }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{% if study.experimentalDesignType %}
+										<a href="{{ path('experimental_design_details', {id: study.experimentalDesignType.id}) }}">{{ study.experimentalDesignType }}</a>
+									{% endif %}
+								</td>
+								{% if is_granted("ROLE_ADMIN") %}
+									<td>
+										<a href="{{ path('person_details', {id: study.createdBy.id}) }}">{{ study.createdBy }}</a>
+									</td>
+									<td>{{ study.createdAt | date('d/m/Y h:m:s') }}</td>
+									<td>
+										<a href="{{ path('study_delete', {id: study.id}) }}" class="changeStatusLink" id="{{ study.id }}">
+											<span class="changeStatusSpan">
+												<input type="checkbox" {{ study.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+											</span>
+										</a>
+									</td>
+								{% endif %}
+								{% if is_granted("study_edit", study) %}
+									<td>
+										<a href="{{ path('study_edit', {id: study.id}) }}">
+											<button class="btn btn-outline-warning">Edit</button>
+										</a>
+									</td>
+								{% endif %}
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<!-- .row -->
