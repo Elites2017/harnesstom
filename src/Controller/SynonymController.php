@@ -41,14 +41,18 @@ class SynonymController extends AbstractController
         $form = $this->createForm(SynonymType::class, $synonym);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->getUser()) {
-                $synonym->setCreatedBy($this->getUser());
+            if (!$form->get('accession')->getData() instanceof \App\Entity\Accession) {
+                $this->addFlash('danger', "You must choose an accession from the liste");
+            } else {
+                if ($this->getUser()) {
+                    $synonym->setCreatedBy($this->getUser());
+                }
+                $synonym->setIsActive(true);
+                $synonym->setCreatedAt(new \DateTime());
+                $entmanager->persist($synonym);
+                $entmanager->flush();
+                return $this->redirect($this->generateUrl('synonym_index'));
             }
-            $synonym->setIsActive(true);
-            $synonym->setCreatedAt(new \DateTime());
-            $entmanager->persist($synonym);
-            $entmanager->flush();
-            return $this->redirect($this->generateUrl('synonym_index'));
         }
 
         $context = [
@@ -80,9 +84,13 @@ class SynonymController extends AbstractController
         $form = $this->createForm(SynonymUpdateType::class, $synonym);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entmanager->persist($synonym);
-            $entmanager->flush();
-            return $this->redirect($this->generateUrl('synonym_index'));
+            if (!$form->get('accession')->getData() instanceof \App\Entity\Accession) {
+                $this->addFlash('danger', "You must choose an accession from the liste");
+            } else {
+                $entmanager->persist($synonym);
+                $entmanager->flush();
+                return $this->redirect($this->generateUrl('synonym_index'));
+            }
         }
 
         $context = [
