@@ -1,0 +1,200 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 order-md-1">
+                <h2 class="mb-3 text-center tomato-color font-weight-bold">Synonym Creation</h2>
+                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {{ form_start(synonymForm) }}
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                    (synonymForm.accession,
+                                    { label: "Accession",
+                                        'attr': {'placeholder': "Select an accession"}
+                                    })
+                        }}
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                    (synonymForm.pgr,
+                                    { label: "PGR",
+                                        'attr': {'placeholder': "Enter the PGR name"}
+                                    })
+                        }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                   (synonymForm.usda,
+                                    { label: "USDA",
+                                        'attr': {'placeholder': "Enter the USDA name"}
+                                    })
+                        }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                    (synonymForm.comav,
+                                    { label: "COMAV",
+                                        'attr': {'placeholder': "Enter the COMAV name"}
+                                    })
+                        }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                            (synonymForm.fma01,
+                                { label: "FMA01",
+                                'attr': {'placeholder': "Enter the FMA01 name"}
+                                }
+                            )
+                        }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                            (synonymForm.uib,
+                                { label: "UIB",
+                                'attr': {'placeholder': "Enter the UIB name"}
+                                }
+                            )
+                        }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (synonymForm.eusol,
+                                    { label: "EUSOL",
+                                    'attr': {
+                                        'placeholder': "Enter the EUSOL name"}
+                                    }
+                                )
+                            }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (synonymForm.cccode,
+                                    { label: "CCCODE",
+                                    'attr': {
+                                        'placeholder': "Enter the CCCODE name"}
+                                    }
+                                )
+                            }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (synonymForm.ndl,
+                                    { label: "NDL",
+                                    'attr': {
+                                        'placeholder': "Enter the NDL name"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (synonymForm.avrc,
+                                    { label: "AVRC",
+                                    'attr': {
+                                        'placeholder': "Enter the AVRC name"}
+                                    }
+                                )
+                            }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (synonymForm.inra,
+                                    { label: "INRA",
+                                    'attr': {
+                                        'placeholder': "Enter the INRA name"}
+                                    }
+                                )
+                            }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (synonymForm.unitus,
+                                    { label: "UNITUS",
+                                    'attr': {
+                                        'placeholder': "Enter the UNITUS name"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (synonymForm.resqProject360,
+                                    { label: "RESQPROJECT360",
+                                    'attr': {
+                                        'placeholder': "Enter the RESQPROJECT360 name"}
+                                    }
+                                )
+                            }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (synonymForm.reseq150,
+                                    { label: "RESEQ150",
+                                    'attr': {
+                                        'placeholder': "Enter the RESEQ150 name"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (synonymForm.tgrc,
+                                    { label: "TGRC",
+                                    'attr': {
+                                        'placeholder': "Enter the TGRC name",
+                                        }
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+                        </div>
+                    </div>
+                {{ form_end(synonymForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

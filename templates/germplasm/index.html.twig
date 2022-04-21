@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				{% if germplasms | length > 0 %}
+                    <h2 class="mb-3 text-center tomato-color font-weight-bold">Germplasm List</h2>
+                    <div class="table-responsive"> 
+                        <table id="datatable" class="table table-hover text-nowrap" width="100%">
+                            <thead class="table-dark">
+                                <tr>
+                                <th scope="col">Germplasm ID</th>
+                                <th scope="col">INSTCODE</th>
+                                <th scope="col">Maintainer Number</th>
+                                <th scope="col">Program</th>
+                                <th scope="col">Accession</th>
+                                <th scope="col">Preprocessing</th>
+                                <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for germplasm in germplasms %}
+                                    <tr>
+                                        <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.germplasmID }}</a></td>
+                                        <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.instcode }}</a></td>
+                                        <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.maintainerNumb }}</a></td>
+                                        <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.program }}</a></td>
+                                        <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.accession }}</a></td>
+                                        <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.preprocessing }}</a></td>
+                                        <td>
+                                            <a href="{{ path('germplasm_details', {id: germplasm.id}) }}"><button class="btn btn-outline-primary">View</button></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %} 
+                    <h5 class="mb-3 text-center tomato-color font-weight-bold">No germplasm has been provided in our system</h5>
+                {% endif %}     
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
+		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<!-- DataTables JavaScript -->
+    <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable();
+        } );
+    </script>
+{% endblock %}
