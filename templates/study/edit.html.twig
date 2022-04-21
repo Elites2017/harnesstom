@@ -180,11 +180,23 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            {{ form_row (studyForm.isActive) }}
-                        </div>
+                     <div>
+                        {{ form_row
+                            (studyForm.germplasms,
+                                { label: "Germplasms (You can select several germplasms)",
+                                'attr': {'placeholder': "Select the related germplasm(s)"}
+                                }
+                            )
+                        }}
                     </div>
+
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row (studyForm.isActive) }}
+                            </div>
+                        </div>
+                    {% endif %}
 
                     <div class="row">
                         <div class="col-md-6 mb-3">

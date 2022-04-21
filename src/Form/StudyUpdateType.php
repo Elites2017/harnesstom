@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Study;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +17,8 @@ class StudyUpdateType extends AbstractType
         $builder
             ->add('name')
             ->add('abbreviation')
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '7')])
             ->add('startDate', DateType::class, array(
                 'widget' => 'single_text',
             ))
@@ -33,6 +35,7 @@ class StudyUpdateType extends AbstractType
             ->add('growthFacility')
             ->add('parameter')
             ->add('experimentalDesignType')
+            ->add('germplasms')
         ;
     }
 

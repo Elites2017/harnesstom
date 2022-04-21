@@ -179,6 +179,15 @@
                             }}
                         </div>
                     </div>
+                    <div>
+                        {{ form_row
+                            (studyForm.germplasms,
+                                { label: "Germplasms (You can select several germplasms)",
+                                'attr': {'placeholder': "Select the related germplasm(s)"}
+                                }
+                            )
+                        }}
+                    </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
