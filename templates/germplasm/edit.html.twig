@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 order-md-1">
+                <h2 class="mb-3 text-center tomato-color font-weight-bold">Germplasm Creation</h2>
+                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {{ form_start(germplasmForm) }}
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                   (germplasmForm.germplasmID,
+                                    { label: "ID *",
+                                        'attr': {'placeholder': "Enter the germplasm ID"}
+                                    })
+                        }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                             {{ form_row
+                            (germplasmForm.accession,
+                                { label: "Accession",
+                                'attr': {'placeholder': "Select the germplasm accession",
+                                        'class': "custom-select d-block w-100"}
+                                }
+                            )
+                        }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                            (germplasmForm.program,
+                                { label: "Program",
+                                'attr': {'placeholder': "Select the germplasm program",
+                                        'class': "custom-select d-block w-100"}
+                                }
+                            )
+                        }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                    (germplasmForm.instcode,
+                                    { label: "INSTCODE",
+                                        'attr': {'placeholder': "Enter the germplasm INSTCODE"}
+                                    })
+                        }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                            (germplasmForm.maintainerNumb,
+                                { label: "Maintainer Number",
+                                'attr': {'placeholder': "Enter the germplasm maintainer number"}
+                                }
+                            )
+                        }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (germplasmForm.preprocessing,
+                                    { label: "Preprocessing",
+                                    'attr': {
+                                        'placeholder': "Enter the germplasm preprocessing"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            {{ form_row
+                                (germplasmForm.study,
+                                    { label: "Study (You can select several studies)",
+                                    'attr': {
+                                        'placeholder': "Select the germplasm crop",
+                                        'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row (germplasmForm.isActive) }}
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+                        </div>
+                    </div>
+                {{ form_end(germplasmForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
