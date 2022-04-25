@@ -3,272 +3,321 @@
 {% block title %}{{ title }}{% endblock %}
 
 
-{% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            <h1 class="tomato-color">Accession Creation</h1>
-                            {{ form_start(accessionForm) }}
-                            <h3 class="tomato-color">Accession basic information</h3>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.accenumb,
-                                            { label: "Accession Number *",
-                                            'attr': {'placeholder': "Enter the accession number"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.accename,
-                                            { label: "Accession Name *",
-                                            'attr': {'placeholder': "Enter the accession name"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.puid,
-                                            { label: "PUID *",
-                                            'attr': {'placeholder': "Enter the accession puid"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.origcty,
-                                            { label: "Country of origin",
-                                            'attr': {'placeholder': "Select the accession origin country"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.origmuni,
-                                            { label: "Municipality of origin",
-                                            'attr': {'placeholder': "Enter the accession municipality of origin"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.origadmin1,
-                                            { label: "Origadmin1",
-                                            'attr': {'placeholder': "Enter the accession first-level administrative country subdivision"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.origadmin2,
-                                            { label: "Origadmin2",
-                                            'attr': {'placeholder': "Enter the accession second-level administrative country subdivision"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.collsrc,
-                                            { label: "Collecting source",
-                                            'attr': {'placeholder': "Select the accession collecting source"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.sampstat,
-                                            { label: "Biological status",
-                                            'attr': {'placeholder': "Select the accession biological status"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.mlsStatus,
-                                            { label: "MLS status",
-                                            'attr': {'placeholder': "Select the accession MLS status"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.taxon,
-                                            { label: "Taxon",
-                                            'attr': {'placeholder': "Select the accession taxon"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <h3 class="tomato-color">Collecting site information</h3>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.collnumb,
-                                            { label: "Collecting number",
-                                            'attr': {'placeholder': "Enter the accession collecting number"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.collcode,
-                                            { label: "Collecting institute code",
-                                            'attr': {'placeholder': "Select the accession collecting institute code"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.collmissid,
-                                            { label: "Collecting mission idntifier",
-                                            'attr': {'placeholder': "Select the accession collecting mission identifier"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.colldate,
-                                            { label: "Collecting date",
-                                            'attr': {'placeholder': "Enter the accession collecting date"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.declatitude,
-                                            { label: "Collecting site latitude",
-                                            'attr': {'placeholder': "Enter the accession collecting site latitude"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.declongitude,
-                                            { label: "Collecting site longitude",
-                                            'attr': {'placeholder': "Enter the accession collecting site longitude"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.elevation,
-                                            { label: "Collecting site elevation",
-                                            'attr': {'placeholder': "Enter the accession collecting site elevation"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.collsite,
-                                            { label: "Collecting site",
-                                            'attr': {'placeholder': "Enter the collecting site"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <h3 class="tomato-color">Accession breeding information</h3>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.bredcode,
-                                            { label: "Breeding Institute Code",
-                                            'attr': {'placeholder': "Select the accession bredcode"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.breedingInfo,
-                                            { label: "Breeding information",
-                                            'attr': {'placeholder': "enter the accession breeding description"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <h3 class="tomato-color">Maintaining institute information</h3>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.maintainernumb,
-                                            { label: "Maintainer number",
-                                            'attr': {'placeholder': "Enter the accession maintainer number"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.instcode,
-                                            { label: "Maintainer institute code",
-                                            'attr': {'placeholder': "Select the accession maintainer institute code"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.acqdate,
-                                            { label: "Acquisition date",
-                                            'attr': {'placeholder': "Enter the accession acquisition date"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.storage,
-                                            { label: "Storage type",
-                                            'attr': {'placeholder': "Select the accession storage place"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.donorcode,
-                                            { label: "Donnor Institute Code",
-                                            'attr': {'placeholder': "Select the accession donnor code"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (accessionForm.donornumb,
-                                            { label: "Donor number",
-                                            'attr': {'placeholder': "Enter the accession donor number"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <button type="submit" class="btn">Create</button>
-                                <button type="reset" class="btn">Cancel</button>
-                            {{ form_end(accessionForm) }}
+{% block body %} 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 order-md-1">
+                <h2 class="mb-3 text-center tomato-color font-weight-bold">Accession Creation</h2>
+                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {{ form_start(accessionForm) }}
+                <h3 class="tomato-color">Accession basic information</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.accenumb,
+                                    { label: "Accession Number *",
+                                    'attr': {'placeholder': "Enter the accession number"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.accename,
+                                    { label: "Accession Name *",
+                                    'attr': {'placeholder': "Enter the accession name"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.puid,
+                                    { label: "PUID *",
+                                    'attr': {'placeholder': "Enter the accession puid"}
+                                    }
+                                )
+                            }}
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.origcty,
+                                    { label: "Country of origin",
+                                    'attr': {'placeholder': "Select the accession origin country",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.origmuni,
+                                    { label: "Municipality of origin",
+                                    'attr': {'placeholder': "Enter the accession municipality of origin"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.origadmin1,
+                                    { label: "Origadmin1",
+                                    'attr': {'placeholder': "Enter the accession first-level administrative country subdivision"}
+                                    }
+                                )
+                            }}
+                        </div>
                     </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.origadmin2,
+                                    { label: "Origadmin2",
+                                    'attr': {'placeholder': "Enter the accession second-level administrative country subdivision"}
+                                    }
+                                )
+                            }}
+                            </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.collsrc,
+                                    { label: "Collecting source",
+                                    'attr': {'placeholder': "Select the accession collecting source",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                            </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.sampstat,
+                                    { label: "Biological status",
+                                    'attr': {'placeholder': "Select the accession biological status",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form_row
+                                (accessionForm.mlsStatus,
+                                    { label: "MLS status",
+                                    'attr': {'placeholder': "Select the accession MLS status",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form_row
+                                (accessionForm.taxon,
+                                    { label: "Taxon",
+                                    'attr': {'placeholder': "Select the accession taxon",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+                    <h3 class="tomato-color">Collecting site information</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.collnumb,
+                                    { label: "Collecting number",
+                                    'attr': {'placeholder': "Enter the accession collecting number"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.collcode,
+                                    { label: "Collecting institute code",
+                                    'attr': {'placeholder': "Select the accession collecting institute code",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.collmissid,
+                                    { label: "Collecting mission idntifier",
+                                    'attr': {'placeholder': "Select the accession collecting mission identifier",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.colldate,
+                                    { label: "Collecting date",
+                                    'attr': {'placeholder': "Enter the accession collecting date"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.declatitude,
+                                    { label: "Collecting site latitude",
+                                    'attr': {'placeholder': "Enter the accession collecting site latitude"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.declongitude,
+                                    { label: "Collecting site longitude",
+                                    'attr': {'placeholder': "Enter the accession collecting site longitude"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form_row
+                                (accessionForm.elevation,
+                                    { label: "Collecting site elevation",
+                                    'attr': {'placeholder': "Enter the accession collecting site elevation"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form_row
+                                (accessionForm.collsite,
+                                    { label: "Collecting site",
+                                    'attr': {'placeholder': "Enter the collecting site"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+                    <h3 class="tomato-color">Accession breeding information</h3>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form_row
+                                (accessionForm.bredcode,
+                                    { label: "Breeding Institute Code",
+                                    'attr': {'placeholder': "Select the accession bredcode",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form_row
+                                (accessionForm.breedingInfo,
+                                    { label: "Breeding information",
+                                    'attr': {'placeholder': "enter the accession breeding description"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+                    <div>
+                        
+                    </div>
+                    <h3 class="tomato-color">Maintaining institute information</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.maintainernumb,
+                                    { label: "Maintainer number",
+                                    'attr': {'placeholder': "Enter the accession maintainer number"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.instcode,
+                                    { label: "Maintainer institute code",
+                                    'attr': {'placeholder': "Select the accession maintainer institute code",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.acqdate,
+                                    { label: "Acquisition date",
+                                    'attr': {'placeholder': "Enter the accession acquisition date"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.storage,
+                                    { label: "Storage type",
+                                    'attr': {'placeholder': "Select the accession storage place",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.donorcode,
+                                    { label: "Donnor Institute Code",
+                                    'attr': {'placeholder': "Select the accession donnor code",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            {{ form_row
+                                (accessionForm.donornumb,
+                                    { label: "Donor number",
+                                    'attr': {'placeholder': "Enter the accession donor number"}
+                                    }
+                                )
+                            }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+                        </div>
+                    </div>
+                {{ form_end(accessionForm) }}
+            </div>
+        </div> <!-- .row -->
+    </div> <!-- .container -->
 {% endblock %}

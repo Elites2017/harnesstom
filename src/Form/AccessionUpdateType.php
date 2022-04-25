@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Accession;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,10 +20,14 @@ class AccessionUpdateType extends AbstractType
             ->add('origadmin1')
             ->add('origadmin2')
             ->add('maintainernumb')
-            ->add('acqdate')
+            ->add('acqdate', DateType::class, array(
+                'widget' => 'single_text'
+            ))
             ->add('donornumb')
             ->add('collnumb')
-            ->add('colldate')
+            ->add('colldate', DateType::class, array(
+                'widget' => 'single_text'
+            ))
             ->add('declatitude')
             ->add('declongitude')
             ->add('elevation')

@@ -3,92 +3,181 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-
-            <div class="container">
-                <div class="row">
-                    <div class="card-body">
-                        <h1 class="tomato-color">Details</h1>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                <th scope="col">Number</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">PUID</th>
-                                <th scope="col">Municipality of origin</th>
-                                <th scope="col">Origadmin 1</th>
-                                <th scope="col">Origadmin 2</th>
-                                <th scope="col">Maintainer Number</th>
-                                <th scope="col">Acquisition Date</th>
-                                <th scope="col">Donnor number</th>
-                                <th scope="col">Collecting Number</th>
-                                <th scope="col">Collecting Date</th>
-                                <th scope="col">Declatitude</th>
-                                <th scope="col">Declongitude</th>
-                                <th scope="col">Elevation</th>
-                                <th scope="col">Country of Origin</th>
-                                <th scope="col">Collecting Source</th>
-                                <th scope="col">Samp Stat</th>
-                                <th scope="col">Taxon</th>
-                                <th scope="col">Instcode</th>
-                                <th scope="col">Storage</th>
-                                <th scope="col">Donnor Code</th>
-                                <th scope="col">Collecting Code</th>
-                                <th scope="col">Collecting Mission</th>
-                                <th scope="col">Bredcode</th>
+   <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 order-md-1 mb-3">
+                <h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                            <th scope="col">Number</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">PUID</th>
+                            <th scope="col">Municipality of origin</th>
+                            <th scope="col">Origadmin 1</th>
+                            <th scope="col">Origadmin 2</th>
+                            <th scope="col">Maintainer Number</th>
+                            <th scope="col">Acquisition Date</th>
+                            <th scope="col">Donnor number</th>
+                            <th scope="col">Collecting Number</th>
+                            <th scope="col">Collecting Date</th>
+                            <th scope="col">Declatitude</th>
+                            <th scope="col">Declongitude</th>
+                            <th scope="col">Elevation</th>
+                            <th scope="col">Country of Origin</th>
+                            <th scope="col">Collecting Source</th>
+                            <th scope="col">Samp Stat</th>
+                            <th scope="col">Taxon</th>
+                            <th scope="col">Instcode</th>
+                            <th scope="col">Storage</th>
+                            <th scope="col">Donnor Code</th>
+                            <th scope="col">Collecting Code</th>
+                            <th scope="col">Collecting Mission</th>
+                            <th scope="col">Bredcode</th>
+                            {% if is_granted("ROLE_ADMIN") %}
                                 <th scope="col">Created By</th>
                                 <th scope="col">Creation Date</th>
                                 <th scope="col">Status</th>
+                            {% endif %}
+                            {% if is_granted("accession_edit", accession) %}
                                 <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{ accession.accenumb }}</td>
-                                    <td>{{ accession.accename }}</td>
-                                    <td>{{ accession.puid }}</td>
-                                    <td>{{ accession.origmuni }}</td>
-                                    <td>{{ accession.origadmin1 }}</td>
-                                    <td>{{ accession.origadmin2 }}</td>
-                                    <td>{{ accession.maintainernumb }}</td>
-                                    <td>{{ accession.acqdate | date('d/m/Y') }}</td>
-                                    <td>{{ accession.donornumb }}</td>
-                                    <td>{{ accession.collnumb }}</td>
-                                    <td>{{ accession.colldate | date('d/m/Y') }}</td>
-                                    <td>{{ accession.declatitude }}</td>
-                                    <td>{{ accession.declongitude }}</td>
-                                    <td>{{ accession.elevation }}</td>
-                                    <td><a href="{{ path('country_details', {id: accession.origcty.id}) }}">{{ accession.origcty }}</a></td>
-                                    <td><a href="{{ path('collecting_source_details', {id: accession.collsrc.id}) }}">{{ accession.collsrc }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.sampstat.id}) }}">{{ accession.sampstat }}</a></td>
-                                    <td><a href="{{ path('taxonomy_details', {id: accession.taxon.id}) }}">{{ accession.taxon }}</a></td>
-                                    <td>{{ accession.instcode }}</td>
-                                    <td><a href="{{ path('accession_details', {id: accession.storage.id}) }}">{{ accession.storage }}</a></td>
-                                    <td>{{ accession.donorcode }}</td>
-                                    <td>{{ accession.collcode }}</td>
-                                    <td><a href="{{ path('accession_details', {id: accession.collmissid.id}) }}">{{ accession.collmissid }}</a></td>
-                                    <td>{{ accession.bredcode }}</td>
-                                    <td><a href="{{ path('person_details', {id: accession.createdBy.id}) }}">{{ accession.createdBy }}</a></td>
+                            {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ accession.accenumb }}</td>
+                                <td>{{ accession.accename }}</td>
+                                <td>{{ accession.puid }}</td>
+                                <td>{{ accession.origmuni }}</td>
+                                <td>{{ accession.origadmin1 }}</td>
+                                <td>{{ accession.origadmin2 }}</td>
+                                <td>{{ accession.maintainernumb }}</td>
+                                <td>{{ accession.acqdate | date('d/m/Y') }}</td>
+                                <td>{{ accession.donornumb }}</td>
+                                <td>{{ accession.collnumb }}</td>
+                                <td>{{ accession.colldate | date('d/m/Y') }}</td>
+                                <td>{{ accession.declatitude }}</td>
+                                <td>{{ accession.declongitude }}</td>
+                                <td>{{ accession.elevation }}</td>
+                                <td>
+                                    {% if accession.origcty %}
+                                        <a href="{{ path('country_details', {id: accession.origcty.id}) }}">{{ accession.origcty }}</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if accession.collsrc %}
+                                        <a href="{{ path('collecting_source_details', {id: accession.collsrc.id}) }}">{{ accession.collsrc }}</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if accession.sampstat %}
+                                        <a href="{{ path('biological_status_details', {id: accession.sampstat.id}) }}">{{ accession.sampstat }}</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if accession.taxon %}
+                                        <a href="{{ path('taxonomy_details', {id: accession.taxon.id}) }}">{{ accession.taxon }}</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if accession.instcode %}
+                                        <a href="{{ path('institute_details', {id: accession.instcode.id}) }}">{{ accession.instcode }}</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if accession.storage %}
+                                        <a href="{{ path('storage_type_details', {id: accession.storage.id}) }}">{{ accession.storage }}</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if accession.collmissid %}
+                                        <a href="{{ path('collecting_mission_details', {id: accession.collmissid.id}) }}">{{ accession.collmissid }}</a>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if accession.donorcode %}
+                                        <a href="{{ path('institute_details', {id: accession.donorcode.id}) }}">{{ accession.donorcode }}</a>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if accession.collcode %}
+                                        <a href="{{ path('collecting_mission_details', {id: accession.collmissid.id}) }}">{{ accession.collmissid }}</a>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if accession.bredcode %}
+                                        <a href="{{ path('institute_details', {id: accession.bredcode.id}) }}">{{ accession.bredcode }}</a>
+                                    {% endif %}
+                                </td>
+                                
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <td>
+                                        <a href="{{ path('person_details', {id: accession.createdBy.person.id}) }}">{{ accession.createdBy }}</a>
+                                    </td>
                                     <td>{{ accession.createdAt | date('d/m/Y h:m:s') }}</td>
-                                    <td><a href="{{ path('accession_delete', {id: accession.id}) }}" class="changeStatusLink" id="{{ accession.id }}">
-                                        <span class="changeStatusSpan" >
-                                            <input type="checkbox" {{ accession.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-                                        </span>
-                                    </a></td>
-                                    
+                                    <td>
+                                        <a href="{{ path('accession_delete', {id: accession.id}) }}" class="changeStatusLink" id="{{ accession.id }}">
+                                            <span class="changeStatusSpan" >
+                                                <input type="checkbox" {{ accession.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+                                            </span>
+                                        </a>
+                                    </td>
+                                {% endif %}
+                                {% if is_granted("accession_edit", accession) %}
                                     <td>
                                         <a href="{{ path('accession_edit', {id: accession.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
                                     </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> <!-- .row -->
+        {# Start of row #}
+		<div class="row">
+			<div class="col-md-6 mb-4">
+			</div>
+
+			{% if accession.germplasms | length > 0 %}
+				<div class="col-md-6 mb-4">
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<span class="tomato-color">{{ accession.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</span>
+						<span class="badge badge-danger badge-pill">{{ accession.germplasms | length }}</span>
+					</h4>
+					<ul class="list-group mb-3">
+						{% for oneGermplasm in accession.germplasms %}
+							<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
+							<div>
+								<h6 class="my-0">Germplasm ID</h6>
+								<strong class="text-muted">{{ oneGermplasm.germplasmID }}</strong>
+							</div>
+							<div>
+								<h6 class="my-0">INSTCODE</h6>
+								<strong class="text-muted">{{ oneGermplasm.instcode }}</strong>
+							</div>
+							<div>
+								<h6 class="my-0">Maintainer Number</h6>
+								<strong class="text-muted">{{ oneGermplasm.maintainerNumb }}</strong>
+							</div>
+							<div>
+								<h6 class="my-0">Accession</h6>
+								<strong class="text-muted">{{ oneGermplasm.accession }}</strong>
+							</div>
+							{# <span class="text-muted">$12</span> #}
+							</li></a>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+		{# End of row #}
+    </div> <!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
