@@ -42,6 +42,9 @@ class AllelicEffectEstimatorController extends AbstractController
         $form = $this->createForm(AllelicEffectEstimatorType::class, $allelicEffectEstimator);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $allelicEffectEstimator->setCreatedBy($this->getUser());
+            }
             $allelicEffectEstimator->setIsActive(true);
             $allelicEffectEstimator->setCreatedAt(new \DateTime());
             $entmanager->persist($allelicEffectEstimator);
