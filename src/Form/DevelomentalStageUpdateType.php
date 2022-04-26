@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\DevelopmentalStage;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,7 +15,8 @@ class DevelomentalStageUpdateType extends AbstractType
         $builder
             ->add('name')
             ->add('ontology_id')
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '5')])
             ->add('parentTerm')
         ;
     }

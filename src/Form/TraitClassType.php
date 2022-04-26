@@ -14,7 +14,8 @@ class TraitClassType extends AbstractType
         $builder
             ->add('name')
             ->add('ontology_id')
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '5')])
             ->add('parentTerm')
         ;
     }

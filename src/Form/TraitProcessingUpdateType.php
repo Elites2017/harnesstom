@@ -13,7 +13,8 @@ class TraitProcessingUpdateType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '5')])
         ;
     }
 
