@@ -21,12 +21,12 @@ class BiologicalStatusVoter extends Voter
         $this->security = $security;
     }
 
-    protected function supports(string $attribute, $attr): bool
+    protected function supports(string $attribute, $biologicalStatus): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::EDIT, self::DEL])
-            && $attr instanceof \App\Entity\BiologicalStatus;
+            && $biologicalStatus instanceof \App\Entity\BiologicalStatus;
     }
 
     protected function voteOnAttribute(string $attribute, $biologicalStatus, TokenInterface $token): bool

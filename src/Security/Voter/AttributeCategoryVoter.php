@@ -21,12 +21,12 @@ class AttributeCategoryVoter extends Voter
         $this->security = $security;
     }
 
-    protected function supports(string $attribute, $attr): bool
+    protected function supports(string $attribute, $attrCategory): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::EDIT, self::DEL])
-            && $attr instanceof \App\Entity\AttributeCategory;
+            && $attrCategory instanceof \App\Entity\AttributeCategory;
     }
 
     protected function voteOnAttribute(string $attribute, $attrCategory, TokenInterface $token): bool
