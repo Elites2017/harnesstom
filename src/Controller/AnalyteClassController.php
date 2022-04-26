@@ -41,6 +41,9 @@ class AnalyteClassController extends AbstractController
         $form = $this->createForm(AnalyteClassType::class, $analyteClass);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $analyteClass->setCreatedBy($this->getUser());
+            }
             $analyteClass->setIsActive(true);
             $analyteClass->setCreatedAt(new \DateTime());
             $entmanager->persist($analyteClass);
