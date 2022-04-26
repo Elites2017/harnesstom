@@ -1,109 +1,149 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Analyte Edition</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(analyteForm) }}
 
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            <h1 class="tomato-color">Analyte Edition</h1>
-                            {{ form_start(analyteForm) }}
-                                <div>
-                                    {{ form_row
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (analyteForm.name,
                                             { label: "Name *",
                                             'attr': {'placeholder': "Enter the analyte name"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (analyteForm.analyteCode,
                                             { label: "Code",
                                             'attr': {'placeholder': "Enter the analyte code"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (analyteForm.retentionTime,
                                             { label: "Retention time",
                                             'attr': {'placeholder': "Enter the analyte retention time"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (analyteForm.massToChargeRatio,
                                             { label: "Mass to charge ratio",
                                             'attr': {'placeholder': "Enter the analyte mass to charge ratio"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (analyteForm.annotationLevel,
                                             { label: "Annotation level",
-                                            'attr': {'placeholder': "Select the analyte type"}
+                                            'attr': {'placeholder': "Select the analyte type",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (analyteForm.identificationLevel,
                                             { label: "identification level",
-                                            'attr': {'placeholder': "Select the analyte identification level"}
+                                            'attr': {'placeholder': "Select the analyte identification level",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (analyteForm.observationVariableMethod,
                                             { label: "Observation variable method",
-                                            'attr': {'placeholder': "Select the analyte observation variable method type"}
+                                            'attr': {'placeholder': "Select the analyte observation variable method type",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (analyteForm.analyteClass,
                                             { label: "Analyte class",
-                                            'attr': {'placeholder': "Select the analyte class"}
+                                            'attr': {'placeholder': "Select the analyte class",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (analyteForm.healthAndFlavor,
                                             { label: "Health & flavor",
-                                            'attr': {'placeholder': "Select the analyte health and flavor"}
+                                            'attr': {'placeholder': "Select the analyte health and flavor",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>{{ form_row(analyteForm.isActive) }}</div>
-                                <button type="submit" class="btn">Update</button>
-                                <button type="reset" class="btn">Cancel</button>
-                            {{ form_end(analyteForm) }}
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+					</div>
+				</div>
+
+				{% if is_granted("ROLE_ADMIN") %}
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							{{ form_row (analyteForm.isActive) }}
+						</div>
+					</div>
+				{% endif %}
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(analyteForm) }}
+
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
