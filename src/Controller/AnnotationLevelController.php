@@ -41,6 +41,9 @@ class AnnotationLevelController extends AbstractController
         $form = $this->createForm(AnnotationLevelType::class, $annotationLevel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $annotationLevel->setCreatedBy($this->getUser());
+            }
             $annotationLevel->setIsActive(true);
             $annotationLevel->setCreatedAt(new \DateTime());
             $entmanager->persist($annotationLevel);
