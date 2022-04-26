@@ -21,7 +21,6 @@ class TrialUpType extends AbstractType
             ->add('license')
             ->add('pui')
             ->add('publicationReference')
-            ->add('isActive')
             ->add('program')
             ->add('trialType')
         ;

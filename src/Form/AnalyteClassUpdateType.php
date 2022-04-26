@@ -13,7 +13,6 @@ class AnalyteClassUpdateType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('isActive')
         ;
     }
 

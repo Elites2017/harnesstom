@@ -14,7 +14,6 @@ class ScaleUpdateType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('isActive')
             ->add('scaleCategory')
             ->add('dataType')
             ->add('unit')

@@ -13,7 +13,6 @@ class VarCallSoftwareUpdateType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('isActive')
         ;
     }
 

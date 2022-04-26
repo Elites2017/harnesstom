@@ -22,7 +22,6 @@ class VariantSetMetadataUpdateType extends AbstractType
             ->add('fileUrl', FileType::class, [
                 'data_class' => null
             ])
-            ->add('isActive')
             ->add('genotypingPlatform')
         ;
     }

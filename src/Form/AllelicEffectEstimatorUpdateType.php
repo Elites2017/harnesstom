@@ -13,7 +13,6 @@ class AllelicEffectEstimatorUpdateType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('isActive')
         ;
     }
 

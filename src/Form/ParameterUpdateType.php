@@ -13,7 +13,6 @@ class ParameterUpdateType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('isActive')
             ->add('factorType')
             ->add('unit')
         ;

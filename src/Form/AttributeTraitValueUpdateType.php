@@ -14,7 +14,6 @@ class AttributeTraitValueUpdateType extends AbstractType
         $builder
             ->add('value')
             ->add('publicationReference')
-            ->add('isActive')
             ->add('trait')
             ->add('metabolicTrait')
             ->add('attribute')

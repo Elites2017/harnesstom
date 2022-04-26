@@ -32,7 +32,6 @@ class AccessionUpdateType extends AbstractType
             ->add('declongitude')
             ->add('elevation')
             ->add('collsite')
-            ->add('isActive')
             ->add('origcty')
             ->add('collsrc')
             ->add('sampstat')

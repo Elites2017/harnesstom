@@ -15,7 +15,6 @@ class SoftwareUpdateType extends AbstractType
             ->add('name')
             ->add('ontology_id')
             ->add('parentTerm')
-            ->add('isActive')
         ;
     }
 

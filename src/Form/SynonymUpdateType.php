@@ -26,7 +26,6 @@ class SynonymUpdateType extends AbstractType
             ->add('unitus')
             ->add('resqProject360')
             ->add('reseq150')
-            ->add('isActive')
             ->add('accession')
         ;
     }

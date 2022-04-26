@@ -13,7 +13,6 @@ class EnzymeUpdateType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('isActive')
         ;
     }
 

@@ -14,7 +14,6 @@ class TraitProcessingUpdateType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('isActive')
         ;
     }
 

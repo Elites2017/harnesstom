@@ -18,8 +18,7 @@ class SeasonUpdateType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
-            ->add('isActive');
+            ->add('description');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

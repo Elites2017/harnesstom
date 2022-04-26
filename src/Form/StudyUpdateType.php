@@ -26,7 +26,6 @@ class StudyUpdateType extends AbstractType
                 'widget' => 'single_text',
             ))
             ->add('culturalPractice')
-            ->add('isActive')
             ->add('trial')
             ->add('factor')
             ->add('season')

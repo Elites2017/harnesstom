@@ -18,7 +18,6 @@ class InstituteUpdateType extends AbstractType
             ->add('streetNumber')
             ->add('postalCode')
             ->add('city')
-            ->add('isActive')
             ->add('country')
         ;
     }

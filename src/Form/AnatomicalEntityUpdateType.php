@@ -18,7 +18,6 @@ class AnatomicalEntityUpdateType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '7')])
             ->add('parentTerm')
-            ->add('isActive')
         ;
     }
 

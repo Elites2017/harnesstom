@@ -12,7 +12,6 @@ class SharedWithUpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('isActive')
             ->add('trial')
             ->add('user')
         ;

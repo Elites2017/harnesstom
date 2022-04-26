@@ -13,7 +13,6 @@ class DataUpdateType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('isActive')
         ;
     }
 

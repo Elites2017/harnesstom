@@ -16,7 +16,6 @@ class AttributeUpdateType extends AbstractType
             ->add('abbreviation')
             ->add('description')
             ->add('publicationReference')
-            ->add('isActive')
             ->add('category')
         ;
     }

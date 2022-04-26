@@ -15,7 +15,6 @@ class ObservationVariableUpdateType extends AbstractType
             ->add('name')
             ->add('mainAbbreviaition')
             ->add('description')
-            ->add('isActive')
             ->add('trait')
             ->add('scale')
             ->add('observationVariableMethod')

@@ -16,7 +16,6 @@ class ScaleCategoryUpdateType extends AbstractType
             ->add('score')
             ->add('min')
             ->add('max')
-            ->add('isActive')
         ;
     }
 

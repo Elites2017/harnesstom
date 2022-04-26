@@ -19,7 +19,6 @@ class LocationUpdateType extends AbstractType
             ->add('latitudeCo')
             ->add('altitudeCo')
             ->add('siteStatus')
-            ->add('isActive')
             ->add('country')
         ;
     }

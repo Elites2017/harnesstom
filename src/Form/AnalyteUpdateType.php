@@ -16,7 +16,6 @@ class AnalyteUpdateType extends AbstractType
             ->add('analyteCode')
             ->add('retentionTime')
             ->add('massToChargeRatio')
-            ->add('isActive')
             ->add('annotationLevel')
             ->add('identificationLevel')
             ->add('observationVariableMethod')

@@ -17,7 +17,6 @@ class AttributeCategoryUpdateType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '5')])
             ->add('abbreviation')
-            ->add('isActive')
         ;
     }
 

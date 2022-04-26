@@ -16,7 +16,6 @@ class GrowthFacilityUpdateType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('parentTerm')
-            ->add('isActive')
         ;
     }
 

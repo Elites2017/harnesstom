@@ -17,7 +17,6 @@ class ObservationVariableMethodUpdateType extends AbstractType
             ->add('instrument')
             ->add('software')
             ->add('publicationReference')
-            ->add('isActive')
             ->add('methodClass')
         ;
     }

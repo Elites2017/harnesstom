@@ -16,7 +16,6 @@ class TaxonomyUpdateType extends AbstractType
             ->add('genus')
             ->add('species')
             ->add('subtaxa')
-            ->add('isActive')
         ;
     }
 

@@ -21,7 +21,6 @@ class GenotypingPlatformUpdateType extends AbstractType
             ->add('markerCount')
             ->add('assemblyPUI')
             ->add('publicationRef')
-            ->add('isActive')
             ->add('sequencingType')
             ->add('sequencingInstrument')
             ->add('varCallSoftware')
