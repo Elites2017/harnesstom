@@ -14,7 +14,6 @@ class CountryUpdateType extends AbstractType
         $builder
             ->add('name')
             ->add('iso3')
-            ->add('createdAt')
             ->add('isActive')
         ;
     }

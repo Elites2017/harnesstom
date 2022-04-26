@@ -14,7 +14,6 @@ class CropUpdateType extends AbstractType
         $builder
             ->add('commonCropName')
             ->add('isActive')
-            ->add('createdAt')
         ;
     }
 

@@ -14,7 +14,6 @@ class GeneticTestingModelType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('createdAt')
         ;
     }
 

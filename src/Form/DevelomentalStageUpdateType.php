@@ -16,7 +16,6 @@ class DevelomentalStageUpdateType extends AbstractType
             ->add('ontology_id')
             ->add('description')
             ->add('parentTerm')
-            ->add('createdAt')
             ->add('isActive')
         ;
     }

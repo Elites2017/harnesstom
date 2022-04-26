@@ -21,7 +21,6 @@ class FactorUpdateType extends AbstractType
             ->add('name')
             ->add('parentTerm')
             ->add('description')
-            ->add('createdAt')
             ->add('isActive')
         ;
     }
