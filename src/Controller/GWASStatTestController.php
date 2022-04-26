@@ -41,6 +41,9 @@ class GWASStatTestController extends AbstractController
         $form = $this->createForm(GWASStatTestType::class, $gwasStatTest);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $gwasStatTest->setCreatedBy($this->getUser());
+            }
             $gwasStatTest->setIsActive(true);
             $gwasStatTest->setCreatedAt(new \DateTime());
             $entmanager->persist($gwasStatTest);

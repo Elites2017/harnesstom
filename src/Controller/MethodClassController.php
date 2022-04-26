@@ -41,6 +41,9 @@ class MethodClassController extends AbstractController
         $form = $this->createForm(MethodClassType::class, $methodClass);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $methodClass->setCreatedBy($this->getUser());
+            }
             $methodClass->setIsActive(true);
             $methodClass->setCreatedAt(new \DateTime());
             $entmanager->persist($methodClass);

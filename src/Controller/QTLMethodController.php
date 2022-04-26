@@ -41,6 +41,9 @@ class QTLMethodController extends AbstractController
         $form = $this->createForm(QTLMethodType::class, $qtlMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $qtlMethod->setCreatedBy($this->getUser());
+            }
             $qtlMethod->setIsActive(true);
             $qtlMethod->setCreatedAt(new \DateTime());
             $entmanager->persist($qtlMethod);

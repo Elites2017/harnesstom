@@ -41,6 +41,9 @@ class ScaleCategoryController extends AbstractController
         $form = $this->createForm(ScaleCategoryType::class, $scaleCategory);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $scaleCategory->setCreatedBy($this->getUser());
+            }
             $scaleCategory->setIsActive(true);
             $scaleCategory->setCreatedAt(new \DateTime());
             $entmanager->persist($scaleCategory);

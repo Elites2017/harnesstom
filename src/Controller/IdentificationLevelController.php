@@ -41,6 +41,9 @@ class IdentificationLevelController extends AbstractController
         $form = $this->createForm(IdentificationLevelType::class, $identificationLevel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $identificationLevel->setCreatedBy($this->getUser());
+            }
             $identificationLevel->setIsActive(true);
             $identificationLevel->setCreatedAt(new \DateTime());
             $entmanager->persist($identificationLevel);

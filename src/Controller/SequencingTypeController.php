@@ -41,6 +41,9 @@ class SequencingTypeController extends AbstractController
         $form = $this->createForm(SequencingCreateType::class, $sequencingType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $sequencingType->setCreatedBy($this->getUser());
+            }
             $sequencingType->setIsActive(true);
             $sequencingType->setCreatedAt(new \DateTime());
             $entmanager->persist($sequencingType);

@@ -65,6 +65,9 @@ class FactorTypeController extends AbstractController
         $form = $this->createForm(FactorCreateType::class, $factorType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $factorType->setCreatedBy($this->getUser());
+            }
             $factorType->setIsActive(true);
             $factorType->setCreatedAt(new \DateTime());
             $entmanager->persist($factorType);

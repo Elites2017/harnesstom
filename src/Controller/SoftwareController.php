@@ -41,6 +41,9 @@ class SoftwareController extends AbstractController
         $form = $this->createForm(SoftwareType::class, $software);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $software->setCreatedBy($this->getUser());
+            }
             $software->setIsActive(true);
             $software->setCreatedAt(new \DateTime());
             $entmanager->persist($software);

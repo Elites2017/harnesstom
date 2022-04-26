@@ -41,6 +41,9 @@ class TraitClassController extends AbstractController
         $form = $this->createForm(TraitClassType::class, $traitClass);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $traitClass->setCreatedBy($this->getUser());
+            }
             $traitClass->setIsActive(true);
             $traitClass->setCreatedAt(new \DateTime());
             $entmanager->persist($traitClass);

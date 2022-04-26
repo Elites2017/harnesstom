@@ -41,6 +41,9 @@ class FlavorHealthController extends AbstractController
         $form = $this->createForm(FlavorHealthType::class, $flavorHealth);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $flavorHealth->setCreatedBy($this->getUser());
+            }
             $flavorHealth->setIsActive(true);
             $flavorHealth->setCreatedAt(new \DateTime());
             $entmanager->persist($flavorHealth);

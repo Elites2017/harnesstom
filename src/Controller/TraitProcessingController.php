@@ -41,6 +41,9 @@ class TraitProcessingController extends AbstractController
         $form = $this->createForm(TraitProcessingType::class, $traitProcessing);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $traitProcessing->setCreatedBy($this->getUser());
+            }
             $traitProcessing->setIsActive(true);
             $traitProcessing->setCreatedAt(new \DateTime());
             $entmanager->persist($traitProcessing);

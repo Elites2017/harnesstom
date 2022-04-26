@@ -41,6 +41,9 @@ class DataTypeController extends AbstractController
         $form = $this->createForm(DataCreateType::class, $dataType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $dataType->setCreatedBy($this->getUser());
+            }
             $dataType->setIsActive(true);
             $dataType->setCreatedAt(new \DateTime());
             $entmanager->persist($dataType);

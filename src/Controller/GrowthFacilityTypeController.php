@@ -41,6 +41,9 @@ class GrowthFacilityTypeController extends AbstractController
         $form = $this->createForm(GrowthFacilityCreateType::class, $growthFacilityType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $growthFacilityType->setCreatedBy($this->getUser());
+            }
             $growthFacilityType->setIsActive(true);
             $growthFacilityType->setCreatedAt(new \DateTime());
             $entmanager->persist($growthFacilityType);

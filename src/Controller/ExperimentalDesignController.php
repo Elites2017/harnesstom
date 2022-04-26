@@ -41,6 +41,9 @@ class ExperimentalDesignController extends AbstractController
         $form = $this->createForm(ExperimentalDesignCreateType::class, $experimentalDesign);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $experimentalDesign->setCreatedBy($this->getUser());
+            }
             $experimentalDesign->setIsActive(true);
             $experimentalDesign->setCreatedAt(new \DateTime());
             $entmanager->persist($experimentalDesign);

@@ -41,6 +41,9 @@ class KinshipAlgorithmController extends AbstractController
         $form = $this->createForm(KinshipAlgorithmType::class, $kinshipAlgorithm);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $kinshipAlgorithm->setCreatedBy($this->getUser());
+            }
             $kinshipAlgorithm->setIsActive(true);
             $kinshipAlgorithm->setCreatedAt(new \DateTime());
             $entmanager->persist($kinshipAlgorithm);

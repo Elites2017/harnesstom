@@ -41,6 +41,9 @@ class StorageTypeController extends AbstractController
         $form = $this->createForm(StorageCreateType::class, $storageType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $storageType->setCreatedBy($this->getUser());
+            }
             $storageType->setIsActive(true);
             $storageType->setCreatedAt(new \DateTime());
             $entmanager->persist($storageType);
