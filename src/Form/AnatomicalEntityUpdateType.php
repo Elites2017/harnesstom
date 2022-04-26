@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\AnatomicalEntity;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,9 +15,9 @@ class AnatomicalEntityUpdateType extends AbstractType
         $builder
             ->add('name')
             ->add('ontology_id')
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '7')])
             ->add('parentTerm')
-            ->add('createdAt')
             ->add('isActive')
         ;
     }

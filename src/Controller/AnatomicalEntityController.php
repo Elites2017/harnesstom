@@ -41,6 +41,9 @@ class AnatomicalEntityController extends AbstractController
         $form = $this->createForm(AnatomicalEntityType::class, $anatomicalEntity);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $anatomicalEntity->setCreatedBy($this->getUser());
+            }
             $anatomicalEntity->setIsActive(true);
             $anatomicalEntity->setCreatedAt(new \DateTime());
             $entmanager->persist($anatomicalEntity);
