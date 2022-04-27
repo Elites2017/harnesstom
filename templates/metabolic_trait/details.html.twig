@@ -3,16 +3,12 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                    <div class="card-body">
-                        <h1 class="tomato-color">Details</h1>
-                        <table class="table table-striped">
+<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1 mb-3">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
                             <thead>
                                 <tr>
                                 <th scope="col">ID</th>
@@ -20,9 +16,14 @@
                                 <th scope="col">Ontology</th>
                                 <th scope="col">Parent Term</th>
                                 <th scope="col">Description</th>
-                                <th scope="col">Creation Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                {% if is_granted("ROLE_ADMIN") %}
+									<th scope="col">Created By</th>
+									<th scope="col">Creation Date</th>
+									<th scope="col">Status</th>
+								{% endif %}
+								{% if is_granted("metabolic_trait_edit", metabolicTrait) %}
+									<th scope="col">Action</th>
+								{% endif %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,24 +33,32 @@
                                     <td>{{ metabolicTrait.ontologyID }}</td>
                                     <td>{{ metabolicTrait.parentTerm }}</td>
                                     <td>{{ metabolicTrait.description }}</td>
-                                    <td>{{ metabolicTrait.createdAt | date('d/m/Y h:m:s') }}</td>
-                                    <td><a href="{{ path('metabolic_trait_delete', {id: metabolicTrait.id}) }}" class="changeStatusLink" id="{{ metabolicTrait.id }}">
-                                        <span class="changeStatusSpan" >
-                                            <input type="checkbox" {{ metabolicTrait.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-                                        </span>
-                                    </a></td>
-                                    
-                                    <td>
-                                        <a href="{{ path('metabolic_trait_edit', {id: metabolicTrait.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
-                                    </td>
+                                    {% if is_granted("ROLE_ADMIN") %}
+									<td>
+										<a href="{{ path('person_details', {id: metabolicTrait.createdBy.id}) }}">{{ metabolicTrait.createdBy }}</a>
+									</td>
+									<td>{{ metabolicTrait.createdAt | date('d/m/Y h:m:s') }}</td>
+									<td>
+										<a href="{{ path('metabolic_trait_delete', {id: metabolicTrait.id}) }}" class="changeStatusLink" id="{{ metabolicTrait.id }}">
+											<span class="changeStatusSpan">
+												<input type="checkbox" {{ metabolicTrait.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+											</span>
+										</a>
+									</td>
+								{% endif %}
+								{% if is_granted("metabolic_trait_edit", metabolicTrait) %}
+									<td>
+										<a href="{{ path('metabolic_trait_edit', {id: metabolicTrait.id}) }}">
+											<button class="btn btn-outline-warning">Edit</button>
+										</a>
+									</td>
+								{% endif %}
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div> <!-- .row -->
             </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
 {% endblock %}
 
 {% block javascripts %}

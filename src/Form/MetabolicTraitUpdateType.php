@@ -22,7 +22,6 @@ class MetabolicTraitUpdateType extends AbstractType
             ->add('parentTerm')
             ->add('synonym')
             ->add('chebiLink')
-            ->add('createdBy')
         ;
     }
 
