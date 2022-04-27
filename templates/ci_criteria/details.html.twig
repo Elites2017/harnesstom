@@ -8,55 +8,57 @@
 	<div class="container">
 		<div class="row">
 			<div class="card-body">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h1>
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th scope="col">ID</th>
-							<th scope="col">Name</th>
-							<th scope="col">Ontology</th>
-							<th scope="col">Parent Term</th>
-							{% if is_granted("ROLE_ADMIN") %}
-								<th scope="col">Created By</th>
-								<th scope="col">Creation Date</th>
-								<th scope="col">Status</th>
-							{% endif %}
-							{% if is_granted("ci_criteria_edit", ciCriteria) %}
-								<th scope="col">Action</th>
-							{% endif %}
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>{{ ciCriteria.id }}</td>
-							<td>{{ ciCriteria.name }}</td>
-							<td>{{ ciCriteria.ontologyID }}</td>
-							<td>{{ ciCriteria.parentTerm }}</td>
-							{% if is_granted("ROLE_ADMIN") %}
-								<td>
-									{% if ciCriteria.createdBy %}
-										<a href="{{ path('person_details', {id: ciCriteria.createdBy.id}) }}">{{ ciCriteria.createdBy }}</a>
-									{% endif %}
-								</td>
-								<td>{{ ciCriteria.createdAt | date('d/m/Y h:m:s') }}</td>
-								<td>
-									<a href="{{ path('ci_criteria_delete', {id: ciCriteria.id}) }}" class="changeStatusLink" id="{{ ciCriteria.id }}">
-										<span class="changeStatusSpan">
-											<input type="checkbox" {{ ciCriteria.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-										</span>
-									</a>
-								</td>
-							{% endif %}
-							{% if is_granted("ci_criteria_edit", ciCriteria) %}
-								<td>
-									<a href="{{ path('ci_criteria_edit', {id: ciCriteria.id}) }}">
-										<button class="btn btn-outline-warning">Edit</button>
-									</a>
-								</td>
-							{% endif %}
-						</tr>
-					</tbody>
-				</table>
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Ontology</th>
+								<th scope="col">Parent Term</th>
+								{% if is_granted("ROLE_ADMIN") %}
+									<th scope="col">Created By</th>
+									<th scope="col">Creation Date</th>
+									<th scope="col">Status</th>
+								{% endif %}
+								{% if is_granted("ci_criteria_edit", ciCriteria) %}
+									<th scope="col">Action</th>
+								{% endif %}
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{{ ciCriteria.id }}</td>
+								<td>{{ ciCriteria.name }}</td>
+								<td>{{ ciCriteria.ontologyID }}</td>
+								<td>{{ ciCriteria.parentTerm }}</td>
+								{% if is_granted("ROLE_ADMIN") %}
+									<td>
+										{% if ciCriteria.createdBy %}
+											<a href="{{ path('person_details', {id: ciCriteria.createdBy.id}) }}">{{ ciCriteria.createdBy }}</a>
+										{% endif %}
+									</td>
+									<td>{{ ciCriteria.createdAt | date('d/m/Y h:m:s') }}</td>
+									<td>
+										<a href="{{ path('ci_criteria_delete', {id: ciCriteria.id}) }}" class="changeStatusLink" id="{{ ciCriteria.id }}">
+											<span class="changeStatusSpan">
+												<input type="checkbox" {{ ciCriteria.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+											</span>
+										</a>
+									</td>
+								{% endif %}
+								{% if is_granted("ci_criteria_edit", ciCriteria) %}
+									<td>
+										<a href="{{ path('ci_criteria_edit', {id: ciCriteria.id}) }}">
+											<button class="btn btn-outline-warning">Edit</button>
+										</a>
+									</td>
+								{% endif %}
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 		<!-- .row -->
