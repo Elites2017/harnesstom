@@ -1,82 +1,99 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
-
-{% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-
-            <div class="container">
-                <div class="row">
-                    <div class="card-body">
-                        <h1 class="tomato-color">Details</h1>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Linkage G. Name</th>
-                                <th scope="col">Position</th>
-                                <th scope="col">Start</th>
-                                <th scope="col">End</th>
-                                <th scope="col">Ref Allele</th>
-                                <th scope="col">Primer Name 1</th>
-                                <th scope="col">Primer Seq 1</th>
-                                <th scope="col">Primer Name 2</th>
-                                <th scope="col">Primer Seq 2</th>
-                                <th scope="col">Genotyping Platform</th>
-                                <th scope="col">Created By</th>
-                                <th scope="col">Creation Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{ marker.id }}</td>
-                                    <td>{{ marker.name }}</td>
-                                    <td>{{ marker.type }}</td>
-                                    <td>{{ marker.linkageGroupName }}</td>
-                                    <td>{{ marker.position }}</td>
-                                    <td>{{ marker.start }}</td>
-                                    <td>{{ marker.end }}</td>
-                                    <td>{{ marker.refAllele }}</td>
-                                    <td>{{ marker.primerName1 }}</td>
-                                    <td>{{ marker.primerSeq1 }}</td>
-                                    <td>{{ marker.primerName2 }}</td>
-                                    <td>{{ marker.primerSeq2 }}</td>
-                                    <td><a href="{{ path('genotyping_platform_details', {id: marker.genotypingPlatform.id}) }}">{{ marker.genotypingPlatform }}</a></td>
-                                    <td>{{ marker.createdBy }}</td>
-                                    <td>{{ marker.createdAt | date('d/m/Y h:m:s') }}</td>
-                                    <td><a href="{{ path('marker_delete', {id: marker.id}) }}" class="changeStatusLink" id="{{ marker.id }}">
-                                        <span class="changeStatusSpan" >
-                                            <input type="checkbox" {{ marker.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-                                        </span>
-                                    </a></td>
-                                    
-                                    <td>
-                                        <a href="{{ path('marker_edit', {id: marker.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+{% block title %}
+	{{ title }}
 {% endblock %}
 
-{% block javascripts %}
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1 mb-3">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Type</th>
+								<th scope="col">Linkage G. Name</th>
+								<th scope="col">Position</th>
+								<th scope="col">Start</th>
+								<th scope="col">End</th>
+								<th scope="col">Ref Allele</th>
+								<th scope="col">Primer Name 1</th>
+								<th scope="col">Primer Seq 1</th>
+								<th scope="col">Primer Name 2</th>
+								<th scope="col">Primer Seq 2</th>
+								<th scope="col">Genotyping Platform</th>
+								{% if is_granted("ROLE_ADMIN") %}
+									<th scope="col">Created By</th>
+									<th scope="col">Creation Date</th>
+									<th scope="col">Status</th>
+								{% endif %}
+								{% if is_granted("marker_edit", marker) %}
+									<th scope="col">Action</th>
+								{% endif %}
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{{ marker.id }}</td>
+								<td>{{ marker.name }}</td>
+								<td>{{ marker.type }}</td>
+								<td>{{ marker.linkageGroupName }}</td>
+								<td>{{ marker.position }}</td>
+								<td>{{ marker.start }}</td>
+								<td>{{ marker.end }}</td>
+								<td>{{ marker.refAllele }}</td>
+								<td>{{ marker.primerName1 }}</td>
+								<td>{{ marker.primerSeq1 }}</td>
+								<td>{{ marker.primerName2 }}</td>
+								<td>{{ marker.primerSeq2 }}</td>
+								<td>
+									{% if marker.genotypingPlatform %}
+										<a href="{{ path('genotyping_platform_details', {id: marker.genotypingPlatform.id}) }}">{{ marker.genotypingPlatform }}</a>
+									{% endif %}
+								</td>
+								{% if is_granted("ROLE_ADMIN") %}
+									<td>
+										<a href="{{ path('person_details', {id: marker.createdBy.id}) }}">{{ marker.createdBy }}</a>
+									</td>
+									<td>{{ marker.createdAt | date('d/m/Y h:m:s') }}</td>
+									<td>
+										<a href="{{ path('marker_delete', {id: marker.id}) }}" class="changeStatusLink" id="{{ marker.id }}">
+											<span class="changeStatusSpan">
+												<input type="checkbox" {{ marker.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+											</span>
+										</a>
+									</td>
+								{% endif %}
+								{% if is_granted("marker_edit", marker) %}
+									<td>
+										<a href="{{ path('marker_edit', {id: marker.id}) }}">
+											<button class="btn btn-outline-warning">Edit</button>
+										</a>
+									</td>
+								{% endif %}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
 
-<script>
-    /*
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<script>
+		/*
         This function is to change the status of the object.
         It is called each time the corresponding link is clicked (the event happened).
         1. It prevents the default behavior (behavior of showing the json response) of the function
@@ -90,24 +107,23 @@
             coming from the function in the controller.
             4.1 set the checked property of the checkbox based on the response value.
     */
-    function changeStatus(event){
-        event.preventDefault();
-        const url = this.href;
-        const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-        
-        axios.get(url).then(function(res){
-            const jsonResponse = res.data.message;
-            if(jsonResponse) {
-                statusCheckbox.checked = true;
-            }
-            else {
-                statusCheckbox.checked = false;
-            }
-        })
-    }
-    
-    document.querySelectorAll('a.changeStatusLink').forEach(function(link){
-        link.addEventListener('click', changeStatus);  
-    })
-</script>
+function changeStatus(event) {
+event.preventDefault();
+const url = this.href;
+const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+
+axios.get(url).then(function (res) {
+const jsonResponse = res.data.message;
+if (jsonResponse) {
+statusCheckbox.checked = true;
+} else {
+statusCheckbox.checked = false;
+}
+})
+}
+
+document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
+link.addEventListener('click', changeStatus);
+})
+	</script>
 {% endblock %}
