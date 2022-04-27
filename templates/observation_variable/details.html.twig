@@ -1,70 +1,95 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-
-            <div class="container">
-                <div class="row">
-                    <div class="card-body">
-                        <h1 class="tomato-color">Details</h1>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Main Abbreviation</th>
-                                <th scope="col">Desciption</th>
-                                <th scope="col">Trait</th>
-                                <th scope="col">Scale</th>
-                                <th scope="col">Obs Var. Method</th>
-                                <th scope="col">Created By</th>
-                                <th scope="col">Creation Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{ observationVariable.id }}</td>
-                                    <td>{{ observationVariable.name }}</td>
-                                    <td>{{ observationVariable.mainAbbreviaition }}</td>
-                                    <td>{{ observationVariable.description }}</td>
-                                    <td><a href="{{ path('trait_class_details', {id: observationVariable.trait.id}) }}">{{ observationVariable.trait }}</td>
-                                    <td><a href="{{ path('scale_details', {id: observationVariable.scale.id}) }}">{{ observationVariable.scale }}</a></td>
-                                    <td><a href="{{ path('observation_variable_method_details', {id: observationVariable.observationVariableMethod.id}) }}">{{ observationVariable.observationVariableMethod }}</a></td>
-                                    <td>{{ observationVariable.createdBy }}</td>
-                                    <td>{{ observationVariable.createdAt | date('d/m/Y h:m:s') }}</td>
-                                    <td><a href="{{ path('observation_variable_delete', {id: observationVariable.id}) }}" class="changeStatusLink" id="{{ observationVariable.id }}">
-                                        <span class="changeStatusSpan" >
-                                            <input type="checkbox" {{ observationVariable.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-                                        </span>
-                                    </a></td>
-                                    
-                                    <td>
-                                        <a href="{{ path('observation_variable_edit', {id: observationVariable.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1 mb-3">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Main Abbreviation</th>
+								<th scope="col">Desciption</th>
+								<th scope="col">Trait</th>
+								<th scope="col">Scale</th>
+								<th scope="col">Obs Var. Method</th>
+								{% if is_granted("ROLE_ADMIN") %}
+									<th scope="col">Created By</th>
+									<th scope="col">Creation Date</th>
+									<th scope="col">Status</th>
+								{% endif %}
+								{% if is_granted("observation_variable_edit", observationVariable) %}
+									<th scope="col">Action</th>
+								{% endif %}
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{{ observationVariable.id }}</td>
+								<td>{{ observationVariable.name }}</td>
+								<td>{{ observationVariable.mainAbbreviaition }}</td>
+								<td>{{ observationVariable.description }}</td>
+								<td>
+									{% if observationVariable.trait %}
+										<a href="{{ path('trait_class_details', {id: observationVariable.trait.id}) }}">{{ observationVariable.trait }}</td>
+									{% endif %}
+								</td>
+								<td>
+									{% if observationVariable.scale %}
+										<a href="{{ path('scale_details', {id: observationVariable.scale.id}) }}">{{ observationVariable.scale }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{% if observationVariable.observationVariableMethod %}
+										<a href="{{ path('observation_variable_method_details', {id: observationVariable.observationVariableMethod.id}) }}">{{ observationVariable.observationVariableMethod }}</a>
+									{% endif %}
+								</td>
+								{% if is_granted("ROLE_ADMIN") %}
+									<td>
+										<a href="{{ path('person_details', {id: observationVariable.createdBy.id}) }}">{{ observationVariable.createdBy }}</a>
+									</td>
+									<td>{{ observationVariable.createdAt | date('d/m/Y h:m:s') }}</td>
+									<td>
+										<a href="{{ path('observation_variable_delete', {id: observationVariable.id}) }}" class="changeStatusLink" id="{{ observationVariable.id }}">
+											<span class="changeStatusSpan">
+												<input type="checkbox" {{ observationVariable.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+											</span>
+										</a>
+									</td>
+								{% endif %}
+								{% if is_granted("observation_variable_edit", observationVariable) %}
+									<td>
+										<a href="{{ path('observation_variable_edit', {id: observationVariable.id}) }}">
+											<button class="btn btn-outline-warning">Edit</button>
+										</a>
+									</td>
+								{% endif %}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
-<script>
-    /*
+	<script>
+		/*
         This function is to change the status of the object.
         It is called each time the corresponding link is clicked (the event happened).
         1. It prevents the default behavior (behavior of showing the json response) of the function
@@ -78,24 +103,23 @@
             coming from the function in the controller.
             4.1 set the checked property of the checkbox based on the response value.
     */
-    function changeStatus(event){
-        event.preventDefault();
-        const url = this.href;
-        const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-        
-        axios.get(url).then(function(res){
-            const jsonResponse = res.data.message;
-            if(jsonResponse) {
-                statusCheckbox.checked = true;
-            }
-            else {
-                statusCheckbox.checked = false;
-            }
-        })
-    }
-    
-    document.querySelectorAll('a.changeStatusLink').forEach(function(link){
-        link.addEventListener('click', changeStatus);  
-    })
-</script>
+function changeStatus(event) {
+event.preventDefault();
+const url = this.href;
+const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+
+axios.get(url).then(function (res) {
+const jsonResponse = res.data.message;
+if (jsonResponse) {
+statusCheckbox.checked = true;
+} else {
+statusCheckbox.checked = false;
+}
+})
+}
+
+document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
+link.addEventListener('click', changeStatus);
+})
+	</script>
 {% endblock %}

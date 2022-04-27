@@ -4,79 +4,96 @@
 
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            <h1 class="tomato-color">Observation Variable Creation</h1>
-                            {{ form_start(observationVariableForm) }}
-                                <div>
-                                    {{ form_row
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Observation Variable Edition</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(observationVariableForm) }}
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (observationVariableForm.name,
-                                            { label: "Name *",
-                                            'attr': {'placeholder': "Enter the observation variable name"}
+                                            { label: "Analyte",
+                                            'attr': {'placeholder': "Enter the metabolite analyte"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (observationVariableForm.mainAbbreviaition,
-                                            { label: "Main abbreviation",
-                                            'attr': {'placeholder': "Enter the observation variable main abbreviation"}
+                                            { label: "Metabolic trait",
+                                            'attr': {'placeholder': "Select the metabolite metabolic trait"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+				</div>
+				<div>
+					{{ form_row
                                         (observationVariableForm.description,
-                                            { label: "Desciption",
-                                            'attr': {'placeholder': "Enter the observation variable description"}
+                                            { label: "Scale",
+                                            'attr': {'placeholder': "Select the metabolite scale"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+				</div>
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (observationVariableForm.trait,
                                             { label: "Trait",
-                                            'attr': {'placeholder': "Select the observation variable trait"}
+                                            'attr': {'placeholder': "Select the observation variable trait",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (observationVariableForm.scale,
                                             { label: "Scale",
-                                            'attr': {'placeholder': "Select the observation variable scale"}
+                                            'attr': {'placeholder': "Select the observation variable scale",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (observationVariableForm.observationVariableMethod,
                                             { label: "Observation variable method",
-                                            'attr': {'placeholder': "Select the observation variable method"}
+                                            'attr': {'placeholder': "Select the observation variable method",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>{{ form_row(observationVariableForm.isActive) }}</div>
-                                <button type="submit" class="btn">Update</button>
-                                <button type="reset" class="btn">Cancel</button>
-                            {{ form_end(observationVariableForm) }}
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(observationVariableForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
