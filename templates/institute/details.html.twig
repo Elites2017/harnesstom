@@ -40,11 +40,11 @@
 								<td>{{ institute.streetNumber }}</td>
 								<td>{{ institute.city }}</td>
 								<td>{{ institute.postalCode }}</td>
-                                <td>
-										{% if institute.country %}
-											<a href="{{ path('country_details', {id: institute.country.id}) }}">{{ institute.country }}</a>
-										{% endif %}
-									</td>
+								<td>
+									{% if institute.country %}
+										<a href="{{ path('country_details', {id: institute.country.id}) }}">{{ institute.country }}</a>
+									{% endif %}
+								</td>
 								{% if is_granted("ROLE_ADMIN") %}
 									<td>
 										{% if institute.createdBy %}
