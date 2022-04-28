@@ -1,105 +1,129 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 {% block stylesheets %}
-    <!-- Bootstrap core CSS -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
-    <!-- DataTables CSS -->
-    <link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+	<!-- DataTables CSS -->
+	<link
+	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
-    <!-- DataTables Responsive CSS -->
-    <link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	<!-- DataTables Responsive CSS -->
+	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
 				{% if persons | length > 0 %}
-                    <h2 class="mb-3 text-center tomato-color font-weight-bold">User List</h2>
-                    <table id="datatable" class="table table-hover text-nowrap" width="100%">
-                        <thead class="table-dark text-center font-weight-bold">
-                            <tr>
-                            <th scope="col" colspan="3">User Credentials</th>
-                            <th scope="col" colspan="7">Personal Information</th>
-                            <th scope="col">Action</th>
-                            </tr>
-                            <tr class="tomato-bg-color">
-                                <td>Email</td>
-                                <td>Role</td>
-                                <td>Status</td>
-                                <td>First Name</td>
-                                <td>Middle Name</td>
-                                <td>Last Name</td>
-                                <td>Phone</td>
-                                <td>Address</td>
-                                <td>City</td>
-                                <td>Country</td>
-                                <td>Action</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for person in persons %}
-                                <tr>
-                                    <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.user.email }}</a></td>
-                                    <td>
-                                        <a data-id="{{ person.user.id }}" href="{{ path('admin_user_details', {id: person.user.id}) }}">
-                                            {% if person.user.roles | length == 1 %}
-                                                User
-                                            {% elseif person.user.roles | length == 2 %}
-                                                {% if (person.user.roles[0] or person.user.role[1]) != "ROLE_ADMIN" %}
-                                                    Validator
-                                                {% else %}
-                                                    Administrator
-                                                {% endif %}
-                                            {% else %}
-                                                Administrator
-                                            {% endif %}
-                                        </a></td>
-                                    <td>
-                                        <a href="{{ path('admin_user_delete', {id: person.user.id}) }}" class="changeStatusLink" id="{{ person.user.id }}">
-										<span class="changeStatusSpan">
-											<input type="checkbox" {{ person.user.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-										</span>
-									</a>
-                                    </td>
-                                    <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.firstName }}</a></td>
-                                    <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.middleName }}</a></td>
-                                    <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.lastName | upper }}</a></td>
-                                    <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.phoneNumber }}</a></td>
-                                    <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.streetNumber }}</a></td>
-                                    <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.city }}</a></td>
-                                    <td><a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.country }}</a></td>
-                                    <td>
-                                        <a href="{{ path('admin_user_change_role', {id: person.user.id}) }}" class="changeRoleLink" id="{{ person.user.id }}">
-										    <button class="btn btn-outline-primary changeRoleBtn">
-                                            {% if person.user.roles | length == 1 %}
-                                                Make Admin
-                                            {% elseif person.user.roles | length == 2 %}
-                                                {% if (person.user.roles[0] or person.user.role[1]) != "ROLE_ADMIN" %}
-                                                    Make Admin
-                                                {% else %}
-                                                    Remove Admin
-                                                {% endif %}
-                                            {% else %}
-                                                Remove Admin
-                                            {% endif %}
-                                            </button>
-                                        </a>  
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-				    </table>
-                {% else %} 
-                    <h5 class="mb-3 text-center tomato-color font-weight-bold">No user has been provided in our system</h5>
-                {% endif %}     
+					<h2 class="mb-3 text-center tomato-color font-weight-bold">User List</h2>
+					<table id="datatable" class="table table-hover text-nowrap" width="100%">
+						<thead class="table-dark text-center font-weight-bold">
+							<tr>
+								<th scope="col" colspan="3">User Credentials</th>
+								<th scope="col" colspan="7">Personal Information</th>
+								<th scope="col">Action</th>
+							</tr>
+							<tr class="tomato-bg-color">
+								<td>Email</td>
+								<td>Role</td>
+								<td>Status</td>
+								<td>First Name</td>
+								<td>Middle Name</td>
+								<td>Last Name</td>
+								<td>Phone</td>
+								<td>Address</td>
+								<td>City</td>
+								<td>Country</td>
+								<td>Action</td>
+							</tr>
+						</thead>
+						<tbody>
+							{% for person in persons %}
+								{% if person.user %}
+									<tr>
+										<td>
+											<a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.user.email }}</a>
+										</td>
+										<td>
+											<a data-id="{{ person.user.id }}" href="{{ path('admin_user_details', {id: person.user.id}) }}">
+												{% if person.user.roles | length == 1 %}
+													User
+												{% elseif person.user.roles | length == 2 %}
+													{% if (person.user.roles[0] or person.user.role[1]) != "ROLE_ADMIN" %}
+														Validator
+													{% else %}
+														Administrator
+													{% endif %}
+												{% else %}
+													Administrator
+												{% endif %}
+											</a>
+										</td>
+										<td>
+											<a href="{{ path('admin_user_delete', {id: person.user.id}) }}" class="changeStatusLink" id="{{ person.user.id }}">
+												<span class="changeStatusSpan">
+													<input type="checkbox" {{ person.user.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+												</span>
+											</a>
+										</td>
+										<td>
+											<a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.firstName }}</a>
+										</td>
+										<td>
+											<a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.middleName }}</a>
+										</td>
+										<td>
+											<a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.lastName | upper }}</a>
+										</td>
+										<td>
+											<a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.phoneNumber }}</a>
+										</td>
+										<td>
+											<a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.streetNumber }}</a>
+										</td>
+										<td>
+											<a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.city }}</a>
+										</td>
+										<td>
+											<a href="{{ path('admin_user_details', {id: person.user.id}) }}">{{ person.country }}</a>
+										</td>
+										<td>
+											<a href="{{ path('admin_user_change_role', {id: person.user.id}) }}" class="changeRoleLink" id="{{ person.user.id }}">
+												<button class="btn btn-outline-primary changeRoleBtn">
+													{% if person.user.roles | length == 1 %}
+														Make Admin
+													{% elseif person.user.roles | length == 2 %}
+														{% if (person.user.roles[0] or person.user.role[1]) != "ROLE_ADMIN" %}
+															Make Admin
+														{% else %}
+															Remove Admin
+														{% endif %}
+													{% else %}
+														Remove Admin
+													{% endif %}
+												</button>
+											</a>
+										</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<h5 class="mb-3 text-center tomato-color font-weight-bold">No person been provided in our system</h5>
+				{% endif %}
 			</div>
 		</div>
 		<!-- .row -->
@@ -108,22 +132,24 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
-		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-<!-- DataTables JavaScript -->
-    <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-    <script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script>
+		window.jQuery || document.write('<script src=" {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
+	</script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- DataTables JavaScript -->
+	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-        $(document).ready(function() {
-            $('#datatable').DataTable();
-        } );
-    </script>
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script>
+		$(document).ready(function () {
+$('#datatable').DataTable();
+});
+	</script>
 
 	<script>
 		/*
@@ -140,46 +166,47 @@
             coming from the function in the controller.
             4.1 set the checked property of the checkbox based on the response value.
     */
-        function changeStatus(event) {
-        event.preventDefault();
-        const url = this.href;
-        const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+function changeStatus(event) {
+event.preventDefault();
+const url = this.href;
+const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
 
-        axios.get(url).then(function (res) {
-        const jsonResponse = res.data.message;
-        if (jsonResponse) {
-        statusCheckbox.checked = true;
-        } else {
-        statusCheckbox.checked = false;
-        }
-        })
-        }
+axios.get(url).then(function (res) {
+const jsonResponse = res.data.message;
+if (jsonResponse) {
+statusCheckbox.checked = true;
+} else {
+statusCheckbox.checked = false;
+}
+})
+}
 
-        document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-        link.addEventListener('click', changeStatus);
-        })
+document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
+link.addEventListener('click', changeStatus);
+})
 
-        // Change the role and update the new role name
-        function changeRole(event) {
-        event.preventDefault();
-        const url = this.href;
-        const roleBtn = this.querySelector('button.changeRoleBtn');
-        // get the element matching the id of the row of the clicked button,
-        const element = document.querySelector(`[data-id="${this.id}"]`);
-        if (element.innerText == "Administrator") {
-            element.innerText = "User";
-        } else {
-            element.innerText = "Administrator";
-        }
-        axios.get(url).then(function (res) {
-        const jsonResponseMessage = res.data.message;
-        roleBtn.innerText = jsonResponseMessage;
-        })
-        }
+// Change the role and update the new role name
+function changeRole(event) {
+event.preventDefault();
+const url = this.href;
+const roleBtn = this.querySelector('button.changeRoleBtn');
+// get the element matching the id of the row of the clicked button,
+const element = document.querySelector (`[data-id="${
+this.id
+}"]`);
+if (element.innerText == "Administrator") {
+element.innerText = "User";
+} else {
+element.innerText = "Administrator";
+}
+axios.get(url).then(function (res) {
+const jsonResponseMessage = res.data.message;
+roleBtn.innerText = jsonResponseMessage;
+})
+}
 
-        document.querySelectorAll('a.changeRoleLink').forEach(function (link) {
-        link.addEventListener('click', changeRole);
-        })
-
+document.querySelectorAll('a.changeRoleLink').forEach(function (link) {
+link.addEventListener('click', changeRole);
+})
 	</script>
 {% endblock %}
