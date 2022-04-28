@@ -41,6 +41,9 @@ class AttributeCategoryController extends AbstractController
         $form = $this->createForm(AttributeCategoryType::class, $attributeCategory);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $attributeCategory->setCreatedBy($this->getUser());
+            }
             $attributeCategory->setIsActive(true);
             $attributeCategory->setCreatedAt(new \DateTime());
             $entmanager->persist($attributeCategory);

@@ -41,6 +41,9 @@ class ThresholdMethodController extends AbstractController
         $form = $this->createForm(ThresholdMethodType::class, $thresholdMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $thresholdMethod->setCreatedBy($this->getUser());
+            }
             $thresholdMethod->setIsActive(true);
             $thresholdMethod->setCreatedAt(new \DateTime());
             $entmanager->persist($thresholdMethod);

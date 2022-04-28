@@ -41,6 +41,9 @@ class QTLStatisticController extends AbstractController
         $form = $this->createForm(QTLStatisticType::class, $qtlStatistic);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $qtlStatistic->setCreatedBy($this->getUser());
+            }
             $qtlStatistic->setIsActive(true);
             $qtlStatistic->setCreatedAt(new \DateTime());
             $entmanager->persist($qtlStatistic);

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\ObservationVariable;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,8 +15,8 @@ class ObservationVariableUpdateType extends AbstractType
         $builder
             ->add('name')
             ->add('mainAbbreviaition')
-            ->add('description')
-            ->add('isActive')
+            ->add('description', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '5')])
             ->add('trait')
             ->add('scale')
             ->add('observationVariableMethod')

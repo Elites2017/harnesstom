@@ -21,7 +21,6 @@ class ProgramUpdateType extends AbstractType
             ->add('externalRef')
             ->add('crop')
             ->add('contact')
-            ->add('isActive')
         ;
     }
 

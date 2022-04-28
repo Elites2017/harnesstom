@@ -41,6 +41,9 @@ class GWASModelController extends AbstractController
         $form = $this->createForm(GWASModelType::class, $gwasModel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $gwasModel->setCreatedBy($this->getUser());
+            }
             $gwasModel->setIsActive(true);
             $gwasModel->setCreatedAt(new \DateTime());
             $entmanager->persist($gwasModel);

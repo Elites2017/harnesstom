@@ -41,6 +41,9 @@ class CropController extends AbstractController
         $form = $this->createForm(cropType::class, $crop);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $crop->setCreatedBy($this->getUser());
+            }
             $crop->setIsActive(true);
             $crop->setCreatedAt(new \DateTime());
             $entmanager->persist($crop);

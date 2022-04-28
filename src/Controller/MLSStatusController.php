@@ -41,6 +41,9 @@ class MLSStatusController extends AbstractController
         $form = $this->createForm(MLSStatusType::class, $mlsStatus);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $mlsStatus->setCreatedBy($this->getUser());
+            }
             $mlsStatus->setIsActive(true);
             $mlsStatus->setCreatedAt(new \DateTime());
             $entmanager->persist($mlsStatus);

@@ -41,6 +41,9 @@ class UnitController extends AbstractController
         $form = $this->createForm(UnitType::class, $unit);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $unit->setCreatedBy($this->getUser());
+            }
             $unit->setIsActive(true);
             $unit->setCreatedAt(new \DateTime());
             $entmanager->persist($unit);

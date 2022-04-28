@@ -1,80 +1,90 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 {% block stylesheets %}
-    <!-- Bootstrap core CSS -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
-    <!-- DataTables CSS -->
-    <link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+	<!-- DataTables CSS -->
+	<link
+	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
-    <!-- DataTables Responsive CSS -->
-    <link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	<!-- DataTables Responsive CSS -->
+	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            {% if metabolites | length > 0 %}
-                                <h1 class="tomato-color">Metabolite List</h1>
-                                <table id="datatable" class="table table-hover text-nowrap" width="100%">
-                                <thead>
-                                    <tr>
-                                    <th scope="col">Analyte</th>
-                                    <th scope="col">Metabolic Trait</th>
-                                    <th scope="col">Scale</th>
-                                    <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {% for metabolite in metabolites %}
-                                    <tr>
-                                        <td><a href="{{ path('metabolite_details', {id: metabolite.id}) }}">{{ metabolite.analyte }}</a></td>
-                                        <td><a href="{{ path('metabolite_details', {id: metabolite.id}) }}">{{ metabolite.metabolicTrait }}</a></td>
-                                        <td><a href="{{ path('metabolite_details', {id: metabolite.id}) }}">{{ metabolite.scale }}</a></td>
-                                        <td>
-                                            <a href="{{ path('metabolite_details', {id: metabolite.id}) }}"><button class="btn btn-outline-primary">View</button></a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            {% else %} 
-                                <p class="tomato-color">No metabolite has been provided in our system</p>
-                            {% endif %}
-                        </tbody>
-                        </table>
-                     
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				{% if metabolites | length > 0 %}
+					<h2 class="mb-3 text-center tomato-color font-weight-bold">Metabolite List</h2>
+					<div class="table-responsive">
+						<table id="datatable" class="table table-hover text-nowrap" width="100%">
+							<thead class="table-dark">
+								<tr>
+									<th scope="col">Analyte</th>
+									<th scope="col">Metabolic Trait</th>
+									<th scope="col">Scale</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for metabolite in metabolites %}
+									<tr>
+										<td>
+											<a href="{{ path('metabolite_details', {id: metabolite.id}) }}">{{ metabolite.analyte }}</a>
+										</td>
+										<td>
+											<a href="{{ path('metabolite_details', {id: metabolite.id}) }}">{{ metabolite.metabolicTrait }}</a>
+										</td>
+										<td>
+											<a href="{{ path('metabolite_details', {id: metabolite.id}) }}">{{ metabolite.scale }}</a>
+										</td>
+										<td>
+											<a href="{{ path('metabolite_details', {id: metabolite.id}) }}">
+												<button class="btn btn-outline-primary">View</button>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				{% else %}
+					<h5 class="mb-3 text-center tomato-color font-weight-bold">No metabolite has been provided in our system</h5>
+				{% endif %}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
-		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-<!-- DataTables JavaScript -->
-    <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script>
+		window.jQuery || document.write('<script src=" {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
+	</script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- DataTables JavaScript -->
+	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-        $(document).ready(function() {
-            $('#datatable').DataTable();
-        } );
-    </script>
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script>
+		$(document).ready(function () {
+$('#datatable').DataTable();
+});
+	</script>
 {% endblock %}

@@ -1,40 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Taxonomy Creation</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(taxonomyForm) }}
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row(taxonomyForm.taxonid, {
+                            label: "Taxon ID",
+                            'attr': {'placeholder' : 'Enter the taxon id'}}) }}
+					</div>
 
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            <h1 class="tomato-color">Taxonomy Creation</h1>
-                            {{ form_start(taxonomyForm) }}
-                                <div class="form-group">
-                                    {{ form_row(taxonomyForm.taxonid, {'attr': {'placeholder' : 'Enter the taxon id'}}) }}
-                                </div>
-                                <div class="form-group">
-                                    {{ form_row(taxonomyForm.genus, {'attr': {'placeholder' : 'Enter the parent genus'}}) }} 
-                                </div>
-                                <div class="form-group">
-                                    {{ form_row(taxonomyForm.species, {'attr': {'placeholder' : 'Enter the species'}}) }} 
-                                </div>
-                                <div class="form-group">
-                                    {{ form_row(taxonomyForm.subtaxa, {'attr': {'placeholder' : 'Enter the subtaxa'}}) }} 
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-outline-primary">Create</button>
-                                    <button type="reset" class="btn btn-outline-secondary">Cancel</button>
-                                </div>
-                            {{ form_end(taxonomyForm) }}
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+					<div class="col-md-6 mb-3">
+						{{ form_row(taxonomyForm.genus, {
+                            label: "Genus",
+                            'attr': {'placeholder' : 'Enter the parent genus'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row(taxonomyForm.species, {
+                            label: "Species",
+                            'attr': {'placeholder' : 'Enter the species'}}) }}
+					</div>
+
+					<div class="col-md-6 mb-3">
+						{{ form_row(taxonomyForm.subtaxa, {
+                            label: "Subtaxa",
+                            'attr': {'placeholder' : 'Enter the subtaxa'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(taxonomyForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}

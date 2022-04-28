@@ -15,8 +15,6 @@ class QTLMethodUpdateType extends AbstractType
             ->add('name')
             ->add('ontology_id')
             ->add('parentTerm')
-            ->add('createdAt')
-            ->add('isActive')
         ;
     }
 

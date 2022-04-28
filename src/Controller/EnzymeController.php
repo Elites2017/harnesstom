@@ -41,6 +41,9 @@ class EnzymeController extends AbstractController
         $form = $this->createForm(EnzymeType::class, $enzyme);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $enzyme->setCreatedBy($this->getUser());
+            }
             $enzyme->setIsActive(true);
             $enzyme->setCreatedAt(new \DateTime());
             $entmanager->persist($enzyme);

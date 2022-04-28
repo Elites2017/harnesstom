@@ -41,6 +41,9 @@ class BreedingMethodController extends AbstractController
         $form = $this->createForm(BreedingMethodType::class, $breedingMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $breedingMethod->setCreatedBy($this->getUser());
+            }
             $breedingMethod->setIsActive(true);
             $breedingMethod->setCreatedAt(new \DateTime());
             $entmanager->persist($breedingMethod);

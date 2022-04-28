@@ -41,6 +41,9 @@ class TaxonomyController extends AbstractController
         $form = $this->createForm(TaxonomyType::class, $taxonomy);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $taxonomy->setCreatedBy($this->getUser());
+            }
             $taxonomy->setIsActive(true);
             $taxonomy->setCreatedAt(new \DateTime());
             $entmanager->persist($taxonomy);

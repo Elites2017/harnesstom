@@ -40,6 +40,9 @@ class CountryController extends AbstractController
         $form = $this->createForm(CountryType::class, $country);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $country->setCreatedBy($this->getUser());
+            }
             $country->setIsActive(true);
             $country->setCreatedAt(new \DateTime());
             $entmanager->persist($country);

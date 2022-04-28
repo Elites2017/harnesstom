@@ -41,6 +41,9 @@ class VarCallSoftwareController extends AbstractController
         $form = $this->createForm(VarCallSoftwareType::class, $varCallSoftware);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $varCallSoftware->setCreatedBy($this->getUser());
+            }
             $varCallSoftware->setIsActive(true);
             $varCallSoftware->setCreatedAt(new \DateTime());
             $entmanager->persist($varCallSoftware);

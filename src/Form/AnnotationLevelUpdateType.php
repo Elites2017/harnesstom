@@ -14,8 +14,6 @@ class AnnotationLevelUpdateType extends AbstractType
         $builder
             ->add('label')
             ->add('code')
-            ->add('createdAt')
-            ->add('isActive')
         ;
     }
 

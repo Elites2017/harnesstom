@@ -1,68 +1,93 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-
-            <div class="container">
-                <div class="row">
-                    <div class="card-body">
-                        <h1 class="tomato-color">Details</h1>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Data Type</th>
-                                <th scope="col">Unit</th>
-                                <th scope="col">Created By</th>
-                                <th scope="col">Creation Date</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{ scale.id }}</td>
-                                    <td>{{ scale.name }}</td>
-                                    <td>{{ scale.description }}</td>
-                                    <td>{{ scale.scaleCategory }}</td>
-                                    <td>{{ scale.dataType }}</td>
-                                    <td>{{ scale.unit }}</td>
-                                    <td>{{ scale.createdBy }}</td>
-                                    <td>{{ scale.createdAt | date('d/m/Y h:m:s') }}</td>
-                                    <td><a href="{{ path('scale_delete', {id: scale.id}) }}" class="changeStatusLink" id="{{ scale.id }}">
-                                        <span class="changeStatusSpan" >
-                                            <input type="checkbox" {{ scale.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-                                        </span>
-                                    </a></td>
-                                    
-                                    <td>
-                                        <a href="{{ path('scale_edit', {id: scale.id}) }}"><button class="btn btn-outline-warning">Edit</button></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1 mb-3">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Description</th>
+								<th scope="col">Category</th>
+								<th scope="col">Data Type</th>
+								<th scope="col">Unit</th>
+								{% if is_granted("ROLE_ADMIN") %}
+									<th scope="col">Created By</th>
+									<th scope="col">Creation Date</th>
+									<th scope="col">Status</th>
+								{% endif %}
+								{% if is_granted("scale_edit",scale) %}
+									<th scope="col">Action</th>
+								{% endif %}
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{{ scale.id }}</td>
+								<td>{{ scale.name }}</td>
+								<td>{{ scale.description }}</td>
+								<td>
+									{% if scale.scaleCategory %}
+										<a href="{{ path('scale_category_details', {id: scale.scaleCategory.id}) }}">{{ scale.scaleCategory }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{% if scale.dataType %}
+										<a href="{{ path('data_type_details', {id: scale.dataType.id}) }}">{{ scale.dataType }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{% if scale.unit %}
+										<a href="{{ path('unit_details', {id: scale.unit.id}) }}">{{ scale.unit }}</a>
+									{% endif %}
+								</td>
+								{% if is_granted("ROLE_ADMIN") %}
+									<td>
+										<a href="{{ path('person_details', {id:scale.createdBy.id}) }}">{{scale.createdBy }}</a>
+									</td>
+									<td>{{scale.createdAt | date('d/m/Y h:m:s') }}</td>
+									<td>
+										<a href="{{ path('scale_delete', {id:scale.id}) }}" class="changeStatusLink" id="{{scale.id }}">
+											<span class="changeStatusSpan">
+												<input type="checkbox" {{scale.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+											</span>
+										</a>
+									</td>
+								{% endif %}
+								{% if is_granted("scale_edit",scale) %}
+									<td>
+										<a href="{{ path('scale_edit', {id:scale.id}) }}">
+											<button class="btn btn-outline-warning">Edit</button>
+										</a>
+									</td>
+								{% endif %}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
-<script>
-    /*
+	<script>
+		/*
         This function is to change the status of the object.
         It is called each time the corresponding link is clicked (the event happened).
         1. It prevents the default behavior (behavior of showing the json response) of the function
@@ -76,24 +101,23 @@
             coming from the function in the controller.
             4.1 set the checked property of the checkbox based on the response value.
     */
-    function changeStatus(event){
-        event.preventDefault();
-        const url = this.href;
-        const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-        
-        axios.get(url).then(function(res){
-            const jsonResponse = res.data.message;
-            if(jsonResponse) {
-                statusCheckbox.checked = true;
-            }
-            else {
-                statusCheckbox.checked = false;
-            }
-        })
-    }
-    
-    document.querySelectorAll('a.changeStatusLink').forEach(function(link){
-        link.addEventListener('click', changeStatus);  
-    })
-</script>
+function changeStatus(event) {
+event.preventDefault();
+const url = this.href;
+const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+
+axios.get(url).then(function (res) {
+const jsonResponse = res.data.message;
+if (jsonResponse) {
+statusCheckbox.checked = true;
+} else {
+statusCheckbox.checked = false;
+}
+})
+}
+
+document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
+link.addEventListener('click', changeStatus);
+})
+	</script>
 {% endblock %}

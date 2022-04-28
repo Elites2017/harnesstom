@@ -41,6 +41,9 @@ class BiologicalStatusController extends AbstractController
         $form = $this->createForm(BiologicalStatusType::class, $biologicalStatus);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $biologicalStatus->setCreatedBy($this->getUser());
+            }
             $biologicalStatus->setIsActive(true);
             $biologicalStatus->setCreatedAt(new \DateTime());
             $entmanager->persist($biologicalStatus);

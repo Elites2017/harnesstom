@@ -41,6 +41,9 @@ class SequencingInstrumentController extends AbstractController
         $form = $this->createForm(SequencingInstrumentType::class, $sequencingInstrument);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $sequencingInstrument->setCreatedBy($this->getUser());
+            }
             $sequencingInstrument->setIsActive(true);
             $sequencingInstrument->setCreatedAt(new \DateTime());
             $entmanager->persist($sequencingInstrument);

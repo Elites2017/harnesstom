@@ -41,6 +41,9 @@ class CiCriteriaController extends AbstractController
         $form = $this->createForm(CiCriteriaType::class, $ciCriteria);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $ciCriteria->setCreatedBy($this->getUser());
+            }
             $ciCriteria->setIsActive(true);
             $ciCriteria->setCreatedAt(new \DateTime());
             $entmanager->persist($ciCriteria);

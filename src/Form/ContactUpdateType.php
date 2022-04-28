@@ -14,7 +14,6 @@ class ContactUpdateType extends AbstractType
     {
         $builder
             ->add('orcid')
-            ->add('isActive')
             ->add('person')
             ->add('institute')
             ->add('type', ChoiceType::class, [

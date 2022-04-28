@@ -42,6 +42,9 @@ class GeneticTestingModelController extends AbstractController
         $form = $this->createForm(GeneticTestingModelType::class, $geneticTestingModel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $geneticTestingModel->setCreatedBy($this->getUser());
+            }
             $geneticTestingModel->setIsActive(true);
             $geneticTestingModel->setCreatedAt(new \DateTime());
             $entmanager->persist($geneticTestingModel);

@@ -14,7 +14,6 @@ class CollectingMissionUpdateType extends AbstractType
         $builder
             ->add('name')
             ->add('species')
-            ->add('isActive')
             ->add('institute')
         ;
     }

@@ -41,6 +41,9 @@ class CollectingSourceController extends AbstractController
         $form = $this->createForm(CollectingSourceType::class, $collectingSource);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $collectingSource->setCreatedBy($this->getUser());
+            }
             $collectingSource->setIsActive(true);
             $collectingSource->setCreatedAt(new \DateTime());
             $entmanager->persist($collectingSource);

@@ -41,6 +41,9 @@ class DevelopmentalStageController extends AbstractController
         $form = $this->createForm(DevelomentalStageType::class, $developmentalStage);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $developmentalStage->setCreatedBy($this->getUser());
+            }
             $developmentalStage->setIsActive(true);
             $developmentalStage->setCreatedAt(new \DateTime());
             $entmanager->persist($developmentalStage);

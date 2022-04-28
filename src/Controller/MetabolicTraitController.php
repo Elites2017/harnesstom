@@ -41,6 +41,9 @@ class MetabolicTraitController extends AbstractController
         $form = $this->createForm(MetabolicTraitType::class, $metabolicTrait);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $metabolicTrait->setCreatedBy($this->getUser());
+            }
             $metabolicTrait->setIsActive(true);
             $metabolicTrait->setCreatedAt(new \DateTime());
             $entmanager->persist($metabolicTrait);

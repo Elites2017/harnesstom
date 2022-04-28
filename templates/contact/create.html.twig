@@ -1,63 +1,84 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
-
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            <h1 class="tomato-color">Contact Creation</h1>
-                            {{ form_start(contactForm) }}
-                                <div>
-                                    {{ form_row
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Contact Creation</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(contactForm) }}
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (contactForm.orcid,
                                             { label: "ORCID *",
                                             'attr': {'placeholder': "Enter the contact orcid"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (contactForm.person,
                                             { label: "Email of the contact",
-                                            'attr': {'placeholder': "Select the contact's name"}
+                                            'attr': {'placeholder': "Select the contact's name",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (contactForm.institute,
                                             { label: "Institute of the contact",
-                                            'attr': {'placeholder': "Select the contact's institute"}
+                                            'attr': {'placeholder': "Select the contact's institute",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (contactForm.type,
                                             { label: "Type",
-                                            'attr': {'placeholder': "Select the contact type"}
+                                            'attr': {'placeholder': "Select the contact type",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <button type="submit" class="btn">Create</button>
-                                <button type="reset" class="btn">Cancel</button>
-                            {{ form_end(contactForm) }}
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(contactForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}

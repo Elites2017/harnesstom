@@ -13,7 +13,6 @@ class FlavorHealthUpdateType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('isActive')
         ;
     }
 

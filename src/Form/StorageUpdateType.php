@@ -15,8 +15,6 @@ class StorageUpdateType extends AbstractType
             ->add('label')
             ->add('code')
             ->add('parentTerm')
-            ->add('createdAt')
-            ->add('isActive')
         ;
     }
 

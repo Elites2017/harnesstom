@@ -67,6 +67,9 @@ class SeasonController extends AbstractController
         $form = $this->createForm(SeasonType::class, $season);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $season->setCreatedBy($this->getUser());
+            }
             $season->setIsActive(true);
             $season->setCreatedAt(new \DateTime());
             $entmanager->persist($season);

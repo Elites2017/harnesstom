@@ -3,29 +3,53 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Trait Edition</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(traitClassForm) }}
 
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            <h1 class="tomato-color">Trait Edition</h1>
-                            {{ form_start(traitClassForm) }}
-                                {{ form_row(traitClassForm.name) }}
-                                {{ form_row(traitClassForm.description) }}
-                                {{ form_row(traitClassForm.parentTerm) }}
-                                {{ form_row(traitClassForm.ontology_id) }}
-                                {{ form_row(traitClassForm.createdAt) }}
-                                {{ form_row(traitClassForm.isActive) }}
-                                <button type="submit" class="btn">Udpate</button>
-                            {{ form_end(traitClassForm) }}
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(traitClassForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(traitClassForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(traitClassForm.name, {'attr': {'placeholder' : 'Enter the trait name'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						{{ form_row(traitClassForm.description, {'attr': {'placeholder' : 'Enter the trait description'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(traitClassForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}

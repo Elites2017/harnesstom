@@ -41,6 +41,9 @@ class StructureMethodController extends AbstractController
         $form = $this->createForm(StructureMethodType::class, $structureMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $structureMethod->setCreatedBy($this->getUser());
+            }
             $structureMethod->setIsActive(true);
             $structureMethod->setCreatedAt(new \DateTime());
             $entmanager->persist($structureMethod);

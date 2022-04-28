@@ -24,7 +24,6 @@ class MarkerUpdateType extends AbstractType
             ->add('primerSeq1')
             ->add('primerName2')
             ->add('primerSeq2')
-            ->add('isActive')
             ->add('genotypingPlatform')
         ;
     }

@@ -50,7 +50,7 @@ class FactorTypeController extends AbstractController
         $factorTypes =  $factorTypeRepo->findAll();
         $context = [
             'title' => 'FactorType List',
-            'factor_types' => $factorTypes
+            'factorTypes' => $factorTypes
         ];
         return $this->render('factor_type/index.html.twig', $context);
     }
@@ -65,6 +65,9 @@ class FactorTypeController extends AbstractController
         $form = $this->createForm(FactorCreateType::class, $factorType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $factorType->setCreatedBy($this->getUser());
+            }
             $factorType->setIsActive(true);
             $factorType->setCreatedAt(new \DateTime());
             $entmanager->persist($factorType);
@@ -74,7 +77,7 @@ class FactorTypeController extends AbstractController
 
         $context = [
             'title' => 'Factor Creation',
-            'factor_typeForm' => $form->createView()
+            'factorTypeForm' => $form->createView()
         ];
         return $this->render('factor_type/create.html.twig', $context);
     }
@@ -87,7 +90,7 @@ class FactorTypeController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'FactorType Details',
-            'factor_type' => $factorTypeSelected
+            'factorType' => $factorTypeSelected
         ];
         return $this->render('factor_type/details.html.twig', $context);
     }

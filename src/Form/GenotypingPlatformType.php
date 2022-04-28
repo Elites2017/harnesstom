@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\GenotypingPlatform;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,10 +15,13 @@ class GenotypingPlatformType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '5')])
             ->add('methodDescription')
             ->add('refSetName')
-            ->add('publishedDate')
+            ->add('publishedDate', DateType::class, array(
+                'widget' => 'single_text'
+            ))
             ->add('bioProjectID')
             ->add('markerCount')
             ->add('assemblyPUI')

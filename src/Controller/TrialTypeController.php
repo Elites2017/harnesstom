@@ -41,6 +41,9 @@ class TrialTypeController extends AbstractController
         $form = $this->createForm(TrialCreateType::class, $trialType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()) {
+                $trialType->setCreatedBy($this->getUser());
+            }
             $trialType->setIsActive(true);
             $trialType->setCreatedAt(new \DateTime());
             $entmanager->persist($trialType);

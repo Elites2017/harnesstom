@@ -13,8 +13,6 @@ class SequencingUpdateType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add('createdAt')
-            ->add('isActive')
         ;
     }
 
