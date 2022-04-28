@@ -3,28 +3,47 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Structure Method Edition</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(structureMethodForm) }}
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(structureMethodForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
+					</div>
 
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            <h1 class="tomato-color">Structure Method Edition</h1>
-                            {{ form_start(structureMethodForm) }}
-                                {{ form_row(structureMethodForm.name) }}
-                                {{ form_row(structureMethodForm.parentTerm) }}
-                                {{ form_row(structureMethodForm.ontology_id) }}
-                                {{ form_row(structureMethodForm.createdAt) }}
-                                {{ form_row(structureMethodForm.isActive) }}
-                                <button type="submit" class="btn">Udpate</button>
-                            {{ form_end(structureMethodForm) }}
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+					<div class="col-md-4 mb-3">
+						{{ form_row(structureMethodForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(structureMethodForm.name, {'attr': {'placeholder' : 'Enter the name'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(structureMethodForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
+
