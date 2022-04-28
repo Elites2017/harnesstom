@@ -32,9 +32,11 @@
 								<td>{{ methodClass.name }}</td>
 								<td>{{ methodClass.description }}</td>
 								{% if is_granted("ROLE_ADMIN") %}
-									{% if methodClass.createdBy %}
+									<td>
+										{% if methodClass.createdBy %}
 											<a href="{{ path('person_details', {id:methodClass.createdBy.id}) }}">{{methodClass.createdBy }}</a>
 										{% endif %}
+									</td>
 									<td>{{ methodClass.createdAt | date('d/m/Y h:m:s') }}</td>
 									<td>
 										<a href="{{ path('method_class_delete', {id: methodClass.id}) }}" class="changeStatusLink" id="{{ methodClass.id }}">
