@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Trial;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,9 +18,15 @@ class TrialType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '5')])
             ->add('abbreviation')
-            ->add('startDate')
-            ->add('endDate')
-            ->add('publicReleaseDate')
+            ->add('startDate', DateType::class, array(
+                'widget' => 'single_text'
+            ))
+            ->add('endDate', DateType::class, array(
+                'widget' => 'single_text'
+            ))
+            ->add('publicReleaseDate', DateType::class, array(
+                'widget' => 'single_text'
+            ))
             ->add('license')
             ->add('pui')
             ->add('publicationReference')
