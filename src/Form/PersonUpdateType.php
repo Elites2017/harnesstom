@@ -20,7 +20,6 @@ class PersonUpdateType extends AbstractType
             ->add('postalCode')
             ->add('city')
             ->add('country')
-            ->add('user')
         ;
     }
 

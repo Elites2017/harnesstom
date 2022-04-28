@@ -24,6 +24,7 @@ class PersonController extends AbstractController
      */
     public function index(PersonRepository $personRepo): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $persons =  $personRepo->findAll();
         $context = [
             'title' => 'Person',
@@ -37,7 +38,7 @@ class PersonController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $person = new person();
         $form = $this->createForm(PersonType::class, $person);
         $form->handleRequest($request);
@@ -64,7 +65,7 @@ class PersonController extends AbstractController
      */
     public function details(Person $personSelected): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $context = [
             'title' => 'Person Details',
             'person' => $personSelected
@@ -77,7 +78,7 @@ class PersonController extends AbstractController
      */
     public function edit(Person $person, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(PersonUpdateType::class, $person);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -98,9 +99,13 @@ class PersonController extends AbstractController
      */
     public function delete(Person $person, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($person->getId()) {
             $person->setIsActive(!$person->getIsActive());
+            if ($person->getUser()) {
+                $user = $person->getUser();
+                $user->setIsActive(!$user->getIsActive());
+            }
         }
         $entmanager->persist($person);
         $entmanager->flush();
@@ -109,6 +114,5 @@ class PersonController extends AbstractController
             'code' => 200,
             'message' => $person->getIsActive()
         ], 200);
-        //return $this->redirect($this->generateUrl('season_home'));
     }
 }

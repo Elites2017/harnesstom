@@ -1,99 +1,123 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
-
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            <h1 class="tomato-color">Person Creation</h1>
-                            {{ form_start(personForm) }}
-                                <div>
-                                    {{ form_row
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Person Creation</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(personForm) }}
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (personForm.firstName,
                                             { label: "First Name*",
                                             'attr': {'placeholder': "Enter the person first name"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (personForm.middleName,
                                             { label: "Middle Name",
                                             'attr': {'placeholder': "Enter the person middle name"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (personForm.lastName,
                                             { label: "Last Name*",
                                             'attr': {'placeholder': "Enter the person last name"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (personForm.phoneNumber,
                                             { label: "Phone Code",
                                             'attr': {'placeholder': "Enter the phone number"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (personForm.streetNumber,
                                             { label: "Street Number And Name",
                                             'attr': {'placeholder': "Enter the street number and its name"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row
                                         (personForm.postalCode,
                                             { label: "Postal Code",
                                             'attr': {'placeholder': "Enter the postal code"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (personForm.city,
                                             { label: "City",
                                             'attr': {'placeholder': "Enter the city"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (personForm.country,
                                             { label: "Country",
-                                            'attr': {'placeholder': "Select the country"}
+                                            'attr': {'placeholder': "Select the country",
+                                            'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <button type="submit" class="btn">Create</button>
-                                <button type="reset" class="btn">Cancel</button>
-                            {{ form_end(personForm) }}
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(personForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}

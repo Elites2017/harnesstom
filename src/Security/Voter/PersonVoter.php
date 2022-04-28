@@ -11,8 +11,8 @@ use Symfony\Component\Security\Core\Security;
 
 class PersonVoter extends Voter
 {
-    public const PERSON_EDIT = 'person_edit';
-    public const PERSON_DEL = 'person_del';
+    public const EDIT = 'person_edit';
+    public const DEL = 'person_del';
 
     // to get the user roles as suggested by symfony
     private $security;
@@ -26,7 +26,7 @@ class PersonVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, [self::PERSON_EDIT, self::PERSON_DEL])
+        return in_array($attribute, [self::EDIT, self::DEL])
             && $person instanceof \App\Entity\Person;
     }
 
@@ -45,12 +45,12 @@ class PersonVoter extends Voter
 
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-            case self::PERSON_EDIT:
+            case self::EDIT:
                 // logic to determine if the user can EDIT
                 // return true or false
                 return $this->canEdit($person, $user);
                 break;
-            case self::PERSON_DEL:
+            case self::DEL:
                 // logic to determine if the user can VIEW
                 // return true or false
                 return $this->canDelete($person, $user);
