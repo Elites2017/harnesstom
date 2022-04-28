@@ -2,74 +2,89 @@
 
 {% block title %}{{ title }}{% endblock %}
 
-
 {% block body %}
-    <main class="main-content">
-        <div class="fullwidth-block">
-		</div> <!-- .fullwidth-block -->
-
-        <div class="fullwidth-block">
-            <div class="container">
-                <div class="row">
-                        <div class="card-body">
-                            <h1 class="tomato-color">Scale Edition</h1>
-                            {{ form_start(scaleForm) }}
-                                <div>
-                                    {{ form_row
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Scale Edition</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(scaleForm) }}
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (scaleForm.name,
                                             { label: "Name *",
                                             'attr': {'placeholder': "Enter the scale name"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+                    <div class="col-md-6 mb-3">
+						{{ form_row
+                                        (scaleForm.unit,
+                                            { label: "Unit",
+                                            'attr': {'placeholder': "Enter the scale unit",
+                                        'class': "custom-select d-block w-100"}
+                                            }
+                                        )
+                                    }}
+					</div>
+				</div>
+                <div>
+						{{ form_row
                                         (scaleForm.description,
                                             { label: "Description",
                                             'attr': {'placeholder': "Enter the scale description"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (scaleForm.scaleCategory,
                                             { label: "Category",
-                                            'attr': {'placeholder': "Select the scale category"}
+                                            'attr': {'placeholder': "Select the scale category",
+                                        'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
+					</div>
+
+					<div class="col-md-6 mb-3">
+						{{ form_row
                                         (scaleForm.dataType,
                                             { label: "Data type",
-                                            'attr': {'placeholder': "Enter the scale data type reference"}
+                                            'attr': {'placeholder': "Enter the scale data type reference",
+                                        'class': "custom-select d-block w-100"}
                                             }
                                         )
                                     }}
-                                </div>
-                                <div>
-                                    {{ form_row
-                                        (scaleForm.unit,
-                                            { label: "Unit",
-                                            'attr': {'placeholder': "Enter the scale unit"}
-                                            }
-                                        )
-                                    }}
-                                </div>
-                                <div>
-                                    {{ form_row(scaleForm.isActive) }}
-                                </div>
-                                <button type="submit" class="btn">Update</button>
-                                <button type="reset" class="btn">Cancel</button>
-                            {{ form_end(scaleForm) }}
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
-        </div> <!-- .fullwidth-block -->
-    </main> <!-- .main-content -->
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(scaleForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
