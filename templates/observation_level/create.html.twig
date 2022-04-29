@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Observation Level Creation</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(observationLevelForm) }}
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.name, {label: "Name", 'attr': {'placeholder' : 'Enter the name'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.blockNumber, {label: "Block Number", 'attr': {'placeholder' : 'Enter the block number'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.subBlockNumber, {label: "Sub Block Number", 'attr': {'placeholder' : 'Enter the sub block number'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.plotNumber, {label: "Plot Number", 'attr': {'placeholder' : 'Enter the plot number'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.plantNumber, {label: "Plant Number", 'attr': {'placeholder' : 'Enter the plant number'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.replicate, {label: "Replicate", 'attr': {'placeholder' : 'Enter the replicate'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.unitPosition, {label: "Unit Position", 'attr': {'placeholder' : 'Enter the unit position'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.unitCoordinateX, {label: "Unit Coordinate X", 'attr': {'placeholder' : 'Enter the Unit Coordinate X'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.unitCoordinateY, {label: "Unit Coordinate Y", 'attr': {'placeholder' : 'Enter the Unit Coordinate Y'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.unitname, {label: "Unit Name", 'attr': {'placeholder' : 'Enter the unit name'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.unitCoordinateXType, {label: "Unit Coordinate X Type", 'attr': {'placeholder' : 'Enter the Unit Coordinate X Type'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(observationLevelForm.unitCoordinateYType, {label: "Unit Coordinate Y Type", 'attr': {'placeholder' : 'Enter the Unit Coordinate Y Type'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row(observationLevelForm.germaplasm, {label: "Germplasm", 'attr': {'placeholder' : 'Select the germplasm',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-6 mb-3">
+						{{ form_row(observationLevelForm.study, {label: "Study", 'attr': {'placeholder' : 'Select the study',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(observationLevelForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
