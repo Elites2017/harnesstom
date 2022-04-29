@@ -76,7 +76,7 @@ class StorageTypeController extends AbstractController
      */
     public function edit(StorageType $storageType, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('storage_type_edit', $storageType);
         $form = $this->createForm(StorageUpdateType::class, $storageType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

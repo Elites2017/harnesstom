@@ -76,7 +76,7 @@ class InstituteController extends AbstractController
      */
     public function edit(Institute $institute, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('institute_edit', $institute);
         $form = $this->createForm(InstituteUpdateType::class, $institute);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

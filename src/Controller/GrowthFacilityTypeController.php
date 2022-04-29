@@ -76,7 +76,7 @@ class GrowthFacilityTypeController extends AbstractController
      */
     public function edit(GrowthFacilityType $growthFacilityType, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('growth_facility_ype_edit', $growthFacilityType);
         $form = $this->createForm(GrowthFacilityUpdateType::class, $growthFacilityType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

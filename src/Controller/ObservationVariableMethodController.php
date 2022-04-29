@@ -76,7 +76,7 @@ class ObservationVariableMethodController extends AbstractController
      */
     public function edit(ObservationVariableMethod $observationVariableMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('observation_variable_method_edit', $observationVariableMethod);
         $form = $this->createForm(ObservationVariableMethodUpdateType::class, $observationVariableMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

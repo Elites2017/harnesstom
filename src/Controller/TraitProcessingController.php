@@ -76,7 +76,7 @@ class TraitProcessingController extends AbstractController
      */
     public function edit(TraitProcessing $traitProcessing, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('trait_processing_edit', $traitProcessing);
         $form = $this->createForm(TraitProcessingUpdateType::class, $traitProcessing);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

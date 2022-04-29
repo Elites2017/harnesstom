@@ -76,7 +76,7 @@ class AccessionController extends AbstractController
      */
     public function edit(Accession $accession, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('accession_edit', $accession);
         $form = $this->createForm(AccessionUpdateType::class, $accession);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

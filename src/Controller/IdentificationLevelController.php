@@ -76,7 +76,7 @@ class IdentificationLevelController extends AbstractController
      */
     public function edit(IdentificationLevel $identificationLevel, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('identification_level_edit', $identificationLevel);
         $form = $this->createForm(IdentificationLevelUpdateType::class, $identificationLevel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

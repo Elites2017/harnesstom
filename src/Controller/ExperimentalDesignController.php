@@ -76,7 +76,7 @@ class ExperimentalDesignController extends AbstractController
      */
     public function edit(ExperimentalDesignType $experimentalDesign, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('experimental_design_edit', $experimentalDesign);
         $form = $this->createForm(ExperimentalDesignUpdateType::class, $experimentalDesign);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

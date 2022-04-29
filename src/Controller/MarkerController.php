@@ -76,7 +76,7 @@ class MarkerController extends AbstractController
      */
     public function edit(Marker $marker, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('marker_edit', $marker);
         $form = $this->createForm(MarkerUpdateType::class, $marker);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

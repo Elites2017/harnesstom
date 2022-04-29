@@ -76,7 +76,7 @@ class VariantSetMetadataController extends AbstractController
      */
     public function edit(VariantSetMetadata $variantSetMetadata, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('variant_set_metadata_edit', $variantSetMetadata);
         $form = $this->createForm(VariantSetMetadataUpdateType::class, $variantSetMetadata);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

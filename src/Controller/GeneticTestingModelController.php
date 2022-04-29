@@ -77,7 +77,7 @@ class GeneticTestingModelController extends AbstractController
      */
     public function edit(GeneticTestingModel $geneticTestingModel, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('genetic_testing_model_edit', $geneticTestingModel);
         $form = $this->createForm(GeneticTestingModelUpdateType::class, $geneticTestingModel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

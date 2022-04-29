@@ -76,7 +76,7 @@ class DevelopmentalStageController extends AbstractController
      */
     public function edit(DevelopmentalStage $developmentalStage, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('developmental_stage_edit', $developmentalStage);
         $form = $this->createForm(DevelomentalStageUpdateType::class, $developmentalStage);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

@@ -76,7 +76,7 @@ class GWASStatTestController extends AbstractController
      */
     public function edit(GWASStatTest $gwasStatTest, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('gwas_stat_test_edit', $gwasStatTest);
         $form = $this->createForm(GWASStatTestUpdateType::class, $gwasStatTest);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

@@ -76,7 +76,7 @@ class MethodClassController extends AbstractController
      */
     public function edit(MethodClass $methodClass, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('method_class_edit', $methodClass);
         $form = $this->createForm(MethodClassUpdateType::class, $methodClass);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

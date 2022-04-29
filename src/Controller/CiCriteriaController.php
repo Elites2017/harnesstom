@@ -76,7 +76,7 @@ class CiCriteriaController extends AbstractController
      */
     public function edit(CiCriteria $ciCriteria, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ci_criteria_edit', $ciCriteria);
         $form = $this->createForm(CiCriteriaUpdateType::class, $ciCriteria);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

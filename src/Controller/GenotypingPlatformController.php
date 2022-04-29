@@ -76,7 +76,7 @@ class GenotypingPlatformController extends AbstractController
      */
     public function edit(GenotypingPlatform $genotypingPlatform, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('genotyping_platform_edit', $genotypingPlatform);
         $form = $this->createForm(GenotypingPlatformUpdateType::class, $genotypingPlatform);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

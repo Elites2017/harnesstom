@@ -76,7 +76,7 @@ class TaxonomyController extends AbstractController
      */
     public function edit(Taxonomy $taxonomy, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('taxonomy_edit', $taxonomy);
         $form = $this->createForm(TaxonomyUpdateType::class, $taxonomy);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

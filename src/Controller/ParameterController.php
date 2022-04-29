@@ -76,7 +76,7 @@ class ParameterController extends AbstractController
      */
     public function edit(Parameter $parameter, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('parameter_edit', $parameter);
         $form = $this->createForm(ParameterUpdateType::class, $parameter);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

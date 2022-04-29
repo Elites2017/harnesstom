@@ -76,7 +76,7 @@ class AnatomicalEntityController extends AbstractController
      */
     public function edit(AnatomicalEntity $anatomicalEntity, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('anatomical_entity_edit', $anatomicalEntity);
         $form = $this->createForm(AnatomicalEntityUpdateType::class, $anatomicalEntity);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

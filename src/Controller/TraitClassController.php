@@ -76,7 +76,7 @@ class TraitClassController extends AbstractController
      */
     public function edit(TraitClass $traitClass, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('trait_class_edit', $traitClass);
         $form = $this->createForm(TraitClassUpdateType::class, $traitClass);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

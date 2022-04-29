@@ -76,7 +76,7 @@ class KinshipAlgorithmController extends AbstractController
      */
     public function edit(KinshipAlgorithm $kinshipAlgorithm, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('kinship_algorithm_edit', $kinshipAlgorithm);
         $form = $this->createForm(KinshipAlgorithmUpdateType::class, $kinshipAlgorithm);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

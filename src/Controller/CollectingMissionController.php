@@ -76,7 +76,7 @@ class CollectingMissionController extends AbstractController
      */
     public function edit(CollectingMission $collectingMission, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('collecting_mission_edit', $collectingMission);
         $form = $this->createForm(CollectingMissionUpdateType::class, $collectingMission);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

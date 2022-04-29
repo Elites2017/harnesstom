@@ -76,7 +76,7 @@ class ContactController extends AbstractController
      */
     public function edit(Contact $contact, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('contact_edit', $contact);
         $form = $this->createForm(ContactUpdateType::class, $contact);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

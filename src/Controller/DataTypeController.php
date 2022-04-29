@@ -76,7 +76,7 @@ class DataTypeController extends AbstractController
      */
     public function edit(DataType $dataType, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('data_type_edit', $dataType);
         $form = $this->createForm(DataUpdateType::class, $dataType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

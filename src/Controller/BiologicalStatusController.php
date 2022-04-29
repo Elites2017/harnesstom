@@ -76,7 +76,7 @@ class BiologicalStatusController extends AbstractController
      */
     public function edit(BiologicalStatus $biologicalStatus, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('biological_status_edit', $biologicalStatus);
         $form = $this->createForm(BiologicalStatusUpdateType::class, $biologicalStatus);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

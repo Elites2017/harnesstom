@@ -76,7 +76,7 @@ class AttributeCategoryController extends AbstractController
      */
     public function edit(AttributeCategory $attributeCategory, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('attribute_category_edit', $attributeCategory);
         $form = $this->createForm(AttributeCategoryUpdateType::class, $attributeCategory);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

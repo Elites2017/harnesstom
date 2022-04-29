@@ -76,7 +76,7 @@ class MetabolicTraitController extends AbstractController
      */
     public function edit(MetabolicTrait $metabolicTrait, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('metabolic_trait_edit', $metabolicTrait);
         $form = $this->createForm(MetabolicTraitUpdateType::class, $metabolicTrait);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

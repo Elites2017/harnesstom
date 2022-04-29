@@ -76,7 +76,7 @@ class QTLMethodController extends AbstractController
      */
     public function edit(QTLMethod $qtlMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('qtl_method_edit', $qtlMethod);
         $form = $this->createForm(QTLMethodUpdateType::class, $qtlMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

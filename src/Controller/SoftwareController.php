@@ -76,7 +76,7 @@ class SoftwareController extends AbstractController
      */
     public function edit(Software $software, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('software_edit', $software);
         $form = $this->createForm(SoftwareUpdateType::class, $software);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

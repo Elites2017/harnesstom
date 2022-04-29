@@ -76,7 +76,7 @@ class MetaboliteController extends AbstractController
      */
     public function edit(Metabolite $metabolite, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('metabolite_edit', $metabolite);
         $form = $this->createForm(MetaboliteUpdateType::class, $metabolite);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

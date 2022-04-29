@@ -76,7 +76,7 @@ class AttributeController extends AbstractController
      */
     public function edit(Attribute $attribute, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('attribute_edit', $attribute);
         $form = $this->createForm(AttributeUpdateType::class, $attribute);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

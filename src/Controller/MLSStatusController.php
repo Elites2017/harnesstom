@@ -76,7 +76,7 @@ class MLSStatusController extends AbstractController
      */
     public function edit(MLSStatus $mlsStatus, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('mls_status_edit', $mlsStatus);
         $form = $this->createForm(MLSStatusUpdateType::class, $mlsStatus);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

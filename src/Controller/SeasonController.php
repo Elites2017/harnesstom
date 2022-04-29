@@ -102,7 +102,7 @@ class SeasonController extends AbstractController
      */
     public function edit(Season $season, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('season_edit', $season);
         $form = $this->createForm(SeasonUpdateType::class, $season);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

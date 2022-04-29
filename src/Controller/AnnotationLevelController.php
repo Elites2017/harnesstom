@@ -76,7 +76,7 @@ class AnnotationLevelController extends AbstractController
      */
     public function edit(AnnotationLevel $annotationLevel, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('annotation_level_edit', $annotationLevel);
         $form = $this->createForm(AnnotationLevelUpdateType::class, $annotationLevel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

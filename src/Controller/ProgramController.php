@@ -76,7 +76,7 @@ class ProgramController extends AbstractController
      */
     public function edit(Program $program, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('program_edit', $program);
         $form = $this->createForm(ProgramUpdateType::class, $program);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

@@ -76,7 +76,7 @@ class ScaleCategoryController extends AbstractController
      */
     public function edit(ScaleCategory $scaleCategory, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('scale_category_edit', $scaleCategory);
         $form = $this->createForm(ScaleCategoryUpdateType::class, $scaleCategory);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

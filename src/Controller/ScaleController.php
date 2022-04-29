@@ -76,7 +76,7 @@ class ScaleController extends AbstractController
      */
     public function edit(Scale $scale, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('scale_edit', $scale);
         $form = $this->createForm(ScaleUpdateType::class, $scale);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

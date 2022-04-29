@@ -76,7 +76,7 @@ class SequencingTypeController extends AbstractController
      */
     public function edit(SequencingType $sequencingType, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('sequencing_type_edit', $sequencingType);
         $form = $this->createForm(SequencingUpdateType::class, $sequencingType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

@@ -76,7 +76,7 @@ class CropController extends AbstractController
      */
     public function edit(Crop $crop, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('crop_edit', $crop);
         $form = $this->createForm(CropUpdateType::class, $crop);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

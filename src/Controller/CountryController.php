@@ -75,7 +75,7 @@ class CountryController extends AbstractController
      */
     public function edit(Country $country, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('country_edit', $country);
         $form = $this->createForm(CountryUpdateType::class, $country);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

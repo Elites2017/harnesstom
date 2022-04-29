@@ -76,7 +76,7 @@ class UnitController extends AbstractController
      */
     public function edit(Unit $unit, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('unit_edit', $unit);
         $form = $this->createForm(UnitUpdateType::class, $unit);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

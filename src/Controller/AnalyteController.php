@@ -76,7 +76,7 @@ class AnalyteController extends AbstractController
      */
     public function edit(Analyte $analyte, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('analyte_edit', $analyte);
         $form = $this->createForm(AnalyteUpdateType::class, $analyte);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

@@ -76,7 +76,7 @@ class TrialTypeController extends AbstractController
      */
     public function edit(TrialType $trialType, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('trial_type_edit', $trialType);
         $form = $this->createForm(TrialUpdateType::class, $trialType);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

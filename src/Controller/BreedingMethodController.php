@@ -76,7 +76,7 @@ class BreedingMethodController extends AbstractController
      */
     public function edit(BreedingMethod $breedingMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('breeding_method_edit', $breedingMethod);
         $form = $this->createForm(BreedingMethodUpdateType::class, $breedingMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

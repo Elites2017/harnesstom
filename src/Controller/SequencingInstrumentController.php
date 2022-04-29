@@ -76,7 +76,7 @@ class SequencingInstrumentController extends AbstractController
      */
     public function edit(SequencingInstrument $sequencingInstrument, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('sequencing_instrument_edit', $sequencingInstrument);
         $form = $this->createForm(SequencingInstrumentUpdateType::class, $sequencingInstrument);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

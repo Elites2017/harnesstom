@@ -76,7 +76,7 @@ class CollectingSourceController extends AbstractController
      */
     public function edit(CollectingSource $collectingSource, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('collecting_source_edit', $collectingSource);
         $form = $this->createForm(CollectingSourceUpdateType::class, $collectingSource);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

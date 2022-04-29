@@ -76,7 +76,7 @@ class ThresholdMethodController extends AbstractController
      */
     public function edit(ThresholdMethod $thresholdMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('threshold_method_edit', $thresholdMethod);
         $form = $this->createForm(ThresholdMethodUpdateType::class, $thresholdMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

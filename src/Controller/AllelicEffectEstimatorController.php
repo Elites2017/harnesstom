@@ -77,7 +77,7 @@ class AllelicEffectEstimatorController extends AbstractController
      */
     public function edit(AllelicEffectEstimator $allelicEffectEstimator, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('allelic_effect_estimator_edit', $allelicEffectEstimator);
         $form = $this->createForm(AllelicEffectEstimatorUpdateType::class, $allelicEffectEstimator);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

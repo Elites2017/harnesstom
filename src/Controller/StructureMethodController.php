@@ -76,7 +76,7 @@ class StructureMethodController extends AbstractController
      */
     public function edit(StructureMethod $structureMethod, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('structure_method_edit', $structureMethod);
         $form = $this->createForm(StructureMethodUpdateType::class, $structureMethod);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

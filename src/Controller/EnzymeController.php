@@ -76,7 +76,7 @@ class EnzymeController extends AbstractController
      */
     public function edit(Enzyme $enzyme, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('enzyme_edit', $enzyme);
         $form = $this->createForm(EnzymeUpdateType::class, $enzyme);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

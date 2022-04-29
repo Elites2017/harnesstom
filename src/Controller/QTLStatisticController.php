@@ -76,7 +76,7 @@ class QTLStatisticController extends AbstractController
      */
     public function edit(QTLStatistic $qtlStatistic, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('qtl_statistic_edit', $qtlStatistic);
         $form = $this->createForm(QTLStatisticUpdateType::class, $qtlStatistic);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

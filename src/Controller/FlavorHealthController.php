@@ -76,7 +76,7 @@ class FlavorHealthController extends AbstractController
      */
     public function edit(AnalyteFlavorHealth $flavorHealth, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('flavor_health_edit', $flavorHealth);
         $form = $this->createForm(FlavorHealthUpdateType::class, $flavorHealth);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

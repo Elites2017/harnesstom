@@ -76,7 +76,7 @@ class VarCallSoftwareController extends AbstractController
      */
     public function edit(VarCallSoftware $varCallSoftware, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('var_call_software_edit', $varCallSoftware);
         $form = $this->createForm(VarCallSoftwareUpdateType::class, $varCallSoftware);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

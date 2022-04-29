@@ -76,7 +76,7 @@ class LocationController extends AbstractController
      */
     public function edit(Location $location, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('location_edit', $location);
         $form = $this->createForm(LocationUpdateType::class, $location);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

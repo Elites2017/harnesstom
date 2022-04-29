@@ -76,7 +76,7 @@ class GWASModelController extends AbstractController
      */
     public function edit(GWASModel $gwasModel, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('gwas_model_edit', $gwasModel);
         $form = $this->createForm(GWASModelUpdateType::class, $gwasModel);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
