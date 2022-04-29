@@ -22,13 +22,6 @@
 				<div>
 					{{ form_row(analyteClassForm.name, {'attr': {'placeholder': "Enter the name" }}) }}
 				</div>
-				{% if is_granted("ROLE_ADMIN") %}
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							{{ form_row (analyteClassForm.isActive) }}
-						</div>
-					</div>
-				{% endif %}
 				<div class="row">
 					<div class="col-md-6 mb-3">
 						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
