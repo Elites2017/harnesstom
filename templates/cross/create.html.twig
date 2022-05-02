@@ -77,17 +77,16 @@
 				</div>
 				
 				<div>
-						<div id="email-fields-list" data-prototype="{{ form_widget(crossForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3"></div>'|e }}" data-widget-counter="{{ crossForm.publicationReference|length }}">
-							{% for pubRef in crossForm.publicationReference %}
-								<li>
-									{{ form_errors(pubRef) }}
-									{{ form_widget(pubRef) }}
-								</li>
-							{% endfor %}
-						</div>
-
-						<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#email-fields-list">Add publication reference</button>
+					<div id="email-fields-list" data-prototype="{{ form_widget(crossForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3"> </div>'|e }}" data-widget-counter="{{ crossForm.publicationReference|length }}">
+						{% for pubRef in crossForm.publicationReference %}
+							<li>
+								{{ form_errors(pubRef) }}
+								{{ form_widget(pubRef) }}
+							</li>
+						{% endfor %}
 					</div>
+					<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#email-fields-list">Add publication reference</button>
+				</div>
 
 				<div class="row">
 					<div class="col-md-6 mb-3">
