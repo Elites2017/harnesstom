@@ -24,6 +24,7 @@
 								<th scope="col">Institute</th>
 								<th scope="col">Year</th>
 								<th scope="col">Breeding Method</th>
+								<th scope="col">Publication Reference</th>
 								{% if cross.pedigree %}
 									<th scope="col">Pedigree</th>
 								{% endif %}
@@ -51,10 +52,18 @@
 								<td>{{ cross.year }}</td>
 								<td>{{ cross.breedingMethod }}</td>
 								<td>
-									{% if cross.pedigree %}
-										<a href="{{ path('pedigree_details', {id: cross.pedigree.id}) }}">{{ cross.pedigree }}</a>
+									{% if cross.publicationReference | length >= 0 %}
+										{% for oneRef in cross.publicationReference %}
+											{{ loop.index ~ " - " ~ oneRef }}
+										</br>
+										{% endfor %}
 									{% endif %}
 								</td>
+								{% if cross.pedigree %}
+									<td>
+										<a href="{{ path('pedigree_details', {id: cross.pedigree.id}) }}">{{ cross.pedigree }}</a>
+									</td>
+								{% endif %}
 								{% if is_granted("ROLE_ADMIN") %}
 									<td>
 										{% if cross.createdBy %}
@@ -82,9 +91,7 @@
 					</table>
 				</div>
 			</div>
-		</div>
-		<!-- .row -->
-	</div>
+		</div><!-- .row --></div>
 	<!-- .container -->
 {% endblock %}
 
@@ -93,7 +100,6 @@
 	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
 	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
 	<script>
 		/*
         This function is to change the status of the object.

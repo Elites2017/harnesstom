@@ -61,24 +61,33 @@
 				</div>
 
 				<div class="row">
-					<div class="col-md-3 mb-3">
+					<div class="col-md-4 mb-3">
 						{{ form_row(crossForm.breedingMethod, {label: "Breeding Method", 'attr': {'placeholder' : 'Select the breeding method',
                                         'class': "custom-select d-block w-100"}}) }}
 					</div>
 
-					<div class="col-md-3 mb-3">
+					<div class="col-md-4 mb-3">
 						{{ form_row(crossForm.pedigree, {label: "Pedigree", 'attr': {'placeholder' : 'Select the pedigree',
                                         'class': "custom-select d-block w-100"}}) }}
 					</div>
 
-					<div class="col-md-3 mb-3">
+					<div class="col-md-4 mb-3">
 						{{ form_row(crossForm.year, {label: "Year", 'attr': {'placeholder' : 'Enter the year of the cross'}}) }}
 					</div>
-
-					<div class="col-md-3 mb-3">
-						{{ form_row(crossForm.publicationReference, {label: "Publicarion Reference", 'attr': {'placeholder' : 'Enter the publication reference'}}) }}
-					</div>
 				</div>
+				
+				<div>
+						<div id="email-fields-list" data-prototype="{{ form_widget(crossForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3"></div>'|e }}" data-widget-counter="{{ crossForm.publicationReference|length }}">
+							{% for pubRef in crossForm.publicationReference %}
+								<li>
+									{{ form_errors(pubRef) }}
+									{{ form_widget(pubRef) }}
+								</li>
+							{% endfor %}
+						</div>
+
+						<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#email-fields-list">Add publication reference</button>
+					</div>
 
 				<div class="row">
 					<div class="col-md-6 mb-3">
@@ -95,4 +104,11 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 {% endblock %}
