@@ -24,7 +24,8 @@ class CrossUpdateType extends AbstractType
             ->add('publicationReference', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
-                'prototype' => true
+                'prototype' => true,
+                'label' => false
             ])
             ->add('study')
             ->add('institute')
