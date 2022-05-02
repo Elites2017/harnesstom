@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{title}}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Cross Creation</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(crossForm) }}
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(crossForm.name, {label: "Name", 'attr': {'placeholder' : 'Enter the name'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(crossForm.study, {label: "Study", 'attr': {'placeholder' : 'Select the study',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(crossForm.institute, {label: "Institute", 'attr': {'placeholder' : 'Select the institute',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+				</div>
+				<div>
+					{{ form_row(crossForm.description, {label: "Description", 'attr': {'placeholder' : 'Enter the description'}}) }}
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row(crossForm.parent1, {label: "Parent 1", 'attr': {'placeholder' : 'Select the parent 1',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-6 mb-3">
+						{{ form_row(crossForm.parent1Type, {label: "Parent 1 type", 'attr': {'placeholder' : 'Enter the parent 1 type'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						{{ form_row(crossForm.parent2, {label: "Parent 2", 'attr': {'placeholder' : 'Select the parent 2',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-6 mb-3">
+						{{ form_row(crossForm.parent2Type, {label: "Parent 2 type", 'attr': {'placeholder' : 'Enter the parent 2 type'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-3 mb-3">
+						{{ form_row(crossForm.breedingMethod, {label: "Breeding Method", 'attr': {'placeholder' : 'Select the breeding method',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-3 mb-3">
+						{{ form_row(crossForm.pedigree, {label: "Pedigree", 'attr': {'placeholder' : 'Select the pedigree',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-3 mb-3">
+						{{ form_row(crossForm.year, {label: "Year", 'attr': {'placeholder' : 'Enter the year of the cross'}}) }}
+					</div>
+
+					<div class="col-md-3 mb-3">
+						{{ form_row(crossForm.publicationReference, {label: "Publicarion Reference", 'attr': {'placeholder' : 'Enter the publication reference'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(crossForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
