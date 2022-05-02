@@ -4,7 +4,9 @@ namespace App\Form;
 
 use App\Entity\Cross;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,7 +21,11 @@ class CrossUpdateType extends AbstractType
             ->add('parent1Type')
             ->add('parent2Type')
             ->add('year')
-            ->add('publicationReference')
+            ->add('publicationReference', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'prototype' => true
+            ])
             ->add('study')
             ->add('institute')
             ->add('breedingMethod')
