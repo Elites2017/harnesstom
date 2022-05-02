@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{title}}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">GWAS Creation</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(gwasForm) }}
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.name, {label: "Name", 'attr': {'placeholder' : 'Enter the name'}}) }}
+					</div>
+					
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.thresholdMethod, {label: "Threshold Method", 'attr': {'placeholder' : 'Select the threshold method',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.thresholdValue, {label: "Threshold Value", 'attr': {'placeholder' : 'Enter the threshold value'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.kinshipAlgorithm, {label: "Kinship Algorithm", 'attr': {'placeholder' : 'Select the kinshipd algorithm',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.geneticTestingModel, {label: "Genetic Testing Model", 'attr': {'placeholder' : 'Select the genetic testing model',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.gwasModel, {label: "GWAS Model", 'attr': {'placeholder' : 'Select the gwas model',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.structureMethod, {label: "Structute Method", 'attr': {'placeholder' : 'Select the structure method',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.allelicEffectEstimator, {label: "Allelic Effect Estimator", 'attr': {'placeholder' : 'Select the allelic effect estimator',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.variantSetMetada, {label: "Variant Set Metadata", 'attr': {'placeholder' : 'Select the variant set meta data',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+				</div>
+
+				<div>
+					<div id="email-fields-list" data-prototype="{{ form_widget(gwasForm.studyID.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3"> </div>'|e }}" data-widget-counter="{{ gwasForm.studyID|length }}">
+						{% for oneStudy in gwasForm.studyID %}
+							<li>
+								{{ form_errors(oneStudy) }}
+								{{ form_widget(oneStudy) }}
+							</li>
+						{% endfor %}
+					</div>
+					<button type="button" class="btn btn-outline-info mb-3 add-another-study-widget" data-list-selector="#email-fields-list">Add study</button>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.software, {label: "Software", 'attr': {'placeholder' : 'Select the software',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.preprocessing, {label: "Preprocessing", 'attr': {'placeholder' : 'Enter the preprocessing'}}) }}
+					</div>
+
+					
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(gwasForm.gwasStatTest, {label: "GWAS Stat Test", 'attr': {'placeholder' : 'Select the gwas stat test',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+					
+				</div>
+				
+				<div>
+					<div id="email-fields-list" data-prototype="{{ form_widget(gwasForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3"> </div>'|e }}" data-widget-counter="{{ gwasForm.publicationReference|length }}">
+						{% for pubRef in gwasForm.publicationReference %}
+							<li>
+								{{ form_errors(pubRef) }}
+								{{ form_widget(pubRef) }}
+							</li>
+						{% endfor %}
+					</div>
+					<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#email-fields-list">Add publication reference</button>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(gwasForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/add-study-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+{% endblock %}
