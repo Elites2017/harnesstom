@@ -109,9 +109,15 @@ class GWAS
      */
     private $gWASVariants;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Study::class, inversedBy="gwas")
+     */
+    private $studyList;
+
     public function __construct()
     {
         $this->gWASVariants = new ArrayCollection();
+        $this->studyList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -358,5 +364,29 @@ class GWAS
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * @return Collection<int, Study>
+     */
+    public function getStudyList(): Collection
+    {
+        return $this->studyList;
+    }
+
+    public function addStudyList(Study $studyList): self
+    {
+        if (!$this->studyList->contains($studyList)) {
+            $this->studyList[] = $studyList;
+        }
+
+        return $this;
+    }
+
+    public function removeStudyList(Study $studyList): self
+    {
+        $this->studyList->removeElement($studyList);
+
+        return $this;
     }
 }

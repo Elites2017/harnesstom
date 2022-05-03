@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+	<!-- DataTables CSS -->
+	<link
+	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+	<!-- DataTables Responsive CSS -->
+	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				{% if gwases | length > 0 %}
+					<h2 class="mb-3 text-center tomato-color font-weight-bold">GWAS List</h2>
+					<div class="table-responsive">
+						<table id="datatable" class="table table-hover text-nowrap" width="100%">
+							<thead class="table-dark">
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">Software</th>
+									<th scope="col">GWAS Model</th>
+									<th scope="col">Structure Method</th>
+									<th scope="col">Kinship Algorithm</th>
+									<th scope="col">GWAS Stat Test</th>
+									<th scope="col">Threshold Method</th>
+									<th scope="col">Threshold Value</th>
+									<th scope="col">Preprocessing</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for gwas in gwases %}
+									<tr>
+										<td>
+											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.software }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.gwasModel }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.structureMethod }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.kinshipAlgorithm }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.gwasStatTest }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.thresholdMethod }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.thresholdValue }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.preprocessing }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_details', {id: gwas.id}) }}">
+												<button class="btn btn-outline-primary">View</button>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				{% else %}
+					<h5 class="mb-3 text-center tomato-color font-weight-bold">No gwas has been provided in our system</h5>
+				{% endif %}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script>
+		window.jQuery || document.write('<script src=" {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
+	</script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- DataTables JavaScript -->
+	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script>
+		$(document).ready(function () {
+$('#datatable').DataTable();
+});
+	</script>
+{% endblock %}
