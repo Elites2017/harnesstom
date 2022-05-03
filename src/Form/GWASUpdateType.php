@@ -14,33 +14,26 @@ class GWASUpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('preprocessing')
-            ->add('thresholdValue')
-            ->add('studyID')
-            ->add('studyID', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'allow_add' => true,
-                'prototype' => true,
-                'label' => false,
-                'prototype_data' => 'Study...'
-            ])
-            ->add('publicationReference', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'allow_add' => true,
-                'prototype' => true,
-                'label' => false,
-                'prototype_data' => 'Publication reference...'
-            ])
-            ->add('variantSetMetada')
-            ->add('software')
-            ->add('gwasModel')
-            ->add('kinshipAlgorithm')
-            ->add('structureMethod')
-            ->add('geneticTestingModel')
-            ->add('allelicEffectEstimator')
-            ->add('gwasStatTest')
-            ->add('thresholdMethod')
+        ->add('name')
+        ->add('preprocessing')
+        ->add('thresholdValue')
+        ->add('publicationReference', CollectionType::class, [
+            'entry_type' => TextType::class,
+            'allow_add' => true,
+            'prototype' => true,
+            'label' => false,
+            'prototype_data' => 'Publication reference...'
+        ])
+        ->add('variantSetMetada')
+        ->add('software')
+        ->add('gwasModel')
+        ->add('kinshipAlgorithm')
+        ->add('structureMethod')
+        ->add('geneticTestingModel')
+        ->add('allelicEffectEstimator')
+        ->add('gwasStatTest')
+        ->add('thresholdMethod')
+        ->add('studyList')
         ;
     }
 

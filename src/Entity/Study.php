@@ -139,6 +139,11 @@ class Study
      */
     private $samples;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=GWAS::class, mappedBy="studyList")
+     */
+    private $gwas;
+
     public function __construct()
     {
         $this->germplasms = new ArrayCollection();
@@ -146,6 +151,7 @@ class Study
         $this->studyImages = new ArrayCollection();
         $this->observationLevels = new ArrayCollection();
         $this->samples = new ArrayCollection();
+        $this->gwas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -538,5 +544,32 @@ class Study
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * @return Collection<int, GWAS>
+     */
+    public function getGwas(): Collection
+    {
+        return $this->gwas;
+    }
+
+    public function addGwa(GWAS $gwa): self
+    {
+        if (!$this->gwas->contains($gwa)) {
+            $this->gwas[] = $gwa;
+            $gwa->addStudyList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGwa(GWAS $gwa): self
+    {
+        if ($this->gwas->removeElement($gwa)) {
+            $gwa->removeStudyList($this);
+        }
+
+        return $this;
     }
 }

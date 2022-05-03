@@ -17,13 +17,6 @@ class GWASType extends AbstractType
             ->add('name')
             ->add('preprocessing')
             ->add('thresholdValue')
-            ->add('studyID', CollectionType::class, [
-                'entry_type' => TextType::class,
-                'allow_add' => true,
-                'prototype' => true,
-                'label' => false,
-                'prototype_data' => 'Study...'
-            ])
             ->add('publicationReference', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
@@ -40,6 +33,7 @@ class GWASType extends AbstractType
             ->add('allelicEffectEstimator')
             ->add('gwasStatTest')
             ->add('thresholdMethod')
+            ->add('studyList')
         ;
     }
 
