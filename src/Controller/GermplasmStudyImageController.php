@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 // set a class level route
 /**
- * @Route("/germplasm/study/image", name="germplasm_study_")
+ * @Route("/germplasm/study/image", name="germplasm_study_image_")
  */
 class GermplasmStudyImageController extends AbstractController
 {
@@ -23,10 +23,10 @@ class GermplasmStudyImageController extends AbstractController
      */
     public function index(GermplasmStudyImageRepository $germplasmStudyImageRepo): Response
     {
-        $studies =  $germplasmStudyImageRepo->findAll();
+        $germplasmStudyImages =  $germplasmStudyImageRepo->findAll();
         $context = [
             'title' => 'Germplasm Study Image List',
-            'studies' => $studies
+            'germplasmStudyImages' => $germplasmStudyImages
         ];
         return $this->render('germplasm_study_image/index.html.twig', $context);
     }
@@ -48,7 +48,7 @@ class GermplasmStudyImageController extends AbstractController
             $germplasmStudyImage->setCreatedAt(new \DateTime());
             $entmanager->persist($germplasmStudyImage);
             $entmanager->flush();
-            return $this->redirect($this->generateUrl('study_index'));
+            return $this->redirect($this->generateUrl('germplasm_study_image_index'));
         }
 
         $context = [
@@ -82,7 +82,7 @@ class GermplasmStudyImageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($germplasmStudyImage);
             $entmanager->flush();
-            return $this->redirect($this->generateUrl('study_index'));
+            return $this->redirect($this->generateUrl('germplasm_study_image_index'));
         }
 
         $context = [
