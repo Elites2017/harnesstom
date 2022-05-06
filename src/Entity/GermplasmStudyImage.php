@@ -57,6 +57,16 @@ class GermplasmStudyImage
      */
     private $createdBy;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Germplasm::class, inversedBy="germplasmStudyImages")
+     */
+    private $GermplasmID;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Study::class, inversedBy="germplasmStudyImages")
+     */
+    private $StudyID;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -163,5 +173,29 @@ class GermplasmStudyImage
     public function __toString()
     {
         return (string) $this->filename;
+    }
+
+    public function getGermplasmID(): ?Germplasm
+    {
+        return $this->GermplasmID;
+    }
+
+    public function setGermplasmID(?Germplasm $GermplasmID): self
+    {
+        $this->GermplasmID = $GermplasmID;
+
+        return $this;
+    }
+
+    public function getStudyID(): ?Study
+    {
+        return $this->StudyID;
+    }
+
+    public function setStudyID(?Study $StudyID): self
+    {
+        $this->StudyID = $StudyID;
+
+        return $this;
     }
 }

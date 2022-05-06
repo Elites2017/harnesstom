@@ -95,6 +95,11 @@ class Germplasm
      */
     private $qTLVariants;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GermplasmStudyImage::class, mappedBy="GermplasmID")
+     */
+    private $germplasmStudyImages;
+
     public function __construct()
     {
         $this->study = new ArrayCollection();
@@ -103,6 +108,7 @@ class Germplasm
         $this->samples = new ArrayCollection();
         $this->pedigrees = new ArrayCollection();
         $this->qTLVariants = new ArrayCollection();
+        $this->germplasmStudyImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -394,5 +400,35 @@ class Germplasm
     public function __toString()
     {
         return (string) $this->germplasmID;
+    }
+
+    /**
+     * @return Collection<int, GermplasmStudyImage>
+     */
+    public function getGermplasmStudyImages(): Collection
+    {
+        return $this->germplasmStudyImages;
+    }
+
+    public function addGermplasmStudyImage(GermplasmStudyImage $germplasmStudyImage): self
+    {
+        if (!$this->germplasmStudyImages->contains($germplasmStudyImage)) {
+            $this->germplasmStudyImages[] = $germplasmStudyImage;
+            $germplasmStudyImage->setGermplasmID($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasmStudyImage(GermplasmStudyImage $germplasmStudyImage): self
+    {
+        if ($this->germplasmStudyImages->removeElement($germplasmStudyImage)) {
+            // set the owning side to null (unless already changed)
+            if ($germplasmStudyImage->getGermplasmID() === $this) {
+                $germplasmStudyImage->setGermplasmID(null);
+            }
+        }
+
+        return $this;
     }
 }
