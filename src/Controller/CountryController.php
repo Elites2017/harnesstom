@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Controller;
+
 use App\Form\CountryType;
 use App\Form\CountryUpdateType;
 use App\Entity\Country;
+use App\Form\CountryUploadFromExcelType;
 use App\Repository\CountryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 // set a class level route
 /**
@@ -108,5 +111,67 @@ class CountryController extends AbstractController
             'message' => $country->getIsActive()
         ], 200);
         //return $this->redirect($this->generateUrl('season_home'));
+    }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel", name="upload_from_excel")
+     */
+    public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(CountryUploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('country_upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    dd($th);
+                }
+            } else {
+                dd("there is an error with the file");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // loop over the array to get each row
+            foreach ($sheetData as $row) {
+                $name = $row['A'];
+                $iso3 = $row['B'];
+                // check if the data is upload in the database
+                $existingCountry = $entmanager->getRepository(Country::class)->findOneBy(['iso3' => $iso3]);
+                // upload data only for countries that haven't been saved in the database
+                if (!$existingCountry) {
+                    $country = new Country();
+                    if ($this->getUser()) {
+                        $country->setCreatedBy($this->getUser());
+                    }
+                    $country->setName($name);
+                    $country->setIso3($iso3);
+                    $country->setIsActive(true);
+                    $country->setCreatedAt(new \DateTime());
+                    $entmanager->persist($country);
+                    $entmanager->flush();
+                }
+            }
+            return $this->redirect($this->generateUrl('country_index'));
+        }
+
+        $context = [
+            'title' => 'Country Upload From Excel',
+            'countryUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('country/upload_from_excel.html.twig', $context);
     }
 }
