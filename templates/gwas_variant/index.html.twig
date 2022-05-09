@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+	<!-- DataTables CSS -->
+	<link
+	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+	<!-- DataTables Responsive CSS -->
+	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				{% if gwasVariants | length > 0 %}
+					<h2 class="mb-3 text-center tomato-color font-weight-bold">GWAS Variant Variant List</h2>
+					<div class="table-responsive">
+						<table id="datatable" class="table table-hover text-nowrap" width="100%">
+							<thead class="table-dark">
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">MAF</th>
+									<th scope="col">Sample Size</th>
+									<th scope="col">SNP P Value</th>
+									<th scope="col">Adjusted PValue</th>
+									<th scope="col">Allelic Effect</th>
+									<th scope="col">Allelic Effect Stat</th>
+									<th scope="col">Allelic Effect DF</th>
+									<th scope="col">Allelic Effect StdE</th>
+                                    <th scope="col">Beta</th>
+                                    <th scope="col">Beta StdE</th>
+                                    <th scope="col">Odds Ratio</th>
+                                    <th scope="col">Ci Lower</th>
+                                    <th scope="col">Ci Upper</th>
+                                    <th scope="col">Marker</th>
+                                    <th scope="col">Metabolite</th>
+                                    <th scope="col">GWAS</th>
+                                    <th scope="col">Trait Preprocessing</th>
+                                    <th scope="col">Observation Variable</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for gwasVariant in gwasVariants %}
+									<tr>
+										<td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.maf }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.sampleSize }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.snppValue }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.adjustedPValue }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.allelicEffect }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.allelicEffectStat }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.allelicEffStdE }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.allelicEffectdf }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.beta }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.betaStdE }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.oddsRatio }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.ciLower }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.ciUpper }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.marker }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.metabolite }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.gwas }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.traitPreprocessing }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.observationVariable }}</a>
+										</td>
+										<td>
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">
+												<button class="btn btn-outline-primary">View</button>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				{% else %}
+					<h5 class="mb-3 text-center tomato-color font-weight-bold">No GWAS variant has been provided in our system</h5>
+				{% endif %}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script>
+		window.jQuery || document.write('<script src=" {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
+	</script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- DataTables JavaScript -->
+	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script>
+		$(document).ready(function () {
+$('#datatable').DataTable();
+});
+	</script>
+{% endblock %}
