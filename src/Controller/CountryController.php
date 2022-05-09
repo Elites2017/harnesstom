@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Symfony\Component\Validator\Constraints\Length;
 
 // set a class level route
 /**
@@ -146,7 +147,7 @@ class CountryController extends AbstractController
             // transform the uploaded file to an array
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
-            foreach ($sheetData as $row) {
+            foreach ($sheetData as $key => $row) {
                 $name = $row['A'];
                 $iso3 = $row['B'];
                 // check if the data is upload in the database
@@ -163,8 +164,23 @@ class CountryController extends AbstractController
                     $country->setCreatedAt(new \DateTime());
                     $entmanager->persist($country);
                     $entmanager->flush();
+                    // $context = [
+                    //     'title' => 'Upload from Excel',
+                    //     'total' => count($sheetData),
+                    //     'key' => $key
+                    // ];
+                    //echo "Length ". round(($key / count($sheetData) * 100), 2) ."</br>";
+                   
+                    //return new Response($key);
+
+                    // return $this->json([
+                    //     'code' => 200,
+                    //     'key' => $key,
+                    //     'message' => $country->getIsActive()
+                    // ], 200);
                 }
             }
+            $this->addFlash('success', count($sheetData). " countries have been successfuly added");
             return $this->redirect($this->generateUrl('country_index'));
         }
 
