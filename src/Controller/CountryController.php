@@ -163,7 +163,6 @@ class CountryController extends AbstractController
                     $country->setIsActive(true);
                     $country->setCreatedAt(new \DateTime());
                     $entmanager->persist($country);
-                    $entmanager->flush();
                     // $context = [
                     //     'title' => 'Upload from Excel',
                     //     'total' => count($sheetData),
@@ -180,6 +179,7 @@ class CountryController extends AbstractController
                     // ], 200);
                 }
             }
+            $entmanager->flush();
             $this->addFlash('success', count($sheetData). " countries have been successfuly added");
             return $this->redirect($this->generateUrl('country_index'));
         }
