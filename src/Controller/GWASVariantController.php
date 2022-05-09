@@ -66,7 +66,7 @@ class GWASVariantController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'GWAS Variant Details',
-            'gwas' => $gwasVariantSelected
+            'gwasVariant' => $gwasVariantSelected
         ];
         return $this->render('gwas_variant/details.html.twig', $context);
     }
