@@ -35,11 +35,6 @@ class MappingPopulation
     private $isActive;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $createdBy;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Cross::class, inversedBy="mappingPopulations")
      */
     private $mappingPopulationCross;
@@ -53,6 +48,11 @@ class MappingPopulation
      * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="mappingPopulation")
      */
     private $qTLStudies;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="mappingPopulations")
+     */
+    private $createdBy;
 
     public function __construct()
     {
@@ -96,18 +96,6 @@ class MappingPopulation
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }
@@ -171,5 +159,17 @@ class MappingPopulation
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
     }
 }

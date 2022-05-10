@@ -45,11 +45,6 @@ class QTLStudy
     private $isActive;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $createdBy;
-
-    /**
      * @ORM\Column(type="array", nullable=true)
      */
     private $publicationReference = [];
@@ -108,6 +103,11 @@ class QTLStudy
      * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="qtlStudy")
      */
     private $qTLVariants;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="qTLStudies")
+     */
+    private $createdBy;
 
     public function __construct()
     {
@@ -175,18 +175,6 @@ class QTLStudy
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }
@@ -358,5 +346,17 @@ class QTLStudy
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
     }
 }
