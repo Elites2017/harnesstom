@@ -148,7 +148,7 @@ class GWASVariant
     private $observationVariable;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="gWASVariants")
      */
     private $createdBy;
 
@@ -469,22 +469,22 @@ class GWASVariant
         return $this;
     }
 
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
     // create a toString method to return the object name / code which will appear
     // in an upper level related form field from a foreign key
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
     }
 }
