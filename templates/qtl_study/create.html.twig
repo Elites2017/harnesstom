@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{title}}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">QTL Study Creation</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{{ form_start(qtlStudyForm) }}
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.name, {label: "Name", 'attr': {'placeholder' : 'Enter the name'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.thresholdMethod, {label: "Threshold Method", 'attr': {'placeholder' : 'Select the threshold method',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.thresholdValue, {label: "Threshold Value", 'attr': {'placeholder' : 'Enter the threshold value'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.qtlCount, {label: "QTL Count", 'attr': {'placeholder' : 'Enter the qtl count'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.ciCriteria, {label: "Ci Criteria", 'attr': {'placeholder' : 'Enter the ci criteria',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.software, {label: "Software", 'attr': {'placeholder' : 'Select the software',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.multiEnvironmentStat, {label: "Muti Environment Stat", 'attr': {'placeholder' : 'Select the multi environment stat',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.method, {label: "Method", 'attr': {'placeholder' : 'Select the method',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.variantSet, {label: "Variant Set", 'attr': {'placeholder' : 'Select the variant set',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.mappingPopulation, {label: "Mapping Population", 'attr': {'placeholder' : 'Select the mapping population',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.genomeMapUnit, {label: "Genome Map Unit", 'attr': {'placeholder' : 'Enter the genome map unit',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(qtlStudyForm.statistic, {label: "Statistic", 'attr': {'placeholder' : 'Select the statistic',
+                                        'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+				</div>
+
+				<div class="mb-3">
+					{{ form_row(qtlStudyForm.studyList, {label: "Study List (You can select several)", 'attr': {'placeholder' : 'Select study (ies)',
+                                        'class': "custom-select d-block w-100"}}) }}
+				</div>
+
+				<div>
+					<div id="pubRef-fields-list" data-prototype="{{ form_widget(qtlStudyForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ qtlStudyForm.publicationReference|length }}">
+						{% for pubRef in qtlStudyForm.publicationReference %}
+							<li>
+								{{ form_errors(pubRef) }}
+								{{ form_widget(pubRef) }}
+							</li>
+						{% endfor %}
+					</div>
+					<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#pubRef-fields-list">Add publication reference</button>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+					</div>
+				</div>
+				{{ form_end(qtlStudyForm) }}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/add-study-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+{% endblock %}
