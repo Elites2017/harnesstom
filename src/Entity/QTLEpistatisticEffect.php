@@ -28,11 +28,6 @@ class QTLEpistatisticEffect
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $createdBy;
-
-    /**
      * @ORM\Column(type="float", nullable=true)
      */
     private $addEpi;
@@ -62,6 +57,11 @@ class QTLEpistatisticEffect
      */
     private $qtlVariant2;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="qTLEpistatisticEffects")
+     */
+    private $createdBy;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,18 +87,6 @@ class QTLEpistatisticEffect
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }
@@ -171,6 +159,18 @@ class QTLEpistatisticEffect
     public function setQtlVariant2(?QTLVariant $qtlVariant2): self
     {
         $this->qtlVariant2 = $qtlVariant2;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

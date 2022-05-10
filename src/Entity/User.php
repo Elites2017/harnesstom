@@ -444,6 +444,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $mappingPopulations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MetaboliteValue::class, mappedBy="createdBy")
+     */
+    private $metaboliteValues;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLEpistatisticEffect::class, mappedBy="createdBy")
+     */
+    private $qTLEpistatisticEffects;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="createdBy")
+     */
+    private $qTLStudies;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="createdBy")
+     */
+    private $qTLVariants;
+
+    /**
+     * @ORM\OneToMany(targetEntity=VariantSet::class, mappedBy="createdBy")
+     */
+    private $variantSets;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -524,6 +549,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->germplasmStudyImages = new ArrayCollection();
         $this->gWASVariants = new ArrayCollection();
         $this->mappingPopulations = new ArrayCollection();
+        $this->metaboliteValues = new ArrayCollection();
+        $this->qTLEpistatisticEffects = new ArrayCollection();
+        $this->qTLStudies = new ArrayCollection();
+        $this->qTLVariants = new ArrayCollection();
+        $this->variantSets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -3002,6 +3032,156 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($mappingPopulation->getCreatedBy() === $this) {
                 $mappingPopulation->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MetaboliteValue>
+     */
+    public function getMetaboliteValues(): Collection
+    {
+        return $this->metaboliteValues;
+    }
+
+    public function addMetaboliteValue(MetaboliteValue $metaboliteValue): self
+    {
+        if (!$this->metaboliteValues->contains($metaboliteValue)) {
+            $this->metaboliteValues[] = $metaboliteValue;
+            $metaboliteValue->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetaboliteValue(MetaboliteValue $metaboliteValue): self
+    {
+        if ($this->metaboliteValues->removeElement($metaboliteValue)) {
+            // set the owning side to null (unless already changed)
+            if ($metaboliteValue->getCreatedBy() === $this) {
+                $metaboliteValue->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLEpistatisticEffect>
+     */
+    public function getQTLEpistatisticEffects(): Collection
+    {
+        return $this->qTLEpistatisticEffects;
+    }
+
+    public function addQTLEpistatisticEffect(QTLEpistatisticEffect $qTLEpistatisticEffect): self
+    {
+        if (!$this->qTLEpistatisticEffects->contains($qTLEpistatisticEffect)) {
+            $this->qTLEpistatisticEffects[] = $qTLEpistatisticEffect;
+            $qTLEpistatisticEffect->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLEpistatisticEffect(QTLEpistatisticEffect $qTLEpistatisticEffect): self
+    {
+        if ($this->qTLEpistatisticEffects->removeElement($qTLEpistatisticEffect)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLEpistatisticEffect->getCreatedBy() === $this) {
+                $qTLEpistatisticEffect->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLStudy>
+     */
+    public function getQTLStudies(): Collection
+    {
+        return $this->qTLStudies;
+    }
+
+    public function addQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if (!$this->qTLStudies->contains($qTLStudy)) {
+            $this->qTLStudies[] = $qTLStudy;
+            $qTLStudy->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if ($this->qTLStudies->removeElement($qTLStudy)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLStudy->getCreatedBy() === $this) {
+                $qTLStudy->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLVariant>
+     */
+    public function getQTLVariants(): Collection
+    {
+        return $this->qTLVariants;
+    }
+
+    public function addQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if (!$this->qTLVariants->contains($qTLVariant)) {
+            $this->qTLVariants[] = $qTLVariant;
+            $qTLVariant->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if ($this->qTLVariants->removeElement($qTLVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLVariant->getCreatedBy() === $this) {
+                $qTLVariant->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VariantSet>
+     */
+    public function getVariantSets(): Collection
+    {
+        return $this->variantSets;
+    }
+
+    public function addVariantSet(VariantSet $variantSet): self
+    {
+        if (!$this->variantSets->contains($variantSet)) {
+            $this->variantSets[] = $variantSet;
+            $variantSet->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariantSet(VariantSet $variantSet): self
+    {
+        if ($this->variantSets->removeElement($variantSet)) {
+            // set the owning side to null (unless already changed)
+            if ($variantSet->getCreatedBy() === $this) {
+                $variantSet->setCreatedBy(null);
             }
         }
 

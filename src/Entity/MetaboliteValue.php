@@ -28,11 +28,6 @@ class MetaboliteValue
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $createdBy;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isActive;
@@ -46,6 +41,11 @@ class MetaboliteValue
      * @ORM\ManyToOne(targetEntity=Metabolite::class, inversedBy="metaboliteValues")
      */
     private $metabolite;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="metaboliteValues")
+     */
+    private $createdBy;
 
     public function getId(): ?int
     {
@@ -72,18 +72,6 @@ class MetaboliteValue
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }
@@ -129,5 +117,17 @@ class MetaboliteValue
     public function __toString()
     {
         return (string) $this->value;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
     }
 }

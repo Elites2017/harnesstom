@@ -50,14 +50,14 @@ class VariantSet
     private $variantSetMetadata;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $createdBy;
-
-    /**
      * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="variantSet")
      */
     private $qTLStudies;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="variantSets")
+     */
+    private $createdBy;
 
     public function __construct()
     {
@@ -141,18 +141,6 @@ class VariantSet
         return $this;
     }
 
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, QTLStudy>
      */
@@ -179,6 +167,18 @@ class VariantSet
                 $qTLStudy->setVariantSet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

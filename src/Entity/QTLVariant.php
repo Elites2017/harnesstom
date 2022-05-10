@@ -35,11 +35,6 @@ class QTLVariant
     private $createdAt;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $createdBy;
-
-    /**
      * @ORM\Column(type="array", nullable=true)
      */
     private $publicationReference = [];
@@ -169,6 +164,11 @@ class QTLVariant
      */
     private $qTLEpistatisticEffects;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="qTLVariants")
+     */
+    private $createdBy;
+
     public function __construct()
     {
         $this->qTLEpistatisticEffects = new ArrayCollection();
@@ -211,18 +211,6 @@ class QTLVariant
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }
@@ -562,5 +550,17 @@ class QTLVariant
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
     }
 }
