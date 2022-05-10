@@ -101,7 +101,7 @@
 									</td>
 									<td>{{ gwasVariant.createdAt | date('d/m/Y h:m:s') }}</td>
 									<td>
-										<a href="{{ path('gwasVariant_delete', {id: gwasVariant.id}) }}" class="changeStatusLink" id="{{ gwasVariant.id }}">
+										<a href="{{ path('gwas_variant_delete', {id: gwasVariant.id}) }}" class="changeStatusLink" id="{{ gwasVariant.id }}">
 											<span class="changeStatusSpan">
 												<input type="checkbox" {{ gwasVariant.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
 											</span>

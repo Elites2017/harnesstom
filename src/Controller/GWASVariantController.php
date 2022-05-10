@@ -76,7 +76,7 @@ class GWASVariantController extends AbstractController
      */
     public function edit(GWASVariant $gwasVariant, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('gwas_edit', $gwasVariant);
+        $this->denyAccessUnlessGranted('gwas_variant_edit', $gwasVariant);
         $form = $this->createForm(GWASVariantUpdateType::class, $gwasVariant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
