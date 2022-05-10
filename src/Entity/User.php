@@ -434,6 +434,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $isActive;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GWASVariant::class, mappedBy="createdBy")
+     */
+    private $gWASVariants;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -512,6 +517,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->pedigrees = new ArrayCollection();
         $this->observationValues = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
+        $this->gWASVariants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2932,6 +2938,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GWASVariant>
+     */
+    public function getGWASVariants(): Collection
+    {
+        return $this->gWASVariants;
+    }
+
+    public function addGWASVariant(GWASVariant $gWASVariant): self
+    {
+        if (!$this->gWASVariants->contains($gWASVariant)) {
+            $this->gWASVariants[] = $gWASVariant;
+            $gWASVariant->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGWASVariant(GWASVariant $gWASVariant): self
+    {
+        if ($this->gWASVariants->removeElement($gWASVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($gWASVariant->getCreatedBy() === $this) {
+                $gWASVariant->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }
