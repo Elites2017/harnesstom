@@ -75,11 +75,6 @@ class QTLStudy
     private $method;
 
     /**
-     * @ORM\Column(type="array")
-     */
-    private $study = [];
-
-    /**
      * @ORM\ManyToOne(targetEntity=VariantSet::class, inversedBy="qTLStudies")
      */
     private $variantSet;
@@ -109,9 +104,15 @@ class QTLStudy
      */
     private $createdBy;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Study::class, inversedBy="qTLStudies")
+     */
+    private $studyList;
+
     public function __construct()
     {
         $this->qTLVariants = new ArrayCollection();
+        $this->studyList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -251,18 +252,6 @@ class QTLStudy
         return $this;
     }
 
-    public function getStudy(): ?array
-    {
-        return $this->study;
-    }
-
-    public function setStudy(array $study): self
-    {
-        $this->study = $study;
-
-        return $this;
-    }
-
     public function getVariantSet(): ?VariantSet
     {
         return $this->variantSet;
@@ -356,6 +345,30 @@ class QTLStudy
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Study>
+     */
+    public function getStudyList(): Collection
+    {
+        return $this->studyList;
+    }
+
+    public function addStudyList(Study $studyList): self
+    {
+        if (!$this->studyList->contains($studyList)) {
+            $this->studyList[] = $studyList;
+        }
+
+        return $this;
+    }
+
+    public function removeStudyList(Study $studyList): self
+    {
+        $this->studyList->removeElement($studyList);
 
         return $this;
     }
