@@ -439,6 +439,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $gWASVariants;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MappingPopulation::class, mappedBy="createdBy")
+     */
+    private $mappingPopulations;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -518,6 +523,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->observationValues = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
         $this->gWASVariants = new ArrayCollection();
+        $this->mappingPopulations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -2966,6 +2972,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($gWASVariant->getCreatedBy() === $this) {
                 $gWASVariant->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MappingPopulation>
+     */
+    public function getMappingPopulations(): Collection
+    {
+        return $this->mappingPopulations;
+    }
+
+    public function addMappingPopulation(MappingPopulation $mappingPopulation): self
+    {
+        if (!$this->mappingPopulations->contains($mappingPopulation)) {
+            $this->mappingPopulations[] = $mappingPopulation;
+            $mappingPopulation->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMappingPopulation(MappingPopulation $mappingPopulation): self
+    {
+        if ($this->mappingPopulations->removeElement($mappingPopulation)) {
+            // set the owning side to null (unless already changed)
+            if ($mappingPopulation->getCreatedBy() === $this) {
+                $mappingPopulation->setCreatedBy(null);
             }
         }
 
