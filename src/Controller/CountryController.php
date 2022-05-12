@@ -124,6 +124,19 @@ class CountryController extends AbstractController
         $form = $this->createForm(CountryUploadFromExcelType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // Setup repository of some entity
+            $repoCountry = $entmanager->getRepository(Country::class);
+            // Query how many rows are there in the Country table
+            $totalCountryBefore = $repoCountry->createQueryBuilder('c')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(c.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            // Return a number as response
+            // e.g 972
+
             // get the file (name from the CountryUploadFromExcelType form)
             $file = $request->files->get('country_upload_from_excel')['file'];
             // set the folder to send the file to
@@ -135,10 +148,10 @@ class CountryController extends AbstractController
                     $file->move($fileFolder, $filePathName);
                 } catch (\Throwable $th) {
                     //throw $th;
-                    dd($th);
+                    $this->addFlash('danger', "Fail to upload the file, try again");
                 }
             } else {
-                dd("there is an error with the file");
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
             }
             // read from the uploaded file
             $spreadsheet = IOFactory::load($fileFolder . $filePathName);
@@ -150,37 +163,45 @@ class CountryController extends AbstractController
             foreach ($sheetData as $key => $row) {
                 $name = $row['A'];
                 $iso3 = $row['B'];
-                // check if the data is upload in the database
-                $existingCountry = $entmanager->getRepository(Country::class)->findOneBy(['iso3' => $iso3]);
-                // upload data only for countries that haven't been saved in the database
-                if (!$existingCountry) {
-                    $country = new Country();
-                    if ($this->getUser()) {
-                        $country->setCreatedBy($this->getUser());
+                // check if the file doesn't have empty columns
+                if ($name != null && $iso3 != null) {
+                    // check if the data is upload in the database
+                    $existingCountry = $entmanager->getRepository(Country::class)->findOneBy(['iso3' => $iso3]);
+                    // upload data only for countries that haven't been saved in the database
+                    if (!$existingCountry) {
+                        $country = new Country();
+                        if ($this->getUser()) {
+                            $country->setCreatedBy($this->getUser());
+                        }
+                        $country->setName($name);
+                        $country->setIso3($iso3);
+                        $country->setIsActive(true);
+                        $country->setCreatedAt(new \DateTime());
+                        $entmanager->persist($country);
                     }
-                    $country->setName($name);
-                    $country->setIso3($iso3);
-                    $country->setIsActive(true);
-                    $country->setCreatedAt(new \DateTime());
-                    $entmanager->persist($country);
-                    // $context = [
-                    //     'title' => 'Upload from Excel',
-                    //     'total' => count($sheetData),
-                    //     'key' => $key
-                    // ];
-                    //echo "Length ". round(($key / count($sheetData) * 100), 2) ."</br>";
-                   
-                    //return new Response($key);
-
-                    // return $this->json([
-                    //     'code' => 200,
-                    //     'key' => $key,
-                    //     'message' => $country->getIsActive()
-                    // ], 200);
                 }
             }
             $entmanager->flush();
-            $this->addFlash('success', count($sheetData). " countries have been successfuly added");
+            // Query how many rows are there in the Country table
+            $totalCountryAfter = $repoCountry->createQueryBuilder('c')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(c.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if ($totalCountryBefore == 0) {
+                $this->addFlash('success', $totalCountryAfter . " countries have been successfuly added");
+            } else {
+                $diffBeforeAndAfter = $totalCountryAfter - $totalCountryBefore;
+                if ($diffBeforeAndAfter == 0) {
+                    $this->addFlash('success', "No new country have been added");
+                } else if ($diffBeforeAndAfter == 1) {
+                    $this->addFlash('success', $diffBeforeAndAfter . " country has been successfuly added");
+                } else {
+                    $this->addFlash('success', $diffBeforeAndAfter . " countries have been successfuly added");
+                }
+            }
             return $this->redirect($this->generateUrl('country_index'));
         }
 

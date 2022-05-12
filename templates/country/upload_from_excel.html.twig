@@ -18,27 +18,30 @@
 						</div>
 					{% endfor %}
 				{% endfor %}
-				{{ form_start(countryUploadFromExcelForm) }}
-				<div>
-					{{ form_row(countryUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
-				</div>
-				<div class="progress mb-3">
-					<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Upload</button>
-					</div>
-
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-					</div>
-				</div>
-				{{ form_end(countryUploadFromExcelForm) }}
+				<div class="mb-3">
+					<a href="{{ asset('assets/todownload/country_template_example.xls') }}" download target="_blank">
+						<h1>Click to download an exemple template</h1></br>
+						<h3>NOTE: Your data must be in the same format with the template file</h3>
+					<img src="{{ asset('assets/images/excelicon.png') }}" alt="Example of excel template" width="104" height="142">
+				</a>
 			</div>
+			{{ form_start(countryUploadFromExcelForm) }}
+			<div>
+				{{ form_row(countryUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Upload</button>
+				</div>
+
+				<div class="col-md-6 mb-3">
+					<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+				</div>
+			</div>
+			{{ form_end(countryUploadFromExcelForm) }}
 		</div>
-		<!-- .row -->
 	</div>
-	<!-- .container -->
-{% endblock %}
+	<!-- .row -->
+</div>
+<!-- .container -->{% endblock %}
