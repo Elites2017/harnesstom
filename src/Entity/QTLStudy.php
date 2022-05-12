@@ -45,11 +45,6 @@ class QTLStudy
     private $isActive;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $createdBy;
-
-    /**
      * @ORM\Column(type="array", nullable=true)
      */
     private $publicationReference = [];
@@ -80,11 +75,6 @@ class QTLStudy
     private $method;
 
     /**
-     * @ORM\Column(type="array")
-     */
-    private $study = [];
-
-    /**
      * @ORM\ManyToOne(targetEntity=VariantSet::class, inversedBy="qTLStudies")
      */
     private $variantSet;
@@ -109,9 +99,20 @@ class QTLStudy
      */
     private $qTLVariants;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="qTLStudies")
+     */
+    private $createdBy;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Study::class, inversedBy="qTLStudies")
+     */
+    private $studyList;
+
     public function __construct()
     {
         $this->qTLVariants = new ArrayCollection();
+        $this->studyList = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,18 +176,6 @@ class QTLStudy
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?string
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?string $createdBy): self
-    {
-        $this->createdBy = $createdBy;
 
         return $this;
     }
@@ -259,18 +248,6 @@ class QTLStudy
     public function setMethod(?QTLMethod $method): self
     {
         $this->method = $method;
-
-        return $this;
-    }
-
-    public function getStudy(): ?array
-    {
-        return $this->study;
-    }
-
-    public function setStudy(array $study): self
-    {
-        $this->study = $study;
 
         return $this;
     }
@@ -358,5 +335,41 @@ class QTLStudy
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Study>
+     */
+    public function getStudyList(): Collection
+    {
+        return $this->studyList;
+    }
+
+    public function addStudyList(Study $studyList): self
+    {
+        if (!$this->studyList->contains($studyList)) {
+            $this->studyList[] = $studyList;
+        }
+
+        return $this;
+    }
+
+    public function removeStudyList(Study $studyList): self
+    {
+        $this->studyList->removeElement($studyList);
+
+        return $this;
     }
 }

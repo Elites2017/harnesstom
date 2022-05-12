@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1 mb-3">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Sample Name</th>
+								<th scope="col">Marker</th>
+								<th scope="col">Variant Set</th>
+								<th scope="col">Value</th>
+								{% if is_granted("ROLE_ADMIN") %}
+									<th scope="col">Created By</th>
+									<th scope="col">Creation Date</th>
+									<th scope="col">Status</th>
+								{% endif %}
+								{% if is_granted("variant_set_edit", variantSet) %}
+									<th scope="col">Action</th>
+								{% endif %}
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>{{ variantSet.id }}</td>
+								<td>
+									{% if variantSet.sample %}
+										<a href="{{ path('sample_details', {id: variantSet.sample.id}) }}">{{ variantSet.sample }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{% if variantSet.marker %}
+										<a href="{{ path('marker_details', {id: variantSet.marker.id}) }}">{{ variantSet.marker }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{% if variantSet.variantSetMetadata %}
+										<a href="{{ path('variant_set_metadata_details', {id: variantSet.variantSetMetadata.id}) }}">{{ variantSet.variantSetMetadata }}</a>
+									{% endif %}
+								</td>
+								<td>{{ variantSet.value }}</td>
+								{% if is_granted("ROLE_ADMIN") %}
+									<td>
+										{% if variantSet.createdBy %}
+											<a href="{{ path('person_details', {id: variantSet.createdBy.id}) }}">{{ variantSet.createdBy }}</a>
+										{% endif %}
+									</td>
+									<td>{{ variantSet.createdAt | date('d/m/Y h:m:s') }}</td>
+									<td>
+										<a href="{{ path('variant_set_delete', {id: variantSet.id}) }}" class="changeStatusLink" id="{{ variantSet.id }}">
+											<span class="changeStatusSpan">
+												<input type="checkbox" {{ variantSet.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+											</span>
+										</a>
+									</td>
+								{% endif %}
+								{% if is_granted("variant_set_edit", variantSet) %}
+									<td>
+										<a href="{{ path('variant_set_edit', {id: variantSet.id}) }}">
+											<button class="btn btn-outline-warning">Edit</button>
+										</a>
+									</td>
+								{% endif %}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+	<script>
+		/*
+        This function is to change the status of the object.
+        It is called each time the corresponding link is clicked (the event happened).
+        1. It prevents the default behavior (behavior of showing the json response) of the function
+        in the controller class.
+
+        2. It gets the url of the link
+
+        3. It get the html document of the span which is the checkbox to change the object status 
+
+        4. It passes the url to axios which returns a response which is the message of the json
+            coming from the function in the controller.
+            4.1 set the checked property of the checkbox based on the response value.
+    */
+function changeStatus(event) {
+event.preventDefault();
+const url = this.href;
+const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+
+axios.get(url).then(function (res) {
+const jsonResponse = res.data.message;
+if (jsonResponse) {
+statusCheckbox.checked = true;
+} else {
+statusCheckbox.checked = false;
+}
+})
+}
+
+document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
+link.addEventListener('click', changeStatus);
+})
+	</script>
+{% endblock %}

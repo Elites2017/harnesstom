@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				{% if mappingPopulations | length > 0 %}
+					<h2 class="mb-3 text-center tomato-color font-weight-bold">Mapping Population List</h2>
+					<div class="table-responsive">
+						<table id="datatable" class="table table-hover text-nowrap" width="100%">
+							<thead class="table-dark">
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">Cross Name</th>
+                                    <th scope="col">Cross Study</th>
+                                    <th scope="col">Cross Institute</th>
+                                    <th scope="col">Cross Paret 1</th>
+                                    <th scope="col">Cross Parent 2</th>
+                                    <th scope="col">Cross Breeding Method</th>
+                                    <th scope="col">Cross Pedigree</th>
+                                    <th scope="col">Cross Year</th>
+									<th scope="col">Pedigree Generation</th>
+									<th scope="col">Pedigree Entry ID</th>
+                                    <th scope="col">Ancestor Pedigree Entry ID</th>
+                                    <th scope="col">Generation</th>
+                                    <th scope="col">Cross</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for mappingPopulation in mappingPopulations %}
+									<tr>
+										<td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.study }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.institute }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.parent1 }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.parent2 }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.breedingMethod }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.pedigree }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.year }}</a>
+										</td>
+										<td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.pedigreeGeneration }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.pedigreeGeneration.pedigreeEntryID }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.pedigreeGeneration.ancestorPedigreeEntryID }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.pedigreeGeneration.generation }}</a>
+										</td>
+                                        <td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.pedigreeGeneration.pedigreeCross }}</a>
+										</td>
+										<td>
+											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">
+												<button class="btn btn-outline-primary">View</button>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				{% else %}
+					<h5 class="mb-3 text-center tomato-color font-weight-bold">No mappingPopulation has been provided in our system</h5>
+				{% endif %}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
+		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<!-- DataTables JavaScript -->
+    <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+
+<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable();
+        } );
+    </script>
+{% endblock %}

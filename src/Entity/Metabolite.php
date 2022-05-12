@@ -242,6 +242,6 @@ class Metabolite
     // in an upper level related form field from a foreign key
     public function __toString()
     {
-        return (string) $this->name;
+        return (string) $this->analyte;
     }
 }

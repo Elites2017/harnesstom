@@ -1,0 +1,163 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1 mb-3">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
+				<div class="table-responsive">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">ID</th>
+								<th scope="col">Name</th>
+								<th scope="col">Cross Name</th>
+								<th scope="col">Cross Study</th>
+								<th scope="col">Cross Institute</th>
+								<th scope="col">Cross Paret 1</th>
+								<th scope="col">Cross Parent 2</th>
+								<th scope="col">Cross Breeding Method</th>
+								<th scope="col">Cross Pedigree</th>
+								<th scope="col">Cross Year</th>
+								<th scope="col">Pedigree Generation</th>
+								<th scope="col">Pedigree Entry ID</th>
+								<th scope="col">Ancestor Pedigree Entry ID</th>
+								<th scope="col">Generation</th>
+								<th scope="col">Cross</th>
+								{% if is_granted("ROLE_ADMIN") %}
+									<th scope="col">Created By</th>
+									<th scope="col">Creation Date</th>
+									<th scope="col">Status</th>
+								{% endif %}
+								{% if is_granted("mapping_population_edit", mappingPopulation) %}
+									<th scope="col">Action</th>
+								{% endif %}
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									{{ mappingPopulation.id }}
+								</td>
+                                <td>
+									{{ mappingPopulation.name }}
+								</td>
+								<td>
+									{% if mappingPopulation.mappingPopulationCross %}
+										<a href="{{ path('cross_details', {id: mappingPopulation.mappingPopulationCross.id}) }}">{{ mappingPopulation.mappingPopulationCross }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{{ mappingPopulation.mappingPopulationCross.study }}
+								</td>
+								<td>
+									{{ mappingPopulation.mappingPopulationCross.institute }}
+								</td>
+								<td>
+									{{ mappingPopulation.mappingPopulationCross.parent1 }}
+								</td>
+								<td>
+									{{ mappingPopulation.mappingPopulationCross.parent2 }}
+								</td>
+								<td>
+									{{ mappingPopulation.mappingPopulationCross.breedingMethod }}
+								</td>
+								<td>
+									{{ mappingPopulation.mappingPopulationCross.pedigree }}
+								</td>
+								<td>
+									{{ mappingPopulation.mappingPopulationCross.year }}
+								</td>
+								<td>
+									{% if mappingPopulation.pedigreeGeneration %}
+										<a href="{{ path('pedigree_details', {id: mappingPopulation.pedigreeGeneration.id}) }}">{{ mappingPopulation.pedigreeGeneration }}</a>
+									{% endif %}
+								</td>
+								<td>
+									{{ mappingPopulation.pedigreeGeneration.pedigreeEntryID }}
+								</td>
+								<td>
+									{{ mappingPopulation.pedigreeGeneration.ancestorPedigreeEntryID }}
+								</td>
+								<td>
+									{{ mappingPopulation.pedigreeGeneration.generation }}
+								</td>
+								<td>
+									{{ mappingPopulation.pedigreeGeneration.pedigreeCross }}
+								</td>
+								{% if is_granted("ROLE_ADMIN") %}
+									<td>
+										<a href="{{ path('person_details', {id: mappingPopulation.createdBy.id}) }}">{{ mappingPopulation.createdBy }}</a>
+									</td>
+									<td>{{ mappingPopulation.createdAt | date('d/m/Y h:m:s') }}</td>
+									<td>
+										<a href="{{ path('mapping_population_delete', {id: mappingPopulation.id}) }}" class="changeStatusLink" id="{{ mappingPopulation.id }}">
+											<span class="changeStatusSpan">
+												<input type="checkbox" {{ mappingPopulation.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+											</span>
+										</a>
+									</td>
+								{% endif %}
+								{% if is_granted("mapping_population_edit", mappingPopulation) %}
+									<td>
+										<a href="{{ path('mapping_population_edit', {id: mappingPopulation.id}) }}">
+											<button class="btn btn-outline-warning">Edit</button>
+										</a>
+									</td>
+								{% endif %}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+	<script>
+		/*
+        This function is to change the status of the object.
+        It is called each time the corresponding link is clicked (the event happened).
+        1. It prevents the default behavior (behavior of showing the json response) of the function
+        in the controller class.
+
+        2. It gets the url of the link
+
+        3. It get the html document of the span which is the checkbox to change the object status 
+
+        4. It passes the url to axios which returns a response which is the message of the json
+            coming from the function in the controller.
+            4.1 set the checked property of the checkbox based on the response value.
+    */
+function changeStatus(event) {
+event.preventDefault();
+const url = this.href;
+const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+
+axios.get(url).then(function (res) {
+const jsonResponse = res.data.message;
+if (jsonResponse) {
+statusCheckbox.checked = true;
+} else {
+statusCheckbox.checked = false;
+}
+})
+}
+
+document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
+link.addEventListener('click', changeStatus);
+})
+	</script>
+{% endblock %}

@@ -144,6 +144,16 @@ class Study
      */
     private $gwas;
 
+    /**
+     * @ORM\OneToMany(targetEntity=GermplasmStudyImage::class, mappedBy="StudyID")
+     */
+    private $germplasmStudyImages;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=QTLStudy::class, mappedBy="studyList")
+     */
+    private $qTLStudies;
+
     public function __construct()
     {
         $this->germplasms = new ArrayCollection();
@@ -152,6 +162,8 @@ class Study
         $this->observationLevels = new ArrayCollection();
         $this->samples = new ArrayCollection();
         $this->gwas = new ArrayCollection();
+        $this->germplasmStudyImages = new ArrayCollection();
+        $this->qTLStudies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -568,6 +580,63 @@ class Study
     {
         if ($this->gwas->removeElement($gwa)) {
             $gwa->removeStudyList($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GermplasmStudyImage>
+     */
+    public function getGermplasmStudyImages(): Collection
+    {
+        return $this->germplasmStudyImages;
+    }
+
+    public function addGermplasmStudyImage(GermplasmStudyImage $germplasmStudyImage): self
+    {
+        if (!$this->germplasmStudyImages->contains($germplasmStudyImage)) {
+            $this->germplasmStudyImages[] = $germplasmStudyImage;
+            $germplasmStudyImage->setStudyID($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasmStudyImage(GermplasmStudyImage $germplasmStudyImage): self
+    {
+        if ($this->germplasmStudyImages->removeElement($germplasmStudyImage)) {
+            // set the owning side to null (unless already changed)
+            if ($germplasmStudyImage->getStudyID() === $this) {
+                $germplasmStudyImage->setStudyID(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLStudy>
+     */
+    public function getQTLStudies(): Collection
+    {
+        return $this->qTLStudies;
+    }
+
+    public function addQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if (!$this->qTLStudies->contains($qTLStudy)) {
+            $this->qTLStudies[] = $qTLStudy;
+            $qTLStudy->addStudyList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLStudy(QTLStudy $qTLStudy): self
+    {
+        if ($this->qTLStudies->removeElement($qTLStudy)) {
+            $qTLStudy->removeStudyList($this);
         }
 
         return $this;
