@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Validator\Constraints\Length;
 
 // set a class level route
@@ -210,5 +212,16 @@ class CountryController extends AbstractController
             'countryUploadFromExcelForm' => $form->createView()
         ];
         return $this->render('country/upload_from_excel.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template", name="download_template")
+     */
+    public function countryTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/country_template_example.xls');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'country_template_example.xls');
+        return $response;
+       
     }
 }
