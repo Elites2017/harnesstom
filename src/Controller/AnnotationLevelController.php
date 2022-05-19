@@ -5,11 +5,15 @@ namespace App\Controller;
 use App\Entity\AnnotationLevel;
 use App\Form\AnnotationLevelType;
 use App\Form\AnnotationLevelUpdateType;
+use App\Form\UploadFromExcelType;
 use App\Repository\AnnotationLevelRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 // set a class level route
@@ -109,6 +113,115 @@ class AnnotationLevelController extends AbstractController
             'message' => $annotationLevel->getIsActive()
         ], 200);
         //return $this->redirect($this->generateUrl('factorType_home'));
+    }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel", name="upload_from_excel")
+     */
+    public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Setup repository of some entity
+            $repoAnnotationLevel = $entmanager->getRepository(AnnotationLevel::class);
+            // Query how many rows are there in the AnnotationLevel table
+            $totalAnnotationLevelBefore = $repoAnnotationLevel->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            // Return a number as response
+            // e.g 972
+
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $code = $row['A'];
+                $label = $row['B'];
+                // check if the file doesn't have empty columns
+                if ($code != null && $label != null) {
+                    // check if the data is upload in the database
+                    $existingAnnotationLevel = $entmanager->getRepository(AnnotationLevel::class)->findOneBy(['code' => $code]);
+                    // upload data only for countries that haven't been saved in the database
+                    if (!$existingAnnotationLevel) {
+                        $annotationLevel = new AnnotationLevel();
+                        if ($this->getUser()) {
+                            $annotationLevel->setCreatedBy($this->getUser());
+                        }
+                        $annotationLevel->setCode($code);
+                        $annotationLevel->setLabel($label);
+                        $annotationLevel->setIsActive(true);
+                        $annotationLevel->setCreatedAt(new \DateTime());
+                        $entmanager->persist($annotationLevel);
+                    }
+                }
+            }
+            $entmanager->flush();
+            // Query how many rows are there in the Country table
+            $totalAnnotationLevelAfter = $repoAnnotationLevel->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if ($totalAnnotationLevelBefore == 0) {
+                $this->addFlash('success', $totalAnnotationLevelAfter . " annotation levels have been successfuly added");
+            } else {
+                $diffBeforeAndAfter = $totalAnnotationLevelAfter - $totalAnnotationLevelBefore;
+                if ($diffBeforeAndAfter == 0) {
+                    $this->addFlash('success', "No new annotation level has been added");
+                } else if ($diffBeforeAndAfter == 1) {
+                    $this->addFlash('success', $diffBeforeAndAfter . " annotation level has been successfuly added");
+                } else {
+                    $this->addFlash('success', $diffBeforeAndAfter . " annotation levels have been successfuly added");
+                }
+            }
+            return $this->redirect($this->generateUrl('annotation_level_index'));
+        }
+
+        $context = [
+            'title' => 'Annotation Level Upload From Excel',
+            'annotationLevelUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('annotation_level/upload_from_excel.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template", name="download_template")
+     */
+    public function factorTypeTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/annotation_level_template_example.xls');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'annotation_level_template_example.xls');
+        return $response;
+       
     }
 }
 
