@@ -28,6 +28,15 @@
 			<div class="col-md-12 order-md-1">
 				{% if dataTypes | length > 0 %}
 					<h2 class="mb-3 text-center tomato-color font-weight-bold">Data Type List</h2>
+					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+						{% for message in messages %}
+							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endfor %}
 					<div class="table-responsive">
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
@@ -65,7 +74,7 @@
 {% block javascripts %}
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script>
-		window.jQuery || document.write('<script src="  {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
+		window.jQuery || document.write('<script src="   {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
 	</script>
 	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 	<!-- DataTables JavaScript -->
