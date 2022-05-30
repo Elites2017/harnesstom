@@ -145,8 +145,12 @@ class SoftwareController extends AbstractController
             // apply md5 function to generate a unique id for the file and concat it with the original file name
             if ($file->getClientOriginalName()) {
                 $filePathName = md5(uniqid()) . $file->getClientOriginalName();
-                $file->move($fileFolder, $filePathName);
-                
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again ");
+                }
             } else {
                 $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
             }
