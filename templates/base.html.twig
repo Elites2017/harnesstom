@@ -98,6 +98,22 @@
 								</li>
 								<li>
 									<a class="dropdown-item" href="#">
+										Institute &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('institute_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('institute_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('institute_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
 										Factor &raquo;
 									</a>
 									<ul class="dropdown-menu dropdown-submenu">
@@ -105,10 +121,10 @@
 											<a class="dropdown-item" href="{{path('factor_type_create')}}">Create</a>
 										</li>
 										<li>
-											<a class="dropdown-item" href="{{path('factor_type_index')}}">Search</a>
+											<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel') }}">Upload From Excel File</a>
 										</li>
 										<li>
-											<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel') }}">Upload From Excel File</a>
+											<a class="dropdown-item" href="{{path('factor_type_index')}}">Search</a>
 										</li>
 									</ul>
 								</li>
@@ -404,6 +420,392 @@
 							</ul>
 						</li>
 
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Ontology</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+								<li>
+									<a class="dropdown-item" href="#">
+										Allelic Effect Estimator &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('allelic_effect_estimator_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('allelic_effect_estimator_upload_from_excel')}}">Upload From Excel</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('allelic_effect_estimator_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Anatomical Entity &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('anatomical_entity_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('anatomical_entity_upload_from_excel')}}">Upload From Excel</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('anatomical_entity_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Annotation Level &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('annotation_level_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('annotation_level_upload_from_excel')}}">Upload From Excel</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('annotation_level_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Attribute Category &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('attribute_category_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('attribute_category_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('attribute_category_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Biological Status &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('biological_status_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('biological_status_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('biological_status_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Breeding Method &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('breeding_method_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('breeding_method_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('breeding_method_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Ci Criteria &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('ci_criteria_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('ci_criteria_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('ci_criteria_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Collecting Source &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('collecting_source_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('collecting_source_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('collecting_source_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Crop &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('crop_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('crop_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('crop_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Data Type &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('data_type_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('data_type_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('data_type_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Developmental Stage &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('developmental_stage_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('developmental_stage_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Enzyme &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('enzyme_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('enzyme_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('enzyme_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Experimental Design Type &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('experimental_design_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('experimental_design_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('experimental_design_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Genetic Testing Model &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('genetic_testing_model_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('genetic_testing_model_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('genetic_testing_model_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Growth Facility Type &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('growth_facility_type_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('growth_facility_type_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('growth_facility_type_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										GWAS Model &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('gwas_model_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('gwas_model_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('gwas_model_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										GWAS Stat Test &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('gwas_stat_test_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('gwas_stat_test_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('gwas_stat_test_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Identification Level &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('identification_level_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('identification_level_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('identification_level_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Kinship Algorithm &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('kinship_algorithm_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('kinship_algorithm_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('kinship_algorithm_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Method Class &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('method_class_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('method_class_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('method_class_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										QTL Method &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('qtl_method_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('qtl_method_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('qtl_method_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Sequencing Instrument &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('sequencing_instrument_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('sequencing_instrument_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('sequencing_instrument_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Sequencing Type &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('sequencing_type_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('sequencing_type_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('sequencing_type_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Software &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('software_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('software_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('software_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 				<!-- end of menu -->
