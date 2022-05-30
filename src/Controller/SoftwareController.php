@@ -149,7 +149,7 @@ class SoftwareController extends AbstractController
                     $file->move($fileFolder, $filePathName);
                 } catch (\Throwable $th) {
                     //throw $th;
-                    $this->addFlash('danger', "Fail to upload the file, try again");
+                    $this->addFlash('danger', "Fail to upload the file, try again ", $th);
                 }
             } else {
                 $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
