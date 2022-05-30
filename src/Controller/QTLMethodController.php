@@ -209,7 +209,7 @@ class QTLMethodController extends AbstractController
         }
 
         $context = [
-            'title' => 'Identification Level Upload From Excel',
+            'title' => 'QLT Method Upload From Excel',
             'qTLMethodUploadFromExcelForm' => $form->createView()
         ];
         return $this->render('qtl_method/upload_from_excel.html.twig', $context);
