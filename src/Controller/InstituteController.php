@@ -233,7 +233,7 @@ class InstituteController extends AbstractController
     /**
      * @Route("/download-template", name="download_template")
      */
-    public function factorTypeTemplate(): Response
+    public function excelTemplate(): Response
     {
         $response = new BinaryFileResponse('../public/todownload/institute_template_example.xls');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'institute_template_example.xls');

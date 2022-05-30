@@ -218,7 +218,7 @@ class CiCriteriaController extends AbstractController
     /**
      * @Route("/download-template", name="download_template")
      */
-    public function factorTypeTemplate(): Response
+    public function excelTemplate(): Response
     {
         $response = new BinaryFileResponse('../public/todownload/ci_criteria_template_example.xls');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'ci_criteria_template_example.xls');

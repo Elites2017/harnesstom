@@ -244,7 +244,7 @@ class FactorTypeController extends AbstractController
     /**
      * @Route("/download-template", name="download_template")
      */
-    public function factorTypeTemplate(): Response
+    public function excelTemplate(): Response
     {
         $response = new BinaryFileResponse('../public/todownload/factor_type_template_example.xls');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'factor_type_template_example.xls');

@@ -216,7 +216,7 @@ class IdentificationLevelController extends AbstractController
     /**
      * @Route("/download-template", name="download_template")
      */
-    public function factorTypeTemplate(): Response
+    public function excelTemplate(): Response
     {
         $response = new BinaryFileResponse('../public/todownload/identification_level_template_example.xls');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'identification_level_template_example.xls');

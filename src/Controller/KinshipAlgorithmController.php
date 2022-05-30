@@ -216,7 +216,7 @@ class KinshipAlgorithmController extends AbstractController
     /**
      * @Route("/download-template", name="download_template")
      */
-    public function factorTypeTemplate(): Response
+    public function excelTemplate(): Response
     {
         $response = new BinaryFileResponse('../public/todownload/kinship_algorithm_template_example.xls');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'kinship_algorithm_template_example.xls');
