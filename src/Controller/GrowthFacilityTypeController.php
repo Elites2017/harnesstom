@@ -5,11 +5,15 @@ namespace App\Controller;
 use App\Entity\GrowthFacilityType;
 use App\Form\GrowthFacilityCreateType;
 use App\Form\GrowthFacilityUpdateType;
+use App\Form\UploadFromExcelType;
 use App\Repository\GrowthFacilityTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
  // set a class level route
@@ -109,5 +113,118 @@ class GrowthFacilityTypeController extends AbstractController
             'message' => $growthFacilityType->getIsActive()
         ], 200);
         //return $this->redirect($this->generateUrl('growthFacility_home'));
+    }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel", name="upload_from_excel")
+     */
+    public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Setup repository of some entity
+            $repoGrowthFacilityType = $entmanager->getRepository(GrowthFacilityType::class);
+            // Query how many rows are there in the GrowthFacilityType table
+            $totalGrowthFacilityTypeBefore = $repoGrowthFacilityType->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            // Return a number as response
+            // e.g 972
+
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $name = $row['B'];
+                $description = $row['C'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null & $name != null) {
+                    // check if the data is upload in the database
+                    $existingGrowthFacilityType = $entmanager->getRepository(GrowthFacilityType::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    // upload data only for countries that haven't been saved in the database
+                    if (!$existingGrowthFacilityType) {
+                        $growthFacilityType = new GrowthFacilityType();
+                        if ($this->getUser()) {
+                            $growthFacilityType->setCreatedBy($this->getUser());
+                        }
+                        $growthFacilityType->setOntologyId($ontology_id);
+                        $growthFacilityType->setName($name);
+                        $growthFacilityType->setDescription($description);
+                        $growthFacilityType->setParentTerm($parentTerm);
+                        $growthFacilityType->setIsActive(true);
+                        $growthFacilityType->setCreatedAt(new \DateTime());
+                        $entmanager->persist($growthFacilityType);
+                    }
+                }
+            }
+            $entmanager->flush();
+            // Query how many rows are there in the Country table
+            $totalGrowthFacilityTypeAfter = $repoGrowthFacilityType->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if ($totalGrowthFacilityTypeBefore == 0) {
+                $this->addFlash('success', $totalGrowthFacilityTypeAfter . " growth facility types have been successfuly added");
+            } else {
+                $diffBeforeAndAfter = $totalGrowthFacilityTypeAfter - $totalGrowthFacilityTypeBefore;
+                if ($diffBeforeAndAfter == 0) {
+                    $this->addFlash('success', "No new growth facility type has been added");
+                } else if ($diffBeforeAndAfter == 1) {
+                    $this->addFlash('success', $diffBeforeAndAfter . " growth facility type has been successfuly added");
+                } else {
+                    $this->addFlash('success', $diffBeforeAndAfter . " growth facility types have been successfuly added");
+                }
+            }
+            return $this->redirect($this->generateUrl('growth_facility_type_index'));
+        }
+
+        $context = [
+            'title' => 'Growth Facility Type Upload From Excel',
+            'growthFacilityTypeUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('growth_facility_type/upload_from_excel.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template", name="download_template")
+     */
+    public function excelTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/growth_facility_type_template_example.xls');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'growth_facility_type_template_example.xls');
+        return $response;
+       
     }
 }

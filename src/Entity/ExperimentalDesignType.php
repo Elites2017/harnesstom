@@ -32,11 +32,6 @@ class ExperimentalDesignType
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $parentTerm;
 
     /**
@@ -58,6 +53,11 @@ class ExperimentalDesignType
      * @ORM\OneToMany(targetEntity=Study::class, mappedBy="experimentalDesignType")
      */
     private $studies;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -89,18 +89,6 @@ class ExperimentalDesignType
     public function setOntologyId(string $ontology_id): self
     {
         $this->ontology_id = $ontology_id;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }
@@ -188,5 +176,17 @@ class ExperimentalDesignType
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }

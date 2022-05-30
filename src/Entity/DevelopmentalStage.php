@@ -30,7 +30,7 @@ class DevelopmentalStage
     private $ontology_id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 

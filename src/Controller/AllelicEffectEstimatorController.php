@@ -5,11 +5,15 @@ namespace App\Controller;
 use App\Entity\AllelicEffectEstimator;
 use App\Form\AllelicEffectEstimatorType;
 use App\Form\AllelicEffectEstimatorUpdateType;
+use App\Form\UploadFromExcelType;
 use App\Repository\AllelicEffectEstimatorRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -110,5 +114,112 @@ class AllelicEffectEstimatorController extends AbstractController
             'message' => $allelicEffectEstimator->getIsActive()
         ], 200);
         //return $this->redirect($this->generateUrl('season_home'));
+    }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel", name="upload_from_excel")
+     */
+    public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Setup repository of some entity
+            $repoAllelicEffectEstimator = $entmanager->getRepository(AllelicEffectEstimator::class);
+            // Query how many rows are there in the Country table
+            $totalAllelicEEBefore = $repoAllelicEffectEstimator->createQueryBuilder('a')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(a.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            // Return a number as response
+            // e.g 972
+
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $name = $row['A'];
+                // check if the file doesn't have empty columns
+                if ($name != null) {
+                    // check if the data is upload in the database
+                    $existingAlleclicEE = $entmanager->getRepository(AllelicEffectEstimator::class)->findOneBy(['name' => $name]);
+                    // upload data only for countries that haven't been saved in the database
+                    if (!$existingAlleclicEE) {
+                        $allelicEffectEstimator = new AllelicEffectEstimator();
+                        if ($this->getUser()) {
+                            $allelicEffectEstimator->setCreatedBy($this->getUser());
+                        }
+                        $allelicEffectEstimator->setName($name);
+                        $allelicEffectEstimator->setIsActive(true);
+                        $allelicEffectEstimator->setCreatedAt(new \DateTime());
+                        $entmanager->persist($allelicEffectEstimator);
+                    }
+                }
+            }
+            $entmanager->flush();
+            // Query how many rows are there in the allelicEffectEstimator table
+            $totalAllelicEEAfter = $repoAllelicEffectEstimator->createQueryBuilder('a')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(a.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if ($totalAllelicEEBefore == 0) {
+                $this->addFlash('success', $totalAllelicEEAfter . " allelic effest estimator have been successfuly added");
+            } else {
+                $diffBeforeAndAfter = $totalAllelicEEAfter - $totalAllelicEEBefore;
+                if ($diffBeforeAndAfter == 0) {
+                    $this->addFlash('success', "No new allelic effect estimator has been added");
+                } else if ($diffBeforeAndAfter == 1) {
+                    $this->addFlash('success', $diffBeforeAndAfter . " allelic effect estimator has been successfuly added");
+                } else {
+                    $this->addFlash('success', $diffBeforeAndAfter . " allelic effect estimators have been successfuly added");
+                }
+            }
+            return $this->redirect($this->generateUrl('allelic_effect_estimator_index'));
+        }
+
+        $context = [
+            'title' => 'Allelic Effect Estimator Upload From Excel',
+            'allelicEffectEstimatorUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('allelic_effect_estimator/upload_from_excel.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template", name="download_template")
+     */
+    public function allelicEffectEstimatorTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/allelic_ee_template_example.xls');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'allelic_ee_template_example.xls');
+        return $response;
+       
     }
 }

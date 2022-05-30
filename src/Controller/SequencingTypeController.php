@@ -5,11 +5,15 @@ namespace App\Controller;
 use App\Entity\SequencingType;
 use App\Form\SequencingCreateType;
 use App\Form\SequencingUpdateType;
+use App\Form\UploadFromExcelType;
 use App\Repository\SequencingTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 // set a class level route
@@ -109,6 +113,113 @@ class SequencingTypeController extends AbstractController
             'message' => $sequencingType->getIsActive()
         ], 200);
         //return $this->redirect($this->generateUrl('season_home'));
+    }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel", name="upload_from_excel")
+     */
+    public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Setup repository of some entity
+            $repoSequencingType = $entmanager->getRepository(SequencingType::class);
+            // Query how many rows are there in the SequencingType table
+            $totalSequencingTypeBefore = $repoSequencingType->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            // Return a number as response
+            // e.g 972
+
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $label = $row['A'];
+                // check if the file doesn't have empty columns
+                if ($label != null) {
+                    // check if the data is upload in the database
+                    $existingSequencingType = $entmanager->getRepository(SequencingType::class)->findOneBy(['label' => $label]);
+                    // upload data only for countries that haven't been saved in the database
+                    if (!$existingSequencingType) {
+                        $sequencingType = new SequencingType();
+                        if ($this->getUser()) {
+                            $sequencingType->setCreatedBy($this->getUser());
+                        }
+                        $sequencingType->setLabel($label);
+                        $sequencingType->setIsActive(true);
+                        $sequencingType->setCreatedAt(new \DateTime());
+                        $entmanager->persist($sequencingType);
+                    }
+                }
+            }
+            $entmanager->flush();
+            // Query how many rows are there in the Country table
+            $totalSequencingTypeAfter = $repoSequencingType->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if ($totalSequencingTypeBefore == 0) {
+                $this->addFlash('success', $totalSequencingTypeAfter . " sequencing types have been successfuly added");
+            } else {
+                $diffBeforeAndAfter = $totalSequencingTypeAfter - $totalSequencingTypeBefore;
+                if ($diffBeforeAndAfter == 0) {
+                    $this->addFlash('success', "No new sequencing type has been added");
+                } else if ($diffBeforeAndAfter == 1) {
+                    $this->addFlash('success', $diffBeforeAndAfter . " sequencing type has been successfuly added");
+                } else {
+                    $this->addFlash('success', $diffBeforeAndAfter . " sequencing types have been successfuly added");
+                }
+            }
+            return $this->redirect($this->generateUrl('sequencing_type_index'));
+        }
+
+        $context = [
+            'title' => 'mls status Upload From Excel',
+            'sequencingTypeUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('sequencing_type/upload_from_excel.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template", name="download_template")
+     */
+    public function excelTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/sequencing_type_template_example.xls');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'sequencing_type_template_example.xls');
+        return $response;
+       
     }
 }
 
