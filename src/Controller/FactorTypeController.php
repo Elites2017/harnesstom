@@ -203,7 +203,7 @@ class FactorTypeController extends AbstractController
                         $factorType->setName($name);
                         $factorType->setDescription($description);
                         $factorType->setOntologyId($ontology_id);
-                        $factorType->setDescription($parentTerm);
+                        $factorType->setParentTerm($parentTerm);
                         $factorType->setIsActive(true);
                         $factorType->setCreatedAt(new \DateTime());
                         $entmanager->persist($factorType);
