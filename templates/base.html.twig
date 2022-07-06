@@ -17,6 +17,8 @@
 			<!-- Custom styles for this template -->
 			<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
 			<link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+			<link href="{{ asset('assets/css/animate.min.css') }}" rel="stylesheet" />
+
 		{% endblock %}
 
 		<style>
@@ -809,7 +811,7 @@
 					</ul>
 				</div>
 				<!-- end of menu -->
-				<div class="nav-item dropdown">
+				<div class="nav-item dropdown animate__heartBeat">
 					{% if app.user %}
 						<a class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							{% if app.user.person %}
