@@ -8,10 +8,25 @@ var tour = {
   steps: [
     {
       target: 'hopscotch-title',
-      title: 'Welcome to Hopscotch!',
-      content: 'Hey there! This is an example Hopscotch tour. There will be plenty of time to read documentation and sample code, but let\'s just take some time to see how Hopscotch actually works.',
+      title: 'Welcome to HARNeSSTOM DB!',
+      content: 'There will be plenty of time to read documentation and sample code, but let\'s just take some time to see how Hopscotch actually works.',
       placement: 'bottom',
       arrowOffset: 60
+    },
+    {
+      target: 'nav-menu',
+      title: 'This is a nav menu!',
+      content: 'There will be plenty of time to read documentation and sample code, but let\'s just take some time to see how Hopscotch actually works.',
+      placement: 'bottom',
+      arrowOffset: 60
+    },
+    {
+      target: 'new-pag',
+      title: 'This is a new page!',
+      content: 'Pages !!! There will be plenty of time to read documentation and sample code, but let\'s just take some time to see how Hopscotch actually works.',
+      placement: 'top',
+      arrowOffset: 60,
+      xOffset: -30
     },
     {
       target: document.querySelectorAll('#general-use-desc code')[1],
@@ -25,6 +40,13 @@ var tour = {
       placement: 'top',
       title: 'Define and start your tour',
       content: 'Once you have Hopscotch on your page, you\'re ready to start making your tour! The biggest part of your tour definition will probably be the tour steps.'
+    },
+    {
+      target: 'main-sources',
+      title: 'Main sources!',
+      content: 'Data have been collected from previous EU-funded project, but let\'s just take some time to see how Hopscotch actually works.',
+      placement: 'bottom',
+      arrowOffset: 60
     },
     {
       target: 'start-tour',
