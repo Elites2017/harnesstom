@@ -47,7 +47,7 @@
 	</head>
 	<body>
 		<!-- nav start -->
-		<nav class="navbar navbar-expand-lg navbar-light">
+		<nav class="navbar navbar-expand-lg navbar-light" id="hopscotch-title">
 			<a href="{{path('app_home')}}" class="branding">
 				<div class="logo-type">
 					<img src="{{ asset('assets/images/harnesstomlogo.png') }}" width="auto" alt="" class="logo">
@@ -62,7 +62,7 @@
 				class="collapse navbar-collapse justify-content-md-center" id="navbarNavAltMarkup">
 				<!-- start of menu -->
 				<div class="container">
-					<ul class="navbar-nav">
+					<ul class="navbar-nav" id="nav-menu">
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Experimental Data</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -843,6 +843,10 @@
 				</div>
 			</div>
 		</nav>
+
+		
+		<p class="text-center"><button id="startTourBtn" class="btn btn-large btn-primary">Take a tour</button></p>
+
 		<!-- nav end -->
 
 		{% block body %}
@@ -950,7 +954,7 @@
 			<!-- Guided Tour LH  -->
 			<script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
 			<script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
-			<script src="{{ asset('guidedtour/js/demo.js') }}"></script>
+			<script src="{{ asset('guidedtour/js/demsaso.js') }}"></script>
 		{% endblock %}
 	</body>
 </html>
