@@ -22,6 +22,10 @@
 			<!-- font-awesome -->
     		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
 
+			<!-- Guided Tour LH-->
+			<link href="{{ asset('guidedtour/dist/css/hopscotch.min.css') }}" rel="stylesheet"></link>
+			<link href="{{ asset('guidedtour/css/flat-ui.css') }}" rel="stylesheet"></link>
+			<link href="{{ asset('guidedtour/css/demo.css') }}" rel="stylesheet"></link>
 		{% endblock %}
 
 		<style>
@@ -942,6 +946,11 @@
 			</script>
 			<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 			<!-- <script src="assets/js1/bootstrap.bundle.min.js"></script> -->
+			
+			<!-- Guided Tour LH  -->
+			<script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
+			<script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
+			<script src="{{ asset('guidedtour/js/demo.js') }}"></script>
 		{% endblock %}
 	</body>
 </html>
