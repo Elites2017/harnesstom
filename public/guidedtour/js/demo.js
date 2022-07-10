@@ -8,25 +8,44 @@ var tour = {
   steps: [
     {
       target: 'hopscotch-title',
-      title: 'Welcome to HARNeSSTOM DB!',
-      content: 'There will be plenty of time to read documentation and sample code, but let\'s just take some time to see how Hopscotch actually works.',
+      title: 'Welcome to HARNESSTOM Database!',
+      content: 
+              "HarnesstomDB is a comprehensive publicly \
+              available open-source multi-omics database \
+              for facilitating the use of the potential \
+              of tomato germplasm collections for breeding. \
+              It aims to store curated data from previously EU-funded project and other tomato related data",
       placement: 'bottom',
       arrowOffset: 60
     },
     {
       target: 'nav-menu',
-      title: 'This is a nav menu!',
-      content: 'There will be plenty of time to read documentation and sample code, but let\'s just take some time to see how Hopscotch actually works.',
+      title: 'HarnesstomDB Modules!',
+      content: 
+              'This is the navigation menu in which the modules \
+               are presented. They can be accessed to use \
+               the functionality of the system.',
       placement: 'bottom',
       arrowOffset: 60
     },
     {
-      target: 'new-pag',
-      title: 'This is a new page!',
-      content: 'Pages !!! There will be plenty of time to read documentation and sample code, but let\'s just take some time to see how Hopscotch actually works.',
+      target: 'login-btn',
+      title: 'Login Button',
+      content: 
+              'This is a button that will bring you to the login page. \
+               Certain functionalities can be accessed only by logged users. \
+               On the login page you can connect using your credentials or \
+               or you can create an account.',
+      placement: 'bottom',
+      arrowOffset: 260,
+      xOffset: -260
+    },
+    {
+      target: 'db-provided-data',
+      title: 'Database summary!',
+      content: 'This section gives a brief idea of the quantity of data stored in the DB by module, contry...',
       placement: 'top',
       arrowOffset: 60,
-      xOffset: -30
     },
     {
       target: document.querySelectorAll('#general-use-desc code')[1],
@@ -44,9 +63,24 @@ var tour = {
     {
       target: 'main-sources',
       title: 'Main sources!',
-      content: 'Data have been collected from previous EU-funded project, but let\'s just take some time to see how Hopscotch actually works.',
-      placement: 'bottom',
+      content: 'Data have been collected from previous EU-funded project. Some of them are listed here.',
+      placement: 'top',
       arrowOffset: 60
+    },
+    {
+      target: 'funding',
+      title: 'HARNESSTOM Project Funding!',
+      content: 'The HARNESSTOM project has received funding from the European Union’s \
+                Horizon 2020 research and innovation programme under grant agreement No 101000716.',
+      placement: 'top',
+      arrowOffset: 60,
+    },
+    {
+      target: 'dev-team',
+      title: 'Dev Team!',
+      content: 'This platform has created by the INPT through LRSV in collaboration with UPV',
+      placement: 'top',
+      arrowOffset: 60,
     },
     {
       target: 'start-tour',
@@ -79,7 +113,7 @@ var tour = {
       target: 'hopscotch-title',
       placement: 'bottom',
       title: 'You\'re all set!',
-      content: 'Now go and build some great tours!',
+      content: 'Now go and use HARNESSTOM DB!',
     }
   ],
   showPrevButton: true,
