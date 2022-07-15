@@ -5,6 +5,12 @@
 /* ============ */
 var tour = {
   id: 'hello-hopscotch',
+  // i18n: {
+  //   nextBtn: "NXT",
+  //   prevBtn: "PRV",
+  //   doneBtn: "DNE",
+  //   skipBtn: "SKP"
+  // },
   steps: [
     {
       target: 'hopscotch-title',
@@ -16,6 +22,9 @@ var tour = {
               of tomato germplasm collections for breeding. \
               It aims to store curated data from previously EU-funded project and other tomato related data",
       placement: 'bottom',
+      onShow: function() {
+        $('#startTourBtn').hide();
+      },
       arrowOffset: 60
     },
     {
@@ -26,19 +35,10 @@ var tour = {
                are presented. They can be accessed to use \
                the functionality of the system.',
       placement: 'bottom',
-      arrowOffset: 60
-    },
-    {
-      target: 'login-btn',
-      title: 'Login Button',
-      content: 
-              'This is a button that will bring you to the login page. \
-               Certain functionalities can be accessed only by logged users. \
-               On the login page you can connect using your credentials or \
-               or you can create an account.',
-      placement: 'bottom',
-      arrowOffset: 260,
-      xOffset: -260
+      arrowOffset: 60,
+      onShow: function() {
+        $('#phendata').hover();
+      }
     },
     {
       target: 'db-provided-data',
@@ -110,10 +110,61 @@ var tour = {
       content: 'This is the JSON for the current tour! Pretty simple, right?',
     },
     {
+      nextOnTargetClick: true,
+      multipage: true,
+      target: 'login-btn',
+      title: 'Login Button',
+      content: 
+              'This is a button that will bring you to the login page. \
+               Certain functionalities can be accessed only by logged users. \
+               On the login page you can connect using your credentials or \
+               you can create an account. Click the button',
+      placement: 'bottom',
+      arrowOffset: 260,
+      xOffset: -260
+    },
+    {
+      target: 'sign-in',
+      title: 'Sign In!',
+      content: 'If you already have an account, please sign in with your account credentials otherwise you can use the sign up link, by clicking next ',
+      placement: 'top',
+      arrowOffset: 60,
+    },
+    {
+      nextOnTargetClick: true,
+      multipage: true,
+      target: 'sign-up',
+      title: 'Sign up link!',
+      content: 'If you want to sign up / register, click on the link above.',
+      placement: 'bottom',
+      arrowOffset: 60,
+    },
+    {
+      nextOnTargetClick: true,
+      multipage: true,
+      target: 'sign-up-page',
+      title: 'Registration!',
+      content: 'On this page, you can create an account by filling the mandatory fields. You have two sections, one for personnal data & another for credentials data.',
+      placement: 'top',
+      arrowOffset: 60,
+    },
+    {
+      nextOnTargetClick: true,
+      multipage: true,
+      target: 'register-btn',
+      title: 'Registration button!',
+      content: 'Once you have filled all the required fields, click on this button to register / create your account. <b> Note after the registration, you will receive an email to confirm your email address. </b>',
+      placement: 'bottom',
+      arrowOffset: 60,
+    },
+    {
       target: 'hopscotch-title',
       placement: 'bottom',
       title: 'You\'re all set!',
       content: 'Now go and use HARNESSTOM DB!',
+      onShow: function() {
+        $('#startTourBtn').show();
+      },
     }
   ],
   showPrevButton: true,
@@ -150,7 +201,7 @@ init = function() {
         target: startBtnId,
         placement: 'right',
         title: 'Take an example tour',
-        content: 'Start by taking an example tour to see Hopscotch in action!',
+        content: 'Start by taking an example tour to see some of the most functionalities of HARNESSTOM DB!',
         yOffset: -25,
         arrowOffset: 20,
         width: 240
