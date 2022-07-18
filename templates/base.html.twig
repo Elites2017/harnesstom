@@ -844,7 +844,7 @@
 			</div>
 		</nav>
 
-		{% if app.request.attributes.get('_route') == 'app_home' %}
+		{% if app.request.attributes.get('_route') == 'app_home' and not app.user %}
 			<p class="text-center"><button id="startTourBtn" class="btn btn-large btn-info">Take a tour</button></p>
 		{% endif %}
 		<!-- nav end -->
