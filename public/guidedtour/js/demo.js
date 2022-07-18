@@ -55,12 +55,6 @@ var tour = {
       yOffset: -20
     },
     {
-      target: 'my-first-tour-file',
-      placement: 'top',
-      title: 'Define and start your tour',
-      content: 'Once you have Hopscotch on your page, you\'re ready to start making your tour! The biggest part of your tour definition will probably be the tour steps.'
-    },
-    {
       target: 'main-sources',
       title: 'Main sources!',
       content: 'Data have been collected from previous EU-funded project. Some of them are listed here.',
@@ -81,33 +75,6 @@ var tour = {
       content: 'This platform has created by the INPT through LRSV in collaboration with UPV',
       placement: 'top',
       arrowOffset: 60,
-    },
-    {
-      target: 'start-tour',
-      placement: 'right',
-      title: 'Starting your tour',
-      content: 'After you\'ve created your tour, pass it in to the startTour() method to start it.',
-      yOffset: -25
-    },
-    {
-      target: 'basic-options',
-      placement: 'left',
-      title: 'Basic step options',
-      content: 'These are the most basic step options: <b>target</b>, <b>title</b>, <b>content</b>, and <b>placement</b>. For some steps, they may be all you need.',
-      arrowOffset: 100,
-      yOffset: -80
-    },
-    {
-      target: 'api-methods',
-      placement: 'top',
-      title: 'Hopscotch API methods',
-      content: 'Control your tour programmatically using these methods.',
-    },
-    {
-      target: 'tour-example',
-      placement: 'top',
-      title: 'This tour\'s code',
-      content: 'This is the JSON for the current tour! Pretty simple, right?',
     },
     {
       nextOnTargetClick: true,
@@ -140,8 +107,6 @@ var tour = {
       arrowOffset: 60,
     },
     {
-      nextOnTargetClick: true,
-      multipage: true,
       target: 'sign-up-page',
       title: 'Registration!',
       content: 'On this page, you can create an account by filling the mandatory fields. You have two sections, one for personnal data & another for credentials data.',
