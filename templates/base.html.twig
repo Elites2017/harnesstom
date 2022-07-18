@@ -844,9 +844,9 @@
 			</div>
 		</nav>
 
-		
-		<p class="text-center"><button id="startTourBtn" class="btn btn-large btn-info">Take a tour</button></p>
-
+		{% if app.request.attributes.get('_route') == 'app_home' %}
+			<p class="text-center"><button id="startTourBtn" class="btn btn-large btn-info">Take a tour</button></p>
+		{% endif %}
 		<!-- nav end -->
 
 		{% block body %}
