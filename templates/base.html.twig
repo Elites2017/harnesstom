@@ -22,6 +22,10 @@
 			<!-- font-awesome -->
     		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
 
+			<!-- Guided Tour LH-->
+			<link href="{{ asset('guidedtour/dist/css/hopscotch.min.css') }}" rel="stylesheet"></link>
+			<link href="{{ asset('guidedtour/css/flat-ui.css') }}" rel="stylesheet"></link>
+			<link href="{{ asset('guidedtour/css/demo.css') }}" rel="stylesheet"></link>
 		{% endblock %}
 
 		<style>
@@ -43,7 +47,7 @@
 	</head>
 	<body>
 		<!-- nav start -->
-		<nav class="navbar navbar-expand-lg navbar-light">
+		<nav class="navbar navbar-expand-lg navbar-light" id="hopscotch-title">
 			<a href="{{path('app_home')}}" class="branding">
 				<div class="logo-type">
 					<img src="{{ asset('assets/images/harnesstomlogo.png') }}" width="auto" alt="" class="logo">
@@ -58,7 +62,7 @@
 				class="collapse navbar-collapse justify-content-md-center" id="navbarNavAltMarkup">
 				<!-- start of menu -->
 				<div class="container">
-					<ul class="navbar-nav">
+					<ul class="navbar-nav" id="nav-menu">
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Experimental Data</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -833,12 +837,16 @@
 							<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
 						</div>
 					{% else %}
-						<a class="btn btn-info" type="button" href="{{ path('app_login') }}">Login</a>
+						<a class="btn btn-info" id="login-btn" type="button" href="{{ path('app_login') }}">Login</a>
 					{% endif %}
 
 				</div>
 			</div>
 		</nav>
+
+		{% if app.request.attributes.get('_route') == 'app_home' and not app.user %}
+			<p class="text-center"><button id="startTourBtn" class="btn btn-large btn-info">Take a tour</button></p>
+		{% endif %}
 		<!-- nav end -->
 
 		{% block body %}
@@ -905,7 +913,7 @@
 					<div class="col-6 col-md">
 						<div class="row">
 							<div class="container">
-								<div class="col-3 col-md">
+								<div class="col-3 col-md" id="funding">
 									<a href="https://cordis.europa.eu/project/id/101000716/en" target="blank">
 										<p>Funding Provided By</p>
 										<img class="mb-2" src="{{ asset('assets/images/eu.png') }}" width="20%" alt="" class="logo">
@@ -925,7 +933,7 @@
 				</div>
 				<div class="dropdown-divider"></div>
 				<div class="text-center text-lg-start bg-light text-muted">
-					<p class="colophon tomato-color">© 2022 HarnessTom. Developed by
+					<p class="colophon tomato-color"  id="dev-team">© 2022 HarnessTom. Developed by
 						<a href="https://fr.linkedin.com/in/david-pierre-932847160" title="David PIERRE, R&D Engineer" target="_blank">David PIERRE * </a> / <a href="">Clara PONS </a>/ <a href="">Eden DARNIDGE</a>. For HarnessTom - All rights reserved</p>
 					<p class="float-center">
 						<a href="#">Back to top</a>
@@ -942,6 +950,11 @@
 			</script>
 			<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 			<!-- <script src="assets/js1/bootstrap.bundle.min.js"></script> -->
+			
+			<!-- Guided Tour LH  -->
+			<script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
+			<script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
+			<script src="{{ asset('guidedtour/js/demo.js') }}"></script>
 		{% endblock %}
 	</body>
 </html>
