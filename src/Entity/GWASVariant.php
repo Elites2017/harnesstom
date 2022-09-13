@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\GWASVariantRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\GWASVariantRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=GWASVariantRepository::class)
+ * @ApiResource
  */
 class GWASVariant
 {

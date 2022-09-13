@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\MetaboliteClassRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\MetaboliteClassRepository;
 
 /**
  * @ORM\Entity(repositoryClass=MetaboliteClassRepository::class)
+ * @ApiResource
  */
 class MetaboliteClass
 {

@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\QTLEpistatisticEffectRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\QTLEpistatisticEffectRepository;
 
 /**
  * @ORM\Entity(repositoryClass=QTLEpistatisticEffectRepository::class)
+ * @ApiResource
  */
 class QTLEpistatisticEffect
 {

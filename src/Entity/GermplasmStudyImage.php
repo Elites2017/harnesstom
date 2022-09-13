@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\GermplasmStudyImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\GermplasmStudyImageRepository;
 
 /**
  * @ORM\Entity(repositoryClass=GermplasmStudyImageRepository::class)
+ * @ApiResource
  */
 class GermplasmStudyImage
 {

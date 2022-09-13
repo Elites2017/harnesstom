@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\IdentificationLevelRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\IdentificationLevelRepository;
 
 /**
  * @ORM\Entity(repositoryClass=IdentificationLevelRepository::class)
+ * @ApiResource
  */
 class IdentificationLevel
 {

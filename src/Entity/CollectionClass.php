@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CollectionClassRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\CollectionClassRepository;
 
 /**
  * @ORM\Entity(repositoryClass=CollectionClassRepository::class)
+ * @ApiResource
  */
 class CollectionClass
 {

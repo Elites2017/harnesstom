@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ObservationValueRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\ObservationValueRepository;
 
 /**
  * @ORM\Entity(repositoryClass=ObservationValueRepository::class)
+ * @ApiResource
  */
 class ObservationValue
 {

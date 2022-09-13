@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\SharedWithRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SharedWithRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=SharedWithRepository::class)
+ * @ApiResource
+ * 
  */
 class SharedWith
 {

@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\AttributeTraitValueRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\AttributeTraitValueRepository;
 
 /**
  * @ORM\Entity(repositoryClass=AttributeTraitValueRepository::class)
+ * @ApiResource
  */
 class AttributeTraitValue
 {

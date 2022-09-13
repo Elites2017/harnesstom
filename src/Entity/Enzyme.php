@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\EnzymeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EnzymeRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=EnzymeRepository::class)
+ * @ApiResource
  */
 class Enzyme
 {
