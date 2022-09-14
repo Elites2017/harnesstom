@@ -7,10 +7,14 @@ use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PersonRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"person:read"}},
+ *      denormalizationContext={"groups"={"person:write"}}
+ * )
  */
 class Person
 {
@@ -18,51 +22,61 @@ class Person
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"person:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"user:read", "person:read"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"person:read"})
      */
     private $middleName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"person:read"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"person:read"})
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"person:read"})
      */
     private $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"person:read"})
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"person:read"})
      */
     private $city;
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="people")
+     * @Groups({"country:read", "person:read"})
      */
     private $country;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="person", cascade={"persist", "remove"})
+     * @Groups({"user:read", "person:read"})
      */
     private $user;
 
@@ -83,6 +97,7 @@ class Person
 
     /**
      * @ORM\OneToMany(targetEntity=Contact::class, mappedBy="person")
+     * @Groups({"person:read"})
      */
     private $contacts;
 
