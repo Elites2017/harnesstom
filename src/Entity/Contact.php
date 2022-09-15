@@ -7,10 +7,15 @@ use App\Repository\ContactRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"contact:read"}},
+ *      denormalizationContext={"groups"={"contact:write"}}
+ * )
  */
 class Contact
 {
@@ -18,26 +23,33 @@ class Contact
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"contact:read", "program:read"})
+     * @SerializedName("contactDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"contact:read", "program:read"})
+     * @SerializedName("leadPersonDbId")
      */
     private $orcid;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"contact:read", "program:read"})
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="contacts")
+     * @Groups({"contact:read", "program:read"})
      */
     private $person;
 
     /**
      * @ORM\ManyToOne(targetEntity=Institute::class, inversedBy="contacts")
+     * @Groups({"contact:read", "program:read"})
      */
     private $institute;
 
@@ -58,6 +70,7 @@ class Contact
 
     /**
      * @ORM\OneToMany(targetEntity=Program::class, mappedBy="contact")
+     * @Groups({"contact:read"})
      */
     private $programs;
 

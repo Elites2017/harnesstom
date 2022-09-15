@@ -7,10 +7,15 @@ use App\Repository\StudyRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=StudyRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"study:read"}},
+ *      denormalizationContext={"groups"={"study:write"}}
+ * )
  */
 class Study
 {
@@ -18,36 +23,46 @@ class Study
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"study:read"})
+     * @SerializedName("studyDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"study:read"})
+     * @SerializedName("studyName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"study:read"})
      */
     private $abbreviation;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"study:read"})
+     * @SerializedName("studyDescription")
      */
     private $description;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"study:read"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"study:read"})
      */
     private $endDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"study:read"})
      */
     private $culturalPractice;
 
@@ -63,46 +78,56 @@ class Study
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"study:read"})
+     * @SerializedName("studyDbId")
      */
     private $lastUpdated;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trial::class, inversedBy="studies")
+     * @Groups({"study:read"})
      */
     private $trial;
 
     /**
      * @ORM\ManyToOne(targetEntity=FactorType::class, inversedBy="studies")
+     * @Groups({"study:read"})
      */
     private $factor;
 
     /**
      * @ORM\ManyToOne(targetEntity=Season::class, inversedBy="studies")
+     * @Groups({"study:read"})
      */
     private $season;
 
     /**
      * @ORM\ManyToOne(targetEntity=Institute::class, inversedBy="studies")
+     * @Groups({"study:read"})
      */
     private $institute;
 
     /**
      * @ORM\ManyToOne(targetEntity=Location::class, inversedBy="studies")
+     * @Groups({"study:read"})
      */
     private $location;
 
     /**
      * @ORM\ManyToOne(targetEntity=GrowthFacilityType::class, inversedBy="studies")
+     * @Groups({"study:read"})
      */
     private $growthFacility;
 
     /**
      * @ORM\ManyToOne(targetEntity=Parameter::class, inversedBy="studies")
+     * @Groups({"study:read"})
      */
     private $parameter;
 
     /**
      * @ORM\ManyToOne(targetEntity=ExperimentalDesignType::class, inversedBy="studies")
+     * @Groups({"study:read"})
      */
     private $experimentalDesignType;
 
@@ -113,46 +138,55 @@ class Study
 
     /**
      * @ORM\ManyToMany(targetEntity=Germplasm::class, mappedBy="study")
+     * @Groups({"study:read"})
      */
     private $germplasms;
 
     /**
      * @ORM\OneToOne(targetEntity=StudyParameterValue::class, mappedBy="study", cascade={"persist", "remove"})
+     * @Groups({"study:read"})
      */
     private $studyParameterValue;
 
     /**
      * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="study")
+     * @Groups({"study:read"})
      */
     private $crosses;
 
     /**
      * @ORM\OneToMany(targetEntity=StudyImage::class, mappedBy="study")
+     * @Groups({"study:read"})
      */
     private $studyImages;
 
     /**
      * @ORM\OneToMany(targetEntity=ObservationLevel::class, mappedBy="study")
+     * @Groups({"study:read"})
      */
     private $observationLevels;
 
     /**
      * @ORM\OneToMany(targetEntity=Sample::class, mappedBy="study")
+     * @Groups({"study:read"})
      */
     private $samples;
 
     /**
      * @ORM\ManyToMany(targetEntity=GWAS::class, mappedBy="studyList")
+     * @Groups({"study:read"})
      */
     private $gwas;
 
     /**
      * @ORM\OneToMany(targetEntity=GermplasmStudyImage::class, mappedBy="StudyID")
+     * @Groups({"study:read"})
      */
     private $germplasmStudyImages;
 
     /**
      * @ORM\ManyToMany(targetEntity=QTLStudy::class, mappedBy="studyList")
+     * @Groups({"study:read"})
      */
     private $qTLStudies;
 

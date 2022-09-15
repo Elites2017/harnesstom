@@ -7,10 +7,15 @@ use App\Repository\ProgramRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=ProgramRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"program:read"}},
+ *      denormalizationContext={"groups"={"program:write"}}
+ * )
  */
 class Program
 {
@@ -18,26 +23,34 @@ class Program
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"program:read", "contact:read", "trial:read"})
+     * @SerializedName("programDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"program:read", "contact:read", "trial:read"})
+     * @SerializedName("programName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"program:read", "contact:read"})
      */
     private $abbreviation;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"program:read", "contact:read"})
      */
     private $objective;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"program:read", "contact:read"})
+     * @SerializedName("documentationURL")
      */
     private $externalRef;
 
@@ -53,11 +66,13 @@ class Program
 
     /**
      * @ORM\ManyToOne(targetEntity=Crop::class, inversedBy="programs")
+     * @Groups({"program:read", "contact:read"})
      */
     private $crop;
 
     /**
      * @ORM\ManyToOne(targetEntity=Contact::class, inversedBy="programs")
+     * @Groups({"program:read"})
      */
     private $contact;
 
@@ -68,11 +83,13 @@ class Program
 
     /**
      * @ORM\OneToMany(targetEntity=Trial::class, mappedBy="program")
+     * @Groups({"program:read"})
      */
     private $trials;
 
     /**
      * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="program")
+     * @Groups({"program:read"})
      */
     private $germplasms;
 

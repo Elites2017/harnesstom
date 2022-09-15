@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=PersonRepository::class)
@@ -22,49 +23,50 @@ class Person
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"person:read"})
+     * @Groups({"person:read", "user:read", "contact:read"})
+     * @SerializedName("personDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read", "person:read"})
+     * @Groups({"person:read", "user:read", "contact:read", "program:read"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"person:read"})
+     * @Groups({"person:read", "user:read", "contact:read", "program:read"})
      */
     private $middleName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"person:read"})
+     * @Groups({"person:read", "user:read", "contact:read", "program:read"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"person:read"})
+     * @Groups({"person:read", "user:read"})
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"person:read"})
+     * @Groups({"person:read", "user:read"})
      */
     private $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"person:read"})
+     * @Groups({"person:read", "user:read"})
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"person:read"})
+     * @Groups({"person:read", "user:read"})
      */
     private $city;
 
@@ -76,7 +78,7 @@ class Person
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="person", cascade={"persist", "remove"})
-     * @Groups({"user:read", "person:read"})
+     * @Groups({"person:read"})
      */
     private $user;
 

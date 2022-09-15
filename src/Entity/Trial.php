@@ -7,10 +7,15 @@ use App\Repository\TrialRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=TrialRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"trial:read"}},
+ *      denormalizationContext={"groups"={"trial:write"}}
+ * )
  */
 class Trial
 {
@@ -18,51 +23,65 @@ class Trial
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"trial:read"})
+     * @SerializedName("trialDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"trial:read"})
+     * @SerializedName("trialName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"trial:read"})
+     * @SerializedName("trialDescription")
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"trial:read"})
      */
     private $abbreviation;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"trial:read"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"trial:read"})
      */
     private $endDate;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"trial:read"})
      */
     private $publicReleaseDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"trial:read"})
      */
     private $license;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"trial:read"})
+     * @SerializedName("trialPUI")
      */
     private $pui;
 
     /**
      * @ORM\Column(type="array", nullable=true)
+     * @Groups({"trial:read"})
      */
     private $publicationReference = [];
 
@@ -78,11 +97,13 @@ class Trial
 
     /**
      * @ORM\ManyToOne(targetEntity=Program::class, inversedBy="trials")
+     * @Groups({"trial:read"})
      */
     private $program;
 
     /**
      * @ORM\ManyToOne(targetEntity=TrialType::class, inversedBy="trials")
+     * @Groups({"trial:read"})
      */
     private $trialType;
 
@@ -93,11 +114,13 @@ class Trial
 
     /**
      * @ORM\OneToMany(targetEntity=SharedWith::class, mappedBy="trial")
+     * @Groups({"trial:read"})
      */
     private $sharedWiths;
 
     /**
      * @ORM\OneToMany(targetEntity=Study::class, mappedBy="trial")
+     * @Groups({"trial:read"})
      */
     private $studies;
 

@@ -7,10 +7,15 @@ use App\Repository\CropRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=CropRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"crop:read"}},
+ *      denormalizationContext={"groups"={"crop:write"}}
+ * )
  */
 class Crop
 {
@@ -18,11 +23,13 @@ class Crop
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @SerializedName("cropDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"crop:read", "program:read"})
      */
     private $commonCropName;
 
@@ -43,6 +50,7 @@ class Crop
 
     /**
      * @ORM\OneToMany(targetEntity=Program::class, mappedBy="crop")
+     * @Groups({"crop:read"})
      */
     private $programs;
 

@@ -7,10 +7,15 @@ use App\Repository\InstituteRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=InstituteRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"institute:read"}},
+ *      denormalizationContext={"groups"={"institute:write"}}
+ * )
  */
 class Institute
 {
@@ -18,41 +23,50 @@ class Institute
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"institute:read", "contact:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"institute:read"})
      */
     private $instcode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"institute:read"})
      */
     private $acronym;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"institute:read", "contact:read"})
+     * @SerializedName("instituteName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"institute:read"})
      */
     private $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"institute:read"})
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"institute:read"})
      */
     private $city;
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="institutes")
+     * @Groups({"institute:read"})
      */
     private $country;
 
@@ -73,26 +87,31 @@ class Institute
 
     /**
      * @ORM\OneToMany(targetEntity=Contact::class, mappedBy="institute")
+     * @Groups({"institute:read"})
      */
     private $contacts;
 
     /**
      * @ORM\OneToMany(targetEntity=CollectingMission::class, mappedBy="institute")
+     * @Groups({"institute:read"})
      */
     private $collectingMissions;
 
     /**
      * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="instcode")
+     * @Groups({"institute:read"})
      */
     private $accessions;
 
     /**
      * @ORM\OneToMany(targetEntity=Study::class, mappedBy="institute")
+     * @Groups({"institute:read"})
      */
     private $studies;
 
     /**
      * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="institute")
+     * @Groups({"institute:read"})
      */
     private $crosses;
 
