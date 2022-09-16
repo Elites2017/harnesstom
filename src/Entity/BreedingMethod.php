@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=BreedingMethodRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"breeding_method:read"}},
+ *      denormalizationContext={"groups"={"breeding_method:write"}}
+ * )
  */
 class BreedingMethod
 {
@@ -20,11 +23,13 @@ class BreedingMethod
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"breeding_method:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"breeding_method:read"})
      */
     private $name;
 
@@ -35,6 +40,7 @@ class BreedingMethod
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"breeding_method:read"})
      */
     private $description;
 

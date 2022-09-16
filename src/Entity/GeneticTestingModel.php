@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=GeneticTestingModelRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"genetic_t_m:read"}},
+ *      denormalizationContext={"groups"={"genetic_t_m:write"}}
+ * )
  */
 class GeneticTestingModel
 {
@@ -20,16 +23,19 @@ class GeneticTestingModel
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"genetic_t_m:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"genetic_t_m:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"genetic_t_m:read"})
      */
     private $description;
 

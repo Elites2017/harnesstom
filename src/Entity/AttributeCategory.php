@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=AttributeCategoryRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"attribute_category:read"}},
+ *      denormalizationContext={"groups"={"attribute_category:write"}}
+ * )
  */
 class AttributeCategory
 {
@@ -20,21 +23,26 @@ class AttributeCategory
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"attribute_category:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"attribute_category:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"attribute_category:read"})
+     * 
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"attribute_category:read"})
      */
     private $abbreviation;
 

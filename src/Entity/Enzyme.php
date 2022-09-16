@@ -10,7 +10,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=EnzymeRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"enzyme:read"}},
+ *      denormalizationContext={"groups"={"enzyme:write"}}
+ * )
  */
 class Enzyme
 {
@@ -18,11 +21,13 @@ class Enzyme
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"enzyme:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"enzyme:read"})
      */
     private $name;
 

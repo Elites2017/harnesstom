@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=AllelicEffectEstimatorRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"allelic_e_e:read"}},
+ *      denormalizationContext={"groups"={"allelic_e_e:write"}}
+ * )
  */
 class AllelicEffectEstimator
 {
@@ -20,11 +23,13 @@ class AllelicEffectEstimator
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"allelic_e_e:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"allelic_e_e:read"})
      */
     private $name;
 

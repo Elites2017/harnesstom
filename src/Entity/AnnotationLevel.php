@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=AnnotationLevelRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"annotation_level:read"}},
+ *      denormalizationContext={"groups"={"annotation_level:write"}}
+ * )
  */
 class AnnotationLevel
 {
@@ -20,16 +23,19 @@ class AnnotationLevel
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"annotation_level:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"annotation_level:read"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"annotation_level:read"})
      */
     private $code;
 

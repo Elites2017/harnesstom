@@ -10,7 +10,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=AttributeTraitValueRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"attribute_t_v:read"}},
+ *      denormalizationContext={"groups"={"attribute_t_v:write"}}
+ * )
  */
 class AttributeTraitValue
 {
@@ -18,11 +21,13 @@ class AttributeTraitValue
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"attribute_t_v:read"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=TraitClass::class, inversedBy="attributeTraitValues")
+     * @Groups({"attribute_t_v:read"})
      */
     private $trait;
 

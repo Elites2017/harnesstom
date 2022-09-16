@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=CiCriteriaRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"ci_criteria:read"}},
+ *      denormalizationContext={"groups"={"ci_criteria:write"}}
+ * )
  */
 class CiCriteria
 {
@@ -20,11 +23,13 @@ class CiCriteria
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"ci_criteria:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"ci_criteria:read"})
      */
     private $name;
 

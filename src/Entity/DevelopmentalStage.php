@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=DevelopmentalStageRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"developmental_stage:read"}},
+ *      denormalizationContext={"groups"={"developmental_stage:write"}}
+ * )
  */
 class DevelopmentalStage
 {
@@ -20,11 +23,13 @@ class DevelopmentalStage
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"developmental_stage:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"developmental_stage:read"})
      */
     private $name;
 
@@ -35,6 +40,7 @@ class DevelopmentalStage
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"developmental_stage:read"})
      */
     private $description;
 

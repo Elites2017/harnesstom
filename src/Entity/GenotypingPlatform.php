@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=GenotypingPlatformRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"genotyping_platform:read"}},
+ *      denormalizationContext={"groups"={"genotyping_platform:write"}}
+ * )
  */
 class GenotypingPlatform
 {
@@ -20,51 +23,61 @@ class GenotypingPlatform
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"genotyping_platform:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"genotyping_platform:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"genotyping_platform:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"genotyping_platform:read"})
      */
     private $methodDescription;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"genotyping_platform:read"})
      */
     private $refSetName;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"genotyping_platform:read"})
      */
     private $publishedDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"genotyping_platform:read"})
      */
     private $bioProjectID;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"genotyping_platform:read"})
      */
     private $markerCount;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"genotyping_platform:read"})
      */
     private $assemblyPUI;
 
     /**
      * @ORM\Column(type="array", nullable=true)
+     * @Groups({"genotyping_platform:read"})
      */
     private $publicationRef = [];
 

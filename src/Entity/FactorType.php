@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=FactorTypeRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"factor_type:read"}},
+ *      denormalizationContext={"groups"={"factor_type:write"}}
+ * )
  */
 class FactorType
 {
@@ -20,6 +23,7 @@ class FactorType
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"factor_type:read"})
      */
     private $id;
 
@@ -30,6 +34,7 @@ class FactorType
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"factor_type:read"})
      */
     private $name;
 
@@ -40,6 +45,7 @@ class FactorType
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"factor_type:read"})
      */
     private $description;
 

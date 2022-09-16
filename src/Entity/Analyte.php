@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=AnalyteRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"analyte:read"}},
+ *      denormalizationContext={"groups"={"analyte:write"}}
+ * )
  */
 class Analyte
 {
@@ -20,26 +23,31 @@ class Analyte
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"analyte:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"analyte:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"analyte:read"})
      */
     private $AnalyteCode;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"analyte:read"})
      */
     private $retentionTime;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"analyte:read"})
      */
     private $massToChargeRatio;
 

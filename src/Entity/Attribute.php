@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=AttributeRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"attribute:read"}},
+ *      denormalizationContext={"groups"={"attribute:write"}}
+ * )
  */
 class Attribute
 {
@@ -20,26 +23,31 @@ class Attribute
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"attribute:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"attribute:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"attribute:read"})
      */
     private $abbreviation;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"attribute:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="array", nullable=true)
+     * @Groups({"attribute:read"})
      */
     private $publicationReference = [];
 

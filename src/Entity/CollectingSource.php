@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=CollectingSourceRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"collecting_source:read"}},
+ *      denormalizationContext={"groups"={"collecting_source:write"}}
+ * )
  */
 class CollectingSource
 {
@@ -20,16 +23,19 @@ class CollectingSource
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"collecting_source:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"collecting_source:read"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"collecting_source:read"})
      */
     private $code;
 
