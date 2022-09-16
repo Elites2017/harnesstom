@@ -23,50 +23,50 @@ class Institute
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"institute:read", "contact:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"institute:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $instcode;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"institute:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $acronym;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"institute:read", "contact:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      * @SerializedName("instituteName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"institute:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"institute:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"institute:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $city;
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="institutes")
-     * @Groups({"institute:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $country;
 
@@ -93,25 +93,25 @@ class Institute
 
     /**
      * @ORM\OneToMany(targetEntity=CollectingMission::class, mappedBy="institute")
-     * @Groups({"institute:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $collectingMissions;
 
     /**
      * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="instcode")
-     * @Groups({"institute:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $accessions;
 
     /**
      * @ORM\OneToMany(targetEntity=Study::class, mappedBy="institute")
-     * @Groups({"institute:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $studies;
 
     /**
      * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="institute")
-     * @Groups({"institute:read"})
+     * @Groups({"institute:read", "contact:read", "program:read"})
      */
     private $crosses;
 
