@@ -23,62 +23,62 @@ class Person
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"person:read", "user:read", "contact:read"})
+     * @Groups({"person:read", "user:read", "contact:read", "institute:read"})
      * @SerializedName("personDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"person:read", "user:read", "contact:read", "program:read"})
+     * @Groups({"person:read", "user:read", "contact:read", "program:read", "institute:read"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"person:read", "user:read", "contact:read", "program:read"})
+     * @Groups({"person:read", "user:read", "contact:read", "program:read", "institute:read"})
      */
     private $middleName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"person:read", "user:read", "contact:read", "program:read"})
+     * @Groups({"person:read", "user:read", "contact:read", "program:read", "institute:read"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"person:read", "user:read"})
+     * @Groups({"person:read", "user:read", "institute:read"})
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"person:read", "user:read"})
+     * @Groups({"person:read", "user:read", "institute:read"})
      */
     private $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"person:read", "user:read"})
+     * @Groups({"person:read", "user:read", "institute:read"})
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"person:read", "user:read"})
+     * @Groups({"person:read", "user:read", "institute:read"})
      */
     private $city;
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="people")
-     * @Groups({"country:read", "person:read"})
+     * @Groups({"country:read", "person:read", "institute:read"})
      */
     private $country;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="person", cascade={"persist", "remove"})
-     * @Groups({"person:read"})
+     * @Groups({"person:read", "institute:read"})
      */
     private $user;
 

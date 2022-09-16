@@ -29,7 +29,7 @@ class Crop
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"crop:read", "program:read"})
+     * @Groups({"crop:read", "program:read", "contact:read"})
      */
     private $commonCropName;
 

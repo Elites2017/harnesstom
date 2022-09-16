@@ -23,33 +23,33 @@ class Contact
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"contact:read", "program:read"})
+     * @Groups({"contact:read", "program:read", "institute:read", "crop:read"})
      * @SerializedName("contactDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"contact:read", "program:read"})
+     * @Groups({"contact:read", "program:read", "institute:read", "crop:read"})
      * @SerializedName("leadPersonDbId")
      */
     private $orcid;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"contact:read", "program:read"})
+     * @Groups({"contact:read", "program:read", "institute:read", "crop:read"})
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity=Person::class, inversedBy="contacts")
-     * @Groups({"contact:read", "program:read"})
+     * @Groups({"contact:read", "program:read", "institute:read", "crop:read"})
      */
     private $person;
 
     /**
      * @ORM\ManyToOne(targetEntity=Institute::class, inversedBy="contacts")
-     * @Groups({"contact:read", "program:read"})
+     * @Groups({"contact:read", "program:read", "crop:read"})
      */
     private $institute;
 

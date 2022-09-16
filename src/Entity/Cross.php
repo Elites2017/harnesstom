@@ -13,7 +13,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 /**
  * @ORM\Entity(repositoryClass=CrossRepository::class)
  * @ORM\Table(name="`cross`")
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"cross:read"}},
+ *      denormalizationContext={"groups"={"cross:write"}}
+ * )
  */
 class Cross
 {
@@ -21,31 +24,37 @@ class Cross
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"cross:read", "program:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"cross:read", "program:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"cross:read", "program:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"cross:read", "program:read"})
      */
     private $parent1Type;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"cross:read", "program:read"})
      */
     private $parent2Type;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"cross:read", "program:read"})
      */
     private $year;
 

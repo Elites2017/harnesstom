@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=CountryRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"country:read"}},
+ *      denormalizationContext={"groups"={"country:write"}}
+ * )
  */
 class Country
 {
@@ -20,16 +23,22 @@ class Country
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"country:read", "location:read", "contact:read", "program:read",
+     * "institute:read", "crop:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"country:read", "location:read", "contact:read", "program:read",
+     * "institute:read", "crop:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=3)
+     * @Groups({"country:read", "location:read", "contact:read", "program:read",
+     * "institute:read", "crop:read"})
      */
     private $iso3;
 
@@ -50,6 +59,7 @@ class Country
 
     /**
      * @ORM\OneToMany(targetEntity=Location::class, mappedBy="country")
+     * @Groups({"country:read", "contact:read", "program:read"})
      */
     private $locations;
 
@@ -60,6 +70,7 @@ class Country
 
     /**
      * @ORM\OneToMany(targetEntity=Institute::class, mappedBy="country")
+     * @Groups({"country:read",})
      */
     private $institutes;
 

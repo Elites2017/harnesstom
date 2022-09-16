@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=AccessionRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"accession:read"}},
+ *      denormalizationContext={"groups"={"accession:write"}}
+ * )
  */
 class Accession
 {
@@ -20,41 +23,49 @@ class Accession
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"accession:read", "program:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"accession:read", "program:read"})
      */
     private $accenumb;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"accession:read", "program:read"})
      */
     private $accename;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"accession:read", "program:read"})
      */
     private $puid;
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="accessions")
+     * @Groups({"accession:read", "program:read"})
      */
     private $origcty;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"accession:read", "program:read"})
      */
     private $origmuni;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"accession:read", "program:read"})
      */
     private $origadmin1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"accession:read", "program:read"})
      */
     private $origadmin2;
 

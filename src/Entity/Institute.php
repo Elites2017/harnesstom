@@ -23,50 +23,58 @@ class Institute
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"institute:read", "contact:read", "program:read"})
+     * @Groups({"institute:read", "contact:read", "program:read", "country:read",
+     * "crop:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"institute:read", "contact:read", "program:read"})
+     * @Groups({"institute:read", "contact:read", "program:read", "country:read",
+     * "crop:read"})
      */
     private $instcode;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"institute:read", "contact:read", "program:read"})
+     * @Groups({"institute:read", "contact:read", "program:read", "country:read",
+     * "crop:read"})
      */
     private $acronym;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"institute:read", "contact:read", "program:read"})
+     * @Groups({"institute:read", "contact:read", "program:read", "country:read",
+     * "crop:read"})
      * @SerializedName("instituteName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"institute:read", "contact:read", "program:read"})
+     * @Groups({"institute:read", "contact:read", "program:read", "country:read",
+     * "crop:read"})
      */
     private $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"institute:read", "contact:read", "program:read"})
+     * @Groups({"institute:read", "contact:read", "program:read", "country:read",
+     * "crop:read"})
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"institute:read", "contact:read", "program:read"})
+     * @Groups({"institute:read", "contact:read", "program:read", "country:read",
+     * "crop:read"})
      */
     private $city;
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="institutes")
-     * @Groups({"institute:read", "contact:read", "program:read"})
+     * @Groups({"institute:read", "contact:read", "program:read",
+     * "crop:read"})
      */
     private $country;
 

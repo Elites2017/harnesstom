@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=LocationRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"location:read"}},
+ *      denormalizationContext={"groups"={"location:write"}}
+ * )
  */
 class Location
 {
@@ -20,31 +23,37 @@ class Location
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"location:read", "country:read", "contact:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"location:read", "country:read", "contact:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
+     * @Groups({"location:read", "country:read", "contact:read"})
      */
     private $longitudeCo;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
+     * @Groups({"location:read", "country:read", "contact:read"})
      */
     private $latitudeCo;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
+     * @Groups({"location:read", "country:read", "contact:read"})
      */
     private $altitudeCo;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"location:read", "country:read", "contact:read"})
      */
     private $siteStatus;
 
@@ -65,11 +74,13 @@ class Location
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="locations")
+     * @Groups({"location:read"})
      */
     private $country;
 
     /**
      * @ORM\OneToMany(targetEntity=Study::class, mappedBy="location")
+     * @Groups({"location:read", "country:read"})
      */
     private $studies;
 

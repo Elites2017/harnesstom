@@ -27,14 +27,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"user:read", "person:read"})
+     * @Groups({"user:read", "person:read", "institute:read"})
      * @SerializedName("userID")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"user:read", "person:read"})
+     * @Groups({"user:read", "person:read", "institute:read"})
      * @SerializedName("emailAddress")
      */
     private $email;

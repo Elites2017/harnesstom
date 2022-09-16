@@ -23,33 +23,33 @@ class Program
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"program:read", "contact:read", "trial:read"})
+     * @Groups({"program:read", "contact:read", "trial:read", "crop:read"})
      * @SerializedName("programDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"program:read", "contact:read", "trial:read"})
+     * @Groups({"program:read", "contact:read", "trial:read", "crop:read"})
      * @SerializedName("programName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"program:read", "contact:read"})
+     * @Groups({"program:read", "contact:read", "crop:read"})
      */
     private $abbreviation;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"program:read", "contact:read"})
+     * @Groups({"program:read", "contact:read", "crop:read"})
      */
     private $objective;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"program:read", "contact:read"})
+     * @Groups({"program:read", "contact:read", "crop:read"})
      * @SerializedName("documentationURL")
      */
     private $externalRef;
@@ -72,7 +72,7 @@ class Program
 
     /**
      * @ORM\ManyToOne(targetEntity=Contact::class, inversedBy="programs")
-     * @Groups({"program:read"})
+     * @Groups({"program:read", "crop:read"})
      */
     private $contact;
 
@@ -83,13 +83,13 @@ class Program
 
     /**
      * @ORM\OneToMany(targetEntity=Trial::class, mappedBy="program")
-     * @Groups({"program:read"})
+     * @Groups({"program:read", "crop:read"})
      */
     private $trials;
 
     /**
      * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="program")
-     * @Groups({"program:read"})
+     * @Groups({"program:read", "crop:read"})
      */
     private $germplasms;
 
