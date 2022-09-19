@@ -10,7 +10,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=GWASVariantRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"gwas_variant:read"}},
+ *      denormalizationContext={"groups"={"gwas_model:write"}}
+ * )
  */
 class GWASVariant
 {
@@ -18,96 +21,115 @@ class GWASVariant
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"gwas_variant:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"gwas_variant:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"gwas_variant:read"})
      */
     private $alternativeAllele;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"gwas_variant:read"})
      */
     private $maf;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"gwas_variant:read"})
      */
     private $sampleSize;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"gwas_variant:read"})
      */
     private $snppValue;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $adjustedPValue;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"gwas_variant:read"})
      */
     private $allelicEffect;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $allelicEffectStat;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $allelicEffectdf;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $allelicEffStdE;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $beta;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $betaStdE;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $oddsRatio;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $ciLower;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $ciUpper;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $rSquareOfMode;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $rSquareOfModeWithSNP;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"gwas_variant:read"})
      */
     private $rSquareOfModeWithoutSNP;
 
@@ -123,6 +145,7 @@ class GWASVariant
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"gwas_variant:read"})
      */
     private $refAllele;
 

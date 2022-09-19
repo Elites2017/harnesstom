@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=GrowthFacilityTypeRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"growth_f_t:read"}},
+ *      denormalizationContext={"groups"={"growth_f_t:write"}}
+ * )
  */
 class GrowthFacilityType
 {
@@ -20,6 +23,7 @@ class GrowthFacilityType
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"growth_f_t:read"})
      */
     private $id;
 
@@ -30,11 +34,13 @@ class GrowthFacilityType
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"growth_f_t:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"growth_f_t:read"})
      */
     private $description;
 

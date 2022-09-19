@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=MethodClassRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"method_class:read"}},
+ *      denormalizationContext={"groups"={"method_class:write"}}
+ * )
  */
 class MethodClass
 {
@@ -20,16 +23,22 @@ class MethodClass
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $description;
 
@@ -50,6 +59,8 @@ class MethodClass
 
     /**
      * @ORM\OneToMany(targetEntity=ObservationVariableMethod::class, mappedBy="methodClass")
+     * @Groups({"method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $observationVariableMethods;
 

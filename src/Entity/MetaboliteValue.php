@@ -10,7 +10,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=MetaboliteValueRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"metabolite_value:read"}},
+ *      denormalizationContext={"groups"={"metabolite_value:write"}}
+ * )
  */
 class MetaboliteValue
 {
@@ -18,11 +21,15 @@ class MetaboliteValue
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"metabolite_value:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"metabolite_value:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $value;
 
@@ -38,11 +45,15 @@ class MetaboliteValue
 
     /**
      * @ORM\ManyToOne(targetEntity=Sample::class, inversedBy="metaboliteValues")
+     * @Groups({"metabolite_value:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $sample;
 
     /**
      * @ORM\ManyToOne(targetEntity=Metabolite::class, inversedBy="metaboliteValues")
+     * @Groups({"metabolite_value:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $metabolite;
 

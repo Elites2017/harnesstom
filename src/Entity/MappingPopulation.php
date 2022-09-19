@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=MappingPopulationRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"mapping_population:read"}},
+ *      denormalizationContext={"groups"={"mapping_population:write"}}
+ * )
  */
 class MappingPopulation
 {
@@ -20,11 +23,13 @@ class MappingPopulation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $name;
 
@@ -40,16 +45,19 @@ class MappingPopulation
 
     /**
      * @ORM\ManyToOne(targetEntity=Cross::class, inversedBy="mappingPopulations")
+     * @Groups({"mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $mappingPopulationCross;
 
     /**
      * @ORM\ManyToOne(targetEntity=Pedigree::class, inversedBy="mappingPopulations")
+     * @Groups({"mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $pedigreeGeneration;
 
     /**
      * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="mappingPopulation")
+     * @Groups({"mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $qTLStudies;
 

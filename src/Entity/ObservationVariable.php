@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=ObservationVariableRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"observation_variable:read"}},
+ *      denormalizationContext={"groups"={"observation_variable:write"}}
+ * )
  */
 class ObservationVariable
 {
@@ -20,36 +23,50 @@ class ObservationVariable
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read", "observation_variable:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read", "observation_variable:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read", "observation_variable:read"})
      */
     private $mainAbbreviaition;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read", "observation_variable:read"})
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=TraitClass::class, inversedBy="observationVariables")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read", "observation_variable:read"})
      */
     private $trait;
 
     /**
      * @ORM\ManyToOne(targetEntity=Scale::class, inversedBy="observationVariables")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read", "observation_variable:read"})
      */
     private $scale;
 
     /**
      * @ORM\ManyToOne(targetEntity=ObservationVariableMethod::class, inversedBy="observationVariables")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read", "observation_variable:read"})
      */
     private $observationVariableMethod;
 
@@ -70,16 +87,22 @@ class ObservationVariable
 
     /**
      * @ORM\OneToMany(targetEntity=ObservationValue::class, mappedBy="observationVariable")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_variable:read"})
      */
     private $observationValues;
 
     /**
      * @ORM\OneToMany(targetEntity=GWASVariant::class, mappedBy="observationVariable")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read", "observation_variable:read"})
      */
     private $gWASVariants;
 
     /**
      * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="observationVariable")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read", "observation_variable:read"})
      */
     private $qTLVariants;
 

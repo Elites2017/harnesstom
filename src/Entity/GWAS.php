@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=GWASRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"gwas:read"}},
+ *      denormalizationContext={"groups"={"gwas:write"}}
+ * )
  */
 class GWAS
 {
@@ -20,21 +23,25 @@ class GWAS
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"gwas:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"gwas:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"gwas:read"})
      */
     private $preprocessing;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"gwas:read"})
      */
     private $thresholdValue;
 

@@ -23,61 +23,61 @@ class GenotypingPlatform
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"genotyping_platform:read"})
+     * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"genotyping_platform:read"})
+     * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"genotyping_platform:read"})
+     * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"genotyping_platform:read"})
+     * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $methodDescription;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"genotyping_platform:read"})
+     * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $refSetName;
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Groups({"genotyping_platform:read"})
+     * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $publishedDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"genotyping_platform:read"})
+     * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $bioProjectID;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"genotyping_platform:read"})
+     * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $markerCount;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"genotyping_platform:read"})
+     * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $assemblyPUI;
 
     /**
      * @ORM\Column(type="array", nullable=true)
-     * @Groups({"genotyping_platform:read"})
+     * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $publicationRef = [];
 

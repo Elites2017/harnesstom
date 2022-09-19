@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=ObservationLevelRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"observation_level:read"}},
+ *      denormalizationContext={"groups"={"observation_level:write"}}
+ * )
  */
 class ObservationLevel
 {
@@ -20,66 +23,92 @@ class ObservationLevel
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $unitname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $blockNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $subBlockNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $plotNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $plantNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $replicate;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $unitPosition;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $unitCoordinateX;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $unitCoordinateY;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $unitCoordinateXType;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $unitCoordinateYType;
 
@@ -90,6 +119,8 @@ class ObservationLevel
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $lastUpdated;
 
@@ -105,21 +136,29 @@ class ObservationLevel
 
     /**
      * @ORM\ManyToOne(targetEntity=Germplasm::class, inversedBy="observationLevels")
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $germaplasm;
 
     /**
      * @ORM\ManyToOne(targetEntity=Study::class, inversedBy="observationLevels")
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read",
+     * "metabolite:read"})
      */
     private $study;
 
     /**
      * @ORM\OneToMany(targetEntity=Sample::class, mappedBy="observationLevel")
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $samples;
 
     /**
      * @ORM\OneToMany(targetEntity=ObservationValue::class, mappedBy="observationLevel")
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $observationValues;
 

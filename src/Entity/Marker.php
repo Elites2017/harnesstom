@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=MarkerRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"marker:read"}},
+ *      denormalizationContext={"groups"={"marker:write"}}
+ * )
  */
 class Marker
 {
@@ -20,66 +23,79 @@ class Marker
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $linkageGroupName;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $position;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $start;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $end;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $refAllele;
 
     /**
      * @ORM\Column(type="array", nullable=true)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $altAllele = [];
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $primerName1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $primerSeq1;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $primerName2;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $primerSeq2;
 
@@ -95,6 +111,7 @@ class Marker
 
     /**
      * @ORM\ManyToOne(targetEntity=GenotypingPlatform::class, inversedBy="markers")
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $genotypingPlatform;
 
@@ -105,16 +122,19 @@ class Marker
 
     /**
      * @ORM\OneToMany(targetEntity=GWASVariant::class, mappedBy="marker")
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $gWASVariants;
 
     /**
      * @ORM\OneToMany(targetEntity=VariantSet::class, mappedBy="marker")
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $variantSets;
 
     /**
      * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="closestMarker")
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $qTLVariants;
 

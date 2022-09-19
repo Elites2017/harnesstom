@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=MetabolicTraitRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"metabolic_trait:read"}},
+ *      denormalizationContext={"groups"={"metabolic_trait:write"}}
+ * )
  */
 class MetabolicTrait
 {
@@ -20,11 +23,15 @@ class MetabolicTrait
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $name;
 
@@ -35,16 +42,22 @@ class MetabolicTrait
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $chebiMonoIsoTopicMass;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $chebiMass;
 
@@ -55,11 +68,15 @@ class MetabolicTrait
 
     /**
      * @ORM\Column(type="array", nullable=true)
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $synonym = [];
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $chebiLink;
 
@@ -80,11 +97,15 @@ class MetabolicTrait
 
     /**
      * @ORM\OneToMany(targetEntity=Metabolite::class, mappedBy="metabolicTrait")
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"
+     * })
      */
     private $metabolites;
 
     /**
      * @ORM\OneToMany(targetEntity=AttributeTraitValue::class, mappedBy="metabolicTrait")
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $attributeTraitValues;
 

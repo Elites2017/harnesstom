@@ -23,37 +23,37 @@ class Location
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"location:read", "country:read", "contact:read"})
+     * @Groups({"location:read", "country:read", "contact:read", "study:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"location:read", "country:read", "contact:read"})
+     * @Groups({"location:read", "country:read", "contact:read", "study:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
-     * @Groups({"location:read", "country:read", "contact:read"})
+     * @Groups({"location:read", "country:read", "contact:read", "study:read"})
      */
     private $longitudeCo;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
-     * @Groups({"location:read", "country:read", "contact:read"})
+     * @Groups({"location:read", "country:read", "contact:read", "study:read"})
      */
     private $latitudeCo;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
-     * @Groups({"location:read", "country:read", "contact:read"})
+     * @Groups({"location:read", "country:read", "contact:read", "study:read"})
      */
     private $altitudeCo;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"location:read", "country:read", "contact:read"})
+     * @Groups({"location:read", "country:read", "contact:read", "study:read"})
      */
     private $siteStatus;
 

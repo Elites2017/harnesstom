@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=ObservationVariableMethodRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"observation_v_m:read"}},
+ *      denormalizationContext={"groups"={"observation_v_m:write"}}
+ * )
  */
 class ObservationVariableMethod
 {
@@ -20,31 +23,43 @@ class ObservationVariableMethod
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
      */
     private $instrument;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
      */
     private $software;
 
     /**
      * @ORM\Column(type="array", nullable=true)
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
      */
     private $publicationReference = [];
 
@@ -65,16 +80,22 @@ class ObservationVariableMethod
 
     /**
      * @ORM\ManyToOne(targetEntity=MethodClass::class, inversedBy="observationVariableMethods")
+     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
      */
     private $methodClass;
 
     /**
      * @ORM\OneToMany(targetEntity=ObservationVariable::class, mappedBy="observationVariableMethod")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_v_m:read"})
      */
     private $observationVariables;
 
     /**
      * @ORM\OneToMany(targetEntity=Analyte::class, mappedBy="observationVariableMethod")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
      */
     private $analytes;
 

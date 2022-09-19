@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=MLSStatusRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"mls_status:read"}},
+ *      denormalizationContext={"groups"={"mls_status:write"}}
+ * )
  */
 class MLSStatus
 {
@@ -20,16 +23,22 @@ class MLSStatus
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $code;
 
@@ -50,6 +59,8 @@ class MLSStatus
 
     /**
      * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="mlsStatus")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $accessions;
 

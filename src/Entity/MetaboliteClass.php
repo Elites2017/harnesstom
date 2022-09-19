@@ -10,7 +10,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=MetaboliteClassRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"metabolite_class:read"}},
+ *      denormalizationContext={"groups"={"metabolite_class:write"}}
+ * )
  */
 class MetaboliteClass
 {
@@ -18,11 +21,15 @@ class MetaboliteClass
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"metabolite_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"metabolite_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $name;
 

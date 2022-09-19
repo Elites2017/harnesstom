@@ -23,46 +23,46 @@ class Study
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      * @SerializedName("studyDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      * @SerializedName("studyName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $abbreviation;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      * @SerializedName("studyDescription")
      */
     private $description;
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $startDate;
 
     /**
      * @ORM\Column(type="date", nullable=true)
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $endDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $culturalPractice;
 
@@ -78,56 +78,56 @@ class Study
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      * @SerializedName("studyDbId")
      */
     private $lastUpdated;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trial::class, inversedBy="studies")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $trial;
 
     /**
      * @ORM\ManyToOne(targetEntity=FactorType::class, inversedBy="studies")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $factor;
 
     /**
      * @ORM\ManyToOne(targetEntity=Season::class, inversedBy="studies")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $season;
 
     /**
      * @ORM\ManyToOne(targetEntity=Institute::class, inversedBy="studies")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $institute;
 
     /**
      * @ORM\ManyToOne(targetEntity=Location::class, inversedBy="studies")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "parameter:read"})
      */
     private $location;
 
     /**
      * @ORM\ManyToOne(targetEntity=GrowthFacilityType::class, inversedBy="studies")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $growthFacility;
 
     /**
      * @ORM\ManyToOne(targetEntity=Parameter::class, inversedBy="studies")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read"})
      */
     private $parameter;
 
     /**
      * @ORM\ManyToOne(targetEntity=ExperimentalDesignType::class, inversedBy="studies")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $experimentalDesignType;
 
@@ -138,55 +138,55 @@ class Study
 
     /**
      * @ORM\ManyToMany(targetEntity=Germplasm::class, mappedBy="study")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $germplasms;
 
     /**
      * @ORM\OneToOne(targetEntity=StudyParameterValue::class, mappedBy="study", cascade={"persist", "remove"})
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $studyParameterValue;
 
     /**
      * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="study")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $crosses;
 
     /**
      * @ORM\OneToMany(targetEntity=StudyImage::class, mappedBy="study")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $studyImages;
 
     /**
      * @ORM\OneToMany(targetEntity=ObservationLevel::class, mappedBy="study")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $observationLevels;
 
     /**
      * @ORM\OneToMany(targetEntity=Sample::class, mappedBy="study")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $samples;
 
     /**
      * @ORM\ManyToMany(targetEntity=GWAS::class, mappedBy="studyList")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $gwas;
 
     /**
      * @ORM\OneToMany(targetEntity=GermplasmStudyImage::class, mappedBy="StudyID")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $germplasmStudyImages;
 
     /**
      * @ORM\ManyToMany(targetEntity=QTLStudy::class, mappedBy="studyList")
-     * @Groups({"study:read"})
+     * @Groups({"study:read", "location:read", "parameter:read"})
      */
     private $qTLStudies;
 

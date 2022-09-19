@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=KinshipAlgorithmRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"kinship_lagorithm:read"}},
+ *      denormalizationContext={"groups"={"kinship_lagorithm:write"}}
+ * )
  */
 class KinshipAlgorithm
 {
@@ -20,11 +23,13 @@ class KinshipAlgorithm
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"kinship_lagorithm:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"kinship_lagorithm:read"})
      */
     private $name;
 

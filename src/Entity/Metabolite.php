@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=MetaboliteRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"metabolite:read"}},
+ *      denormalizationContext={"groups"={"metabolite:write"}}
+ * )
  */
 class Metabolite
 {
@@ -20,21 +23,29 @@ class Metabolite
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Analyte::class, inversedBy="metabolites")
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $analyte;
 
     /**
      * @ORM\ManyToOne(targetEntity=MetabolicTrait::class, inversedBy="metabolites")
+     * @Groups({"metabolite:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"
+     * })
      */
     private $metabolicTrait;
 
     /**
      * @ORM\ManyToOne(targetEntity=Scale::class, inversedBy="metabolites")
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $scale;
 
@@ -55,16 +66,22 @@ class Metabolite
 
     /**
      * @ORM\OneToMany(targetEntity=GWASVariant::class, mappedBy="metabolite")
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $gWASVariants;
 
     /**
      * @ORM\OneToMany(targetEntity=MetaboliteValue::class, mappedBy="metabolite")
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $metaboliteValues;
 
     /**
      * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="metabolite")
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
      */
     private $qTLVariants;
 

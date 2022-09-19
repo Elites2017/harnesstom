@@ -10,7 +10,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=ObservationValueRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"observation_value:read"}},
+ *      denormalizationContext={"groups"={"observation_value:write"}}
+ * )
  */
 class ObservationValue
 {
@@ -18,11 +21,15 @@ class ObservationValue
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read"})
      */
     private $value;
 
@@ -38,11 +45,15 @@ class ObservationValue
 
     /**
      * @ORM\ManyToOne(targetEntity=ObservationLevel::class, inversedBy="observationValues")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read"})
      */
     private $observationLevel;
 
     /**
      * @ORM\ManyToOne(targetEntity=ObservationVariable::class, inversedBy="observationValues")
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_value:read"})
      */
     private $observationVariable;
 

@@ -10,7 +10,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=GermplasmStudyImageRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"study_image:read"}},
+ *      denormalizationContext={"groups"={"study_image:write"}}
+ * )
  */
 class GermplasmStudyImage
 {
@@ -18,16 +21,19 @@ class GermplasmStudyImage
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"study_image:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"study_image:read"})
      */
     private $filename;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"study_image:read"})
      */
     private $description;
 
