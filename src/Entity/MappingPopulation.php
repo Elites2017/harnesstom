@@ -23,13 +23,13 @@ class MappingPopulation
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"mapping_population:read", "country:read", "contact:read", "study:read"})
+     * @Groups({"mapping_population:read", "study:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"mapping_population:read", "country:read", "contact:read", "study:read"})
+     * @Groups({"mapping_population:read", "study:read"})
      */
     private $name;
 
@@ -45,19 +45,19 @@ class MappingPopulation
 
     /**
      * @ORM\ManyToOne(targetEntity=Cross::class, inversedBy="mappingPopulations")
-     * @Groups({"mapping_population:read", "country:read", "contact:read", "study:read"})
+     * @Groups({"mapping_population:read", "study:read"})
      */
     private $mappingPopulationCross;
 
     /**
      * @ORM\ManyToOne(targetEntity=Pedigree::class, inversedBy="mappingPopulations")
-     * @Groups({"mapping_population:read", "country:read", "contact:read", "study:read"})
+     * @Groups({"study:read"})
      */
     private $pedigreeGeneration;
 
     /**
      * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="mappingPopulation")
-     * @Groups({"mapping_population:read", "country:read", "contact:read", "study:read"})
+     * @Groups({"mapping_population:read", "study:read"})
      */
     private $qTLStudies;
 

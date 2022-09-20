@@ -23,29 +23,23 @@ class Parameter
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read"})
      */
     private $name;
 
     /**
      * @ORM\ManyToOne(targetEntity=FactorType::class, inversedBy="parameters")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read"})
+     * @Groups({"parameter:read", "study:read"})
      */
     private $factorType;
 
     /**
      * @ORM\ManyToOne(targetEntity=Unit::class, inversedBy="parameters")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read"})
+     * @Groups({"parameter:read", "study:read"})
      */
     private $unit;
 
@@ -66,15 +60,13 @@ class Parameter
 
     /**
      * @ORM\OneToMany(targetEntity=Study::class, mappedBy="parameter")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read"})
+     * @Groups({"contact:read"})
      */
     private $studies;
 
     /**
      * @ORM\OneToMany(targetEntity=StudyParameterValue::class, mappedBy="parameter")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read"})
+     * @Groups({"contact:read", "study:read"})
      */
     private $studyParameterValues;
 

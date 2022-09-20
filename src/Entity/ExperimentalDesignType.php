@@ -23,23 +23,25 @@ class ExperimentalDesignType
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"experimental_d_t:read"})
+     * @Groups({"experimental_d_t:read", "study:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"experimental_d_t:read"})
+     * @Groups({"experimental_d_t:read", "study:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"experimental_d_t:read", "study:read"})
      */
     private $ontology_id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"experimental_d_t:read", "study:read"})
      */
     private $parentTerm;
 

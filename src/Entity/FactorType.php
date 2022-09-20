@@ -23,29 +23,34 @@ class FactorType
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"factor_type:read"})
+     * @Groups({"factor_type:read", "study:read"})
+     * @SerializedName("parameterrDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * * @Groups({"factor_type:read", "study:read"})
      */
     private $ontology_id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"factor_type:read"})
+     * @Groups({"factor_type:read", "study:read"})
+     * @SerializedName("parameterName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * * @Groups({"factor_type:read", "study:read"})
      */
     private $parentTerm;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"factor_type:read"})
+     * @Groups({"factor_type:read", "study:read"})
+     * @SerializedName("description")
      */
     private $description;
 

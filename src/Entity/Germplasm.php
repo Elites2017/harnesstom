@@ -23,22 +23,19 @@ class Germplasm
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $germplasmID;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $preprocessing;
 
@@ -54,30 +51,26 @@ class Germplasm
 
     /**
      * @ORM\ManyToOne(targetEntity=Program::class, inversedBy="germplasms")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $program;
 
     /**
      * @ORM\ManyToOne(targetEntity=Accession::class, inversedBy="germplasms")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $accession;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $instcode;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $maintainerNumb;
 
@@ -88,50 +81,43 @@ class Germplasm
 
     /**
      * @ORM\ManyToMany(targetEntity=Study::class, inversedBy="germplasms")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "accession",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"germplasm:read"})
      */
     private $study;
 
     /**
      * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="parent1")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $crosses;
 
     /**
      * @ORM\OneToMany(targetEntity=ObservationLevel::class, mappedBy="germaplasm")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $observationLevels;
 
     /**
      * @ORM\OneToMany(targetEntity=Sample::class, mappedBy="germplasm")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $samples;
 
     /**
      * @ORM\ManyToMany(targetEntity=Pedigree::class, mappedBy="germplasm")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "accession"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $pedigrees;
 
     /**
      * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="positiveAlleleParent")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"study:read", "germplasm:read"})
      */
     private $qTLVariants;
 
     /**
      * @ORM\OneToMany(targetEntity=GermplasmStudyImage::class, mappedBy="GermplasmID")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read"})
+     * @Groups({"germplasm:read"})
      */
     private $germplasmStudyImages;
 

@@ -59,7 +59,7 @@ class MethodClass
 
     /**
      * @ORM\OneToMany(targetEntity=ObservationVariableMethod::class, mappedBy="methodClass")
-     * @Groups({"method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read"})
      */
     private $observationVariableMethods;

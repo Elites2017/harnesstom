@@ -23,29 +23,33 @@ class GrowthFacilityType
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"growth_f_t:read"})
+     * @Groups({"growth_f_t:read", "study:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"growth_f_t:read", "study:read"})
      */
     private $ontology_id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"growth_f_t:read"})
+     * @Groups({"growth_f_t:read", "study:read"})
+     * @SerializedName("description")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"growth_f_t:read"})
+     * @Groups({"growth_f_t:read", "study:read"})
+     * @SerializedName("growthfacilityDescription")
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"growth_f_t:read", "study:read"})
      */
     private $parentTerm;
 

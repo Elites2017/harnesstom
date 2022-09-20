@@ -23,14 +23,14 @@ class Trial
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"trial:read"})
+     * @Groups({"trial:read", "study:read"})
      * @SerializedName("trialDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"trial:read"})
+     * @Groups({"trial:read", "study:read"})
      * @SerializedName("trialName")
      */
     private $name;
@@ -44,7 +44,7 @@ class Trial
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"trial:read"})
+     * @Groups({"trial:read"})s
      */
     private $abbreviation;
 

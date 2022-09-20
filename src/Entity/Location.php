@@ -24,12 +24,14 @@ class Location
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"location:read", "country:read", "contact:read", "study:read"})
+     * @SerializedName("locationDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"location:read", "country:read", "contact:read", "study:read"})
+     * @SerializedName("locationName")
      */
     private $name;
 
@@ -74,7 +76,7 @@ class Location
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="locations")
-     * @Groups({"location:read"})
+     * @Groups({"location:read", "study:read"})
      */
     private $country;
 

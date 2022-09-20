@@ -73,8 +73,8 @@ class Metabolite
 
     /**
      * @ORM\OneToMany(targetEntity=MetaboliteValue::class, mappedBy="metabolite")
-     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read"})
+     * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"
+     * })
      */
     private $metaboliteValues;
 

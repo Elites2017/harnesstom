@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=SoftwareRepository::class)
- * @ApiResource
+ * @ApiResource(attributes={
+ *  "normalizationContext"={"groups"={"software:read"}, "enable_max_depth"=true},
+ *  "denormalizationContext"={"groups"={"software:write"}}
+ * })
  */
 class Software
 {

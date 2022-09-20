@@ -10,7 +10,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=StudyParameterValueRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"study_p_v:read"}},
+ *      denormalizationContext={"groups"={"study_p_v:write"}}
+ * )
  */
 class StudyParameterValue
 {
@@ -18,6 +21,7 @@ class StudyParameterValue
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"study_p_v:read", "study:read"})
      */
     private $id;
 
@@ -35,6 +39,7 @@ class StudyParameterValue
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"study_p_v:read", "study:read"})
      */
     private $value;
 

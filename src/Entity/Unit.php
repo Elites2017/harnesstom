@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=UnitRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"unit:read"}},
+ *      denormalizationContext={"groups"={"unit:write"}}
+ * )
  */
 class Unit
 {
@@ -20,26 +23,34 @@ class Unit
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"unit:read", "study:read"})
+     * @SerializedName("unitDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"unit:read", "study:read"})
+     * @SerializedName("unitName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"unit:read", "study:read"})
      */
     private $ontology_id;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"unit:read", "study:read"})
+     * @SerializedName("unitDescription")
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"unit:read", "study:read"})
      */
     private $parentTerm;
 
