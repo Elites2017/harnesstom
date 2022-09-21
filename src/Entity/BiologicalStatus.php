@@ -23,19 +23,19 @@ class BiologicalStatus
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"biological_status:read"})
+     * @Groups({"biological_status:read", "accession:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"biological_status:read"})
+     * @Groups({"biological_status:read", "accession:read"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"biological_status:read"})
+     * @Groups({"biological_status:read", "accession:read"})
      */
     private $code;
 

@@ -30,24 +30,28 @@ class Accession
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"accession:read", "program:read"})
+     * @SerializedName("accessionNumber")
      */
     private $accenumb;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"accession:read", "program:read"})
+     * @SerializedName("germplasmName")
      */
     private $accename;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"accession:read", "program:read"})
+     * @SerializedName("germplasmPUI")
      */
     private $puid;
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="accessions")
      * @Groups({"accession:read", "program:read"})
+     * @SerializedName("countryOfOriginCode")
      */
     private $origcty;
 
@@ -71,51 +75,68 @@ class Accession
 
     /**
      * @ORM\ManyToOne(targetEntity=CollectingSource::class, inversedBy="accessions")
+     * @Groups({"accession:read", "program:read"})
+     * @SerializedName("acquisitionSourceCode")
      */
     private $collsrc;
 
     /**
      * @ORM\ManyToOne(targetEntity=BiologicalStatus::class, inversedBy="accessions")
+     * @Groups({"accession:read", "program:read"})
+     * @SerializedName("biologicalStatusOfAccessionCode")
      */
     private $sampstat;
 
     /**
      * @ORM\ManyToOne(targetEntity=Taxonomy::class, inversedBy="accessions")
+     * @Groups({"accession:read", "program:read"})
+     * @SerializedName("taxonIds")
      */
     private $taxon;
 
     /**
      * @ORM\ManyToOne(targetEntity=Institute::class, inversedBy="accessions")
+     * @Groups({"accession:read", "program:read"})
+     * @SerializedName("instituteCode")
      */
     private $instcode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"accession:read", "program:read"})
      */
     private $maintainernumb;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"accession:read", "program:read"})
+     * @SerializedName("acquisitionDate")
      */
     private $acqdate;
 
     /**
      * @ORM\ManyToOne(targetEntity=StorageType::class, inversedBy="accessions")
+     * @Groups({"accession:read", "program:read"})
+     * @SerializedName("storageType")
      */
     private $storage;
 
     /**
      * @ORM\ManyToOne(targetEntity=Institute::class, inversedBy="accessions")
+     * @Groups({"accession:read", "program:read"})
+     * @SerializedName("donorInstituteCode")
      */
     private $donorcode;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"accession:read", "program:read"})
      */
     private $donornumb;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"accession:read", "program:read"})
      */
     private $collnumb;
 
@@ -126,36 +147,44 @@ class Accession
 
     /**
      * @ORM\ManyToOne(targetEntity=CollectingMission::class, inversedBy="accessions")
+     * @Groups({"accession:read", "program:read"})
      */
     private $collmissid;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups({"accession:read", "program:read"})
      */
     private $colldate;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
+     * @Groups({"accession:read", "program:read"})
      */
     private $declatitude;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
+     * @Groups({"accession:read", "program:read"})
      */
     private $declongitude;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=6, nullable=true)
+     * @Groups({"accession:read", "program:read"})
      */
     private $elevation;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"accession:read", "program:read"})
      */
     private $collsite;
 
     /**
      * @ORM\ManyToOne(targetEntity=Institute::class, inversedBy="accessions")
+     * @Groups({"accession:read", "program:read"})
+     * @SerializedName("breedingInstitute")
      */
     private $bredcode;
 
@@ -176,21 +205,25 @@ class Accession
 
     /**
      * @ORM\OneToMany(targetEntity=Synonym::class, mappedBy="accession")
+     * @Groups({"accession:read", "program:read"})
      */
     private $synonyms;
 
     /**
      * @ORM\OneToMany(targetEntity=AttributeTraitValue::class, mappedBy="accession")
+     * @Groups({"accession:read", "program:read"})
      */
     private $attributeTraitValues;
 
     /**
      * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="accession")
+     * @Groups({"accession:read", "program:read"})
      */
     private $germplasms;
 
     /**
      * @ORM\ManyToOne(targetEntity=MLSStatus::class, inversedBy="accessions")
+     * @Groups({"accession:read", "program:read"})
      */
     private $mlsStatus;
 
@@ -666,5 +699,40 @@ class Accession
         $this->breedingInfo = $breedingInfo;
 
         return $this;
+    }
+
+    // FOR THE API
+    // <- MAGIC IS HERE, you can set a group on a method.
+    /**
+     * @Groups({"accession:read", "program:read"})
+     */
+    public function getDonnors(): string
+    {
+        return $this->donornumb .". This should be an array with donnorInstituteCode, donnorAccessionNumber ";
+    }
+
+    /**
+     * @Groups({"accession:read", "program:read"})
+     */
+    public function getCollectingInfo(): ?string
+    {
+        return $this->collnumb .". This should be an array with collNumber, collInstitute, collectingMission, date, institute and site(alt, long, ele) ". $this->collnumb;
+    }
+
+    /**
+     * @Groups({"accession:read", "program:read"})
+     */
+    public function getPedigree(): ?string
+    {
+        return $this->breedingInfo;
+    }
+
+    /**
+     * @Groups({"accession:read", "program:read"})
+     * @return Collection<string>
+     */
+    public function getSthg(): Collection
+    {
+        return $this->synonyms;
     }
 }

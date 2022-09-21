@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=StorageTypeRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"storage_type:read"}},
+ *      denormalizationContext={"groups"={"synonym:write"}}
+ * )
  */
 class StorageType
 {
@@ -20,21 +23,26 @@ class StorageType
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"storage_type:read", "accession:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"storage_type:read", "accession:read"})
+     * @SerializedName("description")
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"storage_type:read", "accession:read"})
      */
     private $code;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"storage_type:read", "accession:read"})
      */
     private $parentTerm;
 
@@ -55,6 +63,7 @@ class StorageType
 
     /**
      * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="storage")
+     * @Groups({"storage_type:read"})
      */
     private $accessions;
 

@@ -10,7 +10,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=SynonymRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"synonym:read"}},
+ *      denormalizationContext={"groups"={"synonym:write"}}
+ * )
  */
 class Synonym
 {
@@ -18,21 +21,25 @@ class Synonym
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"synonym:read", "accession:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"synonym:read", "accession:read"})
      */
     private $tgrc;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"synonym:read", "accession:read"})
      */
     private $usda;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"synonym:read", "accession:read"})
      */
     private $comav;
 

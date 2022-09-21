@@ -23,19 +23,20 @@ class Germplasm
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"study:read", "germplasm:read"})
+     * @Groups({"study:read", "germplasm:read", "accession:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"study:read", "germplasm:read"})
+     * @Groups({"study:read", "germplasm:read", "accession:read"})
+     * @SerializedName("germplasmDbId")
      */
     private $germplasmID;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"study:read", "germplasm:read"})
+     * @Groups({"study:read", "germplasm:read", "accession:read"})
      */
     private $preprocessing;
 
@@ -51,7 +52,7 @@ class Germplasm
 
     /**
      * @ORM\ManyToOne(targetEntity=Program::class, inversedBy="germplasms")
-     * @Groups({"study:read", "germplasm:read"})
+     * @Groups({"study:read", "germplasm:read", "accession:read"})
      */
     private $program;
 
@@ -64,13 +65,13 @@ class Germplasm
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"study:read", "germplasm:read"})
+     * @Groups({"study:read", "germplasm:read", "accession:read"})
      */
     private $instcode;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"study:read", "germplasm:read"})
+     * @Groups({"study:read", "germplasm:read", "accession:read"})
      */
     private $maintainerNumb;
 
@@ -81,7 +82,7 @@ class Germplasm
 
     /**
      * @ORM\ManyToMany(targetEntity=Study::class, inversedBy="germplasms")
-     * @Groups({"germplasm:read"})
+     * @Groups({"germplasm:read", "accession:read"})
      */
     private $study;
 

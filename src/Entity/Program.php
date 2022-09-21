@@ -23,27 +23,31 @@ class Program
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"program:read", "contact:read", "trial:read", "crop:read", "study:read"})
+     * @Groups({"program:read", "contact:read", "trial:read", "crop:read", "study:read",
+     * "accession:read"})
      * @SerializedName("programDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"program:read", "contact:read", "trial:read", "crop:read", "study:read"})
+     * @Groups({"program:read", "contact:read", "trial:read", "crop:read", "study:read",
+     * "accession:read"})
      * @SerializedName("programName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"program:read", "contact:read", "crop:read", "study:read"})
+     * @Groups({"program:read", "contact:read", "crop:read", "study:read",
+     * "accession:read"})
      */
     private $abbreviation;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"program:read", "contact:read", "crop:read", "study:read"})
+     * @Groups({"program:read", "contact:read", "crop:read", "study:read",
+     * "accession:read"})
      */
     private $objective;
 

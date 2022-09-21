@@ -23,22 +23,19 @@ class MLSStatus
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read"})
+     * @Groups({"mls_status:read", "accession:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read"})
+     * @Groups({"mls_status:read", "accession:read"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read"})
+     * @Groups({"mls_status:read", "accession:read"})
      */
     private $code;
 
@@ -59,8 +56,7 @@ class MLSStatus
 
     /**
      * @ORM\OneToMany(targetEntity=Accession::class, mappedBy="mlsStatus")
-     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read"})
+     * @Groups({"mls_status:read"})
      */
     private $accessions;
 

@@ -24,21 +24,21 @@ class Country
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"country:read", "location:read", "contact:read", "program:read",
-     * "institute:read", "crop:read", "study:read"})
+     * "institute:read", "crop:read", "study:read", "accession:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"country:read", "location:read", "contact:read", "program:read",
-     * "institute:read", "crop:read", "study:read"})
+     * "institute:read", "crop:read", "study:read", "accession:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=3)
      * @Groups({"country:read", "location:read", "contact:read", "program:read",
-     * "institute:read", "crop:read", "study:read"})
+     * "institute:read", "crop:read", "study:read", "accession:read"})
      */
     private $iso3;
 

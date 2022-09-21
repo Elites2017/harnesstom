@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=TaxonomyRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"study:read"}},
+ *      denormalizationContext={"groups"={"study:write"}}
+ * )
  */
 class Taxonomy
 {
@@ -20,26 +23,31 @@ class Taxonomy
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"taxonomy:read", "accession:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"taxonomy:read", "accession:read"})
      */
     private $taxonid;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"taxonomy:read", "accession:read"})
      */
     private $genus;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"taxonomy:read", "accession:read"})
      */
     private $species;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"taxonomy:read", "accession:read"})
      */
     private $subtaxa;
 

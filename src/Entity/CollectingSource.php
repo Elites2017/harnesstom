@@ -23,19 +23,19 @@ class CollectingSource
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"collecting_source:read"})
+     * @Groups({"collecting_source:read", "accession:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"collecting_source:read"})
+     * @Groups({"collecting_source:read", "accession:read"})
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"collecting_source:read"})
+     * @Groups({"collecting_source:read", "accession:read"})
      */
     private $code;
 

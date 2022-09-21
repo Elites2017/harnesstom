@@ -24,7 +24,7 @@ class Institute
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"institute:read", "contact:read", "program:read", "country:read",
-     * "crop:read", "study:read"})
+     * "crop:read", "study:read", "accession:read"})
      * @SerializedName("instituteDbId")
      */
     private $id;
@@ -32,21 +32,22 @@ class Institute
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"institute:read", "contact:read", "program:read", "country:read",
-     * "crop:read", "study:read"})
+     * "crop:read", "study:read", "accession:read"})
+     * @SerializedName("instituteCode")
      */
     private $instcode;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"institute:read", "contact:read", "program:read", "country:read",
-     * "crop:read", "study:read"})
+     * "crop:read", "study:read", "accession:read"})
      */
     private $acronym;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"institute:read", "contact:read", "program:read", "country:read",
-     * "crop:read", "study:read"})
+     * "crop:read", "study:read", "accession:read"})
      * @SerializedName("instituteName")
      */
     private $name;
@@ -54,28 +55,28 @@ class Institute
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"institute:read", "contact:read", "program:read", "country:read",
-     * "crop:read", "study:read"})
+     * "crop:read", "study:read", "accession:read"})
      */
     private $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"institute:read", "contact:read", "program:read", "country:read",
-     * "crop:read", "study:read"})
+     * "crop:read", "study:read", "accession:read"})
      */
     private $postalCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"institute:read", "contact:read", "program:read", "country:read",
-     * "crop:read", "study:read"})
+     * "crop:read", "study:read", "accession:read"})
      */
     private $city;
 
     /**
      * @ORM\ManyToOne(targetEntity=Country::class, inversedBy="institutes")
      * @Groups({"institute:read", "contact:read", "program:read",
-     * "crop:read", "study:read"})
+     * "crop:read", "study:read", "accession:read"})
      */
     private $country;
 
@@ -96,13 +97,13 @@ class Institute
 
     /**
      * @ORM\OneToMany(targetEntity=Contact::class, mappedBy="institute")
-     * @Groups({"institute:read", "study:read"})
+     * @Groups({"institute:read", "study:read", "accession:read"})
      */
     private $contacts;
 
     /**
      * @ORM\OneToMany(targetEntity=CollectingMission::class, mappedBy="institute")
-     * @Groups({"institute:read", "contact:read", "program:read", "study:read"})
+     * @Groups({"institute:read", "contact:read", "program:read", "study:read", "accession:read"})
      */
     private $collectingMissions;
 
@@ -120,7 +121,7 @@ class Institute
 
     /**
      * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="institute")
-     * @Groups({"institute:read", "contact:read", "program:read", "study:read"})
+     * @Groups({"institute:read", "contact:read", "program:read", "study:read", "accession:read"})
      */
     private $crosses;
 
