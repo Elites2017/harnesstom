@@ -124,10 +124,19 @@ class Trial
      */
     private $studies;
 
+    // API SECTION - Variables
+    private $contacts;
+    private $datasetAuthorships;
+    private $publications;
+
     public function __construct()
     {
         $this->sharedWiths = new ArrayCollection();
         $this->studies = new ArrayCollection();
+        // API SECTION
+        $this->contacts = new ArrayCollection();
+        $this->datasetAuthorships = new ArrayCollection();
+        $this->publications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -368,5 +377,71 @@ class Trial
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    // API SECTION
+    /**
+     * @Groups({"trial:read"})
+     */
+    public function getProgramName(){
+        return $this->program->getName();
+    }
+
+    /**
+     * @Groups({"trial:read"})
+     */
+    public function getCommonCropName(){
+        return $this->program->getCommonCropName();
+    }
+
+    /**
+     * @Groups({"trial:read"})
+     */
+    public function getProgramDbId(){
+        return $this->program->getId();
+    }
+
+    /**
+     * @Groups({"trial:read"})
+     * @return Collection<collection>
+     */
+    public function getContacts(): Array
+    {
+        $this->contacts = [
+            "contactDbId" => $this->program->getContact()->getOrcid(),
+            "email" => $this->program->getContact()->getPerson()->getEmailAddress(),
+            "instituteName" => $this->program->getContact()->getInstitute()->getName(),
+            "name" => $this->program->getContact()->getPerson()->getFirstName() ." ". $this->program->getContact()->getPerson()->getMiddleName() ." ".$this->program->getContact()->getPerson()->getLastName(),
+            "orcid" => $this->program->getContact()->getOrcid(),
+            "type" => $this->program->getContact()->getType()
+        ];
+        return $this->contacts;
+    }
+
+    /**
+     * @Groups({"trial:read"})
+     * @return Collection<collection>
+     */
+    public function getDatasetAuthorships(): Array
+    {
+        $this->datasetAuthorships = [
+            "datasetPUI" => "...",
+            "license" => $this->license,
+            "publicReleaseDate" => $this->publicReleaseDate,
+        ];
+        return $this->datasetAuthorships;
+    }
+
+    /**
+     * @Groups({"trial:read"})
+     * @return Collection<collection>
+     */
+    public function getPublications(): Array
+    {
+        $this->publications = [
+            "publicationPUI" => "...",
+            "publicationReference" => "...",
+        ];
+        return $this->publications;
     }
 }
