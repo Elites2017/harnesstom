@@ -69,7 +69,7 @@ class Contact
 
     /**
      * @ORM\OneToMany(targetEntity=Program::class, mappedBy="contact")
-     * @Groups({"contact:read", "study:read"})
+     * @Groups({"contact:read"})
      */
     private $programs;
 
@@ -216,7 +216,7 @@ class Contact
      * @Groups({"contact:read"})
      */
     public function getEmail(){
-        return $this->person->getUser()->getEmail();
+        return $this->person->getUser()->getEmail() ." ".  $this->person->getMiddleName() ." ". $this->person->getLastName();
     }
 
     /**

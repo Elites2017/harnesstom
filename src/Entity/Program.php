@@ -23,37 +23,33 @@ class Program
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"program:read", "contact:read", "trial:read", "crop:read", "study:read",
-     * "accession:read"})
+     * @Groups({"program:read"})
      * @SerializedName("programDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"program:read", "contact:read", "trial:read", "crop:read", "study:read",
-     * "accession:read"})
+     * @Groups({"program:read"})
      * @SerializedName("programName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"program:read", "contact:read", "crop:read", "study:read",
-     * "accession:read"})
+     * @Groups({"program:read"})
      */
     private $abbreviation;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"program:read", "contact:read", "crop:read", "study:read",
-     * "accession:read"})
+     * @Groups({"program:read"})
      */
     private $objective;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"program:read", "contact:read", "crop:read", "study:read"})
+     * @Groups({"program:read"})
      * @SerializedName("documentationURL")
      */
     private $externalRef;
@@ -70,13 +66,12 @@ class Program
 
     /**
      * @ORM\ManyToOne(targetEntity=Crop::class, inversedBy="programs")
-     * @Groups({"program:read", "contact:read"})
+     * @Groups({"program:read"})
      */
     private $crop;
 
     /**
      * @ORM\ManyToOne(targetEntity=Contact::class, inversedBy="programs")
-     * @Groups({"program:read", "crop:read"})
      */
     private $contact;
 
@@ -87,13 +82,13 @@ class Program
 
     /**
      * @ORM\OneToMany(targetEntity=Trial::class, mappedBy="program")
-     * @Groups({"program:read", "crop:read", "study:read"})
+     * @Groups({"program:read"})
      */
     private $trials;
 
     /**
      * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="program")
-     * @Groups({"program:read", "crop:read"})
+     * @Groups({"program:read"})
      */
     private $germplasms;
 
@@ -281,5 +276,27 @@ class Program
     public function __toString()
     {
         return (string) $this->name ." ". $this->abbreviation;
+    }
+
+    // API SECTION
+    /**
+     * @Groups({"program:read"})
+     */
+    public function getLeadPersonName(){
+        return $this->contact->getPerson()->getFirstName() ." ". $this->contact->getPerson()->getMiddleName() ." ".$this->contact->getPerson()->getLastName();
+    }
+
+    /**
+     * @Groups({"program:read"})
+     */
+    public function getLeadPersonDbId(){
+        return $this->contact->getOrcid();
+    }
+
+    /**
+     * @Groups({"program:read"})
+     */
+    public function getCommonCropName(){
+        return $this->crop->getCommonCropName();
     }
 }
