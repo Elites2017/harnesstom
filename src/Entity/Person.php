@@ -293,4 +293,26 @@ class Person
     {
         return (string) $this->user->getUserIdentifier();
     }
+
+    // API SECTION
+    /**
+     * @Groups({"country:read", "person:read", "institute:read"})
+     */
+    public function getMailingAddress(){
+        return $this->streetNumber ." ".  $this->postalCode ." ". $this->city ." ". $this->country;
+    }
+
+    /**
+     * @Groups({"person:read"})
+     */
+    public function getUserID(){
+        return $this->user->getId();
+    }
+
+    /**
+     * @Groups({"person:read"})
+     */
+    public function getEmailAddress(){
+        return $this->user->getEmail();
+    }
 }
