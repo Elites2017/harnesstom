@@ -31,7 +31,6 @@ class Contact
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"contact:read", "program:read", "institute:read", "crop:read", "study:read"})
-     * @SerializedName("leadPersonDbId")
      */
     private $orcid;
 
@@ -203,5 +202,27 @@ class Contact
     public function __toString()
     {
         return (string) $this->orcid;
+    }
+
+    // API SECTION
+    /**
+     * @Groups({"contact:read"})
+     */
+    public function getName(){
+        return $this->person->getFirstName() ." ".  $this->person->getMiddleName() ." ". $this->person->getLastName();
+    }
+
+    /**
+     * @Groups({"contact:read"})
+     */
+    public function getEmail(){
+        return $this->person->getUser()->getEmail();
+    }
+
+    /**
+     * @Groups({"contact:read"})
+     */
+    public function getInstituteName(){
+        return $this->institute->getName();
     }
 }
