@@ -232,11 +232,18 @@ class Accession
      */
     private $breedingInfo;
 
+    // API variables
+    private $donnors;
+    private $collectingInfo;
+
     public function __construct()
     {
         $this->synonyms = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
         $this->germplasms = new ArrayCollection();
+        // API variables
+        $this->donnors = new ArrayCollection();
+        $this->collectingInfo = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -703,20 +710,46 @@ class Accession
 
     // FOR THE API
     // <- MAGIC IS HERE, you can set a group on a method.
+    // /**
+    //  * @Groups({"accession:read", "program:read"})
+    //  */
+    // public function getDonnors(): string
+    // {
+    //     return $this->donornumb .". This should be an array with donnorInstituteCode, donnorAccessionNumber ";
+    // }
+
     /**
      * @Groups({"accession:read", "program:read"})
+     * @return Collection<collection>
      */
-    public function getDonnors(): string
+    public function getDonnors(): Array
     {
-        return $this->donornumb .". This should be an array with donnorInstituteCode, donnorAccessionNumber ";
+        $this->donnors = [
+            "donnorInstituteCode" => $this->donorcode->getInstcode(),
+            "donnorAccessionNumber"=> $this->getDonornumb()
+        ];
+        return $this->donnors;
     }
 
     /**
      * @Groups({"accession:read", "program:read"})
      */
-    public function getCollectingInfo(): ?string
+    public function getCollectingInfo(): Array
     {
-        return $this->collnumb .". This should be an array with collNumber, collInstitute, collectingMission, date, institute and site(alt, long, ele) ". $this->collnumb;
+        $this->collectingInfo = [
+            "collNumber" => $this->collnumb,
+            "collInstitute"=> $this->collcode,
+            "collMission" => $this->collmissid,
+            "date" => "Some Date",
+            "institute" => "Some Inst",
+            "site" => [
+                "alt" => "89",
+                "long" => "74",
+                "elev" => "12",
+            ]
+        ];
+        return $this->collectingInfo;
+        // .". This should be an array with collNumber, collInstitute, collectingMission, date, institute and site(alt, long, ele) ". $this->collnumb;
     }
 
     /**
@@ -727,12 +760,12 @@ class Accession
         return $this->breedingInfo;
     }
 
-    /**
-     * @Groups({"accession:read", "program:read"})
-     * @return Collection<string>
-     */
-    public function getSthg(): Collection
-    {
-        return $this->synonyms;
-    }
+    // /**
+    //  * @Groups({"accession:read", "program:read"})
+    //  * @return Collection<collection>
+    //  */
+    // public function getSthg(): Collection
+    // {
+    //     return $this->synonyms;
+    // }
 }
