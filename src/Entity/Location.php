@@ -86,9 +86,14 @@ class Location
      */
     private $studies;
 
+    // API SECTION
+    private $coordinates;
+
     public function __construct()
     {
         $this->studies = new ArrayCollection();
+        // API SECTION
+        $this->coordinates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -239,5 +244,34 @@ class Location
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    // API SECTION
+    /**
+     * @Groups({"location:read"})
+     */
+    public function getCountryName(){
+        return $this->country->getName();
+    }
+
+    /**
+     * @Groups({"location:read"})
+     */
+    public function getCountryCode(){
+        return $this->country->getIso3();
+    }
+
+    /**
+     * @Groups({"location:read"})
+     */
+    public function getCooordinates(): Array
+    {
+        $this->coordinates = [
+            "geometry" => [
+                "some" => "sss"
+            ],
+            "type" => "..."
+        ];
+        return $this->coordinates;
     }
 }
