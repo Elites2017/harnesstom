@@ -162,6 +162,8 @@ class ObservationLevel
      */
     private $observationValues;
 
+    private $obsLevelName;
+
     public function __construct()
     {
         $this->samples = new ArrayCollection();

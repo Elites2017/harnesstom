@@ -453,4 +453,79 @@ class Germplasm
 
         return $this;
     }
+    // API SECTION
+
+    /**
+     * @Groups({"germplasm:read"})
+    */
+    public function getGermplasmName()
+    {
+        return $this->accession->getAccename();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     * @SerializedName("germplasmPUI")
+    */
+    public function getPUI()
+    {
+        return $this->accession->getPuid();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+    */
+    public function getCountryOfOriginCode()
+    {
+        return $this->accession->getOrigcty()->getIso3();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getAcquisitionSourceCode()
+    {
+        return $this->accession->getCollsrc()->getCode();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getBiologicalStatusOfAccessionCode()
+    {
+        return $this->accession->getSampstat()->getCode();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getBiologicalStatusOfAccessisonDescription()
+    {
+        return $this->accession->getSampstat()->getLabel();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getMLSStatus()
+    {
+        return $this->accession->getMLSStatus()->getCode();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getBreedingMethodDbId()
+    {
+        return "...";
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getBreedingMethodName()
+    {
+        return "...";
+    }
+
 }

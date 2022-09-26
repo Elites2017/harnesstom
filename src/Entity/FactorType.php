@@ -24,7 +24,7 @@ class FactorType
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"factor_type:read", "study:read"})
-     * @SerializedName("parameterrDbId")
+     * @SerializedName("parameterDbId")
      */
     private $id;
 

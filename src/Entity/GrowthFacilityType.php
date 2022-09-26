@@ -43,7 +43,6 @@ class GrowthFacilityType
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Groups({"growth_f_t:read", "study:read"})
-     * @SerializedName("growthfacilityDescription")
      */
     private $description;
 
@@ -202,5 +201,13 @@ class GrowthFacilityType
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * @Groups({"growth_f_t:read", "study:read"})
+     * @SerializedName("PUI")
+     */
+    public function getPUI(){
+        return $this->ontology_id;
     }
 }

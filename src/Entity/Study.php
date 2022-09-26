@@ -123,7 +123,7 @@ class Study
     /**
      * @ORM\ManyToOne(targetEntity=Parameter::class, inversedBy="studies")
      * @Groups({"location:read", "study:read"})
-     * @SerializedName("environnementParameters")
+     * @SerializedName("parameter")
      */
     private $parameter;
 
@@ -192,6 +192,35 @@ class Study
      */
     private $qTLStudies;
 
+    // API SECTION
+
+    /**
+     * @Groups({"study:read"})
+     */
+    private $studyPUI;
+
+    /**
+     * @Groups({"study:read"})
+     */
+    private $contacts;
+
+    /**
+     * @Groups({"study:read"})
+     */
+    private $experimentalDesign;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"study:read"})
+     */
+    private $observationUnitsDescription;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"study:read"})
+     */
+    private $experimentalDesignDescription;
+
     public function __construct()
     {
         $this->germplasms = new ArrayCollection();
@@ -202,6 +231,9 @@ class Study
         $this->gwas = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
         $this->qTLStudies = new ArrayCollection();
+        // API SECTION
+        $this->contacts = new ArrayCollection();
+        
     }
 
     public function getId(): ?int
@@ -679,4 +711,139 @@ class Study
 
         return $this;
     }
+
+    // API SECTION
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getTrialDbId(){
+        return $this->trial->getId();
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getTrialName(){
+        return $this->trial->getName();
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getStudyPUI(){
+        $this->studyPUI = "Study PUI";
+        return $this->studyPUI;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getLocationDbId(){
+        return $this->location->getId();
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getLocationName(){
+        return $this->location->getName();
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getLicense(){
+        return $this->trial->getLicense();
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getContacts(): Array
+    {
+        $this->contacts = [
+            "contactDbId" => $this->trial->getProgram()->getContact()->getOrcid(),
+            "email" => $this->trial->getProgram()->getContact()->getPerson()->getEmailAddress(),
+            "instituteName" => $this->trial->getProgram()->getContact()->getInstitute()->getName(),
+            "name" => $this->trial->getProgram()->getContact()->getPerson()->getFirstName() ." ". $this->trial->getProgram()->getContact()->getPerson()->getMiddleName() ." ".$this->trial->getProgram()->getContact()->getPerson()->getLastName(),
+            "orcid" => $this->trial->getProgram()->getContact()->getOrcid(),
+            "type" => $this->trial->getProgram()->getContact()->getType()
+        ];
+        return $this->contacts;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getenvironnmentParameters(): Array
+    {
+        $this->environnmentParameters = [
+            "parameterName" => $this->parameter->getFactorType()->getName(),
+            "description" => $this->parameter->getFactorType()->getDescription(),
+            "parameterPUI" => "",
+            "unit" => $this->parameter->getUnit()->getName(),
+            "unitPUI" => $this->parameter->getUnit()->getOntologyId(),
+            "value" => $this->parameter->getStudyParameterValues()->getValues()[0]->getValue(),
+        ];
+        return $this->environnmentParameters;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getExperimentalDesign(){
+        $this->experimentalDesign = [
+            "PUI" => $this->experimentalDesignType->getOntologyId(),
+            "description" => $this->experimentalDesignDescription
+        ];
+        return $this->experimentalDesign;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     * @SerializedName("observationLevels")
+     */
+    public function getBraApiObservationLevels(){
+        $this->brApiObservationLevels = [
+            "levelName" => $this->getObservationLevels(),
+        ];
+        return $this->brApiObservationLevels;
+    }
+
+    public function getObservationUnitsDescription(): ?string
+    {
+        return $this->observationUnitsDescription;
+    }
+
+    public function setObservationUnitsDescription(?string $observationUnitsDescription): self
+    {
+        $this->observationUnitsDescription = $observationUnitsDescription;
+
+        return $this;
+    }
+
+    public function getExperimentalDesignDescription(): ?string
+    {
+        return $this->experimentalDesignDescription;
+    }
+
+    public function setExperimentalDesignDescription(?string $experimentalDesignDescription): self
+    {
+        $this->experimentalDesignDescription = $experimentalDesignDescription;
+
+        return $this;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getDataLinks(){
+        $this->datalinks = [
+            "description" => ",..",
+            "dataFormat" => "Image archives",
+            "name" => $this->getStudyImages()
+        ];
+        return $this->datalinks;
+    }
+    
 }

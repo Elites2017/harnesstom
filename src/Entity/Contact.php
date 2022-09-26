@@ -225,4 +225,21 @@ class Contact
     public function getInstituteName(){
         return $this->institute->getName();
     }
+
+    /**
+     * @Groups({"contact:read"})
+     * @return Collection<collection>
+     */
+    public function getContacts(): Array
+    {
+        $this->contacts = [
+            "contactDbId" => $this->getOrcid(),
+            "email" => $this->person->getUser()->getEmail(),
+            "instituteName" => $this->institute->getName(),
+            "name" => $this->person->getFirstName() ." ". $this->person->getMiddleName() ." ".$this->person->getLastName(),
+            "orcid" => $this->orcid,
+            "type" => $this->type
+        ];
+        return $this->contacts;
+    }
 }
