@@ -17,7 +17,6 @@
 								<th scope="col">Germplasm ID</th>
 								<th scope="col">INSTCODE</th>
 								<th scope="col">Maintainer Number</th>
-								<th scope="col">Accession</th>
 								<th scope="col">Program</th>
 								<th scope="col">Preprocessing</th>
 								
@@ -37,11 +36,6 @@
 								<td>{{ germplasm.germplasmID }}</td>
 								<td>{{ germplasm.instcode }}</td>
 								<td>{{ germplasm.maintainerNumb }}</td>
-								<td>
-									{% if germplasm.accession %}
-										<a href="{{ path('accession_details', {id: germplasm.accession.id}) }}">{{ germplasm.accession }}</a>
-									{% endif %}
-								</td>
 								<td>
 									{% if germplasm.program %}
 										<a href="{{ path('program_details', {id: germplasm.program.id}) }}">{{ germplasm.program }}</a>
