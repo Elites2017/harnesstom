@@ -28,7 +28,7 @@
                         }}
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        {# <div class="col-md-4 mb-3">
                              {{ form_row
                             (germplasmForm.accession,
                                 { label: "Accession",
@@ -37,7 +37,7 @@
                                 }
                             )
                         }}
-                        </div>
+                        </div> #}
 
                         <div class="col-md-4 mb-3">
                             {{ form_row
@@ -53,9 +53,10 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             {{ form_row
-                                    (germplasmForm.instcode,
-                                    { label: "INSTCODE",
-                                        'attr': {'placeholder': "Enter the germplasm INSTCODE"}
+                                    (germplasmForm.maintainerInstituteCode,
+                                    { label: "Maintainer Institute Code - INSTCODE",
+                                        'attr': {'placeholder': "Select the insitute that provide the material for the germplasm - INSTCODE",
+                                                'class': "custom-select d-block w-100"}
                                     })
                         }}
                         </div>
@@ -63,8 +64,9 @@
                         <div class="col-md-4 mb-3">
                             {{ form_row
                             (germplasmForm.maintainerNumb,
-                                { label: "Maintainer Number",
-                                'attr': {'placeholder': "Enter the germplasm maintainer number"}
+                                { label: "Maintainer Accession Number",
+                                'attr': {'placeholder': "Enter ID_number assigned to this accession by maintainer",
+                                'class': "custom-select d-block w-100"}
                                 }
                             )
                         }}
@@ -83,7 +85,7 @@
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-12 mb-3">
+                        {# <div class="col-md-12 mb-3">
                             {{ form_row
                                 (germplasmForm.study,
                                     { label: "Study (You can select several studies)",
@@ -93,17 +95,9 @@
                                     }
                                 )
                             }}
-                        </div>
+                        </div> #}
                     </div>
 
-                    {% if is_granted("ROLE_ADMIN") %}
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                {{ form_row (germplasmForm.isActive) }}
-                            </div>
-                        </div>
-                    {% endif %}
-                    
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
