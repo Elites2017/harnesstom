@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\CollectionClass;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,10 +13,12 @@ class CollectionUpdateType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '7')])
+            ->add('description')
             ->add('publicationReference')
-            ->add('germplasmID')
+            ->add('createdAt')
+            ->add('isActive')
+            ->add('createdBy')
+            ->add('germplasm')
         ;
     }
 
