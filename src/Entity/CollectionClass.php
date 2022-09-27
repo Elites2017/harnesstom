@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CollectionClassRepository;
@@ -47,14 +49,19 @@ class CollectionClass
     private $isActive;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $germplasmID = [];
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="collectionClasses")
      */
     private $createdBy;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Germplasm::class, inversedBy="germplasmCollection")
+     */
+    private $germplasm;
+
+    public function __construct()
+    {
+        $this->germplasm = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,18 +128,6 @@ class CollectionClass
         return $this;
     }
 
-    public function getGermplasmID(): ?array
-    {
-        return $this->germplasmID;
-    }
-
-    public function setGermplasmID(?array $germplasmID): self
-    {
-        $this->germplasmID = $germplasmID;
-
-        return $this;
-    }
-
     public function getCreatedBy(): ?User
     {
         return $this->createdBy;
@@ -150,5 +145,29 @@ class CollectionClass
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * @return Collection<int, Germplasm>
+     */
+    public function getGermplasm(): Collection
+    {
+        return $this->germplasm;
+    }
+
+    public function addGermplasm(Germplasm $germplasm): self
+    {
+        if (!$this->germplasm->contains($germplasm)) {
+            $this->germplasm[] = $germplasm;
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasm(Germplasm $germplasm): self
+    {
+        $this->germplasm->removeElement($germplasm);
+
+        return $this;
     }
 }
