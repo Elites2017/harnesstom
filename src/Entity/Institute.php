@@ -125,6 +125,11 @@ class Institute
      */
     private $crosses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="maintainerInstituteCode")
+     */
+    private $providedGermplasm;
+
     public function __construct()
     {
         $this->contacts = new ArrayCollection();
@@ -132,6 +137,7 @@ class Institute
         $this->accessions = new ArrayCollection();
         $this->studies = new ArrayCollection();
         $this->crosses = new ArrayCollection();
+        $this->providedGermplasm = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -413,6 +419,39 @@ class Institute
     // in an upper level related form field from a foreign key
     public function __toString()
     {
-        return (string) $this->name ." ". $this->acronym;
+        if ($this->acronym) {
+            return (string) $this->instcode ." - ". $this->name . " ($this->acronym)";    
+        }
+        return (string) $this->instcode ." - ". $this->name;
+    }
+
+    /**
+     * @return Collection<int, Germplasm>
+     */
+    public function getProvidedGermplasm(): Collection
+    {
+        return $this->providedGermplasm;
+    }
+
+    public function addProvidedGermplasm(Germplasm $providedGermplasm): self
+    {
+        if (!$this->providedGermplasm->contains($providedGermplasm)) {
+            $this->providedGermplasm[] = $providedGermplasm;
+            $providedGermplasm->setMaintainerInstituteCode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProvidedGermplasm(Germplasm $providedGermplasm): self
+    {
+        if ($this->providedGermplasm->removeElement($providedGermplasm)) {
+            // set the owning side to null (unless already changed)
+            if ($providedGermplasm->getMaintainerInstituteCode() === $this) {
+                $providedGermplasm->setMaintainerInstituteCode(null);
+            }
+        }
+
+        return $this;
     }
 }
