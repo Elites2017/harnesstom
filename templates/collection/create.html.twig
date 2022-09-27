@@ -25,10 +25,15 @@
 					<div class="col-md-4 mb-3">
 						{{ form_row(collectionForm.publicationReference, {'attr': {'placeholder': "Enter the collection publication reference" }}) }}
 					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(collectionForm.germplasmID, {'attr': {'placeholder': "Enter the collection germplasm ID" }}) }}
-					</div>
+					<div>
+                        {{ form_row
+                            (collectionForm.germplasm,
+                                { label: "Germplasms (You can select several germplasms)",
+                                'attr': {'placeholder': "Select the related germplasm(s)"}
+                                }
+                            )
+                        }}
+                    </div>
 				</div>
 				<div>
 						{{ form_row(collectionForm.description, {'attr': {'placeholder': "Enter the collection description" }}) }}
