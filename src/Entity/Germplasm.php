@@ -57,13 +57,6 @@ class Germplasm
     private $program;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Accession::class, inversedBy="germplasms")
-     * @ORM\JoinColumn(nullable=false)
-     * @Groups({"study:read", "germplasm:read"})
-     */
-    private $accession;
-
-    /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"study:read", "germplasm:read", "accession:read"})
      */
@@ -122,6 +115,29 @@ class Germplasm
      */
     private $germplasmStudyImages;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=CollectionClass::class, mappedBy="germplasm")
+     */
+    private $germplasmCollection;
+
+    // API SECTION
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    private $storageType;
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    private $donors;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Institute::class, inversedBy="providedGermplasm")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $maintainerInstituteCode;
+
     public function __construct()
     {
         $this->study = new ArrayCollection();
@@ -131,6 +147,9 @@ class Germplasm
         $this->pedigrees = new ArrayCollection();
         $this->qTLVariants = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
+        $this->germplasmCollection = new ArrayCollection();
+        $this->storageType = new ArrayCollection();
+        $this->donors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,18 +213,6 @@ class Germplasm
     public function setProgram(?Program $program): self
     {
         $this->program = $program;
-
-        return $this;
-    }
-
-    public function getAccession(): ?Accession
-    {
-        return $this->accession;
-    }
-
-    public function setAccession(?Accession $accession): self
-    {
-        $this->accession = $accession;
 
         return $this;
     }
@@ -417,6 +424,33 @@ class Germplasm
         return $this;
     }
 
+    /**
+     * @return Collection<int, CollectionClass>
+     */
+    public function getGermplasmCollection(): Collection
+    {
+        return $this->germplasmCollection;
+    }
+
+    public function addGermplasmCollection(CollectionClass $germplasmCollection): self
+    {
+        if (!$this->germplasmCollection->contains($germplasmCollection)) {
+            $this->germplasmCollection[] = $germplasmCollection;
+            $germplasmCollection->addGermplasm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasmCollection(CollectionClass $germplasmCollection): self
+    {
+        if ($this->germplasmCollection->removeElement($germplasmCollection)) {
+            $germplasmCollection->removeGermplasm($this);
+        }
+
+        return $this;
+    }
+
     // create a toString method to return the object name / code which will appear
     // in an upper level related form field from a foreign key
     public function __toString()
@@ -526,6 +560,157 @@ class Germplasm
     public function getBreedingMethodName()
     {
         return "...";
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getSeedSource()
+    {
+        return $this->instcode .":". $this->maintainerNumb;
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getSeedSourceDescription()
+    {
+        return "...";
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getGermplasmPreprocessing()
+    {
+        return $this->preprocessing;
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getAccessionNumber()
+    {
+        return $this->accession->getAccenumb();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getTaxonIds()
+    {
+        $this->taxonIds = [
+            "SourceName" => "NCBI",
+            "taxonId" => $this->accession->getTaxon()->getId() 
+        ];
+        return $this->taxonIds;
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getGenus()
+    {
+        return $this->accession->getTaxon()->getGenus();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getSpecies()
+    {
+        return $this->accession->getTaxon()->getSpecies();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getSubtaxa()
+    {
+        return $this->accession->getTaxon()->getSubtaxa();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getInstituteCode()
+    {
+        return $this->accession->getInstcode()->getInstcode();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getInstituteName()
+    {
+        return $this->accession->getInstcode()->getName();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getCollection()
+    {
+        $this->germplasmCollections = $this->germplasmCollection;
+        $this->collectionName = [];
+        foreach ($this->germplasmCollections as $key => $collection) {
+            $this->collectionName [] = $collection->getName();
+        }
+        return $this->collectionName;
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getStorageType()
+    {
+        $storageType = [
+            "code" => $this->accession->getStorage()->getCode(),
+            "description" => $this->accession->getStorage()->getLabel()
+        ];
+        return $storageType;
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getDonors()
+    {
+        $donors = [
+            "donorAccessionNumber" => $this->accession->getDonornumb(),
+            "donorInstituteCode" => $this->accession->getDonorcode()->getInstcode(),
+        ];
+        return $donors;
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getCollectingInfo()
+    {
+        $collectingInfo = [
+            "collectingDate" => $this->accession->getColldate(),
+            "collectingMissionIdentifier" => $this->accession->getCollmissid()->getName(),
+            "collectingNumber" => $this->accession->getCollnumb(),
+            "collectingInstitute" => [
+                "instituteCode" => $this->accession->getCollCode()->getInstcode(),
+                "instituteName" => "...",
+                "instituteAddress" => "hbjn"
+            ]
+        ];
+        return $collectingInfo;
+    }
+
+    public function getMaintainerInstituteCode(): ?Institute
+    {
+        return $this->maintainerInstituteCode;
+    }
+
+    public function setMaintainerInstituteCode(?Institute $maintainerInstituteCode): self
+    {
+        $this->maintainerInstituteCode = $maintainerInstituteCode;
+
+        return $this;
     }
 
 }
