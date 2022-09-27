@@ -2,9 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\Accession;
 use App\Entity\Germplasm;
+use App\Repository\AccessionRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GermplasmType extends AbstractType
@@ -14,12 +19,26 @@ class GermplasmType extends AbstractType
         $builder
             ->add('germplasmID')
             ->add('preprocessing')
-            ->add('instcode')
-            ->add('maintainerNumb')
+            ->add('maintainerNumb', EntityType::class, [
+                'class' => Accession::class,
+                'query_builder' => function(AccessionRepository $accRep) {
+                    return $accRep->createQueryBuilder('accession')
+                    ->where('accession.instcode = 1');
+                },
+                'choice_label' => 'maintainerNumb'
+            ])
             ->add('program')
-            ->add('accession')
-            ->add('study')
+            ->add('maintainerInstituteCode')
         ;
+
+        $builder->addEventListener(
+            FormEvents::POST_SET_DATA,
+            function (FormEvent $event) {
+                $data = $event->getData();
+                //dd($data);
+            }
+
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

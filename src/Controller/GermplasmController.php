@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Accession;
 use App\Entity\Germplasm;
+use App\Entity\Institute;
 use App\Form\GermplasmType;
 use App\Form\GermplasmUpdateType;
 use App\Repository\GermplasmRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,6 +34,13 @@ class GermplasmController extends AbstractController
         return $this->render('germplasm/index.html.twig', $context);
     }
 
+
+    public function findAccessionMaintainerNumb($numb = 1){
+        $accessionRepo = $this->getDoctrine()->getRepository(Accession::class);
+        $acc = $accessionRepo->findBy(['instcode' => $numb]);
+        return $acc;
+    }
+
     /**
      * @Route("/create", name="create")
      */
@@ -39,11 +49,19 @@ class GermplasmController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $germplasm = new Germplasm();
         $form = $this->createForm(GermplasmType::class, $germplasm);
+        //dd($this->findAccessionMaintainerNumb(1));
+
+        //$accessionRepo = $this->getDoctrine()->getRepository(Accession::class);
+        //$acc = $accessionRepo->findBy(['instcode' => 1]);
+        //dd($acc);
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()) {
                     $germplasm->setCreatedBy($this->getUser());
                 }
+            $germplasm->setInstcode($form->get('maintainerInstituteCode')->getData());    
+            $germplasm->setMaintainerNumb($form->get('maintainerNumb')->getData()->getMaintainerNumb());
             $germplasm->setIsActive(true);
             $germplasm->setCreatedAt(new \DateTime());
             $entmanager->persist($germplasm);
@@ -53,6 +71,7 @@ class GermplasmController extends AbstractController
 
         $context = [
             'title' => 'Germplasm Creation',
+            'acc' => $this->findAccessionMaintainerNumb(1),
             'germplasmForm' => $form->createView()
         ];
         return $this->render('germplasm/create.html.twig', $context);
