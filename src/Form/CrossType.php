@@ -32,7 +32,6 @@ class CrossType extends AbstractType
             ->add('breedingMethod')
             ->add('parent1')
             ->add('parent2')
-            ->add('pedigree')
         ;
     }
 
