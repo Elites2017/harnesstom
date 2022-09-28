@@ -57,6 +57,13 @@ class Germplasm
     private $program;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Accession::class, inversedBy="germplasms")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"study:read", "germplasm:read"})
+     */
+    private $accession;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"study:read", "germplasm:read", "accession:read"})
      */
@@ -213,6 +220,18 @@ class Germplasm
     public function setProgram(?Program $program): self
     {
         $this->program = $program;
+
+        return $this;
+    }
+
+    public function getAccession(): ?Accession
+    {
+        return $this->accession;
+    }
+
+    public function setAccession(?Accession $accession): self
+    {
+        $this->accession = $accession;
 
         return $this;
     }
@@ -543,7 +562,7 @@ class Germplasm
      */
     public function getMLSStatus()
     {
-        return $this->accession->getMLSStatus()->getCode();
+        return $code = $this->accession->getMLSStatus()->getCode();
     }
 
     /**
@@ -649,6 +668,14 @@ class Germplasm
     /**
      * @Groups({"germplasm:read"})
      */
+    public function getAcquisitionDate()
+    {
+        return $this->accession->getAcqdate();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
     public function getCollection()
     {
         $this->germplasmCollections = $this->germplasmCollection;
@@ -694,11 +721,67 @@ class Germplasm
             "collectingNumber" => $this->accession->getCollnumb(),
             "collectingInstitute" => [
                 "instituteCode" => $this->accession->getCollCode()->getInstcode(),
-                "instituteName" => "...",
-                "instituteAddress" => "hbjn"
+                "instituteName" => $this->accession->getCollCode()->getName(),
+                "instituteAddress" => $this->accession->getCollCode()->getStreetNumber() ." ". $this->accession->getCollCode()->getPostalCode() ." ". $this->accession->getCollCode()->getCity() ." ". $this->accession->getCollCode()->getCountry()
+            ],
+            "collectingSite" => [
+                "latituteDecimal" => $this->accession->getDeclatitude(),
+                "longitudeDecimal" => $this->accession->getDeclongitude(),
+                "elevation" => $this->accession->getElevation(),
+                "locationDescription" => $this->accession->getCollsite()
             ]
         ];
         return $collectingInfo;
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getGermplasmOrigin()
+    {
+        $germplasmOrigin = [
+            "coordinateUncertainty" => "...",
+            "coordinates" => [
+                "geometry" => "...",
+                "type" => ".."
+            ],   
+        ];
+        return $germplasmOrigin;
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     * @SerializedName("pedigree")
+     */
+    public function getAncestor()
+    {
+        return $this->accession->getBreedingInfo();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getBreedingInstitute()
+    {
+        $breedingInstitute = [
+            "instituteCode" => $this->accession->getBredcode()->getInstcode(),
+            "instituteName" => $this->accession->getBredcode()->getName(),
+              
+        ];
+        return $breedingInstitute;
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     */
+    public function getSynonyms()
+    {
+        $synonyms = [
+            "synonym" => $this->accession->getSynonyms(),
+            "type" => "NCBI",
+              
+        ];
+        return $synonyms;
     }
 
     public function getMaintainerInstituteCode(): ?Institute
