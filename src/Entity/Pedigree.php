@@ -64,14 +64,6 @@ class Pedigree
     private $isActive;
 
     /**
-     * @ORM\OneToOne(targetEntity=Cross::class, inversedBy="pedigree", cascade={"persist", "remove"})
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read",
-     * "program:read", "accession:read", "cross:read", "sample:read", "institute:read", "observation_variable:read"})
-     */
-    private $pedigreeCross;
-
-    /**
      * @ORM\ManyToMany(targetEntity=Germplasm::class, inversedBy="pedigrees")
      * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "trial:read", "pedigree:read",
@@ -92,10 +84,18 @@ class Pedigree
      */
     private $mappingPopulations;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Cross::class, inversedBy="pedigrees")
+     */
+    private $pedigreeCross;
+
+    private $parenstOfPeds;
+
     public function __construct()
     {
         $this->germplasm = new ArrayCollection();
         $this->mappingPopulations = new ArrayCollection();
+        $this->parenstOfPeds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,18 +159,6 @@ class Pedigree
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    public function getPedigreeCross(): ?Cross
-    {
-        return $this->pedigreeCross;
-    }
-
-    public function setPedigreeCross(?Cross $pedigreeCross): self
-    {
-        $this->pedigreeCross = $pedigreeCross;
 
         return $this;
     }
@@ -247,4 +235,203 @@ class Pedigree
     {
         return (string) $this->pedigreeEntryID;
     }
+
+    public function getPedigreeCross(): ?Cross
+    {
+        return $this->pedigreeCross;
+    }
+
+    public function setPedigreeCross(?Cross $pedigreeCross): self
+    {
+        $this->pedigreeCross = $pedigreeCross;
+
+        return $this;
+    }
+
+    // API SECTION
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    public function getPedigreeDbId() {
+        return $this->id;
+    }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    public function getBreedingMethodDbId() {
+        return $this->pedigreeCross->getBreedingMethod()->getOntologyId();
+    }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    public function getBreedingMethodName() {
+        return $this->pedigreeCross->getBreedingMethod()->getName();
+    }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    public function getCrossingProjectDbId() {
+        return $this->pedigreeCross->getStudy()->getName();
+    }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    public function getCrossingYear() {
+        return $this->pedigreeCross->getYear();
+    }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    public function getDefaultDisplayName() {
+        return $this->pedigreeEntryID;
+    }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    public function getFamilyCode() {
+        return "N/A";
+    }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    public function getGermplasmDbId() {
+        return $this->germplasm[0]->getGermplasmID();
+    }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    public function getGermplasmName() {
+        return $this->germplasm[0]->getAccession()->getAcceName();
+    }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    public function getGermplasmPUI() {
+        return $this->germplasm[0]->getAccession()->getPuid();
+    }
+
+    /**
+    * @Groups({"pedigree:read"})
+     */
+    public function getParents() {
+        $this->parenstOfPeds [] = $this->pedigreeCross->getParent1()->getGermplasmID();
+        $this->parenstOfPeds [] = $this->pedigreeCross->getParent1()->getGermplasmID();
+        $parent = [
+            [
+                "germplasmDbid" => $this->pedigreeCross->getParent1()->getGermplasmID(),
+                "germplasmName" => $this->pedigreeCross->getParent1()->getAccession()->getAccename(),
+                "parentType" => $this->pedigreeCross->getParent1Type()
+            ],
+            [
+                "germplasmDbid" => $this->pedigreeCross->getParent2()->getGermplasmID(),
+                "germplasmName" => $this->pedigreeCross->getParent2()->getAccession()->getAccename(),
+                "parentType" => $this->pedigreeCross->getParent2Type()
+            ]
+        ];
+        return $parent;
+    }
+
+    /**
+    * @Groups({"pedigree:read"})
+     */
+    public function getProgeny() {
+        
+        // $progeny = [
+        //     [
+        //         "germplasmDbid" => $this->pedigreeCross->getParent1()->getGermplasmID(),
+        //         "germplasmName" => $this->pedigreeCross->getParent1()->getAccession()->getAccename(),
+        //         "parentType" => $this->pedigreeCross->getParent1Type()
+        //     ],
+        //     [
+        //         "germplasmDbid" => $this->pedigreeCross->getParent2()->getGermplasmID(),
+        //         "germplasmName" => $this->pedigreeCross->getParent2()->getAccession()->getAccename(),
+        //         "parentType" => $this->pedigreeCross->getParent2Type()
+        //     ]
+
+        // ];
+        return $this->parenstOfPeds;
+    }
+
+    // public function getParent() {
+    //     $parent = [
+    //         "germplasmDbId" =>,
+    //         "germplasmName" =>,
+    //         "parentType" =>
+    //     ];
+    //     return $parent;
+    // }
+
+    // /**
+    //  * @Groups({"pedigree:read"})
+    //  */
+    // public function getPedigree() {
+    //     return $this->id;
+    // }
+
+    // /**
+    //  * @Groups({"pedigree:read"})
+    //  */
+    // public function getProgeny() {
+    //     $progeny = [
+    //         "germplasmDbId" =>,
+    //         "germplasmName" =>,
+    //         "parentType" =>
+    //     ];
+    //     return $progeny;
+    // }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    // public function getSiblings() {
+    //     $siblings = [
+    //         "germplasmDbId" =>,
+    //         "germplasmName" =>
+    //     ];
+    //     return $siblings;
+    // }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    // public function getExternalReferences() {
+    //     $externalReferences = [
+    //         "externalReferenceId" =>,
+    //         "referenceSource" =>
+    //     ];
+    //     return $externalReferences;
+    // }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    // public function getCrossAttributes() {
+    //     $crossAttribute = [
+    //         "crossAttributeName" => "... No name",
+    //         "crossAttributeValue" => "... No value",
+    //     ];
+    //     return $crossAttribute;
+    // }
+
+    /**
+     * @Groups({"pedigree:read"})
+     */
+    // public function getPollinationEvents() {
+    //     $pollinationEvents = [
+    //         "pollinationNumber" => "... N/A",
+    //         "pollinationSuccessful" => "... N/A",
+    //         "pollinationTimeStamp" => $this->year,
+    //     ];
+    //     return $pollinationEvents;
+
+    // }
 }
