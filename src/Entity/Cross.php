@@ -105,18 +105,19 @@ class Cross
     private $createdBy;
 
     /**
-     * @ORM\OneToOne(targetEntity=Pedigree::class, mappedBy="pedigreeCross", cascade={"persist", "remove"})
-     */
-    private $pedigree;
-
-    /**
      * @ORM\OneToMany(targetEntity=MappingPopulation::class, mappedBy="mappingPopulationCross")
      */
     private $mappingPopulations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Pedigree::class, mappedBy="pedigreeCross")
+     */
+    private $pedigrees;
+
     public function __construct()
     {
         $this->mappingPopulations = new ArrayCollection();
+        $this->pedigrees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -292,28 +293,6 @@ class Cross
         return $this;
     }
 
-    public function getPedigree(): ?Pedigree
-    {
-        return $this->pedigree;
-    }
-
-    public function setPedigree(?Pedigree $pedigree): self
-    {
-        // unset the owning side of the relation if necessary
-        if ($pedigree === null && $this->pedigree !== null) {
-            $this->pedigree->setPedigreeCross(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($pedigree !== null && $pedigree->getPedigreeCross() !== $this) {
-            $pedigree->setPedigreeCross($this);
-        }
-
-        $this->pedigree = $pedigree;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, MappingPopulation>
      */
@@ -349,5 +328,141 @@ class Cross
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * @return Collection<int, Pedigree>
+     */
+    public function getPedigrees(): Collection
+    {
+        return $this->pedigrees;
+    }
+
+    public function addPedigree(Pedigree $pedigree): self
+    {
+        if (!$this->pedigrees->contains($pedigree)) {
+            $this->pedigrees[] = $pedigree;
+            $pedigree->setPedigreeCross($this);
+        }
+
+        return $this;
+    }
+
+    public function removePedigree(Pedigree $pedigree): self
+    {
+        if ($this->pedigrees->removeElement($pedigree)) {
+            // set the owning side to null (unless already changed)
+            if ($pedigree->getPedigreeCross() === $this) {
+                $pedigree->setPedigreeCross(null);
+            }
+        }
+
+        return $this;
+    }
+
+    // API SECTION
+    /**
+     * @Groups({"cross:read"})
+     */
+    public function getCrossDbId() {
+        return $this->id;
+    }
+
+    /**
+     * @Groups({"cross:read"})
+     */
+    public function getCrossName() {
+        return $this->name;
+    }
+
+    /**
+     * @Groups({"cross:read"})
+     */
+    public function getCrossType() {
+        return "type...";
+    }
+
+    /**
+     * @Groups({"cross:read"})
+     */
+    public function getCrossingProjectDbId() {
+        return $this->study->getId();
+    }
+
+    /**
+     * @Groups({"cross:read"})
+     */
+    public function getCrossingProjectName() {
+        return $this->study->getName();
+    }
+
+    /**
+     * @Groups({"cross:read"})
+     * @SerializedName("parent1")
+     */
+    public function getCrossParent1() {
+        $parent1 = [
+            "germplasmDbid" => $this->parent1->getId(),
+            "germplasmName" => $this->parent1->getGermplasmID(),
+            "observationUnitDbid" => "",
+            "observationUnitName" => "",
+            "parentType" => $this->parent1Type
+
+        ];
+        return $parent1;
+    }
+
+    /**
+     * @Groups({"cross:read"})
+     * @SerializedName("parent2")
+     */
+    public function getCrossParent2() {
+        $parent2 = [
+            "germplasmDbid" => $this->parent2->getId(),
+            "germplasmName" => $this->parent2->getGermplasmID(),
+            "observationUnitDbid" => "",
+            "observationUnitName" => "",
+            "parentType" => $this->parent2Type
+
+        ];
+        return $parent2;
+    }
+
+    /**
+     * @Groups({"cross:read"})
+     */
+    public function getPlannedCrossDbId() {
+        return "...";
+    }
+
+    /**
+     * @Groups({"cross:read"})
+     */
+    public function getPlannedCrossName() {
+        return "...";
+    }
+
+    /**
+     * @Groups({"cross:read"})
+     */
+    public function getCrossAttributes() {
+        $crossAttribute = [
+            "crossAttributeName" => "... No name",
+            "crossAttributeValue" => "... No value",
+        ];
+        return $crossAttribute;
+    }
+
+    /**
+     * @Groups({"cross:read"})
+     */
+    public function getPollinationEvents() {
+        $pollinationEvents = [
+            "pollinationNumber" => "... N/A",
+            "pollinationSuccessful" => "... N/A",
+            "pollinationTimeStamp" => $this->year,
+        ];
+        return $pollinationEvents;
+
     }
 }
