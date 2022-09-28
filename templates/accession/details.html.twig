@@ -91,12 +91,7 @@
                                         <a href="{{ path('storage_type_details', {id: accession.storage.id}) }}">{{ accession.storage }}</a>
                                     {% endif %}
                                 </td>
-                                <td>
-                                    {% if accession.collmissid %}
-                                        <a href="{{ path('collecting_mission_details', {id: accession.collmissid.id}) }}">{{ accession.collmissid }}</a>
-                                    {% endif %}
-                                </td>
-
+                                
                                 <td>
                                     {% if accession.donorcode %}
                                         <a href="{{ path('institute_details', {id: accession.donorcode.id}) }}">{{ accession.donorcode }}</a>
@@ -105,6 +100,12 @@
 
                                 <td>
                                     {% if accession.collcode %}
+                                        <a href="{{ path('institute_details', {id: accession.collcode.id}) }}">{{ accession.collcode }}</a>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {% if accession.collmissid %}
                                         <a href="{{ path('collecting_mission_details', {id: accession.collmissid.id}) }}">{{ accession.collmissid }}</a>
                                     {% endif %}
                                 </td>
