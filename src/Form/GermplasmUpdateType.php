@@ -22,6 +22,12 @@ class GermplasmUpdateType extends AbstractType
             ->add('maintainerNumb')
             ->add('program')
             ->add('maintainerInstituteCode')
+            // this is the maintainer numb
+            ->add('accession', EntityType::class, [
+                'class' => Accession::class,
+                'choice_label' => 'maintainerNumb'
+
+            ])
         ;
 
         $builder->addEventListener(

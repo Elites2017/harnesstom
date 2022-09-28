@@ -19,16 +19,22 @@ class GermplasmType extends AbstractType
         $builder
             ->add('germplasmID')
             ->add('preprocessing')
-            ->add('maintainerNumb', EntityType::class, [
-                'class' => Accession::class,
-                'query_builder' => function(AccessionRepository $accRep) {
-                    return $accRep->createQueryBuilder('accession')
-                    ->where('accession.instcode = 1');
-                },
-                'choice_label' => 'maintainerNumb'
-            ])
+            // ->add('maintainerNumb', EntityType::class, [
+            //     'class' => Accession::class,
+            //     'query_builder' => function(AccessionRepository $accRep) {
+            //         return $accRep->createQueryBuilder('accession')
+            //         ->where('accession.instcode = 1');
+            //     },
+            //     'choice_label' => 'maintainerNumb'
+            // ])
             ->add('program')
             ->add('maintainerInstituteCode')
+            // this is the maintainer numb
+            ->add('accession', EntityType::class, [
+                'class' => Accession::class,
+                'choice_label' => 'maintainerNumb'
+
+            ])
         ;
 
         $builder->addEventListener(
