@@ -324,7 +324,7 @@ class Pedigree
      */
     public function getParents() {
         $this->parenstOfPeds [] = $this->pedigreeCross->getParent1()->getGermplasmID();
-        $this->parenstOfPeds [] = $this->pedigreeCross->getParent1()->getGermplasmID();
+        $this->parenstOfPeds [] = $this->pedigreeCross->getParent2()->getGermplasmID();
         $parent = [
             [
                 "germplasmDbid" => $this->pedigreeCross->getParent1()->getGermplasmID(),
@@ -344,7 +344,29 @@ class Pedigree
     * @Groups({"pedigree:read"})
      */
     public function getProgeny() {
-        
+        $pedprogArr = [];
+        $germplasmUsedinThePedigree = $this->getGermplasm()[0];
+        // $parent1OfTheCross = $this->pedigreeCross->getParent1();
+        // $parent2OfTheCross = $this->pedigreeCross->getParent2();
+        // $cross = $this->pedigreeCross;
+        // $germplasmInPedigree = $this->getGermplasm()[0];
+        // $pedprogArr [] = $parent1OfTheCross->getGermplasmID();
+        // $pedprogArr [] = $parent2OfTheCross->getGermplasmID();
+        // $pedprogArr [] = $this->getGermplasm()[0]->getGermplasmID();
+        // $pedprogArr [] = $this->getGermplasm()[0]->getProgenies();
+        //dd();
+        $progenies = $this->getGermplasm()[0]->getProgenies();
+        foreach ($progenies as $key => $oneProgeny) {
+            $pedprogArr [] = [
+                "germplasmDbid" => $oneProgeny->getPedigreeGermplasm()->getGermplasmID(),
+                "germplasmName" => $oneProgeny->getPedigreeGermplasm()->getAccession()->getAccename(),
+                "parentType" => $oneProgeny->getPedigreeGermplasm()
+            ];
+        }
+        //dd($germplasmInPedigree);
+        //dd($ger)
+        //dd($germplasmInCross->getPedigree);
+        //$myy = $germplasmInCross->getGermplasmID();
         // $progeny = [
         //     [
         //         "germplasmDbid" => $this->pedigreeCross->getParent1()->getGermplasmID(),
@@ -358,7 +380,7 @@ class Pedigree
         //     ]
 
         // ];
-        return $this->parenstOfPeds;
+        return $germplasmUsedinThePedigree->getCrosses();
     }
 
     // public function getParent() {
