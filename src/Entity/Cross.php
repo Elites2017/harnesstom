@@ -114,10 +114,19 @@ class Cross
      */
     private $pedigrees;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Progeny::class, mappedBy="progenyCross")
+     */
+    private $progenies;
+
+    private $parents;
+
     public function __construct()
     {
         $this->mappingPopulations = new ArrayCollection();
         $this->pedigrees = new ArrayCollection();
+        $this->progenies = new ArrayCollection();
+        $this->parents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -280,6 +289,15 @@ class Cross
 
         return $this;
     }
+    
+    // DP - Sep 29th 5h08PM
+    public function getParents()
+    {
+        $this->parents [] = $this->parent1;
+        $this->parents [] = $this->parent2;
+        return $this->parents;
+    }
+
 
     public function getCreatedBy(): ?User
     {
@@ -464,5 +482,35 @@ class Cross
         ];
         return $pollinationEvents;
 
+    }
+
+    /**
+     * @return Collection<int, Progeny>
+     */
+    public function getProgenies(): Collection
+    {
+        return $this->progenies;
+    }
+
+    public function addProgeny(Progeny $progeny): self
+    {
+        if (!$this->progenies->contains($progeny)) {
+            $this->progenies[] = $progeny;
+            $progeny->setProgenyCross($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgeny(Progeny $progeny): self
+    {
+        if ($this->progenies->removeElement($progeny)) {
+            // set the owning side to null (unless already changed)
+            if ($progeny->getProgenyCross() === $this) {
+                $progeny->setProgenyCross(null);
+            }
+        }
+
+        return $this;
     }
 }
