@@ -145,6 +145,16 @@ class Germplasm
      */
     private $maintainerInstituteCode;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Progeny::class, mappedBy="progenyParent1")
+     */
+    private $progenies;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Progeny::class, mappedBy="pedigreeGermplasm", cascade={"persist", "remove"})
+     */
+    private $progeny;
+
     public function __construct()
     {
         $this->study = new ArrayCollection();
@@ -157,6 +167,7 @@ class Germplasm
         $this->germplasmCollection = new ArrayCollection();
         $this->storageType = new ArrayCollection();
         $this->donors = new ArrayCollection();
+        $this->progenies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -792,6 +803,58 @@ class Germplasm
     public function setMaintainerInstituteCode(?Institute $maintainerInstituteCode): self
     {
         $this->maintainerInstituteCode = $maintainerInstituteCode;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Progeny>
+     */
+    public function getProgenies(): Collection
+    {
+        return $this->progenies;
+    }
+
+    public function addProgeny(Progeny $progeny): self
+    {
+        if (!$this->progenies->contains($progeny)) {
+            $this->progenies[] = $progeny;
+            $progeny->setProgenyParent1($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgeny(Progeny $progeny): self
+    {
+        if ($this->progenies->removeElement($progeny)) {
+            // set the owning side to null (unless already changed)
+            if ($progeny->getProgenyParent1() === $this) {
+                $progeny->setProgenyParent1(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getProgeny(): ?Progeny
+    {
+        return $this->progeny;
+    }
+
+    public function setProgeny(?Progeny $progeny): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($progeny === null && $this->progeny !== null) {
+            $this->progeny->setPedigreeGermplasm(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($progeny !== null && $progeny->getPedigreeGermplasm() !== $this) {
+            $progeny->setPedigreeGermplasm($this);
+        }
+
+        $this->progeny = $progeny;
 
         return $this;
     }
