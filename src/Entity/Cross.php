@@ -100,6 +100,10 @@ class Cross
     private $parent2;
 
     /**
+     * @ORM\ManyToOne(targetEntity=Germplasm::class, inversedBy="parent2GermCross")
+     */
+    
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="crosses")
      */
     private $createdBy;
@@ -513,4 +517,5 @@ class Cross
 
         return $this;
     }
+
 }

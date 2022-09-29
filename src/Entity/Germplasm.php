@@ -155,6 +155,12 @@ class Germplasm
      */
     private $progeny;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="parent2")
+     */
+    private $parent2GermCross;
+    // this variable is exactly the same as the crosses one
+
     public function __construct()
     {
         $this->study = new ArrayCollection();
@@ -168,6 +174,7 @@ class Germplasm
         $this->storageType = new ArrayCollection();
         $this->donors = new ArrayCollection();
         $this->progenies = new ArrayCollection();
+        $this->parent2GermCross = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -312,7 +319,10 @@ class Germplasm
      */
     public function getCrosses(): Collection
     {
-        return $this->crosses;
+        return new ArrayCollection(
+            array_merge($this->crosses->toArray(), $this->parent2GermCross->toArray())
+        );
+        //return $this->crosses;
     }
 
     public function addCross(Cross $cross): self
@@ -855,6 +865,36 @@ class Germplasm
         }
 
         $this->progeny = $progeny;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cross>
+     */
+    public function getParent2GermCross(): Collection
+    {
+        return $this->parent2GermCross;
+    }
+
+    public function addParent2GermCross(Cross $parent2GermCross): self
+    {
+        if (!$this->parent2GermCross->contains($parent2GermCross)) {
+            $this->parent2GermCross[] = $parent2GermCross;
+            $parent2GermCross->setParent2($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParent2GermCross(Cross $parent2GermCross): self
+    {
+        if ($this->parent2GermCross->removeElement($parent2GermCross)) {
+            // set the owning side to null (unless already changed)
+            if ($parent2GermCross->getParent2() === $this) {
+                $parent2GermCross->setParent2(null);
+            }
+        }
 
         return $this;
     }
