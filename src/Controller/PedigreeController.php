@@ -49,19 +49,19 @@ class PedigreeController extends AbstractController
             //dd($pedigree);
             if ($pedigree->getGeneration() !== "P") {
                 $progeny =  new Progeny();
-                //dd($pedigree->getGermplasm());
                 // We had a many to many relationship which we have realized that was a many to one relationship
                 $progeny->setPedigreeGermplasm($pedigree->getGermplasm()[0]);
                 $progeny->setProgenyId($pedigree->getPedigreeEntryId());
                 $progeny->setProgenyCross($pedigree->getPedigreeCross());
                 $progeny->setProgenyParent1($pedigree->getPedigreeCross()->getParent1());
                 $progeny->setProgenyParent2($pedigree->getPedigreeCross()->getParent2());
-                dd($progeny->getProgenyParent1());
+                $entmanager->persist($progeny);
+                //dd($progeny->getProgenyParent1());
                 //$progeny->setProgenyId($pedigree->getPedigreeEntryID());
                 //$progeny->addProgenyCross($pedigree->getPedigreeCross());
-                dd("Progeny will be created ", $progeny);
+                //dd("Progeny will be created ", $progeny);
             }
-            dd("Progeny should not be created");
+            //dd("Progeny should not be created");
             $pedigree->setIsActive(true);
             $pedigree->setCreatedAt(new \DateTime());
             $entmanager->persist($pedigree);
