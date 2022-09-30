@@ -344,43 +344,42 @@ class Pedigree
     * @Groups({"pedigree:read"})
      */
     public function getProgeny() {
-        $pedprogArr = [];
+        // To show the progenies
+        // pedigree progeny table (linked to germplasm, because they are germplasms)
+        $pedigreeProgenyArr = [];
         $germplasmUsedinThePedigree = $this->getGermplasm()[0];
-        // $parent1OfTheCross = $this->pedigreeCross->getParent1();
-        // $parent2OfTheCross = $this->pedigreeCross->getParent2();
-        // $cross = $this->pedigreeCross;
-        // $germplasmInPedigree = $this->getGermplasm()[0];
-        // $pedprogArr [] = $parent1OfTheCross->getGermplasmID();
-        // $pedprogArr [] = $parent2OfTheCross->getGermplasmID();
-        // $pedprogArr [] = $this->getGermplasm()[0]->getGermplasmID();
-        // $pedprogArr [] = $this->getGermplasm()[0]->getProgenies();
-        //dd();
+
+        // progenies with all data even if parent
         $progenies = $this->getGermplasm()[0]->getProgenies();
-        foreach ($progenies as $key => $oneProgeny) {
-            $pedprogArr [] = [
+
+        // this array is to filter the progenies to have only the real ones
+        $realProgeniesOnly = [];
+
+        // If their generation is P for parent, do not add it in the realProgenyOnly array
+        foreach ($progenies as $key => $progen) {
+            if ($progen->getPedigreeGermplasm()->getPedigrees()[0]->getGeneration() !== "P"){
+                $realProgeniesOnly [] = $progen;
+            }
+        }
+
+        // this is to have the type of the parent
+        $typeOfParentOfProgeny = "";
+        // As all progenies / pedigrees are germplasms, check which one is used in the pedigree. (pedigree x cross)
+        foreach ($realProgeniesOnly as $key => $oneProgeny) {
+            // get the type of the parent which is used in the germplasm
+            if ($germplasmUsedinThePedigree === $oneProgeny->getProgenyCross()->getParent1()) {
+                $typeOfParentOfProgeny = $oneProgeny->getProgenyCross()->getParent1Type();
+            } else {
+                $typeOfParentOfProgeny = $oneProgeny->getProgenyCross()->getParent2Type();
+            }
+            $pedigreeProgenyArr [] = [
                 "germplasmDbid" => $oneProgeny->getPedigreeGermplasm()->getGermplasmID(),
                 "germplasmName" => $oneProgeny->getPedigreeGermplasm()->getAccession()->getAccename(),
-                "parentType" => $oneProgeny->getPedigreeGermplasm()
+                "parentType" => $typeOfParentOfProgeny
             ];
         }
-        //dd($germplasmInPedigree);
-        //dd($ger)
-        //dd($germplasmInCross->getPedigree);
-        //$myy = $germplasmInCross->getGermplasmID();
-        // $progeny = [
-        //     [
-        //         "germplasmDbid" => $this->pedigreeCross->getParent1()->getGermplasmID(),
-        //         "germplasmName" => $this->pedigreeCross->getParent1()->getAccession()->getAccename(),
-        //         "parentType" => $this->pedigreeCross->getParent1Type()
-        //     ],
-        //     [
-        //         "germplasmDbid" => $this->pedigreeCross->getParent2()->getGermplasmID(),
-        //         "germplasmName" => $this->pedigreeCross->getParent2()->getAccession()->getAccename(),
-        //         "parentType" => $this->pedigreeCross->getParent2Type()
-        //     ]
 
-        // ];
-        return $germplasmUsedinThePedigree->getCrosses();
+        return $pedigreeProgenyArr;
     }
 
     // public function getParent() {
