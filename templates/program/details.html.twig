@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
 				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
@@ -23,7 +23,9 @@
 								<th scope="col">Created By</th>
 								<th scope="col">Creation Date</th>
 								<th scope="col">Status</th>
-								<th scope="col">Action</th>
+							{% endif %}
+							{% if is_granted("program_edit", program) %}
+									<th scope="col">Action</th>
 							{% endif %}
 						</tr>
 					</thead>
@@ -53,11 +55,13 @@
 									</a>
 								</td>
 
-								<td>
-									<a href="{{ path('program_edit', {id: program.id}) }}">
-										<button class="btn btn-outline-warning">Edit</button>
-									</a>
-								</td>
+								{% if is_granted("program_edit", program) %}
+									<td>
+										<a href="{{ path('program_edit', {id: program.id}) }}">
+											<button class="btn btn-outline-warning">Edit</button>
+										</a>
+									</td>
+								{% endif %}
 							{% endif %}
 						</tr>
 					</tbody>
