@@ -19,7 +19,6 @@ class GermplasmUpdateType extends AbstractType
         $builder
             ->add('germplasmID')
             ->add('preprocessing')
-            ->add('maintainerNumb')
             ->add('program')
             ->add('maintainerInstituteCode')
             // this is the maintainer numb
