@@ -31,8 +31,8 @@
                         {# <div class="col-md-4 mb-3">
                              {{ form_row
                             (germplasmForm.accession,
-                                { label: "Accession",
-                                'attr': {'placeholder': "Select the germplasm accession",
+                                { label: "Maintainer Accession Number",
+                                'attr': {'placeholder': "Enter ID_number assigned to this accession by maintainer",
                                         'class': "custom-select d-block w-100"}
                                 }
                             )
@@ -61,12 +61,23 @@
                         }}
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        {# <div class="col-md-4 mb-3">
                             {{ form_row
                             (germplasmForm.maintainerNumb,
                                 { label: "Maintainer Accession Number",
                                 'attr': {'placeholder': "Enter ID_number assigned to this accession by maintainer",
                                 'class': "custom-select d-block w-100"}
+                                }
+                            )
+                        }}
+                        </div> #}
+
+                        <div class="col-md-4 mb-3">
+                             {{ form_row
+                            (germplasmForm.accession,
+                                { label: "Maintainer Accession Number",
+                                'attr': {'placeholder': "Enter ID_number assigned to this accession by maintainer",
+                                        'class': "custom-select d-block w-100"}
                                 }
                             )
                         }}
