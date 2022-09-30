@@ -40,7 +40,9 @@
 								<a href="{{ path('crop_details', {id: program.crop.id}) }}">{{ program.crop }}</td>
 							</td>
 							<td>
-								<a href="{{ path('contact_details', {id: program.contact.id}) }}">{{ program.contact }}</a>
+								{% if program.contact %}
+									<a href="{{ path('contact_details', {id: program.contact.id}) }}">{{ program.contact }}</a>
+								{% endif %}
 							</td>
 							{% if is_granted("ROLE_ADMIN") %}
 								<td>
