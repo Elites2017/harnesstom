@@ -29,7 +29,7 @@ class Program
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"program:read"})
      * @SerializedName("programName")
      */
@@ -42,7 +42,7 @@ class Program
     private $abbreviation;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"program:read"})
      */
     private $objective;
