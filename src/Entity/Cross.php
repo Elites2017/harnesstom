@@ -94,7 +94,7 @@ class Cross
     private $parent1;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Germplasm::class, inversedBy="crosses")
+     * @ORM\ManyToOne(targetEntity=Germplasm::class, inversedBy="parent2GermCross")
      * @ORM\JoinColumn(nullable=false)
      */
     private $parent2;
@@ -301,7 +301,6 @@ class Cross
         $this->parents [] = $this->parent2;
         return $this->parents;
     }
-
 
     public function getCreatedBy(): ?User
     {

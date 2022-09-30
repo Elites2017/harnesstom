@@ -76,14 +76,12 @@ class Accession
     /**
      * @ORM\ManyToOne(targetEntity=CollectingSource::class, inversedBy="accessions")
      * @Groups({"accession:read", "program:read"})
-     * @SerializedName("acquisitionSourceCode")
      */
     private $collsrc;
 
     /**
      * @ORM\ManyToOne(targetEntity=BiologicalStatus::class, inversedBy="accessions")
      * @Groups({"accession:read", "program:read"})
-     * @SerializedName("biologicalStatusOfAccessionCode")
      */
     private $sampstat;
 
@@ -215,11 +213,6 @@ class Accession
      */
     private $attributeTraitValues;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="accession")
-     * @Groups({"accession:read", "program:read"})
-     */
-    private $germplasms;
 
     /**
      * @ORM\ManyToOne(targetEntity=MLSStatus::class, inversedBy="accessions")
@@ -236,14 +229,25 @@ class Accession
     private $donnors;
     private $collectingInfo;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="accession")
+     */
+    private $germplasmNumber;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="accession")
+     */
+    private $germplasms;
+
     public function __construct()
     {
         $this->synonyms = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
-        $this->germplasms = new ArrayCollection();
         // API variables
         $this->donnors = new ArrayCollection();
         $this->collectingInfo = new ArrayCollection();
+        $this->germplasmNumber = new ArrayCollection();
+        $this->germplasms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -760,6 +764,54 @@ class Accession
         return $this->breedingInfo;
     }
 
+    /**
+     * @Groups({"accession:read"})
+     */
+    public function getAcquisitionSourceCode()
+    {
+        return $this->collsrc->getCode();
+    }
+
+    /**
+     * @Groups({"accession:read"})
+     */
+    public function getBiologicalStatusOfAccessionCode()
+    {
+        return $this->sampstat->getCode();
+    }
+
+    /**
+     * @Groups({"accession:read"})
+     */
+    public function getBiologicalStatusOfAccessisonDescription()
+    {
+        return $this->sampstat->getLabel();
+    }
+
+    /**
+     * @Groups({"accession:read"})
+     */
+    public function getBreedingMethodDbId()
+    {
+        return "...";
+    }
+
+    /**
+     * @Groups({"accession:read"})
+     */
+    public function getBreedingMethodName()
+    {
+        return "...";
+    }
+
+    /**
+     * @Groups({"accession:read"})
+     */
+    public function getCollection()
+    {
+        return "...";
+    }
+
     // /**
     //  * @Groups({"accession:read", "program:read"})
     //  * @return Collection<collection>
@@ -768,4 +820,34 @@ class Accession
     // {
     //     return $this->synonyms;
     // }
+
+    /**
+     * @return Collection<int, Germplasm>
+     */
+    public function getGermplasmNumber(): Collection
+    {
+        return $this->germplasmNumber;
+    }
+
+    public function addGermplasmNumber(Germplasm $germplasmNumber): self
+    {
+        if (!$this->germplasmNumber->contains($germplasmNumber)) {
+            $this->germplasmNumber[] = $germplasmNumber;
+            $germplasmNumber->setAccession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGermplasmNumber(Germplasm $germplasmNumber): self
+    {
+        if ($this->germplasmNumber->removeElement($germplasmNumber)) {
+            // set the owning side to null (unless already changed)
+            if ($germplasmNumber->getAccession() === $this) {
+                $germplasmNumber->setAccession(null);
+            }
+        }
+
+        return $this;
+    }
 }

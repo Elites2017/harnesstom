@@ -151,7 +151,7 @@ class Germplasm
     private $progenies;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="parent2")
+     * @ORM\OneToMany(targetEntity=Progeny::class, mappedBy="progenyParent2")
      */
     private $parent2GermProgeny;
     // this variable is exactly the same as the progenies one
