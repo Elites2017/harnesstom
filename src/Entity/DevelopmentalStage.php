@@ -34,7 +34,8 @@ class DevelopmentalStage
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
 
@@ -43,11 +44,6 @@ class DevelopmentalStage
      * @Groups({"developmental_stage:read"})
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -74,10 +70,21 @@ class DevelopmentalStage
      */
     private $germplasmStudyImages;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=DevelopmentalStage::class, inversedBy="developmentalStages")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DevelopmentalStage::class, mappedBy="parentTerm")
+     */
+    private $developmentalStages;
+
     public function __construct()
     {
         $this->samples = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
+        $this->developmentalStages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,18 +124,6 @@ class DevelopmentalStage
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -234,5 +229,47 @@ class DevelopmentalStage
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getDevelopmentalStages(): Collection
+    {
+        return $this->developmentalStages;
+    }
+
+    public function addDevelopmentalStage(self $developmentalStage): self
+    {
+        if (!$this->developmentalStages->contains($developmentalStage)) {
+            $this->developmentalStages[] = $developmentalStage;
+            $developmentalStage->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDevelopmentalStage(self $developmentalStage): self
+    {
+        if ($this->developmentalStages->removeElement($developmentalStage)) {
+            // set the owning side to null (unless already changed)
+            if ($developmentalStage->getParentTerm() === $this) {
+                $developmentalStage->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -29,7 +29,8 @@ class TrialType
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
 
@@ -37,11 +38,6 @@ class TrialType
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -63,9 +59,20 @@ class TrialType
      */
     private $trials;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TrialType::class, inversedBy="trialTypes")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TrialType::class, mappedBy="parentTerm")
+     */
+    private $trialTypes;
+
     public function __construct()
     {
         $this->trials = new ArrayCollection();
+        $this->trialTypes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,18 +112,6 @@ class TrialType
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -192,5 +187,47 @@ class TrialType
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getTrialTypes(): Collection
+    {
+        return $this->trialTypes;
+    }
+
+    public function addTrialType(self $trialType): self
+    {
+        if (!$this->trialTypes->contains($trialType)) {
+            $this->trialTypes[] = $trialType;
+            $trialType->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrialType(self $trialType): self
+    {
+        if ($this->trialTypes->removeElement($trialType)) {
+            // set the owning side to null (unless already changed)
+            if ($trialType->getParentTerm() === $this) {
+                $trialType->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

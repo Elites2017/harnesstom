@@ -34,14 +34,10 @@ class KinshipAlgorithm
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -63,9 +59,20 @@ class KinshipAlgorithm
      */
     private $gWAS;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=KinshipAlgorithm::class, inversedBy="kinshipAlgorithms")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=KinshipAlgorithm::class, mappedBy="parentTerm")
+     */
+    private $kinshipAlgorithms;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
+        $this->kinshipAlgorithms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,18 +100,6 @@ class KinshipAlgorithm
     public function setOntologyId(string $ontology_id): self
     {
         $this->ontology_id = $ontology_id;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -180,5 +175,47 @@ class KinshipAlgorithm
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getKinshipAlgorithms(): Collection
+    {
+        return $this->kinshipAlgorithms;
+    }
+
+    public function addKinshipAlgorithm(self $kinshipAlgorithm): self
+    {
+        if (!$this->kinshipAlgorithms->contains($kinshipAlgorithm)) {
+            $this->kinshipAlgorithms[] = $kinshipAlgorithm;
+            $kinshipAlgorithm->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeKinshipAlgorithm(self $kinshipAlgorithm): self
+    {
+        if ($this->kinshipAlgorithms->removeElement($kinshipAlgorithm)) {
+            // set the owning side to null (unless already changed)
+            if ($kinshipAlgorithm->getParentTerm() === $this) {
+                $kinshipAlgorithm->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

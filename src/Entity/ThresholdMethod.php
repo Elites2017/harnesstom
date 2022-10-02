@@ -29,14 +29,10 @@ class ThresholdMethod
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -63,10 +59,21 @@ class ThresholdMethod
      */
     private $qTLStudies;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ThresholdMethod::class, inversedBy="thresholdMethods")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ThresholdMethod::class, mappedBy="parentTerm")
+     */
+    private $thresholdMethods;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
         $this->qTLStudies = new ArrayCollection();
+        $this->thresholdMethods = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,18 +101,6 @@ class ThresholdMethod
     public function setOntologyId(string $ontology_id): self
     {
         $this->ontology_id = $ontology_id;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -211,5 +206,47 @@ class ThresholdMethod
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getThresholdMethods(): Collection
+    {
+        return $this->thresholdMethods;
+    }
+
+    public function addThresholdMethod(self $thresholdMethod): self
+    {
+        if (!$this->thresholdMethods->contains($thresholdMethod)) {
+            $this->thresholdMethods[] = $thresholdMethod;
+            $thresholdMethod->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeThresholdMethod(self $thresholdMethod): self
+    {
+        if ($this->thresholdMethods->removeElement($thresholdMethod)) {
+            // set the owning side to null (unless already changed)
+            if ($thresholdMethod->getParentTerm() === $this) {
+                $thresholdMethod->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -34,14 +34,10 @@ class CiCriteria
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -63,9 +59,20 @@ class CiCriteria
      */
     private $qTLStudies;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=CiCriteria::class, inversedBy="ciCriterias")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CiCriteria::class, mappedBy="parentTerm")
+     */
+    private $ciCriterias;
+
     public function __construct()
     {
         $this->qTLStudies = new ArrayCollection();
+        $this->ciCriterias = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,18 +100,6 @@ class CiCriteria
     public function setOntologyId(string $ontology_id): self
     {
         $this->ontology_id = $ontology_id;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -180,5 +175,47 @@ class CiCriteria
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getCiCriterias(): Collection
+    {
+        return $this->ciCriterias;
+    }
+
+    public function addCiCriteria(self $ciCriteria): self
+    {
+        if (!$this->ciCriterias->contains($ciCriteria)) {
+            $this->ciCriterias[] = $ciCriteria;
+            $ciCriteria->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCiCriteria(self $ciCriteria): self
+    {
+        if ($this->ciCriterias->removeElement($ciCriteria)) {
+            // set the owning side to null (unless already changed)
+            if ($ciCriteria->getParentTerm() === $this) {
+                $ciCriteria->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

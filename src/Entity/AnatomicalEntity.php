@@ -34,7 +34,8 @@ class AnatomicalEntity
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
 
@@ -43,11 +44,6 @@ class AnatomicalEntity
      * @Groups({"anatomical_entity:read"})
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -74,10 +70,21 @@ class AnatomicalEntity
      */
     private $germplasmStudyImages;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=AnatomicalEntity::class, inversedBy="anatomicalEntities")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AnatomicalEntity::class, mappedBy="parentTerm")
+     */
+    private $anatomicalEntities;
+
     public function __construct()
     {
         $this->samples = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
+        $this->anatomicalEntities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,18 +124,6 @@ class AnatomicalEntity
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -234,5 +229,47 @@ class AnatomicalEntity
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAnatomicalEntities(): Collection
+    {
+        return $this->anatomicalEntities;
+    }
+
+    public function addAnatomicalEntity(self $anatomicalEntity): self
+    {
+        if (!$this->anatomicalEntities->contains($anatomicalEntity)) {
+            $this->anatomicalEntities[] = $anatomicalEntity;
+            $anatomicalEntity->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnatomicalEntity(self $anatomicalEntity): self
+    {
+        if ($this->anatomicalEntities->removeElement($anatomicalEntity)) {
+            // set the owning side to null (unless already changed)
+            if ($anatomicalEntity->getParentTerm() === $this) {
+                $anatomicalEntity->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

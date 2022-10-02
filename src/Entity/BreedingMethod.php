@@ -34,7 +34,8 @@ class BreedingMethod
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
 
@@ -43,11 +44,6 @@ class BreedingMethod
      * @Groups({"breeding_method:read"})
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -69,9 +65,20 @@ class BreedingMethod
      */
     private $crosses;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=BreedingMethod::class, inversedBy="breedingMethods")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BreedingMethod::class, mappedBy="parentTerm")
+     */
+    private $breedingMethods;
+
     public function __construct()
     {
         $this->crosses = new ArrayCollection();
+        $this->breedingMethods = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,18 +118,6 @@ class BreedingMethod
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -198,5 +193,47 @@ class BreedingMethod
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getBreedingMethods(): Collection
+    {
+        return $this->breedingMethods;
+    }
+
+    public function addBreedingMethod(self $breedingMethod): self
+    {
+        if (!$this->breedingMethods->contains($breedingMethod)) {
+            $this->breedingMethods[] = $breedingMethod;
+            $breedingMethod->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBreedingMethod(self $breedingMethod): self
+    {
+        if ($this->breedingMethods->removeElement($breedingMethod)) {
+            // set the owning side to null (unless already changed)
+            if ($breedingMethod->getParentTerm() === $this) {
+                $breedingMethod->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

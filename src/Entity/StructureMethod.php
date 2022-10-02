@@ -29,14 +29,10 @@ class StructureMethod
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -58,9 +54,20 @@ class StructureMethod
      */
     private $gWAS;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=StructureMethod::class, inversedBy="structureMethods")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=StructureMethod::class, mappedBy="parentTerm")
+     */
+    private $structureMethods;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
+        $this->structureMethods = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,18 +95,6 @@ class StructureMethod
     public function setOntologyId(string $ontology_id): self
     {
         $this->ontology_id = $ontology_id;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -175,5 +170,47 @@ class StructureMethod
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getStructureMethods(): Collection
+    {
+        return $this->structureMethods;
+    }
+
+    public function addStructureMethod(self $structureMethod): self
+    {
+        if (!$this->structureMethods->contains($structureMethod)) {
+            $this->structureMethods[] = $structureMethod;
+            $structureMethod->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStructureMethod(self $structureMethod): self
+    {
+        if ($this->structureMethods->removeElement($structureMethod)) {
+            // set the owning side to null (unless already changed)
+            if ($structureMethod->getParentTerm() === $this) {
+                $structureMethod->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

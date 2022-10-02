@@ -36,7 +36,8 @@ class MetabolicTrait
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
 
@@ -60,11 +61,6 @@ class MetabolicTrait
      * "metabolite:read"})
      */
     private $chebiMass;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="array", nullable=true)
@@ -109,10 +105,21 @@ class MetabolicTrait
      */
     private $attributeTraitValues;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=MetabolicTrait::class, inversedBy="metabolicTraits")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MetabolicTrait::class, mappedBy="parentTerm")
+     */
+    private $metabolicTraits;
+
     public function __construct()
     {
         $this->metabolites = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
+        $this->metabolicTraits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -176,18 +183,6 @@ class MetabolicTrait
     public function setChebiMass(?string $chebiMass): self
     {
         $this->chebiMass = $chebiMass;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -317,5 +312,47 @@ class MetabolicTrait
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getMetabolicTraits(): Collection
+    {
+        return $this->metabolicTraits;
+    }
+
+    public function addMetabolicTrait(self $metabolicTrait): self
+    {
+        if (!$this->metabolicTraits->contains($metabolicTrait)) {
+            $this->metabolicTraits[] = $metabolicTrait;
+            $metabolicTrait->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetabolicTrait(self $metabolicTrait): self
+    {
+        if ($this->metabolicTraits->removeElement($metabolicTrait)) {
+            // set the owning side to null (unless already changed)
+            if ($metabolicTrait->getParentTerm() === $this) {
+                $metabolicTrait->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -32,14 +32,10 @@ class Software
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -66,10 +62,21 @@ class Software
      */
     private $qTLStudies;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Software::class, inversedBy="software")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Software::class, mappedBy="parentTerm")
+     */
+    private $software;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
         $this->qTLStudies = new ArrayCollection();
+        $this->software = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,18 +104,6 @@ class Software
     public function setOntologyId(string $ontology_id): self
     {
         $this->ontology_id = $ontology_id;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -214,5 +209,47 @@ class Software
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getSoftware(): Collection
+    {
+        return $this->software;
+    }
+
+    public function addSoftware(self $software): self
+    {
+        if (!$this->software->contains($software)) {
+            $this->software[] = $software;
+            $software->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSoftware(self $software): self
+    {
+        if ($this->software->removeElement($software)) {
+            // set the owning side to null (unless already changed)
+            if ($software->getParentTerm() === $this) {
+                $software->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

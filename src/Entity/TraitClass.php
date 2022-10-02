@@ -29,7 +29,8 @@ class TraitClass
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
 
@@ -37,11 +38,6 @@ class TraitClass
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -68,10 +64,21 @@ class TraitClass
      */
     private $attributeTraitValues;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TraitClass::class, inversedBy="traitClasses")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TraitClass::class, mappedBy="parentTerm")
+     */
+    private $traitClasses;
+
     public function __construct()
     {
         $this->observationVariables = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
+        $this->traitClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,18 +118,6 @@ class TraitClass
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -228,5 +223,47 @@ class TraitClass
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getTraitClasses(): Collection
+    {
+        return $this->traitClasses;
+    }
+
+    public function addTraitClass(self $traitClass): self
+    {
+        if (!$this->traitClasses->contains($traitClass)) {
+            $this->traitClasses[] = $traitClass;
+            $traitClass->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraitClass(self $traitClass): self
+    {
+        if ($this->traitClasses->removeElement($traitClass)) {
+            // set the owning side to null (unless already changed)
+            if ($traitClass->getParentTerm() === $this) {
+                $traitClass->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

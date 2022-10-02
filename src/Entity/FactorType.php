@@ -29,7 +29,8 @@ class FactorType
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      * * @Groups({"factor_type:read", "study:read"})
      */
     private $ontology_id;
@@ -40,12 +41,6 @@ class FactorType
      * @SerializedName("parameterName")
      */
     private $name;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * * @Groups({"factor_type:read", "study:read"})
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -84,11 +79,22 @@ class FactorType
      */
     private $germplasmStudyImages;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=FactorType::class, inversedBy="factorTypes")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FactorType::class, mappedBy="parentTerm")
+     */
+    private $factorTypes;
+
     public function __construct()
     {
         $this->parameters = new ArrayCollection();
         $this->studies = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
+        $this->factorTypes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,18 +122,6 @@ class FactorType
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -275,5 +269,47 @@ class FactorType
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getFactorTypes(): Collection
+    {
+        return $this->factorTypes;
+    }
+
+    public function addFactorType(self $factorType): self
+    {
+        if (!$this->factorTypes->contains($factorType)) {
+            $this->factorTypes[] = $factorType;
+            $factorType->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFactorType(self $factorType): self
+    {
+        if ($this->factorTypes->removeElement($factorType)) {
+            // set the owning side to null (unless already changed)
+            if ($factorType->getParentTerm() === $this) {
+                $factorType->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

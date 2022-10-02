@@ -34,16 +34,11 @@ class ExperimentalDesignType
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      * @Groups({"experimental_d_t:read", "study:read"})
      */
     private $ontology_id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"experimental_d_t:read", "study:read"})
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -70,9 +65,20 @@ class ExperimentalDesignType
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ExperimentalDesignType::class, inversedBy="experimentalDesignTypes")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ExperimentalDesignType::class, mappedBy="parentTerm")
+     */
+    private $experimentalDesignTypes;
+
     public function __construct()
     {
         $this->studies = new ArrayCollection();
+        $this->experimentalDesignTypes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -100,18 +106,6 @@ class ExperimentalDesignType
     public function setOntologyId(string $ontology_id): self
     {
         $this->ontology_id = $ontology_id;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -197,6 +191,48 @@ class ExperimentalDesignType
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getExperimentalDesignTypes(): Collection
+    {
+        return $this->experimentalDesignTypes;
+    }
+
+    public function addExperimentalDesignType(self $experimentalDesignType): self
+    {
+        if (!$this->experimentalDesignTypes->contains($experimentalDesignType)) {
+            $this->experimentalDesignTypes[] = $experimentalDesignType;
+            $experimentalDesignType->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExperimentalDesignType(self $experimentalDesignType): self
+    {
+        if ($this->experimentalDesignTypes->removeElement($experimentalDesignType)) {
+            // set the owning side to null (unless already changed)
+            if ($experimentalDesignType->getParentTerm() === $this) {
+                $experimentalDesignType->setParentTerm(null);
+            }
+        }
 
         return $this;
     }

@@ -29,14 +29,10 @@ class QTLMethod
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -58,9 +54,20 @@ class QTLMethod
      */
     private $qTLStudies;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=QTLMethod::class, inversedBy="qTLMethods")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLMethod::class, mappedBy="parentTerm")
+     */
+    private $qTLMethods;
+
     public function __construct()
     {
         $this->qTLStudies = new ArrayCollection();
+        $this->qTLMethods = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,18 +95,6 @@ class QTLMethod
     public function setOntologyId(string $ontology_id): self
     {
         $this->ontology_id = $ontology_id;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -175,5 +170,47 @@ class QTLMethod
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getQTLMethods(): Collection
+    {
+        return $this->qTLMethods;
+    }
+
+    public function addQTLMethod(self $qTLMethod): self
+    {
+        if (!$this->qTLMethods->contains($qTLMethod)) {
+            $this->qTLMethods[] = $qTLMethod;
+            $qTLMethod->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLMethod(self $qTLMethod): self
+    {
+        if ($this->qTLMethods->removeElement($qTLMethod)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLMethod->getParentTerm() === $this) {
+                $qTLMethod->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

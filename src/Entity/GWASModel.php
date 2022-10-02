@@ -34,14 +34,10 @@ class GWASModel
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -63,9 +59,20 @@ class GWASModel
      */
     private $gWAS;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=GWASModel::class, inversedBy="gWASModels")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GWASModel::class, mappedBy="parentTerm")
+     */
+    private $gWASModels;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
+        $this->gWASModels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,18 +100,6 @@ class GWASModel
     public function setOntologyId(string $ontology_id): self
     {
         $this->ontology_id = $ontology_id;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -180,5 +175,47 @@ class GWASModel
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getGWASModels(): Collection
+    {
+        return $this->gWASModels;
+    }
+
+    public function addGWASModel(self $gWASModel): self
+    {
+        if (!$this->gWASModels->contains($gWASModel)) {
+            $this->gWASModels[] = $gWASModel;
+            $gWASModel->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGWASModel(self $gWASModel): self
+    {
+        if ($this->gWASModels->removeElement($gWASModel)) {
+            // set the owning side to null (unless already changed)
+            if ($gWASModel->getParentTerm() === $this) {
+                $gWASModel->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

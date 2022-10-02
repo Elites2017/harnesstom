@@ -28,7 +28,8 @@ class GrowthFacilityType
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      * @Groups({"growth_f_t:read", "study:read"})
      */
     private $ontology_id;
@@ -45,12 +46,6 @@ class GrowthFacilityType
      * @Groups({"growth_f_t:read", "study:read"})
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"growth_f_t:read", "study:read"})
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -72,9 +67,20 @@ class GrowthFacilityType
      */
     private $studies;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=GrowthFacilityType::class, inversedBy="growthFacilityTypes")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GrowthFacilityType::class, mappedBy="parentTerm")
+     */
+    private $growthFacilityTypes;
+
     public function __construct()
     {
         $this->studies = new ArrayCollection();
+        $this->growthFacilityTypes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -114,18 +120,6 @@ class GrowthFacilityType
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -209,5 +203,47 @@ class GrowthFacilityType
      */
     public function getPUI(){
         return $this->ontology_id;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getGrowthFacilityTypes(): Collection
+    {
+        return $this->growthFacilityTypes;
+    }
+
+    public function addGrowthFacilityType(self $growthFacilityType): self
+    {
+        if (!$this->growthFacilityTypes->contains($growthFacilityType)) {
+            $this->growthFacilityTypes[] = $growthFacilityType;
+            $growthFacilityType->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGrowthFacilityType(self $growthFacilityType): self
+    {
+        if ($this->growthFacilityTypes->removeElement($growthFacilityType)) {
+            // set the owning side to null (unless already changed)
+            if ($growthFacilityType->getParentTerm() === $this) {
+                $growthFacilityType->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

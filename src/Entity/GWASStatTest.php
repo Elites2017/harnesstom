@@ -34,14 +34,10 @@ class GWASStatTest
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      */
     private $ontology_id;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -63,9 +59,20 @@ class GWASStatTest
      */
     private $gWAS;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=GWASStatTest::class, inversedBy="gWASStatTests")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GWASStatTest::class, mappedBy="parentTerm")
+     */
+    private $gWASStatTests;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
+        $this->gWASStatTests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,18 +100,6 @@ class GWASStatTest
     public function setOntologyId(string $ontology_id): self
     {
         $this->ontology_id = $ontology_id;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -180,5 +175,47 @@ class GWASStatTest
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getGWASStatTests(): Collection
+    {
+        return $this->gWASStatTests;
+    }
+
+    public function addGWASStatTest(self $gWASStatTest): self
+    {
+        if (!$this->gWASStatTests->contains($gWASStatTest)) {
+            $this->gWASStatTests[] = $gWASStatTest;
+            $gWASStatTest->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGWASStatTest(self $gWASStatTest): self
+    {
+        if ($this->gWASStatTests->removeElement($gWASStatTest)) {
+            // set the owning side to null (unless already changed)
+            if ($gWASStatTest->getParentTerm() === $this) {
+                $gWASStatTest->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

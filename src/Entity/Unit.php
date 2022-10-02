@@ -36,7 +36,8 @@ class Unit
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * 
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      * @Groups({"unit:read", "study:read"})
      */
     private $ontology_id;
@@ -47,12 +48,6 @@ class Unit
      * @SerializedName("unitDescription")
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"unit:read", "study:read"})
-     */
-    private $parentTerm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -84,11 +79,22 @@ class Unit
      */
     private $qTLStudies;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Unit::class, inversedBy="units")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Unit::class, mappedBy="parentTerm")
+     */
+    private $units;
+
     public function __construct()
     {
         $this->parameters = new ArrayCollection();
         $this->scales = new ArrayCollection();
         $this->qTLStudies = new ArrayCollection();
+        $this->units = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,18 +134,6 @@ class Unit
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
@@ -275,5 +269,47 @@ class Unit
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getUnits(): Collection
+    {
+        return $this->units;
+    }
+
+    public function addUnit(self $unit): self
+    {
+        if (!$this->units->contains($unit)) {
+            $this->units[] = $unit;
+            $unit->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUnit(self $unit): self
+    {
+        if ($this->units->removeElement($unit)) {
+            // set the owning side to null (unless already changed)
+            if ($unit->getParentTerm() === $this) {
+                $unit->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

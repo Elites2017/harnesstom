@@ -41,12 +41,6 @@ class StorageType
     private $code;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"storage_type:read", "accession:read"})
-     */
-    private $parentTerm;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -97,18 +91,6 @@ class StorageType
     public function setCode(?string $code): self
     {
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function getParentTerm(): ?string
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?string $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
 
         return $this;
     }
