@@ -13,12 +13,10 @@
 					<thead>
 						<tr>
 							<th scope="col">ID</th>
-							<th scope="col">Name</th>
-							<th scope="col">Abbreviation</th>
-							<th scope="col">Objective</th>
-							<th scope="col">External Reference</th>
-							<th scope="col">Crop</th>
-							<th scope="col">Contact ORCID</th>
+							<th scope="col">First Name</th>
+							<th scope="col">Last Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Address</th>
 							{% if is_granted("ROLE_ADMIN") %}
 								<th scope="col">Created By</th>
 								<th scope="col">Creation Date</th>
@@ -29,24 +27,18 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td>{{ user.id }}</td>
-							<td>{{ user.name }}</td>
-							<td>{{ user.abbreviation }}</td>
-							<td>{{ user.objective }}</td>
-							<td>{{ user.externalRef }}</td>
-							<td>
-								<a href="{{ path('crop_details', {id: user.crop.id}) }}">{{ user.crop }}</td>
-							</td>
-							<td>
-								<a href="{{ path('contact_details', {id: user.contact.id}) }}">{{ user.contact }}</a>
-							</td>
+							<td>{{ user.person.id }}</td>
+							<td>{{ user.person.firstName }}</td>
+							<td>{{ user.person.lastName }}</td>
+							<td>{{ user.email }}</td>
+							<td>{{ user.person.streetNumber ~" "~ user.person.city ~" "~ user.person.country}}</td>
 							{% if is_granted("ROLE_ADMIN") %}
 								<td>
-									<a href="{{ path('person_details', {id: user.createdBy.id}) }}">{{ user.createdBy }}</a>
+									<a href="{{ path('person_details', {id: user.person.id}) }}">{{ user.person }}</a>
 								</td>
-								<td>{{ user.createdAt | date('d/m/Y h:m:s') }}</td>
+								<td>{{ user.person.createdAt | date('d/m/Y h:m:s') }}</td>
 								<td>
-									<a href="{{ path('user_delete', {id: user.id}) }}" class="changeStatusLink" id="{{ user.id }}">
+									<a href="{{ path('person_delete', {id: user.id}) }}" class="changeStatusLink" id="{{ user.id }}">
 										<span class="changeStatusSpan">
 											<input type="checkbox" {{ user.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
 										</span>
@@ -54,7 +46,7 @@
 								</td>
 
 								<td>
-									<a href="{{ path('user_edit', {id: user.id}) }}">
+									<a href="{{ path('person_edit', {id: user.id}) }}">
 										<button class="btn btn-outline-warning">Edit</button>
 									</a>
 								</td>
