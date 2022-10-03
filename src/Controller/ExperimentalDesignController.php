@@ -179,7 +179,7 @@ class ExperimentalDesignController extends AbstractController
                         $experimentalDesignType->setOntologyId($ontology_id);
                         $experimentalDesignType->setName($name);
                         $experimentalDesignType->setDescription($description);
-                        $experimentalDesignType->setParentTerm($parentTerm);
+                        //$experimentalDesignType->setParentTerm($parentTerm);
                         $experimentalDesignType->setIsActive(true);
                         $experimentalDesignType->setCreatedAt(new \DateTime());
                         $entmanager->persist($experimentalDesignType);

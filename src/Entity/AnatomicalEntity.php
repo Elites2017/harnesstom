@@ -28,7 +28,7 @@ class AnatomicalEntity
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"anatomical_entity:read"})
      */
     private $name;

@@ -28,7 +28,7 @@ class AllelicEffectEstimator
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"allelic_e_e:read"})
      */
     private $name;
@@ -53,9 +53,30 @@ class AllelicEffectEstimator
      */
     private $gWAS;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AllelicEffectEstimator::class, inversedBy="allelicEffectEstimators")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AllelicEffectEstimator::class, mappedBy="parentTerm")
+     */
+    private $allelicEffectEstimators;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
+        $this->allelicEffectEstimators = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,5 +167,71 @@ class AllelicEffectEstimator
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAllelicEffectEstimators(): Collection
+    {
+        return $this->allelicEffectEstimators;
+    }
+
+    public function addAllelicEffectEstimator(self $allelicEffectEstimator): self
+    {
+        if (!$this->allelicEffectEstimators->contains($allelicEffectEstimator)) {
+            $this->allelicEffectEstimators[] = $allelicEffectEstimator;
+            $allelicEffectEstimator->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAllelicEffectEstimator(self $allelicEffectEstimator): self
+    {
+        if ($this->allelicEffectEstimators->removeElement($allelicEffectEstimator)) {
+            // set the owning side to null (unless already changed)
+            if ($allelicEffectEstimator->getParentTerm() === $this) {
+                $allelicEffectEstimator->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

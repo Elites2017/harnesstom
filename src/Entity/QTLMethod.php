@@ -24,7 +24,7 @@ class QTLMethod
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $name;
 
@@ -63,6 +63,11 @@ class QTLMethod
      * @ORM\OneToMany(targetEntity=QTLMethod::class, mappedBy="parentTerm")
      */
     private $qTLMethods;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -210,6 +215,18 @@ class QTLMethod
                 $qTLMethod->setParentTerm(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

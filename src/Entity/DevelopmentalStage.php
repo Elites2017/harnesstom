@@ -28,7 +28,7 @@ class DevelopmentalStage
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"developmental_stage:read"})
      */
     private $name;
@@ -71,20 +71,22 @@ class DevelopmentalStage
     private $germplasmStudyImages;
 
     /**
-     * @ORM\ManyToOne(targetEntity=DevelopmentalStage::class, inversedBy="developmentalStages")
+     * @ORM\ManyToMany(targetEntity=DevelopmentalStage::class, inversedBy="developmentalStages")
      */
     private $parentTerm;
 
     /**
-     * @ORM\OneToMany(targetEntity=DevelopmentalStage::class, mappedBy="parentTerm")
+     * @ORM\ManyToMany(targetEntity=DevelopmentalStage::class, mappedBy="parentTerm")
      */
     private $developmentalStages;
 
+    
     public function __construct()
     {
         $this->samples = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
         $this->developmentalStages = new ArrayCollection();
+        $this->parentTerm = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,18 +233,6 @@ class DevelopmentalStage
         return (string) $this->name;
     }
 
-    public function getParentTerm(): ?self
-    {
-        return $this->parentTerm;
-    }
-
-    public function setParentTerm(?self $parentTerm): self
-    {
-        $this->parentTerm = $parentTerm;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, self>
      */
@@ -251,11 +241,35 @@ class DevelopmentalStage
         return $this->developmentalStages;
     }
 
+    /**
+     * @return Collection<int, self>
+     */
+    public function getParentTerm(): Collection
+    {
+        return $this->parentTerm;
+    }
+
+    public function addParentTerm(self $parentTerm): self
+    {
+        if (!$this->parentTerm->contains($parentTerm)) {
+            $this->parentTerm[] = $parentTerm;
+        }
+
+        return $this;
+    }
+
+    public function removeParentTerm(self $parentTerm): self
+    {
+        $this->parentTerm->removeElement($parentTerm);
+
+        return $this;
+    }
+
     public function addDevelopmentalStage(self $developmentalStage): self
     {
         if (!$this->developmentalStages->contains($developmentalStage)) {
             $this->developmentalStages[] = $developmentalStage;
-            $developmentalStage->setParentTerm($this);
+            $developmentalStage->addParentTerm($this);
         }
 
         return $this;
@@ -264,12 +278,10 @@ class DevelopmentalStage
     public function removeDevelopmentalStage(self $developmentalStage): self
     {
         if ($this->developmentalStages->removeElement($developmentalStage)) {
-            // set the owning side to null (unless already changed)
-            if ($developmentalStage->getParentTerm() === $this) {
-                $developmentalStage->setParentTerm(null);
-            }
+            $developmentalStage->removeParentTerm($this);
         }
 
         return $this;
     }
+
 }

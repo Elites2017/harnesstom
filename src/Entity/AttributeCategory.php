@@ -28,7 +28,7 @@ class AttributeCategory
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"attribute_category:read"})
      */
     private $name;
@@ -39,12 +39,6 @@ class AttributeCategory
      * 
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"attribute_category:read"})
-     */
-    private $abbreviation;
 
     /**
      * @ORM\Column(type="datetime")
@@ -66,9 +60,25 @@ class AttributeCategory
      */
     private $attributes;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AttributeCategory::class, inversedBy="attributeCategories")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AttributeCategory::class, mappedBy="parentTerm")
+     */
+    private $attributeCategories;
+
     public function __construct()
     {
         $this->attributes = new ArrayCollection();
+        $this->attributeCategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,18 +106,6 @@ class AttributeCategory
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getAbbreviation(): ?string
-    {
-        return $this->abbreviation;
-    }
-
-    public function setAbbreviation(?string $abbreviation): self
-    {
-        $this->abbreviation = $abbreviation;
 
         return $this;
     }
@@ -183,5 +181,59 @@ class AttributeCategory
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAttributeCategories(): Collection
+    {
+        return $this->attributeCategories;
+    }
+
+    public function addAttributeCategory(self $attributeCategory): self
+    {
+        if (!$this->attributeCategories->contains($attributeCategory)) {
+            $this->attributeCategories[] = $attributeCategory;
+            $attributeCategory->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttributeCategory(self $attributeCategory): self
+    {
+        if ($this->attributeCategories->removeElement($attributeCategory)) {
+            // set the owning side to null (unless already changed)
+            if ($attributeCategory->getParentTerm() === $this) {
+                $attributeCategory->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

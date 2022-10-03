@@ -28,7 +28,7 @@ class GWASModel
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"gwas:read"})
      */
     private $name;
@@ -68,6 +68,11 @@ class GWASModel
      * @ORM\OneToMany(targetEntity=GWASModel::class, mappedBy="parentTerm")
      */
     private $gWASModels;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -215,6 +220,18 @@ class GWASModel
                 $gWASModel->setParentTerm(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

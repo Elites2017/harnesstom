@@ -36,7 +36,7 @@ class FactorType
     private $ontology_id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"factor_type:read", "study:read"})
      * @SerializedName("parameterName")
      */
@@ -80,12 +80,12 @@ class FactorType
     private $germplasmStudyImages;
 
     /**
-     * @ORM\ManyToOne(targetEntity=FactorType::class, inversedBy="factorTypes")
+     * @ORM\ManyToMany(targetEntity=FactorType::class, inversedBy="factorTypes")
      */
     private $parentTerm;
 
     /**
-     * @ORM\OneToMany(targetEntity=FactorType::class, mappedBy="parentTerm")
+     * @ORM\ManyToMany(targetEntity=FactorType::class, mappedBy="parentTerm")
      */
     private $factorTypes;
 
@@ -95,6 +95,7 @@ class FactorType
         $this->studies = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
         $this->factorTypes = new ArrayCollection();
+        $this->parentTerm = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -271,14 +272,26 @@ class FactorType
         return (string) $this->name;
     }
 
-    public function getParentTerm(): ?self
+    /**
+     * @return Collection<int, self>
+     */
+    public function getParentTerm(): Collection
     {
         return $this->parentTerm;
     }
 
-    public function setParentTerm(?self $parentTerm): self
+    public function addParentTerm(self $parentTerm): self
     {
-        $this->parentTerm = $parentTerm;
+        if (!$this->parentTerm->contains($parentTerm)) {
+            $this->parentTerm[] = $parentTerm;
+        }
+
+        return $this;
+    }
+
+    public function removeParentTerm(self $parentTerm): self
+    {
+        $this->parentTerm->removeElement($parentTerm);
 
         return $this;
     }
@@ -295,7 +308,7 @@ class FactorType
     {
         if (!$this->factorTypes->contains($factorType)) {
             $this->factorTypes[] = $factorType;
-            $factorType->setParentTerm($this);
+            $factorType->addParentTerm($this);
         }
 
         return $this;
@@ -304,12 +317,10 @@ class FactorType
     public function removeFactorType(self $factorType): self
     {
         if ($this->factorTypes->removeElement($factorType)) {
-            // set the owning side to null (unless already changed)
-            if ($factorType->getParentTerm() === $this) {
-                $factorType->setParentTerm(null);
-            }
+            $factorType->removeParentTerm($this);
         }
 
         return $this;
     }
+
 }

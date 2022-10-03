@@ -28,7 +28,7 @@ class KinshipAlgorithm
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"kinship_lagorithm:read"})
      */
     private $name;
@@ -68,6 +68,11 @@ class KinshipAlgorithm
      * @ORM\OneToMany(targetEntity=KinshipAlgorithm::class, mappedBy="parentTerm")
      */
     private $kinshipAlgorithms;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -215,6 +220,18 @@ class KinshipAlgorithm
                 $kinshipAlgorithm->setParentTerm(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

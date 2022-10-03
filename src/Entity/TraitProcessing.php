@@ -24,7 +24,7 @@ class TraitProcessing
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $name;
 
@@ -53,9 +53,25 @@ class TraitProcessing
      */
     private $gWASVariants;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=TraitProcessing::class, inversedBy="traitProcessings")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TraitProcessing::class, mappedBy="parentTerm")
+     */
+    private $traitProcessings;
+
     public function __construct()
     {
         $this->gWASVariants = new ArrayCollection();
+        $this->traitProcessings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -158,5 +174,59 @@ class TraitProcessing
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getTraitProcessings(): Collection
+    {
+        return $this->traitProcessings;
+    }
+
+    public function addTraitProcessing(self $traitProcessing): self
+    {
+        if (!$this->traitProcessings->contains($traitProcessing)) {
+            $this->traitProcessings[] = $traitProcessing;
+            $traitProcessing->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTraitProcessing(self $traitProcessing): self
+    {
+        if ($this->traitProcessings->removeElement($traitProcessing)) {
+            // set the owning side to null (unless already changed)
+            if ($traitProcessing->getParentTerm() === $this) {
+                $traitProcessing->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -29,7 +29,7 @@ class MetabolicTrait
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text")
      * @Groups({"metabolic_trait:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read"})
      */
@@ -106,12 +106,12 @@ class MetabolicTrait
     private $attributeTraitValues;
 
     /**
-     * @ORM\ManyToOne(targetEntity=MetabolicTrait::class, inversedBy="metabolicTraits")
+     * @ORM\ManyToMany(targetEntity=MetabolicTrait::class, inversedBy="metabolicTraits")
      */
     private $parentTerm;
 
     /**
-     * @ORM\OneToMany(targetEntity=MetabolicTrait::class, mappedBy="parentTerm")
+     * @ORM\ManyToMany(targetEntity=MetabolicTrait::class, mappedBy="parentTerm")
      */
     private $metabolicTraits;
 
@@ -120,6 +120,7 @@ class MetabolicTrait
         $this->metabolites = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
         $this->metabolicTraits = new ArrayCollection();
+        $this->parentTerm = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -314,14 +315,26 @@ class MetabolicTrait
         return (string) $this->name;
     }
 
-    public function getParentTerm(): ?self
+    /**
+     * @return Collection<int, self>
+     */
+    public function getParentTerm(): Collection
     {
         return $this->parentTerm;
     }
 
-    public function setParentTerm(?self $parentTerm): self
+    public function addParentTerm(self $parentTerm): self
     {
-        $this->parentTerm = $parentTerm;
+        if (!$this->parentTerm->contains($parentTerm)) {
+            $this->parentTerm[] = $parentTerm;
+        }
+
+        return $this;
+    }
+
+    public function removeParentTerm(self $parentTerm): self
+    {
+        $this->parentTerm->removeElement($parentTerm);
 
         return $this;
     }
@@ -338,7 +351,7 @@ class MetabolicTrait
     {
         if (!$this->metabolicTraits->contains($metabolicTrait)) {
             $this->metabolicTraits[] = $metabolicTrait;
-            $metabolicTrait->setParentTerm($this);
+            $metabolicTrait->addParentTerm($this);
         }
 
         return $this;
@@ -347,12 +360,10 @@ class MetabolicTrait
     public function removeMetabolicTrait(self $metabolicTrait): self
     {
         if ($this->metabolicTraits->removeElement($metabolicTrait)) {
-            // set the owning side to null (unless already changed)
-            if ($metabolicTrait->getParentTerm() === $this) {
-                $metabolicTrait->setParentTerm(null);
-            }
+            $metabolicTrait->removeParentTerm($this);
         }
 
         return $this;
     }
+
 }

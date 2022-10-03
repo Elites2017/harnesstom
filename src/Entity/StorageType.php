@@ -28,17 +28,17 @@ class StorageType
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"storage_type:read", "accession:read"})
      * @SerializedName("description")
      */
-    private $label;
+    private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"storage_type:read", "accession:read"})
      */
-    private $code;
+    private $ontology_id;
 
     /**
      * @ORM\Column(type="datetime")
@@ -61,9 +61,25 @@ class StorageType
      */
     private $accessions;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=StorageType::class, inversedBy="storageTypes")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=StorageType::class, mappedBy="parentTerm")
+     */
+    private $storageTypes;
+
     public function __construct()
     {
         $this->accessions = new ArrayCollection();
+        $this->storageTypes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,26 +87,26 @@ class StorageType
         return $this->id;
     }
 
-    public function getLabel(): ?string
+    public function getName(): ?string
     {
-        return $this->label;
+        return $this->name;
     }
 
-    public function setLabel(string $label): self
+    public function setName(string $name): self
     {
-        $this->label = $label;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getCode(): ?string
+    public function getOntologyId(): ?string
     {
-        return $this->code;
+        return $this->ontology_id;
     }
 
-    public function setCode(?string $code): self
+    public function setOntologyId(?string $ontology_id): self
     {
-        $this->code = $code;
+        $this->ontology_id = $ontology_id;
 
         return $this;
     }
@@ -161,10 +177,64 @@ class StorageType
         return $this;
     }
 
-    // create a toString method to return the object name / code which will appear
+    // create a toString method to return the object name / ontology_id which will appear
     // in an upper level related form field from a foreign key
     public function __toString()
     {
-        return (string) $this->label;
+        return (string) $this->name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getStorageTypes(): Collection
+    {
+        return $this->storageTypes;
+    }
+
+    public function addStorageType(self $storageType): self
+    {
+        if (!$this->storageTypes->contains($storageType)) {
+            $this->storageTypes[] = $storageType;
+            $storageType->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStorageType(self $storageType): self
+    {
+        if ($this->storageTypes->removeElement($storageType)) {
+            // set the owning side to null (unless already changed)
+            if ($storageType->getParentTerm() === $this) {
+                $storageType->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

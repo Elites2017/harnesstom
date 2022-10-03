@@ -24,9 +24,9 @@ class SequencingInstrument
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
-    private $label;
+    private $name;
 
     /**
      * @ORM\Column(type="datetime")
@@ -48,9 +48,30 @@ class SequencingInstrument
      */
     private $genotypingPlatforms;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=SequencingInstrument::class, inversedBy="sequencingInstruments")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SequencingInstrument::class, mappedBy="parentTerm")
+     */
+    private $sequencingInstruments;
+
     public function __construct()
     {
         $this->genotypingPlatforms = new ArrayCollection();
+        $this->sequencingInstruments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,14 +79,14 @@ class SequencingInstrument
         return $this->id;
     }
 
-    public function getLabel(): ?string
+    public function getName(): ?string
     {
-        return $this->label;
+        return $this->name;
     }
 
-    public function setLabel(string $label): self
+    public function setName(string $name): self
     {
-        $this->label = $label;
+        $this->name = $name;
 
         return $this;
     }
@@ -140,6 +161,72 @@ class SequencingInstrument
     // in an upper level related form field from a foreign key
     public function __toString()
     {
-        return (string) $this->label;
+        return (string) $this->name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getSequencingInstruments(): Collection
+    {
+        return $this->sequencingInstruments;
+    }
+
+    public function addSequencingInstrument(self $sequencingInstrument): self
+    {
+        if (!$this->sequencingInstruments->contains($sequencingInstrument)) {
+            $this->sequencingInstruments[] = $sequencingInstrument;
+            $sequencingInstrument->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSequencingInstrument(self $sequencingInstrument): self
+    {
+        if ($this->sequencingInstruments->removeElement($sequencingInstrument)) {
+            // set the owning side to null (unless already changed)
+            if ($sequencingInstrument->getParentTerm() === $this) {
+                $sequencingInstrument->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

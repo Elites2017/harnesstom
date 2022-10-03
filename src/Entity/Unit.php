@@ -29,7 +29,7 @@ class Unit
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"unit:read", "study:read"})
      * @SerializedName("unitName")
      */

@@ -24,7 +24,7 @@ class ThresholdMethod
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $name;
 
@@ -68,6 +68,11 @@ class ThresholdMethod
      * @ORM\OneToMany(targetEntity=ThresholdMethod::class, mappedBy="parentTerm")
      */
     private $thresholdMethods;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -246,6 +251,18 @@ class ThresholdMethod
                 $thresholdMethod->setParentTerm(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

@@ -28,7 +28,7 @@ class GeneticTestingModel
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="tex")
      * @Groups({"genetic_t_m:read"})
      */
     private $name;
@@ -59,9 +59,25 @@ class GeneticTestingModel
      */
     private $gWAS;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=GeneticTestingModel::class, inversedBy="geneticTestingModels")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=GeneticTestingModel::class, mappedBy="parentTerm")
+     */
+    private $geneticTestingModels;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
+        $this->geneticTestingModels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,5 +180,59 @@ class GeneticTestingModel
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getGeneticTestingModels(): Collection
+    {
+        return $this->geneticTestingModels;
+    }
+
+    public function addGeneticTestingModel(self $geneticTestingModel): self
+    {
+        if (!$this->geneticTestingModels->contains($geneticTestingModel)) {
+            $this->geneticTestingModels[] = $geneticTestingModel;
+            $geneticTestingModel->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGeneticTestingModel(self $geneticTestingModel): self
+    {
+        if ($this->geneticTestingModels->removeElement($geneticTestingModel)) {
+            // set the owning side to null (unless already changed)
+            if ($geneticTestingModel->getParentTerm() === $this) {
+                $geneticTestingModel->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -28,7 +28,7 @@ class ExperimentalDesignType
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"experimental_d_t:read", "study:read"})
      */
     private $name;
@@ -66,12 +66,12 @@ class ExperimentalDesignType
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ExperimentalDesignType::class, inversedBy="experimentalDesignTypes")
+     * @ORM\ManyToMany(targetEntity=ExperimentalDesignType::class, inversedBy="experimentalDesignTypes")
      */
     private $parentTerm;
 
     /**
-     * @ORM\OneToMany(targetEntity=ExperimentalDesignType::class, mappedBy="parentTerm")
+     * @ORM\ManyToMany(targetEntity=ExperimentalDesignType::class, mappedBy="parentTerm")
      */
     private $experimentalDesignTypes;
 
@@ -79,6 +79,7 @@ class ExperimentalDesignType
     {
         $this->studies = new ArrayCollection();
         $this->experimentalDesignTypes = new ArrayCollection();
+        $this->parentTerm = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -195,14 +196,26 @@ class ExperimentalDesignType
         return $this;
     }
 
-    public function getParentTerm(): ?self
+    /**
+     * @return Collection<int, self>
+     */
+    public function getParentTerm(): Collection
     {
         return $this->parentTerm;
     }
 
-    public function setParentTerm(?self $parentTerm): self
+    public function addParentTerm(self $parentTerm): self
     {
-        $this->parentTerm = $parentTerm;
+        if (!$this->parentTerm->contains($parentTerm)) {
+            $this->parentTerm[] = $parentTerm;
+        }
+
+        return $this;
+    }
+
+    public function removeParentTerm(self $parentTerm): self
+    {
+        $this->parentTerm->removeElement($parentTerm);
 
         return $this;
     }
@@ -219,7 +232,7 @@ class ExperimentalDesignType
     {
         if (!$this->experimentalDesignTypes->contains($experimentalDesignType)) {
             $this->experimentalDesignTypes[] = $experimentalDesignType;
-            $experimentalDesignType->setParentTerm($this);
+            $experimentalDesignType->addParentTerm($this);
         }
 
         return $this;
@@ -228,12 +241,10 @@ class ExperimentalDesignType
     public function removeExperimentalDesignType(self $experimentalDesignType): self
     {
         if ($this->experimentalDesignTypes->removeElement($experimentalDesignType)) {
-            // set the owning side to null (unless already changed)
-            if ($experimentalDesignType->getParentTerm() === $this) {
-                $experimentalDesignType->setParentTerm(null);
-            }
+            $experimentalDesignType->removeParentTerm($this);
         }
 
         return $this;
     }
+
 }

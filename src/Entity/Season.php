@@ -29,7 +29,7 @@ class Season
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"season:read", "study:read"})
      * @SerializedName("seasonName")
      */
@@ -60,9 +60,25 @@ class Season
      */
     private $studies;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Season::class, inversedBy="seasons")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Season::class, mappedBy="parentTerm")
+     */
+    private $seasons;
+
     public function __construct()
     {
         $this->studies = new ArrayCollection();
+        $this->seasons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,5 +181,59 @@ class Season
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getSeasons(): Collection
+    {
+        return $this->seasons;
+    }
+
+    public function addSeason(self $season): self
+    {
+        if (!$this->seasons->contains($season)) {
+            $this->seasons[] = $season;
+            $season->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeason(self $season): self
+    {
+        if ($this->seasons->removeElement($season)) {
+            // set the owning side to null (unless already changed)
+            if ($season->getParentTerm() === $this) {
+                $season->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

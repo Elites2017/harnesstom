@@ -24,7 +24,7 @@ class TraitClass
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $name;
 
@@ -74,11 +74,22 @@ class TraitClass
      */
     private $traitClasses;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=TraitClass::class, inversedBy="variableOfTraitClasses")
+     */
+    private $variableOf;
+
+    /**
+     * @ORM\OneToMany(targetEntity=TraitClass::class, mappedBy="variableOf")
+     */
+    private $variableOfTraitClasses;
+
     public function __construct()
     {
         $this->observationVariables = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
         $this->traitClasses = new ArrayCollection();
+        $this->variableOfTraitClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -261,6 +272,48 @@ class TraitClass
             // set the owning side to null (unless already changed)
             if ($traitClass->getParentTerm() === $this) {
                 $traitClass->setParentTerm(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getVariableOf(): ?self
+    {
+        return $this->variableOf;
+    }
+
+    public function setVariableOf(?self $variableOf): self
+    {
+        $this->variableOf = $variableOf;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getVariableOfTraitClasses(): Collection
+    {
+        return $this->variableOfTraitClasses;
+    }
+
+    public function addVariableOfTraitClass(self $variableOfTraitClass): self
+    {
+        if (!$this->variableOfTraitClasses->contains($variableOfTraitClass)) {
+            $this->variableOfTraitClasses[] = $variableOfTraitClass;
+            $variableOfTraitClass->setVariableOf($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariableOfTraitClass(self $variableOfTraitClass): self
+    {
+        if ($this->variableOfTraitClasses->removeElement($variableOfTraitClass)) {
+            // set the owning side to null (unless already changed)
+            if ($variableOfTraitClass->getVariableOf() === $this) {
+                $variableOfTraitClass->setVariableOf(null);
             }
         }
 

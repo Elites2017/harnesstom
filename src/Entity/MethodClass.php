@@ -29,7 +29,7 @@ class MethodClass
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read"})
      */
@@ -64,9 +64,25 @@ class MethodClass
      */
     private $observationVariableMethods;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=MethodClass::class, inversedBy="methodClasses")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MethodClass::class, mappedBy="parentTerm")
+     */
+    private $methodClasses;
+
     public function __construct()
     {
         $this->observationVariableMethods = new ArrayCollection();
+        $this->methodClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,5 +185,59 @@ class MethodClass
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getMethodClasses(): Collection
+    {
+        return $this->methodClasses;
+    }
+
+    public function addMethodClass(self $methodClass): self
+    {
+        if (!$this->methodClasses->contains($methodClass)) {
+            $this->methodClasses[] = $methodClass;
+            $methodClass->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMethodClass(self $methodClass): self
+    {
+        if ($this->methodClasses->removeElement($methodClass)) {
+            // set the owning side to null (unless already changed)
+            if ($methodClass->getParentTerm() === $this) {
+                $methodClass->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

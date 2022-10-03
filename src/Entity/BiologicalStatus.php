@@ -28,18 +28,6 @@ class BiologicalStatus
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"biological_status:read", "accession:read"})
-     */
-    private $label;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"biological_status:read", "accession:read"})
-     */
-    private $code;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -59,38 +47,40 @@ class BiologicalStatus
      */
     private $accessions;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=BiologicalStatus::class, inversedBy="biologicalStatuses")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=BiologicalStatus::class, mappedBy="parentTerm")
+     */
+    private $biologicalStatuses;
+
     public function __construct()
     {
         $this->accessions = new ArrayCollection();
+        $this->biologicalStatuses = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLabel(): ?string
-    {
-        return $this->label;
-    }
-
-    public function setLabel(string $label): self
-    {
-        $this->label = $label;
-
-        return $this;
-    }
-
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function setCode(?string $code): self
-    {
-        $this->code = $code;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -163,6 +153,84 @@ class BiologicalStatus
     // in an upper level related form field from a foreign key
     public function __toString()
     {
-        return (string) $this->label;
+        return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getBiologicalStatuses(): Collection
+    {
+        return $this->biologicalStatuses;
+    }
+
+    public function addBiologicalStatus(self $biologicalStatus): self
+    {
+        if (!$this->biologicalStatuses->contains($biologicalStatus)) {
+            $this->biologicalStatuses[] = $biologicalStatus;
+            $biologicalStatus->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBiologicalStatus(self $biologicalStatus): self
+    {
+        if ($this->biologicalStatuses->removeElement($biologicalStatus)) {
+            // set the owning side to null (unless already changed)
+            if ($biologicalStatus->getParentTerm() === $this) {
+                $biologicalStatus->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

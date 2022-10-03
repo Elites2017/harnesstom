@@ -43,14 +43,6 @@ class Pedigree
      * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read",
      * "program:read", "accession:read", "cross:read", "sample:read", "institute:read", "observation_variable:read"})
      */
-    private $generation;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read",
-     * "program:read", "accession:read", "cross:read", "sample:read", "institute:read", "observation_variable:read"})
-     */
     private $ancestorPedigreeEntryID;
 
     /**
@@ -91,6 +83,11 @@ class Pedigree
 
     private $parenstOfPeds;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Generation::class, inversedBy="pedigrees")
+     */
+    private $generation;
+
     public function __construct()
     {
         $this->germplasm = new ArrayCollection();
@@ -111,18 +108,6 @@ class Pedigree
     public function setPedigreeEntryID(?string $pedigreeEntryID): self
     {
         $this->pedigreeEntryID = $pedigreeEntryID;
-
-        return $this;
-    }
-
-    public function getGeneration(): ?string
-    {
-        return $this->generation;
-    }
-
-    public function setGeneration(?string $generation): self
-    {
-        $this->generation = $generation;
 
         return $this;
     }
@@ -463,4 +448,16 @@ class Pedigree
     //     return $pollinationEvents;
 
     // }
+
+    public function getGeneration(): ?Generation
+    {
+        return $this->generation;
+    }
+
+    public function setGeneration(?Generation $generation): self
+    {
+        $this->generation = $generation;
+
+        return $this;
+    }
 }

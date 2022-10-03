@@ -28,7 +28,7 @@ class CiCriteria
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"ci_criteria:read"})
      */
     private $name;

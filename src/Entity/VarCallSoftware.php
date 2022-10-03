@@ -24,7 +24,7 @@ class VarCallSoftware
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $name;
 
@@ -48,9 +48,30 @@ class VarCallSoftware
      */
     private $genotypingPlatforms;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=VarCallSoftware::class, inversedBy="varCallSoftware")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=VarCallSoftware::class, mappedBy="parentTerm")
+     */
+    private $varCallSoftware;
+
     public function __construct()
     {
         $this->genotypingPlatforms = new ArrayCollection();
+        $this->varCallSoftware = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,5 +162,71 @@ class VarCallSoftware
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getVarCallSoftware(): Collection
+    {
+        return $this->varCallSoftware;
+    }
+
+    public function addVarCallSoftware(self $varCallSoftware): self
+    {
+        if (!$this->varCallSoftware->contains($varCallSoftware)) {
+            $this->varCallSoftware[] = $varCallSoftware;
+            $varCallSoftware->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVarCallSoftware(self $varCallSoftware): self
+    {
+        if ($this->varCallSoftware->removeElement($varCallSoftware)) {
+            // set the owning side to null (unless already changed)
+            if ($varCallSoftware->getParentTerm() === $this) {
+                $varCallSoftware->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

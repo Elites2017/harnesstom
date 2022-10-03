@@ -28,7 +28,7 @@ class BreedingMethod
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"breeding_method:read"})
      */
     private $name;

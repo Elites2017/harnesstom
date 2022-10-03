@@ -566,7 +566,7 @@ class Germplasm
      */
     public function getAcquisitionSourceCode()
     {
-        return $this->accession->getCollsrc()->getCode();
+        return $this->accession->getCollsrc()->getOntologyId();
     }
 
     /**
@@ -574,7 +574,7 @@ class Germplasm
      */
     public function getBiologicalStatusOfAccessionCode()
     {
-        return $this->accession->getSampstat()->getCode();
+        return $this->accession->getSampstat()->getOntologyId();
     }
 
     /**
@@ -582,7 +582,7 @@ class Germplasm
      */
     public function getBiologicalStatusOfAccessisonDescription()
     {
-        return $this->accession->getSampstat()->getLabel();
+        return $this->accession->getSampstat()->getName();
     }
 
     /**

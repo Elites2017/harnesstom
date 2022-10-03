@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EnzymeRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -26,7 +28,7 @@ class Enzyme
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"enzyme:read"})
      */
     private $name;
@@ -45,6 +47,31 @@ class Enzyme
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="enzymes")
      */
     private $createdBy;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Enzyme::class, inversedBy="enzymes")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Enzyme::class, mappedBy="parentTerm")
+     */
+    private $enzymes;
+
+    public function __construct()
+    {
+        $this->enzymes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,5 +131,71 @@ class Enzyme
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getEnzymes(): Collection
+    {
+        return $this->enzymes;
+    }
+
+    public function addEnzyme(self $enzyme): self
+    {
+        if (!$this->enzymes->contains($enzyme)) {
+            $this->enzymes[] = $enzyme;
+            $enzyme->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEnzyme(self $enzyme): self
+    {
+        if ($this->enzymes->removeElement($enzyme)) {
+            // set the owning side to null (unless already changed)
+            if ($enzyme->getParentTerm() === $this) {
+                $enzyme->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

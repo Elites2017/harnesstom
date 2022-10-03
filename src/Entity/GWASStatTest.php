@@ -28,7 +28,7 @@ class GWASStatTest
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"gwas_s_t:read"})
      */
     private $name;
@@ -68,6 +68,11 @@ class GWASStatTest
      * @ORM\OneToMany(targetEntity=GWASStatTest::class, mappedBy="parentTerm")
      */
     private $gWASStatTests;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
 
     public function __construct()
     {
@@ -215,6 +220,18 @@ class GWASStatTest
                 $gWASStatTest->setParentTerm(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

@@ -769,7 +769,7 @@ class Accession
      */
     public function getAcquisitionSourceCode()
     {
-        return $this->collsrc->getCode();
+        return $this->collsrc->getOntologyId();
     }
 
     /**
@@ -777,7 +777,7 @@ class Accession
      */
     public function getBiologicalStatusOfAccessionCode()
     {
-        return $this->sampstat->getCode();
+        return $this->sampstat->getOntologyId();
     }
 
     /**
@@ -785,7 +785,7 @@ class Accession
      */
     public function getBiologicalStatusOfAccessisonDescription()
     {
-        return $this->sampstat->getLabel();
+        return $this->sampstat->getName();
     }
 
     /**

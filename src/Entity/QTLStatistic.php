@@ -24,7 +24,7 @@ class QTLStatistic
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $name;
 
@@ -48,9 +48,30 @@ class QTLStatistic
      */
     private $qTLStudies;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=QTLStatistic::class, inversedBy="qTLStatistics")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLStatistic::class, mappedBy="parentTerm")
+     */
+    private $qTLStatistics;
+
     public function __construct()
     {
         $this->qTLStudies = new ArrayCollection();
+        $this->qTLStatistics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,5 +162,71 @@ class QTLStatistic
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getQTLStatistics(): Collection
+    {
+        return $this->qTLStatistics;
+    }
+
+    public function addQTLStatistic(self $qTLStatistic): self
+    {
+        if (!$this->qTLStatistics->contains($qTLStatistic)) {
+            $this->qTLStatistics[] = $qTLStatistic;
+            $qTLStatistic->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQTLStatistic(self $qTLStatistic): self
+    {
+        if ($this->qTLStatistics->removeElement($qTLStatistic)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLStatistic->getParentTerm() === $this) {
+                $qTLStatistic->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

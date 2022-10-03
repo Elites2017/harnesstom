@@ -28,18 +28,6 @@ class AnnotationLevel
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"annotation_level:read"})
-     */
-    private $label;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"annotation_level:read"})
-     */
-    private $code;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -59,38 +47,40 @@ class AnnotationLevel
      */
     private $analytes;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AnnotationLevel::class, inversedBy="annotationLevels")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AnnotationLevel::class, mappedBy="parentTerm")
+     */
+    private $annotationLevels;
+
     public function __construct()
     {
         $this->analytes = new ArrayCollection();
+        $this->annotationLevels = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLabel(): ?string
-    {
-        return $this->label;
-    }
-
-    public function setLabel(string $label): self
-    {
-        $this->label = $label;
-
-        return $this;
-    }
-
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function setCode(?string $code): self
-    {
-        $this->code = $code;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -163,6 +153,84 @@ class AnnotationLevel
     // in an upper level related form field from a foreign key
     public function __toString()
     {
-        return (string) $this->label;
+        return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAnnotationLevels(): Collection
+    {
+        return $this->annotationLevels;
+    }
+
+    public function addAnnotationLevel(self $annotationLevel): self
+    {
+        if (!$this->annotationLevels->contains($annotationLevel)) {
+            $this->annotationLevels[] = $annotationLevel;
+            $annotationLevel->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnotationLevel(self $annotationLevel): self
+    {
+        if ($this->annotationLevels->removeElement($annotationLevel)) {
+            // set the owning side to null (unless already changed)
+            if ($annotationLevel->getParentTerm() === $this) {
+                $annotationLevel->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

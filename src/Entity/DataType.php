@@ -28,12 +28,6 @@ class DataType
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"data_type:read"})
-     */
-    private $label;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -53,26 +47,40 @@ class DataType
      */
     private $scales;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=DataType::class, inversedBy="dataTypes")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DataType::class, mappedBy="parentTerm")
+     */
+    private $dataTypes;
+
     public function __construct()
     {
         $this->scales = new ArrayCollection();
+        $this->dataTypes = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLabel(): ?string
-    {
-        return $this->label;
-    }
-
-    public function setLabel(string $label): self
-    {
-        $this->label = $label;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -145,6 +153,84 @@ class DataType
     // in an upper level related form field from a foreign key
     public function __toString()
     {
-        return (string) $this->label;
+        return (string) $this->name;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getDataTypes(): Collection
+    {
+        return $this->dataTypes;
+    }
+
+    public function addDataType(self $dataType): self
+    {
+        if (!$this->dataTypes->contains($dataType)) {
+            $this->dataTypes[] = $dataType;
+            $dataType->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDataType(self $dataType): self
+    {
+        if ($this->dataTypes->removeElement($dataType)) {
+            // set the owning side to null (unless already changed)
+            if ($dataType->getParentTerm() === $this) {
+                $dataType->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }

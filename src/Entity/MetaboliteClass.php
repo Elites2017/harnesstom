@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\MetaboliteClassRepository;
@@ -27,7 +29,7 @@ class MetaboliteClass
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"metabolite_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read"})
      */
@@ -47,6 +49,31 @@ class MetaboliteClass
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="metaboliteClasses")
      */
     private $createdBy;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     */
+    private $ontology_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=MetaboliteClass::class, inversedBy="metaboliteClasses")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MetaboliteClass::class, mappedBy="parentTerm")
+     */
+    private $metaboliteClasses;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    public function __construct()
+    {
+        $this->metaboliteClasses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -106,5 +133,71 @@ class MetaboliteClass
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontology_id;
+    }
+
+    public function setOntologyId(string $ontology_id): self
+    {
+        $this->ontology_id = $ontology_id;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getMetaboliteClasses(): Collection
+    {
+        return $this->metaboliteClasses;
+    }
+
+    public function addMetaboliteClass(self $metaboliteClass): self
+    {
+        if (!$this->metaboliteClasses->contains($metaboliteClass)) {
+            $this->metaboliteClasses[] = $metaboliteClass;
+            $metaboliteClass->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMetaboliteClass(self $metaboliteClass): self
+    {
+        if ($this->metaboliteClasses->removeElement($metaboliteClass)) {
+            // set the owning side to null (unless already changed)
+            if ($metaboliteClass->getParentTerm() === $this) {
+                $metaboliteClass->setParentTerm(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }

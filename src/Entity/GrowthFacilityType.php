@@ -35,7 +35,7 @@ class GrowthFacilityType
     private $ontology_id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text")
      * @Groups({"growth_f_t:read", "study:read"})
      * @SerializedName("description")
      */
