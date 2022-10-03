@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-	{{ title }}
-{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
 	<div class="container">
@@ -19,8 +17,21 @@
 					{% endfor %}
 				{% endfor %}
 				{{ form_start(allelicEffectEstimatorForm) }}
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(allelicEffectEstimatorForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(allelicEffectEstimatorForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(allelicEffectEstimatorForm.name, {'attr': {'placeholder' : 'Enter the allelic effect estimator name'}}) }}
+					</div>
+				</div>
 				<div>
-					{{ form_row(allelicEffectEstimatorForm.name, {'attr': {'placeholder': "Enter the crop name" }}) }}
+					{{ form_row(allelicEffectEstimatorForm.description, {'attr': {'placeholder' : 'Enter the allelic effect estimator description'}}) }}
 				</div>
 				<div class="row">
 					<div class="col-md-6 mb-3">

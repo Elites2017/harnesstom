@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-	{{ title }}
-{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
 	<div class="container">
@@ -20,18 +18,20 @@
 				{% endfor %}
 				{{ form_start(attributeCategoryForm) }}
 				<div class="row">
-					<div class="col-md-6 mb-3">
-						{{ form_row(attributeCategoryForm.abbreviation, {'attr': {'placeholder' : 'Enter the abbreviation'}}) }}
+					<div class="col-md-4 mb-3">
+						{{ form_row(attributeCategoryForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
 					</div>
 
-					<div class="col-md-6 mb-3">
-						{{ form_row(attributeCategoryForm.name, {'attr': {'placeholder' : 'Enter the name'}}) }}
+					<div class="col-md-4 mb-3">
+						{{ form_row(attributeCategoryForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(attributeCategoryForm.name, {'attr': {'placeholder' : 'Enter the attribute category name'}}) }}
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-12 mb3">
-						{{ form_row(attributeCategoryForm.description, {'attr': {'placeholder' : 'Enter the description'}}) }}
-					</div>
+				<div>
+					{{ form_row(attributeCategoryForm.description, {'attr': {'placeholder' : 'Enter the attribute category description'}}) }}
 				</div>
 				<div class="row">
 					<div class="col-md-6 mb-3">

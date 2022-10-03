@@ -20,14 +20,20 @@
 				{% endfor %}
 				{{ form_start(annotationLevelForm) }}
 				<div class="row">
-
-					<div class="col-md-6 mb-3">
-						{{ form_row(annotationLevelForm.label, {'attr': {'placeholder' : 'Enter the label'}}) }}
+					<div class="col-md-4 mb-3">
+						{{ form_row(annotationLevelForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
 					</div>
 
-					<div class="col-md-6 mb-3">
-						{{ form_row(annotationLevelForm.code, {'attr': {'placeholder' : 'Enter the code'}}) }}
+					<div class="col-md-4 mb-3">
+						{{ form_row(annotationLevelForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
 					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(annotationLevelForm.name, {'attr': {'placeholder' : 'Enter the annotation level name'}}) }}
+					</div>
+				</div>
+				<div>
+					{{ form_row(annotationLevelForm.description, {'attr': {'placeholder' : 'Enter the annotation level description'}}) }}
 				</div>
 				<div class="row">
 					<div class="col-md-6 mb-3">

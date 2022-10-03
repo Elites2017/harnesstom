@@ -17,22 +17,22 @@
 					{% endfor %}
 				{% endfor %}
 				{{ form_start(biologicalStatusForm) }}
-
 				<div class="row">
 					<div class="col-md-4 mb-3">
-						{{ form_row(biologicalStatusForm.label, {'attr': {'placeholder' : 'Enter the biological status label'}}) }}
+						{{ form_row(biologicalStatusForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
 					</div>
 
 					<div class="col-md-4 mb-3">
-						{{ form_row(biologicalStatusForm.code, {'attr': {'placeholder' : 'Enter the biological status code'}}) }}
+						{{ form_row(biologicalStatusForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
 					</div>
 
 					<div class="col-md-4 mb-3">
-						{{ form_row(biologicalStatusForm.parentTerm, {'attr': {'placeholder' : 'Enter the biological status parent term'}}) }}
+						{{ form_row(biologicalStatusForm.name, {'attr': {'placeholder' : 'Enter the biological status name'}}) }}
 					</div>
 				</div>
-
-
+				<div>
+					{{ form_row(biologicalStatusForm.description, {'attr': {'placeholder' : 'Enter the biological status description'}}) }}
+				</div>
 				<div class="row">
 					<div class="col-md-6 mb-3">
 						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
