@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\IdentificationLevel;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,8 +13,11 @@ class IdentificationLevelUpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('label')
-            ->add('code')
+            ->add('name')
+            ->add('ontology_id')
+            ->add('description', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '7')])
+            ->add('parentTerm')
         ;
     }
 

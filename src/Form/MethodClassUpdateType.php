@@ -14,8 +14,10 @@ class MethodClassUpdateType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('ontology_id')
             ->add('description', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '5')])
+                'attr' => array('cols' => '5', 'rows' => '7')])
+            ->add('parentTerm')
         ;
     }
 

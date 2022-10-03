@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Enzyme;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,6 +14,10 @@ class EnzymeUpdateType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('ontology_id')
+            ->add('description', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '7')])
+            ->add('parentTerm')
         ;
     }
 

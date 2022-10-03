@@ -14,9 +14,10 @@ class AttributeCategoryUpdateType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('ontology_id')
             ->add('description', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '5')])
-            ->add('abbreviation')
+                'attr' => array('cols' => '5', 'rows' => '7')])
+            ->add('parentTerm')
         ;
     }
 
