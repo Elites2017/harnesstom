@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Accession;
 use App\Entity\Germplasm;
+use App\Entity\Institute;
+use App\Entity\Program;
 use App\Repository\AccessionRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -11,11 +13,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 
 class GermplasmType extends AbstractType
 {
+    private $router;
+
+    function __construct(RouterInterface $router){
+        $this->router = $router;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $toUrlProgram = $this->router->generate('program_create');
+        $toUrlInstitute = $this->router->generate('institute_create');
+        $toUrlAccession = $this->router->generate('accession_create');
+
         $builder
             ->add('germplasmID')
             ->add('preprocessing')
@@ -27,13 +40,27 @@ class GermplasmType extends AbstractType
             //     },
             //     'choice_label' => 'maintainerNumb'
             // ])
-            ->add('program')
-            ->add('maintainerInstituteCode')
+            ->add('program', EntityType::class, [
+                'class' => Program::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $toUrlProgram .'" target="_blank">Program</a>'
+                
+            ])
+            ->add('maintainerInstituteCode', EntityType::class, [
+                'class' => Institute::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
+                
+            ])
             // this is the maintainer numb
             ->add('accession', EntityType::class, [
                 'class' => Accession::class,
-                'choice_label' => 'maintainerNumb'
-
+                'choice_label' => 'maintainerNumb',
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $toUrlAccession .'" target="_blank">Accession</a>'
             ])
         ;
 

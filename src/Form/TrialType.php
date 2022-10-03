@@ -2,17 +2,29 @@
 
 namespace App\Form;
 
+use App\Entity\Program;
 use App\Entity\Trial;
+use App\Entity\TrialType as EntityTrialType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 
 class TrialType extends AbstractType
 {
+    private $router;
+
+    function __construct(RouterInterface $router){
+        $this->router = $router;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $toUrlProgram = $this->router->generate('program_create');
+        $toUrlTrialType = $this->router->generate('trial_type_create');
         $builder
             ->add('name')
             ->add('description', TextareaType::class, [
@@ -30,8 +42,20 @@ class TrialType extends AbstractType
             ->add('license')
             ->add('pui')
             ->add('publicationReference')
-            ->add('program')
-            ->add('trialType')
+            ->add('program', EntityType::class, [
+                'class' => Program::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $toUrlProgram .'" target="_blank">Program</a>'
+                
+            ])
+            ->add('trialType', EntityType::class, [
+                'class' => EntityTrialType::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $toUrlTrialType .'" target="_blank">Trial Type</a>'
+                
+            ])
         ;
     }
 

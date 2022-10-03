@@ -20,7 +20,7 @@ class InstituteUpdateType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $tosUrl = $this->router->generate('country_create');
+        $toUrlCountry = $this->router->generate('country_create');
         $builder
             ->add('instcode')
             ->add('acronym')
@@ -32,7 +32,7 @@ class InstituteUpdateType extends AbstractType
                 'class' => Country::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $tosUrl .'" target="_blank">Country</a>'
+                'help' => 'Add a new <a href="' . $toUrlCountry .'" target="_blank">Country</a>'
                 
             ])
         ;

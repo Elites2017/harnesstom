@@ -15,9 +15,6 @@ class CollectionType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('publicationReference')
-            ->add('createdAt')
-            ->add('isActive')
-            ->add('createdBy')
             ->add('germplasm')
         ;
     }
