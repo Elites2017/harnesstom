@@ -375,12 +375,20 @@ class Pedigree
             $pedigreeProgenyArr [] = [
                 "germplasmDbid" => $oneProgeny->getPedigreeGermplasm()->getGermplasmID(),
                 "germplasmName" => $oneProgeny->getPedigreeGermplasm()->getAccession()->getAccename(),
-                "parentType" => $typeOfParentOfProgeny
+                "parentType" => $typeOfParentOfProgeny,
             ];
         }
 
         return $pedigreeProgenyArr;
     }
+
+    //  * @Groups({"pedigree:read"})
+    //  */
+    public function getSiblings() {
+        $siblings = [];
+        return $this->id;
+    }
+
 
     // public function getParent() {
     //     $parent = [
