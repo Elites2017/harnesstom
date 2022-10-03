@@ -29,7 +29,7 @@ class Study
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Groups({"study:read", "germplasm:read"})
      * @SerializedName("studyName")
      */

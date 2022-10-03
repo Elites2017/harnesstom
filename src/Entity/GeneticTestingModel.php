@@ -28,7 +28,7 @@ class GeneticTestingModel
     private $id;
 
     /**
-     * @ORM\Column(type="tex")
+     * @ORM\Column(type="text")
      * @Groups({"genetic_t_m:read"})
      */
     private $name;
