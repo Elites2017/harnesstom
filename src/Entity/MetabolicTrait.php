@@ -115,12 +115,23 @@ class MetabolicTrait
      */
     private $metabolicTraits;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=MetabolicTrait::class, inversedBy="variableOfMetabolicTraits")
+     */
+    private $variableOf;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MetabolicTrait::class, mappedBy="variableOf")
+     */
+    private $variableOfMetabolicTraits;
+
     public function __construct()
     {
         $this->metabolites = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
         $this->metabolicTraits = new ArrayCollection();
         $this->parentTerm = new ArrayCollection();
+        $this->variableOfMetabolicTraits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -361,6 +372,48 @@ class MetabolicTrait
     {
         if ($this->metabolicTraits->removeElement($metabolicTrait)) {
             $metabolicTrait->removeParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function getVariableOf(): ?self
+    {
+        return $this->variableOf;
+    }
+
+    public function setVariableOf(?self $variableOf): self
+    {
+        $this->variableOf = $variableOf;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getVariableOfMetabolicTraits(): Collection
+    {
+        return $this->variableOfMetabolicTraits;
+    }
+
+    public function addVariableOfMetabolicTrait(self $variableOfMetabolicTrait): self
+    {
+        if (!$this->variableOfMetabolicTraits->contains($variableOfMetabolicTrait)) {
+            $this->variableOfMetabolicTraits[] = $variableOfMetabolicTrait;
+            $variableOfMetabolicTrait->setVariableOf($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariableOfMetabolicTrait(self $variableOfMetabolicTrait): self
+    {
+        if ($this->variableOfMetabolicTraits->removeElement($variableOfMetabolicTrait)) {
+            // set the owning side to null (unless already changed)
+            if ($variableOfMetabolicTrait->getVariableOf() === $this) {
+                $variableOfMetabolicTrait->setVariableOf(null);
+            }
         }
 
         return $this;

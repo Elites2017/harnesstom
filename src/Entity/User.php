@@ -481,6 +481,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $variantSets;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Generation::class, mappedBy="createdBy")
+     */
+    private $generations;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -566,6 +571,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->qTLStudies = new ArrayCollection();
         $this->qTLVariants = new ArrayCollection();
         $this->variantSets = new ArrayCollection();
+        $this->generations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -3194,6 +3200,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($variantSet->getCreatedBy() === $this) {
                 $variantSet->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Generation>
+     */
+    public function getGenerations(): Collection
+    {
+        return $this->generations;
+    }
+
+    public function addGeneration(Generation $generation): self
+    {
+        if (!$this->generations->contains($generation)) {
+            $this->generations[] = $generation;
+            $generation->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGeneration(Generation $generation): self
+    {
+        if ($this->generations->removeElement($generation)) {
+            // set the owning side to null (unless already changed)
+            if ($generation->getCreatedBy() === $this) {
+                $generation->setCreatedBy(null);
             }
         }
 

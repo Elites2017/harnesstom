@@ -162,9 +162,9 @@ class AnatomicalEntityController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $name = $row['A'];
-                $description = $row['B'];
-                $ontology_id = $row['C'];
+                $ontology_id = $row['A'];
+                $name = $row['B'];
+                $description = $row['C'];
                 $parentTerm = $row['D'];
                 // check if the file doesn't have empty columns
                 if ($name != null && $description != null && $ontology_id != null && $parentTerm != null) {
@@ -207,7 +207,7 @@ class AnatomicalEntityController extends AbstractController
                     $this->addFlash('success', $diffBeforeAndAfter . " anatomical entities have been successfuly added");
                 }
             }
-            return $this->redirect($this->generateUrl('factor_type_index'));
+            return $this->redirect($this->generateUrl('anatomical_entity_index'));
         }
 
         $context = [

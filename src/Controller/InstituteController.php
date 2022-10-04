@@ -178,7 +178,7 @@ class InstituteController extends AbstractController
                     if (!$existingInstitute) {
                         $institute = new Institute();
                         $instituteCountry = $entmanager->getRepository(Country::class)->findOneBy(['iso3' => $countryISO3]);
-                        if ($instituteCountry instanceof \App\Entity\Country) {
+                        if (($instituteCountry != null) && ($instituteCountry instanceof \App\Entity\Country)) {
                             $institute->setCountry($instituteCountry);
                         }
                         if ($this->getUser()) {

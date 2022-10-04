@@ -44,17 +44,26 @@ class Generation
     /**
      * @ORM\OneToMany(targetEntity=Pedigree::class, mappedBy="generation")
      */
-    private $clear;
+    private $pedigrees;
 
     /**
-     * @ORM\OneToMany(targetEntity=Pedigree::class, mappedBy="generation")
+     * @ORM\Column(type="datetime")
      */
-    private $pedigrees;
+    private $createdAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="generations")
+     */
+    private $createdBy;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
 
     public function __construct()
     {
         $this->generations = new ArrayCollection();
-        $this->clear = new ArrayCollection();
         $this->pedigrees = new ArrayCollection();
     }
 
@@ -114,36 +123,6 @@ class Generation
     /**
      * @return Collection<int, Pedigree>
      */
-    public function getClear(): Collection
-    {
-        return $this->clear;
-    }
-
-    public function addClear(Pedigree $clear): self
-    {
-        if (!$this->clear->contains($clear)) {
-            $this->clear[] = $clear;
-            $clear->setGeneration($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClear(Pedigree $clear): self
-    {
-        if ($this->clear->removeElement($clear)) {
-            // set the owning side to null (unless already changed)
-            if ($clear->getGeneration() === $this) {
-                $clear->setGeneration(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Pedigree>
-     */
     public function getPedigrees(): Collection
     {
         return $this->pedigrees;
@@ -167,6 +146,42 @@ class Generation
                 $pedigree->setGeneration(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

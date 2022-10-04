@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\Metabolite;
-use App\Form\MetaboliteType;
-use App\Form\MetaboliteUpdateType;
+use App\Entity\MetaboliteClass;
+use App\Form\MetaboliteClassType;
+use App\Form\MetaboliteClassUpdateType;
 use App\Form\UploadFromExcelType;
-use App\Repository\MetaboliteRepository;
+use App\Repository\MetaboliteClassRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,21 +18,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 // set a class level route
 /**
- * @Route("/metabolite", name="metabolite_")
+ * @Route("/metabolite/class", name="metabolite_class_")
  */
-class MetaboliteController extends AbstractController
+class MetaboliteClassController extends AbstractController
 {
     /**
      * @Route("/", name="index")
      */
-    public function index(MetaboliteRepository $metaboliteRepo): Response
+    public function index(MetaboliteClassRepository $metaboliteClassRepo): Response
     {
-        $metabolites =  $metaboliteRepo->findAll();
+        $metaboliteClasses =  $metaboliteClassRepo->findAll();
         $context = [
-            'title' => 'Metabolite List',
-            'metabolites' => $metabolites
+            'title' => 'Metabolite Class List',
+            'metaboliteClasses' => $metaboliteClasses
         ];
-        return $this->render('metabolite/index.html.twig', $context);
+        return $this->render('metabolite_class/index.html.twig', $context);
     }
 
     /**
@@ -41,76 +41,76 @@ class MetaboliteController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $metabolite = new Metabolite();
-        $form = $this->createForm(MetaboliteType::class, $metabolite);
+        $metaboliteClass = new MetaboliteClass();
+        $form = $this->createForm(MetaboliteClassType::class, $metaboliteClass);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()) {
-                $metabolite->setCreatedBy($this->getUser());
+                $metaboliteClass->setCreatedBy($this->getUser());
             }
-            $metabolite->setIsActive(true);
-            $metabolite->setCreatedAt(new \DateTime());
-            $entmanager->persist($metabolite);
+            $metaboliteClass->setIsActive(true);
+            $metaboliteClass->setCreatedAt(new \DateTime());
+            $entmanager->persist($metaboliteClass);
             $entmanager->flush();
-            return $this->redirect($this->generateUrl('metabolite_index'));
+            return $this->redirect($this->generateUrl('metabolite_class_index'));
         }
 
         $context = [
-            'title' => 'Metabolite Creation',
-            'metaboliteForm' => $form->createView()
+            'title' => 'Metabolite Class Creation',
+            'metaboliteClassForm' => $form->createView()
         ];
-        return $this->render('metabolite/create.html.twig', $context);
+        return $this->render('metabolite_class/create.html.twig', $context);
     }
 
     /**
      * @Route("/details/{id}", name="details")
      */
-    public function details(Metabolite $metaboliteSelected): Response
+    public function details(MetaboliteClass $metaboliteClasseSelected): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
-            'title' => 'Metabolite Details',
-            'metabolite' => $metaboliteSelected
+            'title' => 'Metabolite Class Details',
+            'metaboliteClass' => $metaboliteClasseSelected
         ];
-        return $this->render('metabolite/details.html.twig', $context);
+        return $this->render('metabolite_class/details.html.twig', $context);
     }
 
     /**
      * @Route("/edit/{id}", name="edit")
      */
-    public function edit(Metabolite $metabolite, Request $request, EntityManagerInterface $entmanager): Response
+    public function edit(MetaboliteClass $metaboliteClass, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('metabolite_edit', $metabolite);
-        $form = $this->createForm(MetaboliteUpdateType::class, $metabolite);
+        $this->denyAccessUnlessGranted('metabolite_class_edit', $metaboliteClass);
+        $form = $this->createForm(MetaboliteClassUpdateType::class, $metaboliteClass);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entmanager->persist($metabolite);
+            $entmanager->persist($metaboliteClass);
             $entmanager->flush();
-            return $this->redirect($this->generateUrl('metabolite_index'));
+            return $this->redirect($this->generateUrl('metabolite_class_index'));
         }
 
         $context = [
-            'title' => 'Metabolite Update',
-            'metaboliteForm' => $form->createView()
+            'title' => 'Metabolite Class Update',
+            'metaboliteClassForm' => $form->createView()
         ];
-        return $this->render('metabolite/edit.html.twig', $context);
+        return $this->render('metabolite_class/edit.html.twig', $context);
     }
 
     /**
      * @Route("/delete/{id}", name="delete")
      */
-    public function delete(Metabolite $metabolite, Request $request, EntityManagerInterface $entmanager): Response
+    public function delete(MetaboliteClass $metaboliteClass, Request $request, EntityManagerInterface $entmanager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        if ($metabolite->getId()) {
-            $metabolite->setIsActive(!$metabolite->getIsActive());
+        if ($metaboliteClass->getId()) {
+            $metaboliteClass->setIsActive(!$metaboliteClass->getIsActive());
         }
-        $entmanager->persist($metabolite);
+        $entmanager->persist($metaboliteClass);
         $entmanager->flush();
 
         return $this->json([
             'code' => 200,
-            'message' => $metabolite->getIsActive()
+            'message' => $metaboliteClass->getIsActive()
         ], 200);
         //return $this->redirect($this->generateUrl('season_home'));
     }
@@ -126,9 +126,9 @@ class MetaboliteController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Setup repository of some entity
-            $repoMetabolite = $entmanager->getRepository(Metabolite::class);
-            // Query how many rows are there in the metabolite table
-            $totalMetaboliteBefore = $repoMetabolite->createQueryBuilder('tab')
+            $repoMetaboliteClass = $entmanager->getRepository(Metabolite::class);
+            // Query how many rows are there in the metabolite class table
+            $totalMetaboliteClassBefore = $repoMetaboliteClass->createQueryBuilder('tab')
                 // Filter by some parameter if you want
                 // ->where('a.isActive = 1')
                 ->select('count(tab.id)')
@@ -168,46 +168,49 @@ class MetaboliteController extends AbstractController
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null & $name != null) {
                     // check if the data is upload in the database
-                    $existingMetabolite = $entmanager->getRepository(Metabolite::class)->findOneBy(['name' => $name]);
+                    $existingMetaboliteClass = $entmanager->getRepository(MetaboliteClass::class)->findOneBy(['name' => $name]);
                     // upload data only for countries that haven't been saved in the database
-                    if (!$existingMetabolite) {
-                        $metabolite = new Metabolite();
+                    if (!$existingMetaboliteClass) {
+                        $metaboliteClass = new MetaboliteClass();
                         if ($this->getUser()) {
-                            $metabolite->setCreatedBy($this->getUser());
+                            $metaboliteClass->setCreatedBy($this->getUser());
                         }
-                        $metabolite->setIsActive(true);
-                        $metabolite->setCreatedAt(new \DateTime());
-                        $entmanager->persist($metabolite);
+                        $metaboliteClass->setName($name);
+                        $metaboliteClass->setOntologyId($ontology_id);
+                        $metaboliteClass->setParentTerm($parentTerm);
+                        $metaboliteClass->setIsActive(true);
+                        $metaboliteClass->setCreatedAt(new \DateTime());
+                        $entmanager->persist($metaboliteClass);
                     }
                 }
             }
             $entmanager->flush();
             // Query how many rows are there in the Country table
-            $totalMetaboliteAfter = $repoMetabolite->createQueryBuilder('tab')
+            $totalMetaboliteClassAfter = $repoMetaboliteClass->createQueryBuilder('tab')
                 // Filter by some parameter if you want
                 // ->where('a.isActive = 1')
                 ->select('count(tab.id)')
                 ->getQuery()
                 ->getSingleScalarResult();
 
-            if ($totalMetaboliteBefore == 0) {
-                $this->addFlash('success', $totalMetaboliteAfter . " metabolites have been successfuly added");
+            if ($totalMetaboliteClassBefore == 0) {
+                $this->addFlash('success', $totalMetaboliteClassAfter . " metabolite classes have been successfuly added");
             } else {
-                $diffBeforeAndAfter = $totalMetaboliteAfter - $totalMetaboliteBefore;
+                $diffBeforeAndAfter = $totalMetaboliteClassAfter - $totalMetaboliteClassBefore;
                 if ($diffBeforeAndAfter == 0) {
-                    $this->addFlash('success', "No new metabolite has been added");
+                    $this->addFlash('success', "No new metabolite class has been added");
                 } else if ($diffBeforeAndAfter == 1) {
-                    $this->addFlash('success', $diffBeforeAndAfter . " metabolite has been successfuly added");
+                    $this->addFlash('success', $diffBeforeAndAfter . " metabolite class has been successfuly added");
                 } else {
-                    $this->addFlash('success', $diffBeforeAndAfter . " metabolites have been successfuly added");
+                    $this->addFlash('success', $diffBeforeAndAfter . " metabolite classes have been successfuly added");
                 }
             }
             return $this->redirect($this->generateUrl('metabolite_index'));
         }
 
         $context = [
-            'title' => 'Metabolite Upload From Excel',
-            'metaboliteUploadFromExcelForm' => $form->createView()
+            'title' => 'Metabolite Class Upload From Excel',
+            'metaboliteClassUploadFromExcelForm' => $form->createView()
         ];
         return $this->render('metabolite/upload_from_excel.html.twig', $context);
     }
@@ -223,4 +226,3 @@ class MetaboliteController extends AbstractController
        
     }
 }
-

@@ -110,6 +110,15 @@ class FlavorHealthController extends AbstractController
         ], 200);
         //return $this->redirect($this->generateUrl('factorType_home'));
     }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel", name="upload_from_excel")
+     */
+    public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        dd("Good morning SEASON");
+    }
 }
 
 

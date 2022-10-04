@@ -163,9 +163,9 @@ class AllelicEffectEstimatorController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $name = $row['A'];
-                $description = $row['B'];
-                $ontologyId = $row['C'];
+                $name = $row['B'];
+                $description = $row['C'];
+                $ontologyId = $row['A'];
                 $parentTerm = $row['D'];
                 // check if the file doesn't have empty columns
                 if ($name != null) {
