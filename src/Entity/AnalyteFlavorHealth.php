@@ -53,9 +53,30 @@ class AnalyteFlavorHealth
      */
     private $analytes;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ontologyId;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AnalyteFlavorHealth::class, inversedBy="analyteFlavorHealths")
+     */
+    private $parentTerm;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AnalyteFlavorHealth::class, mappedBy="parentTerm")
+     */
+    private $analyteFlavorHealths;
+
     public function __construct()
     {
         $this->analytes = new ArrayCollection();
+        $this->analyteFlavorHealths = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,5 +167,71 @@ class AnalyteFlavorHealth
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getOntologyId(): ?string
+    {
+        return $this->ontologyId;
+    }
+
+    public function setOntologyId(string $ontologyId): self
+    {
+        $this->ontologyId = $ontologyId;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getParentTerm(): ?self
+    {
+        return $this->parentTerm;
+    }
+
+    public function setParentTerm(?self $parentTerm): self
+    {
+        $this->parentTerm = $parentTerm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAnalyteFlavorHealths(): Collection
+    {
+        return $this->analyteFlavorHealths;
+    }
+
+    public function addAnalyteFlavorHealth(self $analyteFlavorHealth): self
+    {
+        if (!$this->analyteFlavorHealths->contains($analyteFlavorHealth)) {
+            $this->analyteFlavorHealths[] = $analyteFlavorHealth;
+            $analyteFlavorHealth->setParentTerm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyteFlavorHealth(self $analyteFlavorHealth): self
+    {
+        if ($this->analyteFlavorHealths->removeElement($analyteFlavorHealth)) {
+            // set the owning side to null (unless already changed)
+            if ($analyteFlavorHealth->getParentTerm() === $this) {
+                $analyteFlavorHealth->setParentTerm(null);
+            }
+        }
+
+        return $this;
     }
 }
