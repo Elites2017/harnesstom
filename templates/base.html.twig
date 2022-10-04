@@ -105,38 +105,6 @@
 										</li>
 									</ul>
 								</li>
-								<li>
-									<a class="dropdown-item" href="#">
-										Institute &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('institute_create')}}">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('institute_upload_from_excel') }}">Upload From Excel File</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{path('institute_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#">
-										Factor &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('factor_type_create')}}">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel') }}">Upload From Excel File</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{path('factor_type_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
 							</ul>
 						</li>
 						<li class="nav-item dropdown">
@@ -230,22 +198,6 @@
 										</li>
 										<li>
 											<a class="dropdown-item" href="{{ path('pedigree_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#">
-										Country of origin &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('country_create') }}">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('country_index') }}">Search</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('country_upload_from_excel') }}">Upload From Excel File</a>
 										</li>
 									</ul>
 								</li>
@@ -543,6 +495,22 @@
 								</li>
 								<li>
 									<a class="dropdown-item" href="#">
+										Country &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{ path('country_create') }}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('country_index') }}">Search</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('country_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
 										Ci Criteria &raquo;
 									</a>
 									<ul class="dropdown-menu dropdown-submenu">
@@ -652,6 +620,38 @@
 								</li>
 								<li>
 									<a class="dropdown-item" href="#">
+										Factor &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('factor_type_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('factor_type_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Generation &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('generation_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('generation_upload_from_excel')}}">Upload From Excel</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('generation_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
 										Genetic Testing Model &raquo;
 									</a>
 									<ul class="dropdown-menu dropdown-submenu">
@@ -732,6 +732,22 @@
 								</li>
 								<li>
 									<a class="dropdown-item" href="#">
+										Institute &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('institute_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('institute_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('institute_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
 										Kinship Algorithm &raquo;
 									</a>
 									<ul class="dropdown-menu dropdown-submenu">
@@ -743,6 +759,38 @@
 										</li>
 										<li>
 											<a class="dropdown-item" href="{{path('kinship_algorithm_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Metabolic Trait &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('metabolic_trait_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('metabolic_trait_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('metabolic_trait_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Metabolite Class &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('metabolite_class_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('metabolite_class_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('metabolite_class_index')}}">Search</a>
 										</li>
 									</ul>
 								</li>
@@ -764,6 +812,22 @@
 								</li>
 								<li>
 									<a class="dropdown-item" href="#">
+										MLS Status &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('mls_status_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('mls_status_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('mls_status_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
 										QTL Method &raquo;
 									</a>
 									<ul class="dropdown-menu dropdown-submenu">
@@ -775,6 +839,38 @@
 										</li>
 										<li>
 											<a class="dropdown-item" href="{{path('qtl_method_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										QTL Statistic &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('qtl_statistic_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('qtl_statistic_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('qtl_statistic_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Season &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('season_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('season_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('season_index')}}">Search</a>
 										</li>
 									</ul>
 								</li>
@@ -812,7 +908,7 @@
 								</li>
 								<li>
 									<a class="dropdown-item" href="#">
-										Software &raquo;
+										Variant Association Software &raquo;
 									</a>
 									<ul class="dropdown-menu dropdown-submenu">
 										<li>
@@ -823,6 +919,134 @@
 										</li>
 										<li>
 											<a class="dropdown-item" href="{{path('software_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Storage type &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('storage_type_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('storage_type_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('storage_type_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Structure Method &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('structure_method_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('structure_method_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('structure_method_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Taxonomy &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('taxonomy_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('taxonomy_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('taxonomy_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Threshold Method &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('threshold_method_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('threshold_method_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('threshold_method_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Trait &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('trait_class_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('trait_class_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('trait_class_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Trial Type &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('trial_type_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('trial_type_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('trial_type_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Unit &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('unit_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('unit_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('unit_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Variant Call Software &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('var_call_software_create')}}">Create</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path('var_call_software_upload_from_excel') }}">Upload From Excel File</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{path('var_call_software_index')}}">Search</a>
 										</li>
 									</ul>
 								</li>
