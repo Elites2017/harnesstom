@@ -41,8 +41,8 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Label</th>
-									<th scope="col">Code</th>
+									<th scope="col">Name</th>
+									<th scope="col">Ontology ID</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -50,10 +50,10 @@
 								{% for mlsStatus in mlsStatuses %}
 									<tr>
 										<td>
-											<a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">{{ mlsStatus.Label }}</a>
+											<a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">{{ mlsStatus.name }}</a>
 										</td>
 										<td>
-											<a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">{{ mlsStatus.code }}</a>
+											<a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">{{ mlsStatus.ontology_id }}</a>
 										</td>
 										<td>
 											<a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">

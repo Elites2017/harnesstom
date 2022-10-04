@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-	{{ title }}
-{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block body %}
 	<div class="container">
@@ -19,11 +17,25 @@
 					{% endfor %}
 				{% endfor %}
 				{{ form_start(seasonForm) }}
-				{{ form_row(seasonForm.name, {'attr': {'placeholder': "Enter the season name" }}) }}
-				{{ form_row(seasonForm.description, {'attr': {'placeholder': "Enter the season description" }}) }}
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(seasonForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(seasonForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(seasonForm.name, {'attr': {'placeholder' : 'Enter the season name'}}) }}
+					</div>
+				</div>
+				<div>
+					{{ form_row(seasonForm.description, {'attr': {'placeholder' : 'Enter the season description'}}) }}
+				</div>
 				<div class="row">
 					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Upate</button>
+						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
 					</div>
 
 					<div class="col-md-6 mb-3">

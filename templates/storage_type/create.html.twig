@@ -6,7 +6,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Storage Type Creation</h2>
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">New Storage Type</h2>
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -19,15 +19,20 @@
 				{{ form_start(storageTypeForm) }}
 				<div class="row">
 					<div class="col-md-4 mb-3">
-						{{ form_row(storageTypeForm.label, {'attr': {'placeholder' : 'Enter the label'}}) }}
+						{{ form_row(storageTypeForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology ID'}}) }}
 					</div>
 
                     <div class="col-md-4 mb-3">
-						{{ form_row(storageTypeForm.code, {'attr': {'placeholder' : 'Enter the code'}}) }}
+						{{ form_row(storageTypeForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
 					</div>
 
 					<div class="col-md-4 mb-3">
-						{{ form_row(storageTypeForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term'}}) }}
+						{{ form_row(storageTypeForm.name, {'attr': {'placeholder' : 'Enter the parent name'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						{{ form_row(storageTypeForm.description, {'attr': {'placeholder' : 'Enter the stoage type description'}}) }}
 					</div>
 				</div>
 				<div class="row">

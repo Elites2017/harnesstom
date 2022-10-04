@@ -23,11 +23,16 @@
 					</div>
 
 					<div class="col-md-4 mb-3">
-						{{ form_row(structureMethodForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term'}}) }}
+						{{ form_row(structureMethodForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
 					</div>
 
 					<div class="col-md-4 mb-3">
 						{{ form_row(structureMethodForm.name, {'attr': {'placeholder' : 'Enter the name'}}) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						{{ form_row(structureMethodForm.description, {'attr': {'placeholder' : 'Enter the structure method description'}}) }}
 					</div>
 				</div>
 				<div class="row">

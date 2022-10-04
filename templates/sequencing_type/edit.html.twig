@@ -3,8 +3,8 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="row">
+<div class="container">
+	<div class="row">
 			<div class="col-md-12 order-md-1">
 				<h2 class="mb-3 text-center tomato-color font-weight-bold">Sequencing Type Edition</h2>
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
@@ -17,7 +17,26 @@
 					{% endfor %}
 				{% endfor %}
 				{{ form_start(sequencingTypeForm) }}
-				{{ form_row(sequencingTypeForm.label, {'attr': {'placeholder': "Enter the label" }}) }}
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(sequencingTypeForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(sequencingTypeForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(sequencingTypeForm.name, {'attr': {'placeholder' : 'Enter the sequencing type name'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						{{ form_row(sequencingTypeForm.description, {'attr': {'placeholder' : 'Enter the sequencing type description'}}) }}
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-6 mb-3">
 						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
@@ -29,8 +48,8 @@
 				</div>
 				{{ form_end(sequencingTypeForm) }}
 			</div>
-		</div>
-		<!-- .row -->
 	</div>
-	<!-- .container -->
+	<!-- .row -->
+</div>
+<!-- .container -->
 {% endblock %}

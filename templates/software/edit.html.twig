@@ -3,8 +3,8 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="row">
+<div class="container">
+	<div class="row">
 			<div class="col-md-12 order-md-1">
 				<h2 class="mb-3 text-center tomato-color font-weight-bold">Software Edition</h2>
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
@@ -17,17 +17,24 @@
 					{% endfor %}
 				{% endfor %}
 				{{ form_start(softwareForm) }}
+
 				<div class="row">
 					<div class="col-md-4 mb-3">
 						{{ form_row(softwareForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
 					</div>
 
 					<div class="col-md-4 mb-3">
-						{{ form_row(softwareForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term'}}) }}
+						{{ form_row(softwareForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
 					</div>
 
 					<div class="col-md-4 mb-3">
-						{{ form_row(softwareForm.name, {'attr': {'placeholder' : 'Enter the name'}}) }}
+						{{ form_row(softwareForm.name, {'attr': {'placeholder' : 'Enter the software name'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						{{ form_row(softwareForm.description, {'attr': {'placeholder' : 'Enter the software description'}}) }}
 					</div>
 				</div>
 				<div class="row">
@@ -41,8 +48,8 @@
 				</div>
 				{{ form_end(softwareForm) }}
 			</div>
-		</div>
-		<!-- .row -->
 	</div>
-	<!-- .container -->
+	<!-- .row -->
+</div>
+<!-- .container -->
 {% endblock %}

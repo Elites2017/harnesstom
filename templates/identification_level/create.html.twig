@@ -3,10 +3,10 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="row">
+<div class="container">
+	<div class="row">
 			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Identification Level Creation</h2>
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">New Identification Level</h2>
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -17,14 +17,24 @@
 					{% endfor %}
 				{% endfor %}
 				{{ form_start(identificationLevelForm) }}
-				<div class="row">
 
-					<div class="col-md-6 mb-3">
-						{{ form_row(identificationLevelForm.label, {'attr': {'placeholder' : 'Enter the label'}}) }}
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(identificationLevelForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
 					</div>
 
-					<div class="col-md-6 mb-3">
-						{{ form_row(identificationLevelForm.code, {'attr': {'placeholder' : 'Enter the code'}}) }}
+					<div class="col-md-4 mb-3">
+						{{ form_row(identificationLevelForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(identificationLevelForm.name, {'attr': {'placeholder' : 'Enter the identification level name'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						{{ form_row(identificationLevelForm.description, {'attr': {'placeholder' : 'Enter the identification level description'}}) }}
 					</div>
 				</div>
 				<div class="row">
@@ -38,9 +48,8 @@
 				</div>
 				{{ form_end(identificationLevelForm) }}
 			</div>
-		</div>
-		<!-- .row -->
 	</div>
-	<!-- .container -->
+	<!-- .row -->
+</div>
+<!-- .container -->
 {% endblock %}
-

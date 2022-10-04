@@ -3,10 +3,10 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="row">
+<div class="container">
+	<div class="row">
 			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">GWAS Model Creation</h2>
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">New GWAS Model</h2>
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -24,7 +24,7 @@
 					</div>
 
 					<div class="col-md-4 mb-3">
-						{{ form_row(gwasModelForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term'}}) }}
+						{{ form_row(gwasModelForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
 					</div>
 
 					<div class="col-md-4 mb-3">
@@ -32,6 +32,11 @@
 					</div>
 				</div>
 
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						{{ form_row(gwasModelForm.description, {'attr': {'placeholder' : 'Enter the gwas model description'}}) }}
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-6 mb-3">
 						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
@@ -43,8 +48,8 @@
 				</div>
 				{{ form_end(gwasModelForm) }}
 			</div>
-		</div>
-		<!-- .row -->
 	</div>
-	<!-- .container -->
+	<!-- .row -->
+</div>
+<!-- .container -->
 {% endblock %}

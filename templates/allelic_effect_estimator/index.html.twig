@@ -23,7 +23,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Allelic Effect Estimator Name</th>
+									<th scope="col">Ontology ID</th>
+									<th scope="col">Allelic Effect Estimator</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent Term</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -31,7 +34,16 @@
 								{% for allelicEffectEstimator in allelicEffectEstimators %}
 									<tr>
 										<td>
+											<a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">{{ allelicEffectEstimator.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">{{ allelicEffectEstimator.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">{{ allelicEffectEstimator.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">{{ allelicEffectEstimator.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">

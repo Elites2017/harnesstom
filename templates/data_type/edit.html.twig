@@ -3,8 +3,8 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-	<div class="container">
-		<div class="row">
+<div class="container">
+	<div class="row">
 			<div class="col-md-12 order-md-1">
 				<h2 class="mb-3 text-center tomato-color font-weight-bold">Data Type Edition</h2>
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
@@ -17,8 +17,25 @@
 					{% endfor %}
 				{% endfor %}
 				{{ form_start(dataTypeForm) }}
-				<div>
-					{{ form_row(dataTypeForm.label, {'attr': {'placeholder': "Enter the data type label" }}) }}
+
+				<div class="row">
+					<div class="col-md-4 mb-3">
+						{{ form_row(dataTypeForm.ontology_id, {'attr': {'placeholder' : 'Enter the ontology id'}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(dataTypeForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
+					</div>
+
+					<div class="col-md-4 mb-3">
+						{{ form_row(dataTypeForm.name, {'attr': {'placeholder' : 'Enter the data type name'}}) }}
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						{{ form_row(dataTypeForm.description, {'attr': {'placeholder' : 'Enter the data type description'}}) }}
+					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-6 mb-3">
@@ -31,8 +48,8 @@
 				</div>
 				{{ form_end(dataTypeForm) }}
 			</div>
-		</div>
-		<!-- .row -->
 	</div>
-	<!-- .container -->
+	<!-- .row -->
+</div>
+<!-- .container -->
 {% endblock %}

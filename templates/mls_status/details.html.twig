@@ -12,8 +12,8 @@
                             <thead>
                                 <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Label</th>
-                                <th scope="col">Code</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Ontology ID</th>
                                 {% if is_granted("ROLE_ADMIN") %}
 									<th scope="col">Created By</th>
 									<th scope="col">Creation Date</th>
@@ -27,8 +27,8 @@
                             <tbody>
                                 <tr>
                                     <td>{{ mlsStatus.id }}</td>
-                                    <td>{{ mlsStatus.label }}</td>
-                                    <td>{{ mlsStatus.code }}</td>
+                                    <td>{{ mlsStatus.name }}</td>
+                                    <td>{{ mlsStatus.ontology_id }}</td>
                                     {% if is_granted("ROLE_ADMIN") %}
 									<td>
 										<a href="{{ path('person_details', {id: mlsStatus.createdBy.id}) }}">{{ mlsStatus.createdBy }}</a>
