@@ -165,7 +165,6 @@ class BreedingMethodController extends AbstractController
                 $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
-                $parentTerm = $row['D'];
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
@@ -179,11 +178,27 @@ class BreedingMethodController extends AbstractController
                         $breedingMethod->setOntologyId($ontology_id);
                         $breedingMethod->setName($name);
                         $breedingMethod->setDescription($description);
-                        $breedingMethod->setParentTerm($parentTerm);
                         $breedingMethod->setIsActive(true);
                         $breedingMethod->setCreatedAt(new \DateTime());
                         $entmanager->persist($breedingMethod);
                     }
+                }
+            }
+            $entmanager->flush();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                        $breedingMethod = new BreedingMethod();
+                        $ontologyIdParentTerm = $entmanager->getRepository(BreedingMethod::class)->findOneBy(['ontology_id' => $parentTerm]);
+                        //dd("Heyy", $ontologyIdParentTerm);
+                        if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\BreedingMethod)) {
+                            $breedingMethod->setParentTerm($ontologyIdParentTerm);
+                        }
+                        $entmanager->persist($breedingMethod);
                 }
             }
             $entmanager->flush();

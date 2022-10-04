@@ -34,7 +34,7 @@ class CiCriteria
     private $name;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"ci_criteria:read"})
      */
     private $description;

@@ -161,27 +161,45 @@ class CiCriteriaController extends AbstractController
             // transform the uploaded file to an array
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
+            $ciCriteria = new CiCriteria();
             foreach ($sheetData as $key => $row) {
                 $ontology_id = $row['A'];
                 $name = $row['B'];
-                $parentTerm = $row['C'];
+                $description = $row['C'];
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
                     $existingCiCriteria = $entmanager->getRepository(CiCriteria::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingCiCriteria) {
-                        $ciCriteria = new CiCriteria();
+                        //$ciCriteria = new CiCriteria();
                         if ($this->getUser()) {
                             $ciCriteria->setCreatedBy($this->getUser());
                         }
                         $ciCriteria->setOntologyId($ontology_id);
                         $ciCriteria->setName($name);
-                        $ciCriteria->setParentTerm($parentTerm);
+                        $ciCriteria->setDescription("Hello");
                         $ciCriteria->setIsActive(true);
                         $ciCriteria->setCreatedAt(new \DateTime());
                         $entmanager->persist($ciCriteria);
                     }
+                }
+            }
+            $entmanager->flush();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                        //$ciCriteria = new CiCriteria();
+                        $ontologyIdParentTerm = $entmanager->getRepository(CiCriteria::class)->findOneBy(['ontology_id' => $parentTerm]);
+                        //dd("Heyy", $ontologyIdParentTerm);
+                        if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\CiCriteria)) {
+                            $ciCriteria->setParentTerm($ontologyIdParentTerm);
+                        }
+                        $entmanager->persist($ciCriteria);
                 }
             }
             $entmanager->flush();

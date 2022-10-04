@@ -162,20 +162,27 @@ class CollectingSourceController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $label = $row['A'];
-                $code = $row['B'];
+                $ontology_id = $row['A'];
+                $name = $row['B'];
+                $description = $row['C'];
+                $parentTerm = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($label != null && $code != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingCollectingSource = $entmanager->getRepository(CollectingSource::class)->findOneBy(['label' => $label]);
+                    $existingCollectingSource = $entmanager->getRepository(CollectingSource::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingCollectingSource) {
                         $collectingSource = new CollectingSource();
+                        $ontologyIdParentTerm = $entmanager->getRepository(CollectingSource::class)->findOneBy(['ontology_id' => $parentTerm]);
+                        if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\CollectingSource)) {
+                            $collectingSource->setParentTerm($ontologyIdParentTerm);
+                        }
                         if ($this->getUser()) {
                             $collectingSource->setCreatedBy($this->getUser());
                         }
-                        $collectingSource->setLabel($label);
-                        $collectingSource->setCode($code);
+                        $collectingSource->setOntologyId($ontology_id);
+                        $collectingSource->setName($name);
+                        $collectingSource->setDescription($description);
                         $collectingSource->setIsActive(true);
                         $collectingSource->setCreatedAt(new \DateTime());
                         $entmanager->persist($collectingSource);

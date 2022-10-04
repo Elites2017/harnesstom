@@ -162,21 +162,30 @@ class DataTypeController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $label = $row['A'];
+                $ontology_id = $row['A'];
+                $name = $row['B'];
+                $description = $row['C'];
+                $parentTerm = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($label != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingDataType = $entmanager->getRepository(DataType::class)->findOneBy(['label' => $label]);
+                    $existingDataType = $entmanager->getRepository(DataType::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingDataType) {
-                        $DataType = new DataType();
-                        if ($this->getUser()) {
-                            $DataType->setCreatedBy($this->getUser());
+                        $dataType = new DataType();
+                        $ontologyIdParentTerm = $entmanager->getRepository(DataType::class)->findOneBy(['ontology_id' => $parentTerm]);
+                        if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\DataType)) {
+                            $dataType->setParentTerm($ontologyIdParentTerm);
                         }
-                        $DataType->setLabel($label);
-                        $DataType->setIsActive(true);
-                        $DataType->setCreatedAt(new \DateTime());
-                        $entmanager->persist($DataType);
+                        if ($this->getUser()) {
+                            $dataType->setCreatedBy($this->getUser());
+                        }
+                        $dataType->setOntologyId($ontology_id);
+                        $dataType->setName($name);
+                        $dataType->setDescription($description);
+                        $dataType->setIsActive(true);
+                        $dataType->setCreatedAt(new \DateTime());
+                        $entmanager->persist($dataType);
                     }
                 }
             }

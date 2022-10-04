@@ -162,18 +162,27 @@ class EnzymeController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $name = $row['A'];
+                $ontology_id = $row['A'];
+                $name = $row['B'];
+                $description = $row['C'];
+                $parentTerm = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($name != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingEnzyme = $entmanager->getRepository(Enzyme::class)->findOneBy(['name' => $name]);
+                    $existingEnzyme = $entmanager->getRepository(Enzyme::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingEnzyme) {
                         $enzyme = new Enzyme();
+                        $ontologyIdParentTerm = $entmanager->getRepository(Enzyme::class)->findOneBy(['ontology_id' => $parentTerm]);
+                        if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\Enzyme)) {
+                            $enzyme->setParentTerm($ontologyIdParentTerm);
+                        }
                         if ($this->getUser()) {
                             $enzyme->setCreatedBy($this->getUser());
                         }
+                        $enzyme->setOntologyId($ontology_id);
                         $enzyme->setName($name);
+                        $enzyme->setDescription($description);
                         $enzyme->setIsActive(true);
                         $enzyme->setCreatedAt(new \DateTime());
                         $entmanager->persist($enzyme);
