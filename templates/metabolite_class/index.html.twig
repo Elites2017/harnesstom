@@ -41,8 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">Ontology ID</th>
 									<th scope="col">Name</th>
 									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -50,10 +52,16 @@
 								{% for metaboliteClass in metaboliteClasses %}
 									<tr>
 										<td>
+											<a href="{{ path('metabolite_class_details', {id: metaboliteClass.id}) }}">{{ metaboliteClass.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('metabolite_class_details', {id: metaboliteClass.id}) }}">{{ metaboliteClass.name }}</a>
 										</td>
 										<td>
 											<a href="{{ path('metabolite_class_details', {id: metaboliteClass.id}) }}">{{ metaboliteClass.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('metabolite_class_details', {id: metaboliteClass.id}) }}">{{ metaboliteClass.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('metabolite_class_details', {id: metaboliteClass.id}) }}">

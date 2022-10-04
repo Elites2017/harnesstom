@@ -32,6 +32,7 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">Ontology ID</th>
 									<th scope="col">Name</th>
 									<th scope="col">Description</th>
 									<th scope="col">Action</th>
@@ -40,6 +41,9 @@
 							<tbody>
 								{% for developmentalStage in developmentalStages %}
 									<tr>
+										<td>
+											<a href="{{ path('developmental_stage_details', {id: developmentalStage.id}) }}">{{ developmentalStage.ontologyId }}</a>
+										</td>
 										<td>
 											<a href="{{ path('developmental_stage_details', {id: developmentalStage.id}) }}">{{ developmentalStage.name }}</a>
 										</td>

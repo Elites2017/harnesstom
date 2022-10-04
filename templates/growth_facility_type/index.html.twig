@@ -41,8 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">Ontology ID</th>
 									<th scope="col">Name</th>
 									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -50,10 +52,16 @@
 								{% for growthFacilityType in growthFacilityTypes %}
 									<tr>
 										<td>
+											<a href="{{ path('growth_facility_type_details', {id: growthFacilityType.id}) }}">{{ growthFacilityType.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('growth_facility_type_details', {id: growthFacilityType.id}) }}">{{ growthFacilityType.name }}</a>
 										</td>
 										<td>
 											<a href="{{ path('growth_facility_type_details', {id: growthFacilityType.id}) }}">{{ growthFacilityType.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('growth_facility_type_details', {id: growthFacilityType.id}) }}">{{ growthFacilityType.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('growth_facility_type_details', {id: growthFacilityType.id}) }}">

@@ -41,8 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Label</th>
-									<th scope="col">Code</th>
+									<th scope="col">ontologyID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent Term</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -50,10 +52,16 @@
 								{% for identificationLevel in identificationLevels %}
 									<tr>
 										<td>
-											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">{{ identificationLevel.Label }}</a>
+											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">{{ identificationLevel.ontologyId }}</a>
 										</td>
 										<td>
-											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">{{ identificationLevel.code }}</a>
+											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">{{ identificationLevel.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">{{ identificationLevel.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">{{ identificationLevel.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">

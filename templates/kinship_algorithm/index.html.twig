@@ -41,8 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">Ontology ID</th>
 									<th scope="col">Name</th>
-									<th scope="col">Ontology</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -50,10 +52,16 @@
 								{% for kinshipAlgorithm in kinshipAlgorithms %}
 									<tr>
 										<td>
+											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">{{ kinshipAlgorithm.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">{{ kinshipAlgorithm.name }}</a>
 										</td>
 										<td>
-											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">{{ kinshipAlgorithm.ontologyID }}</a>
+											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">{{ kinshipAlgorithm.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">{{ kinshipAlgorithm.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">

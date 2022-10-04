@@ -29,8 +29,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">Ontology ID</th>
 									<th scope="col">Name</th>
 									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -41,7 +43,13 @@
 											<a href="{{ path('anatomical_entity_details', {id: anatomicalEntity.id}) }}">{{ anatomicalEntity.name }}</a>
 										</td>
 										<td>
+											<a href="{{ path('anatomical_entity_details', {id: anatomicalEntity.id}) }}">{{ anatomicalEntity.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('anatomical_entity_details', {id: anatomicalEntity.id}) }}">{{ anatomicalEntity.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('anatomical_entity_details', {id: anatomicalEntity.id}) }}">{{ anatomicalEntity.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('anatomical_entity_details', {id: anatomicalEntity.id}) }}">

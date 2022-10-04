@@ -41,7 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Enzyme Name</th>
+									<th scope="col">Ontology ID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent Term</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -49,7 +52,16 @@
 								{% for enzyme in enzymes %}
 									<tr>
 										<td>
+											<a href="{{ path('enzyme_details', {id: enzyme.id}) }}">{{ enzyme.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('enzyme_details', {id: enzyme.id}) }}">{{ enzyme.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('enzyme_details', {id: enzyme.id}) }}">{{ enzyme.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('enzyme_details', {id: enzyme.id}) }}">{{ enzyme.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('enzyme_details', {id: enzyme.id}) }}">

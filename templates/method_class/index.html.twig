@@ -41,8 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">Ontology ID</th>
 									<th scope="col">Name</th>
 									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -50,10 +52,16 @@
 								{% for methodClass in methodClasses %}
 									<tr>
 										<td>
+											<a href="{{ path('method_class_details', {id: methodClass.id}) }}">{{ methodClass.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('method_class_details', {id: methodClass.id}) }}">{{ methodClass.name }}</a>
 										</td>
 										<td>
 											<a href="{{ path('method_class_details', {id: methodClass.id}) }}">{{ methodClass.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('method_class_details', {id: methodClass.id}) }}">{{ methodClass.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('method_class_details', {id: methodClass.id}) }}">

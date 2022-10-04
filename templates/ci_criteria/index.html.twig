@@ -41,8 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Name</th>
 									<th scope="col">Ontology ID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -50,10 +52,16 @@
 								{% for ciCriteria in ciCriterias %}
 									<tr>
 										<td>
+											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">{{ ciCriteria.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">{{ ciCriteria.name }}</a>
 										</td>
 										<td>
-											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">{{ ciCriteria.ontologyID }}</a>
+											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">{{ ciCriteria.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">{{ ciCriteria.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">

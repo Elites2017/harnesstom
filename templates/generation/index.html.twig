@@ -41,7 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Generation Name</th>
+									<th scope="col">Ontology ID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -49,7 +52,16 @@
 								{% for generation in generations %}
 									<tr>
 										<td>
+											<a href="{{ path('generation_details', {id: generation.id}) }}">{{ generation.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('generation_details', {id: generation.id}) }}">{{ generation.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('generation_details', {id: generation.id}) }}">{{ generation.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('generation_details', {id: generation.id}) }}">{{ generation.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('generation_details', {id: generation.id}) }}">

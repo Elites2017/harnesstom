@@ -41,8 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Label</th>
-									<th scope="col">Code</th>
+									<th scope="col">Ontology ID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -50,10 +52,16 @@
 								{% for collectingSource in collectingSources %}
 									<tr>
 										<td>
-											<a href="{{ path('collecting_source_details', {id: collectingSource.id}) }}">{{ collectingSource.Label }}</a>
+											<a href="{{ path('collecting_source_details', {id: collectingSource.id}) }}">{{ collectingSource.ontologyId }}</a>
 										</td>
 										<td>
-											<a href="{{ path('collecting_source_details', {id: collectingSource.id}) }}">{{ collectingSource.code }}</a>
+											<a href="{{ path('collecting_source_details', {id: collectingSource.id}) }}">{{ collectingSource.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('collecting_source_details', {id: collectingSource.id}) }}">{{ collectingSource.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('collecting_source_details', {id: collectingSource.id}) }}">{{ collectingSource.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('collecting_source_details', {id: collectingSource.id}) }}">

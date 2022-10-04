@@ -41,8 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Genetic Testing Model Name</th>
+									<th scope="col">Ontology ID</th>
+									<th scope="col">Name</th>
 									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -50,10 +52,16 @@
 								{% for geneticTestingModel in geneticTestingModels %}
 									<tr>
 										<td>
+											<a href="{{ path('genetic_testing_model_details', {id: geneticTestingModel.id}) }}">{{ geneticTestingModel.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('genetic_testing_model_details', {id: geneticTestingModel.id}) }}">{{ geneticTestingModel.name }}</a>
 										</td>
 										<td>
 											<a href="{{ path('genetic_testing_model_details', {id: geneticTestingModel.id}) }}">{{ geneticTestingModel.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('genetic_testing_model_details', {id: geneticTestingModel.id}) }}">{{ geneticTestingModel.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('genetic_testing_model_details', {id: geneticTestingModel.id}) }}">

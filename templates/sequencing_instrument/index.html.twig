@@ -41,7 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Label</th>
+									<th scope="col">Ontology ID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -49,7 +52,16 @@
 								{% for sequencingInstrument in sequencingInstruments %}
 									<tr>
 										<td>
-											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">{{ sequencingInstrument.label }}</a>
+											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">{{ sequencingInstrument.ontologyId }}</a>
+										</td>
+										<td>
+											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">{{ sequencingInstrument.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">{{ sequencingInstrument.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">{{ sequencingInstrument.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">

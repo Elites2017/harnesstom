@@ -32,8 +32,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">Ontology ID</th>
 									<th scope="col">Name</th>
 									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -41,10 +43,16 @@
 								{% for season in seasons %}
 									<tr>
 										<td>
+											<a href="{{ path('season_details', {id: season.id}) }}">{{ season.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('season_details', {id: season.id}) }}">{{ season.name }}</a>
 										</td>
 										<td>
 											<a href="{{ path('season_details', {id: season.id}) }}">{{ season.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('season_details', {id: season.id}) }}">{{ season.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('season_details', {id: season.id}) }}">

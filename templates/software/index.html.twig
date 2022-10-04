@@ -41,8 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Name</th>
 									<th scope="col">Ontology ID</th>
+									<th scope="col">Name</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -50,10 +52,16 @@
 								{% for software in softwares %}
 									<tr>
 										<td>
+											<a href="{{ path('software_details', {id: software.id}) }}">{{ software.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('software_details', {id: software.id}) }}">{{ software.name }}</a>
 										</td>
 										<td>
-											<a href="{{ path('software_details', {id: software.id}) }}">{{ software.ontologyID }}</a>
+											<a href="{{ path('software_details', {id: software.id}) }}">{{ software.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('software_details', {id: software.id}) }}">{{ software.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('software_details', {id: software.id}) }}">

@@ -32,7 +32,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">ontologyId</th>
 									<th scope="col">Name</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -40,7 +43,16 @@
 								{% for varCallSoftware in varCallSoftwares %}
 									<tr>
 										<td>
+											<a href="{{ path('var_call_software_details', {id: varCallSoftware.id}) }}">{{ varCallSoftware.ontologyId }}</a>
+										</td>
+										<td>
 											<a href="{{ path('var_call_software_details', {id: varCallSoftware.id}) }}">{{ varCallSoftware.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('var_call_software_details', {id: varCallSoftware.id}) }}">{{ varCallSoftware.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('var_call_software_details', {id: varCallSoftware.id}) }}">{{ varCallSoftware.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('var_call_software_details', {id: varCallSoftware.id}) }}">
