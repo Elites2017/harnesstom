@@ -75,6 +75,12 @@ class CiCriteria
      */
     private $ciCriterias;
 
+    /**
+     * 
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $par_ont;
+
     public function __construct()
     {
         $this->qTLStudies = new ArrayCollection();
@@ -233,6 +239,18 @@ class CiCriteria
                 $ciCriteria->setParentTerm(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getParOnt(): ?string
+    {
+        return $this->par_ont;
+    }
+
+    public function setParOnt(string $par_ont): self
+    {
+        $this->par_ont = $par_ont;
 
         return $this;
     }
