@@ -31,11 +31,15 @@ use App\Entity\User;
 use DateTime;
 use App\Form\SeasonType;
 use App\Form\SeasonUpdateType;
+use App\Form\UploadFromExcelType;
 use App\Repository\SeasonRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 // set a class level route
@@ -143,6 +147,135 @@ class SeasonController extends AbstractController
      */
     public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
     {
-        dd("Good morning SEASON");
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Setup repository of some entity
+            $repoSeason = $entmanager->getRepository(Season::class);
+            // Query how many rows are there in the Country table
+            $totalSeasonBefore = $repoSeason->createQueryBuilder('a')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(a.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            // Return a number as response
+            // e.g 972
+
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $name = $row['B'];
+                $description = $row['C'];
+                $parentTermString = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $name != null) {
+                    // check if the data is upload in the database
+                    $existingSeason = $entmanager->getRepository(Season::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    // upload data only for countries that haven't been saved in the database
+                    if (!$existingSeason) {
+                        $season = new Season();
+                        if ($this->getUser()) {
+                            $season->setCreatedBy($this->getUser());
+                        }
+                        $season->setOntologyId($ontology_id);
+                        $season->setName($name);
+                        if ($description != null) {
+                            $season->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $season->setParOnt($parentTermString);
+                        }
+                        $season->setIsActive(true);
+                        $season->setCreatedAt(new \DateTime());
+                        $entmanager->persist($season);
+                    }
+                }
+            }
+            $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(Season::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\Season)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(Season::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE season SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
+                }
+            }
+
+            // Query how many rows are there in the Season table
+            $totalSeasonAfter = $repoSeason->createQueryBuilder('a')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(a.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if ($totalSeasonBefore == 0) {
+                $this->addFlash('success', $totalSeasonAfter . " season have been successfuly added");
+            } else {
+                $diffBeforeAndAfter = $totalSeasonAfter - $totalSeasonBefore;
+                if ($diffBeforeAndAfter == 0) {
+                    $this->addFlash('success', "No new season has been added");
+                } else if ($diffBeforeAndAfter == 1) {
+                    $this->addFlash('success', $diffBeforeAndAfter . " season has been successfuly added");
+                } else {
+                    $this->addFlash('success', $diffBeforeAndAfter . " seasons have been successfuly added");
+                }
+            }
+            return $this->redirect($this->generateUrl('season_index'));
+        }
+
+        $context = [
+            'title' => 'Season Upload From Excel',
+            'seasonUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('season/upload_from_excel.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template", name="download_template")
+     */
+    public function SeasonTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/season_template_example.xls');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'season_template_example.xls');
+        return $response;
+       
     }
 }

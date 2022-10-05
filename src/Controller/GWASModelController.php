@@ -164,20 +164,26 @@ class GWASModelController extends AbstractController
             foreach ($sheetData as $key => $row) {
                 $ontology_id = $row['A'];
                 $name = $row['B'];
-                $parentTerm = $row['C'];
+                $description = $row['C'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($name != null && $ontology_id != null && $parentTerm != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingGWASModel = $entmanager->getRepository(GWASModel::class)->findOneBy(['name' => $name]);
+                    $existingGwasModel = $entmanager->getRepository(GWASModel::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
-                    if (!$existingGWASModel) {
+                    if (!$existingGwasModel) {
                         $gwasModel = new GWASModel();
                         if ($this->getUser()) {
                             $gwasModel->setCreatedBy($this->getUser());
                         }
-                        $gwasModel->setName($name);
                         $gwasModel->setOntologyId($ontology_id);
-                        $gwasModel->setParentTerm($parentTerm);
+                        $gwasModel->setName($name);
+                        if ($description != null) {
+                            $gwasModel->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $gwasModel->setParOnt($parentTermString);
+                        }
                         $gwasModel->setIsActive(true);
                         $gwasModel->setCreatedAt(new \DateTime());
                         $entmanager->persist($gwasModel);
@@ -185,6 +191,27 @@ class GWASModelController extends AbstractController
                 }
             }
             $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(GWASModel::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\GWASModel)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(GWASModel::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE gwasmodel SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
+                }
+            }
+
             // Query how many rows are there in the Country table
             $totalGWASModelAfter = $repoGWASModel->createQueryBuilder('tab')
                 // Filter by some parameter if you want

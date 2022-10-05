@@ -164,18 +164,25 @@ class KinshipAlgorithmController extends AbstractController
                 $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
-                $parentTerm = $row['D'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($name != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingKinshipAlgorithm = $entmanager->getRepository(KinshipAlgorithm::class)->findOneBy(['name' => $name]);
+                    $existingKinshipAlgorithm = $entmanager->getRepository(KinshipAlgorithm::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingKinshipAlgorithm) {
                         $kinshipAlgorithm = new KinshipAlgorithm();
                         if ($this->getUser()) {
                             $kinshipAlgorithm->setCreatedBy($this->getUser());
                         }
+                        $kinshipAlgorithm->setOntologyId($ontology_id);
                         $kinshipAlgorithm->setName($name);
+                        if ($description != null) {
+                            $kinshipAlgorithm->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $kinshipAlgorithm->setParOnt($parentTermString);
+                        }
                         $kinshipAlgorithm->setIsActive(true);
                         $kinshipAlgorithm->setCreatedAt(new \DateTime());
                         $entmanager->persist($kinshipAlgorithm);
@@ -183,6 +190,27 @@ class KinshipAlgorithmController extends AbstractController
                 }
             }
             $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(KinshipAlgorithm::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\KinshipAlgorithm)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(KinshipAlgorithm::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE kinship_algorithm SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
+                }
+            }
+
             // Query how many rows are there in the Country table
             $totalKinshipAlgorithmAfter = $repoKinshipAlgorithm->createQueryBuilder('tab')
                 // Filter by some parameter if you want

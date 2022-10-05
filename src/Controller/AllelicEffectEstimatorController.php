@@ -163,34 +163,32 @@ class AllelicEffectEstimatorController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
-                $ontology_id = $row['A'];
                 $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($ontology_id != null && $name != null)  {
-                    // check if the data has already been uploaded in the database
-                    $existingAlleclicEE = $entmanager->getRepository(AllelicEffectEstimator::class)->findOneBy(['ontology_id' => $ontology_id]);
-                    // upload data only for objects that haven't been saved in the database
-                    if (!$existingAlleclicEE) {
+                if ($ontology_id != null && $name != null) {
+                    // check if the data is upload in the database
+                    $existingAllelicEffectEstimator = $entmanager->getRepository(AllelicEffectEstimator::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    // upload data only for countries that haven't been saved in the database
+                    if (!$existingAllelicEffectEstimator) {
                         $allelicEffectEstimator = new AllelicEffectEstimator();
                         if ($this->getUser()) {
                             $allelicEffectEstimator->setCreatedBy($this->getUser());
                         }
+                        $allelicEffectEstimator->setOntologyId($ontology_id);
+                        $allelicEffectEstimator->setName($name);
                         if ($description != null) {
                             $allelicEffectEstimator->setDescription($description);
                         }
                         if ($parentTermString != null) {
                             $allelicEffectEstimator->setParOnt($parentTermString);
                         }
-                        $allelicEffectEstimator->setName($name);
-                        $allelicEffectEstimator->setOntologyId($ontology_id);
                         $allelicEffectEstimator->setIsActive(true);
                         $allelicEffectEstimator->setCreatedAt(new \DateTime());
                         $entmanager->persist($allelicEffectEstimator);
                     }
-                } else {
-                    $this->addFlash('danger', "Check your file again, Name and ontology_id must be filled / provided");
                 }
             }
             $entmanager->flush();
@@ -212,7 +210,7 @@ class AllelicEffectEstimatorController extends AbstractController
                         // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
                         $res = $connexion->executeStatement('UPDATE allelic_effect_estimator SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
                     }
-                }
+                } 
             }
 
             // Query how many rows are there in the allelicEffectEstimator table

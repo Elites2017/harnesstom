@@ -162,27 +162,55 @@ class GWASStatTestController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $name = $row['A'];
-                $ontology_id = $row['B'];
+                $ontology_id = $row['A'];
+                $name = $row['B'];
+                $description = $row['C'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($name != null & $ontology_id != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingGWASStatTest = $entmanager->getRepository(GWASStatTest::class)->findOneBy(['name' => $name]);
+                    $existingGwasStatTest = $entmanager->getRepository(GWASStatTest::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
-                    if (!$existingGWASStatTest) {
-                        $GWASStatTest = new GWASStatTest();
+                    if (!$existingGwasStatTest) {
+                        $gwasStatTest = new GWASStatTest();
                         if ($this->getUser()) {
-                            $GWASStatTest->setCreatedBy($this->getUser());
+                            $gwasStatTest->setCreatedBy($this->getUser());
                         }
-                        $GWASStatTest->setName($name);
-                        $GWASStatTest->setOntologyId($ontology_id);
-                        $GWASStatTest->setIsActive(true);
-                        $GWASStatTest->setCreatedAt(new \DateTime());
-                        $entmanager->persist($GWASStatTest);
+                        $gwasStatTest->setOntologyId($ontology_id);
+                        $gwasStatTest->setName($name);
+                        if ($description != null) {
+                            $gwasStatTest->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $gwasStatTest->setParOnt($parentTermString);
+                        }
+                        $gwasStatTest->setIsActive(true);
+                        $gwasStatTest->setCreatedAt(new \DateTime());
+                        $entmanager->persist($gwasStatTest);
                     }
                 }
             }
             $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(GWASStatTest::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\GWASStatTest)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(GWASStatTest::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE gwasstat_test SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
+                }
+            }
             // Query how many rows are there in the Country table
             $totalGWASStatTestAfter = $repoGWASStatTest->createQueryBuilder('tab')
                 // Filter by some parameter if you want
