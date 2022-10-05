@@ -72,6 +72,17 @@ class BiologicalStatus
      */
     private $biologicalStatuses;
 
+    /**
+     * 
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $par_ont;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $is_poau;
+
     public function __construct()
     {
         $this->accessions = new ArrayCollection();
@@ -230,6 +241,30 @@ class BiologicalStatus
                 $biologicalStatus->setParentTerm(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getParOnt(): ?string
+    {
+        return $this->par_ont;
+    }
+
+    public function setParOnt(string $par_ont): self
+    {
+        $this->par_ont = $par_ont;
+
+        return $this;
+    }
+
+    public function getIsPoau(): ?bool
+    {
+        return $this->is_poau;
+    }
+
+    public function setIsPoau(?bool $is_poau): self
+    {
+        $this->is_poau = $is_poau;
 
         return $this;
     }

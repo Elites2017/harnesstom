@@ -590,7 +590,7 @@ class Germplasm
      */
     public function getMLSStatus()
     {
-        return $code = $this->accession->getMLSStatus()->getCode();
+        return $code = $this->accession->getMLSStatus()->getOntologyId();
     }
 
     /**
@@ -720,8 +720,8 @@ class Germplasm
     public function getStorageType()
     {
         $storageType = [
-            "code" => $this->accession->getStorage()->getCode(),
-            "description" => $this->accession->getStorage()->getLabel()
+            "code" => $this->accession->getStorage()->getOntologyId(),
+            "description" => $this->accession->getStorage()->getName()
         ];
         return $storageType;
     }
