@@ -165,7 +165,7 @@ class DataTypeController extends AbstractController
                 $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
-                $parentTerm = $row['D'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
@@ -173,16 +173,17 @@ class DataTypeController extends AbstractController
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingDataType) {
                         $dataType = new DataType();
-                        $ontologyIdParentTerm = $entmanager->getRepository(DataType::class)->findOneBy(['ontology_id' => $parentTerm]);
-                        if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\DataType)) {
-                            $dataType->setParentTerm($ontologyIdParentTerm);
-                        }
                         if ($this->getUser()) {
                             $dataType->setCreatedBy($this->getUser());
                         }
                         $dataType->setOntologyId($ontology_id);
                         $dataType->setName($name);
-                        $dataType->setDescription($description);
+                        if ($description != null) {
+                            $dataType->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $dataType->setParOnt($parentTermString);
+                        }
                         $dataType->setIsActive(true);
                         $dataType->setCreatedAt(new \DateTime());
                         $entmanager->persist($dataType);
@@ -190,6 +191,27 @@ class DataTypeController extends AbstractController
                 }
             }
             $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(DataType::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\DataType)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(DataType::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE data_type SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
+                }
+            }
+
             // Query how many rows are there in the Country table
             $totalDataTypeAfter = $repoDataType->createQueryBuilder('tab')
                 // Filter by some parameter if you want

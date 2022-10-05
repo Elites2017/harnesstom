@@ -165,7 +165,7 @@ class EnzymeController extends AbstractController
                 $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
-                $parentTerm = $row['D'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
@@ -173,16 +173,17 @@ class EnzymeController extends AbstractController
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingEnzyme) {
                         $enzyme = new Enzyme();
-                        $ontologyIdParentTerm = $entmanager->getRepository(Enzyme::class)->findOneBy(['ontology_id' => $parentTerm]);
-                        if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\Enzyme)) {
-                            $enzyme->setParentTerm($ontologyIdParentTerm);
-                        }
                         if ($this->getUser()) {
                             $enzyme->setCreatedBy($this->getUser());
                         }
                         $enzyme->setOntologyId($ontology_id);
                         $enzyme->setName($name);
-                        $enzyme->setDescription($description);
+                        if ($description != null) {
+                            $enzyme->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $enzyme->setParOnt($parentTermString);
+                        }
                         $enzyme->setIsActive(true);
                         $enzyme->setCreatedAt(new \DateTime());
                         $entmanager->persist($enzyme);
@@ -190,6 +191,27 @@ class EnzymeController extends AbstractController
                 }
             }
             $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(Enzyme::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\Enzyme)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(Enzyme::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE enzyme SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
+                }
+            }
+            
             // Query how many rows are there in the Country table
             $totalEnzymeAfter = $repoEnzyme->createQueryBuilder('tab')
                 // Filter by some parameter if you want

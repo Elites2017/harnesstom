@@ -165,6 +165,7 @@ class BreedingMethodController extends AbstractController
                 $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
@@ -177,7 +178,12 @@ class BreedingMethodController extends AbstractController
                         }
                         $breedingMethod->setOntologyId($ontology_id);
                         $breedingMethod->setName($name);
-                        $breedingMethod->setDescription($description);
+                        if ($description != null) {
+                            $breedingMethod->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $breedingMethod->setParOnt($parentTermString);
+                        }
                         $breedingMethod->setIsActive(true);
                         $breedingMethod->setCreatedAt(new \DateTime());
                         $entmanager->persist($breedingMethod);
@@ -185,6 +191,8 @@ class BreedingMethodController extends AbstractController
                 }
             }
             $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
             // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
             foreach ($sheetData as $key => $row) {
                 $ontology_id = $row['A'];
@@ -192,16 +200,18 @@ class BreedingMethodController extends AbstractController
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null && $parentTerm != null ) {
                     // check if the data is upload in the database
-                        $breedingMethod = new BreedingMethod();
-                        $ontologyIdParentTerm = $entmanager->getRepository(BreedingMethod::class)->findOneBy(['ontology_id' => $parentTerm]);
-                        //dd("Heyy", $ontologyIdParentTerm);
-                        if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\BreedingMethod)) {
-                            $breedingMethod->setParentTerm($ontologyIdParentTerm);
-                        }
-                        $entmanager->persist($breedingMethod);
+                    $ontologyIdParentTerm = $entmanager->getRepository(BreedingMethod::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\BreedingMethod)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(BreedingMethod::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE breeding_method SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
                 }
             }
-            $entmanager->flush();
+
             // Query how many rows are there in the Country table
             $totalBreedingMethodAfter = $repoBreedingMethod->createQueryBuilder('tab')
                 // Filter by some parameter if you want

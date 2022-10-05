@@ -193,8 +193,6 @@ class CiCriteriaController extends AbstractController
             $entmanager->flush();
             // get the connection
             $connexion = $entmanager->getConnection();
-            //$res = $conn->executeStatement('UPDATE User SET email = ? WHERE id = ?', ['harnesstom@harnesstom.eu', 1]);
-            //dd($res);
             // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
             foreach ($sheetData as $key => $row) {
                 $ontology_id = $row['A'];
@@ -202,19 +200,18 @@ class CiCriteriaController extends AbstractController
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null && $parentTerm != null ) {
                     // check if the data is upload in the database
-                        //$ciCriteria = new CiCriteria();
-                        $ontologyIdParentTerm = $entmanager->getRepository(CiCriteria::class)->findOneBy(['ontology_id' => $parentTerm]);
-                        if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\CiCriteria)) {
-                            $ontId = $ontologyIdParentTerm->getId();
-                            // get the real string (parOnt) parent term or its line id so that to do the link 
-                            $stringParentTerm = $entmanager->getRepository(CiCriteria::class)->findOneBy(['par_ont' => $parentTerm]);
-                            $parentTermId = $stringParentTerm->getId();
-                            $res = $connexion->executeStatement('UPDATE ci_criteria SET parent_term_id = ? WHERE id = ?', [$ontId, $parentTermId]);
-                        }
-                        //$entmanager->persist($ciCriteria);
+                    $ontologyIdParentTerm = $entmanager->getRepository(CiCriteria::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\CiCriteria)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(CiCriteria::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE ci_criteria SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
                 }
             }
-            //$entmanager->flush();
+            
             // Query how many rows are there in the Country table
             $totalCiCriteriaAfter = $repoCiCriteria->createQueryBuilder('tab')
                 // Filter by some parameter if you want

@@ -220,4 +220,11 @@ class Generation
 
         return $this;
     }
+
+    // create a toString method to return the country iso3 which will appear
+    // in country related form field
+    public function __toString()
+    {
+        return (string) $this->name;
+    }
 }

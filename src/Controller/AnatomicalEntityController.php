@@ -162,31 +162,58 @@ class AnatomicalEntityController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
-                $parentTerm = $row['D'];
+                $ontology_id = $row['A'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($name != null && $description != null && $ontology_id != null && $parentTerm != null) {
-                    // check if the data is upload in the database
-                    $existingAnatomicalEntity = $entmanager->getRepository(AnatomicalEntity::class)->findOneBy(['name' => $name]);
-                    // upload data only for countries that haven't been saved in the database
+                if ($ontology_id != null && $name != null)  {
+                    // check if the data has already been uploaded in the database
+                    $existingAnatomicalEntity = $entmanager->getRepository(AnatomicalEntity::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    // upload data only for objects that haven't been saved in the database
                     if (!$existingAnatomicalEntity) {
                         $anatomicalEntity = new AnatomicalEntity();
                         if ($this->getUser()) {
                             $anatomicalEntity->setCreatedBy($this->getUser());
                         }
+                        if ($description != null) {
+                            $anatomicalEntity->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $anatomicalEntity->setParOnt($parentTermString);
+                        }
                         $anatomicalEntity->setName($name);
-                        $anatomicalEntity->setDescription($description);
                         $anatomicalEntity->setOntologyId($ontology_id);
-                        $anatomicalEntity->setDescription($parentTerm);
                         $anatomicalEntity->setIsActive(true);
                         $anatomicalEntity->setCreatedAt(new \DateTime());
                         $entmanager->persist($anatomicalEntity);
                     }
+                } else {
+                    $this->addFlash('danger', "Check your file again, Name and ontology_id must be filled / provided");
                 }
             }
             $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(AnatomicalEntity::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\AnatomicalEntity)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(AnatomicalEntity::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE anatomical_entity SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
+                }
+            }
+
             // Query how many rows are there in the Country table
             $totalAnatomicalEntityAfter = $repoAnatomicalEntity->createQueryBuilder('tab')
                 // Filter by some parameter if you want

@@ -163,22 +163,28 @@ class AttributeCategoryController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $abbreviation = $row['A'];
+                $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($abbreviation != null && $name != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingAttributeCategory = $entmanager->getRepository(AttributeCategory::class)->findOneBy(['abbreviation' => $abbreviation]);
+                    $existingAttributeCategory = $entmanager->getRepository(AttributeCategory::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingAttributeCategory) {
                         $attributeCategory = new AttributeCategory();
                         if ($this->getUser()) {
                             $attributeCategory->setCreatedBy($this->getUser());
                         }
-                        $attributeCategory->setAbbreviation($abbreviation);
+                        $attributeCategory->setOntologyId($ontology_id);
                         $attributeCategory->setName($name);
-                        $attributeCategory->setDescription($description);
+                        if ($description != null) {
+                            $attributeCategory->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $attributeCategory->setParOnt($parentTermString);
+                        }
                         $attributeCategory->setIsActive(true);
                         $attributeCategory->setCreatedAt(new \DateTime());
                         $entmanager->persist($attributeCategory);
@@ -186,6 +192,27 @@ class AttributeCategoryController extends AbstractController
                 }
             }
             $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(AttributeCategory::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\AttributeCategory)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(AttributeCategory::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE attribute_category SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
+                }
+            }
+
             // Query how many rows are there in the Country table
             $totalAttributeCategoryAfter = $repoAttributeCategory->createQueryBuilder('tab')
                 // Filter by some parameter if you want

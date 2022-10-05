@@ -41,9 +41,10 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Abbreviation</th>
+									<th scope="col">Ontology ID</th>
 									<th scope="col">Name</th>
 									<th scope="col">Description</th>
+									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -51,13 +52,16 @@
 								{% for attributeCategory in attributeCategories %}
 									<tr>
 										<td>
-											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.abbreviation }}</a>
+											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.ontologyId }}</a>
 										</td>
 										<td>
 											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.name }}</a>
 										</td>
 										<td>
 											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.description }}</a>
+										</td>
+										<td>
+											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">
