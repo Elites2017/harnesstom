@@ -34,7 +34,7 @@ class GeneticTestingModel
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"genetic_t_m:read"})
      */
     private $description;

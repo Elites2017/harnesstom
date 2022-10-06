@@ -210,13 +210,13 @@ class Study
     private $experimentalDesign;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"study:read"})
      */
     private $observationUnitsDescription;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"study:read"})
      */
     private $experimentalDesignDescription;
