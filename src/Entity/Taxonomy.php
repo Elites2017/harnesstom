@@ -46,7 +46,7 @@ class Taxonomy
     private $species;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"taxonomy:read", "accession:read"})
      */
     private $subtaxa;

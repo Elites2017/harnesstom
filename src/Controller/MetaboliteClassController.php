@@ -126,7 +126,7 @@ class MetaboliteClassController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Setup repository of some entity
-            $repoMetaboliteClass = $entmanager->getRepository(Metabolite::class);
+            $repoMetaboliteClass = $entmanager->getRepository(MetaboliteClass::class);
             // Query how many rows are there in the metabolite class table
             $totalMetaboliteClassBefore = $repoMetaboliteClass->createQueryBuilder('tab')
                 // Filter by some parameter if you want
@@ -164,20 +164,26 @@ class MetaboliteClassController extends AbstractController
             foreach ($sheetData as $key => $row) {
                 $ontology_id = $row['A'];
                 $name = $row['B'];
-                $parentTerm = $row['C'];
+                $description = $row['C'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($ontology_id != null & $name != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingMetaboliteClass = $entmanager->getRepository(MetaboliteClass::class)->findOneBy(['name' => $name]);
+                    $existingMetaboliteClass = $entmanager->getRepository(MetaboliteClass::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingMetaboliteClass) {
                         $metaboliteClass = new MetaboliteClass();
                         if ($this->getUser()) {
                             $metaboliteClass->setCreatedBy($this->getUser());
                         }
-                        $metaboliteClass->setName($name);
                         $metaboliteClass->setOntologyId($ontology_id);
-                        $metaboliteClass->setParentTerm($parentTerm);
+                        $metaboliteClass->setName($name);
+                        if ($description != null) {
+                            $metaboliteClass->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $metaboliteClass->setParOnt($parentTermString);
+                        }
                         $metaboliteClass->setIsActive(true);
                         $metaboliteClass->setCreatedAt(new \DateTime());
                         $entmanager->persist($metaboliteClass);
@@ -185,6 +191,27 @@ class MetaboliteClassController extends AbstractController
                 }
             }
             $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(MetaboliteClass::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\MetaboliteClass)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(MetaboliteClass::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE metabolite_class SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
+                }
+            }
+
             // Query how many rows are there in the Country table
             $totalMetaboliteClassAfter = $repoMetaboliteClass->createQueryBuilder('tab')
                 // Filter by some parameter if you want
@@ -205,14 +232,14 @@ class MetaboliteClassController extends AbstractController
                     $this->addFlash('success', $diffBeforeAndAfter . " metabolite classes have been successfuly added");
                 }
             }
-            return $this->redirect($this->generateUrl('metabolite_index'));
+            return $this->redirect($this->generateUrl('metabolite_class_index'));
         }
 
         $context = [
             'title' => 'Metabolite Class Upload From Excel',
             'metaboliteClassUploadFromExcelForm' => $form->createView()
         ];
-        return $this->render('metabolite/upload_from_excel.html.twig', $context);
+        return $this->render('metabolite_class/upload_from_excel.html.twig', $context);
     }
 
     /**
@@ -220,8 +247,8 @@ class MetaboliteClassController extends AbstractController
      */
     public function excelTemplate(): Response
     {
-        $response = new BinaryFileResponse('../public/todownload/metabolite_template_example.xls');
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'metabolite_template_example.xls');
+        $response = new BinaryFileResponse('../public/todownload/metabolite_class_template_example.xls');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'metabolite_class_template_example.xls');
         return $response;
        
     }

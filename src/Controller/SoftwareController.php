@@ -164,20 +164,26 @@ class SoftwareController extends AbstractController
             foreach ($sheetData as $key => $row) {
                 $ontology_id = $row['A'];
                 $name = $row['B'];
-                $parentTerm = $row['C'];
+                $description = $row['C'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($ontology_id != null & $name != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingSoftware = $entmanager->getRepository(Software::class)->findOneBy(['name' => $name]);
+                    $existingSoftware = $entmanager->getRepository(Software::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingSoftware) {
                         $software = new Software();
                         if ($this->getUser()) {
                             $software->setCreatedBy($this->getUser());
                         }
-                        $software->setName($name);
                         $software->setOntologyId($ontology_id);
-                        $software->setParentTerm($parentTerm);
+                        $software->setName($name);
+                        if ($description != null) {
+                            $software->setDescription($description);
+                        }
+                        if ($parentTermString != null) {
+                            $software->setParOnt($parentTermString);
+                        }
                         $software->setIsActive(true);
                         $software->setCreatedAt(new \DateTime());
                         $entmanager->persist($software);
@@ -185,7 +191,27 @@ class SoftwareController extends AbstractController
                 }
             }
             $entmanager->flush();
-            // Query how many rows are there in the Country table
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(Software::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\software)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(Software::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        $parentTermId = $stringParentTerm->getId();
+                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
+                        $res = $connexion->executeStatement('UPDATE software SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
+                    }
+                }
+            }
+            
             $totalSoftwareAfter = $repoSoftware->createQueryBuilder('tab')
                 // Filter by some parameter if you want
                 // ->where('a.isActive = 1')

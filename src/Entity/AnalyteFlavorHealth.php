@@ -56,7 +56,7 @@ class AnalyteFlavorHealth
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $ontologyId;
+    private $ontology_id;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -182,12 +182,12 @@ class AnalyteFlavorHealth
 
     public function getOntologyId(): ?string
     {
-        return $this->ontologyId;
+        return $this->ontology_id;
     }
 
-    public function setOntologyId(string $ontologyId): self
+    public function setOntologyId(string $ontology_id): self
     {
-        $this->ontologyId = $ontologyId;
+        $this->ontology_id = $ontology_id;
 
         return $this;
     }
