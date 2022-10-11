@@ -35,7 +35,7 @@ class AnatomicalEntity
 
     /**
      * 
-     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     * @ORM\Column(type="string", length=255, unique=false, nullable=false)
      */
     private $ontology_id;
 
@@ -70,13 +70,13 @@ class AnatomicalEntity
      */
     private $germplasmStudyImages;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=AnatomicalEntity::class, inversedBy="anatomicalEntities")
+   /**
+     * @ORM\ManyToMany(targetEntity=AnatomicalEntity::class, inversedBy="anatomicalEntities")
      */
     private $parentTerm;
 
     /**
-     * @ORM\OneToMany(targetEntity=AnatomicalEntity::class, mappedBy="parentTerm")
+     * @ORM\ManyToMany(targetEntity=AnatomicalEntity::class, mappedBy="parentTerm")
      */
     private $anatomicalEntities;
 
@@ -95,6 +95,7 @@ class AnatomicalEntity
     {
         $this->samples = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
+        $this->parentTerm = new ArrayCollection();
         $this->anatomicalEntities = new ArrayCollection();
     }
 
@@ -242,14 +243,26 @@ class AnatomicalEntity
         return (string) $this->name;
     }
 
-    public function getParentTerm(): ?self
+    /**
+     * @return Collection<int, self>
+     */
+    public function getParentTerm(): Collection
     {
         return $this->parentTerm;
     }
 
-    public function setParentTerm(?self $parentTerm): self
+    public function addParentTerm(self $parentTerm): self
     {
-        $this->parentTerm = $parentTerm;
+        if (!$this->parentTerm->contains($parentTerm)) {
+            $this->parentTerm[] = $parentTerm;
+        }
+
+        return $this;
+    }
+
+    public function removeParentTerm(self $parentTerm): self
+    {
+        $this->parentTerm->removeElement($parentTerm);
 
         return $this;
     }
@@ -266,7 +279,7 @@ class AnatomicalEntity
     {
         if (!$this->anatomicalEntities->contains($anatomicalEntity)) {
             $this->anatomicalEntities[] = $anatomicalEntity;
-            $anatomicalEntity->setParentTerm($this);
+            $anatomicalEntity->addParentTerm($this);
         }
 
         return $this;
@@ -275,10 +288,7 @@ class AnatomicalEntity
     public function removeAnatomicalEntity(self $anatomicalEntity): self
     {
         if ($this->anatomicalEntities->removeElement($anatomicalEntity)) {
-            // set the owning side to null (unless already changed)
-            if ($anatomicalEntity->getParentTerm() === $this) {
-                $anatomicalEntity->setParentTerm(null);
-            }
+            $anatomicalEntity->removeParentTerm($this);
         }
 
         return $this;

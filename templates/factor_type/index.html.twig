@@ -41,6 +41,7 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">Ontology ID</th>
 									<th scope="col">Name</th>
 									<th scope="col">Description</th>
 									<th scope="col">Action</th>
@@ -49,6 +50,9 @@
 							<tbody>
 								{% for factorType in factorTypes %}
 									<tr>
+										<td>
+											<a href="{{ path('factor_type_details', {id: factorType.id}) }}">{{ factorType.ontologyId }}</a>
+										</td>
 										<td>
 											<a href="{{ path('factor_type_details', {id: factorType.id}) }}">{{ factorType.name }}</a>
 										</td>

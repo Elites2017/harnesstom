@@ -202,7 +202,7 @@ class VarCallSoftwareController extends AbstractController
                 if ($ontology_id != null && $parentTerm != null ) {
                     // check if the data is upload in the database
                     $ontologyIdParentTerm = $entmanager->getRepository(VarCallSoftware::class)->findOneBy(['ontology_id' => $parentTerm]);
-                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\software)) {
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\Software)) {
                         $ontId = $ontologyIdParentTerm->getId();
                         // get the real string (parOnt) parent term or its line id so that to do the link 
                         $stringParentTerm = $entmanager->getRepository(VarCallSoftware::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);

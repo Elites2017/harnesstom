@@ -127,7 +127,7 @@ class ExperimentalDesignController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Setup repository of some entity
             $repoExperimentalDesignType = $entmanager->getRepository(ExperimentalDesignType::class);
-            // Query how many rows are there in the ExperimentalDesignType table
+            // Query how many rows are there in the developmentalStage table
             $totalExperimentalDesignTypeBefore = $repoExperimentalDesignType->createQueryBuilder('tab')
                 // Filter by some parameter if you want
                 // ->where('a.isActive = 1')
@@ -165,9 +165,9 @@ class ExperimentalDesignController extends AbstractController
                 $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
-                $parentTerm = $row['D'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($ontology_id != null & $name != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
                     $existingExperimentalDesignType = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
@@ -178,15 +178,48 @@ class ExperimentalDesignController extends AbstractController
                         }
                         $experimentalDesignType->setOntologyId($ontology_id);
                         $experimentalDesignType->setName($name);
-                        $experimentalDesignType->setDescription($description);
-                        //$experimentalDesignType->setParentTerm($parentTerm);
+                        if ($description != null) {
+                            $experimentalDesignType->setDescription($description);
+                        }
+                        
+                        if ($parentTermString != null) {
+                            $experimentalDesignType->setParOnt($parentTermString);
+                        }
+                        
                         $experimentalDesignType->setIsActive(true);
                         $experimentalDesignType->setCreatedAt(new \DateTime());
                         $entmanager->persist($experimentalDesignType);
+                        $entmanager->flush();
                     }
                 }
             }
-            $entmanager->flush();
+            // $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    //$ontologyIdParentTermDes = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['par_ont' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\ExperimentalDesignType)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        if ($stringParentTerm != null) {
+                            $parentTermId = $stringParentTerm->getId();
+                            if ($parentTermId != null) {
+                                $resInsert = $connexion->executeStatement("INSERT experimental_design_type_experimental_design_type VALUES('$ontId', '$parentTermId')");
+                                $resInsert1 = $connexion->executeStatement('UPDATE experimental_design_type SET is_poau = ? WHERE id = ?', [1, $parentTermId]);
+                            }
+                        }
+                    }
+                }
+            }
+            
             // Query how many rows are there in the Country table
             $totalExperimentalDesignTypeAfter = $repoExperimentalDesignType->createQueryBuilder('tab')
                 // Filter by some parameter if you want
@@ -196,22 +229,22 @@ class ExperimentalDesignController extends AbstractController
                 ->getSingleScalarResult();
 
             if ($totalExperimentalDesignTypeBefore == 0) {
-                $this->addFlash('success', $totalExperimentalDesignTypeAfter . " experimental design types have been successfuly added");
+                $this->addFlash('success', $totalExperimentalDesignTypeAfter . " experimental designs have been successfuly added");
             } else {
                 $diffBeforeAndAfter = $totalExperimentalDesignTypeAfter - $totalExperimentalDesignTypeBefore;
                 if ($diffBeforeAndAfter == 0) {
-                    $this->addFlash('success', "No new experimental design type has been added");
+                    $this->addFlash('success', "No new experimental design has been added");
                 } else if ($diffBeforeAndAfter == 1) {
-                    $this->addFlash('success', $diffBeforeAndAfter . " experimental design type has been successfuly added");
+                    $this->addFlash('success', $diffBeforeAndAfter . " experimental design has been successfuly added");
                 } else {
-                    $this->addFlash('success', $diffBeforeAndAfter . " experimental design types have been successfuly added");
+                    $this->addFlash('success', $diffBeforeAndAfter . " experimental designs have been successfuly added");
                 }
             }
             return $this->redirect($this->generateUrl('experimental_design_index'));
         }
 
         $context = [
-            'title' => 'Experimental Design Type Upload From Excel',
+            'title' => 'Experimental Design TypeUpload From Excel',
             'experimentalDesignTypeUploadFromExcelForm' => $form->createView()
         ];
         return $this->render('experimental_design/upload_from_excel.html.twig', $context);

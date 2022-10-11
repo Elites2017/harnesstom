@@ -189,28 +189,61 @@ class FactorTypeController extends AbstractController
                 $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
-                $parentTerm = $row['D'];
+                $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($name != null && $description != null && $ontology_id != null && $parentTerm != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingFactorType = $entmanager->getRepository(FactorType::class)->findOneBy(['name' => $name]);
+                    $existingFactorType = $entmanager->getRepository(FactorType::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingFactorType) {
                         $factorType = new FactorType();
                         if ($this->getUser()) {
                             $factorType->setCreatedBy($this->getUser());
                         }
-                        $factorType->setName($name);
-                        $factorType->setDescription($description);
                         $factorType->setOntologyId($ontology_id);
-                        $factorType->setParentTerm($parentTerm);
+                        $factorType->setName($name);
+                        if ($description != null) {
+                            $factorType->setDescription($description);
+                        }
+                        
+                        if ($parentTermString != null) {
+                            $factorType->setParOnt($parentTermString);
+                        }
+                        
                         $factorType->setIsActive(true);
                         $factorType->setCreatedAt(new \DateTime());
                         $entmanager->persist($factorType);
+                        $entmanager->flush();
                     }
                 }
             }
-            $entmanager->flush();
+            // $entmanager->flush();
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null ) {
+                    // check if the data is upload in the database
+                    $ontologyIdParentTerm = $entmanager->getRepository(FactorType::class)->findOneBy(['ontology_id' => $parentTerm]);
+                    //$ontologyIdParentTermDes = $entmanager->getRepository(FactorType::class)->findOneBy(['par_ont' => $parentTerm]);
+                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\FactorType)) {
+                        $ontId = $ontologyIdParentTerm->getId();
+                        // get the real string (parOnt) parent term or its line id so that to do the link 
+                        $stringParentTerm = $entmanager->getRepository(FactorType::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+                        if ($stringParentTerm != null) {
+                            $parentTermId = $stringParentTerm->getId();
+                            if ($parentTermId != null) {
+                                $resInsert = $connexion->executeStatement("INSERT factor_type_factor_type VALUES('$ontId', '$parentTermId')");
+                                $resInsert1 = $connexion->executeStatement('UPDATE factor_type SET is_poau = ? WHERE id = ?', [1, $parentTermId]);
+                            }
+                        }
+                    }
+                }
+            }
+
             // Query how many rows are there in the Country table
             $totalFactorTypeAfter = $repoFactorType->createQueryBuilder('tab')
                 // Filter by some parameter if you want

@@ -209,16 +209,11 @@ class DevelopmentalStageController extends AbstractController
                         $stringParentTerm = $entmanager->getRepository(DevelopmentalStage::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
                         if ($stringParentTerm != null) {
                             $parentTermId = $stringParentTerm->getId();
+                            if ($parentTermId != null) {
+                                $resInsert = $connexion->executeStatement("INSERT developmental_stage_developmental_stage VALUES('$ontId', '$parentTermId')");
+                                $resInsert1 = $connexion->executeStatement('UPDATE developmental_stage SET is_poau = ? WHERE id = ?', [1, $parentTermId]);
+                            }
                         }
-                        //dd("OntID 1 ", $ontId, " parentTermId ", $parentTermId);
-                        if ($parentTermId != null) {
-                            $resInsert = $connexion->executeStatement("INSERT developmental_stage_developmental_stage VALUES('$ontId', '$parentTermId')");
-                            $resInsert1 = $connexion->executeStatement('UPDATE developmental_stage SET is_poau = ? WHERE id = ?', [1, $parentTermId]);
-                        }
-                        //$resInsert = $connexion->executeStatement('INSERT developmental_stage_developmental_stage VALUES(1486, 1487)');
-                        // dd("OntID 1 ", $ontId, " parentTermId ", $parentTermId);
-                        // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
-                        // $res = $connexion->executeStatement('UPDATE developmental_stage SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
                     }
                 }
             }
