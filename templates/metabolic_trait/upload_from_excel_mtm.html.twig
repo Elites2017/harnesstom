@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Metabolic Trait Many To Many Upload From Excel</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="mb-3">
+					<a href="{{ path('metabolic_trait_download_template') }}" download target="_blank">
+						<h1>Click to download a template exemple</h1></br>
+						<h3>NOTE: Your data must be in the same format as the template example file format</h3>
+					<img src="{{ asset('assets/images/excelicon.png') }}" alt="Example of excel template" width="104" height="142">
+				</a>
+			</div>
+			{{ form_start(metabolicTraitMTMUploadFromExcelForm) }}
+			<div>
+				{{ form_row(metabolicTraitMTMUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Upload</button>
+				</div>
+
+				<div class="col-md-6 mb-3">
+					<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+				</div>
+			</div>
+			{{ form_end(metabolicTraitMTMUploadFromExcelForm) }}
+		</div>
+	</div>
+	<!-- .row -->
+</div>
+<!-- .container -->{% endblock %}
