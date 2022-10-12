@@ -44,7 +44,6 @@
 									<th scope="col">Ontology ID</th>
 									<th scope="col">Name</th>
 									<th scope="col">Description</th>
-									<th scope="col">Parent</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -59,9 +58,6 @@
 										</td>
 										<td>
 											<a href="{{ path('trait_class_details', {id: traitClass.id}) }}">{{ traitClass.description }}</a>
-										</td>
-										<td>
-											<a href="{{ path('trait_class_details', {id: traitClass.id}) }}">{{ traitClass.parentTerm }}</a>
 										</td>
 										<td>
 											<a href="{{ path('trait_class_details', {id: traitClass.id}) }}">
