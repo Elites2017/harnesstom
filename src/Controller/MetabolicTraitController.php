@@ -126,9 +126,9 @@ class MetabolicTraitController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Setup repository of some entity
-            $repometabolicTrait = $entmanager->getRepository(metabolicTrait::class);
-            // Query how many rows are there in the metabolicTrait table
-            $totalmetabolicTraitBefore = $repometabolicTrait->createQueryBuilder('tab')
+            $repoTrait = $entmanager->getRepository(MetabolicTrait::class);
+            // Query how many rows are there in the trait table
+            $totalTraitBefore = $repoTrait->createQueryBuilder('tab')
                 // Filter by some parameter if you want
                 // ->where('a.isActive = 1')
                 ->select('count(tab.id)')
@@ -164,39 +164,59 @@ class MetabolicTraitController extends AbstractController
             foreach ($sheetData as $key => $row) {
                 $ontology_id = $row['A'];
                 $name = $row['B'];
-                $parentTerm = $row['C'];
+                $description = $row['C'];
+                $chebiMass = $row['D'];
+                $chebiMonoscopic = $row['E'];
+                $synonym = $row['F'];
+                $chebiLink = $row['G'];
+                $parentTerm = $row['I'];
                 // check if the file doesn't have empty columns
-                if ($ontology_id != null & $name != null) {
+                if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    $existingmetabolicTrait = $entmanager->getRepository(metabolicTrait::class)->findOneBy(['name' => $name]);
-                    // upload data only for countries that haven't been saved in the database
-                    if (!$existingmetabolicTrait) {
-                        $metabolicTrait = new metabolicTrait();
+                    $existingMetabolicTrait = $entmanager->getRepository(MetabolicTrait::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    // upload data only for objects that haven't been saved in the database
+                    if (!$existingMetabolicTrait) {
+                        $metabolicTrait = new MetabolicTrait();
                         if ($this->getUser()) {
                             $metabolicTrait->setCreatedBy($this->getUser());
                         }
-                        $metabolicTrait->setName($name);
                         $metabolicTrait->setOntologyId($ontology_id);
-                        //$metabolicTrait->setParentTerm($parentTerm);
+                        $metabolicTrait->setName($name);
+                        if ($description != null) {
+                            $metabolicTrait->setDescription($description);
+                        }
+                        if ($parentTerm != null) {
+                            $metabolicTrait->setParOnt($parentTerm);
+                        }
+                        $metabolicTrait->setChebiMass($chebiMass);
+                        var_dump($chebiMonoscopic);
+                        $metabolicTrait->setChebiMonoIsoTopicMass($chebiMonoscopic);
+                        
+                        //$arr = [];
+                        //$arr [] = $synonym;
+                        //dd()
+                        //$metabolicTrait->setSynonym($synonym);
+                        $metabolicTrait->setChebiLink($chebiLink);
+
                         $metabolicTrait->setIsActive(true);
                         $metabolicTrait->setCreatedAt(new \DateTime());
                         $entmanager->persist($metabolicTrait);
+                        $entmanager->flush();
                     }
                 }
             }
-            $entmanager->flush();
-            // Query how many rows are there in the Country table
-            $totalmetabolicTraitAfter = $repometabolicTrait->createQueryBuilder('tab')
+            
+            $totalTraitAfter = $repoTrait->createQueryBuilder('tab')
                 // Filter by some parameter if you want
                 // ->where('a.isActive = 1')
                 ->select('count(tab.id)')
                 ->getQuery()
                 ->getSingleScalarResult();
 
-            if ($totalmetabolicTraitBefore == 0) {
-                $this->addFlash('success', $totalmetabolicTraitAfter . " metabolic traits have been successfuly added");
+            if ($totalTraitBefore == 0) {
+                $this->addFlash('success', $totalTraitAfter . " metabolic traits have been successfuly added");
             } else {
-                $diffBeforeAndAfter = $totalmetabolicTraitAfter - $totalmetabolicTraitBefore;
+                $diffBeforeAndAfter = $totalTraitAfter - $totalTraitBefore;
                 if ($diffBeforeAndAfter == 0) {
                     $this->addFlash('success', "No new metabolic trait has been added");
                 } else if ($diffBeforeAndAfter == 1) {
@@ -212,7 +232,88 @@ class MetabolicTraitController extends AbstractController
             'title' => 'Metabolic Trait Upload From Excel',
             'metabolicTraitUploadFromExcelForm' => $form->createView()
         ];
-        return $this->render('metabolicTrait/upload_from_excel.html.twig', $context);
+        return $this->render('metabolic_trait/upload_from_excel.html.twig', $context);
+    }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel-mtm", name="upload_from_excel_mtm")
+     */
+    public function uploadManyToManyFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // to count the number of affected rows.
+            $counter = 0;
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['B'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null) {
+                    // check if the data is upload in the database
+                    $ontMetabolicTraitEnt = $entmanager->getRepository(MetabolicTrait::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    if ($ontMetabolicTraitEnt) {
+                        $ontologyIdDbId = $ontMetabolicTraitEnt->getId();
+                        $parentTermMetabolicTraitEnt = $entmanager->getRepository(MetabolicTrait::class)->findOneBy(['ontology_id' => $parentTerm]);
+                        if ($parentTermMetabolicTraitEnt) {
+                            $parentTermDbId = $parentTermMetabolicTraitEnt->getId();
+                            // check if this ID couple is already in the database, otherwise insert it in.
+                            $result = $connexion->executeStatement('SELECT metabolic_trait_source FROM metabolic_trait_metabolic_trait WHERE metabolic_trait_source = ? AND metabolic_trait_target = ?', [$parentTermDbId, $ontologyIdDbId]);
+                            //dd($parentTermId);
+                            if ($result == 0) {
+                                $resInsert = $connexion->executeStatement("INSERT INTO metabolic_trait_metabolic_trait VALUES('$parentTermDbId', '$ontologyIdDbId')");
+                                if ($resInsert == 1) {
+                                    $counter += 1;
+                                }
+                            }
+                        } else {
+                            $this->addFlash('danger', "Error this parent term $parentTerm has not been saved / used in the table trait entity as an ontologyId before, make sure it has been already saved in the trait entity as an ontologyId before a being used as a parent temtable and try again");
+                        }
+                    } else {
+                        $this->addFlash('danger', "Error this ontology_id $ontology_id is not in the database, make sure it has been already saved in the trait entity table and try again");
+                    }
+                }
+            }
+            if ($counter <= 1) {
+                $this->addFlash('success', " $counter " ."row affected ");    
+            } else {
+                $this->addFlash('success', " $counter " ."rows affected ");            
+            }
+            return $this->redirect($this->generateUrl('metabolic_trait_index'));
+        }
+
+        $context = [
+            'title' => 'Metabolic Trait Many To Many Upload From Excel',
+            'metabolicTraitMTMUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('metabolic_trait/upload_from_excel_mtm.html.twig', $context);
     }
 
     /**
