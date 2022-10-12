@@ -195,30 +195,30 @@ class ExperimentalDesignController extends AbstractController
             }
             // $entmanager->flush();
             // get the connection
-            $connexion = $entmanager->getConnection();
-            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
-            foreach ($sheetData as $key => $row) {
-                $ontology_id = $row['A'];
-                $parentTerm = $row['D'];
-                // check if the file doesn't have empty columns
-                if ($ontology_id != null && $parentTerm != null ) {
-                    // check if the data is upload in the database
-                    $ontologyIdParentTerm = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['ontology_id' => $parentTerm]);
-                    //$ontologyIdParentTermDes = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['par_ont' => $parentTerm]);
-                    if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\ExperimentalDesignType)) {
-                        $ontId = $ontologyIdParentTerm->getId();
-                        // get the real string (parOnt) parent term or its line id so that to do the link 
-                        $stringParentTerm = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
-                        if ($stringParentTerm != null) {
-                            $parentTermId = $stringParentTerm->getId();
-                            if ($parentTermId != null) {
-                                $resInsert = $connexion->executeStatement("INSERT experimental_design_type_experimental_design_type VALUES('$ontId', '$parentTermId')");
-                                $resInsert1 = $connexion->executeStatement('UPDATE experimental_design_type SET is_poau = ? WHERE id = ?', [1, $parentTermId]);
-                            }
-                        }
-                    }
-                }
-            }
+            // $connexion = $entmanager->getConnection();
+            // // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
+            // foreach ($sheetData as $key => $row) {
+            //     $ontology_id = $row['A'];
+            //     $parentTerm = $row['D'];
+            //     // check if the file doesn't have empty columns
+            //     if ($ontology_id != null && $parentTerm != null ) {
+            //         // check if the data is upload in the database
+            //         $ontologyIdParentTerm = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['ontology_id' => $parentTerm]);
+            //         //$ontologyIdParentTermDes = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['par_ont' => $parentTerm]);
+            //         if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\ExperimentalDesignType)) {
+            //             $ontId = $ontologyIdParentTerm->getId();
+            //             // get the real string (parOnt) parent term or its line id so that to do the link 
+            //             $stringParentTerm = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
+            //             if ($stringParentTerm != null) {
+            //                 $parentTermId = $stringParentTerm->getId();
+            //                 if ($parentTermId != null) {
+            //                     $resInsert = $connexion->executeStatement("INSERT experimental_design_type_experimental_design_type VALUES('$ontId', '$parentTermId')");
+            //                     $resInsert1 = $connexion->executeStatement('UPDATE experimental_design_type SET is_poau = ? WHERE id = ?', [1, $parentTermId]);
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
             
             // Query how many rows are there in the Country table
             $totalExperimentalDesignTypeAfter = $repoExperimentalDesignType->createQueryBuilder('tab')
@@ -248,6 +248,87 @@ class ExperimentalDesignController extends AbstractController
             'experimentalDesignTypeUploadFromExcelForm' => $form->createView()
         ];
         return $this->render('experimental_design/upload_from_excel.html.twig', $context);
+    }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel-mtm", name="upload_from_excel_mtm")
+     */
+    public function uploadManyToManyFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // to count the number of affected rows.
+            $counter = 0;
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['B'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null) {
+                    // check if the data is upload in the database
+                    $ontExperimentalDesignTypeEnt = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    if ($ontExperimentalDesignTypeEnt) {
+                        $ontologyIdDbId = $ontExperimentalDesignTypeEnt->getId();
+                        $parentTermExperimentalDesignTypeEnt = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['ontology_id' => $parentTerm]);
+                        if ($parentTermExperimentalDesignTypeEnt) {
+                            $parentTermDbId = $parentTermExperimentalDesignTypeEnt->getId();
+                            // check if this ID couple is already in the database, otherwise insert it in.
+                            $result = $connexion->executeStatement('SELECT experimental_design_type_source FROM experimental_design_type_experimental_design_type WHERE experimental_design_type_source = ? AND experimental_design_type_target = ?', [$parentTermDbId, $ontologyIdDbId]);
+                            //dd($parentTermId);
+                            if ($result == 0) {
+                                $resInsert = $connexion->executeStatement("INSERT INTO experimental_design_type_experimental_design_type VALUES('$parentTermDbId', '$ontologyIdDbId')");
+                                if ($resInsert == 1) {
+                                    $counter += 1;
+                                }
+                            }
+                        } else {
+                            $this->addFlash('danger', "Error this parent term $parentTerm has not been saved / used in the table experimental design type entity as an ontologyId before, make sure it has been already saved in the experimental design type entity as an ontologyId before a being used as a parent temtable and try again");
+                        }
+                    } else {
+                        $this->addFlash('danger', "Error this ontology_id $ontology_id is not in the database, make sure it has been already saved in the experimental design type entity table and try again");
+                    }
+                }
+            }
+            if ($counter <= 1) {
+                $this->addFlash('success', " $counter " ."row affected ");    
+            } else {
+                $this->addFlash('success', " $counter " ."rows affected ");            
+            }
+            return $this->redirect($this->generateUrl('experimental_design_index'));
+        }
+
+        $context = [
+            'title' => 'Experimental Design Type Entity Many To Many Upload From Excel',
+            'experimentalDesignTypeMTMUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('experimental_design/upload_from_excel_mtm.html.twig', $context);
     }
 
     /**

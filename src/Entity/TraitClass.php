@@ -64,13 +64,13 @@ class TraitClass
      */
     private $attributeTraitValues;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=TraitClass::class, inversedBy="traitClasses")
+   /**
+     * @ORM\ManyToMany(targetEntity=TraitClass::class, inversedBy="traitClasses")
      */
     private $parentTerm;
 
     /**
-     * @ORM\OneToMany(targetEntity=TraitClass::class, mappedBy="parentTerm")
+     * @ORM\ManyToMany(targetEntity=TraitClass::class, mappedBy="parentTerm")
      */
     private $traitClasses;
 
@@ -101,6 +101,7 @@ class TraitClass
         $this->attributeTraitValues = new ArrayCollection();
         $this->traitClasses = new ArrayCollection();
         $this->variableOfTraitClasses = new ArrayCollection();
+        $this->parentTerm = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -247,14 +248,26 @@ class TraitClass
         return (string) $this->name;
     }
 
-    public function getParentTerm(): ?self
+    /**
+     * @return Collection<int, self>
+     */
+    public function getParentTerm(): Collection
     {
         return $this->parentTerm;
     }
 
-    public function setParentTerm(?self $parentTerm): self
+    public function addParentTerm(self $parentTerm): self
     {
-        $this->parentTerm = $parentTerm;
+        if (!$this->parentTerm->contains($parentTerm)) {
+            $this->parentTerm[] = $parentTerm;
+        }
+
+        return $this;
+    }
+
+    public function removeParentTerm(self $parentTerm): self
+    {
+        $this->parentTerm->removeElement($parentTerm);
 
         return $this;
     }
@@ -271,7 +284,7 @@ class TraitClass
     {
         if (!$this->traitClasses->contains($traitClass)) {
             $this->traitClasses[] = $traitClass;
-            $traitClass->setParentTerm($this);
+            $traitClass->addParentTerm($this);
         }
 
         return $this;
@@ -280,10 +293,7 @@ class TraitClass
     public function removeTraitClass(self $traitClass): self
     {
         if ($this->traitClasses->removeElement($traitClass)) {
-            // set the owning side to null (unless already changed)
-            if ($traitClass->getParentTerm() === $this) {
-                $traitClass->setParentTerm(null);
-            }
+            $traitClass->removeParentTerm($this);
         }
 
         return $this;

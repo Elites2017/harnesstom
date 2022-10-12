@@ -169,9 +169,9 @@ class AnatomicalEntityController extends AbstractController
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
-                    //$existingAnatomicalEntity = $entmanager->getRepository(AnatomicalEntity::class)->findOneBy(['ontology_id' => $ontology_id]);
-                    // upload data only for countries that haven't been saved in the database
-                    
+                    $existingAnatomicalEntity = $entmanager->getRepository(AnatomicalEntity::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    // upload data only for objects that haven't been saved in the database
+                    if (!$existingAnatomicalEntity) {
                         $anatomicalEntity = new AnatomicalEntity();
                         if ($this->getUser()) {
                             $anatomicalEntity->setCreatedBy($this->getUser());
@@ -190,76 +190,9 @@ class AnatomicalEntityController extends AbstractController
                         $anatomicalEntity->setCreatedAt(new \DateTime());
                         $entmanager->persist($anatomicalEntity);
                         $entmanager->flush();
-                }
-            }
-
-            $existingAnatomicalEntity = $entmanager->getRepository(AnatomicalEntity::class)->findBy(['ontology_id' => $ontology_id]);
-            // get the connection
-            $connexion = $entmanager->getConnection();
-            foreach ($existingAnatomicalEntity as $key => $value) {
-                # code...
-                //dd($value->getOntologyId());
-                $parOnt = $value->getId();
-                $existingParOnt = $entmanager->getRepository(AnatomicalEntity::class)->findBy(['par_ont' => $parOnt]);
-                foreach ($existingParOnt as $key => $newValue) {
-                    # code...
-                    $ontId = $newValue->getId();
-                    $some = $connexion->executeStatement('SELECT anatomical_entity_source FROM anatomical_entity_anatomical_entity WHERE anatomical_entity_source = ? AND anatomical_entity_target = ?', [$parOnt, $ontId]);
-                    //dd($parentTermId);
-                    if ($some == 0) {
-                        dd($parOnt, $ontId);
-                        $resInsert = $connexion->executeStatement("INSERT anatomical_entity_anatomical_entity VALUES('$parOnt', '$ontId')");
-                        //$resInsert1 = $connexion->executeStatement('UPDATE anatomical_entity SET is_poau = ? WHERE id = ?', [1, $parentTermId]);
                     }
                 }
-                //dd($existingParOnt);
             }
-            //dd($existingAnatomicalEntity);
-            $entmanager->getRepository(AnatomicalEntity::class)->findBy(['par_ont' => $parentTermString, 'is_poau' => null]);
-            
-            //dd("HEOOOOOo");
-            // $entmanager->flush();
-            // get the connection
-            // $connexion = $entmanager->getConnection();
-            // // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
-            // foreach ($sheetData as $key => $row) {
-            //     $ontology_id = $row['A'];
-            //     $parentTerm = $row['D'];
-            //     // check if the file doesn't have empty columns
-            //     if ($ontology_id != null && $parentTerm != null ) {
-            //         // check if the data is upload in the database
-            //         $ontologyIdParentTerm = $entmanager->getRepository(AnatomicalEntity::class)->findOneBy(['ontology_id' => $parentTerm]);
-            //         //$ontologyIdParentTermDes = $entmanager->getRepository(AnatomicalEntity::class)->findOneBy(['par_ont' => $parentTerm]);
-            //         if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\AnatomicalEntity)) {
-            //             $ontId = $ontologyIdParentTerm->getId();
-            //             // get the real string (parOnt) parent term or its line id so that to do the link 
-            //             $stringParentTermArray = $entmanager->getRepository(AnatomicalEntity::class)->findBy(['par_ont' => $parentTerm, 'is_poau' => null]);
-            //             // dd($stringParentTerm[0]);
-            //             if ($stringParentTermArray != null) {
-            //                 // for loop
-            //                 foreach ($stringParentTermArray as $key => $value) {
-            //                     # code...
-            //                     $parentTermId = $value->getId();
-            //                     if ($parentTermId != null) {
-            //                         $some = $connexion->executeStatement('SELECT anatomical_entity_source FROM anatomical_entity_anatomical_entity WHERE anatomical_entity_source = ? AND anatomical_entity_target = ?', [$parentTermId, $ontId]);
-            //                         //dd($parentTermId);
-            //                         if ($some == 0) {
-            //                             $resInsert = $connexion->executeStatement("INSERT anatomical_entity_anatomical_entity VALUES('$parentTermId', '$ontId')");
-            //                             $resInsert1 = $connexion->executeStatement('UPDATE anatomical_entity SET is_poau = ? WHERE id = ?', [1, $parentTermId]);
-            //                         }
-            //                     }
-            //                 }
-            //                 // if ($parentTermId != null) {
-            //                 //     $some = $connexion->executeStatement('SELECT anatomical_entity_source FROM anatomical_entity_anatomical_entity WHERE anatomical_entity_source = ? AND anatomical_entity_target = ?', [$parentTermId, $ontId]);
-            //                 //     if (!$some) {
-            //                 //         $resInsert = $connexion->executeStatement("INSERT anatomical_entity_anatomical_entity VALUES('$parentTermId', '$ontId')");
-            //                 //         //$resInsert1 = $connexion->executeStatement('UPDATE anatomical_entity SET is_poau = ? WHERE id = ?', [1, $parentTermId]);
-            //                 //     }
-            //                 // }
-            //             }
-            //         }
-            //     }
-            // }
 
             // Query how many rows are there in the Country table
             $totalAnatomicalEntityAfter = $repoAnatomicalEntity->createQueryBuilder('tab')
@@ -289,6 +222,87 @@ class AnatomicalEntityController extends AbstractController
             'anatomicalEntityUploadFromExcelForm' => $form->createView()
         ];
         return $this->render('anatomical_entity/upload_from_excel.html.twig', $context);
+    }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel-mtm", name="upload_from_excel_mtm")
+     */
+    public function uploadManyToManyFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // to count the number of affected rows.
+            $counter = 0;
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['B'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null) {
+                    // check if the data is upload in the database
+                    $ontAnatomicalEnt = $entmanager->getRepository(AnatomicalEntity::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    if ($ontAnatomicalEnt) {
+                        $ontologyIdDbId = $ontAnatomicalEnt->getId();
+                        $parentTermAnatomicalEnt = $entmanager->getRepository(AnatomicalEntity::class)->findOneBy(['ontology_id' => $parentTerm]);
+                        if ($parentTermAnatomicalEnt) {
+                            $parentTermDbId = $parentTermAnatomicalEnt->getId();
+                            // check if this ID couple is already in the database, otherwise insert it in.
+                            $result = $connexion->executeStatement('SELECT anatomical_entity_source FROM anatomical_entity_anatomical_entity WHERE anatomical_entity_source = ? AND anatomical_entity_target = ?', [$parentTermDbId, $ontologyIdDbId]);
+                            //dd($parentTermId);
+                            if ($result == 0) {
+                                $resInsert = $connexion->executeStatement("INSERT INTO anatomical_entity_anatomical_entity VALUES('$parentTermDbId', '$ontologyIdDbId')");
+                                if ($resInsert == 1) {
+                                    $counter += 1;
+                                }
+                            }
+                        } else {
+                            $this->addFlash('danger', "Error this parent term $parentTerm has not been saved / used in the table anatomical entity as an ontologyId before, make sure it has been already saved in the anatomical entity as an ontologyId before a being used as a parent temtable and try again");
+                        }
+                    } else {
+                        $this->addFlash('danger', "Error this ontology_id $ontology_id is not in the database, make sure it has been already saved in the anatomical entity table and try again");
+                    }
+                }
+            }
+            if ($counter <= 1) {
+                $this->addFlash('success', " $counter " ."row affected ");    
+            } else {
+                $this->addFlash('success', " $counter " ."rows affected ");            
+            }
+            return $this->redirect($this->generateUrl('anatomical_entity_index'));
+        }
+
+        $context = [
+            'title' => 'Anatomical Entity Many To Many Upload From Excel',
+            'anatomicalEntityMTMUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('anatomical_entity/upload_from_excel_mtm.html.twig', $context);
     }
 
     /**
