@@ -189,13 +189,13 @@ class MetabolicTraitController extends AbstractController
                             $metabolicTrait->setParOnt($parentTerm);
                         }
                         $metabolicTrait->setChebiMass($chebiMass);
-                        var_dump($chebiMonoscopic);
                         $metabolicTrait->setChebiMonoIsoTopicMass($chebiMonoscopic);
-                        
-                        //$arr = [];
+                        // split the text to array based on that patern
+                        $synonym = explode("|", $synonym);
+                        //var_dump($chebiMonoscopic);
                         //$arr [] = $synonym;
-                        //dd()
-                        //$metabolicTrait->setSynonym($synonym);
+                        //dd($arr);
+                        $metabolicTrait->setSynonym($synonym);
                         $metabolicTrait->setChebiLink($chebiLink);
 
                         $metabolicTrait->setIsActive(true);
