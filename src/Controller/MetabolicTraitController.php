@@ -294,10 +294,10 @@ class MetabolicTraitController extends AbstractController
                                 }
                             }
                         } else {
-                            $this->addFlash('danger', "Error this parent term $parentTerm has not been saved / used in the table trait entity as an ontologyId before, make sure it has been already saved in the trait entity as an ontologyId before a being used as a parent temtable and try again");
+                            $this->addFlash('danger', "Error this parent term $parentTerm has not been saved / used in the table metabolic trait entity as an ontologyId before, make sure it has been already saved in the metabolic trait entity as an ontologyId before a being used as a parent temtable and try again");
                         }
                     } else {
-                        $this->addFlash('danger', "Error this ontology_id $ontology_id is not in the database, make sure it has been already saved in the trait entity table and try again");
+                        $this->addFlash('danger', "Error this ontology_id $ontology_id is not in the database, make sure it has been already saved in the metabolic trait entity table and try again");
                     }
                 }
             }
