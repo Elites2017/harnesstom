@@ -199,6 +199,6 @@ class Taxonomy
     // in an upper level related form field from a foreign key
     public function __toString()
     {
-        return (string) $this->taxonid;
+        return (string) $this->taxonid ."  ". $this->genus ." ". $this->species ." ". $this->subtaxa;
     }
 }
