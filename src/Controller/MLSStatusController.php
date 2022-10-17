@@ -167,7 +167,7 @@ class MLSStatusController extends AbstractController
                 $description = $row['C'];
                 $parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($ontology_id != null && $name != null) {
+                if ($ontology_id !== null && $name != null) {
                     // check if the data is upload in the database
                     $existingMLSStatus = $entmanager->getRepository(MLSStatus::class)->findOneBy(['ontology_id' => $ontology_id]);
                     // upload data only for countries that haven't been saved in the database
