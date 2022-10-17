@@ -7,8 +7,10 @@ use App\Entity\Trial;
 use App\Entity\TrialType as EntityTrialType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
@@ -41,7 +43,13 @@ class TrialType extends AbstractType
             ))
             ->add('license')
             ->add('pui')
-            ->add('publicationReference')
+            ->add('publicationReference', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'prototype' => true,
+                'label' => false,
+                'prototype_data' => 'Publication reference...'
+            ])
             ->add('program', EntityType::class, [
                 'class' => Program::class,
                 'help_html' => true,

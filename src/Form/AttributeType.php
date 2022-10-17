@@ -6,7 +6,9 @@ use App\Entity\Attribute;
 use App\Entity\AttributeCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
@@ -28,7 +30,13 @@ class AttributeType extends AbstractType
             ->add('abbreviation')
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '5')])
-            ->add('publicationReference')
+                ->add('publicationReference', CollectionType::class, [
+                    'entry_type' => TextType::class,
+                    'allow_add' => true,
+                    'prototype' => true,
+                    'label' => false,
+                    'prototype_data' => 'Publication reference...'
+                ])
             ->add('category', EntityType::class, [
                 'class' => AttributeCategory::class,
                 'help_html' => true,

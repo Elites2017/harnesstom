@@ -64,16 +64,6 @@
 
                         <div class="col-md-4 mb-3">
                             {{ form_row
-                            (attributeTraitValueForm.publicationReference,
-                                { label: "Publication Reference",
-                                'attr': {'placeholder': "Enter the publication reference"}
-                                }
-                            )
-                        }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
                             (attributeTraitValueForm.value,
                                 { label: "Value",
                                 'attr': {'placeholder': "Enter the value"}
@@ -82,6 +72,19 @@
                         }}
                         </div>
                     </div>
+
+                    <div>
+					<div id="pubRef-fields-list" data-prototype="{{ form_widget(attributeTraitValueForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ attributeTraitValueForm.publicationReference|length }}">
+						{% for pubRef in attributeTraitValueForm.publicationReference %}
+							<li>
+								{{ form_errors(pubRef) }}
+								{{ form_widget(pubRef) }}
+							</li>
+						{% endfor %}
+					</div>
+					<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#pubRef-fields-list">Add publication reference</button>
+				</div>
+
                     {% if is_granted("ROLE_ADMIN") %}
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -103,4 +106,12 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/add-study-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 {% endblock %}
