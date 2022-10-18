@@ -8,8 +8,10 @@ use App\Entity\SequencingType;
 use App\Entity\VarCallSoftware;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
@@ -41,6 +43,13 @@ class GenotypingPlatformType extends AbstractType
             ->add('markerCount')
             ->add('assemblyPUI')
             ->add('publicationRef')
+            ->add('publicationRef', CollectionType::class, [
+                'entry_type' => TextType::class,
+                'allow_add' => true,
+                'prototype' => true,
+                'label' => false,
+                'prototype_data' => 'Publication reference...'
+            ])
             ->add('sequencingType', EntityType::class, [
                 'class' => SequencingType::class,
                 'help_html' => true,
