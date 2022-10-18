@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+	{{ title }}
+{% endblock %}
+
 
 {% block body %}
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Genotyping Platform Edition</h2>
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Genotyping Edition</h2>
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -87,7 +90,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-4 mb-3">
+					<div class="col-md-6 mb-3">
 						{{ form_row
                                         (genotypingPlatformForm.assemblyPUI,
                                             { label: "Assembly PUI",
@@ -96,16 +99,7 @@
                                         )
                                     }}
 					</div>
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (genotypingPlatformForm.publicationRef,
-                                            { label: "Publication reference",
-                                            'attr': {'placeholder': "Enter the genotyping platform publication reference"}
-                                            }
-                                        )
-                                    }}
-					</div>
-					<div class="col-md-4 mb-3">
+					<div class="col-md-6 mb-3">
 						{{ form_row
                                         (genotypingPlatformForm.sequencingInstrument,
                                             { label: "Sequencing instrument",
@@ -140,6 +134,16 @@
 					</div>
 				</div>
 
+                <div id="pubRef-fields-list" data-prototype="{{ form_widget(genotypingPlatformForm.publicationRef.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ genotypingPlatformForm.publicationRef|length }}">
+						{% for pubRef in genotypingPlatformForm.publicationRef %}
+							<li>
+								{{ form_errors(pubRef) }}
+								{{ form_widget(pubRef) }}
+							</li>
+						{% endfor %}
+				</div>
+                <button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#pubRef-fields-list">Add publication reference</button>
+
 				<div class="row">
 					<div class="col-md-6 mb-3">
 						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
@@ -155,4 +159,12 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/add-study-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 {% endblock %}
