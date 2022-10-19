@@ -167,10 +167,10 @@ class GenotypingPlatformController extends AbstractController
             foreach ($sheetData as $key => $row) {
                 $name = $row['A'];
                 $description = $row['B'];
-                $ontIdSequencingType = $row['C'];
+                $ontIdSeqType = $row['C'];
                 $methodDescription = $row['D'];
-                $ontIdSequencingInstrument = $row['E'];
-                $ontVarCallSoftware = $row['F'];
+                $ontIdSeqIns = $row['E'];
+                $ontIdVarCallSoft = $row['F'];
                 $refSetName = $row['G'];
                 $publishedDate = $row['H'];
                 $assemblyPUI = $row['I'];
@@ -178,38 +178,38 @@ class GenotypingPlatformController extends AbstractController
                 $bioProjectId = $row['K'];
                 $publicationRef = $row['L'];
                 // check if the file doesn't have empty columns
-                if ($name != null & $ontIdSequencingType != null) {
+                if ($name != null) {
                     // check if the data is upload in the database
                     $existingGenotypingPlatform = $entmanager->getRepository(GenotypingPlatform::class)->findOneBy(['name' => $name]);
-                    // upload data only for countries that haven't been saved in the database
+                    // upload data only for objects that haven't been saved in the database
                     if (!$existingGenotypingPlatform) {
                         $genotypingPlatform = new GenotypingPlatform();
-                        $genotypingPlatformSeqType = $entmanager->getRepository(SequencingType::class)->findOneBy(['ontology_id' => $ontIdSequencingType]);
+                        $genotypingPlatformSeqType = $entmanager->getRepository(SequencingType::class)->findOneBy(['ontology_id' => $ontIdSeqType]);
                         if (($genotypingPlatformSeqType != null) && ($genotypingPlatformSeqType instanceof \App\Entity\SequencingType)) {
                             $genotypingPlatform->setSequencingType($genotypingPlatformSeqType);
                         }
-                        
-                        $genotypingPlatformSeqIns = $entmanager->getRepository(SequencingInstrument::class)->findOneBy(['ontology_id' => $ontIdSequencingInstrument]);
+
+                        $genotypingPlatformSeqIns = $entmanager->getRepository(SequencingInstrument::class)->findOneBy(['ontology_id' => $ontIdSeqIns]);
                         if (($genotypingPlatformSeqIns != null) && ($genotypingPlatformSeqIns instanceof \App\Entity\SequencingInstrument)) {
                             $genotypingPlatform->setSequencingInstrument($genotypingPlatformSeqIns);
                         }
-
-                        $genotypingPlatformVarCallSot = $entmanager->getRepository(VarCallSoftware::class)->findOneBy(['ontology_id' => $ontVarCallSoftware]);
-                        if (($genotypingPlatformVarCallSot != null) && ($genotypingPlatformVarCallSot instanceof \App\Entity\VarCallSoftware)) {
-                            $genotypingPlatform->setVarCallSoftware($genotypingPlatformVarCallSot);
+                        
+                        $genotypingPlatformVarCallSoft = $entmanager->getRepository(VarCallSoftware::class)->findOneBy(['ontology_id' => $ontIdVarCallSoft]);
+                        if (($genotypingPlatformVarCallSoft != null) && ($genotypingPlatformVarCallSoft instanceof \App\Entity\VarCallSoftware)) {
+                            $genotypingPlatform->setVarCallSoftware($genotypingPlatformVarCallSoft);
                         }
-
+                        
                         if ($this->getUser()) {
                             $genotypingPlatform->setCreatedBy($this->getUser());
                         }
-
-                        $publicationRef = explode("|", $publicationRef);
                         
+                        $publicationRef = explode("|", $publicationRef);
+
                         $genotypingPlatform->setDescription($description);
                         $genotypingPlatform->setName($name);
                         $genotypingPlatform->setMarkerCount($markerCount);
                         $genotypingPlatform->setAssemblyPUI($assemblyPUI);
-                        $genotypingPlatform->setBioProjectId($bioProjectId);
+                        $genotypingPlatform->setBioProjectID($bioProjectId);
                         $genotypingPlatform->setPublishedDate(\DateTime::createFromFormat('Y-m-d', $publishedDate));
                         $genotypingPlatform->setRefSetName($refSetName);
                         $genotypingPlatform->setMethodDescription($methodDescription);
@@ -263,4 +263,3 @@ class GenotypingPlatformController extends AbstractController
        
     }
 }
-
