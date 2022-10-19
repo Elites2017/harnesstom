@@ -217,10 +217,11 @@ class GenotypingPlatformController extends AbstractController
                         $genotypingPlatform->setIsActive(true);
                         $genotypingPlatform->setCreatedAt(new \DateTime());
                         $entmanager->persist($genotypingPlatform);
+                        $entmanager->flush();
                     }
                 }
             }
-            $entmanager->flush();
+            
             // Query how many rows are there in the Country table
             $totalGenotypingPlatformAfter = $repoGenotypingPlatform->createQueryBuilder('tab')
                 // Filter by some parameter if you want
