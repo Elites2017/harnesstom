@@ -36,7 +36,9 @@
 									<a href="{{ path('person_details', {id: contact.person.id}) }}">{{ contact.person }}</td>
 								</td>
 								<td>
-									<a href="{{ path('institute_details', {id: contact.institute.id}) }}">{{ contact.institute }}</a>
+									{% if contact.institute %}
+										<a href="{{ path('institute_details', {id: contact.institute.id}) }}">{{ contact.institute }}</a>
+									{% endif %}
 								</td>
 								<td>{{ contact.type }}</td>
 								{% if is_granted("ROLE_ADMIN") %}
