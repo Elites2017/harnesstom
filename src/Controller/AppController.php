@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\GenotypingPlatform;
+use App\Entity\Marker;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,9 +36,34 @@ class AppController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
         }
-        return $this->render('app/index.html.twig', [
+
+        // Setup repository of some entity
+        $repoMarker = $entityManager->getRepository(Marker::class);
+        // Query how many rows are there in the Marker table
+        $totalMarker = $repoMarker->createQueryBuilder('tab')
+            // Filter by some parameter if you want
+            // ->where('a.isActive = 1')
+            ->select('count(tab.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Setup repository of some entity
+        $repoGenotypingPlatform = $entityManager->getRepository(GenotypingPlatform::class);
+        // Query how many rows are there in the GenotypingPlatform table
+        $totalGenotypingPlatform = $repoGenotypingPlatform->createQueryBuilder('tab')
+            // Filter by some parameter if you want
+            // ->where('a.isActive = 1')
+            ->select('count(tab.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+            //dd($totalMarker, $totalGenotypingPlatform);
+        $context = [
             'title' => 'Home Page',
-        ]);
+            "totalMarker" => $totalMarker,
+            "totalGenotypingPlatform" => $totalGenotypingPlatform
+        ];
+        return $this->render('app/index.html.twig', $context);
     }
 
     // /**
