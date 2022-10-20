@@ -26,8 +26,17 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
-				{% if persons | length > 0 %}
-					<h2 class="mb-3 text-center tomato-color font-weight-bold">Parameter List</h2>
+				{% if people | length > 0 %}
+					<h2 class="mb-3 text-center tomato-color font-weight-bold">People List</h2>
+					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+						{% for message in messages %}
+							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endfor %}
 					<div class="table-responsive">
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
@@ -42,7 +51,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for person in persons %}
+								{% for person in people %}
 									<tr>
 										<td>
 											<a href="{{ path('person_details', {id: person.id}) }}">{{ person.firstName }}</a>
