@@ -65,7 +65,9 @@
 											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.type }}</a>
 										</td>
 										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.genotypingPlatform.refSetName }}</a>
+											{% if marker.genotypingPlatform %}
+												<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.genotypingPlatform.refSetName }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.linkageGroupName }}</a>
