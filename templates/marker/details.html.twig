@@ -21,6 +21,7 @@
 								<th scope="col">Start</th>
 								<th scope="col">End</th>
 								<th scope="col">Ref Allele</th>
+								<th scope="col">Alternative Allele</th>
 								<th scope="col">Primer Name 1</th>
 								<th scope="col">Primer Seq 1</th>
 								<th scope="col">Primer Name 2</th>
@@ -46,6 +47,11 @@
 								<td>{{ marker.start }}</td>
 								<td>{{ marker.end }}</td>
 								<td>{{ marker.refAllele }}</td>
+								<td>
+									{% for oneAllele in marker.altAllele %}
+										{{ oneAllele }}
+									{% endfor %}
+								</td>
 								<td>{{ marker.primerName1 }}</td>
 								<td>{{ marker.primerSeq1 }}</td>
 								<td>{{ marker.primerName2 }}</td>

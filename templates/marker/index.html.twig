@@ -40,8 +40,18 @@
 								<tr>
 									<th scope="col">Name</th>
 									<th scope="col">Type</th>
-									<th scope="col">Linkage Groupe Name</th>
+									<th scope="col">Genome Version</th>
+									<th scope="col">Linkage G. Name</th>
 									<th scope="col">Position</th>
+									<th scope="col">Start</th>
+									<th scope="col">End</th>
+									<th scope="col">Ref Allele</th>
+									<th scope="col">Alternative Allele</th>
+									<th scope="col">Primer Name 1</th>
+									<th scope="col">Primer Seq 1</th>
+									<th scope="col">Primer Name 2</th>
+									<th scope="col">Primer Seq 2</th>
+									<th scope="col">Genotyping Platform</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -55,10 +65,44 @@
 											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.type }}</a>
 										</td>
 										<td>
+											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.genotypingPlatform.refSetName }}</a>
+										</td>
+										<td>
 											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.linkageGroupName }}</a>
 										</td>
 										<td>
 											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.position }}</a>
+										</td>
+										<td>
+											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.start }}</a>
+										</td>
+										<td>
+											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.end }}</a>
+										</td>
+										<td>
+											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.refAllele }}</a>
+										</td>
+										<td>
+											<a href="{{ path('marker_details', {id: marker.id}) }}">
+												{% for oneAltAll in marker.altAllele %}
+													{{ oneAltAll }}
+												{% endfor %}
+											</a>
+										</td>
+										<td>
+											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.primerName1 }}</a>
+										</td>
+										<td>
+											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.primerSeq1 }}</a>
+										</td>
+										<td>
+											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.primerName2 }}</a>
+										</td>
+										<td>
+											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.primerSeq2 }}</a>
+										</td>
+										<td>
+											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.genotypingPlatform }}</a>
 										</td>
 										<td>
 											<a href="{{ path('marker_details', {id: marker.id}) }}">
