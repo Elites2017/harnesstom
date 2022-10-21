@@ -28,14 +28,26 @@
 			<div class="col-md-12 order-md-1">
 				{% if locations | length > 0 %}
 					<h2 class="mb-3 text-center tomato-color font-weight-bold">Location List</h2>
+					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+						{% for message in messages %}
+							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endfor %}
 					<div class="table-responsive">
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">Abbreviation</th>
 									<th scope="col">Name</th>
+									<th scope="col">Site Status</th>
 									<th scope="col">Longitude</th>
 									<th scope="col">Latitude</th>
 									<th scope="col">Altitude</th>
+									<th scope="col">Country</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -43,7 +55,13 @@
 								{% for location in locations %}
 									<tr>
 										<td>
+											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.abbreviation }}</a>
+										</td>
+										<td>
 											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.name }}</a>
+										</td>
+										<td>
+											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.siteStatus }}</a>
 										</td>
 										<td>
 											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.longitudeCo }}</a>
@@ -53,6 +71,11 @@
 										</td>
 										<td>
 											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.altitudeCo }}</a>
+										</td>
+										<td>
+											{% if location.country %}
+												<a href="{{ path('location_details', {id: location.id}) }}">{{ location.country }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('location_details', {id: location.id}) }}">

@@ -9,7 +9,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Location Creation</h2>
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">New Location</h2>
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -21,11 +21,21 @@
 				{% endfor %}
 				{{ form_start(locationForm) }}
 				<div class="row">
-					<div class="col-md-4 mb-3">
+					<div class="col-md-6 mb-3">
 						{{ form_row
                                         (locationForm.name,
                                             { label: "Name *",
                                             'attr': {'placeholder': "Enter the location name"}
+                                            }
+                                        )
+                                    }}
+					</div>
+
+					<div class="col-md-6 mb-3">
+						{{ form_row
+                                        (locationForm.abbreviation,
+                                            { label: "Abbreviation *",
+                                            'attr': {'placeholder': "Enter the location abbreviation"}
                                             }
                                         )
                                     }}
@@ -40,7 +50,7 @@
                                         )
                                     }}
 					</div>
-
+					
 					<div class="col-md-4 mb-3">
 						{{ form_row
                                         (locationForm.latitudeCo,
@@ -50,10 +60,7 @@
                                         )
                                     }}
 					</div>
-				</div>
 
-
-				<div class="row">
 					<div class="col-md-4 mb-3">
 						{{ form_row
                                         (locationForm.altitudeCo,
@@ -63,8 +70,11 @@
                                         )
                                     }}
 					</div>
+				</div>
 
-					<div class="col-md-4 mb-3">
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
 						{{ form_row
                                         (locationForm.siteStatus,
                                             { label: "Site Status",
@@ -74,7 +84,7 @@
                                     }}
 					</div>
 
-					<div class="col-md-4 mb-3">
+					<div class="col-md-6 mb-3">
 						{{ form_row
                                         (locationForm.country,
                                             { label: "Country",

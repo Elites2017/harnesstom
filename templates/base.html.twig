@@ -1011,6 +1011,73 @@
 										</li>
 									</ul>
 								</li>
+
+								<li>
+									<a class="dropdown-item" href="#">
+										More &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="#">
+													Person &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('person_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('person_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('person_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+										{% endif %}
+										
+										<li>
+											<a class="dropdown-item" href="#">
+												Contact &raquo;
+											</a>
+											<ul class="dropdown-menu dropdown-submenu">
+												<li>
+													<a class="dropdown-item" href="{{path('contact_create')}}">Create</a>
+												</li>
+												{% if is_granted("ROLE_ADMIN") %}
+													<li>
+														<a class="dropdown-item" href="{{path('contact_upload_from_excel')}}">Upload From Excel</a>
+													</li>
+												{% endif %}
+												<li>
+													<a class="dropdown-item" href="{{path('contact_index')}}">Search</a>
+												</li>
+											</ul>
+										</li>
+
+										<li>
+											<a class="dropdown-item" href="#">
+												Location &raquo;
+											</a>
+											<ul class="dropdown-menu dropdown-submenu">
+												<li>
+													<a class="dropdown-item" href="{{path('location_create')}}">Create</a>
+												</li>
+												{% if is_granted("ROLE_ADMIN") %}
+													<li>
+														<a class="dropdown-item" href="{{path('location_upload_from_excel')}}">Upload From Excel</a>
+													</li>
+												{% endif %}
+												<li>
+													<a class="dropdown-item" href="{{path('location_index')}}">Search</a>
+												</li>
+											</ul>
+										</li>
+
+									</ul>								
+								</li>
 							</ul>
 						</li>
 

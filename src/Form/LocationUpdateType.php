@@ -28,6 +28,7 @@ class LocationUpdateType extends AbstractType
             ->add('latitudeCo')
             ->add('altitudeCo')
             ->add('siteStatus')
+            ->add('abbreviation')
             ->add('country', EntityType::class, [
                 'class' => Country::class,
                 'help_html' => true,

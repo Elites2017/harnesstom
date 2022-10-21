@@ -90,6 +90,11 @@ class Location
     // API SECTION
     private $coordinates;
 
+    /**
+     * @ORM\Column(type="string", unique=true, nullable="false", length=255)
+     */
+    private $abbreviation;
+
     public function __construct()
     {
         $this->studies = new ArrayCollection();
@@ -296,5 +301,17 @@ class Location
             $instituteAddress = $OneOfThem->getInstitute();
         }
         return $instituteAddress->getStreetNumber() ." ". $instituteAddress->getPostalCode() ." ". $instituteAddress->getCity() ." ". $instituteAddress->getCountry();
+    }
+
+    public function getAbbreviation(): ?string
+    {
+        return $this->abbreviation;
+    }
+
+    public function setAbbreviation(string $abbreviation): self
+    {
+        $this->abbreviation = $abbreviation;
+
+        return $this;
     }
 }
