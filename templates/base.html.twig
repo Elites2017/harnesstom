@@ -95,9 +95,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('crop_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('crop_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('crop_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('crop_index')}}">Search</a>
 														</li>
@@ -112,9 +114,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('trial_type_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('trial_type_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('trial_type_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('trial_type_index')}}">Search</a>
 														</li>
@@ -129,12 +133,14 @@
 														<li>
 															<a class="dropdown-item" href="{{path('factor_type_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel') }}">Upload From Excel</a>
-														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+															<li>
+																<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('factor_type_index')}}">Search</a>
 														</li>
@@ -149,9 +155,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('season_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('season_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('season_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('season_index')}}">Search</a>
 														</li>
@@ -166,9 +174,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('growth_facility_type_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('growth_facility_type_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('growth_facility_type_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('growth_facility_type_index')}}">Search</a>
 														</li>
@@ -183,12 +193,14 @@
 														<li>
 															<a class="dropdown-item" href="{{path('experimental_design_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('experimental_design_upload_from_excel') }}">Upload From Excel </a>
-														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('experimental_design_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('experimental_design_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+															<li>
+																<a class="dropdown-item" href="{{ path('experimental_design_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('experimental_design_index')}}">Search</a>
 														</li>
@@ -210,9 +222,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('collecting_source_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('collecting_source_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('collecting_source_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('collecting_source_index')}}">Search</a>
 														</li>
@@ -227,9 +241,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('biological_status_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('biological_status_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('biological_status_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('biological_status_index')}}">Search</a>
 														</li>
@@ -244,9 +260,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('mls_status_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('mls_status_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('mls_status_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('mls_status_index')}}">Search</a>
 														</li>
@@ -261,9 +279,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('taxonomy_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('taxonomy_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('taxonomy_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('taxonomy_index')}}">Search</a>
 														</li>
@@ -278,9 +298,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('storage_type_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('storage_type_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('storage_type_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('storage_type_index')}}">Search</a>
 														</li>
@@ -295,9 +317,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('attribute_category_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('attribute_category_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('attribute_category_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('attribute_category_index')}}">Search</a>
 														</li>
@@ -312,9 +336,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('attribute_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="#">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="#">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('attribute_index')}}">Search</a>
 														</li>
@@ -329,9 +355,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('breeding_method_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('breeding_method_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('breeding_method_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('breeding_method_index')}}">Search</a>
 														</li>
@@ -346,9 +374,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('generation_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{path('generation_upload_from_excel')}}">Upload From Excel</a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{ path('generation_upload_from_excel') }}">Upload From Excel </a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('generation_index')}}">Search</a>
 														</li>
@@ -370,12 +400,14 @@
 														<li>
 															<a class="dropdown-item" href="{{path('anatomical_entity_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{path('anatomical_entity_upload_from_excel')}}">Upload From Excel</a>
-														</li>
-														<li>
-															<a class="dropdown-item" href="{{path('anatomical_entity_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('anatomical_entity_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+															<li>
+																<a class="dropdown-item" href="{{path('anatomical_entity_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('anatomical_entity_index')}}">Search</a>
 														</li>
@@ -390,12 +422,14 @@
 														<li>
 															<a class="dropdown-item" href="{{path('developmental_stage_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('developmental_stage_upload_from_excel') }}">Upload From Excel </a>
-														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('developmental_stage_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('developmental_stage_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+															<li>
+																<a class="dropdown-item" href="{{path('developmental_stage_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('developmental_stage_index')}}">Search</a>
 														</li>
@@ -410,12 +444,14 @@
 														<li>
 															<a class="dropdown-item" href="{{path('trait_class_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('trait_class_upload_from_excel') }}">Upload From Excel </a>
-														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('trait_class_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('trait_class_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+															<li>
+																<a class="dropdown-item" href="{{path('trait_class_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('trait_class_index')}}">Search</a>
 														</li>
@@ -430,12 +466,14 @@
 														<li>
 															<a class="dropdown-item" href="{{path('metabolic_trait_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('metabolic_trait_upload_from_excel') }}">Upload From Excel </a>
-														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('metabolic_trait_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('metabolic_trait_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+															<li>
+																<a class="dropdown-item" href="{{path('metabolic_trait_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('metabolic_trait_index')}}">Search</a>
 														</li>
@@ -450,9 +488,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('identification_level_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('identification_level_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('identification_level_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('identification_level_index')}}">Search</a>
 														</li>
@@ -467,9 +507,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('annotation_level_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{path('annotation_level_upload_from_excel')}}">Upload From Excel</a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('annotation_level_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('annotation_level_index')}}">Search</a>
 														</li>
@@ -484,9 +526,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('metabolite_class_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('metabolite_class_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('metabolite_class_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('metabolite_class_index')}}">Search</a>
 														</li>
@@ -501,9 +545,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('flavor_health_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{path('flavor_health_upload_from_excel')}}">Upload From Excel</a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('flavor_health_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('flavor_health_index')}}">Search</a>
 														</li>
@@ -518,9 +564,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('method_class_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('method_class_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('method_class_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('method_class_index')}}">Search</a>
 														</li>
@@ -535,9 +583,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('data_type_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('data_type_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('data_type_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('data_type_index')}}">Search</a>
 														</li>
@@ -552,9 +602,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('scale_category_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="#">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="#">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('scale_category_index')}}">Search</a>
 														</li>
@@ -576,9 +628,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('sequencing_instrument_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('sequencing_instrument_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('sequencing_instrument_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('sequencing_instrument_index')}}">Search</a>
 														</li>
@@ -593,9 +647,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('sequencing_type_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('sequencing_type_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('sequencing_type_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('sequencing_type_index')}}">Search</a>
 														</li>
@@ -610,9 +666,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('var_call_software_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('var_call_software_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('var_call_software_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('var_call_software_index')}}">Search</a>
 														</li>
@@ -627,9 +685,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('enzyme_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('enzyme_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('enzyme_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('enzyme_index')}}">Search</a>
 														</li>
@@ -644,9 +704,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('software_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('software_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('software_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('software_index')}}">Search</a>
 														</li>
@@ -668,9 +730,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('software_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('software_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('software_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('software_index')}}">Search</a>
 														</li>
@@ -685,9 +749,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('qtl_method_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('qtl_method_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('qtl_method_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('qtl_method_index')}}">Search</a>
 														</li>
@@ -702,9 +768,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('ci_criteria_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('ci_criteria_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('ci_criteria_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('ci_criteria_index')}}">Search</a>
 														</li>
@@ -719,9 +787,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('qtl_statistic_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('qtl_statistic_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('qtl_statistic_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('qtl_statistic_index')}}">Search</a>
 														</li>
@@ -736,9 +806,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('gwas_model_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('gwas_model_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('gwas_model_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('gwas_model_index')}}">Search</a>
 														</li>
@@ -753,9 +825,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('kinship_algorithm_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('kinship_algorithm_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('kinship_algorithm_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('kinship_algorithm_index')}}">Search</a>
 														</li>
@@ -770,9 +844,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('structure_method_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('structure_method_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('structure_method_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('structure_method_index')}}">Search</a>
 														</li>
@@ -787,9 +863,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('genetic_testing_model_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('genetic_testing_model_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('genetic_testing_model_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('genetic_testing_model_index')}}">Search</a>
 														</li>
@@ -804,9 +882,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('allelic_effect_estimator_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{path('allelic_effect_estimator_upload_from_excel')}}">Upload From Excel</a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('allelic_effect_estimator_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('allelic_effect_estimator_index')}}">Search</a>
 														</li>
@@ -821,9 +901,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('gwas_stat_test_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('gwas_stat_test_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('gwas_stat_test_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('gwas_stat_test_index')}}">Search</a>
 														</li>
@@ -838,9 +920,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('trait_processing_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('trait_processing_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('trait_processing_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('trait_processing_index')}}">Search</a>
 														</li>
@@ -855,9 +939,11 @@
 														<li>
 															<a class="dropdown-item" href="{{path('threshold_method_create')}}">Create</a>
 														</li>
-														<li>
-															<a class="dropdown-item" href="{{ path('threshold_method_upload_from_excel') }}">Upload From Excel </a>
-														</li>
+														{% if is_granted("ROLE_ADMIN") %}
+															<li>
+																<a class="dropdown-item" href="{{path('threshold_method_upload_from_excel')}}">Upload From Excel</a>
+															</li>
+														{% endif %}
 														<li>
 															<a class="dropdown-item" href="{{path('threshold_method_index')}}">Search</a>
 														</li>
@@ -874,11 +960,13 @@
 												<li>
 													<a class="dropdown-item" href="{{ path('country_create') }}">Create</a>
 												</li>
+												{% if is_granted("ROLE_ADMIN") %}
+													<li>
+														<a class="dropdown-item" href="{{path('country_upload_from_excel')}}">Upload From Excel</a>
+													</li>
+												{% endif %}
 												<li>
 													<a class="dropdown-item" href="{{ path('country_index') }}">Search</a>
-												</li>
-												<li>
-													<a class="dropdown-item" href="{{ path('country_upload_from_excel') }}">Upload From Excel </a>
 												</li>
 											</ul>
 										</li>
@@ -892,9 +980,11 @@
 												<li>
 													<a class="dropdown-item" href="{{path('institute_create')}}">Create</a>
 												</li>
-												<li>
-													<a class="dropdown-item" href="{{ path('institute_upload_from_excel') }}">Upload From Excel </a>
-												</li>
+												{% if is_granted("ROLE_ADMIN") %}
+													<li>
+														<a class="dropdown-item" href="{{path('institute_upload_from_excel')}}">Upload From Excel</a>
+													</li>
+												{% endif %}
 												<li>
 													<a class="dropdown-item" href="{{path('institute_index')}}">Search</a>
 												</li>
@@ -909,9 +999,11 @@
 												<li>
 													<a class="dropdown-item" href="{{path('unit_create')}}">Create</a>
 												</li>
-												<li>
-													<a class="dropdown-item" href="{{ path('unit_upload_from_excel') }}">Upload From Excel </a>
-												</li>
+												{% if is_granted("ROLE_ADMIN") %}
+													<li>
+														<a class="dropdown-item" href="{{path('unit_upload_from_excel')}}">Upload From Excel</a>
+													</li>
+												{% endif %}
 												<li>
 													<a class="dropdown-item" href="{{path('unit_index')}}">Search</a>
 												</li>
@@ -934,6 +1026,11 @@
 										<li>
 											<a class="dropdown-item" href="{{path('program_create')}}">Create</a>
 										</li>
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="{{path('program_upload_from_excel')}}">Upload From Excel</a>
+											</li>
+										{% endif %}
 										<li>
 											<a class="dropdown-item" href="{{path('program_index')}}">Search</a>
 										</li>
@@ -1145,9 +1242,11 @@
 										<li>
 											<a class="dropdown-item" href="{{path('marker_create')}}">Create</a>
 										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('marker_upload_from_excel') }}">Upload From Excel </a>
-										</li>
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="{{path('marker_upload_from_excel')}}">Upload From Excel</a>
+											</li>
+										{% endif %}
 										<li>
 											<a class="dropdown-item" href="{{path('marker_index')}}">Search</a>
 										</li>
@@ -1161,9 +1260,11 @@
 										<li>
 											<a class="dropdown-item" href="{{path('genotyping_platform_create')}}">Create</a>
 										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('genotyping_platform_upload_from_excel') }}">Upload From Excel </a>
-										</li>
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="{{path('genotyping_platform_upload_from_excel')}}">Upload From Excel</a>
+											</li>
+										{% endif %}
 										<li>
 											<a class="dropdown-item" href="{{path('genotyping_platform_index')}}">Search</a>
 										</li>
