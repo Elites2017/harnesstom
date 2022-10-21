@@ -35,7 +35,7 @@
 							<td>{{ program.name }}</td>
 							<td>{{ program.abbreviation }}</td>
 							<td>{{ program.objective }}</td>
-							<td>{{ program.externalRef }}</td>
+							<td><a href="{{ program.externalRef }}" target="_blank">{{ program.externalRef }}</a></td>
 							<td>
 								<a href="{{ path('crop_details', {id: program.crop.id}) }}">{{ program.crop }}</td>
 							</td>
