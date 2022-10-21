@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\GenotypingPlatform;
 use App\Entity\Marker;
+use App\Entity\Program;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -57,11 +58,22 @@ class AppController extends AbstractController
             ->getQuery()
             ->getSingleScalarResult();
 
-            //dd($totalMarker, $totalGenotypingPlatform);
+        // Setup repository of some entity
+        $repoProgram = $entityManager->getRepository(Program::class);
+        // Query how many rows are there in the Program table
+        $totalProgram = $repoProgram->createQueryBuilder('tab')
+            // Filter by some parameter if you want
+            // ->where('a.isActive = 1')
+            ->select('count(tab.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        
         $context = [
             'title' => 'Home Page',
             "totalMarker" => $totalMarker,
-            "totalGenotypingPlatform" => $totalGenotypingPlatform
+            "totalGenotypingPlatform" => $totalGenotypingPlatform,
+            "totalProgram" => $totalProgram
         ];
         return $this->render('app/index.html.twig', $context);
     }
