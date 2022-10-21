@@ -49,13 +49,13 @@ class Trial
     private $abbreviation;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Groups({"trial:read"})
      */
     private $startDate;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Groups({"trial:read"})
      */
     private $endDate;
@@ -73,7 +73,7 @@ class Trial
     private $license;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"trial:read"})
      * @SerializedName("trialPUI")
      */

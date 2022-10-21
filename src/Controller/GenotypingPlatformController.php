@@ -210,7 +210,9 @@ class GenotypingPlatformController extends AbstractController
                         $genotypingPlatform->setMarkerCount($markerCount);
                         $genotypingPlatform->setAssemblyPUI($assemblyPUI);
                         $genotypingPlatform->setBioProjectID($bioProjectId);
-                        $genotypingPlatform->setPublishedDate(\DateTime::createFromFormat('Y-m-d', $publishedDate));
+                        if ($publishedDate) {
+                            $genotypingPlatform->setPublishedDate(\DateTime::createFromFormat('Y-m-d', $publishedDate));
+                        }
                         $genotypingPlatform->setRefSetName($refSetName);
                         $genotypingPlatform->setMethodDescription($methodDescription);
                         $genotypingPlatform->setPublicationRef($publicationRef);
