@@ -204,6 +204,7 @@ class TrialController extends AbstractController
                             $trial->setPublicReleaseDate(\DateTime::createFromFormat('Y-m-d', $publicReleaseDate));
                         }
                         $trial->setName($trialName);
+                        $trial->setPui($trialPUI);
                         $trial->setAbbreviation($trialAbbreviation);
                         $publicationRef = explode("|", $publicationRef);
                         $trial->setPublicationReference($publicationRef);
