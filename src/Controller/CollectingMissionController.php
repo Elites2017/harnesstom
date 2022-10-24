@@ -3,13 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\CollectingMission;
+use App\Entity\Institute;
 use App\Form\CollectingMissionType;
 use App\Form\CollectingMissionUpdateType;
+use App\Form\UploadFromExcelType;
 use App\Repository\CollectingMissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 // set a class level route
@@ -110,4 +115,120 @@ class CollectingMissionController extends AbstractController
         ], 200);
         //return $this->redirect($this->generateUrl('season_home'));
     }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel", name="upload_from_excel")
+     */
+    public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Setup repository of some entity
+            $repoCollectingMission = $entmanager->getRepository(CollectingMission::class);
+            // Query how many rows are there in the CollectingMission table
+            $totalCollectingMissionBefore = $repoCollectingMission->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            // Return a number as response
+            // e.g 972
+
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again ");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $collectingMissionName = $row['A'];
+                $collectingMissionInstcode = $row['B'];
+                $collectingMissionSpecies = $row['C'];
+                $collectingMissionDescription = $row['D'];
+                // check if the file doesn't have empty columns
+                if ($collectingMissionName != null && $collectingMissionInstcode != null) {
+                    // check if the data is upload in the database
+                    $existingCollectingMission = $entmanager->getRepository(CollectingMission::class)->findOneBy(['name' => $collectingMissionName]);
+                    // upload data only for objects that haven't been saved in the database
+                    if (!$existingCollectingMission) {
+                        $collectingMission = new CollectingMission();
+                        if ($this->getUser()) {
+                            $collectingMission->setCreatedBy($this->getUser());
+                        }
+                        $collectingMissionInstcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $collectingMissionInstcode]);
+                        if (($collectingMissionInstcode != null) && ($collectingMissionInstcode instanceof \App\Entity\Institute)) {
+                            $collectingMission->setInstitute($collectingMissionInstcode);
+                        }
+                        $collectingMission->setName($collectingMissionName);
+                        $collectingMission->setSpecies($collectingMissionSpecies);
+                        $collectingMission->setIsActive(true);
+                        $collectingMission->setCreatedAt(new \DateTime());
+                        $entmanager->persist($collectingMission);
+                        $entmanager->flush();
+                    }
+                }
+            }
+            // Query how many rows are there in the table
+            $totalCollectingMissionAfter = $repoCollectingMission->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if ($totalCollectingMissionBefore == 0) {
+                $this->addFlash('success', $totalCollectingMissionAfter . " collecting missiond have been successfuly added");
+            } else {
+                $diffBeforeAndAfter = $totalCollectingMissionAfter - $totalCollectingMissionBefore;
+                if ($diffBeforeAndAfter == 0) {
+                    $this->addFlash('success', "No new collecting mission has been added");
+                } else if ($diffBeforeAndAfter == 1) {
+                    $this->addFlash('success', $diffBeforeAndAfter . " collecting mission has been successfuly added");
+                } else {
+                    $this->addFlash('success', $diffBeforeAndAfter . " collecting missiond have been successfuly added");
+                }
+            }
+            return $this->redirect($this->generateUrl('collecting_mission_index'));
+        }
+
+        $context = [
+            'title' => 'Collecting Mission Upload From Excel',
+            'collectingMissionUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('collecting_mission/upload_from_excel.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template", name="download_template")
+     */
+    public function excelTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/collecting_mission_template_example.xlsx');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'collecting_mission_template_example.xlsx');
+        return $response;
+       
+    }
 }
+
