@@ -91,7 +91,7 @@ class Location
     private $coordinates;
 
     /**
-     * @ORM\Column(type="string", unique=true, nullable="false", length=255)
+     * @ORM\Column(type="string", unique=true, length=255)
      */
     private $abbreviation;
 
