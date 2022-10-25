@@ -26,11 +26,6 @@
                             </div>
 
                             <div class="col-md-12 mb-1">
-                                <label for="validationTooltip01">Accession PUID: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.puid}}</span>
-                            </div>
-
-                            <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Country of Origin: </label>
                                 <span class="tomato-color font-weight-bold">{{accession.origcty}}</span>
                             </div>
@@ -72,7 +67,7 @@
                                 
                             </div>
                             <div class="card-footer text-muted">
-                                2 days ago
+                                
                             </div>
                         </div>
                 </div>
@@ -100,7 +95,7 @@
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Collecting date: </label>
-                                <span class="tomato-color font-weight-bold">{{ accession.colldate | date('d/m/Y') }}</span>
+                                <span class="tomato-color font-weight-bold">{{ accession.colldate }}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
@@ -125,21 +120,26 @@
                                 
                             </div>
                             <div class="card-footer text-muted">
-                                2 days ago
+                                
                             </div>
                         </div>
                 </div>
 
                 <div class="col-md-3 mb-3">
                     <div class="card">
-                            <div class="card-header">
-                                <h3 class="tomato-color">Maintaining information</h3>
+                        <div class="card-header">
+                            <h3 class="tomato-color">Maintaining information</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-12 mb-1">
+                                <label for="validationTooltip01">Accession PUID: </label>
+                                <span class="tomato-color font-weight-bold">{{accession.puid}}</span>
                             </div>
-                            <div class="card-body">
-                                <div class="col-md-12 mb-1">
-                                    <label for="validationTooltip01">Maintaining Accession Number: </label>
-                                    <span class="tomato-color font-weight-bold">{{accession.maintainerNumb}}</span>
-                                </div>
+
+                            <div class="col-md-12 mb-1">
+                                <label for="validationTooltip01">Maintaining Accession Number: </label>
+                                <span class="tomato-color font-weight-bold">{{accession.maintainerNumb}}</span>
+                            </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Maintaining institute Code: </label>
@@ -149,7 +149,7 @@
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Acquisition date: </label>
-                                <span class="tomato-color font-weight-bold">{{ accession.acqdate | date('d/m/Y') }}</span>
+                                <span class="tomato-color font-weight-bold">{{ accession.acqdate }}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
@@ -169,11 +169,11 @@
 
                             </div>
                             <div class="card-footer text-muted">
-                                2 days ago
+                                
                             </div>
                         </div>
-                </div>
-
+                    </div>
+                    
                 <div class="col-md-3 mb-3">
                     <div class="card">
                             <div class="card-header">
@@ -194,7 +194,7 @@
 
                             </div>
                             <div class="card-footer text-muted">
-                                2 days ago
+                                
                             </div>
                         </div>
                 </div>

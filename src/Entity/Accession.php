@@ -42,7 +42,7 @@ class Accession
     private $accename;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"accession:read", "program:read"})
      * @SerializedName("germplasmPUI")
      */
@@ -106,7 +106,7 @@ class Accession
     private $maintainernumb;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"accession:read", "program:read"})
      * @SerializedName("acquisitionDate")
      */
@@ -127,7 +127,7 @@ class Accession
     private $donorcode;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"accession:read", "program:read"})
      */
     private $donornumb;
@@ -150,7 +150,7 @@ class Accession
     private $collmissid;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"accession:read", "program:read"})
      */
     private $colldate;
@@ -399,12 +399,12 @@ class Accession
         return $this;
     }
 
-    public function getAcqdate(): ?\DateTimeInterface
+    public function getAcqdate(): ?string
     {
         return $this->acqdate;
     }
 
-    public function setAcqdate(?\DateTimeInterface $acqdate): self
+    public function setAcqdate(?string $acqdate): self
     {
         $this->acqdate = $acqdate;
 
@@ -483,12 +483,12 @@ class Accession
         return $this;
     }
 
-    public function getColldate(): ?\DateTimeInterface
+    public function getColldate(): ?string
     {
         return $this->colldate;
     }
 
-    public function setColldate(?\DateTimeInterface $colldate): self
+    public function setColldate(?string $colldate): self
     {
         $this->colldate = $colldate;
 

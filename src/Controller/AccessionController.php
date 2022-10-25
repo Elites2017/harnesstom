@@ -3,13 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\Accession;
+use App\Entity\BiologicalStatus;
+use App\Entity\CollectingMission;
+use App\Entity\CollectingSource;
+use App\Entity\Country;
+use App\Entity\Institute;
+use App\Entity\MLSStatus;
+use App\Entity\StorageType;
+use App\Entity\Taxonomy;
 use App\Form\AccessionType;
 use App\Form\AccessionUpdateType;
+use App\Form\UploadFromExcelType;
 use App\Repository\AccessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 // set a class level route
@@ -110,4 +122,219 @@ class AccessionController extends AbstractController
         ], 200);
         //return $this->redirect($this->generateUrl('season_home'));
     }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel", name="upload_from_excel")
+     */
+    public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Setup repository of some entity
+            $repoAccession = $entmanager->getRepository(Accession::class);
+            // Query how many rows are there in the Accession table
+            $totalAccessionBefore = $repoAccession->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            // Return a number as response
+            // e.g 972
+
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again ");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $instcode = $row['A'];
+                $maintainerNumb = $row['B'];
+                $acqDate = $row['C'];
+                $storage = $row['D'];
+                $donorCode = $row['E'];
+                $donorNumb = $row['F'];
+                $acceNumb = $row['G'];
+                $acceName = $row['H'];
+                $accePUI = $row['I'];
+                $taxonid = $row['J'];
+                $origCountry = $row['K'];
+                $origMuni = $row['L'];
+                $origAdMuni1 = $row['M'];
+                $origAdMuni2 = $row['N'];
+                $collSrc = $row['O'];
+                $sampStat = $row['P'];
+                $mlsStat = $row['Q'];
+                $collNumb = $row['R'];
+                $collCode = $row['S'];
+                $collMissionName = $row['T'];
+                $collDate = $row['U'];
+                $decLatitude = $row['V'];
+                $decLongitude = $row['W'];
+                $elevation = $row['X'];
+                $collSite = $row['Y'];
+                $bredCode = $row['Z'];
+                $breedingInfo = $row['AA'];
+                // check if the file doesn't have empty columns
+                if ($acceNumb != null && $maintainerNumb != null) {
+                    // check if the data is upload in the database
+                    $existingAccession = $entmanager->getRepository(Accession::class)->findOneBy(['maintainernumb' => $maintainerNumb]);
+                    // upload data only for objects that haven't been saved in the database
+                    if (!$existingAccession) {
+                        $accession = new Accession();
+                        if ($this->getUser()) {
+                            $accession->setCreatedBy($this->getUser());
+                        }
+                        $accessionInstcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $instcode]);
+                        if (($accessionInstcode != null) && ($accessionInstcode instanceof \App\Entity\Institute)) {
+                            $accession->setInstcode($accessionInstcode);
+                        }
+
+                        $accessionDonorcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $donorCode]);
+                        if (($accessionDonorcode != null) && ($accessionDonorcode instanceof \App\Entity\Institute)) {
+                            $accession->setDonorcode($accessionDonorcode);
+                        }
+
+                        $accessionCollcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $collCode]);
+                        if (($accessionCollcode != null) && ($accessionCollcode instanceof \App\Entity\Institute)) {
+                            $accession->setCollcode($accessionCollcode);
+                        }
+
+                        $accessionBredcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $bredCode]);
+                        if (($accessionBredcode != null) && ($accessionBredcode instanceof \App\Entity\Institute)) {
+                            $accession->setBredcode($accessionBredcode);
+                        }
+                        
+                        $accessionCollSrc = $entmanager->getRepository(CollectingSource::class)->findOneBy(['ontology_id' => $collSrc]);
+                        if (($accessionCollSrc != null) && ($accessionCollSrc instanceof \App\Entity\CollectingSource)) {
+                            $accession->setCollsrc($accessionCollSrc);
+                        }
+
+                        $accessionBioStatus = $entmanager->getRepository(BiologicalStatus::class)->findOneBy(['ontology_id' => $sampStat]);
+                        if (($accessionBioStatus != null) && ($accessionBioStatus instanceof \App\Entity\BiologicalStatus)) {
+                            $accession->setSampstat($accessionBioStatus);
+                        }
+
+                        $accessionMLSStatus = $entmanager->getRepository(MLSStatus::class)->findOneBy(['ontology_id' => $mlsStat]);
+                        if (($accessionMLSStatus != null) && ($accessionMLSStatus instanceof \App\Entity\MLSStatus)) {
+                            $accession->setMlsStatus($accessionMLSStatus);
+                        }
+
+                        $accessionTaxonomy = $entmanager->getRepository(Taxonomy::class)->findOneBy(['taxonid' => $taxonid]);
+                        if (($accessionTaxonomy != null) && ($accessionTaxonomy instanceof \App\Entity\Taxonomy)) {
+                            $accession->setTaxon($accessionTaxonomy);
+                        }
+
+                        $accessionCollMissId = $entmanager->getRepository(CollectingMission::class)->findOneBy(['name' => $collMissionName]);
+                        if (($accessionCollMissId != null) && ($accessionCollMissId instanceof \App\Entity\CollectingMission)) {
+                            $accession->setCollmissid($accessionCollMissId);
+                        }
+
+                        $accessionCountry = $entmanager->getRepository(Country::class)->findOneBy(['iso3' => $origCountry]);
+                        if (($accessionCountry != null) && ($accessionCountry instanceof \App\Entity\Country)) {
+                            $accession->setOrigcty($accessionCountry);
+                        }
+
+                        $accessionStorageType = $entmanager->getRepository(StorageType::class)->findOneBy(['ontology_id' => $storage]);
+                        if (($accessionStorageType != null) && ($accessionStorageType instanceof \App\Entity\StorageType)) {
+                            $accession->setStorage($accessionStorageType);
+                        }
+
+                        if ($donorNumb) {
+                            $accession->setDonornumb($donorNumb);
+                        }
+
+                        if ($collNumb) {
+                            $accession->setCollnumb($collNumb);
+                        }
+
+                        $accession->setAccenumb($acceNumb);
+                        $accession->setMaintainernumb($maintainerNumb);
+                        $accession->setAccename($acceName);
+                        $accession->setCollnumb($collNumb);
+                        $accession->setPuid($accePUI);
+                        $accession->setOrigmuni($origMuni);
+                        $accession->setOrigadmin1($origAdMuni1);
+                        $accession->setOrigadmin2($origAdMuni2);
+                        $accession->setBreedingInfo($breedingInfo);
+                        $accession->setCollsite($collSite);
+                        $accession->setAcqdate($acqDate);
+                        $accession->setColldate($collDate);
+                        $accession->setDeclatitude($decLatitude);
+                        $accession->setDeclongitude($decLongitude);
+                        $accession->setElevation($elevation);
+
+                        //dd($accession);
+                        $accession->setIsActive(true);
+                        $accession->setCreatedAt(new \DateTime());
+                        $entmanager->persist($accession);
+                        $entmanager->flush();
+                    }
+                }
+            }
+            
+            // Query how many rows are there in the table
+            $totalAccessionAfter = $repoAccession->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if ($totalAccessionBefore == 0) {
+                $this->addFlash('success', $totalAccessionAfter . " accessions have been successfuly added");
+            } else {
+                $diffBeforeAndAfter = $totalAccessionAfter - $totalAccessionBefore;
+                if ($diffBeforeAndAfter == 0) {
+                    $this->addFlash('success', "No new accession has been added");
+                } else if ($diffBeforeAndAfter == 1) {
+                    $this->addFlash('success', $diffBeforeAndAfter . " accession has been successfuly added");
+                } else {
+                    $this->addFlash('success', $diffBeforeAndAfter . " accessions have been successfuly added");
+                }
+            }
+            return $this->redirect($this->generateUrl('accession_index'));
+        }
+
+        $context = [
+            'title' => 'Accession Upload From Excel',
+            'accessionUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('accession/upload_from_excel.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template", name="download_template")
+     */
+    public function excelTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/accession_template_example.xlsx');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'accession_template_example.xlsx');
+        return $response;
+       
+    }
 }
+

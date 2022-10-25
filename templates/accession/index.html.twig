@@ -21,6 +21,15 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 order-md-1">
+                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
                 {% if accessions | length > 0 %}
                     <h2 class="mb-3 text-center tomato-color font-weight-bold tomato-color">Accession List</h2>
                     <div class="table-responsive">
@@ -35,21 +44,15 @@
                                 <th scope="col">Collecting Source</th>
                                 <th scope="col">Biological Status</th>
                                 <th scope="col">MLS Status</th>
-                                <th scope="col">Collecting Number</th>
-                                <th scope="col">Collecting Institute</th>
-                                <th scope="col">Breding Institute</th>
                                 <th scope="col">Maintaining Institute</th>
                                 <th scope="col">Maintainer Number</th>
-                                <th scope="col">Storage Type</th>
-                                <th scope="col">Donnor number</th>
-                                <th scope="col">Donnor Institute</th>
                                 <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {% for accession in accessions %}
                                 <tr>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.taxon }}</a></td>
+                                    <td><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ accession.taxon.taxonid }}" target="_blank">{{ accession.taxon }}</a></td>
                                     <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accenumb }}</a></td>
                                     <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accename }}</a></td>
                                     <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.puid }}</a></td>
@@ -57,14 +60,8 @@
                                     <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.collsrc }}</a></td>
                                     <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.sampstat }}</a></td>
                                     <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.mlsStatus }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.collnumb }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.collcode }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.bredcode }}</a></td>
                                     <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.instcode }}</a></td>
                                     <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.maintainernumb }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.storage }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.donornumb }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.donorcode }}</a></td>
                                     <td>
                                         <a href="{{ path('accession_details', {id: accession.id}) }}"><button class="btn btn-outline-primary">View</button></a>
                                     </td>
@@ -93,6 +90,7 @@
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
     <script>
         $(document).ready(function() {
             $('#datatable').DataTable();
