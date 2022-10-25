@@ -179,13 +179,14 @@ class MarkerController extends AbstractController
                 // check if the file doesn't have empty columns
                 if ($genoPlatformName != null & $markerName != null) {
                     // check if the data is upload in the database
-                    $existingMarker = $entmanager->getRepository(Marker::class)->findOneBy(['name' => $markerName]);
+                    $existingMarker = $entmanager->getRepository(Marker::class)->findOneBy(['name' => $markerName, 'platformNameBuffer' => $genoPlatformName]);
                     // upload data only for objects that haven't been saved in the database
                     if (!$existingMarker) {
                         $marker = new Marker();
                         $markerGenoPlatform = $entmanager->getRepository(GenotypingPlatform::class)->findOneBy(['name' => $genoPlatformName]);
                         if (($markerGenoPlatform != null) && ($markerGenoPlatform instanceof \App\Entity\GenotypingPlatform)) {
                             $marker->setGenotypingPlatform($markerGenoPlatform);
+                            $marker->setPlatformNameBuffer($genoPlatformName);
                         }
                         
                         if ($this->getUser()) {

@@ -138,6 +138,11 @@ class Marker
      */
     private $qTLVariants;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $platformNameBuffer;
+
     public function __construct()
     {
         $this->gWASVariants = new ArrayCollection();
@@ -437,5 +442,17 @@ class Marker
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getPlatformNameBuffer(): ?string
+    {
+        return $this->platformNameBuffer;
+    }
+
+    public function setPlatformNameBuffer(?string $platformNameBuffer): self
+    {
+        $this->platformNameBuffer = $platformNameBuffer;
+
+        return $this;
     }
 }
