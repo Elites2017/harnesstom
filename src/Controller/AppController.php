@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Accession;
 use App\Entity\GenotypingPlatform;
 use App\Entity\Marker;
 use App\Entity\Program;
@@ -79,13 +80,24 @@ class AppController extends AbstractController
             ->getQuery()
             ->getSingleScalarResult();
 
+        // Setup repository of some entity
+        $repoAccession = $entityManager->getRepository(Accession::class);
+        // Query how many rows are there in the Accession table
+        $totalAccession = $repoAccession->createQueryBuilder('tab')
+            // Filter by some parameter if you want
+            // ->where('a.isActive = 1')
+            ->select('count(tab.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
         
         $context = [
             'title' => 'Home Page',
             "totalMarker" => $totalMarker,
             "totalGenotypingPlatform" => $totalGenotypingPlatform,
             "totalProgram" => $totalProgram,
-            "totalTrial" => $totalTrial
+            "totalTrial" => $totalTrial,
+            "totalAccession" => $totalAccession,
         ];
         return $this->render('app/index.html.twig', $context);
     }

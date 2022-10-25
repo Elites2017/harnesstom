@@ -47,12 +47,12 @@
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Collecting Source: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.origadmin1}}</span>
+                                <span class="tomato-color font-weight-bold">{{accession.collsrc}}</span>
                             </div>
                             
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Biological Status: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.origadmin2}}</span>
+                                <span class="tomato-color font-weight-bold">{{accession.sampstat}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
@@ -61,8 +61,10 @@
                             </div>
                             
                             <div class="col-md-12 mb-1">
-                                <label for="validationTooltip01">Taxon: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.taxon}}</span>
+                                <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ accession.taxon.taxonid }}" target="_blank">
+                                    <label for="validationTooltip01">Taxon: </label>
+                                    <span class="tomato-color font-weight-bold">{{accession.taxon}}</span>
+                                </a>
                             </div>
                                 
                             </div>
