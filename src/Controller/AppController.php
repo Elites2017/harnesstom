@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Accession;
+use App\Entity\Country;
 use App\Entity\GenotypingPlatform;
 use App\Entity\Marker;
 use App\Entity\Program;
@@ -90,6 +91,29 @@ class AppController extends AbstractController
             ->getQuery()
             ->getSingleScalarResult();
 
+        // Setup query to get the most accession per country
+        //$qb = $this->getDoctrine()->getManager()->createQueryBuilder("Select c.id from App\Entity\Country c Where c.id=1");
+        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+        $accessionPerCountry = $qb->select('country.iso3, count(accession.maintainernumb) as accQty')
+                ->from('App\Entity\Country', 'country')
+                ->join('App\Entity\Accession', 'accession')
+                ->where('country.id = accession.origcty')
+                ->groupBy('accession.origcty')
+                ->orderBy('count(accession.maintainernumb)', 'DESC')
+                ->setFirstResult(0)
+                ->setMaxResults(3)
+                ->getQuery()
+                ->getResult();
+        
+        $repoAccession = $entityManager->getRepository(Accession::class);
+        // Query how many rows are there in the Accession table
+        $totalAccession = $repoAccession->createQueryBuilder('tab')
+            // Filter by some parameter if you want
+            // ->where('a.isActive = 1')
+            ->select('count(tab.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
         
         $context = [
             'title' => 'Home Page',
@@ -98,6 +122,7 @@ class AppController extends AbstractController
             "totalProgram" => $totalProgram,
             "totalTrial" => $totalTrial,
             "totalAccession" => $totalAccession,
+            "accessionPerCountry" => $accessionPerCountry
         ];
         return $this->render('app/index.html.twig', $context);
     }

@@ -71,31 +71,21 @@
             </div>
             </div>
             <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-              <img class="bd-placeholder-img card-img-top" src="{{ asset('assets/images/earth_icon.png') }}" width="100%" height="auto" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <rect width="10%" height="100%" fill="#55595c"/>
-              </img>
-              <div class="card-body">
-              <h3 class="card-text">Main Countries of Origin</h3>
-              <div class="d-flex justify-content-between align-items-center"><h4>ESP</h4>
-                <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary"># to come</button>
+              <div class="card mb-4 shadow-sm">
+                <img class="bd-placeholder-img card-img-top" src="{{ asset('assets/images/earth_icon.png') }}" width="100%" height="auto" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <rect width="10%" height="100%" fill="#55595c"/>
+                </img>
+                <div class="card-body">
+                  <h3 class="card-text">Main Countries of Origin</h3>
+                  {% for one in accessionPerCountry %}
+                    <div class="d-flex justify-content-between align-items-center"><h4>{{ one.iso3 }}</h4>
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">{{ one.accQty }}</button>
+                      </div>
+                    </div>
+                  {% endfor %}
                 </div>
               </div>
-              <div class="d-flex justify-content-between align-items-center"><h4>ITA</h4>
-                <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary"># to come</button>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between align-items-center"><h4>FRA</h4>
-                <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary"># to come</button>
-                {# <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> #}
-                </div>
-                {# <small class="text-muted">9 mins</small> #}
-              </div>
-              </div>
-            </div>
             </div>
             <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
