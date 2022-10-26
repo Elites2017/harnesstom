@@ -78,11 +78,11 @@
                 <div class="card-body">
                   <h3 class="card-text">Main Countries of Origin</h3>
                   {% for one in accessionPerCountry %}
-                    <div class="d-flex justify-content-between align-items-center"><h4>{{ one.iso3 }}</h4>
+                    <a href="{{ path('accession_per_country', {id: one.ctry.id}) }}"><div class="d-flex justify-content-between align-items-center"><h4>{{ one.ctry.iso3 }}</h4>
                       <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-outline-secondary">{{ one.accQty }}</button>
                       </div>
-                    </div>
+                    </div></a>
                   {% endfor %}
                 </div>
               </div>
