@@ -94,7 +94,7 @@ class AppController extends AbstractController
         // Setup query to get the most accession per country
         //$qb = $this->getDoctrine()->getManager()->createQueryBuilder("Select c.id from App\Entity\Country c Where c.id=1");
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-        $accessionPerCountry = $qb->select('country.iso3, count(accession.maintainernumb) as accQty')
+        $accessionPerCountry = $qb->select('country as ctry, count(accession.maintainernumb) as accQty')
                 ->from('App\Entity\Country', 'country')
                 ->join('App\Entity\Accession', 'accession')
                 ->where('country.id = accession.origcty')
@@ -104,7 +104,7 @@ class AppController extends AbstractController
                 ->setMaxResults(3)
                 ->getQuery()
                 ->getResult();
-        
+
         $repoAccession = $entityManager->getRepository(Accession::class);
         // Query how many rows are there in the Accession table
         $totalAccession = $repoAccession->createQueryBuilder('tab')
