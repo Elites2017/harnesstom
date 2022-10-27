@@ -17,6 +17,7 @@ use App\Form\UploadFromExcelType;
 use App\Repository\AccessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpParser\Node\Stmt\TryCatch;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -198,94 +199,287 @@ class AccessionController extends AbstractController
                 $collSite = $row['Y'];
                 $bredCode = $row['Z'];
                 $breedingInfo = $row['AA'];
+                $publicationRef = $row['AB'];
+                $doi = $row['AC'];
                 // check if the file doesn't have empty columns
-                if ($acceNumb != null && $maintainerNumb != null) {
+                if ($acceNumb != null && $maintainerNumb != null && $accePUI) {
                     // check if the data is upload in the database
-                    $existingAccession = $entmanager->getRepository(Accession::class)->findOneBy(['maintainernumb' => $maintainerNumb]);
+                    $existingAccession = $entmanager->getRepository(Accession::class)->findOneBy(['puid' => $accePUI]);
                     // upload data only for objects that haven't been saved in the database
                     if (!$existingAccession) {
                         $accession = new Accession();
                         if ($this->getUser()) {
                             $accession->setCreatedBy($this->getUser());
                         }
-                        $accessionInstcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $instcode]);
-                        if (($accessionInstcode != null) && ($accessionInstcode instanceof \App\Entity\Institute)) {
-                            $accession->setInstcode($accessionInstcode);
-                        }
-
-                        $accessionDonorcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $donorCode]);
-                        if (($accessionDonorcode != null) && ($accessionDonorcode instanceof \App\Entity\Institute)) {
-                            $accession->setDonorcode($accessionDonorcode);
-                        }
-
-                        $accessionCollcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $collCode]);
-                        if (($accessionCollcode != null) && ($accessionCollcode instanceof \App\Entity\Institute)) {
-                            $accession->setCollcode($accessionCollcode);
-                        }
-
-                        $accessionBredcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $bredCode]);
-                        if (($accessionBredcode != null) && ($accessionBredcode instanceof \App\Entity\Institute)) {
-                            $accession->setBredcode($accessionBredcode);
+                        try {
+                            //code...
+                            $accessionInstcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $instcode]);
+                            if (($accessionInstcode != null) && ($accessionInstcode instanceof \App\Entity\Institute)) {
+                                $accession->setInstcode($accessionInstcode);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the instcode " .$instcode);
                         }
                         
-                        $accessionCollSrc = $entmanager->getRepository(CollectingSource::class)->findOneBy(['ontology_id' => $collSrc]);
-                        if (($accessionCollSrc != null) && ($accessionCollSrc instanceof \App\Entity\CollectingSource)) {
-                            $accession->setCollsrc($accessionCollSrc);
+                        try {
+                            //code...
+                            $accessionDonorcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $donorCode]);
+                            if (($accessionDonorcode != null) && ($accessionDonorcode instanceof \App\Entity\Institute)) {
+                                $accession->setDonorcode($accessionDonorcode);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the donor code " .$donorCode);
                         }
 
-                        $accessionBioStatus = $entmanager->getRepository(BiologicalStatus::class)->findOneBy(['ontology_id' => $sampStat]);
-                        if (($accessionBioStatus != null) && ($accessionBioStatus instanceof \App\Entity\BiologicalStatus)) {
-                            $accession->setSampstat($accessionBioStatus);
+                        try {
+                            //code...
+                            $accessionCollcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $collCode]);
+                            if (($accessionCollcode != null) && ($accessionCollcode instanceof \App\Entity\Institute)) {
+                                $accession->setCollcode($accessionCollcode);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the coll code " .$collCode);
+                        }
+                        
+                        try {
+                            //code...
+                            $accessionBredcode = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $bredCode]);
+                            if (($accessionBredcode != null) && ($accessionBredcode instanceof \App\Entity\Institute)) {
+                                $accession->setBredcode($accessionBredcode);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the bred code " .$bredCode);
                         }
 
-                        $accessionMLSStatus = $entmanager->getRepository(MLSStatus::class)->findOneBy(['ontology_id' => $mlsStat]);
-                        if (($accessionMLSStatus != null) && ($accessionMLSStatus instanceof \App\Entity\MLSStatus)) {
-                            $accession->setMlsStatus($accessionMLSStatus);
+                        try {
+                            //code...
+                            $accessionCollSrc = $entmanager->getRepository(CollectingSource::class)->findOneBy(['ontology_id' => $collSrc]);
+                            if (($accessionCollSrc != null) && ($accessionCollSrc instanceof \App\Entity\CollectingSource)) {
+                                $accession->setCollsrc($accessionCollSrc);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the collecting source code " .$collSrc);
+                        }
+                        
+                        try {
+                            //code...
+                            $accessionBioStatus = $entmanager->getRepository(BiologicalStatus::class)->findOneBy(['ontology_id' => $sampStat]);
+                            if (($accessionBioStatus != null) && ($accessionBioStatus instanceof \App\Entity\BiologicalStatus)) {
+                                $accession->setSampstat($accessionBioStatus);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the biological status " .$accessionBioStatus);
                         }
 
-                        $accessionTaxonomy = $entmanager->getRepository(Taxonomy::class)->findOneBy(['taxonid' => $taxonid]);
-                        if (($accessionTaxonomy != null) && ($accessionTaxonomy instanceof \App\Entity\Taxonomy)) {
-                            $accession->setTaxon($accessionTaxonomy);
+                        try {
+                            //code...
+                            $accessionMLSStatus = $entmanager->getRepository(MLSStatus::class)->findOneBy(['ontology_id' => $mlsStat]);
+                            if (($accessionMLSStatus != null) && ($accessionMLSStatus instanceof \App\Entity\MLSStatus)) {
+                                $accession->setMlsStatus($accessionMLSStatus);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the mls status " .$accessionMLSStatus);
                         }
 
-                        $accessionCollMissId = $entmanager->getRepository(CollectingMission::class)->findOneBy(['name' => $collMissionName]);
-                        if (($accessionCollMissId != null) && ($accessionCollMissId instanceof \App\Entity\CollectingMission)) {
-                            $accession->setCollmissid($accessionCollMissId);
+                        try {
+                            //code...
+                            $accessionTaxonomy = $entmanager->getRepository(Taxonomy::class)->findOneBy(['taxonid' => $taxonid]);
+                            if (($accessionTaxonomy != null) && ($accessionTaxonomy instanceof \App\Entity\Taxonomy)) {
+                                $accession->setTaxon($accessionTaxonomy);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the taxonomy " .$accessionTaxonomy);
                         }
 
-                        $accessionCountry = $entmanager->getRepository(Country::class)->findOneBy(['iso3' => $origCountry]);
-                        if (($accessionCountry != null) && ($accessionCountry instanceof \App\Entity\Country)) {
-                            $accession->setOrigcty($accessionCountry);
+                        try {
+                            //code...
+                            $accessionCollMissId = $entmanager->getRepository(CollectingMission::class)->findOneBy(['name' => $collMissionName]);
+                            if (($accessionCollMissId != null) && ($accessionCollMissId instanceof \App\Entity\CollectingMission)) {
+                                $accession->setCollmissid($accessionCollMissId);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the collecting mission " .$collMissionName);
                         }
 
-                        $accessionStorageType = $entmanager->getRepository(StorageType::class)->findOneBy(['ontology_id' => $storage]);
-                        if (($accessionStorageType != null) && ($accessionStorageType instanceof \App\Entity\StorageType)) {
-                            $accession->setStorage($accessionStorageType);
+                        try {
+                            //code...
+                            $accessionCountry = $entmanager->getRepository(Country::class)->findOneBy(['iso3' => $origCountry]);
+                            if (($accessionCountry != null) && ($accessionCountry instanceof \App\Entity\Country)) {
+                                $accession->setOrigcty($accessionCountry);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the country " .$origCountry);
                         }
 
-                        if ($donorNumb) {
-                            $accession->setDonornumb($donorNumb);
+                        try {
+                            //code...
+                            $accessionStorageType = $entmanager->getRepository(StorageType::class)->findOneBy(['ontology_id' => $storage]);
+                            if (($accessionStorageType != null) && ($accessionStorageType instanceof \App\Entity\StorageType)) {
+                                $accession->setStorage($accessionStorageType);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the storage type " .$accessionStorageType);
                         }
 
-                        if ($collNumb) {
-                            $accession->setCollnumb($collNumb);
+                        try {
+                            //code...
+                            if ($donorNumb) {
+                                $accession->setDonornumb($donorNumb);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the donor number " .$donorNumb);
                         }
 
-                        $accession->setAccenumb($acceNumb);
-                        $accession->setMaintainernumb($maintainerNumb);
-                        $accession->setAccename($acceName);
-                        $accession->setCollnumb($collNumb);
-                        $accession->setPuid($accePUI);
-                        $accession->setOrigmuni($origMuni);
-                        $accession->setOrigadmin1($origAdMuni1);
-                        $accession->setOrigadmin2($origAdMuni2);
-                        $accession->setBreedingInfo($breedingInfo);
-                        $accession->setCollsite($collSite);
-                        $accession->setAcqdate($acqDate);
-                        $accession->setColldate($collDate);
-                        $accession->setDeclatitude($decLatitude);
-                        $accession->setDeclongitude($decLongitude);
-                        $accession->setElevation($elevation);
+                        try {
+                            //code...
+                            if ($collNumb) {
+                                $accession->setCollnumb($collNumb);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the collecting number " .$collNumb);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setAccenumb($acceNumb);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession number " .$acceNumb);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setMaintainernumb($maintainerNumb);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the maintainer number " .$maintainerNumb);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setAccename($acceName);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession name " .$acceName);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setPuid($accePUI);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession PUI " .$accePUI);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setOrigmuni($origMuni);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession municipality of origin " .$origMuni);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setOrigadmin1($origAdMuni1);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession municipality of origin " .$origAdMuni1);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setOrigadmin2($origAdMuni2);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession municipality of origin " .$origAdMuni2);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setBreedingInfo($breedingInfo);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession breeding info " .$breedingInfo);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setCollsite($collSite);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession collecting site " .$collSite);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setAcqdate($acqDate);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession acquisition date " .$acqDate);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setColldate($collDate);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession collecting date " .$collDate);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setDeclatitude($decLatitude);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession decimal latitute " .$decLatitude);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setDeclongitude($decLongitude);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession decimal longitude " .$decLongitude);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setElevation($elevation);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession elevation " .$elevation);
+                        }
+
+                        try {
+                            //code...
+                            $accession->setDoi($doi);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession doi " .$doi);
+                        }
+
+                        try {
+                            //code...
+                            $publicationRef = explode(",", $publicationRef );
+                            $accession->setPublicationRef($publicationRef);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the accession publication Reference " .$publicationRef);
+                        }
 
                         //dd($accession);
                         $accession->setIsActive(true);
