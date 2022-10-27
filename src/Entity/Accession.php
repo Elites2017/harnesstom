@@ -42,7 +42,7 @@ class Accession
     private $accename;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Groups({"accession:read", "program:read"})
      * @SerializedName("germplasmPUI")
      */
@@ -238,6 +238,16 @@ class Accession
      * @ORM\OneToMany(targetEntity=Germplasm::class, mappedBy="accession")
      */
     private $germplasms;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $doi;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $publicationRef = [];
 
     public function __construct()
     {
@@ -847,6 +857,30 @@ class Accession
                 $germplasmNumber->setAccession(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDoi(): ?string
+    {
+        return $this->doi;
+    }
+
+    public function setDoi(?string $doi): self
+    {
+        $this->doi = $doi;
+
+        return $this;
+    }
+
+    public function getPublicationRef(): ?array
+    {
+        return $this->publicationRef;
+    }
+
+    public function setPublicationRef(?array $publicationRef): self
+    {
+        $this->publicationRef = $publicationRef;
 
         return $this;
     }
