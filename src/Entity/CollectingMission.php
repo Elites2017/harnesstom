@@ -34,12 +34,12 @@ class CollectingMission
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $species;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Institute::class, inversedBy="collectingMissions")
+     * @ORM\ManyToOne(targetEntity=Institute::class, inversedBy="collectingMissions, nullable=true")
      */
     private $institute;
 

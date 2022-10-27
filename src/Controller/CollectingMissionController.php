@@ -168,7 +168,7 @@ class CollectingMissionController extends AbstractController
                 $collectingMissionSpecies = $row['C'];
                 $collectingMissionDescription = $row['D'];
                 // check if the file doesn't have empty columns
-                if ($collectingMissionName != null && $collectingMissionInstcode != null) {
+                if ($collectingMissionName != null) {
                     // check if the data is upload in the database
                     $existingCollectingMission = $entmanager->getRepository(CollectingMission::class)->findOneBy(['name' => $collectingMissionName]);
                     // upload data only for objects that haven't been saved in the database
