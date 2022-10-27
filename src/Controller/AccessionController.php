@@ -464,23 +464,27 @@ class AccessionController extends AbstractController
                             $this->addFlash('danger', " there is a problem with the accession elevation " .$elevation);
                         }
 
-                        try {
-                            //code...
-                            $accession->setDoi($doi);
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the accession doi " .$doi);
+                        if($doi) {
+                            try {
+                                //code...
+                                $accession->setDoi($doi);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the accession doi " .$doi);
+                            }
                         }
 
-                        try {
-                            //code...
-                            $publicationRef = explode(",", $publicationRef );
-                            $accession->setPublicationRef($publicationRef);
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the accession publication Reference " .$publicationRef);
+                        $publicationRef = explode(",", $publicationRef);
+                        if ($publicationRef) {
+                            try {
+                                //code...
+                                $accession->setPublicationRef($publicationRef);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the accession publication Reference " .$publicationRef);
+                            }
                         }
-
+                        
                         //dd($accession);
                         $accession->setIsActive(true);
                         $accession->setCreatedAt(new \DateTime());
