@@ -2,14 +2,25 @@
 
 namespace App\Controller;
 
+use App\Entity\ExperimentalDesignType;
+use App\Entity\FactorType;
+use App\Entity\GrowthFacilityType;
+use App\Entity\Institute;
+use App\Entity\Location;
+use App\Entity\Season;
 use App\Entity\Study;
+use App\Entity\Trial;
 use App\Form\StudyType;
 use App\Form\StudyUpdateType;
+use App\Form\UploadFromExcelType;
 use App\Repository\StudyRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 // set a class level route
@@ -122,4 +133,288 @@ class StudyController extends AbstractController
             'message' => $study->getIsActive()
         ], 200);
     }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel", name="upload_from_excel")
+     */
+    public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Setup repository of some entity
+            $repoStudy = $entmanager->getRepository(Study::class);
+            // Query how many rows are there in the Study table
+            $totalStudyBefore = $repoStudy->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            // Return a number as response
+            // e.g 972
+
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again ");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $trialAbbreviation = $row['A'];
+                $studyAbbreviation = $row['B'];
+                $studyName = $row['C'];
+                $studyDescription = $row['D'];
+                $factorOntologyId = $row['E'];
+                $season = $row['F'];
+                $startDate = $row['G'];
+                $endDate = $row['H'];
+                $instituteId = $row['I'];
+                $locationAbbreviation = $row['J'];
+                $grothFacilityType = $row['K'];
+                $culturalPratices = $row['L'];
+                $experimentalDesignId = $row['M'];
+                $experimentalDesignDescription = $row['N'];
+                $observationUnitDescription = $row['O'];
+                // check if the file doesn't have empty columns
+                if ($studyName != null && $studyAbbreviation != null && $trialAbbreviation) {
+                    // check if the data is upload in the database
+                    $existingStudy = $entmanager->getRepository(Study::class)->findOneBy(['abbreviation' => $studyAbbreviation]);
+                    // upload data only for objects that haven't been saved in the database
+                    if (!$existingStudy) {
+                        $study = new Study();
+                        if ($this->getUser()) {
+                            $study->setCreatedBy($this->getUser());
+                        }
+                        try {
+                            //code...
+                            $studyInstitute = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $instituteId]);
+                            if (($studyInstitute != null) && ($studyInstitute instanceof \App\Entity\Institute)) {
+                                $study->setInstitute($studyInstitute);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the instcode / institute ID " .$instituteId);
+                        }
+                        
+                        try {
+                            //code...
+                            $studyTrial = $entmanager->getRepository(Trial::class)->findOneBy(['abbreviation' => $trialAbbreviation]);
+                            if (($studyTrial != null) && ($studyTrial instanceof \App\Entity\Trial)) {
+                                $study->setTrial($studyTrial);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the trial abbreaviation " .$trialAbbreviation);
+                        }
+
+                        try {
+                            //code...
+                            $studyFactorOntId = $entmanager->getRepository(FactorType::class)->findOneBy(['ontology_id' => $factorOntologyId]);
+                            if (($studyFactorOntId != null) && ($studyFactorOntId instanceof \App\Entity\FactorType)) {
+                                $study->setFactor($studyFactorOntId);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the factor ontology Id " .$factorOntologyId);
+                        }
+
+                        try {
+                            //code...
+                            $studyLocation = $entmanager->getRepository(Location::class)->findOneBy(['abbreviation' => $locationAbbreviation]);
+                            if (($studyLocation != null) && ($studyLocation instanceof \App\Entity\Location)) {
+                                $study->setLocation($studyLocation);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the location " .$locationAbbreviation);
+                        }
+
+                        try {
+                            //code...
+                            $studyGrowthFacilityType = $entmanager->getRepository(GrowthFacilityType::class)->findOneBy(['ontology_id' => $grothFacilityType]);
+                            if (($studyGrowthFacilityType != null) && ($studyGrowthFacilityType instanceof \App\Entity\GrowthFacilityType)) {
+                                $study->setGrowthFacility($studyGrowthFacilityType);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the growth facility type " .$grothFacilityType);
+                        }
+
+                        try {
+                            //code...
+                            $studyExperimentalDesignType = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['ontology_id' => $experimentalDesignId]);
+                            if (($studyExperimentalDesignType != null) && ($studyExperimentalDesignType instanceof \App\Entity\ExperimentalDesignType)) {
+                                $study->setExperimentalDesignType($studyExperimentalDesignType);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the experimental design type " .$experimentalDesignId);
+                        }
+
+                        try {
+                            //code...
+                            $studySeason = $entmanager->getRepository(Season::class)->findOneBy(['ontology_id' => $season]);
+                            if (($studySeason != null) && ($studySeason instanceof \App\Entity\Season)) {
+                                $study->setSeason($studySeason);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the season " .$season);
+                        }
+
+                        try {
+                            //code...
+                            $study->setAbbreviation($studyAbbreviation);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the study abbreviation " .$studyAbbreviation);
+                        }
+
+                        try {
+                            //code...
+                            if ($studyName) {
+                                $study->setName($studyName);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the study name " .$studyName);
+                        }
+
+                        try {
+                            //code...
+                            if ($studyDescription) {
+                                $study->setDescription($studyDescription);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the study description " .$studyDescription);
+                        }
+
+                        try {
+                            //code...
+                            if ($startDate) {
+                                $study->setStartDate($startDate);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the start date " .$startDate);
+                        }
+
+                        try {
+                            //code...
+                            if ($endDate) {
+                                $study->setEndDate($endDate);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the end date " .$endDate);
+                        }
+
+                        try {
+                            //code...
+                            if ($culturalPratices) {
+                                $study->setCulturalPractice($culturalPratices);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the cultural practices " .$culturalPratices);
+                        }
+
+                        try {
+                            //code...
+                            if ($experimentalDesignDescription) {
+                                $study->setExperimentalDesignDescription($experimentalDesignDescription);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the experimental description " .$experimentalDesignDescription);
+                        }
+
+                        try {
+                            //code...
+                            if ($observationUnitDescription) {
+                                $study->setObservationUnitsDescription($observationUnitDescription);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the observation unit description " .$observationUnitDescription);
+                        }
+
+                        $study->setIsActive(true);
+                        $study->setCreatedAt(new \DateTime());
+                        try {
+                            //code...
+                            $entmanager->persist($study);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
+                    }
+                }
+            }
+            
+            // Query how many rows are there in the table
+            $totalStudyAfter = $repoStudy->createQueryBuilder('tab')
+                // Filter by some parameter if you want
+                // ->where('a.isActive = 1')
+                ->select('count(tab.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            if ($totalStudyBefore == 0) {
+                $this->addFlash('success', $totalStudyAfter . " studies have been successfuly added");
+            } else {
+                $diffBeforeAndAfter = $totalStudyAfter - $totalStudyBefore;
+                if ($diffBeforeAndAfter == 0) {
+                    $this->addFlash('success', "No new study has been added");
+                } else if ($diffBeforeAndAfter == 1) {
+                    $this->addFlash('success', $diffBeforeAndAfter . " study has been successfuly added");
+                } else {
+                    $this->addFlash('success', $diffBeforeAndAfter . " studies have been successfuly added");
+                }
+            }
+            return $this->redirect($this->generateUrl('study_index'));
+        }
+
+        $context = [
+            'title' => 'Study Upload From Excel',
+            'studyUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('study/upload_from_excel.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template", name="download_template")
+     */
+    public function excelTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/study_template_example.xlsx');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'study_template_example.xlsx');
+        return $response;
+       
+    }
 }
+
