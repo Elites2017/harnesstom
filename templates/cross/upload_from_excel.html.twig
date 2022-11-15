@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Cross Upload From Excel</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="mb-3">
+					<a href="{{ path('cross_download_template') }}" download target="_blank">
+						<h1>Click to download a template exemple</h1></br>
+						<h3>NOTE: Your data must be in the same format as the template example file format</h3>
+					<img src="{{ asset('assets/images/excelicon.png') }}" alt="Example of excel template" width="104" height="142">
+				</a>
+			</div>
+			{{ form_start(crossUploadFromExcelForm) }}
+			<div>
+				{{ form_row(crossUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Upload</button>
+				</div>
+
+				<div class="col-md-6 mb-3">
+					<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+				</div>
+			</div>
+			{{ form_end(crossUploadFromExcelForm) }}
+		</div>
+	</div>
+	<!-- .row -->
+</div>
+<!-- .container -->{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script>
+		window.jQuery || document.write('<script src="  {{ asset('../assets/js/vendor/jquery.slim.min.js') }}"><\/script>')
+	</script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- <script src="assets/js1/bootstrap.bundle.min.js"></script> -->
+	
+	<!-- Guided Tour LH  -->
+	<script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
+	<script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
+	<script src="{{ asset('guidedtour/js/demo.js') }}"></script>
+	<script>
+		$('.custom-file-input').on('change', function(event) {
+		let inputFile = event.currentTarget;
+		$(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+		});
+	</script>
+{% endblock %}
