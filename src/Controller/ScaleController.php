@@ -211,8 +211,15 @@ class ScaleController extends AbstractController
 
                         $scale->setIsActive(true);
                         $scale->setCreatedAt(new \DateTime());
-                        $entmanager->persist($scale);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($scale);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

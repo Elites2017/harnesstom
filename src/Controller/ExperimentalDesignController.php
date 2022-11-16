@@ -188,8 +188,15 @@ class ExperimentalDesignController extends AbstractController
                         
                         $experimentalDesignType->setIsActive(true);
                         $experimentalDesignType->setCreatedAt(new \DateTime());
-                        $entmanager->persist($experimentalDesignType);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($experimentalDesignType);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

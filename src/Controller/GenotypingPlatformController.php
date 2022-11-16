@@ -218,8 +218,15 @@ class GenotypingPlatformController extends AbstractController
                         $genotypingPlatform->setPublicationRef($publicationRef);
                         $genotypingPlatform->setIsActive(true);
                         $genotypingPlatform->setCreatedAt(new \DateTime());
-                        $entmanager->persist($genotypingPlatform);
-                        $entmanager->flush();
+
+                        try {
+                            //code...
+                            $entmanager->persist($genotypingPlatform);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

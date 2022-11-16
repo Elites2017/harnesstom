@@ -194,8 +194,15 @@ class ContactController extends AbstractController
                         }
                         $contact->setIsActive(true);
                         $contact->setCreatedAt(new \DateTime());
-                        $entmanager->persist($contact);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($contact);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

@@ -185,8 +185,15 @@ class CollectingMissionController extends AbstractController
                         $collectingMission->setSpecies($collectingMissionSpecies);
                         $collectingMission->setIsActive(true);
                         $collectingMission->setCreatedAt(new \DateTime());
-                        $entmanager->persist($collectingMission);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($collectingMission);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

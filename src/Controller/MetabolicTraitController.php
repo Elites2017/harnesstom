@@ -200,8 +200,15 @@ class MetabolicTraitController extends AbstractController
 
                         $metabolicTrait->setIsActive(true);
                         $metabolicTrait->setCreatedAt(new \DateTime());
-                        $entmanager->persist($metabolicTrait);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($metabolicTrait);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

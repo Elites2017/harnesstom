@@ -206,13 +206,20 @@ class TrialController extends AbstractController
                         $trial->setName($trialName);
                         $trial->setPui($trialPUI);
                         $trial->setAbbreviation($trialAbbreviation);
-                        $publicationRef = explode("|", $publicationRef);
+                        $publicationRef = explode(",", $publicationRef);
                         $trial->setPublicationReference($publicationRef);
                         $trial->setLicense($licence);
                         $trial->setIsActive(true);
                         $trial->setCreatedAt(new \DateTime());
-                        $entmanager->persist($trial);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($trial);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

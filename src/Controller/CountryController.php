@@ -178,8 +178,15 @@ class CountryController extends AbstractController
                         $country->setName($name);
                         $country->setIso3($iso3);
                         $country->setIsActive(true);
-                        $country->setCreatedAt(new \DateTime());
-                        $entmanager->persist($country);
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($country);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

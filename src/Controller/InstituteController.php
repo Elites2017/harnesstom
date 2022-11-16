@@ -195,11 +195,19 @@ class InstituteController extends AbstractController
                         $institute->setCity($city);
                         $institute->setIsActive(true);
                         $institute->setCreatedAt(new \DateTime());
-                        $entmanager->persist($institute);
+
+                        try {
+                            //code...
+                            $entmanager->persist($institute);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }
-            $entmanager->flush();
+            //$entmanager->flush();
             // Query how many rows are there in the Country table
             $totalInstituteAfter = $repoInstitute->createQueryBuilder('tab')
                 // Filter by some parameter if you want

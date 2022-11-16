@@ -177,11 +177,19 @@ class MetaboliteController extends AbstractController
                         }
                         $metabolite->setIsActive(true);
                         $metabolite->setCreatedAt(new \DateTime());
-                        $entmanager->persist($metabolite);
+
+                        try {
+                            //code...
+                            $entmanager->persist($metabolite);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }
-            $entmanager->flush();
+            //$entmanager->flush();
             // Query how many rows are there in the Country table
             $totalMetaboliteAfter = $repoMetabolite->createQueryBuilder('tab')
                 // Filter by some parameter if you want

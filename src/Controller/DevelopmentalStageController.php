@@ -186,8 +186,15 @@ class DevelopmentalStageController extends AbstractController
                         }
                         $developmentalStage->setIsActive(true);
                         $developmentalStage->setCreatedAt(new \DateTime());
-                        $entmanager->persist($developmentalStage);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($developmentalStage);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

@@ -215,8 +215,15 @@ class PersonController extends AbstractController
                         $person->setCity($city);
                         $person->setIsActive(true);
                         $person->setCreatedAt(new \DateTime());
-                        $entmanager->persist($person);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($person);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

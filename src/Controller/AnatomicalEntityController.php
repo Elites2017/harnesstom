@@ -188,8 +188,14 @@ class AnatomicalEntityController extends AbstractController
                         
                         $anatomicalEntity->setIsActive(true);
                         $anatomicalEntity->setCreatedAt(new \DateTime());
-                        $entmanager->persist($anatomicalEntity);
-                        $entmanager->flush();
+                        try {
+                            //code...
+                            $entmanager->persist($anatomicalEntity);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

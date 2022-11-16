@@ -194,8 +194,15 @@ class ProgramController extends AbstractController
                         $program->setExternalRef($externalRef);
                         $program->setIsActive(true);
                         $program->setCreatedAt(new \DateTime());
-                        $entmanager->persist($program);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($program);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

@@ -185,11 +185,19 @@ class KinshipAlgorithmController extends AbstractController
                         }
                         $kinshipAlgorithm->setIsActive(true);
                         $kinshipAlgorithm->setCreatedAt(new \DateTime());
-                        $entmanager->persist($kinshipAlgorithm);
+
+                        try {
+                            //code...
+                            $entmanager->persist($kinshipAlgorithm);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }
-            $entmanager->flush();
+            //$entmanager->flush();
             // get the connection
             $connexion = $entmanager->getConnection();
             // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term

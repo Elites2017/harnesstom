@@ -186,11 +186,19 @@ class TaxonomyController extends AbstractController
                         }
                         $taxonomy->setIsActive(true);
                         $taxonomy->setCreatedAt(new \DateTime());
-                        $entmanager->persist($taxonomy);
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($taxonomy);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }
-            $entmanager->flush();
+            //$entmanager->flush();
             // Query how many rows are there in the taxonomy table
             $totalTaxonomyAfter = $repoTaxonomy->createQueryBuilder('c')
                 // Filter by some parameter if you want

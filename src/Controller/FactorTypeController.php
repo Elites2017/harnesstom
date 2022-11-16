@@ -212,8 +212,15 @@ class FactorTypeController extends AbstractController
                         
                         $factorType->setIsActive(true);
                         $factorType->setCreatedAt(new \DateTime());
-                        $entmanager->persist($factorType);
-                        $entmanager->flush();
+
+                        try {
+                            //code...
+                            $entmanager->persist($factorType);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

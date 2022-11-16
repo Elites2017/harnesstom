@@ -176,11 +176,19 @@ class CropController extends AbstractController
                         $crop->setCommonCropName($commonCropName);
                         $crop->setIsActive(true);
                         $crop->setCreatedAt(new \DateTime());
-                        $entmanager->persist($crop);
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($crop);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }
-            $entmanager->flush();
+            //$entmanager->flush();
             // Query how many rows are there in the Country table
             $totalCropAfter = $repoCrop->createQueryBuilder('tab')
                 // Filter by some parameter if you want

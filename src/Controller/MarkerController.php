@@ -209,8 +209,15 @@ class MarkerController extends AbstractController
                         $marker->setPrimerSeq2($primerSeq2);
                         $marker->setIsActive(true);
                         $marker->setCreatedAt(new \DateTime());
-                        $entmanager->persist($marker);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($marker);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

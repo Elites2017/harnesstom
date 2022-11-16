@@ -486,8 +486,14 @@ class AccessionController extends AbstractController
                         //dd($accession);
                         $accession->setIsActive(true);
                         $accession->setCreatedAt(new \DateTime());
-                        $entmanager->persist($accession);
-                        $entmanager->flush();
+                        try {
+                            //code...
+                            $entmanager->persist($accession);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }

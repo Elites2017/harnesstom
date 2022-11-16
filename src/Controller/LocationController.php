@@ -192,8 +192,15 @@ class LocationController extends AbstractController
                         $location->setSiteStatus($siteStatus);
                         $location->setIsActive(true);
                         $location->setCreatedAt(new \DateTime());
-                        $entmanager->persist($location);
-                        $entmanager->flush();
+                        
+                        try {
+                            //code...
+                            $entmanager->persist($location);
+                            $entmanager->flush();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        }
                     }
                 }
             }
