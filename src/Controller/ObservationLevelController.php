@@ -181,9 +181,9 @@ class ObservationLevelController extends AbstractController
                 $positionCoordYType = $row['N'];
                 $date = $row['O'];
                 // check if the file doesn't have empty columns
-                if ($observationLevelName != null && $studyAbbreviation != null) {
+                if ($observationUnitName != null && $studyAbbreviation != null) {
                     // check if the data is upload in the database
-                    $existingObservationLevel = $entmanager->getRepository(ObservationLevel::class)->findOneBy(['name' => $observationLevelName]);
+                    $existingObservationLevel = $entmanager->getRepository(ObservationLevel::class)->findOneBy(['unitname' => $observationUnitName]);
                     // upload data only for objects that haven't been saved in the database
                     if (!$existingObservationLevel) {
                         $observationLevel = new ObservationLevel();
