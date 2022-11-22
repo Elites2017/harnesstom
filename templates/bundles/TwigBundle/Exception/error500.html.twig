@@ -1,0 +1,15 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>500 Internal Server Error</h1>
+
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <p>
+            <b>Something went wrong, please report your last action to the administrator(s) [ with the exact same files if any ] or <a href="{{ path('app_home') }}">return to the homepage</a></b>.
+        </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endblock %}

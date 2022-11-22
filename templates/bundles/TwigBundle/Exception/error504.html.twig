@@ -1,0 +1,16 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>504 Gateway Timeout</h1>
+
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <p>
+            <b> Your request needs much more time to be completed.
+                The system is processing it in background, please go check the data in the system later. <a href="{{ path('app_home') }}">Click here to return to the homepage</a></b>.
+        </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endblock %}
