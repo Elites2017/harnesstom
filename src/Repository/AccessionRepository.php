@@ -19,6 +19,22 @@ class AccessionRepository extends ServiceEntityRepository
         parent::__construct($registry, Accession::class);
     }
 
+    /**
+     * 23/11/2022 3h20 PM
+     * Returns all the accessions based on the filters if any (filters) 
+     */
+    public function getAccessionFilteredOrNot($filters = null) {
+        $query = $this->createQueryBuilder('acc')
+            ->where('acc.isActive = 1');
+        
+        if ($filters) {
+            $query->andWhere('acc.origcty IN(:selectedCountries)')
+            ->setParameter(':selectedCountries', array_values($filters));
+        }
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Accession[] Returns an array of Accession objects
     //  */

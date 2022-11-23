@@ -15,11 +15,13 @@ use App\Form\AccessionType;
 use App\Form\AccessionUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\AccessionRepository;
+use App\Repository\CountryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpParser\Node\Stmt\TryCatch;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -34,12 +36,33 @@ class AccessionController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(AccessionRepository $accessionRepo): Response
+    public function index(AccessionRepository $accessionRepo, CountryRepository $countryRepo, Request $request): Response
     {
+        // filters
+        $countries = $countryRepo->findAll();
+        
+        // get the filters selected by the user
+        $selectedFilters = $request->get("countries");
+        $filteredAccession = $accessionRepo->getAccessionFilteredOrNot($selectedFilters);
+        //dd($filteredAccession);
+        
+        // check if the coming query is from the filtering with ajax
+        if ($request->get('ajax')) {
+            $context = [
+                'title' => 'Accession Filtered List',
+                'accessions' => $filteredAccession
+            ];
+            return new JsonResponse([
+                'content' => $this->renderView('accession/accession_content.html.twig', $context)
+            ]);
+        }
+
         $accessions =  $accessionRepo->findAll();
         $context = [
             'title' => 'Accession List',
-            'accessions' => $accessions
+            'accessions' => $accessions,
+            // filters
+            'countries' => $countries
         ];
         return $this->render('accession/index.html.twig', $context);
     }
