@@ -18,6 +18,15 @@ class CountryRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Country::class);
     }
+    
+    public function getAccessionCountries() {
+        $query = $this->createQueryBuilder('country')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('country.isActive = 1')
+            ->andWhere('country.id = accession.origcty')
+        ;
+        return $query->getQuery()->getResult();
+    }
 
     // /**
     //  * @return Country[] Returns an array of Country objects
