@@ -38,31 +38,10 @@ class AccessionController extends AbstractController
      */
     public function index(AccessionRepository $accessionRepo, CountryRepository $countryRepo, Request $request): Response
     {
-        // filters
-        $countries = $countryRepo->findAll();
-        
-        // get the filters selected by the user
-        $selectedFilters = $request->get("countries");
-        $filteredAccession = $accessionRepo->getAccessionFilteredOrNot($selectedFilters);
-        //dd($filteredAccession);
-        
-        // check if the coming query is from the filtering with ajax
-        if ($request->get('ajax')) {
-            $context = [
-                'title' => 'Accession Filtered List',
-                'accessions' => $filteredAccession
-            ];
-            return new JsonResponse([
-                'content' => $this->renderView('accession/accession_content.html.twig', $context)
-            ]);
-        }
-
         $accessions =  $accessionRepo->findAll();
         $context = [
             'title' => 'Accession List',
             'accessions' => $accessions,
-            // filters
-            'countries' => $countries
         ];
         return $this->render('accession/index.html.twig', $context);
     }
