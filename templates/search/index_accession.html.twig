@@ -15,22 +15,35 @@
 
     <!-- DataTables Responsive CSS -->
     <link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+    <!-- countries list scrollbar CSS -->
+    <link href="{{ asset('assets/css/custom_bootsrap_style.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-1 order-md-1">
-                <p>Filter By</p>
-                {# to create a form and use formData in javascript later #}
-                <form id="filters">
-                    {% for country in countries %}
-                        <p>
-                            <input type="checkbox" name="countries[]" id="country{{ country.id }}" value="{{ country.id }}">
-                            <label for=country{{ country.id }}> {{ country.iso3 }} </label>
-                        </p>
-                    {% endfor %}
-                </form>
+                <h4 class="text-center mt-6 tomato-color font-weight-bold">Filter By</h4>
+                <div class="mb-3">
+                    <p class="text-muted font-weight-bold">Country</p>
+                    {# to create a form and use formData in javascript later #}
+                    <form id="filters" class=" countries_list_scroll_bar">
+                        {% for country in countries %}
+                            <p>
+                                <input type="checkbox" name="countries[]" id="country{{ country.id }}" value="{{ country.id }}">
+                                <label for=country{{ country.id }}> {{ country.iso3 }} </label>
+                            </p>
+                        {% endfor %}
+                    </form>
+                </div>
+                <div class="mb-3">
+                    <p class="text-muted font-weight-bold">Shape</p>
+                    
+                </div>
+                <div class="mb-3">
+                    <p class="text-muted font-weight-bold">Color</p>
+                    
+                </div>
             </div>
             <div class="col-md-11 order-md-2">
                 {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}

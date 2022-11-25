@@ -1,0 +1,5 @@
+/* In the search/accession */
+.countries_list_scroll_bar {
+    height:200px;
+    overflow-y: scroll;
+  }
