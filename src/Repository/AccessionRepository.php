@@ -23,13 +23,17 @@ class AccessionRepository extends ServiceEntityRepository
      * 23/11/2022 3h20 PM
      * Returns all the accessions based on the filters if any (filters) 
      */
-    public function getAccessionFilteredOrNot($filters = null) {
+    public function getAccessionFilteredOrNot($countries = null, $biologicalStatuses = null) {
         $query = $this->createQueryBuilder('acc')
             ->where('acc.isActive = 1');
         
-        if ($filters) {
+        if ($countries) {
             $query->andWhere('acc.origcty IN(:selectedCountries)')
-            ->setParameter(':selectedCountries', array_values($filters));
+            ->setParameter(':selectedCountries', array_values($countries));
+        }
+        if ($biologicalStatuses) {
+            $query->andWhere('acc.sampstat IN(:selectedBiologicalStatuses)')
+            ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
         }
         ;
         return $query->getQuery()->getResult();

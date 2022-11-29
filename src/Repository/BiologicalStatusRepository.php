@@ -19,6 +19,15 @@ class BiologicalStatusRepository extends ServiceEntityRepository
         parent::__construct($registry, BiologicalStatus::class);
     }
 
+    public function getAccessionBiologicalStatuses() {
+        $query = $this->createQueryBuilder('biologicalStatus')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('biologicalStatus.isActive = 1')
+            ->andWhere('biologicalStatus.id = accession.sampstat')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return BiologicalStatus[] Returns an array of BiologicalStatus objects
     //  */

@@ -16,36 +16,96 @@
     <!-- DataTables Responsive CSS -->
     <link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
     <!-- countries list scrollbar CSS -->
-    <link href="{{ asset('assets/css/custom_bootsrap_style.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom_bootstrap_style.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-1 order-md-1">
+            <div class="col-md-2 order-md-1">
                 <h4 class="text-center mt-6 tomato-color font-weight-bold">Filter By</h4>
-                <div class="mb-3">
+                {# to create a form and use formData in javascript later #}
+                <form id="filters">
                     <p class="text-muted font-weight-bold">Country</p>
-                    {# to create a form and use formData in javascript later #}
-                    <form id="filters" class=" countries_list_scroll_bar">
+                    <div class="mb-3 objects_list_scroll_bar">
                         {% for country in countries %}
-                            <p>
+                            <p >
                                 <input type="checkbox" name="countries[]" id="country{{ country.id }}" value="{{ country.id }}">
                                 <label for=country{{ country.id }}> {{ country.iso3 }} </label>
                             </p>
                         {% endfor %}
-                    </form>
-                </div>
-                <div class="mb-3">
+                    </div>
+                    <p class="text-muted font-weight-bold">Biological Status</p>
+                    <div class="mb-3 objects_list_scroll_bar">
+                        {# to create a form and use formData in javascript later #}
+                        {% for biologicalStatus in biologicalStatuses %}
+                            <p>
+                                <input type="checkbox" name="biologicalStatuses[]" id="biologicalStatus{{ biologicalStatus.id }}" value="{{ biologicalStatus.id }}">
+                                <label for=biologicalStatus{{ biologicalStatus.id }}> {{ biologicalStatus.name }} </label>
+                            </p>
+                        {% endfor %}
+                    </div>
                     <p class="text-muted font-weight-bold">Shape</p>
-                    
-                </div>
-                <div class="mb-3">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-3 ">
+                                <img src="{{ asset('assets/images/tomato_shapes/bis_shape3.png') }}" width="90%" />
+                                <p class="text-center text-muted font-weight-bold">Round</p>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape7.png') }}" width="90%" />
+                                <p class="text-center text-muted font-weight-bold">Name</p>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape4.png') }}" width="90%" />
+                                <p class="text-center text-muted font-weight-bold">Name</p>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape5.png') }}" width="90%" />
+                                <p class="text-center text-muted font-weight-bold">Name</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape9.png') }}" width="90%" />
+                                <p class="text-center text-muted font-weight-bold">Name</p>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape6.png') }}" width="90%" />
+                                <p class="text-center text-muted font-weight-bold">Name</p>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="{{ asset('assets/images/tomato_shapes/shape2.png') }}" width="90%" />
+                                <p class="text-center text-muted font-weight-bold">Name</p>
+                            </div>
+                            <div class="col-md-3">
+                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape10.png') }}" width="90%" />
+                                <p class="text-center text-muted font-weight-bold">Name</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="{{ asset('assets/images/tomato_shapes/bitmap22.png') }}" width="60%" />
+                                <p class="text-center text-muted font-weight-bold">Name</p>
+                            </div>
+                        </div>
+                    </div>
                     <p class="text-muted font-weight-bold">Color</p>
-                    
-                </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-3">d
+                            </div>
+                            <div class="col-md-3">a
+                            </div>
+                            <div class="col-md-3">s
+                            </div>
+                            <div class="col-md-3">f
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="col-md-11 order-md-2">
+            <div class="col-md-10 order-md-2">
                 {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
                     {% for message in messages %}
                         <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}

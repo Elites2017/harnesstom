@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\AccessionRepository;
+use App\Repository\BiologicalStatusRepository;
 use App\Repository\CountryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,15 +19,17 @@ class SearchController extends AbstractController
     /**
      * @Route("/accession", name="accession")
      */
-    public function index(AccessionRepository $accessionRepo, CountryRepository $countryRepo, Request $request): Response
+    public function index(AccessionRepository $accessionRepo, CountryRepository $countryRepo, BiologicalStatusRepository $biologicalStatusRepo, Request $request): Response
     {
         // filters
         $countries = $countryRepo->getAccessionCountries();
+        $biologicalStatuses = $biologicalStatusRepo->getAccessionBiologicalStatuses();
         
         // get the filters selected by the user
-        $selectedFilters = $request->get("countries");
-        $filteredAccession = $accessionRepo->getAccessionFilteredOrNot($selectedFilters);
-        //dd($filteredAccession);
+        $selectedCountries = $request->get("countries");
+        $selectedBiologicalStatuses = $request->get("biologicalStatuses");
+        $filteredAccession = $accessionRepo->getAccessionFilteredOrNot($selectedCountries, $selectedBiologicalStatuses);
+        //dd($selectedBiologicalStatuses);
         
         // check if the coming query is from the filtering with ajax
         if ($request->get('ajax')) {
@@ -44,7 +47,8 @@ class SearchController extends AbstractController
             'title' => 'Accession List',
             'accessions' => $accessions,
             // filters
-            'countries' => $countries
+            'countries' => $countries,
+            'biologicalStatuses' => $biologicalStatuses
         ];
         return $this->render('search/index_accession.html.twig', $context);
     }
