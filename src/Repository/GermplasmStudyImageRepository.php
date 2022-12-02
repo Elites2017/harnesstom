@@ -19,6 +19,14 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
         parent::__construct($registry, GermplasmStudyImage::class);
     }
 
+    public function getTotalRows() {
+        return $this->createQueryBuilder('tab')
+            ->select('count(tab.id)')
+            ->where('tab.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     // /**
     //  * @return GermplasmStudyImage[] Returns an array of GermplasmStudyImage objects
     //  */
