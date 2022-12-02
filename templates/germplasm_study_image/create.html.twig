@@ -71,3 +71,22 @@
 	<!-- .container -->
 {% endblock %}
 
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script>
+		window.jQuery || document.write('<script src="  {{ asset('../assets/js/vendor/jquery.slim.min.js') }}"><\/script>')
+	</script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- <script src="assets/js1/bootstrap.bundle.min.js"></script> -->
+	
+	<!-- Guided Tour LH  -->
+	<script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
+	<script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
+	<script src="{{ asset('guidedtour/js/demo.js') }}"></script>
+	<script>
+		$('.custom-file-input').on('change', function(event) {
+		let inputFile = event.currentTarget;
+		$(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+		});
+	</script>
+{% endblock %}

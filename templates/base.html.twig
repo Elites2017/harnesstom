@@ -1201,14 +1201,44 @@
 										<li>
 											<a class="dropdown-item" href="{{ path('germplasm_create') }}">Create</a>
 										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('germplasm_upload_from_excel') }}">Upload From Excel</a>
-										</li>
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="{{ path('germplasm_upload_from_excel') }}">Upload From Excel</a>
+											</li>
+										{% endif %}
 										<li>
 											<a class="dropdown-item" href="{{ path('germplasm_index') }}">Search</a>
 										</li>
 									</ul>
 								</li>
+								{% if is_granted("ROLE_ADMIN") %}
+									<li>
+										<a class="dropdown-item" href="#">
+											Germplasm x Study &raquo;
+										</a>
+										<ul class="dropdown-menu dropdown-submenu">
+											<li>
+												<a class="dropdown-item" href="{{ path('germplasm_study_upload_from_excel') }}">Upload From Excel</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a class="dropdown-item" href="#">
+											Germplasm x Study Images &raquo;
+										</a>
+										<ul class="dropdown-menu dropdown-submenu">
+											<li>
+												<a class="dropdown-item" href="{{ path('germplasm_study_image_create') }}">Create</a>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{ path('germplasm_study_upload_from_excel') }}">Upload From Excel</a>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{ path('germplasm_study_image_index') }}">Search</a>
+											</li>
+										</ul>
+									</li>
+								{% endif %}
 								<li>
 									<a class="dropdown-item" href="#">
 										Cross &raquo;
