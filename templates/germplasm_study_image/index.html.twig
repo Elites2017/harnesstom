@@ -55,7 +55,7 @@
                                         <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}">{{ germplasmStudyImage.factor }}</a></td>
                                         <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}">{{ germplasmStudyImage.developmentStage }}</a></td>
                                         <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}">{{ germplasmStudyImage.plantAnatomicalEntity }}</a></td> 
-                                        <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}"><img src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/test.jpg') }}" width="50%" alt="" class="logo" /></a></td>
+                                        <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}"><img src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ germplasmStudyImage.filename ) }}" width="50%" alt="" class="logo" /></a></td>
                                         <td>
                                             <a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}"><button class="btn btn-outline-primary">View</button></a>
                                         </td>
