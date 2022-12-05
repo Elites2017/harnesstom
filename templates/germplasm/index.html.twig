@@ -50,7 +50,7 @@
                                         <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.germplasmID }}</a></td>
                                         <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.instcode }}</a></td>
                                         <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.maintainerNumb }}</a></td>
-                                        <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.program }}</a></td>
+                                        <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.program.abbreviation }}</a></td>
                                         <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.preprocessing }}</a></td>
                                         <td>
                                             <a href="{{ path('germplasm_details', {id: germplasm.id}) }}"><button class="btn btn-outline-primary">View</button></a>
