@@ -222,6 +222,77 @@
         {# Start of row #}
 		<div class="row">
 			<div class="col-md-6 mb-4">
+            {% if accession.germplasms | length > 0 %}
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                        <th scope="col">Germplasm</th>
+                        <th scope="col">Factor</th>
+                        <th scope="col">Anatomical Entity</th>
+                        <th scope="col">Developmental Stage</th>
+                        <th scope="col">Study</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        {# <td colspan="3"></td> #}
+                        <td>
+                            {# {% for dats in accession.germplasms %}
+                                {% for onedat in dats.germplasmStudyImages %}
+                                    {{ onedat.studyId.abbreviation }}
+                                {% endfor %}
+                            {% endfor %} #}
+                        </td>
+                        </tr>
+                        
+                {% for oneG in accession.germplasms %}
+                    {% if oneG.germplasmStudyImages | length > 0 %}
+                        {% for oneS in oneG.germplasmStudyImages %}
+                        <tr>
+                            <td>{{ oneS.germplasmID }}</td>
+                            <td>
+                                <table>
+                                            <tr>
+                                                <td>{{ oneS.factor ? oneS.factor : "No data" }}</td>
+                                            </tr>
+                                        </table>
+                            </td>
+                            <td>
+                                        <table>
+                                            <tr>
+                                                <td>{{ oneS.plantAnatomicalEntity ? oneS.plantAnatomicalEntity : "No data" }}</td>
+                                            </tr>
+                                        </table>
+                            </td>
+                            <td>
+                                        <table>
+                                            <tr>
+                                                <td>{{ oneS.developmentStage ? oneS.developmentStage : "No data" }}</td>
+                                            </tr>
+                                        </table>
+                            </td>
+                            <td>{{ oneS.studyId.abbreviation }}</td>
+                            <td>
+                                        <table>
+                                            <tr>
+                                                <td><img src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ oneS.filename ) }}" width="20%" alt="" class="logo" /></td>
+                                            </tr>
+                                        </table>
+                            </td>
+                            <td>{{ oneS.description }}</td>
+
+                            {# <td>{{ oneG.germplasmStudyImages[0].plantAnatomicalEntity }}</td>
+                            <td>{{ oneG.germplasmStudyImages[0].developmentStage }}</td>
+                            <td><img src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ oneG.germplasmStudyImages[0].filename ) }}" width="10%" alt="" class="logo" /></td> #}
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+                    </tbody>
+                </table>
 			</div>
 
 			{% if accession.germplasms | length > 0 %}
@@ -251,6 +322,7 @@
 							</div>
 							{# <span class="text-muted">$12</span> #}
 							</li></a>
+                            
 						{% endfor %}
 					</ul>
 				</div>
