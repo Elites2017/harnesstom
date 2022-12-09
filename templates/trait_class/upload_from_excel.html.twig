@@ -25,9 +25,9 @@
 					<img src="{{ asset('assets/images/excelicon.png') }}" alt="Example of excel template" width="104" height="142">
 				</a>
 			</div>
-			{{ form_start(traitUploadFromExcelForm) }}
+			{{ form_start(traitClassUploadFromExcelForm) }}
 			<div>
-				{{ form_row(traitUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
+				{{ form_row(traitClassUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
 			</div>
 
 			<div class="row">
@@ -39,7 +39,7 @@
 					<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
 				</div>
 			</div>
-			{{ form_end(traitUploadFromExcelForm) }}
+			{{ form_end(traitClassUploadFromExcelForm) }}
 		</div>
 	</div>
 	<!-- .row -->

@@ -126,9 +126,9 @@ class TraitClassController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Setup repository of some entity
-            $repoTrait = $entmanager->getRepository(TraitClass::class);
-            // Query how many rows are there in the trait table
-            $totalTraitBefore = $repoTrait->createQueryBuilder('tab')
+            $repoTraitClass = $entmanager->getRepository(TraitClass::class);
+            // Query how many rows are there in the TraitClass table
+            $totalTraitClassBefore = $repoTraitClass->createQueryBuilder('tab')
                 // Filter by some parameter if you want
                 // ->where('a.isActive = 1')
                 ->select('count(tab.id)')
@@ -149,7 +149,7 @@ class TraitClassController extends AbstractController
                     $file->move($fileFolder, $filePathName);
                 } catch (\Throwable $th) {
                     //throw $th;
-                    $this->addFlash('danger', "Fail to upload the file, try again ");
+                    $this->addFlash('danger', "Fail to upload the file, try again");
                 }
             } else {
                 $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
@@ -165,28 +165,48 @@ class TraitClassController extends AbstractController
                 $ontology_id = $row['A'];
                 $name = $row['B'];
                 $description = $row['C'];
-                $parentTermString = $row['D'];
+                //$parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null && $name != null) {
                     // check if the data is upload in the database
                     $existingTraitClass = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $ontology_id]);
-                    // upload data only for countries that haven't been saved in the database
+                    // upload data only for objects that haven't been saved in the database
                     if (!$existingTraitClass) {
                         $traitClass = new TraitClass();
                         if ($this->getUser()) {
                             $traitClass->setCreatedBy($this->getUser());
                         }
-                        $traitClass->setOntologyId($ontology_id);
-                        $traitClass->setName($name);
-                        if ($description != null) {
+                        
+                        try {
+                            //code...
+                            $traitClass->setOntologyId($ontology_id);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the ontology ID " .$ontology_id);
+                        }
+
+                        try {
+                            //code...
+                            $traitClass->setName($name);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the name " .$name);
+                        }
+
+                        try {
+                            //code...
                             $traitClass->setDescription($description);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the description " .$description);
                         }
-                        if ($parentTermString != null) {
-                            $traitClass->setParOnt($parentTermString);
-                        }
+                        
+                        // if ($parentTermString != null) {
+                        //     $traitClass->setParOnt($parentTermString);
+                        // }
+                        
                         $traitClass->setIsActive(true);
                         $traitClass->setCreatedAt(new \DateTime());
-                        
                         try {
                             //code...
                             $entmanager->persist($traitClass);
@@ -198,54 +218,46 @@ class TraitClassController extends AbstractController
                     }
                 }
             }
-            // get the connection
-            $connexion = $entmanager->getConnection();
-            // another flush because of self relationship. The ontology ID needs to be stored in the db first before it can be accessed for the parent term
-            // foreach ($sheetData as $key => $row) {
-            //     $ontology_id = $row['A'];
-            //     $parentTerm = $row['D'];
-            //     // check if the file doesn't have empty columns
-            //     if ($ontology_id != null && $parentTerm != null ) {
-            //         // check if the data is upload in the database
-            //         $ontologyIdParentTerm = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $parentTerm]);
-            //         if (($ontologyIdParentTerm != null) && ($ontologyIdParentTerm instanceof \App\Entity\TraitClass)) {
-            //             $ontId = $ontologyIdParentTerm->getId();
-            //             // get the real string (parOnt) parent term or its line id so that to do the link 
-            //             $stringParentTerm = $entmanager->getRepository(TraitClass::class)->findOneBy(['par_ont' => $parentTerm, 'is_poau' => null]);
-            //             $parentTermId = $stringParentTerm->getId();
-            //             // update the is_poau (Is Parent Term Ontology ID Already Updated) so that it doesn't keep updating the same row in case of same parent term
-            //             $res = $connexion->executeStatement('UPDATE trait_class SET parent_term_id = ?, is_poau = ? WHERE id = ?', [$ontId, 1, $parentTermId]);
-            //         }
-            //     }
-            // }
-            
-            $totalTraitAfter = $repoTrait->createQueryBuilder('tab')
+
+            // Query how many rows are there in the Country table
+            $totalTraitClassAfter = $repoTraitClass->createQueryBuilder('tab')
                 // Filter by some parameter if you want
                 // ->where('a.isActive = 1')
                 ->select('count(tab.id)')
                 ->getQuery()
                 ->getSingleScalarResult();
 
-            if ($totalTraitBefore == 0) {
-                $this->addFlash('success', $totalTraitAfter . " traits have been successfuly added");
+            if ($totalTraitClassBefore == 0) {
+                $this->addFlash('success', $totalTraitClassAfter . " TraitClass entities have been successfuly added");
             } else {
-                $diffBeforeAndAfter = $totalTraitAfter - $totalTraitBefore;
+                $diffBeforeAndAfter = $totalTraitClassAfter - $totalTraitClassBefore;
                 if ($diffBeforeAndAfter == 0) {
                     $this->addFlash('success', "No new trait has been added");
                 } else if ($diffBeforeAndAfter == 1) {
                     $this->addFlash('success', $diffBeforeAndAfter . " trait has been successfuly added");
                 } else {
-                    $this->addFlash('success', $diffBeforeAndAfter . " traits have been successfuly added");
+                    $this->addFlash('success', $diffBeforeAndAfter . " trait entities have been successfuly added");
                 }
             }
             return $this->redirect($this->generateUrl('trait_class_index'));
         }
 
         $context = [
-            'title' => 'Trait Upload From Excel',
-            'traitUploadFromExcelForm' => $form->createView()
+            'title' => 'Trait Class Upload From Excel',
+            'traitClassUploadFromExcelForm' => $form->createView()
         ];
         return $this->render('trait_class/upload_from_excel.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template", name="download_template")
+     */
+    public function excelTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/trait_class_template_example.xlsx');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'trait_class_template_example.xlsx');
+        return $response;
+       
     }
 
     // this is to upload data in bulk using an excel file
@@ -291,12 +303,12 @@ class TraitClassController extends AbstractController
                 // check if the file doesn't have empty columns
                 if ($ontology_id != null && $parentTerm != null) {
                     // check if the data is upload in the database
-                    $ontTraitClassEnt = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $ontology_id]);
-                    if ($ontTraitClassEnt) {
-                        $ontologyIdDbId = $ontTraitClassEnt->getId();
-                        $parentTermTraitClassEnt = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $parentTerm]);
-                        if ($parentTermTraitClassEnt) {
-                            $parentTermDbId = $parentTermTraitClassEnt->getId();
+                    $ontTraitClass = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    if ($ontTraitClass) {
+                        $ontologyIdDbId = $ontTraitClass->getId();
+                        $parentTermTraitClass = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $parentTerm]);
+                        if ($parentTermTraitClass) {
+                            $parentTermDbId = $parentTermTraitClass->getId();
                             // check if this ID couple is already in the database, otherwise insert it in.
                             $result = $connexion->executeStatement('SELECT trait_class_source FROM trait_class_trait_class WHERE trait_class_source = ? AND trait_class_target = ?', [$parentTermDbId, $ontologyIdDbId]);
                             //dd($parentTermId);
@@ -307,10 +319,10 @@ class TraitClassController extends AbstractController
                                 }
                             }
                         } else {
-                            $this->addFlash('danger', "Error this parent term $parentTerm has not been saved / used in the table trait entity as an ontologyId before, make sure it has been already saved in the trait entity as an ontologyId before a being used as a parent temtable and try again");
+                            $this->addFlash('danger', "Error this parent term $parentTerm has not been saved / used in the table trait class as an ontologyId before, make sure it has been already saved in the trait class as an ontologyId before a being used as a parent temtable and try again");
                         }
                     } else {
-                        $this->addFlash('danger', "Error this ontology_id $ontology_id is not in the database, make sure it has been already saved in the trait entity table and try again");
+                        $this->addFlash('danger', "Error this ontology_id $ontology_id is not in the database, make sure it has been already saved in the trait class table and try again");
                     }
                 }
             }
@@ -323,19 +335,19 @@ class TraitClassController extends AbstractController
         }
 
         $context = [
-            'title' => 'Trait Entity Many To Many Upload From Excel',
+            'title' => 'Trait Many To Many Upload From Excel',
             'traitClassMTMUploadFromExcelForm' => $form->createView()
         ];
         return $this->render('trait_class/upload_from_excel_mtm.html.twig', $context);
     }
 
     /**
-     * @Route("/download-template", name="download_template")
+     * @Route("/download-template-mtm", name="download_template_mtm")
      */
-    public function excelTemplate(): Response
+    public function excelTemplateMTM(): Response
     {
-        $response = new BinaryFileResponse('../public/todownload/trait_template_example.xls');
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'trait_template_example.xls');
+        $response = new BinaryFileResponse('../public/todownload/trait_class_mtm_template_example.xlsx');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'trait_class_mtm_template_example.xlsx');
         return $response;
        
     }
