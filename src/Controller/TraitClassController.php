@@ -351,4 +351,96 @@ class TraitClassController extends AbstractController
         return $response;
        
     }
+
+    // this is to upload data in bulk using an excel file
+    /**
+     * @Route("/upload-from-excel-variable-of", name="upload_from_excel_var_of")
+     */
+    public function uploadFromExcelVariableOf(Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(UploadFromExcelType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // get the file (name from the CountryUploadFromExcelType form)
+            $file = $request->files->get('upload_from_excel')['file'];
+            // set the folder to send the file to
+            $fileFolder = __DIR__ . '/../../public/uploads/excel/';
+            // apply md5 function to generate a unique id for the file and concat it with the original file name
+            if ($file->getClientOriginalName()) {
+                $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                try {
+                    $file->move($fileFolder, $filePathName);
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $this->addFlash('danger', "Fail to upload the file, try again");
+                }
+            } else {
+                $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+            }
+            // read from the uploaded file
+            $spreadsheet = IOFactory::load($fileFolder . $filePathName);
+            // remove the first row (title) of the file
+            $spreadsheet->getActiveSheet()->removeRow(1);
+            // transform the uploaded file to an array
+            $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+            // get the connection
+            $connexion = $entmanager->getConnection();
+            // to count the number of affected rows.
+            $counter = 0;
+            // loop over the array to get each row
+            foreach ($sheetData as $key => $row) {
+                $ontology_id = $row['A'];
+                $parentTerm = $row['B'];
+                // check if the file doesn't have empty columns
+                if ($ontology_id != null && $parentTerm != null) {
+                    // check if the data is upload in the database
+                    $ontTraitClass = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    if ($ontTraitClass) {
+                        $ontologyIdDbId = $ontTraitClass->getId();
+                        $parentTermTraitClass = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $parentTerm]);
+                        if ($parentTermTraitClass) {
+                            $parentTermDbId = $parentTermTraitClass->getId();
+                            // check if this ID couple is already in the database, otherwise insert it in.
+                            $result = $connexion->executeStatement('SELECT trait_class_source FROM trait_class_variable_of WHERE trait_class_source = ? AND trait_class_target = ?', [$parentTermDbId, $ontologyIdDbId]);
+                            //dd($parentTermId);
+                            if ($result == 0) {
+                                $resInsert = $connexion->executeStatement("INSERT INTO trait_class_variable_of VALUES('$parentTermDbId', '$ontologyIdDbId')");
+                                if ($resInsert == 1) {
+                                    $counter += 1;
+                                }
+                            }
+                        } else {
+                            $this->addFlash('danger', "Error this variable of $parentTerm has not been saved / used in the table trait class as an ontologyId before, make sure it has been already saved in the trait class as an ontologyId before a being used as a parent temtable and try again");
+                        }
+                    } else {
+                        $this->addFlash('danger', "Error this ontology_id $ontology_id is not in the database, make sure it has been already saved in the trait class table and try again");
+                    }
+                }
+            }
+            if ($counter <= 1) {
+                $this->addFlash('success', " $counter " ."row affected ");    
+            } else {
+                $this->addFlash('success', " $counter " ."rows affected ");            
+            }
+            return $this->redirect($this->generateUrl('trait_class_index'));
+        }
+
+        $context = [
+            'title' => 'Trait Variable Of Upload From Excel',
+            'traitClassVariableOfUploadFromExcelForm' => $form->createView()
+        ];
+        return $this->render('trait_class/upload_from_excel_var_of.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download-template-variable-of", name="download_template_var_of")
+     */
+    public function excelTemplateVariableOf(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/trait_class_var_of_template_example.xlsx');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'trait_class_var_of_template_example.xlsx');
+        return $response;
+       
+    }
 }
