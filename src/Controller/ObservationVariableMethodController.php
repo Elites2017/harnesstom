@@ -165,10 +165,10 @@ class ObservationVariableMethodController extends AbstractController
             foreach ($sheetData as $key => $row) {
                 $obsVarMethodName = $row['A'];
                 $obsVarMethodClass = $row['B'];
-                $obsVarDesc = $row['C'];
-                $instrument = $row['D'];
-                $software = $row['E'];
-                $biblioRef = $row['F'];
+                $obsVarDesc = $row['D'];
+                $instrument = $row['E'];
+                $software = $row['F'];
+                $biblioRef = $row['G'];
                 //$parentTermString = $row['D'];
                 // check if the file doesn't have empty columns
                 if ($obsVarMethodName != null && $obsVarMethodClass != null) {
@@ -183,7 +183,7 @@ class ObservationVariableMethodController extends AbstractController
 
                         try {
                             //code...
-                            $obsVarMethodClass = $entmanager->getRepository(MethodClass::class)->findOneBy(['name' => $obsVarMethodClass]);
+                            $obsVarMethodClass = $entmanager->getRepository(MethodClass::class)->findOneBy(['ontology_id' => $obsVarMethodClass]);
                             if (($obsVarMethodClass != null) && ($obsVarMethodClass instanceof \App\Entity\MethodClass)) {
                                 $observationVariableMethod->setMethodClass($obsVarMethodClass);
                             }
