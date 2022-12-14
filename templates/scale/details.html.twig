@@ -16,7 +16,6 @@
 								<th scope="col">ID</th>
 								<th scope="col">Name</th>
 								<th scope="col">Description</th>
-								<th scope="col">Category</th>
 								<th scope="col">Data Type</th>
 								<th scope="col">Unit</th>
 								{% if is_granted("ROLE_ADMIN") %}
@@ -34,11 +33,6 @@
 								<td>{{ scale.id }}</td>
 								<td>{{ scale.name }}</td>
 								<td>{{ scale.description }}</td>
-								<td>
-									{% if scale.scaleCategory %}
-										<a href="{{ path('scale_category_details', {id: scale.scaleCategory.id}) }}">{{ scale.scaleCategory }}</a>
-									{% endif %}
-								</td>
 								<td>
 									{% if scale.dataType %}
 										<a href="{{ path('data_type_details', {id: scale.dataType.id}) }}">{{ scale.dataType }}</a>
