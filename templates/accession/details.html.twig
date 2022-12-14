@@ -307,21 +307,24 @@
 							<div>
 								<h6 class="my-0">Germplasm ID</h6>
 								<strong class="text-muted">{{ oneGermplasm.germplasmID }}</strong>
+							</div></a>
+							<div>
+								<a href="{{ path('program_details', {id: oneGermplasm.program.id}) }}">
+                                <h6 class="my-0">Program</h6>
+								<strong class="text-muted">{{ oneGermplasm.program.abbreviation }}</strong></a>
 							</div>
 							<div>
-								<h6 class="my-0">Program</h6>
-								<strong class="text-muted">{{ oneGermplasm.program.abbreviation }}</strong>
-							</div>
-							<div>
+                                <a href="{{ path('trial_details', {id: oneGermplasm.study[0].trial.id}) }}">
 								<h6 class="my-0">Trial</h6>
-								<strong class="text-muted">{{ oneGermplasm.maintainerNumb }}</strong>
+								<strong class="text-muted">{{ oneGermplasm.study[0].trial.abbreviation }}</strong></a>
 							</div>
 							<div>
-								<h6 class="my-0">External Ref</h6>
-								<strong class="text-muted">{{ oneGermplasm.program.externalRef }}</strong>
+								<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">
+                                <h6 class="my-0">External Ref</h6>
+								<strong class="text-muted">{{ oneGermplasm.program.externalRef }}</strong></a>
 							</div>
 							{# <span class="text-muted">$12</span> #}
-							</li></a>
+							</li>
                             
 						{% endfor %}
 					</ul>
