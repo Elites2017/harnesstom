@@ -165,17 +165,16 @@ class ObservationVariableController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $obsVarId = $row['A'];
+                $obsVarIdTrait = $row['A'];
                 $obsName = $row['B'];
                 $traitOntId = $row['C'];
-                $obsVarDesc = $row['D'];
-                $scaleName = $row['E'];
-                $obsVarMethodName = $row['F'];
-                //$parentTermString = $row['D'];
+                $obsVarDesc = $row['E'];
+                $scaleName = $row['F'];
+                $obsVarMethodName = $row['G'];
                 // check if the file doesn't have empty columns
-                if ($obsVarId != null && $obsName != null) {
+                if ($obsVarIdTrait != null && $obsName != null) {
                     // check if the data is upload in the database
-                    $existingObservationVariable = $entmanager->getRepository(ObservationVariable::class)->findOneBy(['obsVarId' => $obsVarId]);
+                    $existingObservationVariable = $entmanager->getRepository(ObservationVariable::class)->findOneBy(['name' => $obsName]);
                     // upload data only for objects that haven't been saved in the database
                     if (!$existingObservationVariable) {
                         $observationVariable = new ObservationVariable();
@@ -192,6 +191,17 @@ class ObservationVariableController extends AbstractController
                         } catch (\Throwable $th) {
                             //throw $th;
                             $this->addFlash('danger', " there is a problem with the trait ontology " .$traitOntId);
+                        }
+
+                        try {
+                            //code...
+                            $obsVarId = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $obsVarIdTrait]);
+                            if (($obsVarId != null) && ($obsVarId instanceof \App\Entity\TraitClass)) {
+                                $observationVariable->setVariable($obsVarId);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the variable id ontology " .$obsVarIdTrait);
                         }
 
                         try {

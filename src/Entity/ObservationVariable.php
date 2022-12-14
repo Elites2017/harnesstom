@@ -106,6 +106,11 @@ class ObservationVariable
      */
     private $qTLVariants;
 
+    /**
+     * @ORM\OneToOne(targetEntity=TraitClass::class, inversedBy="observationVariable", cascade={"persist", "remove"})
+     */
+    private $variable;
+
     public function __construct()
     {
         $this->observationValues = new ArrayCollection();
@@ -321,5 +326,17 @@ class ObservationVariable
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getVariable(): ?TraitClass
+    {
+        return $this->variable;
+    }
+
+    public function setVariable(?TraitClass $variable): self
+    {
+        $this->variable = $variable;
+
+        return $this;
     }
 }

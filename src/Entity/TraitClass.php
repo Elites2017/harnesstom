@@ -96,6 +96,11 @@ class TraitClass
      */
     private $varOfTraitclasses;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ObservationVariable::class, mappedBy="variable", cascade={"persist", "remove"})
+     */
+    private $observationVariable;
+
     public function __construct()
     {
         $this->observationVariables = new ArrayCollection();
@@ -372,6 +377,28 @@ class TraitClass
         if ($this->varOfTraitclasses->removeElement($varOfTraitclass)) {
             $varOfTraitclass->removeVarOf($this);
         }
+
+        return $this;
+    }
+
+    public function getObservationVariable(): ?ObservationVariable
+    {
+        return $this->observationVariable;
+    }
+
+    public function setObservationVariable(?ObservationVariable $observationVariable): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($observationVariable === null && $this->observationVariable !== null) {
+            $this->observationVariable->setVariableId(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($observationVariable !== null && $observationVariable->getVariableId() !== $this) {
+            $observationVariable->setVariableId($this);
+        }
+
+        $this->observationVariable = $observationVariable;
 
         return $this;
     }
