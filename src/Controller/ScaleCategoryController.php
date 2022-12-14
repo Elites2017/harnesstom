@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Scale;
 use App\Entity\ScaleCategory;
 use App\Form\ScaleCategoryType;
 use App\Form\ScaleCategoryUpdateType;
@@ -163,72 +164,84 @@ class ScaleCategoryController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $scaleName = $row['A'];
+                $scale = $row['A'];
                 $label = $row['B'];
                 $score = $row['C'];
                 $min = $row['D'];
                 $max = $row['E'];
                 // check if the file doesn't have empty columns
-                if ($scaleName != null && $label != null) {
-                    // check if the data is upload in the database
-                    $existingScaleCategory = $entmanager->getRepository(ScaleCategory::class)->findOneBy(['name' => $scaleName, 'label' => $label]);
-                    // upload data only for objects that haven't been saved in the database
-                    if (!$existingScaleCategory) {
-                        $scaleCategory = new ScaleCategory();
-                        if ($this->getUser()) {
-                            $scaleCategory->setCreatedBy($this->getUser());
-                        }
-                        try {
-                            //code...
-                            $scaleCategory->setLabel($label);
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the scale category label " .$label);
-                        }
+                if ($scale != null && $label != null) {
+                    try {
+                        //code...
+                        $scaleCategoryScale = $entmanager->getRepository(Scale::class)->findOneBy(['name' => $scale]);
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                        $this->addFlash('danger', " there is a problem with the scale name, can not create scale category " .$scale);
+                    }
+                    if ($scaleCategoryScale) {
+                        // check if the data is upload in the database
+                        $existingScaleCategory = $entmanager->getRepository(ScaleCategory::class)->findOneBy(['scale' => $scaleCategoryScale, 'label' => $label]);
+                        // upload data only for objects that haven't been saved in the database
+                        if (!$existingScaleCategory) {
+                            $scaleCategory = new ScaleCategory();
+                            if ($this->getUser()) {
+                                $scaleCategory->setCreatedBy($this->getUser());
+                            }
 
-                        try {
-                            //code...
-                            $scaleCategory->setName($scaleName);
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the scale category name " .$scaleName);
-                        }
+                            try {
+                                //code...
+                                $scaleCategory->setLabel($label);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the scale category label " .$label);
+                            }
 
-                        try {
-                            //code...
-                            $scaleCategory->setScore($score);
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the scale category score " .$score);
-                        }
+                            try {
+                                //code...
+                                $scaleCategory->setScore($score);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the scale category score " .$score);
+                            }
 
-                        try {
-                            //code...
-                            $scaleCategory->setMin($min);
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the scale category min value " .$min. " " .strtoupper($th->getMessage()));
-                        }
+                            try {
+                                //code...
+                                $scaleCategory->setScale($scaleCategoryScale);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the scale scale " .$scale);
+                            }
 
-                        try {
-                            //code...
-                            $scaleCategory->setMax($max);
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the scale category max value " .$max. " " .strtoupper($th->getMessage()));
-                        }
+                            try {
+                                //code...
+                                $scaleCategory->setMin($min);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the scale category min value " .$min. " " .strtoupper($th->getMessage()));
+                            }
 
-                        $scaleCategory->setIsActive(true);
-                        $scaleCategory->setCreatedAt(new \DateTime());
-                        try {
-                            //code...
-                            $entmanager->persist($scaleCategory);
-                            $entmanager->flush();
-                        
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                            try {
+                                //code...
+                                $scaleCategory->setMax($max);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the scale category max value " .$max. " " .strtoupper($th->getMessage()));
+                            }
+
+                            $scaleCategory->setIsActive(true);
+                            $scaleCategory->setCreatedAt(new \DateTime());
+                            try {
+                                //code...
+                                $entmanager->persist($scaleCategory);
+                                $entmanager->flush();
+                            
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                            }
                         }
+                    } else {
+                        $this->addFlash('danger', " there is no scale ");
                     }
                 }
             }

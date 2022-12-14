@@ -53,7 +53,7 @@
 								{% for scaleCategory in scaleCategories %}
 									<tr>
 										<td>
-											<a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">{{ scaleCategory.name }}</a>
+											<a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">{{ scaleCategory.scale.name }}</a>
 										</td>
 										<td>
 											<a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">{{ scaleCategory.label }}</a>

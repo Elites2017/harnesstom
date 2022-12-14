@@ -59,14 +59,9 @@ class ScaleCategory
     private $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity=Scale::class, mappedBy="scaleCategory")
+     * @ORM\ManyToOne(targetEntity=Scale::class, inversedBy="scaleCategories")
      */
-    private $scales;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $name;
+    private $scale;
 
     public function __construct()
     {
@@ -170,28 +165,6 @@ class ScaleCategory
         return $this->scales;
     }
 
-    public function addScale(Scale $scale): self
-    {
-        if (!$this->scales->contains($scale)) {
-            $this->scales[] = $scale;
-            $scale->setScaleCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeScale(Scale $scale): self
-    {
-        if ($this->scales->removeElement($scale)) {
-            // set the owning side to null (unless already changed)
-            if ($scale->getScaleCategory() === $this) {
-                $scale->setScaleCategory(null);
-            }
-        }
-
-        return $this;
-    }
-
     // create a toString method to return the object name / code which will appear
     // in an upper level related form field from a foreign key
     public function __toString()
@@ -199,14 +172,14 @@ class ScaleCategory
         return (string) $this->label;
     }
 
-    public function getName(): ?string
+    public function getScale(): ?Scale
     {
-        return $this->name;
+        return $this->scale;
     }
 
-    public function setName(string $name): self
+    public function setScale(?Scale $scale): self
     {
-        $this->name = $name;
+        $this->scale = $scale;
 
         return $this;
     }
