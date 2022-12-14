@@ -34,12 +34,12 @@ class ScaleCategory
     private $score;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $min;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $max;
 
@@ -62,6 +62,11 @@ class ScaleCategory
      * @ORM\OneToMany(targetEntity=Scale::class, mappedBy="scaleCategory")
      */
     private $scales;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $name;
 
     public function __construct()
     {
@@ -97,24 +102,24 @@ class ScaleCategory
         return $this;
     }
 
-    public function getMin(): ?float
+    public function getMin(): ?string
     {
         return $this->min;
     }
 
-    public function setMin(?float $min): self
+    public function setMin(?string $min): self
     {
         $this->min = $min;
 
         return $this;
     }
 
-    public function getMax(): ?float
+    public function getMax(): ?string
     {
         return $this->max;
     }
 
-    public function setMax(?float $max): self
+    public function setMax(?string $max): self
     {
         $this->max = $max;
 
@@ -192,5 +197,17 @@ class ScaleCategory
     public function __toString()
     {
         return (string) $this->label;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 }
