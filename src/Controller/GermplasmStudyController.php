@@ -46,7 +46,7 @@ class GermplasmStudyController extends AbstractController
             $newVal = 0;
             try {
                 //code...
-                $result = $connexion->executeQuery("SELECT COUNT(GERMPLASM_ID) FROM GERMPLASM_STUDY")->fetchAllNumeric();
+                $result = $connexion->executeQuery("SELECT COUNT(GERMPLASM_ID) FROM germplasm_study")->fetchAllNumeric();
                 if ($result[0][0]) {
                     $oldVal = $result[0][0];
                 }
@@ -114,7 +114,7 @@ class GermplasmStudyController extends AbstractController
             // Query how many rows are there in the table
             try {
                 //code...
-                $result = $connexion->executeQuery("SELECT COUNT(GERMPLASM_ID) FROM GERMPLASM_STUDY")->fetchAllNumeric();
+                $result = $connexion->executeQuery("SELECT COUNT(GERMPLASM_ID) FROM germplasm_study")->fetchAllNumeric();
                 if ($result[0][0]) {
                     $newVal = $result[0][0];
                 }
