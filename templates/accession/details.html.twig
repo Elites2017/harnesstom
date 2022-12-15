@@ -201,6 +201,45 @@
                         </div>
                 </div>
 
+                <div class="col-md-12">
+                {# Attribute trait value #}
+            {% if accession.attributeTraitValues | length > 0 %}
+                <div class="col-md-4 mb-4">
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<span class="tomato-color">{{ accession.attributeTraitValues | length == 1 ? 'Attribute Summary' : 'Attributes Summary' }}</span>
+						<span class="badge badge-danger badge-pill">{{ accession.attributeTraitValues | length }}</span>
+					</h4>
+					<ul class="list-group mb-3">
+						{% for attTraitValue in accession.attributeTraitValues %}
+							<a href="{{ path('germplasm_details', {id: attTraitValue.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
+							<div>
+								<h6 class="my-0">Attribute Name</h6>
+								<strong class="text-muted">{{ attTraitValue.attribute }}</strong>
+							</div></a>
+							<div>
+								<a href="{{ path('program_details', {id: attTraitValue.id}) }}">
+                                <h6 class="my-0">Attribute Class</h6>
+								<strong class="text-muted">{{ attTraitValue.attribute.category }}</strong></a>
+							</div>
+							<div>
+                                <a href="{{ path('trial_details', {id: attTraitValue.id}) }}">
+								<h6 class="my-0">Trait</h6>
+								<strong class="text-muted">{{ attTraitValue.trait }}</strong></a>
+							</div>
+							<div>
+								<a href="{{ path('germplasm_details', {id: attTraitValue.id}) }}">
+                                <h6 class="my-0">Value</h6>
+								<strong class="text-muted">{{ attTraitValue.value }}</strong></a>
+							</div>
+							{# <span class="text-muted">$12</span> #}
+							</li>
+                            
+						{% endfor %}
+					</ul>
+				</div>
+            {% endif %}
+            </div>                
+
 
             </div>
 
@@ -221,7 +260,7 @@
         </div> <!-- .row -->
         {# Start of row #}
 		<div class="row">
-			<div class="col-md-4 mb-4">
+			<div class="col-md-9 mb-4">
             {% if accession.germplasms | length > 0 %}
                 <table class="table">
                     <thead class="thead-dark">
@@ -298,7 +337,7 @@
             
 
 			{% if accession.germplasms | length > 0 %}
-				<div class="col-md-4 mb-4">
+				<div class="col-md-3 mb-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<span class="tomato-color">{{ accession.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</span>
 						<span class="badge badge-danger badge-pill">{{ accession.germplasms | length }}</span>
@@ -332,43 +371,6 @@
 					</ul>
 				</div>
 			{% endif %}
-
-            {# Attribute trait value #}
-            {% if accession.attributeTraitValues | length > 0 %}
-                <div class="col-md-4 mb-4">
-					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">{{ accession.attributeTraitValues | length == 1 ? 'Attribute Summary' : 'Attributes Summary' }}</span>
-						<span class="badge badge-danger badge-pill">{{ accession.attributeTraitValues | length }}</span>
-					</h4>
-					<ul class="list-group mb-3">
-						{% for attTraitValue in accession.attributeTraitValues %}
-							<a href="{{ path('germplasm_details', {id: attTraitValue.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
-							<div>
-								<h6 class="my-0">Attribute Name</h6>
-								<strong class="text-muted">{{ attTraitValue.attribute }}</strong>
-							</div></a>
-							<div>
-								<a href="{{ path('program_details', {id: attTraitValue.id}) }}">
-                                <h6 class="my-0">Attribute Class</h6>
-								<strong class="text-muted">{{ attTraitValue.attribute.category }}</strong></a>
-							</div>
-							<div>
-                                <a href="{{ path('trial_details', {id: attTraitValue.id}) }}">
-								<h6 class="my-0">Trait</h6>
-								<strong class="text-muted">{{ attTraitValue.trait }}</strong></a>
-							</div>
-							<div>
-								<a href="{{ path('germplasm_details', {id: attTraitValue.id}) }}">
-                                <h6 class="my-0">Value</h6>
-								<strong class="text-muted">{{ attTraitValue.value }}</strong></a>
-							</div>
-							{# <span class="text-muted">$12</span> #}
-							</li>
-                            
-						{% endfor %}
-					</ul>
-				</div>
-            {% endif %}
 		</div>
 		{# End of row #}
     </div> <!-- .container -->
