@@ -1327,6 +1327,24 @@
 								</li>
 								<li>
 									<a class="dropdown-item" href="#">
+										Attribute Trait Value &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('attribute_trait_value_create')}}">Create</a>
+										</li>
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="{{path('attribute_trait_value_upload_from_excel')}}">Upload From Excel</a>
+											</li>
+										{% endif %}
+										<li>
+											<a class="dropdown-item" href="{{path('attribute_trait_value_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
 										Pedigree &raquo;
 									</a>
 									<ul class="dropdown-menu dropdown-submenu">

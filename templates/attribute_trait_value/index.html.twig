@@ -21,16 +21,27 @@
     <div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
+                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
 				{% if attributeTraitValues | length > 0 %}
                     <h2 class="mb-3 text-center tomato-color font-weight-bold">Attribute Trait Value List</h2>
                     <div class="table-responsive"> 
                         <table id="datatable" class="table table-hover text-nowrap" width="100%">
                             <thead class="table-dark">
                                 <tr>
+                                <th scope="col">Accession</th>
                                 <th scope="col">Attribute</th>
+                                <th scope="col">Attribute Category</th>
                                 <th scope="col">Trait</th>
                                 <th scope="col">Metabolic Trait</th>
-                                <th scope="col">Accession</th>
+                                <th scope="col">Value</th>
                                 <th scope="col">Publication Reference</th>
                                 <th scope="col">Action</th>
                                 </tr>
@@ -38,10 +49,13 @@
                             <tbody>
                                 {% for attributeTraitValue in attributeTraitValues %}
                                     <tr>
+                                        <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.accession }}</a></td>
                                         <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.attribute }}</a></td>
+                                        <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.attribute.category }}</a></td>
                                         <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.trait }}</a></td>
                                         <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.metabolicTrait }}</a></td>
-                                        <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.accession }}</a></td>
+                                        <td>
+                                            <a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.value }}</a></td>
                                         <td>
                                             <a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">
                                             {% if attributeTraitValue.publicationReference | length > 0 %}
@@ -79,6 +93,7 @@
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
     <script>
         $(document).ready(function() {
             $('#datatable').DataTable();
