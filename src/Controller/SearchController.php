@@ -28,7 +28,9 @@ class SearchController extends AbstractController
         // get the filters selected by the user
         $selectedCountries = $request->get("countries");
         $selectedBiologicalStatuses = $request->get("biologicalStatuses");
-        $filteredAccession = $accessionRepo->getAccessionFilteredOrNot($selectedCountries, $selectedBiologicalStatuses);
+        $selectedFruitWeightGrams = $request->get("fwgs");
+
+        $filteredAccession = $accessionRepo->getAccessionFilteredOrNot($selectedCountries, $selectedBiologicalStatuses, $selectedFruitWeightGrams);
         //dd($selectedBiologicalStatuses);
         
         // check if the coming query is from the filtering with ajax
