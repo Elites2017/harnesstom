@@ -8,7 +8,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Trait Upload From Excel</h2>
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Trait Variable Of Upload From Excel</h2>
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -19,15 +19,15 @@
 					{% endfor %}
 				{% endfor %}
 				<div class="mb-3">
-					<a href="{{ path('trait_class_download_template') }}" download target="_blank">
+					<a href="{{ path('trait_class_download_template_var_of') }}" download target="_blank">
 						<h1>Click to download a template exemple</h1></br>
 						<h3>NOTE: Your data must be in the same format as the template example file format</h3>
 					<img src="{{ asset('assets/images/excelicon.png') }}" alt="Example of excel template" width="104" height="142">
 				</a>
 			</div>
-			{{ form_start(traitClassUploadFromExcelForm) }}
+			{{ form_start(traitClassVariableOfUploadFromExcelForm) }}
 			<div>
-				{{ form_row(traitClassUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
+				{{ form_row(traitClassVariableOfUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
 			</div>
 
 			<div class="row">
@@ -39,7 +39,7 @@
 					<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
 				</div>
 			</div>
-			{{ form_end(traitClassUploadFromExcelForm) }}
+			{{ form_end(traitClassVariableOfUploadFromExcelForm) }}
 		</div>
 	</div>
 	<!-- .row -->

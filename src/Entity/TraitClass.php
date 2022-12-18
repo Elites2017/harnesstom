@@ -75,16 +75,6 @@ class TraitClass
     private $traitClasses;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TraitClass::class, inversedBy="variableOfTraitClasses")
-     */
-    private $variableOf;
-
-    /**
-     * @ORM\OneToMany(targetEntity=TraitClass::class, mappedBy="variableOf")
-     */
-    private $variableOfTraitClasses;
-
-    /**
      * 
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -95,13 +85,30 @@ class TraitClass
      */
     private $is_poau;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=TraitClass::class, inversedBy="varOfTraitclasses")
+     * @ORM\JoinTable(name="trait_class_variable_of")
+     */
+    private $varOf;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=TraitClass::class, mappedBy="varOf")
+     */
+    private $varOfTraitclasses;
+
+    /**
+     * @ORM\OneToOne(targetEntity=ObservationVariable::class, mappedBy="variable", cascade={"persist", "remove"})
+     */
+    private $observationVariable;
+
     public function __construct()
     {
         $this->observationVariables = new ArrayCollection();
         $this->attributeTraitValues = new ArrayCollection();
         $this->traitClasses = new ArrayCollection();
-        $this->variableOfTraitClasses = new ArrayCollection();
         $this->parentTerm = new ArrayCollection();
+        $this->varOf = new ArrayCollection();
+        $this->varOfTraitclasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -299,48 +306,6 @@ class TraitClass
         return $this;
     }
 
-    public function getVariableOf(): ?self
-    {
-        return $this->variableOf;
-    }
-
-    public function setVariableOf(?self $variableOf): self
-    {
-        $this->variableOf = $variableOf;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, self>
-     */
-    public function getVariableOfTraitClasses(): Collection
-    {
-        return $this->variableOfTraitClasses;
-    }
-
-    public function addVariableOfTraitClass(self $variableOfTraitClass): self
-    {
-        if (!$this->variableOfTraitClasses->contains($variableOfTraitClass)) {
-            $this->variableOfTraitClasses[] = $variableOfTraitClass;
-            $variableOfTraitClass->setVariableOf($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVariableOfTraitClass(self $variableOfTraitClass): self
-    {
-        if ($this->variableOfTraitClasses->removeElement($variableOfTraitClass)) {
-            // set the owning side to null (unless already changed)
-            if ($variableOfTraitClass->getVariableOf() === $this) {
-                $variableOfTraitClass->setVariableOf(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getParOnt(): ?string
     {
         return $this->par_ont;
@@ -361,6 +326,79 @@ class TraitClass
     public function setIsPoau(?bool $is_poau): self
     {
         $this->is_poau = $is_poau;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getVarOf(): Collection
+    {
+        return $this->varOf;
+    }
+
+    public function addVarOf(self $varOf): self
+    {
+        if (!$this->varOf->contains($varOf)) {
+            $this->varOf[] = $varOf;
+        }
+
+        return $this;
+    }
+
+    public function removeVarOf(self $varOf): self
+    {
+        $this->varOf->removeElement($varOf);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getVarOfTraitclasses(): Collection
+    {
+        return $this->varOfTraitclasses;
+    }
+
+    public function addVarOfTraitclass(self $varOfTraitclass): self
+    {
+        if (!$this->varOfTraitclasses->contains($varOfTraitclass)) {
+            $this->varOfTraitclasses[] = $varOfTraitclass;
+            $varOfTraitclass->addVarOf($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVarOfTraitclass(self $varOfTraitclass): self
+    {
+        if ($this->varOfTraitclasses->removeElement($varOfTraitclass)) {
+            $varOfTraitclass->removeVarOf($this);
+        }
+
+        return $this;
+    }
+
+    public function getObservationVariable(): ?ObservationVariable
+    {
+        return $this->observationVariable;
+    }
+
+    public function setObservationVariable(?ObservationVariable $observationVariable): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($observationVariable === null && $this->observationVariable !== null) {
+            $this->observationVariable->setVariableId(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($observationVariable !== null && $observationVariable->getVariableId() !== $this) {
+            $observationVariable->setVariableId($this);
+        }
+
+        $this->observationVariable = $observationVariable;
 
         return $this;
     }

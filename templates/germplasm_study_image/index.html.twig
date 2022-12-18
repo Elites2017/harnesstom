@@ -21,6 +21,15 @@
     <div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
+                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
 				{% if germplasmStudyImages | length > 0 %}
                     <h2 class="mb-3 text-center tomato-color font-weight-bold">Germplasm Study Image List</h2>
                     <div class="table-responsive"> 
@@ -45,8 +54,8 @@
                                         <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}">{{ germplasmStudyImage.description }}</a></td>
                                         <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}">{{ germplasmStudyImage.factor }}</a></td>
                                         <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}">{{ germplasmStudyImage.developmentStage }}</a></td>
-                                        <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}">{{ germplasmStudyImage.plantAnatomicalEntity }}</a></td>
-                                        <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}">{{ germplasmStudyImage.filename }}</a></td>
+                                        <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}">{{ germplasmStudyImage.plantAnatomicalEntity }}</a></td> 
+                                        <td><a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}"><img src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ germplasmStudyImage.filename ) }}" width="50%" alt="" class="logo" /></a></td>
                                         <td>
                                             <a href="{{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}"><button class="btn btn-outline-primary">View</button></a>
                                         </td>
@@ -75,6 +84,7 @@
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#datatable').DataTable();

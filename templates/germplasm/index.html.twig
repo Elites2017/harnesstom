@@ -50,7 +50,7 @@
                                         <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.germplasmID }}</a></td>
                                         <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.instcode }}</a></td>
                                         <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.maintainerNumb }}</a></td>
-                                        <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.program }}</a></td>
+                                        <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.program.abbreviation }}</a></td>
                                         <td><a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.preprocessing }}</a></td>
                                         <td>
                                             <a href="{{ path('germplasm_details', {id: germplasm.id}) }}"><button class="btn btn-outline-primary">View</button></a>
@@ -80,6 +80,7 @@
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
 <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#datatable').DataTable();

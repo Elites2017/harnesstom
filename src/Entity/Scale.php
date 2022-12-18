@@ -24,7 +24,7 @@ class Scale
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      */
     private $name;
 
@@ -32,11 +32,6 @@ class Scale
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=ScaleCategory::class, inversedBy="scales")
-     */
-    private $scaleCategory;
 
     /**
      * @ORM\ManyToOne(targetEntity=DataType::class, inversedBy="scales")
@@ -73,10 +68,16 @@ class Scale
      */
     private $metabolites;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ScaleCategory::class, mappedBy="scale")
+     */
+    private $scaleCategories;
+
     public function __construct()
     {
         $this->observationVariables = new ArrayCollection();
         $this->metabolites = new ArrayCollection();
+        $this->scaleCategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -104,18 +105,6 @@ class Scale
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getScaleCategory(): ?ScaleCategory
-    {
-        return $this->scaleCategory;
-    }
-
-    public function setScaleCategory(?ScaleCategory $scaleCategory): self
-    {
-        $this->scaleCategory = $scaleCategory;
 
         return $this;
     }
@@ -245,5 +234,35 @@ class Scale
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * @return Collection<int, ScaleCategory>
+     */
+    public function getScaleCategories(): Collection
+    {
+        return $this->scaleCategories;
+    }
+
+    public function addScaleCategory(ScaleCategory $scaleCategory): self
+    {
+        if (!$this->scaleCategories->contains($scaleCategory)) {
+            $this->scaleCategories[] = $scaleCategory;
+            $scaleCategory->setScale($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScaleCategory(ScaleCategory $scaleCategory): self
+    {
+        if ($this->scaleCategories->removeElement($scaleCategory)) {
+            // set the owning side to null (unless already changed)
+            if ($scaleCategory->getScale() === $this) {
+                $scaleCategory->setScale(null);
+            }
+        }
+
+        return $this;
     }
 }

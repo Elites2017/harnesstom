@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\DataType;
 use App\Entity\Scale;
+use App\Entity\Unit;
 use App\Form\ScaleType;
 use App\Form\ScaleUpdateType;
 use App\Form\UploadFromExcelType;
@@ -127,9 +129,9 @@ class ScaleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Setup repository of some entity
             $repoScale = $entmanager->getRepository(Scale::class);
-            // Query how many rows are there in the trait table
+            // Query how many rows are there in the Scale table
             $totalScaleBefore = $repoScale->createQueryBuilder('tab')
-                // Filter by some parameter if you want
+                // Filter by some Scale if you want
                 // ->where('a.isActive = 1')
                 ->select('count(tab.id)')
                 ->getQuery()
@@ -137,8 +139,6 @@ class ScaleController extends AbstractController
 
             // Return a number as response
             // e.g 972
-
-            dd("Scale loading...");
 
             // get the file (name from the CountryUploadFromExcelType form)
             $file = $request->files->get('upload_from_excel')['file'];
@@ -156,6 +156,7 @@ class ScaleController extends AbstractController
             } else {
                 $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
             }
+
             // read from the uploaded file
             $spreadsheet = IOFactory::load($fileFolder . $filePathName);
             // remove the first row (title) of the file
@@ -164,58 +165,65 @@ class ScaleController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $ontology_id = $row['A'];
-                $name = $row['B'];
-                $description = $row['C'];
-                $chebiMass = $row['D'];
-                $chebiMonoscopic = $row['E'];
-                $synonym = $row['F'];
-                $chebiLink = $row['G'];
-                $parentTerm = $row['I'];
+                $scaleName = $row['A'];
+                $description = $row['B'];
+                $dataTypeOntId = $row['C'];
+                $unitOntId = $row['E'];
                 // check if the file doesn't have empty columns
-                if ($ontology_id != null && $name != null) {
+                if ($scaleName != null && $dataTypeOntId != null) {
                     // check if the data is upload in the database
-                    $existingScale = $entmanager->getRepository(Scale::class)->findOneBy(['ontology_id' => $ontology_id]);
+                    $existingScale = $entmanager->getRepository(Scale::class)->findOneBy(['name' => $scaleName]);
                     // upload data only for objects that haven't been saved in the database
                     if (!$existingScale) {
                         $scale = new Scale();
-                        $scaleUnit = $entmanager->getRepository(Unit::class)->findOneBy(['iso3' => $UnitISO3]);
-                        if (($scaleUnit != null) && ($scaleUnit instanceof \App\Entity\Unit)) {
-                            $scale->setUnit($scaleUnit);
-                        }
-                        $scaleDataType = $entmanager->getRepository(DataType::class)->findOneBy(['iso3' => $DataTypeISO3]);
-                        if (($scaleDataType != null) && ($scaleDataType instanceof \App\Entity\DataType)) {
-                            $scale->setDataType($scaleDataType);
-                        }
-
                         if ($this->getUser()) {
                             $scale->setCreatedBy($this->getUser());
                         }
-                        // $scale->setOntologyId($ontology_id);
-                        // $scale->setName($name);
-                        // if ($description != null) {
-                        //     $scale->setDescription($description);
-                        // }
-                        // if ($parentTerm != null) {
-                        //     $scale->setParOnt($parentTerm);
-                        // }
-                        // $scale->setChebiMass($chebiMass);
-                        // $scale->setChebiMonoIsoTopicMass($chebiMonoscopic);
-                        // split the text to array based on that patern
-                        $synonym = explode("|", $synonym);
-                        //var_dump($chebiMonoscopic);
-                        //$arr [] = $synonym;
-                        //dd($arr);
-                        // $scale->setSynonym($synonym);
-                        // $scale->setChebiLink($chebiLink);
+                        try {
+                            //code...
+                            $scale->setDescription($description);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the scale description " .$description);
+                        }
+
+                        try {
+                            //code...
+                            $scale->setName($scaleName);
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the scale name " .$scaleName);
+                        }
+
+                        try {
+                            //code...
+                            $scaleUnitOntId = $entmanager->getRepository(Unit::class)->findOneBy(['ontology_id' => $unitOntId]);
+                            if (($scaleUnitOntId != null) && ($scaleUnitOntId instanceof \App\Entity\Unit)) {
+                                $scale->setUnit($scaleUnitOntId);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the unit ontology Id " .$unitOntId);
+                        }
+
+                        try {
+                            //code...
+                            $scaleDataType = $entmanager->getRepository(DataType::class)->findOneBy(['ontology_id' => $dataTypeOntId]);
+                            if (($scaleDataType != null) && ($scaleDataType instanceof \App\Entity\DataType)) {
+                                $scale->setDataType($scaleDataType);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the data type ontology Id " .$unitOntId);
+                        }
 
                         $scale->setIsActive(true);
                         $scale->setCreatedAt(new \DateTime());
-                        
                         try {
                             //code...
                             $entmanager->persist($scale);
                             $entmanager->flush();
+                        
                         } catch (\Throwable $th) {
                             //throw $th;
                             $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
@@ -224,8 +232,9 @@ class ScaleController extends AbstractController
                 }
             }
             
+            // Query how many rows are there in the table
             $totalScaleAfter = $repoScale->createQueryBuilder('tab')
-                // Filter by some parameter if you want
+                // Filter by some Scale if you want
                 // ->where('a.isActive = 1')
                 ->select('count(tab.id)')
                 ->getQuery()
@@ -258,8 +267,8 @@ class ScaleController extends AbstractController
      */
     public function excelTemplate(): Response
     {
-        $response = new BinaryFileResponse('../public/todownload/scale_template_example.xls');
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'scale_template_example.xls');
+        $response = new BinaryFileResponse('../public/todownload/scale_template_example.xlsx');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'scale_template_example.xlsx');
         return $response;
        
     }

@@ -34,12 +34,12 @@ class ScaleCategory
     private $score;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $min;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $max;
 
@@ -59,9 +59,9 @@ class ScaleCategory
     private $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity=Scale::class, mappedBy="scaleCategory")
+     * @ORM\ManyToOne(targetEntity=Scale::class, inversedBy="scaleCategories")
      */
-    private $scales;
+    private $scale;
 
     public function __construct()
     {
@@ -97,24 +97,24 @@ class ScaleCategory
         return $this;
     }
 
-    public function getMin(): ?float
+    public function getMin(): ?string
     {
         return $this->min;
     }
 
-    public function setMin(?float $min): self
+    public function setMin(?string $min): self
     {
         $this->min = $min;
 
         return $this;
     }
 
-    public function getMax(): ?float
+    public function getMax(): ?string
     {
         return $this->max;
     }
 
-    public function setMax(?float $max): self
+    public function setMax(?string $max): self
     {
         $this->max = $max;
 
@@ -165,32 +165,22 @@ class ScaleCategory
         return $this->scales;
     }
 
-    public function addScale(Scale $scale): self
-    {
-        if (!$this->scales->contains($scale)) {
-            $this->scales[] = $scale;
-            $scale->setScaleCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeScale(Scale $scale): self
-    {
-        if ($this->scales->removeElement($scale)) {
-            // set the owning side to null (unless already changed)
-            if ($scale->getScaleCategory() === $this) {
-                $scale->setScaleCategory(null);
-            }
-        }
-
-        return $this;
-    }
-
     // create a toString method to return the object name / code which will appear
     // in an upper level related form field from a foreign key
     public function __toString()
     {
         return (string) $this->label;
+    }
+
+    public function getScale(): ?Scale
+    {
+        return $this->scale;
+    }
+
+    public function setScale(?Scale $scale): self
+    {
+        $this->scale = $scale;
+
+        return $this;
     }
 }
