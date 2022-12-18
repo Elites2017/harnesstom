@@ -27,13 +27,6 @@ class ObservationValue
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_value:read"})
-     */
-    private $value;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -62,21 +55,64 @@ class ObservationValue
      */
     private $createdBy;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $color_value;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $shape_value;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fruit_weight_value;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fruit_fasciation_value;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fruit_shoulder_value;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $green_shoulder_value;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $puffiness_value;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $pericarp_thickness;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fruit_firmness_value;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $brick_value;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fruit_load_value;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
-    public function setValue(string $value): self
-    {
-        $this->value = $value;
-
-        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -144,5 +180,137 @@ class ObservationValue
     public function __toString()
     {
         return (string) $this->value;
+    }
+
+    public function getColorValue(): ?string
+    {
+        return $this->color_value;
+    }
+
+    public function setColorValue(?string $color_value): self
+    {
+        $this->color_value = $color_value;
+
+        return $this;
+    }
+
+    public function getShapeValue(): ?string
+    {
+        return $this->shape_value;
+    }
+
+    public function setShapeValue(?string $shape_value): self
+    {
+        $this->shape_value = $shape_value;
+
+        return $this;
+    }
+
+    public function getFruitWeightValue(): ?string
+    {
+        return $this->fruit_weight_value;
+    }
+
+    public function setFruitWeightValue(?string $fruit_weight_value): self
+    {
+        $this->fruit_weight_value = $fruit_weight_value;
+
+        return $this;
+    }
+
+    public function getFruitFasciationValue(): ?string
+    {
+        return $this->fruit_fasciation_value;
+    }
+
+    public function setFruitFasciationValue(?string $fruit_fasciation_value): self
+    {
+        $this->fruit_fasciation_value = $fruit_fasciation_value;
+
+        return $this;
+    }
+
+    public function getFruitShoulderValue(): ?string
+    {
+        return $this->fruit_shoulder_value;
+    }
+
+    public function setFruitShoulderValue(?string $fruit_shoulder_value): self
+    {
+        $this->fruit_shoulder_value = $fruit_shoulder_value;
+
+        return $this;
+    }
+
+    public function getGreenShoulderValue(): ?string
+    {
+        return $this->green_shoulder_value;
+    }
+
+    public function setGreenShoulderValue(?string $green_shoulder_value): self
+    {
+        $this->green_shoulder_value = $green_shoulder_value;
+
+        return $this;
+    }
+
+    public function getPuffinessValue(): ?string
+    {
+        return $this->puffiness_value;
+    }
+
+    public function setPuffinessValue(?string $puffiness_value): self
+    {
+        $this->puffiness_value = $puffiness_value;
+
+        return $this;
+    }
+
+    public function getPericarpThickness(): ?string
+    {
+        return $this->pericarp_thickness;
+    }
+
+    public function setPericarpThickness(?string $pericarp_thickness): self
+    {
+        $this->pericarp_thickness = $pericarp_thickness;
+
+        return $this;
+    }
+
+    public function getFruitFirmnessValue(): ?string
+    {
+        return $this->fruit_firmness_value;
+    }
+
+    public function setFruitFirmnessValue(?string $fruit_firmness_value): self
+    {
+        $this->fruit_firmness_value = $fruit_firmness_value;
+
+        return $this;
+    }
+
+    public function getBrickValue(): ?string
+    {
+        return $this->brick_value;
+    }
+
+    public function setBrickValue(?string $brick_value): self
+    {
+        $this->brick_value = $brick_value;
+
+        return $this;
+    }
+
+    public function getFruitLoadValue(): ?string
+    {
+        return $this->fruit_load_value;
+    }
+
+    public function setFruitLoadValue(?string $fruit_load_value): self
+    {
+        $this->fruit_load_value = $fruit_load_value;
+
+        return $this;
     }
 }
