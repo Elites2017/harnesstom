@@ -37,16 +37,16 @@ class AccessionRepository extends ServiceEntityRepository
             ->join('App\Entity\ScaleCategory', 'scC')
             ->join('App\Entity\Observationvariable', 'obsVar')
             ->join('App\Entity\TraitClass', 'trait')
-            ->where('acc.isActive = 1')
-            ->andWhere('trait.id = obsVar.variable')
-            ->andWhere('sc.id = obsVar.scale')
-            ->andWhere('sc.id = scC.scale')
-            ->andWhere('obsVar.id = obsVal.observationVariable')
-            ->andWhere('obsL.id = obsVal.observationLevel')
-            ->andWhere('germ.id = obsL.germaplasm')
-            ->andWhere('acc.id = germ.accession')
-            ->andWhere('trait.ontology_id IN(:traitOntIds)')
-        ->setParameter(':traitOntIds', array_values($traitOntIds));
+            ->where('acc.isActive = 1');
+        //     ->andWhere('trait.id = obsVar.variable')
+        //     ->andWhere('sc.id = obsVar.scale')
+        //     ->andWhere('sc.id = scC.scale')
+        //     ->andWhere('obsVar.id = obsVal.observationVariable')
+        //     ->andWhere('obsL.id = obsVal.observationLevel')
+        //     ->andWhere('germ.id = obsL.germaplasm')
+        //     ->andWhere('acc.id = germ.accession')
+        //     ->andWhere('trait.ontology_id IN(:traitOntIds)')
+        // ->setParameter(':traitOntIds', array_values($traitOntIds));
         
         if ($countries) {
             $query->andWhere('acc.origcty IN(:selectedCountries)')
@@ -56,10 +56,12 @@ class AccessionRepository extends ServiceEntityRepository
             $query->andWhere('acc.sampstat IN(:selectedBiologicalStatuses)')
             ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
         }
-        if ($selectedFruitWeightGrams) {
-            $query->andWhere('obsVal.fruit_weight_value IN(:selectedselectedFruitWeightGrams)')
-            ->setParameter(':selectedselectedFruitWeightGrams', array_values($selectedFruitWeightGrams));
-        }
+        // if ($selectedFruitWeightGrams) {
+        //     $query->andWhere('obsVal.fruit_weight_value IN(:selectedselectedFruitWeightGrams)')
+                
+        //     ->setParameter(':selectedselectedFruitWeightGrams', array_values($selectedFruitWeightGrams));
+
+        // }
         ;
         return $query->getQuery()->getResult();
     }
