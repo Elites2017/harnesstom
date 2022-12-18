@@ -31,22 +31,22 @@ class AccessionRepository extends ServiceEntityRepository
 
         $query = $this->createQueryBuilder('acc')
             ->from('App\Entity\Germplasm', 'germ')
-            // ->join('App\Entity\ObservationLevel', 'obsL')
-            // ->join('App\Entity\ObservationValue', 'obsVal')
-            // ->join('App\Entity\Scale', 'sc')
-            // ->join('App\Entity\ScaleCategory', 'scC')
-            // ->join('App\Entity\Observationvariable', 'obsVar')
-            // ->join('App\Entity\TraitClass', 'trait')
+            ->from('App\Entity\ObservationLevel', 'obsL')
+            ->from('App\Entity\ObservationValue', 'obsVal')
+            ->from('App\Entity\Scale', 'sc')
+            ->from('App\Entity\ScaleCategory', 'scC')
+            ->from('App\Entity\Observationvariable', 'obsVar')
+            ->from('App\Entity\TraitClass', 'trait')
             ->where('acc.isActive = 1')
-        //     ->andWhere('trait.id = obsVar.variable')
-        //     ->andWhere('sc.id = obsVar.scale')
-        //     ->andWhere('sc.id = scC.scale')
-        //     ->andWhere('obsVar.id = obsVal.observationVariable')
-        //     ->andWhere('obsL.id = obsVal.observationLevel')
-        //     ->andWhere('germ.id = obsL.germaplasm')
-            ->andWhere('acc.id = germ.accession');
-        //     ->andWhere('trait.ontology_id IN(:traitOntIds)')
-        // ->setParameter(':traitOntIds', array_values($traitOntIds));
+            ->andWhere('trait.id = obsVar.variable')
+            ->andWhere('sc.id = obsVar.scale')
+            ->andWhere('sc.id = scC.scale')
+            ->andWhere('obsVar.id = obsVal.observationVariable')
+            ->andWhere('obsL.id = obsVal.observationLevel')
+            ->andWhere('germ.id = obsL.germaplasm')
+            ->andWhere('acc.id = germ.accession')
+            ->andWhere('trait.ontology_id IN(:traitOntIds)')
+        ->setParameter(':traitOntIds', array_values($traitOntIds));
         
         if ($countries) {
             $query->andWhere('acc.origcty IN(:selectedCountries)')
