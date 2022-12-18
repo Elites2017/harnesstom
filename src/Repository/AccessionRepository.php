@@ -30,13 +30,13 @@ class AccessionRepository extends ServiceEntityRepository
             'SP:0000080','SP:0000165','SP:0000372'];
 
         $query = $this->createQueryBuilder('acc')
-            ->join('App\Entity\Germplasm', 'germ')
-            ->join('App\Entity\ObservationLevel', 'obsL')
-            ->join('App\Entity\ObservationValue', 'obsVal')
-            ->join('App\Entity\Scale', 'sc')
-            ->join('App\Entity\ScaleCategory', 'scC')
-            ->join('App\Entity\Observationvariable', 'obsVar')
-            ->join('App\Entity\TraitClass', 'trait')
+            // ->join('App\Entity\Germplasm', 'germ')
+            // ->join('App\Entity\ObservationLevel', 'obsL')
+            // ->join('App\Entity\ObservationValue', 'obsVal')
+            // ->join('App\Entity\Scale', 'sc')
+            // ->join('App\Entity\ScaleCategory', 'scC')
+            // ->join('App\Entity\Observationvariable', 'obsVar')
+            // ->join('App\Entity\TraitClass', 'trait')
             ->where('acc.isActive = 1');
         //     ->andWhere('trait.id = obsVar.variable')
         //     ->andWhere('sc.id = obsVar.scale')
