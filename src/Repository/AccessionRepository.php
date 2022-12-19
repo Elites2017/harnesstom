@@ -23,7 +23,10 @@ class AccessionRepository extends ServiceEntityRepository
      * 23/11/2022 3h20 PM
      * Returns all the accessions based on the filters if any (filters) 
      */
-    public function getAccessionFilteredOrNot($countries = null, $biologicalStatuses = null, $selectedFruitWeightGrams = null) {
+    public function getAccessionFilteredOrNot(
+        $countries = null, $biologicalStatuses = null, $selectedFruitWeightGrams = null,
+        $selectedShapes = null
+        ) {
         $traitOntIds = [
             'ID:0000333', 'ID:0000390', 'ID:0000391','ID:0000393',
             'ID:0000395','ID:0000397','ID:0000402','ID:0000411',
@@ -57,9 +60,15 @@ class AccessionRepository extends ServiceEntityRepository
             ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
         }
         if ($selectedFruitWeightGrams) {
-            $query->andWhere('obsVal.fruit_weight_value IN(:selectedselectedFruitWeightGrams)')
+            $query->andWhere('obsVal.fruit_weight_value IN(:selectedFruitWeightGrams)')
                 
-            ->setParameter(':selectedselectedFruitWeightGrams', array_values($selectedFruitWeightGrams));
+            ->setParameter(':selectedFruitWeightGrams', array_values($selectedFruitWeightGrams));
+
+        }
+        if ($selectedShapes) {
+            $query->andWhere('obsVal.shape_value IN(:selectedShapes)')
+                
+            ->setParameter(':selectedShapes', array_values($selectedShapes));
 
         }
         ;
