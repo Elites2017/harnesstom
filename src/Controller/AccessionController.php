@@ -78,7 +78,7 @@ class AccessionController extends AbstractController
      */
     public function details(Accession $accessionSelected): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
             'title' => 'Accession Details',
             'accession' => $accessionSelected
