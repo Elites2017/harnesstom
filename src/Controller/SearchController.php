@@ -30,11 +30,14 @@ class SearchController extends AbstractController
         $selectedBiologicalStatuses = $request->get("biologicalStatuses");
         $selectedFruitWeightGrams = $request->get("fwgs");
         $selectedShapes = $request->get("shapes");
+        $selectedFasciation = $request->get("fruitf");
+        $selectedShoulderShape = $request->get("fruitSS");
+        
         
 
         $filteredAccession = $accessionRepo->getAccessionFilteredOrNot(
             $selectedCountries, $selectedBiologicalStatuses, $selectedFruitWeightGrams,
-            $selectedShapes
+            $selectedShapes, $selectedFasciation, $selectedShoulderShape
         );
         //dd($selectedBiologicalStatuses);
         

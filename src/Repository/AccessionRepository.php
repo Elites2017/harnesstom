@@ -25,7 +25,7 @@ class AccessionRepository extends ServiceEntityRepository
      */
     public function getAccessionFilteredOrNot(
         $countries = null, $biologicalStatuses = null, $selectedFruitWeightGrams = null,
-        $selectedShapes = null
+        $selectedShapes = null, $selectedFasciation = null, $selectedShoulderShape = null
         ) {
         $traitOntIds = [
             'ID:0000333', 'ID:0000390', 'ID:0000391','ID:0000393',
@@ -61,15 +61,19 @@ class AccessionRepository extends ServiceEntityRepository
         }
         if ($selectedFruitWeightGrams) {
             $query->andWhere('obsVal.fruit_weight_value IN(:selectedFruitWeightGrams)')
-                
             ->setParameter(':selectedFruitWeightGrams', array_values($selectedFruitWeightGrams));
-
         }
         if ($selectedShapes) {
             $query->andWhere('obsVal.shape_value IN(:selectedShapes)')
-                
-            ->setParameter(':selectedShapes', array_values($selectedShapes));
-
+             ->setParameter(':selectedShapes', array_values($selectedShapes));
+        }
+        if ($selectedFasciation) {
+            $query->andWhere('obsVal.fruit_fasciation_value IN(:selectedFasciation)')
+             ->setParameter(':selectedFasciation', array_values($selectedFasciation));
+        }
+        if ($selectedShoulderShape) {
+            $query->andWhere('obsVal.fruit_shoulder_value IN(:selectedShoulderShape)')
+             ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape));
         }
         ;
         //dd($query->getDQL());
