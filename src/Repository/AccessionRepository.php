@@ -33,20 +33,20 @@ class AccessionRepository extends ServiceEntityRepository
             ->from('App\Entity\Germplasm', 'germ')
             ->from('App\Entity\ObservationLevel', 'obsL')
             ->from('App\Entity\ObservationValue', 'obsVal')
-            // ->join('App\Entity\Scale', 'sc')
-            // ->join('App\Entity\ScaleCategory', 'scC')
+            ->from('App\Entity\Scale', 'sc')
+            ->from('App\Entity\ScaleCategory', 'scC')
             ->from('App\Entity\ObservationVariable', 'obsVar')
-            // ->join('App\Entity\TraitClass', 'trait')
+            ->from('App\Entity\TraitClass', 'trait')
             ->where('acc.isActive = 1')
-        //     ->andWhere('trait.id = obsVar.variable')
-        //     ->andWhere('sc.id = obsVar.scale')
-        //     ->andWhere('sc.id = scC.scale')
+            ->andWhere('trait.id = obsVar.variable')
+            ->andWhere('sc.id = obsVar.scale')
+            ->andWhere('sc.id = scC.scale')
             ->andWhere('obsVar.id = obsVal.observationVariable')
             ->andWhere('obsL.id = obsVal.observationLevel')
             ->andWhere('germ.id = obsL.germaplasm')
-            ->andWhere('acc.id = germ.accession');
-        //     ->andWhere('trait.ontology_id IN(:traitOntIds)')
-        // ->setParameter(':traitOntIds', array_values($traitOntIds));
+            ->andWhere('acc.id = germ.accession')
+            ->andWhere('trait.ontology_id IN(:traitOntIds)')
+        ->setParameter(':traitOntIds', array_values($traitOntIds));
         
         if ($countries) {
             $query->andWhere('acc.origcty IN(:selectedCountries)')
