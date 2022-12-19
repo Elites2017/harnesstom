@@ -26,7 +26,9 @@ class AccessionRepository extends ServiceEntityRepository
     public function getAccessionFilteredOrNot(
         $countries = null, $biologicalStatuses = null, $selectedFruitWeightGrams = null,
         $selectedShapes = null, $selectedFasciation = null, $selectedShoulderShape = null,
-        $selectedFColor = null, $selectedGreenSI = null, $selectedPuffinessA = null
+        $selectedFColor = null, $selectedGreenSI = null, $selectedPuffinessA = null,
+        $selectedPericarpT = null, $selectedFruitFirmness = null, $selectedBrix = null,
+        $selectedLoad = null
         ) {
         $traitOntIds = [
             'ID:0000333', 'ID:0000390', 'ID:0000391','ID:0000393',
@@ -87,6 +89,22 @@ class AccessionRepository extends ServiceEntityRepository
         if ($selectedPuffinessA) {
             $query->andWhere('obsVal.puffiness_value IN(:selectedPuffinessA)')
              ->setParameter(':selectedPuffinessA', array_values($selectedPuffinessA));
+        }
+        if ($selectedPericarpT) {
+            $query->andWhere('obsVal.pericarp_thickness IN(:selectedPericarpT)')
+             ->setParameter(':selectedPericarpT', array_values($selectedPericarpT));
+        }
+        if ($selectedFruitFirmness) {
+            $query->andWhere('obsVal.fruit_firmness_value IN(:selectedFruitFirmness)')
+             ->setParameter(':selectedFruitFirmness', array_values($selectedFruitFirmness));
+        }
+        if ($selectedBrix) {
+            $query->andWhere('obsVal.brick_value IN(:selectedBrix)')
+             ->setParameter(':selectedBrix', array_values($selectedBrix));
+        }
+        if ($selectedLoad) {
+            $query->andWhere('obsVal.fruit_load_value IN(:selectedLoad)')
+             ->setParameter(':selectedLoad', array_values($selectedLoad));
         }
         ;
         //dd($query->getDQL());

@@ -35,12 +35,16 @@ class SearchController extends AbstractController
         $selectedFColor = $request->get("fruitColors");
         $selectedGreenSI = $request->get("greenSI");
         $selectedPuffinessA = $request->get("puffinessA");
+        $selectedPericarpT = $request->get("pericarpT");
+        $selectedFruitFirmness = $request->get("fruitFirmness");
+        $selectedBrix = $request->get("brix");
+        $selectedLoad = $request->get("load");
         
-
         $filteredAccession = $accessionRepo->getAccessionFilteredOrNot(
             $selectedCountries, $selectedBiologicalStatuses, $selectedFruitWeightGrams,
             $selectedShapes, $selectedFasciation, $selectedShoulderShape,
-            $selectedFColor, $selectedGreenSI, $selectedPuffinessA
+            $selectedFColor, $selectedGreenSI, $selectedPuffinessA,
+            $selectedPericarpT, $selectedFruitFirmness, $selectedBrix, $selectedLoad
         );
         //dd($selectedBiologicalStatuses);
         
