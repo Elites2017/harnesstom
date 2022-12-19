@@ -31,6 +31,7 @@ class AccessionRepository extends ServiceEntityRepository
 
         $query = $this->createQueryBuilder('acc')
             ->from('App\Entity\Germplasm', 'germ')
+            ->from('App\Entity\ObservationLevel', 'obsL')
             // ->join('App\Entity\ObservationLevel', 'obsL')
             // ->join('App\Entity\ObservationValue', 'obsVal')
             // ->join('App\Entity\Scale', 'sc')
@@ -43,7 +44,7 @@ class AccessionRepository extends ServiceEntityRepository
         //     ->andWhere('sc.id = scC.scale')
         //     ->andWhere('obsVar.id = obsVal.observationVariable')
         //     ->andWhere('obsL.id = obsVal.observationLevel')
-        //     ->andWhere('germ.id = obsL.germaplasm')
+            ->andWhere('germ.id = obsL.germaplasm')
             ->andWhere('acc.id = germ.accession');
         //     ->andWhere('trait.ontology_id IN(:traitOntIds)')
         // ->setParameter(':traitOntIds', array_values($traitOntIds));
@@ -63,6 +64,7 @@ class AccessionRepository extends ServiceEntityRepository
 
         // }
         ;
+        // dd($query->getDQL());
         return $query->getQuery()->getResult();
     }
 
