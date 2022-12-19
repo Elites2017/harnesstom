@@ -35,7 +35,7 @@ class AccessionRepository extends ServiceEntityRepository
             ->from('App\Entity\ObservationValue', 'obsVal')
             // ->join('App\Entity\Scale', 'sc')
             // ->join('App\Entity\ScaleCategory', 'scC')
-            ->from('App\Entity\Observationvariable', 'obsVar')
+            ->from('App\Entity\ObservationVariable', 'obsVar')
             // ->join('App\Entity\TraitClass', 'trait')
             ->where('acc.isActive = 1')
         //     ->andWhere('trait.id = obsVar.variable')
