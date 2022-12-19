@@ -56,12 +56,12 @@ class AccessionRepository extends ServiceEntityRepository
             $query->andWhere('acc.sampstat IN(:selectedBiologicalStatuses)')
             ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
         }
-        // if ($selectedFruitWeightGrams) {
-        //     $query->andWhere('obsVal.fruit_weight_value IN(:selectedselectedFruitWeightGrams)')
+        if ($selectedFruitWeightGrams) {
+            $query->andWhere('obsVal.fruit_weight_value IN(:selectedselectedFruitWeightGrams)')
                 
-        //     ->setParameter(':selectedselectedFruitWeightGrams', array_values($selectedFruitWeightGrams));
+            ->setParameter(':selectedselectedFruitWeightGrams', array_values($selectedFruitWeightGrams));
 
-        // }
+        }
         ;
         //dd($query->getDQL());
         return $query->getQuery()->getResult();
