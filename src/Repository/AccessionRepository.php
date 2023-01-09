@@ -507,6 +507,278 @@ class AccessionRepository extends ServiceEntityRepository
                 ->setParameter(':selectedLoad', array_values($selectedLoad));
         }
 
+        // change fixed couple 2
+        if(($selectedShapes && $selectedShoulderShape) && $selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedFColor && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.fruit_shoulder_value IN(:selectedShoulderShape)',
+                            'obsVal.fruit_weight_value IN(:selectedFruitWeightGrams)'
+                            )
+                        )
+                ->setParameter(':selectedFruitWeightGrams', array_values($selectedFruitWeightGrams))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape));
+        }
+
+        if(($selectedShapes && $selectedShoulderShape) && !$selectedFruitWeightGrams && $selectedFasciation &&
+            !$selectedFColor && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.fruit_shoulder_value IN(:selectedShoulderShape)',
+                            'obsVal.fruit_fasciation_value IN(:selectedFasciation)'
+                            )
+                        )
+                ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedFasciation', array_values($selectedFasciation));
+        }
+
+        if(($selectedShapes && $selectedShoulderShape) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            $selectedFColor && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.fruit_shoulder_value IN(:selectedShoulderShape)',
+                            'obsVal.color_value IN(:selectedFColor)'
+                            )
+                        )
+                ->setParameter(':selectedFColor', array_values($selectedFColor))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape));
+        }
+
+        if(($selectedShapes && $selectedShoulderShape) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedFColor && $selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.fruit_shoulder_value IN(:selectedShoulderShape)',
+                            'obsVal.green_shoulder_value IN(:selectedGreenSI)'
+                            )
+                        )
+                ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedGreenSI', array_values($selectedGreenSI));
+        }
+
+        if(($selectedShapes && $selectedShoulderShape) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedFColor && !$selectedGreenSI && $selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.fruit_shoulder_value IN(:selectedShoulderShape)',
+                            'obsVal.puffiness_value IN(:selectedPuffinessA)'
+                            )
+                        )
+                ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedPuffinessA', array_values($selectedPuffinessA));
+        }
+
+        if(($selectedShapes && $selectedShoulderShape) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedFColor && !$selectedGreenSI && !$selectedPuffinessA && $selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.fruit_shoulder_value IN(:selectedShoulderShape)',
+                            'obsVal.pericarp_thickness IN(:selectedPericarpT)'
+                            )
+                        )
+                ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedPericarpT', array_values($selectedPericarpT));
+        }
+
+        if(($selectedShapes && $selectedShoulderShape) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedFColor && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            $selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.fruit_shoulder_value IN(:selectedShoulderShape)',
+                            'obsVal.fruit_firmness_value IN(:selectedFruitFirmness)'
+                            )
+                        )
+                ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedFruitFirmness', array_values($selectedFruitFirmness));
+        }
+
+        if(($selectedShapes && $selectedShoulderShape) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedFColor && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && $selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.fruit_shoulder_value IN(:selectedShoulderShape)',
+                            'obsVal.brix_value IN(:selectedBrix)'
+                            )
+                        )
+                ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedBrix', array_values($selectedBrix));
+        }
+
+        if(($selectedShapes && $selectedShoulderShape) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedFColor && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && $selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.fruit_shoulder_value IN(:selectedShoulderShape)',
+                            'obsVal.fruit_load_value IN(:selectedLoad)'
+                            )
+                        )
+                ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedLoad', array_values($selectedLoad));
+        }
+
+        // change fixed couple 3
+        if(($selectedShapes && $selectedFColor) && $selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedShoulderShape && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.color_value IN(:selectedFColor)',
+                            'obsVal.fruit_weight_value IN(:selectedFruitWeightGrams)'
+                            )
+                        )
+                ->setParameter(':selectedFruitWeightGrams', array_values($selectedFruitWeightGrams))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedFColor', array_values($selectedFColor));
+        }
+
+        if(($selectedShapes && $selectedFColor) && !$selectedFruitWeightGrams && $selectedFasciation &&
+            !$selectedShoulderShape && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.color_value IN(:selectedFColor)',
+                            'obsVal.fruit_fasciation_value IN(:selectedFasciation)'
+                            )
+                        )
+                ->setParameter(':selectedFColor', array_values($selectedFColor))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedFasciation', array_values($selectedFasciation));
+        }
+
+        if(($selectedShapes && $selectedFColor) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            $selectedShoulderShape && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.color_value IN(:selectedFColor)',
+                            'obsVal.fruit_shoulder_value IN(:selectedShoulderShape)'
+                            )
+                        )
+                ->setParameter(':selectedShoulderShape', array_values($selectedShoulderShape))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedFColor', array_values($selectedFColor));
+        }
+
+        if(($selectedShapes && $selectedFColor) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedShoulderShape && $selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.color_value IN(:selectedFColor)',
+                            'obsVal.green_shoulder_value IN(:selectedGreenSI)'
+                            )
+                        )
+                ->setParameter(':selectedFColor', array_values($selectedFColor))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedGreenSI', array_values($selectedGreenSI));
+        }
+
+        if(($selectedShapes && $selectedFColor) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedShoulderShape && !$selectedGreenSI && $selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.color_value IN(:selectedFColor)',
+                            'obsVal.puffiness_value IN(:selectedPuffinessA)'
+                            )
+                        )
+                ->setParameter(':selectedFColor', array_values($selectedFColor))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedPuffinessA', array_values($selectedPuffinessA));
+        }
+
+        if(($selectedShapes && $selectedFColor) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedShoulderShape && !$selectedGreenSI && !$selectedPuffinessA && $selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.color_value IN(:selectedFColor)',
+                            'obsVal.pericarp_thickness IN(:selectedPericarpT)'
+                            )
+                        )
+                ->setParameter(':selectedFColor', array_values($selectedFColor))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedPericarpT', array_values($selectedPericarpT));
+        }
+
+        if(($selectedShapes && $selectedFColor) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedShoulderShape && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            $selectedFruitFirmness && !$selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.color_value IN(:selectedFColor)',
+                            'obsVal.fruit_firmness_value IN(:selectedFruitFirmness)'
+                            )
+                        )
+                ->setParameter(':selectedFColor', array_values($selectedFColor))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedFruitFirmness', array_values($selectedFruitFirmness));
+        }
+
+        if(($selectedShapes && $selectedFColor) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedShoulderShape && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && $selectedBrix && !$selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.color_value IN(:selectedFColor)',
+                            'obsVal.brix_value IN(:selectedBrix)'
+                            )
+                        )
+                ->setParameter(':selectedFColor', array_values($selectedFColor))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedBrix', array_values($selectedBrix));
+        }
+
+        if(($selectedShapes && $selectedFColor) && !$selectedFruitWeightGrams && !$selectedFasciation &&
+            !$selectedShoulderShape && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
+            !$selectedFruitFirmness && !$selectedBrix && $selectedLoad) {
+            $query->andWhere(
+                    $query->expr()->orX(
+                            'obsVal.shape_value IN(:selectedShapes)',
+                            'obsVal.color_value IN(:selectedFColor)',
+                            'obsVal.fruit_load_value IN(:selectedLoad)'
+                            )
+                        )
+                ->setParameter(':selectedFColor', array_values($selectedFColor))
+                ->setParameter(':selectedShapes', array_values($selectedShapes))
+                ->setParameter(':selectedLoad', array_values($selectedLoad));
+        }
+
         ;
         //dd($query->getDQL());
         return $query->getQuery()->getResult();
