@@ -103,7 +103,7 @@ class ObservationValue
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $brick_value;
+    private $brix_value;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -290,14 +290,14 @@ class ObservationValue
         return $this;
     }
 
-    public function getBrickValue(): ?string
+    public function getBrixValue(): ?string
     {
-        return $this->brick_value;
+        return $this->brix_value;
     }
 
-    public function setBrickValue(?string $brick_value): self
+    public function setBrixValue(?string $brix_value): self
     {
-        $this->brick_value = $brick_value;
+        $this->brix_value = $brix_value;
 
         return $this;
     }

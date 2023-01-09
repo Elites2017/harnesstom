@@ -119,7 +119,7 @@ class AccessionRepository extends ServiceEntityRepository
         if ($selectedBrix && !$selectedShapes && !$selectedFruitWeightGrams && !$selectedFasciation && !$selectedShoulderShape &&
             !$selectedFColor && !$selectedGreenSI && !$selectedPuffinessA && !$selectedPericarpT &&
             !$selectedFruitFirmness && !$selectedLoad) {
-            $query->andWhere('obsVal.brick_value IN(:selectedBrix)')
+            $query->andWhere('obsVal.brix_value IN(:selectedBrix)')
              ->setParameter(':selectedBrix', array_values($selectedBrix));
         }
         if ($selectedLoad && !$selectedShapes && !$selectedFruitWeightGrams && !$selectedFasciation && !$selectedShoulderShape &&
@@ -212,7 +212,7 @@ class AccessionRepository extends ServiceEntityRepository
             $query->andWhere(
                     $query->expr()->orX(
                             'obsVal.shape_value IN(:selectedShapes)',
-                            'obsVal.brick_value IN(:selectedBrix)'))
+                            'obsVal.brix_value IN(:selectedBrix)'))
                 ->setParameter(':selectedBrix', array_values($selectedBrix))
                 ->setParameter(':selectedShapes', array_values($selectedShapes));
         }
