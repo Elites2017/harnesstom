@@ -116,7 +116,7 @@ class AppController extends AbstractController
 
         
         $context = [
-            'title' => 'Home Page',
+            'title' => 'Harnesstom DB',
             "totalMarker" => $totalMarker,
             "totalGenotypingPlatform" => $totalGenotypingPlatform,
             "totalProgram" => $totalProgram,
