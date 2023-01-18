@@ -11,21 +11,53 @@ use App\Entity\Institute;
 use App\Entity\MLSStatus;
 use App\Entity\StorageType;
 use App\Entity\Taxonomy;
+use App\Repository\AccessionRepository;
+use App\Repository\InstituteRepository;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 
 class AccessionType extends AbstractType
 {
     private $router;
+    private $instituteRepo;
+    private $acceRepo;
 
-    function __construct(RouterInterface $router){
+    function __construct(RouterInterface $router, InstituteRepository $instituteRepo, AccessionRepository $acceRepo){
         $this->router = $router;
+        $this->instituteRepo = $instituteRepo;
+        $this->acceRepo = $acceRepo;
     }
 
+    private function myChoices($institute) {
+
+        // 'query_builder' => function(AccessionRepository $acceRepo) {
+        //     return $acceRepo->createQueryBuilder('acc')
+        //         ->where('acc.instcode = 10');
+        // },
+
+        $results = $this->acceRepo->findBy(['instcode' => $institute], ['maintainernumb' => 'ASC']);
+         
+        //dd($results);           
+        $businessUnit = array();
+        //dd($results[0]);
+        foreach($results as $bu){
+            //dd($results[$ind]);
+            $businessUnit[$bu->getMaintainernumb()] = $bu->getMaintainernumb();
+        }
+        //dd($businessUnit);
+        return $businessUnit;
+        
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $toUrlCountry = $this->router->generate('country_create');
@@ -37,14 +69,28 @@ class AccessionType extends AbstractType
         $toUrlInstitute = $this->router->generate('institute_create');
         $toUrlCollectingMissionIdentifier = $this->router->generate('collecting_mission_create');
 
+        //dd($this->instituteRepo->find(11));
+        //['donorcode' => $this->instituteRepo->find(10)]
+
         $builder
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+                $selectedMaintIns = $event->getData()['instcode'] ?? null;
+                //dd($selectedMaintIns);
+                //dd($selectedMaintIns);
+                $event->getForm()->add('maintainernumb', ChoiceType::class, [
+                    'choices' => $this->myChoices($selectedMaintIns) ?? null,
+                    'placeholder' => 'Please choose an accession number',
+                    'disabled' => $this->myChoices($selectedMaintIns) === []
+                ]);
+                //dd($event->getForm()->get('instcode')->getData());
+            })
             ->add('accenumb')
             ->add('accename')
             ->add('puid')
             ->add('origmuni')
             ->add('origadmin1')
             ->add('origadmin2')
-            ->add('maintainernumb')
+            //->add('maintainernumb')
             ->add('acqdate', DateType::class, array(
                 'widget' => 'single_text'
             ))
@@ -89,6 +135,10 @@ class AccessionType extends AbstractType
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'query_builder' => function(InstituteRepository $instituteRepo) {
+                    return $instituteRepo->createQueryBuilder('ins')->orderBy('ins.name', 'ASC');
+                },
+                //$this->instituteRepo->find(6262),
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])
@@ -141,7 +191,7 @@ class AccessionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Accession::class,
+            'data_class' => null,
         ]);
     }
 }

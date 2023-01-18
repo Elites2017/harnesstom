@@ -16,6 +16,7 @@ use App\Form\AccessionUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\AccessionRepository;
 use App\Repository\CountryRepository;
+use App\Repository\InstituteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpParser\Node\Stmt\TryCatch;
@@ -49,11 +50,13 @@ class AccessionController extends AbstractController
     /**
      * @Route("/create", name="create")
      */
-    public function create(Request $request, EntityManagerInterface $entmanager): Response
+    public function create(Request $request, InstituteRepository $instRepo, EntityManagerInterface $entmanager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $accession = new Accession();
-        $form = $this->createForm(AccessionType::class, $accession);
+        //dd($oneAcc->getInscode);
+        //$accession->setInstcode($instRepo->find(6262));
+        $form = $this->createForm(AccessionType::class, ['instcode' => $instRepo->find(6262)]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()) {
