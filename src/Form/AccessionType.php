@@ -22,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -38,22 +39,11 @@ class AccessionType extends AbstractType
     }
 
     private function myChoices($institute) {
-
-        // 'query_builder' => function(AccessionRepository $acceRepo) {
-        //     return $acceRepo->createQueryBuilder('acc')
-        //         ->where('acc.instcode = 10');
-        // },
-
         $results = $this->acceRepo->findBy(['instcode' => $institute], ['maintainernumb' => 'ASC']);
-         
-        //dd($results);           
         $businessUnit = array();
-        //dd($results[0]);
         foreach($results as $bu){
-            //dd($results[$ind]);
             $businessUnit[$bu->getMaintainernumb()] = $bu->getMaintainernumb();
         }
-        //dd($businessUnit);
         return $businessUnit;
         
     }
@@ -69,36 +59,52 @@ class AccessionType extends AbstractType
         $toUrlInstitute = $this->router->generate('institute_create');
         $toUrlCollectingMissionIdentifier = $this->router->generate('collecting_mission_create');
 
-        //dd($this->instituteRepo->find(11));
-        //['donorcode' => $this->instituteRepo->find(10)]
+        $builder
+            ->add('instcode', EntityType::class, [
+            'class' => Institute::class,
+            'help_html' => true,
+            'placeholder' => '',
+            'query_builder' => function() {
+                return $this->instituteRepo->createQueryBuilder('ins')->orderBy('ins.name', 'ASC');
+            },
+            'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
+        ])
+        ;
+            $formModifier = function (FormInterface $form, Institute $institute = null) {
+                $maintainerNumbers = null === $institute ? [] : $this->myChoices($institute);
+                $form->add('maintainernumb', ChoiceType::class, [
+                    'choices' => $maintainerNumbers ?? null,
+                    'placeholder' => 'Please choose an accession number',
+                    'disabled' => $maintainerNumbers === []
+                ]);
+            };
 
         $builder
-            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
-                $selectedMaintIns = $event->getData()['instcode'] ?? null;
-                //dd($selectedMaintIns);
-                //dd($selectedMaintIns);
-                $event->getForm()->add('maintainernumb', ChoiceType::class, [
-                    'choices' => $this->myChoices($selectedMaintIns) ?? null,
-                    'placeholder' => 'Please choose an accession number',
-                    'disabled' => $this->myChoices($selectedMaintIns) === []
-                ]);
-                //dd($event->getForm()->get('instcode')->getData());
-            })
+            ->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function(FormEvent $event) use ($formModifier) {
+                $data  = $event->getData();
+                $formModifier($event->getForm(), $data->getInstcode());
+            });
+
+            $builder->get('instcode')->addEventListener(
+                FormEvents::POST_SUBMIT,
+                function(FormEvent $event) use ($formModifier) {
+                    $institute = $event->getForm()->getData();
+                    $formModifier($event->getForm()->getParent(), $institute);
+                }
+            );
+        $builder
             ->add('accenumb')
             ->add('accename')
             ->add('puid')
             ->add('origmuni')
             ->add('origadmin1')
             ->add('origadmin2')
-            //->add('maintainernumb')
-            ->add('acqdate', DateType::class, array(
-                'widget' => 'single_text'
-            ))
+            ->add('acqdate',)
             ->add('donornumb')
             ->add('collnumb')
-            ->add('colldate', DateType::class, array(
-                'widget' => 'single_text'
-            ))
+            ->add('colldate')
             ->add('declatitude')
             ->add('declongitude')
             ->add('elevation')
@@ -129,17 +135,6 @@ class AccessionType extends AbstractType
                 'help_html' => true,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlTaxon .'" target="_blank">Taxonomy</a>'
-                
-            ])
-            ->add('instcode', EntityType::class, [
-                'class' => Institute::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'query_builder' => function(InstituteRepository $instituteRepo) {
-                    return $instituteRepo->createQueryBuilder('ins')->orderBy('ins.name', 'ASC');
-                },
-                //$this->instituteRepo->find(6262),
-                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])
             ->add('storage', EntityType::class, [
@@ -191,7 +186,7 @@ class AccessionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => null,
+            'data_class' => Accession::class,
         ]);
     }
 }
