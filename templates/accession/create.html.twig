@@ -249,7 +249,8 @@
                             {{ form_row
                                 (accessionForm.maintainernumb,
                                     { label: "Maintainer Accession number",
-                                    'attr': {'placeholder': "Enter the accession maintainer number"}
+                                    'attr': {'placeholder': "Enter the accession maintainer number",
+                                    'class': "custom-select d-block w-100"}
                                     }
                                 )
                             }}
@@ -320,4 +321,40 @@
             </div>
         </div> <!-- .row -->
     </div> <!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
+<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+<script>
+    $(document).ready(function(){
+        var $institute = $('#accession_instcode');
+        console.log($institute);
+        // When institute gets selected ...
+        $institute.change(function() {
+            // ... retrieve the corresponding form.
+            var $form = $(this).closest('form');
+            // Simulate form data, but only include the selected institute value.
+            var data = {};
+            data[$institute.attr('name')] = $institute.val();
+            // Submit data via AJAX to the form's action path.
+            $.ajax({
+                url : $form.attr('action'),
+                type: $form.attr('method'),
+                data : data,
+                complete: function(html) {
+                // Replace current position field ...
+                $('#accession_maintainernumb').replaceWith(
+                    // ... with the returned one from the AJAX response.
+                    $(html.responseText).find('#accession_maintainernumb')
+                );
+                // Position field now displays the appropriate positions.
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}
