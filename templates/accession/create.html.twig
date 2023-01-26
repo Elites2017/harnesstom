@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme accessionForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
+    <datalist id="{{ form.vars.id }}_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="accession[donorcode]" id="{{ form.vars.id }}_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 
@@ -332,7 +346,6 @@
 <script>
     $(document).ready(function(){
         var $institute = $('#accession_instcode');
-        console.log($institute);
         // When institute gets selected ...
         $institute.change(function() {
             // ... retrieve the corresponding form.
@@ -355,6 +368,33 @@
                 }
             });
         });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+		document.querySelector('input[list]').addEventListener('input', function(e) {
+			var input = e.target,
+				list = input.getAttribute('list'),
+				options = document.querySelectorAll('#' + list + ' option'),
+				hiddenInput = document.getElementById(input.getAttribute('id') + '_hidden'),
+				inputValue = input.value;
+
+			hiddenInput.value = inputValue;
+            console.log(input);
+
+			for(var i = 0; i < options.length; i++) {
+				var option = options[i];
+				// do not use innerText as it returns other caracter thans the text value itself
+				if(option.text === inputValue) {
+                    console.log(option.text === inputValue, " ", option.getAttribute('data-value'));
+					hiddenInput.value = option.getAttribute('data-value');
+					console.log("NE HIDDEN Val ", hiddenInput.value);
+					
+                    break;
+				}
+			}
+		});
     });
 </script>
 {% endblock %}

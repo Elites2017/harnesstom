@@ -144,17 +144,19 @@ class AccessionType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlStorageType .'" target="_blank">Storage Type</a>'
                 
             ])
-            ->add('donorcode', EntityType::class, [
+            ->add('donorcode', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'id',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])
-            ->add('collcode', EntityType::class, [
+            ->add('collcode', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'id',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])
