@@ -1,5 +1,55 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme accessionForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="accession_collcode_list" value="{{ form.vars.value }}" />
+    <datalist id="accession_collcode_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="accession[collcode]" id="accession_collcode_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="accession_donorcode_list" value="{{ form.vars.value }}" />
+    <datalist id="accession_donorcode_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="accession[donorcode]" id="accession_donorcode_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="accession_bredcode_list" value="{{ form.vars.value }}" />
+    <datalist id="accession_bredcode_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="accession[bredcode]" id="accession_bredcode_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist3_widget %}
+    <input {{ block('widget_attributes') }} list="accession_instcode_list" value="{{ form.vars.value }}" />
+    <datalist id="accession_instcode_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="accession[instcode]" id="accession_instcode_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 
@@ -354,6 +404,42 @@
                 }
             });
         });
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        // select all the datalist
+		var myDatalists = document.querySelectorAll('input[list]');
+        // loop over them to add an event listener on each
+        for(var cntr = 0; cntr < myDatalists.length; cntr++) {
+            myDatalists[cntr].addEventListener('input', function(e) {
+                // get the target (the one clicked)
+                // get the list attribute ofr the related input (the clicked one)
+                // get the options
+                // get the hidden input of the clicked input
+                // get the value of the clicked input
+                var input = e.target,
+                    list = input.getAttribute('list'),
+                    options = document.querySelectorAll('#' + list + ' option'),
+                    hiddenInput = document.getElementById(input.getAttribute('id') + '_hidden'),
+                    inputValue = input.value;
+                // assign the value of visible input to the hidden one
+                hiddenInput.value = inputValue;
+                // now lop over the options to see if the text value of the option matches input value
+                // which is the text shown in the datalist. If the text option matches that value,
+                // assign to the hidden input value the data-value of the option. The hidden input
+                // is the one sent to the controller 
+                for(var i = 0; i < options.length; i++) {
+                    var option = options[i];
+                    // do not use innerText as it returns other caracter than the text value itself
+                    if(option.text === inputValue) {
+                        hiddenInput.value = option.getAttribute('data-value');
+                        break;
+                    }
+                }
+            });
+        }
     });
 </script>
 {% endblock %}
