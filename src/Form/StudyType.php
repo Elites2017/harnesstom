@@ -71,11 +71,12 @@ class StudyType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlSeason .'" target="_blank">Season</a>'
                 
             ])
-            ->add('institute', EntityType::class, [
+            ->add('institute', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
+                'choice_value' => 'id',
+                'help' => 'Add a new dodddd <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])
             ->add('location', EntityType::class, [
