@@ -51,10 +51,11 @@ class CrossType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>'
                 
             ])
-            ->add('institute', EntityType::class, [
+            ->add('institute', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])

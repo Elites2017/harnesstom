@@ -47,10 +47,11 @@ class GermplasmType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlProgram .'" target="_blank">Program</a>'
                 
             ])
-            ->add('maintainerInstituteCode', EntityType::class, [
+            ->add('institute', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])

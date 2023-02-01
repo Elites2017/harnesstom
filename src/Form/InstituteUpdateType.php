@@ -7,6 +7,8 @@ use App\Entity\Institute;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -28,12 +30,13 @@ class InstituteUpdateType extends AbstractType
             ->add('streetNumber')
             ->add('postalCode')
             ->add('city')
-            ->add('country', EntityType::class, [
+            ->add('country', DatalistType::class, [
                 'class' => Country::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'iso3',
                 'help' => 'Add a new <a href="' . $toUrlCountry .'" target="_blank">Country</a>'
-                
             ])
         ;
     }
