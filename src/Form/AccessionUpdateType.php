@@ -64,7 +64,7 @@ class AccessionUpdateType extends AbstractType
             'class' => Institute::class,
             'help_html' => true,
             'placeholder' => '',
-            'choice_value' => 'id',
+            'choice_value' => 'name',
             'query_builder' => function() {
                 return $this->instituteRepo->createQueryBuilder('ins')->orderBy('ins.name', 'ASC');
             },
@@ -149,15 +149,15 @@ class AccessionUpdateType extends AbstractType
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'choice_value' => 'id',
-                'help' => 'Add a new dodddd <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])
             ->add('collcode', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'choice_value' => 'id',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])
@@ -172,7 +172,7 @@ class AccessionUpdateType extends AbstractType
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'choice_value' => 'id',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])

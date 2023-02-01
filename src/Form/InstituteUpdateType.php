@@ -35,7 +35,7 @@ class InstituteUpdateType extends AbstractType
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
-                'choice_value' => 'id',
+                'choice_value' => 'iso3',
                 'help' => 'Add a new <a href="' . $toUrlCountry .'" target="_blank">Country</a>'
             ])
         ;

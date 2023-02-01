@@ -28,8 +28,8 @@ class CollectingMissionType extends AbstractType
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'choice_value' => 'id',
-                'help' => 'Add a new dodddd <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])
         ;
