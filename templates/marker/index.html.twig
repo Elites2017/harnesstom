@@ -56,63 +56,6 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for marker in markers %}
-									<tr>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.name }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.type }}</a>
-										</td>
-										<td>
-											{% if marker.genotypingPlatform %}
-												<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.genotypingPlatform.refSetName }}</a>
-											{% endif %}
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.linkageGroupName }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.position }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.start }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.end }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.refAllele }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">
-												{% for oneAltAll in marker.altAllele %}
-													{{ oneAltAll }}
-												{% endfor %}
-											</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.primerName1 }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.primerSeq1 }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.primerName2 }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.primerSeq2 }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">{{ marker.genotypingPlatform }}</a>
-										</td>
-										<td>
-											<a href="{{ path('marker_details', {id: marker.id}) }}">
-												<button class="btn btn-outline-primary">View</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -128,19 +71,61 @@
 
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
-		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-<!-- DataTables JavaScript -->
+    <script>
+        window.jQuery || document.write('<script src=" {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
+    </script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- DataTables JavaScript -->
     <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
-</script>
     <script>
         $(document).ready(function() {
-            $('#datatable').DataTable();
+            let data = [
+                {% for marker in markers %}
+                    {
+                    name: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.name }}</a>",
+                    type: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.type }}</a>",
+                    genomeVersion: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.genotypingPlatform.refSetName }}</a>",
+                    linkageGroupName: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.linkageGroupName }}</a>",
+                    position: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.position }}</a>",
+                    start: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.start }}</a>",
+                    end: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.end }}</a>",
+					refAllele: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.refAllele }}</a>",
+                    altAlleles: "{% if marker.altAllele | length > 0 %}{% for oneAltAllele in marker.altAllele %}<a href={{ path('marker_details', {id: marker.id}) }}>{{ oneAltAllele }}</a>{% endfor %}{% endif %}",
+                    primerName1: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.primerName1 }}</a>",
+                    primerSeq1: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.primerSeq1 }}</a>",
+					primerName2: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.primerName2 }}</a>",
+                    primerSeq2: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.primerSeq2 }}</a>",
+					genotypingPlatform: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.genotypingPlatform }}</a>",
+                    action: "<a href={{ path('marker_details', {id: marker.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+                    },
+                {% endfor %}
+            ];
+
+            $('#datatable').DataTable( {
+                "bDestroy": true,
+                "pageLength": 25,
+                data: data,
+                columns: [
+                    { data: 'name'},
+                    { data: 'type'},
+                    { data: 'genomeVersion'},
+                    { data: 'linkageGroupName'},
+                    { data: 'position'},
+                    { data: 'start'},
+                    { data: 'end'},
+					{ data: 'refAllele'},
+                    { data: 'altAlleles'},
+                    { data: 'primerName1'},
+                    { data: 'primerSeq1'},
+					{ data: 'primerName2'},
+                    { data: 'primerSeq2'},
+					{ data: 'genotypingPlatform'},
+                    { data: 'action'}
+                ]
+            } );
         } );
     </script>
 {% endblock %}

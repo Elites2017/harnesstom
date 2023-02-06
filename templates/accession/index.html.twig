@@ -50,23 +50,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for accession in accessions %}
-                                <tr>
-                                    <td><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ accession.taxon.taxonid }}" target="_blank">{{ accession.taxon }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accenumb }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accename }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.puid }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.origcty }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.collsrc }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.sampstat }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.mlsStatus }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.instcode }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.maintainernumb }}</a></td>
-                                    <td>
-                                        <a href="{{ path('accession_details', {id: accession.id}) }}"><button class="btn btn-outline-primary">View</button></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -82,18 +65,53 @@
 
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
-		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-<!-- DataTables JavaScript -->
+    <script>
+        window.jQuery || document.write('<script src=" {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
+    </script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- DataTables JavaScript -->
     <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
     <script>
         $(document).ready(function() {
-            $('#datatable').DataTable();
+            let data = [
+                {% for accession in accessions %}
+                    {
+                    taxon: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.taxon.taxonid }}</a>",
+                    accenumb: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.accenumb }}</a>",
+                    accename: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.accename }}</a>",
+                    puid: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.puid }}</a>",
+                    origcty: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.origcty }}</a>",
+                    collsrc: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.collsrc }}</a>",
+                    sampstat: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.sampstat }}</a>",
+                    mlsStatus: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.mlsStatus }}</a>",
+                    instcode: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.instcode }}</a>",
+                    maintainernumb: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.maintainernumb }}</a>",
+                    action: "<a href={{ path('accession_details', {id: accession.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+                    },
+                {% endfor %}
+            ];
+
+            $('#datatable').DataTable( {
+                "bDestroy": true,
+                "pageLength": 25,
+                data: data,
+                columns: [
+                    { data: 'taxon'},
+                    { data: 'accenumb'},
+                    { data: 'accename'},
+                    { data: 'puid'},
+                    { data: 'origcty'},
+                    { data: 'collsrc'},
+                    { data: 'sampstat'},
+                    { data: 'mlsStatus'},
+                    { data: 'instcode'},
+                    { data: 'maintainernumb'},
+                    { data: 'action'}
+                ]
+            } );
         } );
     </script>
 {% endblock %}

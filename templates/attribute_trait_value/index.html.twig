@@ -47,29 +47,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for attributeTraitValue in attributeTraitValues %}
-                                    <tr>
-                                        <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.accession }}</a></td>
-                                        <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.attribute }}</a></td>
-                                        <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.attribute.category }}</a></td>
-                                        <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.trait }}</a></td>
-                                        <td><a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.metabolicTrait }}</a></td>
-                                        <td>
-                                            <a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">{{ attributeTraitValue.value }}</a></td>
-                                        <td>
-                                            <a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}">
-                                            {% if attributeTraitValue.publicationReference | length > 0 %}
-                                                {% for onePubRef in attributeTraitValue.publicationReference %}
-                                                    {{ onePubRef }}
-                                                {% endfor %}
-                                            {% endif %}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}"><button class="btn btn-outline-primary">View</button></a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -85,18 +62,47 @@
 
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
-		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-<!-- DataTables JavaScript -->
+    <script>
+        window.jQuery || document.write('<script src=" {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
+    </script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- DataTables JavaScript -->
     <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
     <script>
         $(document).ready(function() {
-            $('#datatable').DataTable();
+            let data = [
+                {% for attributeTraitValue in attributeTraitValues %}
+                    {
+                    accession: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.accession }}</a>",
+                    attribute: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.attribute }}</a>",
+                    attributeCategory: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.attribute.category }}</a>",
+                    trait: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.trait }}</a>",
+                    metabolicTrait: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.metabolicTrait }}</a>",
+                    value: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.value }}</a>",
+                    publicationReferences: "{% if attributeTraitValue.publicationReference | length > 0 %}{% for onePubRef in attributeTraitValue.publicationReference %}<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ onePubRef }}</a>{% endfor %}{% endif %}",
+                    action: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+                    },
+                {% endfor %}
+            ];
+
+            $('#datatable').DataTable( {
+                "bDestroy": true,
+                "pageLength": 25,
+                data: data,
+                columns: [
+                    { data: 'accession'},
+                    { data: 'attribute'},
+                    { data: 'attributeCategory'},
+                    { data: 'trait'},
+                    { data: 'metabolicTrait'},
+                    { data: 'value'},
+                    { data: 'publicationReferences'},
+                    { data: 'action'}
+                ]
+            } );
         } );
     </script>
 {% endblock %}
