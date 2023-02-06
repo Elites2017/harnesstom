@@ -49,27 +49,6 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for institute in institutes %}
-									<tr>
-										<td>
-											<a href="{{ path('institute_details', {id: institute.id}) }}">{{ institute.instcode }}</a>
-										</td>
-										<td>
-											<a href="{{ path('institute_details', {id: institute.id}) }}">{{ institute.acronym }}</a>
-										</td>
-										<td>
-											<a href="{{ path('institute_details', {id: institute.id}) }}">{{ institute.name }}</a>
-										</td>
-										<td>
-											<a href="{{ path('institute_details', {id: institute.id}) }}">{{ institute.country }}</a>
-										</td>
-										<td>
-											<a href="{{ path('institute_details', {id: institute.id}) }}">
-												<button class="btn btn-outline-primary">View</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -92,11 +71,32 @@
 <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
-</script>
 <script>
-	$(document).ready(function () {
-$('#datatable').DataTable();
-});
-</script>{% endblock %}
+    $(document).ready(function() {
+		let data = [
+			{% for institute in institutes %}
+				{
+				instcode: "<a href={{ path('institute_details', {id: institute.id}) }}>{{ institute.instcode }}</a>",
+				acronym: "<a href={{ path('institute_details', {id: institute.id}) }}>{{ institute.acronym }}</a>",
+				name: "<a href={{ path('institute_details', {id: institute.id}) }}>{{ institute.name }}</a>",
+				country: "<a href={{ path('institute_details', {id: institute.id}) }}>{{ institute.country }}</a>",
+				action: "<a href={{ path('institute_details', {id: institute.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+				},
+			{% endfor %}
+		];
+
+        $('#datatable').DataTable( {
+            "bDestroy": true,
+            "pageLength": 25,
+            data: data,
+            columns: [
+                { data: 'instcode'},
+                { data: 'acronym'},
+                { data: 'name'},
+                { data: 'country'},
+				{ data: 'action'}
+            ]
+        } );
+    } );
+</script>
+{% endblock %}
