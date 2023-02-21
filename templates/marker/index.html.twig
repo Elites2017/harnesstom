@@ -81,8 +81,7 @@
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            let data = [
+		let data = [
                 {% for marker in markers %}
                     {
                     name: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.name }}</a>",
@@ -103,7 +102,7 @@
                     },
                 {% endfor %}
             ];
-
+        $(document).ready(function() {
             $('#datatable').DataTable( {
                 "bDestroy": true,
                 "pageLength": 25,

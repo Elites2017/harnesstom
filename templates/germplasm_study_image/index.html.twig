@@ -72,8 +72,7 @@
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            let data = [
+        let data = [
                 {% for germplasmStudyImage in germplasmStudyImages %}
                     {
                     germplasmID: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}>{{ germplasmStudyImage.germplasmID }}</a>",
@@ -87,7 +86,7 @@
                     },
                 {% endfor %}
             ];
-
+        $(document).ready(function() {
             $('#datatable').DataTable( {
                 "bDestroy": true,
                 "pageLength": 25,

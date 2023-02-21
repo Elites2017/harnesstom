@@ -75,8 +75,7 @@
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            let data = [
+        let data = [
                 {% for accession in accessions %}
                     {
                     taxon: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.taxon.taxonid }}</a>",
@@ -93,7 +92,7 @@
                     },
                 {% endfor %}
             ];
-
+        $(document).ready(function() {
             $('#datatable').DataTable( {
                 "bDestroy": true,
                 "pageLength": 25,
