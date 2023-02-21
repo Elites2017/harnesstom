@@ -72,8 +72,7 @@
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            let data = [
+        let data = [
                 {% for attributeTraitValue in attributeTraitValues %}
                     {
                     accession: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.accession }}</a>",
@@ -87,7 +86,7 @@
                     },
                 {% endfor %}
             ];
-
+        $(document).ready(function() {
             $('#datatable').DataTable( {
                 "bDestroy": true,
                 "pageLength": 25,
