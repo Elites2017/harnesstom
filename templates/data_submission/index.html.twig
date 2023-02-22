@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+	<!-- DataTables CSS -->
+	<link
+	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+	<!-- DataTables Responsive CSS -->
+	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% if is_granted("ROLE_ADMIN") %}
+                    {% if dataSubmissions | length > 0 %}
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Data Submission Request List</h2>
+                        <div class="table-responsive">
+                            <table id="datatable" class="table table-hover text-nowrap" width="100%">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Emaiil</th>
+                                        <th scope="col">Message</th>
+                                        <th scope="col">File</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for dataSubmission in dataSubmissions %}
+                                        <tr>
+                                            <td>
+                                                {{ dataSubmission.firstName }}
+                                            </td>
+                                            <td>
+                                                {{ dataSubmission.lastName }}
+                                            </td>
+                                            <td>
+                                                {{ dataSubmission.email }}
+                                            </td>
+                                            <td>
+                                                {{ dataSubmission.message }}
+                                            </td>
+                                            <td>
+                                                {{ dataSubmission.file }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ asset('uploads/datasubmission/' ~ dataSubmission.file ) }}" download target="_blank">
+                                                    <button class="btn btn-outline-primary">Download File</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <h5 class="mb-3 text-center tomato-color font-weight-bold">No data submission request has been provided in our system</h5>
+                    {% endif %}
+                {% endif %}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script>
+		window.jQuery || document.write('<script src=" {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
+	</script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- DataTables JavaScript -->
+	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
+	</script>
+	<script>
+		$(document).ready(function () {
+$('#datatable').DataTable();
+});
+	</script>
+{% endblock %}

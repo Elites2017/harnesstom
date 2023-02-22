@@ -68,9 +68,14 @@
 							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Tools *</a>
 							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 								<li>
-									<a class="dropdown-item" href="#">
-										Submission &raquo;
+									<a class="dropdown-item" href="{{path('data_submission_index')}}">
+										Data Submission &raquo;
 									</a>
+									<ul class="dropdown-menu dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+										<li>
+											<a class="dropdown-item" href="{{path('data_submission_new')}}">New Request</a>
+										</li>
+									</ul>
 								</li>
 								<li>
 									<a class="dropdown-item" href="#">
