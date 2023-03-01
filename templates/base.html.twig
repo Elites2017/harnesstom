@@ -1421,6 +1421,36 @@
 								</li>
 								<li>
 									<a class="dropdown-item" href="#">
+										Observation Value &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										<li>
+											<a class="dropdown-item" href="{{path('observation_value_create')}}">Create</a>
+										</li>
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="{{path('observation_value_upload_from_excel')}}">Upload From Excel</a>
+											</li>
+										{% endif %}
+										<li>
+											<a class="dropdown-item" href="{{path('observation_value_index')}}">Search</a>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
+										Observation Value GOURMETOM &raquo;
+									</a>
+									<ul class="dropdown-menu dropdown-submenu">
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="{{path('observation_value_gourmetom_upload_from_excel')}}">Upload From Excel</a>
+											</li>
+										{% endif %}
+									</ul>
+								</li>
+								<li>
+									<a class="dropdown-item" href="#">
 										Observation Variable Method &raquo;
 									</a>
 									<ul class="dropdown-menu dropdown-submenu">
