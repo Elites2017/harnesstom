@@ -38,55 +38,20 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Name</th>
+									<th scope="col">Germplasm</th>
+									<th scope="col">Unit Name</th>
+									<th scope="col">Observation Level</th>
 									<th scope="col">Block Number</th>
-									<th scope="col">Sub Number</th>
+									<th scope="col">Sub-block Number</th>
 									<th scope="col">Plot Number</th>
 									<th scope="col">Plant Number</th>
 									<th scope="col">Replicate</th>
-									<th scope="col">Unit Name</th>
-									<th scope="col">Germplasm</th>
+									<th scope="col">Trial</th>
 									<th scope="col">Study</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for observationLevel in observationLevels %}
-									<tr>
-										<td>
-											<a href="{{ path('observation_level_details', {id: observationLevel.id}) }}">{{ observationLevel.name }}</a>
-										</td>
-										<td>
-											<a href="{{ path('observation_level_details', {id: observationLevel.id}) }}">{{ observationLevel.blockNumber }}</a>
-										</td>
-										<td>
-											<a href="{{ path('observation_level_details', {id: observationLevel.id}) }}">{{ observationLevel.subBlockNumber }}</a>
-										</td>
-										<td>
-											<a href="{{ path('observation_level_details', {id: observationLevel.id}) }}">{{ observationLevel.plotNumber }}</a>
-										</td>
-										<td>
-											<a href="{{ path('observation_level_details', {id: observationLevel.id}) }}">{{ observationLevel.plantNumber }}</a>
-										</td>
-										<td>
-											<a href="{{ path('observation_level_details', {id: observationLevel.id}) }}">{{ observationLevel.replicate }}</a>
-										</td>
-										<td>
-											<a href="{{ path('observation_level_details', {id: observationLevel.id}) }}">{{ observationLevel.unitname }}</a>
-										</td>
-										<td>
-											<a href="{{ path('observation_level_details', {id: observationLevel.id}) }}">{{ observationLevel.germaplasm }}</a>
-										</td>
-										<td>
-											<a href="{{ path('observation_level_details', {id: observationLevel.id}) }}">{{ observationLevel.study }}</a>
-										</td>
-										<td>
-											<a href="{{ path('observation_level_details', {id: observationLevel.id}) }}">
-												<button class="btn btn-outline-primary">View</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -101,20 +66,53 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
-		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-<!-- DataTables JavaScript -->
-    <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script>
+	window.jQuery || document.write('<script src=" {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
 </script>
-    <script>
-        $(document).ready(function() {
-            $('#datatable').DataTable();
+<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<!-- DataTables JavaScript -->
+<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+
+<script>
+	let data = [
+			{% for observationLevel in observationLevels %}
+				{
+				germaplasm: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.germaplasm }}</a>",
+				unitname: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.unitname }}</a>",
+				name: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.name }}</a>",
+				blockNumber: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.blockNumber }}</a>",
+				subBlockNumber: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.subBlockNumber }}</a>",
+				plotNumber: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.plotNumber }}</a>",
+				plantNumber: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.plantNumber }}</a>",
+				replicate: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.replicate }}</a>",
+				trial: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.study.trial.abbreviation }}</a>",
+				study: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.study }}</a>",
+				action: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+				},
+			{% endfor %}
+		];
+    $(document).ready(function() {
+		$('#datatable').DataTable( {
+            "bDestroy": true,
+            "pageLength": 25,
+            data: data,
+            columns: [
+                { data: 'germaplasm'},
+                { data: 'unitname'},
+                { data: 'name'},
+				{ data: 'blockNumber'},
+                { data: 'subBlockNumber'},
+				{ data: 'plotNumber'},
+				{ data: 'plantNumber'},
+				{ data: 'replicate'},
+				{ data: 'trial'},
+				{ data: 'study'},
+				{ data: 'action'}
+            ]
         } );
-    </script>
+    } );
+</script>
 {% endblock %}
