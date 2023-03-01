@@ -48,10 +48,10 @@
 								{% for observationValue in observationValues %}
 									<tr>
 										<td>
-											<a href="{{ path('observation_value_details', {id: observationValue.id}) }}">{{ observationValue.observationVariable }}</a>
+											<a href="{{ path('observation_value_details', {id: observationValue.id}) }}">{{ observationValue.observationVariableOriginal }}</a>
 										</td>
 										<td>
-											<a href="{{ path('observation_value_details', {id: observationValue.id}) }}">{{ observationValue.observationLevel }}</a>
+											<a href="{{ path('observation_value_details', {id: observationValue.id}) }}">{{ observationValue.unitName }}</a>
 										</td>
 										<td>
 											<a href="{{ path('observation_value_details', {id: observationValue.id}) }}">{{ observationValue.value }}</a>

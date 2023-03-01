@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\ObservationLevel;
-use App\Entity\ObservationValue;
+use App\Entity\ObservationValueOriginal;
 use App\Entity\ObservationVariable;
 use App\Entity\TraitClass;
-use App\Form\ObservationValueType;
-use App\Form\ObservationValueUpdateType;
+use App\Form\ObservationValueOriginalType;
+use App\Form\ObservationValueOriginalUpdateType;
 use App\Form\UploadFromExcelType;
-use App\Repository\ObservationValueRepository;
+use App\Repository\ObservationValueOriginalRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,12 +23,12 @@ use Symfony\Component\Routing\Annotation\Route;
  /**
  * @Route("observation/value", name="observation_value_")
  */
-class ObservationValueController extends AbstractController
+class ObservationValueOriginalController extends AbstractController
 {
     /**
      * @Route("/", name="index")
      */
-    public function index(ObservationValueRepository $observationValueRepo): Response
+    public function index(ObservationValueOriginalRepository $observationValueRepo): Response
     {
         $observationValues =  $observationValueRepo->findAll();
         $context = [
@@ -44,8 +44,8 @@ class ObservationValueController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $observationValue = new ObservationValue();
-        $form = $this->createForm(ObservationValueType::class, $observationValue);
+        $observationValue = new ObservationValueOriginal();
+        $form = $this->createForm(ObservationValueOriginalType::class, $observationValue);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($this->getUser()) {
@@ -68,7 +68,7 @@ class ObservationValueController extends AbstractController
     /**
      * @Route("/details/{id}", name="details")
      */
-    public function details(ObservationValue $observationValueSelected): Response
+    public function details(ObservationValueOriginal $observationValueSelected): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $context = [
@@ -81,10 +81,10 @@ class ObservationValueController extends AbstractController
     /**
      * @Route("/edit/{id}", name="edit")
      */
-    public function edit(ObservationValue $observationValue, Request $request, EntityManagerInterface $entmanager): Response
+    public function edit(ObservationValueOriginal $observationValue, Request $request, EntityManagerInterface $entmanager): Response
     {
         $this->denyAccessUnlessGranted('observation_value_edit', $observationValue);
-        $form = $this->createForm(ObservationValueUpdateType::class, $observationValue);
+        $form = $this->createForm(ObservationValueOriginalUpdateType::class, $observationValue);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($observationValue);
@@ -102,7 +102,7 @@ class ObservationValueController extends AbstractController
     /**
      * @Route("/delete/{id}", name="delete")
      */
-    public function delete(ObservationValue $observationValue, EntityManagerInterface $entmanager): Response
+    public function delete(ObservationValueOriginal $observationValue, EntityManagerInterface $entmanager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         if ($observationValue->getId()) {
@@ -128,7 +128,7 @@ class ObservationValueController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Setup repository of some entity
-            $repoObservationValue = $entmanager->getRepository(ObservationValue::class);
+            $repoObservationValue = $entmanager->getRepository(ObservationValueOriginal::class);
             // Query how many rows are there in the ObservationValue table
             $totalObservationValueBefore = $repoObservationValue->createQueryBuilder('tab')
                 // Filter by some parameter if you want
@@ -164,36 +164,36 @@ class ObservationValueController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $unitNmae = $row['A'];
+                $unitName = $row['A'];
                 $obsVarId = $row['B'];
                 $value = $row['C'];
                 // check if the file doesn't have empty columns
-                if ($unitNmae != null && $obsVarId != null && $value != null) {
+                if ($unitName != null && $obsVarId != null && $value != null) {
                     // check if the data is upload in the database
-                    // $existingObservationValue = $entmanager->getRepository(ObservationValue::class)->findOneBy(['value' => $unitNmae]);
+                    // $existingObservationValue = $entmanager->getRepository(ObservationValueOriginal::class)->findOneBy(['value' => $unitName]);
                     // // upload data only for objects that haven't been saved in the database
                     // if (!$existingObservationValue) {
-                        $observationValue = new ObservationValue();
+                        $observationValue = new ObservationValueOriginal();
                         if ($this->getUser()) {
                             $observationValue->setCreatedBy($this->getUser());
                         }
 
                         try {
                             //code...
-                            $obsValUnitName = $entmanager->getRepository(ObservationLevel::class)->findOneBy(['unitname' => $unitNmae]);
+                            $obsValUnitName = $entmanager->getRepository(ObservationLevel::class)->findOneBy(['unitname' => $unitName]);
                             if (($obsValUnitName != null) && ($obsValUnitName instanceof \App\Entity\ObservationLevel)) {
-                                $observationValue->setObservationLevel($obsValUnitName);
+                                $observationValue->setUnitName($obsValUnitName);
                             }
                         } catch (\Throwable $th) {
                             //throw $th;
-                            $this->addFlash('danger', " there is a problem with the unitname " .$unitNmae);
+                            $this->addFlash('danger', " there is a problem with the unitname " .$unitName);
                         }
 
                         try {
                             //code...
                             $obsVariableTraitId = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $obsVarId]);
                             if (($obsVariableTraitId != null) && ($obsVariableTraitId instanceof \App\Entity\TraitClass)) {
-                                $observationValue->setObservationVariable($obsVariableTraitId->getObservationVariable());
+                                $observationValue->setObservationVariableOriginal ($obsVariableTraitId->getObservationVariable());
                             }
                         } catch (\Throwable $th) {
                             //throw $th;

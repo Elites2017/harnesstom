@@ -31,13 +31,13 @@
 							<tr>
 								<td>{{ observationValue.id }}</td>
 								<td>
-									{% if observationValue.observationVariable %}
-										<a href="{{ path('observation_variable_details', {id: observationValue.observationVariable.id}) }}">{{ observationValue.observationVariable }}</a>
+									{% if observationValue.observationVariableOriginal %}
+										<a href="{{ path('observation_variable_details', {id: observationValue.observationVariableOriginal.id}) }}">{{ observationValue.observationVariableOriginal }}</a>
 									{% endif %}
 								</td>
 								<td>
-									{% if observationValue.observationLevel %}
-										<a href="{{ path('observation_level_details', {id: observationValue.observationLevel.id}) }}">{{ observationValue.observationLevel }}</a>
+									{% if observationValue.unitName %}
+										<a href="{{ path('observation_level_details', {id: observationValue.unitName.id}) }}">{{ observationValue.unitName }}</a>
 									{% endif %}
 								</td>
 								<td>{{ observationValue.value }}</td>

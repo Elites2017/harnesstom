@@ -111,11 +111,17 @@ class ObservationVariable
      */
     private $variable;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ObservationValueOriginal::class, mappedBy="observationVariableOriginal")
+     */
+    private $observationValueOriginals;
+
     public function __construct()
     {
         $this->observationValues = new ArrayCollection();
         $this->gWASVariants = new ArrayCollection();
         $this->qTLVariants = new ArrayCollection();
+        $this->observationValueOriginals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -336,6 +342,36 @@ class ObservationVariable
     public function setVariable(?TraitClass $variable): self
     {
         $this->variable = $variable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ObservationValueOriginal>
+     */
+    public function getObservationValueOriginals(): Collection
+    {
+        return $this->observationValueOriginals;
+    }
+
+    public function addObservationValueOriginal(ObservationValueOriginal $observationValueOriginal): self
+    {
+        if (!$this->observationValueOriginals->contains($observationValueOriginal)) {
+            $this->observationValueOriginals[] = $observationValueOriginal;
+            $observationValueOriginal->setObservationVariableOriginal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeObservationValueOriginal(ObservationValueOriginal $observationValueOriginal): self
+    {
+        if ($this->observationValueOriginals->removeElement($observationValueOriginal)) {
+            // set the owning side to null (unless already changed)
+            if ($observationValueOriginal->getObservationVariableOriginal() === $this) {
+                $observationValueOriginal->setObservationVariableOriginal(null);
+            }
+        }
 
         return $this;
     }

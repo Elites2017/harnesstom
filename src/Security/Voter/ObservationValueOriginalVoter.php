@@ -2,14 +2,14 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\ObservationValue;
+use App\Entity\ObservationValueOriginal;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class ObservationValueVoter extends Voter
+class ObservationValueOriginalVoter extends Voter
 {
     public const EDIT = 'observation_value_edit';
     public const DEL = 'observation_value_delete';
@@ -26,7 +26,7 @@ class ObservationValueVoter extends Voter
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
         return in_array($attribute, [self::EDIT, self::DEL])
-            && $observationValue instanceof \App\Entity\ObservationValue;
+            && $observationValue instanceof \App\Entity\ObservationValueOriginal;
     }
 
     protected function voteOnAttribute(string $attribute, $observationValue, TokenInterface $token): bool
@@ -65,12 +65,12 @@ class ObservationValueVoter extends Voter
     }
 
      // private methods
-     private function canEdit(ObservationValue $observationValue, User $user){
+     private function canEdit(ObservationValueOriginal $observationValue, User $user){
         // if the connected user is the owner of the object, they can modify it
         return $user === $observationValue->getCreatedBy();
     }
 
-    private function canDelete(ObservationValue $observationValue, User $user){
+    private function canDelete(ObservationValueOriginal $observationValue, User $user){
         // if the connected user is the owner of the object, they can delete it
         return $user === $observationValue->getCreatedBy();  
     }
