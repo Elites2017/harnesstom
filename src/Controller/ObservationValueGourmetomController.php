@@ -79,6 +79,7 @@ class ObservationValueGourmetomController extends AbstractController
                 $unitName = $row['A'];
                 $obsVarId = $row['B'];
                 $value = $row['C'];
+                dd("Need to fix data loading columns ~ David PIERRE");
                 // check if the file doesn't have empty columns
                 if ($unitName != null && $obsVarId != null && $value != null) {
                     // check if the data is upload in the database
