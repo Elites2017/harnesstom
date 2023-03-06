@@ -105,12 +105,16 @@ class GermplasmController extends AbstractController
         $form = $this->createForm(GermplasmUpdateType::class, $germplasm);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $germplasm->setInstcode($form->get('maintainerInstituteCode')->getData());    
-            $germplasm->setMaintainerNumb($form->get('accession')->getData()->getMaintainerNumb());
-            $germplasm->setAccession($form->get('accession')->getData());
-            $entmanager->persist($germplasm);
-            $entmanager->flush();
-            return $this->redirect($this->generateUrl('germplasm_index'));
+            if ($germplasm->getMaintainerInstituteCode() != null) {
+                $germplasm->setInstcode($form->get('maintainerInstituteCode')->getData());    
+                $germplasm->setMaintainerNumb($form->get('accession')->getData()->getMaintainerNumb());
+                $germplasm->setAccession($form->get('accession')->getData());
+                $entmanager->persist($germplasm);
+                $entmanager->flush();
+                return $this->redirect($this->generateUrl('germplasm_index'));
+            } else {
+                $this->addFlash('danger', "Error in the form, you must select an institute");   
+            }
         }
 
         $context = [

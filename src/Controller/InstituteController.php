@@ -85,9 +85,13 @@ class InstituteController extends AbstractController
         $form = $this->createForm(InstituteUpdateType::class, $institute);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entmanager->persist($institute);
-            $entmanager->flush();
-            return $this->redirect($this->generateUrl('institute_index'));
+            if ($institute->getCountry() != null) {
+                $entmanager->persist($institute);
+                $entmanager->flush();
+                return $this->redirect($this->generateUrl('institute_index'));
+            } else {
+                $this->addFlash('danger', "Error in the form, you must select a country");
+            }
         }
 
         $context = [
