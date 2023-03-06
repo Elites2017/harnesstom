@@ -78,17 +78,17 @@
         let data = [
                 {% for accession in accessions %}
                     {
-                    taxon: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.taxon.taxonid }}</a>",
-                    accenumb: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.accenumb }}</a>",
-                    accename: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.accename }}</a>",
-                    puid: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.puid }}</a>",
-                    origcty: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.origcty }}</a>",
-                    collsrc: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.collsrc }}</a>",
-                    sampstat: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.sampstat }}</a>",
-                    mlsStatus: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.mlsStatus }}</a>",
-                    instcode: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.instcode }}</a>",
-                    maintainernumb: "<a href={{ path('accession_details', {id: accession.id}) }}>{{ accession.maintainernumb }}</a>",
-                    action: "<a href={{ path('accession_details', {id: accession.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+                    taxon: "{{ accession.taxon.taxonid }}",
+                    accenumb: "{{ accession.accenumb }}",
+                    accename: "{{ accession.accename }}",
+                    puid: "{{ accession.puid }}",
+                    origcty: "{% if accession.origcty %} <a href={{ path('country_details', {id: accession.origcty.id}) }}>{{ accession.origcty }}</a>{% endif %}",
+                    collsrc: "{% if accession.collsrc %} <a href={{ path('collecting_source_details', {id: accession.collsrc.id}) }}>{{ accession.collsrc }}</a>{% endif %}",
+                    sampstat: "{% if accession.sampstat %} <a href={{ path('biological_status_details', {id: accession.sampstat.id}) }}>{{ accession.sampstat }}</a>{% endif %}",
+                    mlsStatus: "{% if accession.sampstat %} <a href={{ path('mls_status_details', {id: accession.sampstat.id}) }}>{{ accession.mlsStatus }}</a>{% endif %}",
+                    instcode: "{% if accession.instcode %} <a href={{ path('institute_details', {id: accession.instcode.id}) }}>{{ accession.instcode }}</a>{% endif %}",
+                    maintainernumb: "{{ accession.maintainernumb }}",
+                    action: "<a href={{ path('accession_details', {id: accession.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
                     },
                 {% endfor %}
             ];
