@@ -47,7 +47,7 @@ class GermplasmUpdateType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlProgram .'" target="_blank">Program</a>'
                 
             ])
-            ->add('institute', DatalistType::class, [
+            ->add('maintainerInstituteCode', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
