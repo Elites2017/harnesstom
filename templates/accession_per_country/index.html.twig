@@ -31,7 +31,7 @@
                     {% endfor %}
                 {% endfor %}
                 {% if accessions | length > 0 %}
-                    <h2 class="mb-3 text-center tomato-color font-weight-bold tomato-color">{{ listTitle }}</h2>
+                    <h2 class="mb-3 text-center tomato-color font-weight-bold tomato-color">Accession List</h2>
                     <div class="table-responsive">
                         <table id="datatable" class="table table-hover text-nowrap" width="100%">
                             <thead class="table-dark">
@@ -50,29 +50,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for accession in accessions %}
-                                <tr>
-                                    <td><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ accession.taxon.taxonid }}" target="_blank">{{ accession.taxon }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accenumb }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accename }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.puid }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.origcty }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.collsrc }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.sampstat }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.mlsStatus }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.instcode }}</a></td>
-                                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.maintainernumb }}</a></td>
-                                    <td>
-                                        <a href="{{ path('accession_details', {id: accession.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
                 {% else %} 
                     <h5 class="mb-3 text-center tomato-color font-weight-bold">No accession has been provided in our system</h5>
-                {% endif %}     
+                {% endif %}  
 		    </div>
 		</div>
 		<!-- .row -->
@@ -82,18 +65,52 @@
 
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-		<script>window.jQuery || document.write('<script src="{{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')</script>
-		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-<!-- DataTables JavaScript -->
+    <script>
+        window.jQuery || document.write('<script src=" {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
+    </script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- DataTables JavaScript -->
     <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
     <script>
+        let data = [
+                {% for accession in accessions %}
+                    {
+                    taxon: "{{ accession.taxon.taxonid }}",
+                    accenumb: "{{ accession.accenumb }}",
+                    accename: "{{ accession.accename }}",
+                    puid: "{{ accession.puid }}",
+                    origcty: "{% if accession.origcty %} <a href={{ path('country_details', {id: accession.origcty.id}) }}>{{ accession.origcty }}</a>{% endif %}",
+                    collsrc: "{% if accession.collsrc %} <a href={{ path('collecting_source_details', {id: accession.collsrc.id}) }}>{{ accession.collsrc }}</a>{% endif %}",
+                    sampstat: "{% if accession.sampstat %} <a href={{ path('biological_status_details', {id: accession.sampstat.id}) }}>{{ accession.sampstat }}</a>{% endif %}",
+                    mlsStatus: "{% if accession.sampstat %} <a href={{ path('mls_status_details', {id: accession.sampstat.id}) }}>{{ accession.mlsStatus }}</a>{% endif %}",
+                    instcode: "{% if accession.instcode %} <a href={{ path('institute_details', {id: accession.instcode.id}) }}>{{ accession.instcode }}</a>{% endif %}",
+                    maintainernumb: "{{ accession.maintainernumb }}",
+                    action: "<a href={{ path('accession_details', {id: accession.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
+                    },
+                {% endfor %}
+            ];
         $(document).ready(function() {
-            $('#datatable').DataTable();
+            $('#datatable').DataTable( {
+                "bDestroy": true,
+                "pageLength": 25,
+                data: data,
+                columns: [
+                    { data: 'taxon'},
+                    { data: 'accenumb'},
+                    { data: 'accename'},
+                    { data: 'puid'},
+                    { data: 'origcty'},
+                    { data: 'collsrc'},
+                    { data: 'sampstat'},
+                    { data: 'mlsStatus'},
+                    { data: 'instcode'},
+                    { data: 'maintainernumb'},
+                    { data: 'action'}
+                ]
+            } );
         } );
     </script>
 {% endblock %}

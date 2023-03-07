@@ -52,16 +52,16 @@
 								{% for enzyme in enzymes %}
 									<tr>
 										<td>
-											<a href="{{ path('enzyme_details', {id: enzyme.id}) }}">{{ enzyme.ontologyId }}</a>
+											{{ enzyme.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('enzyme_details', {id: enzyme.id}) }}">{{ enzyme.name }}</a>
+											{{ enzyme.name }}
 										</td>
 										<td>
-											<a href="{{ path('enzyme_details', {id: enzyme.id}) }}">{{ enzyme.description }}</a>
+											{{ enzyme.description }}
 										</td>
 										<td>
-											<a href="{{ path('enzyme_details', {id: enzyme.id}) }}">{{ enzyme.parentTerm }}</a>
+											{{ enzyme.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('enzyme_details', {id: enzyme.id}) }}">

@@ -52,16 +52,18 @@
 								{% for contact in contacts %}
 									<tr>
 										<td>
-											<a href="{{ path('contact_details', {id: contact.id}) }}">{{ contact.orcid }}</a>
+											{{ contact.orcid }}</a>
 										</td>
 										<td>
-											<a href="{{ path('contact_details', {id: contact.id}) }}">{{ contact.person.firstName ~ " " ~ contact.person.lastName | upper}}</a>
+											{{ contact.person.firstName ~ " " ~ contact.person.lastName | upper}}
 										</td>
 										<td>
-											<a href="{{ path('contact_details', {id: contact.id}) }}">{{ contact.institute }}</a>
+											{% if contact.institute %}
+												<a href="{{ path('contact_details', {id: contact.id}) }}">{{ contact.institute }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('contact_details', {id: contact.id}) }}">{{ contact.type }}</a>
+											{{ contact.type }}
 										</td>
 										<td>
 											<a href="{{ path('contact_details', {id: contact.id}) }}">

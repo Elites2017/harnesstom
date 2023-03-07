@@ -38,10 +38,10 @@
 								{% for collection in collections %}
 									<tr>
 										<td>
-											<a href="{{ path('collection_details', {id: collection.id}) }}">{{ collection.name }}</a>
+											{{ collection.name }}
 										</td>
 										<td>
-											<a href="{{ path('collection_details', {id: collection.id}) }}">{{ collection.description }}</a>
+											{{ collection.description }}
 										</td>
 										<td>
 											<a href="{{ path('collection_details', {id: collection.id}) }}">

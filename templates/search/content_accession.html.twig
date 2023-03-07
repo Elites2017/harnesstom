@@ -22,15 +22,37 @@
             {% for accession in accessions %}
                 <tr>
                     <td><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ accession.taxon.taxonid }}" target="_blank">{{ accession.taxon }}</a></td>
-                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accenumb }}</a></td>
-                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accename }}</a></td>
-                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.puid }}</a></td>
-                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.origcty }}</a></td>
-                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.collsrc }}</a></td>
-                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.sampstat }}</a></td>
-                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.mlsStatus }}</a></td>
-                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.instcode }}</a></td>
-                    <td><a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.maintainernumb }}</a></td>
+                    <td>{{ accession.accenumb }}</td>
+                    <td>{{ accession.accename }}</td>
+                    <td>{{ accession.puid }}</td>
+                    <td>
+                        {% if accession.origcty %}
+                            <a href="{{ path('country_details', {id: accession.origcty.id}) }}">{{ accession.origcty }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if accession.collsrc %}
+                            <a href="{{ path('collecting_source_details', {id: accession.collsrc.id}) }}">{{ accession.collsrc }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if accession.sampstat %}
+                            <a href="{{ path('biological_status_details', {id: accession.sampstat.id}) }}">{{ accession.sampstat }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if accession.mlsStatus %}
+                            <a href="{{ path('mls_status_details', {id: accession.mlsStatus.id}) }}">{{ accession.mlsStatus }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if accession.instcode %}
+                            <a href="{{ path('institute_details', {id: accession.instcode.id}) }}">{{ accession.instcode }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ accession.maintainernumb }}
+                    </td>
                     <td>
                         <a href="{{ path('accession_details', {id: accession.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
                     </td>

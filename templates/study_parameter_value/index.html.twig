@@ -42,13 +42,13 @@
 								{% for studyParameterValue in studyParameterValues %}
 									<tr>
 										<td>
-											<a href="{{ path('study_parameter_value_details', {id: studyParameterValue.id}) }}">{{ studyParameterValue.study }}</a>
+											<a href="{{ path('study_details', {id: studyParameterValue.study.id}) }}">{{ studyParameterValue.study.abbreviation }}</a>
 										</td>
 										<td>
-											<a href="{{ path('study_parameter_value_details', {id: studyParameterValue.id}) }}">{{ studyParameterValue.parameter }}</a>
+											<a href="{{ path('parameter_details', {id: studyParameterValue.parameter.id}) }}">{{ studyParameterValue.parameter }}</a>
 										</td>
 										<td>
-											<a href="{{ path('study_parameter_value_details', {id: studyParameterValue.id}) }}">{{ studyParameterValue.value }}</a>
+											{{ studyParameterValue.value }}
 										</td>
 										<td>
 											<a href="{{ path('study_parameter_value_details', {id: studyParameterValue.id}) }}">

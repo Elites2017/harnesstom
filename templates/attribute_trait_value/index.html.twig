@@ -75,14 +75,14 @@
         let data = [
                 {% for attributeTraitValue in attributeTraitValues %}
                     {
-                    accession: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.accession }}</a>",
-                    attribute: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.attribute }}</a>",
-                    attributeCategory: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.attribute.category }}</a>",
-                    trait: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.trait }}</a>",
-                    metabolicTrait: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.metabolicTrait }}</a>",
-                    value: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ attributeTraitValue.value }}</a>",
-                    publicationReferences: "{% if attributeTraitValue.publicationReference | length > 0 %}{% for onePubRef in attributeTraitValue.publicationReference %}<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}>{{ onePubRef }}</a>{% endfor %}{% endif %}",
-                    action: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+                    accession: "{% if attributeTraitValue.accession %}<a href={{ path('accession_details', {id: attributeTraitValue.accession.id}) }}>{{ attributeTraitValue.accession }}</a>{% endif %}",
+                    attribute: "{% if attributeTraitValue.attribute %}<a href={{ path('attribute_details', {id: attributeTraitValue.attribute.id}) }}>{{ attributeTraitValue.attribute }}</a>{% endif %}",
+                    attributeCategory: "{% if attributeTraitValue.attribute.category %}<a href={{ path('attribute_category_details', {id: attributeTraitValue.attribute.category.id}) }}>{{ attributeTraitValue.attribute.category }}</a>{% endif %}",
+                    trait: "{% if attributeTraitValue.trait %}<a href={{ path('trait_class_details', {id: attributeTraitValue.trait.id}) }}>{{ attributeTraitValue.trait }}</a>{% endif %}",
+                    metabolicTrait: "{% if attributeTraitValue.metabolicTrait %}<a href={{ path('metabolic_trait_value_details', {id: attributeTraitValue.metabolicTrait.id}) }}>{{ attributeTraitValue.metabolicTrait }}</a>{% endif %}",
+                    value: "{{ attributeTraitValue.value }}",
+                    publicationReferences: "{% if attributeTraitValue.publicationReference | length > 0 %}{% for onePubRef in attributeTraitValue.publicationReference %}{{ onePubRef }}{% endfor %}{% endif %}",
+                    action: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
                     },
                 {% endfor %}
             ];

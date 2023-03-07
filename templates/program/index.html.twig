@@ -48,12 +48,24 @@
                             <tbody>
                                 {% for program in programs %}
                                     <tr>
-                                        <td><a href="{{ path('program_details', {id: program.id}) }}">{{ program.name|length > 50 ? program.name|slice(0, 50) ~ '...' : program.name }}</a></td>
-                                        <td><a href="{{ path('program_details', {id: program.id}) }}">{{ program.abbreviation }}</a></td>
-                                        <td><a href="{{ path('program_details', {id: program.id}) }}">{{ program.objective|length > 50 ? program.objective|slice(0, 50) ~ '...' : program.objective }}</a></td>
-                                        <td><a href="{{ path('program_details', {id: program.id}) }}">{{ program.crop }}</a></td>
-                                        <td><a href="{{ path('program_details', {id: program.id}) }}">{{ program.externalRef }}</a></td>
-                                        <td><a href="{{ path('program_details', {id: program.id}) }}">{{ program.contact }}</a></td>
+                                        <td>{{ program.name|length > 50 ? program.name|slice(0, 50) ~ '...' : program.name }}</td>
+                                        <td>{{ program.abbreviation }}</td>
+                                        <td>{{ program.objective|length > 50 ? program.objective|slice(0, 50) ~ '...' : program.objective }}</td>
+                                        <td>
+                                            {% if program.contact %}
+                                                <a href="{{ path('crop_details', {id: program.crop.id}) }}">{{ program.crop }}</a>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if program.externalRef %}
+                                                <a href="{{ program.externalRef }}" target ="_blank">{{ program.externalRef }}</a>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if program.contact %}
+                                                <a href="{{ path('contact_details', {id: program.contact.id}) }}">{{ program.contact }}</a>
+                                            {% endif %}
+                                        </td>
                                         <td>
                                             <a href="{{ path('program_details', {id: program.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
                                         </td>

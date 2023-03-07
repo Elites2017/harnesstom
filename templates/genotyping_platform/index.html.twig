@@ -81,7 +81,11 @@
 										</td>
 										<td><a href="{{ genotypingPlatform.assemblyPUI }}" target="_blank">{{ genotypingPlatform.assemblyPUI }}</a></td>
 										<td>{{ genotypingPlatform.publishedDate | date('d/m/Y') }}</td>
-										<td><a href="https://www.ncbi.nlm.nih.gov/sra/?term={{ genotypingPlatform.bioProjectID }}" target="_blank">{{ genotypingPlatform.bioProjectID }}</a></td>
+										<td>
+											{% if genotypingPlatform.bioProjectID %}
+												<a href="https://www.ncbi.nlm.nih.gov/sra/?term={{ genotypingPlatform.bioProjectID }}" target="_blank">{{ genotypingPlatform.bioProjectID }}</a>
+											{% endif %}
+										</td>
 										<td>
                                             <a href="{{ path('genotyping_platform_details', {id: genotypingPlatform.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
                                         </td>

@@ -51,13 +51,13 @@
 								{% for traitClass in traitClasses %}
 									<tr>
 										<td>
-											<a href="{{ path('trait_class_details', {id: traitClass.id}) }}">{{ traitClass.ontologyId }}</a>
+											{{ traitClass.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('trait_class_details', {id: traitClass.id}) }}">{{ traitClass.name }}</a>
+											{{ traitClass.name }}
 										</td>
 										<td>
-											<a href="{{ path('trait_class_details', {id: traitClass.id}) }}">{{ traitClass.description }}</a>
+											{{ traitClass.description }}
 										</td>
 										<td>
 											<a href="{{ path('trait_class_details', {id: traitClass.id}) }}">

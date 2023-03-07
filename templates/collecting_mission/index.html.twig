@@ -51,13 +51,13 @@
 								{% for collectingMission in collectingMissions %}
 									<tr>
 										<td>
-											<a href="{{ path('collecting_mission_details', {id: collectingMission.id}) }}">{{ collectingMission.name }}</a>
+											{{ collectingMission.name }}
 										</td>
 										<td>
-											<a href="{{ path('collecting_mission_details', {id: collectingMission.id}) }}">{{ collectingMission.species }}</a>
+											{{ collectingMission.species }}
 										</td>
 										<td>
-											<a href="{{ path('collecting_mission_details', {id: collectingMission.id}) }}">{{ collectingMission.institute }}</a>
+											{{ collectingMission.institute }}
 										</td>
 										<td>
 											<a href="{{ path('collecting_mission_details', {id: collectingMission.id}) }}">

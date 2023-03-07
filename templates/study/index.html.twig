@@ -48,12 +48,32 @@
                             <tbody>
                                 {% for study in studies %}
                                     <tr>
-                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.abbreviation }}</a></td>
-                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.name }}</a></td>
-                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.trial }}</a></td>
-                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.factor }}</a></td>
-                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.growthFacility }}</a></td>
-                                        <td><a href="{{ path('study_details', {id: study.id}) }}">{{ study.experimentalDesignType }}</a></td>
+                                        <td>
+                                            {{ study.abbreviation }}
+                                        </td>
+                                        <td>
+                                            {{ study.name }}
+                                        </td>
+                                        <td>
+                                            {% if study.trial %}
+                                                <a href="{{ path('trial_details', {id: study.trial.id}) }}">{{ study.trial.abbreviation }}</a>
+                                            {% endif %}
+                                            </td>
+                                        <td>
+                                            {% if study.factor %}
+                                                <a href="{{ path('factor_type_details', {id: study.factor.id}) }}">{{ study.factor }}</a>
+                                            {% endif %}
+                                            </td>
+                                        <td>
+                                            {% if study.growthFacility %}
+                                                <a href="{{ path('growth_facility_type_details', {id: study.growthFacility.id}) }}">{{ study.growthFacility }}</a>
+                                            {% endif %}
+                                            </td>
+                                        <td>
+                                            {% if study.experimentalDesignType %}
+                                                <a href="{{ path('experimental_design_details', {id: study.experimentalDesignType.id}) }}">{{ study.experimentalDesignType }}</a>
+                                            {% endif %}
+                                            </td>
                                         <td>
                                             <a href="{{ path('study_details', {id: study.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
                                         </td>

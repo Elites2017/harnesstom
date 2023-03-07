@@ -55,22 +55,22 @@
 								{% for location in locations %}
 									<tr>
 										<td>
-											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.abbreviation }}</a>
+											{{ location.abbreviation }}
 										</td>
 										<td>
-											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.name }}</a>
+											{{ location.name }}
 										</td>
 										<td>
-											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.siteStatus }}</a>
+											{{ location.siteStatus }}
 										</td>
 										<td>
-											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.longitudeCo }}</a>
+											{{ location.longitudeCo }}
 										</td>
 										<td>
-											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.latitudeCo }}</a>
+											{{ location.latitudeCo }}
 										</td>
 										<td>
-											<a href="{{ path('location_details', {id: location.id}) }}">{{ location.altitudeCo }}</a>
+											{{ location.altitudeCo }}
 										</td>
 										<td>
 											{% if location.country %}

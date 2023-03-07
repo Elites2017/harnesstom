@@ -53,19 +53,23 @@
 								{% for observationVariableMethod in observationVariableMethods %}
 									<tr>
 										<td>
-											<a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.name }}</a>
+											{{ observationVariableMethod.name }}
 										</td>
 										<td>
-											<a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.description }}</a>
+											{{ observationVariableMethod.description }}
 										</td>
 										<td>
-											<a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.instrument }}</a>
+											{{ observationVariableMethod.instrument }}
 										</td>
 										<td>
-											<a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.software }}</a>
+											{% if observationVariableMethod.software %}
+												<a href="{{ path('software_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.software }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.methodClass }}</a>
+											{% if observationVariableMethod.methodClass %}
+												<a href="{{ path('method_class_details', {id: observationVariableMethod.id}) }}">{{ observationVariableMethod.methodClass }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('observation_variable_method_details', {id: observationVariableMethod.id}) }}">

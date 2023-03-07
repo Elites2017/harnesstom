@@ -52,16 +52,16 @@
 								{% for unit in units %}
 									<tr>
 										<td>
-											<a href="{{ path('unit_details', {id: unit.id}) }}">{{ unit.ontologyId }}</a>
+											{{ unit.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('unit_details', {id: unit.id}) }}">{{ unit.name }}</a>
+											{{ unit.name }}
 										</td>
 										<td>
-											<a href="{{ path('unit_details', {id: unit.id}) }}">{{ unit.description }}</a>
+											{{ unit.description }}
 										</td>
 										<td>
-											<a href="{{ path('unit_details', {id: unit.id}) }}">{{ unit.parentTerm }}</a>
+											{{ unit.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('unit_details', {id: unit.id}) }}">

@@ -52,16 +52,16 @@
 								{% for qtlMethod in qtlMethods %}
 									<tr>
 										<td>
-											<a href="{{ path('qtl_method_details', {id: qtlMethod.id}) }}">{{ qtlMethod.ontologyId }}</a>
+											{{ qtlMethod.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('qtl_method_details', {id: qtlMethod.id}) }}">{{ qtlMethod.name }}</a>
+											{{ qtlMethod.name }}
 										</td>
 										<td>
-											<a href="{{ path('qtl_method_details', {id: qtlMethod.id}) }}">{{ qtlMethod.description }}</a>
+											{{ qtlMethod.description }}
 										</td>
 										<td>
-											<a href="{{ path('qtl_method_details', {id: qtlMethod.id}) }}">{{ qtlMethod.parentTerm }}</a>
+											{{ qtlMethod.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('qtl_method_details', {id: qtlMethod.id}) }}">

@@ -52,16 +52,16 @@
 								{% for identificationLevel in identificationLevels %}
 									<tr>
 										<td>
-											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">{{ identificationLevel.ontologyId }}</a>
+											{{ identificationLevel.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">{{ identificationLevel.name }}</a>
+											{{ identificationLevel.name }}
 										</td>
 										<td>
-											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">{{ identificationLevel.description }}</a>
+											{{ identificationLevel.description }}
 										</td>
 										<td>
-											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">{{ identificationLevel.parentTerm }}</a>
+											{{ identificationLevel.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('identification_level_details', {id: identificationLevel.id}) }}">

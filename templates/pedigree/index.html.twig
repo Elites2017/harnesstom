@@ -38,11 +38,25 @@
                             <tbody>
                                 {% for pedigree in pedigrees %}
                                     <tr>
-                                        <td><a href="{{ path('pedigree_details', {id: pedigree.id}) }}">{{ pedigree.pedigreeEntryID }}</a></td>
-                                        <td><a href="{{ path('pedigree_details', {id: pedigree.id}) }}">{{ pedigree.germplasm[0] }}</a></td>
-                                        <td><a href="{{ path('pedigree_details', {id: pedigree.id}) }}">{{ pedigree.generation }}</a></td>
-                                        <td><a href="{{ path('pedigree_details', {id: pedigree.id}) }}">{{ pedigree.ancestorPedigreeEntryID }}</a></td>
-                                        <td><a href="{{ path('pedigree_details', {id: pedigree.id}) }}">{{ pedigree.pedigreeCross }}</a></td>
+                                        <td>{{ pedigree.pedigreeEntryID }}</td>
+                                        <td>
+                                            {% if pedigree.germplasm[0] %}
+                                                <a href="{{ path('germplasm_details', {id: pedigree.germplasm[0].id}) }}">{{ pedigree.germplasm[0] }}</a>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if pedigree.generation %}
+                                                <a href="{{ path('generation_details', {id: pedigree.generation.id}) }}">{{ pedigree.generation }}</a>
+                                        {% endif %}
+                                        </td>
+
+                                        <td>
+                                            {{ pedigree.ancestorPedigreeEntryID }}
+                                        <td>
+                                            {% if pedigree.pedigreeCross %}
+                                                <a href="{{ path('cross_details', {id: pedigree.pedigreeCross.id}) }}">{{ pedigree.pedigreeCross }}</a>
+                                            {% endif %}
+                                        </td>
                                         <td>
                                             <a href="{{ path('pedigree_details', {id: pedigree.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
                                         </td>

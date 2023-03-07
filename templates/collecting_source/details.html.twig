@@ -11,9 +11,9 @@
 					<table class="table table-striped">
 						<thead>
                                 <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Label</th>
-                                <th scope="col">Code</th>
+                                <th scope="col">Ontology ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
                                 {% if is_granted("ROLE_ADMIN") %}
 									<th scope="col">Created By</th>
 									<th scope="col">Creation Date</th>
@@ -26,9 +26,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{ collectingSource.id }}</td>
-                                    <td>{{ collectingSource.label }}</td>
-                                    <td>{{ collectingSource.code }}</td>
+                                    <td>{{ collectingSource.ontologyId }}</td>
+                                    <td>{{ collectingSource.name }}</td>
+                                    <td>{{ collectingSource.description }}</td>
                                     {% if is_granted("ROLE_ADMIN") %}
 									<td>
 										<a href="{{ path('person_details', {id: collectingSource.createdBy.id}) }}">{{ collectingSource.createdBy }}</a>

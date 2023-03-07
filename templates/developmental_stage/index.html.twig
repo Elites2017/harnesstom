@@ -51,13 +51,13 @@
 								{% for developmentalStage in developmentalStages %}
 									<tr>
 										<td>
-											<a href="{{ path('developmental_stage_details', {id: developmentalStage.id}) }}">{{ developmentalStage.ontologyId }}</a>
+											{{ developmentalStage.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('developmental_stage_details', {id: developmentalStage.id}) }}">{{ developmentalStage.name }}</a>
+											{{ developmentalStage.name }}
 										</td>
 										<td>
-											<a href="{{ path('developmental_stage_details', {id: developmentalStage.id}) }}">{{ developmentalStage.description }}</a>
+											{{ developmentalStage.description }}
 										</td>
 										<td>
 											<a href="{{ path('developmental_stage_details', {id: developmentalStage.id}) }}">

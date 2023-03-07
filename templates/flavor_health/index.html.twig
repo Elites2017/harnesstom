@@ -52,16 +52,16 @@
 								{% for flavorHealth in flavorHealths %}
 									<tr>
 										<td>
-											<a href="{{ path('flavor_health_details', {id: flavorHealth.id}) }}">{{ flavorHealth.ontologyId }}</a>
+											{{ flavorHealth.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('flavor_health_details', {id: flavorHealth.id}) }}">{{ flavorHealth.name }}</a>
+											{{ flavorHealth.name }}
 										</td>
 										<td>
-											<a href="{{ path('flavor_health_details', {id: flavorHealth.id}) }}">{{ flavorHealth.description }}</a>
+											{{ flavorHealth.description }}
 										</td>
 										<td>
-											<a href="{{ path('flavor_health_details', {id: flavorHealth.id}) }}">{{ flavorHealth.parentTerm }}</a>
+											{{ flavorHealth.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('flavor_health_details', {id: flavorHealth.id}) }}">

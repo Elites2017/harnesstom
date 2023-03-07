@@ -53,19 +53,19 @@
 								{% for scaleCategory in scaleCategories %}
 									<tr>
 										<td>
-											<a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">{{ scaleCategory.scale.name }}</a>
+											{{ scaleCategory.scale.name }}
 										</td>
 										<td>
-											<a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">{{ scaleCategory.label }}</a>
+											{{ scaleCategory.label }}
 										</td>
 										<td>
-											<a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">{{ scaleCategory.score }}</a>
+											{{ scaleCategory.score }}
 										</td>
 										<td>
-											<a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">{{ scaleCategory.min }}</a>
+											{{ scaleCategory.min }}
 										</td>
 										<td>
-											<a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">{{ scaleCategory.max }}</a>
+											{{ scaleCategory.max }}
 										</td>
 										<td>
 											<a href="{{ path('scale_category_details', {id: scaleCategory.id}) }}">

@@ -52,16 +52,16 @@
 								{% for breedingMethod in breedingMethods %}
 									<tr>
 										<td>
-											<a href="{{ path('breeding_method_details', {id: breedingMethod.id}) }}">{{ breedingMethod.ontologyId }}</a>
+											{{ breedingMethod.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('breeding_method_details', {id: breedingMethod.id}) }}">{{ breedingMethod.name }}</a>
+											{{ breedingMethod.name }}
 										</td>
 										<td>
-											<a href="{{ path('breeding_method_details', {id: breedingMethod.id}) }}">{{ breedingMethod.description }}</a>
+											{{ breedingMethod.description }}
 										</td>
 										<td>
-											<a href="{{ path('breeding_method_details', {id: breedingMethod.id}) }}">{{ breedingMethod.parentTerm }}</a>
+											{{ breedingMethod.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('breeding_method_details', {id: breedingMethod.id}) }}">

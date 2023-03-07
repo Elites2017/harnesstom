@@ -55,25 +55,29 @@
 								{% for trial in trials %}
 									<tr>
 										<td>
-											<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.abbreviation }}</a>
+											{{ trial.abbreviation }}
 										</td>
 										<td>
-											<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.name }}</a>
+											{{ trial.name }}
 										</td>
 										<td>
-											<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.description|length > 50 ? trial.description|slice(0, 50) ~ '...' : trial.description }}</a>
+											{{ trial.description|length > 50 ? trial.description|slice(0, 50) ~ '...' : trial.description }}
 										</td>
 										<td>
-											<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.program.abbreviation }}</a>
+											{% if trial.program %}
+												<a href="{{ path('program_details', {id: trial.program.id}) }}">{{ trial.program.abbreviation }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.trialType }}</a>
+											{% if trial.trialType %}
+												<a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">{{ trial.trialType }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.pui }}</a>
+											{{ trial.pui }}
 										</td>
 										<td>
-											<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.publicReleaseDate | date('d/m/Y') }}</a>
+											{{ trial.publicReleaseDate | date('d/m/Y') }}
 										</td>
 										<td>
 											<a href="{{ path('trial_details', {id: trial.id}) }}">

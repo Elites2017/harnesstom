@@ -75,11 +75,11 @@
 	let data = [
 			{% for institute in institutes %}
 				{
-				instcode: "<a href={{ path('institute_details', {id: institute.id}) }}>{{ institute.instcode }}</a>",
-				acronym: "<a href={{ path('institute_details', {id: institute.id}) }}>{{ institute.acronym }}</a>",
-				name: "<a href={{ path('institute_details', {id: institute.id}) }}>{{ institute.name }}</a>",
-				country: "<a href={{ path('institute_details', {id: institute.id}) }}>{{ institute.country }}</a>",
-				action: "<a href={{ path('institute_details', {id: institute.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+				instcode: "{{ institute.instcode }}",
+				acronym: "{{ institute.acronym }}",
+				name: "{{ institute.name }}",
+				country: "{% if institute.country %}<a href={{ path('country_details', {id: institute.country.id}) }}>{{ institute.country }}</a>{% endif %}",
+				action: "<a href={{ path('institute_details', {id: institute.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
 				},
 			{% endfor %}
 		];

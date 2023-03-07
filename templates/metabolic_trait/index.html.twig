@@ -51,13 +51,13 @@
 								{% for metabolicTrait in metabolicTraits %}
 									<tr>
 										<td>
-											<a href="{{ path('metabolic_trait_details', {id: metabolicTrait.id}) }}">{{ metabolicTrait.ontologyID }}</a>
+											{{ metabolicTrait.ontologyID }}
 										</td>
 										<td>
-											<a href="{{ path('metabolic_trait_details', {id: metabolicTrait.id}) }}">{{ metabolicTrait.name }}</a>
+											{{ metabolicTrait.name }}
 										</td>
 										<td>
-											<a href="{{ path('metabolic_trait_details', {id: metabolicTrait.id}) }}">{{ metabolicTrait.description }}</a>
+											{{ metabolicTrait.description }}
 										</td>
 										<td>
 											<a href="{{ path('metabolic_trait_details', {id: metabolicTrait.id}) }}">

@@ -48,13 +48,13 @@
 								{% for anatomicalEntity in anatomicalEntities %}
 									<tr>
 										<td>
-											<a href="{{ path('anatomical_entity_details', {id: anatomicalEntity.id}) }}">{{ anatomicalEntity.ontologyId }}</a>
+											{{ anatomicalEntity.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('anatomical_entity_details', {id: anatomicalEntity.id}) }}">{{ anatomicalEntity.name }}</a>
+											{{ anatomicalEntity.name }}
 										</td>
 										<td>
-											<a href="{{ path('anatomical_entity_details', {id: anatomicalEntity.id}) }}">{{ anatomicalEntity.description }}</a>
+											{{ anatomicalEntity.description }}
 										</td>
 										<td>
 											<a href="{{ path('anatomical_entity_details', {id: anatomicalEntity.id}) }}">

@@ -52,16 +52,16 @@
 								{% for traitProcessing in traitProcessings %}
 									<tr>
 										<td>
-											<a href="{{ path('trait_class_details', {id: traitProcessing.id}) }}">{{ traitProcessing.ontologyId }}</a>
+											{{ traitProcessing.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('trait_class_details', {id: traitProcessing.id}) }}">{{ traitProcessing.name }}</a>
+											{{ traitProcessing.name }}
 										</td>
 										<td>
-											<a href="{{ path('trait_class_details', {id: traitProcessing.id}) }}">{{ traitProcessing.description }}</a>
+											{{ traitProcessing.description }}
 										</td>
 										<td>
-											<a href="{{ path('trait_class_details', {id: traitProcessing.id}) }}">{{ traitProcessing.parentTerm }}</a>
+											{{ traitProcessing.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('trait_class_details', {id: traitProcessing.id}) }}">

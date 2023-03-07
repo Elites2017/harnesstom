@@ -41,10 +41,10 @@
 								{% for studyImage in studyImages %}
 									<tr>
 										<td>
-											<a href="{{ path('study_image_details', {id: studyImage.id}) }}">{{ studyImage.study }}</a>
+											<a href="{{ path('study_details', {id: studyImage.study.id}) }}">{{ studyImage.study }}</a>
 										</td>
 										<td>
-											<a href="{{ path('study_image_details', {id: studyImage.id}) }}">{{ studyImage.description }}</a>
+											{{ studyImage.description }}
 										</td>
 										<td>
 											<a href="{{ path('study_image_details', {id: studyImage.id}) }}">

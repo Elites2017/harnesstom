@@ -43,16 +43,16 @@
 								{% for qtlStatistic in qtlStatistics %}
 									<tr>
 										<td>
-											<a href="{{ path('qtl_statistic_details', {id: qtlStatistic.id}) }}">{{ qtlStatistic.ontologyId }}</a>
+											{{ qtlStatistic.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('qtl_statistic_details', {id: qtlStatistic.id}) }}">{{ qtlStatistic.name }}</a>
+											{{ qtlStatistic.name }}
 										</td>
 										<td>
-											<a href="{{ path('qtl_statistic_details', {id: qtlStatistic.id}) }}">{{ qtlStatistic.description }}</a>
+											{{ qtlStatistic.description }}
 										</td>
 										<td>
-											<a href="{{ path('qtl_statistic_details', {id: qtlStatistic.id}) }}">{{ qtlStatistic.parentTerm }}</a>
+											{{ qtlStatistic.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('qtl_statistic_details', {id: qtlStatistic.id}) }}">

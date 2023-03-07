@@ -52,16 +52,16 @@
 								{% for ciCriteria in ciCriterias %}
 									<tr>
 										<td>
-											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">{{ ciCriteria.ontologyId }}</a>
+											{{ ciCriteria.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">{{ ciCriteria.name }}</a>
+											{{ ciCriteria.name }}
 										</td>
 										<td>
-											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">{{ ciCriteria.description }}</a>
+											{{ ciCriteria.description }}
 										</td>
 										<td>
-											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">{{ ciCriteria.parentTerm }}</a>
+											{{ ciCriteria.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('ci_criteria_details', {id: ciCriteria.id}) }}">

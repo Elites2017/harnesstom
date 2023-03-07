@@ -51,13 +51,17 @@
 								{% for parameter in parameters %}
 									<tr>
 										<td>
-											<a href="{{ path('parameter_details', {id: parameter.id}) }}">{{ parameter.name }}</a>
+											{{ parameter.name }}
 										</td>
 										<td>
-											<a href="{{ path('parameter_details', {id: parameter.id}) }}">{{ parameter.factorType }}</a>
+											{% if parameter.factorType %}
+												<a href="{{ path('fator_type_details', {id: parameter.id}) }}">{{ parameter.factorType }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('parameter_details', {id: parameter.id}) }}">{{ parameter.unit }}</a>
+											{% if parameter.unit %}
+												<a href="{{ path('unit_details', {id: parameter.id}) }}">{{ parameter.unit }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('parameter_details', {id: parameter.id}) }}">

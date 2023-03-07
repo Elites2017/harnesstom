@@ -43,16 +43,16 @@
 								{% for variantSetMetadata in variantSetMetadatas %}
 									<tr>
 										<td>
-											<a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">{{ variantSetMetadata.name }}</a>
+											{{ variantSetMetadata.name }}
 										</td>
 										<td>
-											<a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">{{ variantSetMetadata.description }}</a>
+											{{ variantSetMetadata.description }}
 										</td>
 										<td>
-											<a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">{{ variantSetMetadata.filters }}</a>
+											{{ variantSetMetadata.filters }}
 										</td>
 										<td>
-											<a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">{{ variantSetMetadata.variantCount }}</a>
+											{{ variantSetMetadata.variantCount }}
 										</td>
 										<td>
 											<a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">

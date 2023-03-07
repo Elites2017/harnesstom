@@ -39,10 +39,14 @@
 								{% for metaboliteValue in metaboliteValues %}
 									<tr>
 										<td>
-											<a href="{{ path('metabolite_value_details', {id: metaboliteValue.id}) }}">{{ metaboliteValue.sample }}</a>
+											{% if metaboliteValue.sample %}
+												<a href="{{ path('metabolite_value_details', {id: metaboliteValue.id}) }}">{{ metaboliteValue.sample }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('metabolite_value_details', {id: metaboliteValue.id}) }}">{{ metaboliteValue.metabolite }}</a>
+											{% if metaboliteValue.metabolite %}
+												<a href="{{ path('metabolite_value_details', {id: metaboliteValue.id}) }}">{{ metaboliteValue.metabolite }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('metabolite_value_details', {id: metaboliteValue.id}) }}">{{ metaboliteValue.value }}</a>

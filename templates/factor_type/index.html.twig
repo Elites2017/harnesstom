@@ -51,13 +51,13 @@
 								{% for factorType in factorTypes %}
 									<tr>
 										<td>
-											<a href="{{ path('factor_type_details', {id: factorType.id}) }}">{{ factorType.ontologyId }}</a>
+											{{ factorType.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('factor_type_details', {id: factorType.id}) }}">{{ factorType.name }}</a>
+											{{ factorType.name }}
 										</td>
 										<td>
-											<a href="{{ path('factor_type_details', {id: factorType.id}) }}">{{ factorType.description }}</a>
+											{{ factorType.description }}
 										</td>
 										<td>
 											<a href="{{ path('factor_type_details', {id: factorType.id}) }}">

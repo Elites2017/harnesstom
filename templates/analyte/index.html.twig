@@ -37,10 +37,10 @@
                             <tbody>
                             {% for analyte in analytes %}
                                 <tr>
-                                    <td><a href="{{ path('analyte_details', {id: analyte.id}) }}">{{ analyte.name }}</a></td>
-                                    <td><a href="{{ path('analyte_details', {id: analyte.id}) }}">{{ analyte.analyteCode }}</a></td>
-                                    <td><a href="{{ path('analyte_details', {id: analyte.id}) }}">{{ analyte.retentionTime }}</a></td>
-                                    <td><a href="{{ path('analyte_details', {id: analyte.id}) }}">{{ analyte.massToChargeRatio }}</a></td>
+                                    <td>{{ analyte.name }}</td>
+                                    <td>{{ analyte.analyteCode }}</td>
+                                    <td>{{ analyte.retentionTime }}</td>
+                                    <td>{{ analyte.massToChargeRatio }}</td>
                                     <td>
                                         <a href="{{ path('analyte_details', {id: analyte.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
                                     </td>

@@ -52,16 +52,16 @@
 								{% for generation in generations %}
 									<tr>
 										<td>
-											<a href="{{ path('generation_details', {id: generation.id}) }}">{{ generation.ontologyId }}</a>
+											{{ generation.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('generation_details', {id: generation.id}) }}">{{ generation.name }}</a>
+											{{ generation.name }}
 										</td>
 										<td>
-											<a href="{{ path('generation_details', {id: generation.id}) }}">{{ generation.description }}</a>
+											{{ generation.description }}
 										</td>
 										<td>
-											<a href="{{ path('generation_details', {id: generation.id}) }}">{{ generation.parentTerm }}</a>
+											{{ generation.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('generation_details', {id: generation.id}) }}">

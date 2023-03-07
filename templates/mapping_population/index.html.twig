@@ -50,46 +50,70 @@
 								{% for mappingPopulation in mappingPopulations %}
 									<tr>
 										<td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.name }}</a>
+											{{ mappingPopulation.name }}
 										</td>
 										<td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross }}</a>
+											{% if mappingPopulation.mappingPopulationCross %}
+												<a href="{{ path('cross_details', {id: mappingPopulation.mappingPopulationCross.id}) }}">{{ mappingPopulation.mappingPopulationCross }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.study }}</a>
+											{% if mappingPopulation.mappingPopulationCross.study %}
+												<a href="{{ path('study_details', {id: mappingPopulation.mappingPopulationCross.study.id}) }}">{{ mappingPopulation.mappingPopulationCross.study }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.institute }}</a>
+											{% if mappingPopulation.mappingPopulationCross.institute %}
+												<a href="{{ path('institute_details', {id: mappingPopulation.mappingPopulationCross.institute.id}) }}">{{ mappingPopulation.mappingPopulationCross.institute }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.parent1 }}</a>
+											{% if mappingPopulation.mappingPopulationCross.parent1 %}
+												<a href="{{ path('germplasm_details', {id: mappingPopulation.mappingPopulationCross.parent1.id}) }}">{{ mappingPopulation.mappingPopulationCross.parent1 }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.parent2 }}</a>
+											{% if mappingPopulation.mappingPopulationCross.parent2 %}
+												<a href="{{ path('germplasm_details', {id: mappingPopulation.mappingPopulationCross.parent2.id}) }}">{{ mappingPopulation.mappingPopulationCross.parent2 }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.breedingMethod }}</a>
+											{% if mappingPopulation.mappingPopulationCross.breedingMethod %}
+												<a href="{{ path('breeding_method_details', {id: mappingPopulation.mappingPopulationCross.breedingMethod.id}) }}">{{ mappingPopulation.mappingPopulationCross.breedingMethod }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.pedigree }}</a>
+											{% if mappingPopulation.mappingPopulationCross.pedigree %}
+												<a href="{{ path('pedigree_details', {id: mappingPopulation.mappingPopulationCross.pedigree.id}) }}">{{ mappingPopulation.mappingPopulationCross.pedigree }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.mappingPopulationCross.year }}</a>
+											{{ mappingPopulation.mappingPopulationCross.year }}</a>
 										</td>
 										<td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.pedigreeGeneration }}</a>
+											{% if mappingPopulation.pedigreeGeneration %}
+												<a href="{{ path('pedigree_details', {id: mappingPopulation.pedigreeGeneration.id}) }}">{{ mappingPopulation.pedigreeGeneration }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.pedigreeGeneration.pedigreeEntryID }}</a>
+											{% if mappingPopulation.pedigreeGeneration %}
+												<a href="{{ path('pedigree_details', {id: mappingPopulation.pedigreeGeneration.id}) }}">{{ mappingPopulation.pedigreeGeneration.pedigreeEntryID }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.pedigreeGeneration.ancestorPedigreeEntryID }}</a>
+											{% if mappingPopulation.pedigreeGeneration %}
+												<a href="{{ path('pedigree_details', {id: mappingPopulation.pedigreeGeneration.id}) }}">{{ mappingPopulation.pedigreeGeneration.ancestorPedigreeEntryID }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.pedigreeGeneration.generation }}</a>
+											{% if mappingPopulation.pedigreeGeneration.generation %}
+												<a href="{{ path('generation_details', {id: mappingPopulation.pedigreeGeneration.generation.id}) }}">{{ mappingPopulation.pedigreeGeneration.generation }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">{{ mappingPopulation.pedigreeGeneration.pedigreeCross }}</a>
+											{% if mappingPopulation.pedigreeGeneration %}
+												<a href="{{ path('cross_details', {id: mappingPopulation.pedigreeGeneration.pedigreeCross.id}) }}">{{ mappingPopulation.pedigreeGeneration.pedigreeCross }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('mapping_population_details', {id: mappingPopulation.id}) }}">
@@ -102,7 +126,7 @@
 						</table>
 					</div>
 				{% else %}
-					<h5 class="mb-3 text-center tomato-color font-weight-bold">No mappingPopulation has been provided in our system</h5>
+					<h5 class="mb-3 text-center tomato-color font-weight-bold">No mapping population has been provided in our system</h5>
 				{% endif %}
 			</div>
 		</div>

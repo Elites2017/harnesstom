@@ -34,16 +34,16 @@
 								{% for allelicEffectEstimator in allelicEffectEstimators %}
 									<tr>
 										<td>
-											<a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">{{ allelicEffectEstimator.ontologyId }}</a>
+											{{ allelicEffectEstimator.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">{{ allelicEffectEstimator.name }}</a>
+											{{ allelicEffectEstimator.name }}
 										</td>
 										<td>
-											<a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">{{ allelicEffectEstimator.description }}</a>
+											{{ allelicEffectEstimator.description }}
 										</td>
 										<td>
-											<a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">{{ allelicEffectEstimator.parentTerm }}</a>
+											{{ allelicEffectEstimator.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('allelic_effect_estimator_details', {id: allelicEffectEstimator.id}) }}">

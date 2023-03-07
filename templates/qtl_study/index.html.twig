@@ -48,28 +48,38 @@
 								{% for qtlStudy in qtlStudies %}
 									<tr>
 										<td>
-											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">{{ qtlStudy.name }}</a>
+											{{ qtlStudy.name }}
 										</td>
 										<td>
-											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">{{ qtlStudy.software }}</a>
+											{% if qtlStudy.software %}
+												<a href="{{ path('software_details', {id: qtlStudy.software.id}) }}">{{ qtlStudy.software }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">{{ qtlStudy.qtlCount }}</a>
+											{{ qtlStudy.qtlCount }}
 										</td>
 										<td>
-											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">{{ qtlStudy.ciCriteria }}</a>
+											{% if qtlStudy.ciCriteria %}
+												<a href="{{ path('ci_criteria_details', {id: qtlStudy.ciCriteria.id}) }}">{{ qtlStudy.ciCriteria }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">{{ qtlStudy.method }}</a>
+											{% if qtlStudy.method %}
+												<a href="{{ path('qtl_method_details', {id: qtlStudy.method.id}) }}">{{ qtlStudy.method }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">{{ qtlStudy.mappingPopulation }}</a>
+											{% if qtlStudy.mappingPopulation %}
+												<a href="{{ path('mapping_popilation_details', {id: qtlStudy.mappingPopulation.id}) }}">{{ qtlStudy.mappingPopulation }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">{{ qtlStudy.genomeMapUnit }}</a>
+											{{ qtlStudy.genomeMapUnit }}
 										</td>
 										<td>
-											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">{{ qtlStudy.thresholdMethod }}</a>
+											{% if qtlStudy.thresholdMethod %}
+												<a href="{{ path('threshold_method_details', {id: qtlStudy.thresholdMethod.id}) }}">{{ qtlStudy.thresholdMethod }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">{{ qtlStudy.thresholdValue }}</a>

@@ -52,15 +52,15 @@
 								{% for gwasStatTest in gwasStatTests %}
 									<tr>
 										<td>
-											<a href="{{ path('gwas_stat_test_details', {id: gwasStatTest.id}) }}">{{ gwasStatTest.ontologyID }}</a>
+											{{ gwasStatTest.ontologyID }}
 										</td><td>
-											<a href="{{ path('gwas_stat_test_details', {id: gwasStatTest.id}) }}">{{ gwasStatTest.name }}</a>
+											{{ gwasStatTest.name }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_stat_test_details', {id: gwasStatTest.id}) }}">{{ gwasStatTest.description }}</a>
+											{{ gwasStatTest.description }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_stat_test_details', {id: gwasStatTest.id}) }}">{{ gwasStatTest.parentTerm }}</a>
+											{{ gwasStatTest.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('gwas_stat_test_details', {id: gwasStatTest.id}) }}">

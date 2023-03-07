@@ -52,16 +52,16 @@
 								{% for attributeCategory in attributeCategories %}
 									<tr>
 										<td>
-											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.ontologyId }}</a>
+											{{ attributeCategory.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.name }}</a>
+											{{ attributeCategory.name }}
 										</td>
 										<td>
-											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.description }}</a>
+											{{ attributeCategory.description }}
 										</td>
 										<td>
-											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">{{ attributeCategory.parentTerm }}</a>
+											{{ attributeCategory.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('attribute_category_details', {id: attributeCategory.id}) }}">

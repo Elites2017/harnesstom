@@ -73,12 +73,12 @@
         let data = [
                 {% for germplasm in germplasms %}
                     {
-                    germplasmID: "<a href={{ path('germplasm_details', {id: germplasm.id}) }}>{{ germplasm.germplasmID }}</a>",
-                    instcode: "<a href={{ path('germplasm_details', {id: germplasm.id}) }}>{{ germplasm.instcode }}</a>",
-                    maintainerNumb: "<a href={{ path('germplasm_details', {id: germplasm.id}) }}>{{ germplasm.maintainerNumb }}</a>",
-                    progAbbreviation: "<a href={{ path('germplasm_details', {id: germplasm.id}) }}>{{ germplasm.program.abbreviation }}</a>",
-                    preprocessing: "<a href={{ path('germplasm_details', {id: germplasm.id}) }}>{{ germplasm.preprocessing }}</a>",
-                    action: "<a href={{ path('germplasm_details', {id: germplasm.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+                    germplasmID: "{{ germplasm.germplasmID }}</a>",
+                    instcode: "{% if germplasm.maintainerInstituteCode %}<a href={{ path('institute_details', {id: germplasm.maintainerInstituteCode.id}) }}>{{ germplasm.maintainerInstituteCode }}</a>{% endif %}",
+                    maintainerNumb: "{{ germplasm.maintainerNumb }}",
+                    progAbbreviation: "{% if germplasm.program %}<a href={{ path('program_details', {id: germplasm.program.id}) }}>{{ germplasm.program.abbreviation }}</a>{% endif %}",
+                    preprocessing: "{{ germplasm.preprocessing }}",
+                    action: "<a href={{ path('germplasm_details', {id: germplasm.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
                     },
                 {% endfor %}
             ];

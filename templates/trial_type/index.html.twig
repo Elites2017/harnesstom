@@ -52,16 +52,16 @@
 								{% for trialType in trialTypes %}
 									<tr>
 										<td>
-											<a href="{{ path('trial_type_details', {id: trialType.id}) }}">{{ trialType.ontologyId }}</a>
+											{{ trialType.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('trial_type_details', {id: trialType.id}) }}">{{ trialType.name }}</a>
+											{{ trialType.name }}
 										</td>
 										<td>
-											<a href="{{ path('trial_type_details', {id: trialType.id}) }}">{{ trialType.description }}</a>
+											{{ trialType.description }}
 										</td>
 										<td>
-											<a href="{{ path('trial_type_details', {id: trialType.id}) }}">{{ trialType.parentTerm }}</a>
+											{{ trialType.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('trial_type_details', {id: trialType.id}) }}">

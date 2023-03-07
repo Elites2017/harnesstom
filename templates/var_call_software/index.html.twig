@@ -52,16 +52,16 @@
 								{% for varCallSoftware in varCallSoftwares %}
 									<tr>
 										<td>
-											<a href="{{ path('var_call_software_details', {id: varCallSoftware.id}) }}">{{ varCallSoftware.ontologyId }}</a>
+											{{ varCallSoftware.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('var_call_software_details', {id: varCallSoftware.id}) }}">{{ varCallSoftware.name }}</a>
+											{{ varCallSoftware.name }}
 										</td>
 										<td>
-											<a href="{{ path('var_call_software_details', {id: varCallSoftware.id}) }}">{{ varCallSoftware.description }}</a>
+											{{ varCallSoftware.description }}
 										</td>
 										<td>
-											<a href="{{ path('var_call_software_details', {id: varCallSoftware.id}) }}">{{ varCallSoftware.parentTerm }}</a>
+											{{ varCallSoftware.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('var_call_software_details', {id: varCallSoftware.id}) }}">

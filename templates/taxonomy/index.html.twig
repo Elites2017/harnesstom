@@ -52,16 +52,16 @@
 								{% for taxonomy in taxonomies %}
 									<tr>
 										<td>
-											<a href="{{ path('taxonomy_details', {id: taxonomy.id}) }}">{{ taxonomy.taxonid }}</a>
+											{{ taxonomy.taxonid }}
 										</td>
 										<td>
-											<a href="{{ path('taxonomy_details', {id: taxonomy.id}) }}">{{ taxonomy.genus }}</a>
+											{{ taxonomy.genus }}
 										</td>
 										<td>
-											<a href="{{ path('taxonomy_details', {id: taxonomy.id}) }}">{{ taxonomy.species }}</a>
+											{{ taxonomy.species }}
 										</td>
 										<td>
-											<a href="{{ path('taxonomy_details', {id: taxonomy.id}) }}">{{ taxonomy.subtaxa }}</a>
+											{{ taxonomy.subtaxa }}
 										</td>
 										<td>
 											<a href="{{ path('taxonomy_details', {id: taxonomy.id}) }}">

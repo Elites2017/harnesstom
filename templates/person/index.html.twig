@@ -54,26 +54,26 @@
 								{% for person in people %}
 									<tr>
 										<td>
-											<a href="{{ path('person_details', {id: person.id}) }}">{{ person.firstName }}</a>
+											{{ person.firstName }}
 										</td>
                                         <td>
-											<a href="{{ path('person_details', {id: person.id}) }}">{{ person.middleName }}</a>
+											{{ person.middleName }}
 										</td>
 										<td>
-											<a href="{{ path('person_details', {id: person.id}) }}">{{ person.lastName }}</a>
+											{{ person.lastName }}
 										</td>
 										<td>
-											<a href="{{ path('person_details', {id: person.id}) }}">
-												{% if person.user %}
-													{{ person.user.email }}
-												{% endif %}
-											</a>
+											{% if person.user %}
+												{{ person.user.email }}
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('person_details', {id: person.id}) }}">{{ person.city }}</a>
+											{{ person.city }}
 										</td>
                                         <td>
-											<a href="{{ path('person_details', {id: person.id}) }}">{{ person.country }}</a>
+											{% if person.country %}
+												<a href="{{ path('person_details', {id: person.id}) }}">{{ person.country }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('person_details', {id: person.id}) }}">

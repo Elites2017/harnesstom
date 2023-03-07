@@ -52,16 +52,18 @@
 								{% for observationVariable in observationVariables %}
 									<tr>
 										<td>
-											<a href="{{ path('observation_variable_details', {id: observationVariable.id}) }}">{{ observationVariable.name }}</a>
+											{{ observationVariable.name }}
 										</td>
 										<td>
-											<a href="{{ path('observation_variable_details', {id: observationVariable.id}) }}">{{ observationVariable.mainAbbreviaition }}</a>
+											{{ observationVariable.mainAbbreviaition }}
 										</td>
 										<td>
-											<a href="{{ path('observation_variable_details', {id: observationVariable.id}) }}">{{ observationVariable.description }}</a>
+											{{ observationVariable.description }}
 										</td>
 										<td>
-											<a href="{{ path('observation_variable_details', {id: observationVariable.id}) }}">{{ observationVariable.trait }}</a>
+											{% if observationVariable.trait %}
+												<a href="{{ path('trait_class_details', {id: observationVariable.id}) }}">{{ observationVariable.trait }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('observation_variable_details', {id: observationVariable.id}) }}">

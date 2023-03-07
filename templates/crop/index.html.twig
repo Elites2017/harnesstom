@@ -49,7 +49,7 @@
 								{% for crop in crops %}
 									<tr>
 										<td>
-											<a href="{{ path('crop_details', {id: crop.id}) }}">{{ crop.commonCropName }}</a>
+											{{ crop.commonCropName }}
 										</td>
 										<td>
 											<a href="{{ path('crop_details', {id: crop.id}) }}">

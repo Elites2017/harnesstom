@@ -52,16 +52,16 @@
 								{% for geneticTestingModel in geneticTestingModels %}
 									<tr>
 										<td>
-											<a href="{{ path('genetic_testing_model_details', {id: geneticTestingModel.id}) }}">{{ geneticTestingModel.ontologyId }}</a>
+											{{ geneticTestingModel.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('genetic_testing_model_details', {id: geneticTestingModel.id}) }}">{{ geneticTestingModel.name }}</a>
+											{{ geneticTestingModel.name }}
 										</td>
 										<td>
-											<a href="{{ path('genetic_testing_model_details', {id: geneticTestingModel.id}) }}">{{ geneticTestingModel.description }}</a>
+											{{ geneticTestingModel.description }}
 										</td>
 										<td>
-											<a href="{{ path('genetic_testing_model_details', {id: geneticTestingModel.id}) }}">{{ geneticTestingModel.parentTerm }}</a>
+											{{ geneticTestingModel.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('genetic_testing_model_details', {id: geneticTestingModel.id}) }}">

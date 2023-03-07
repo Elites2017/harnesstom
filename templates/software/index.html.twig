@@ -52,16 +52,16 @@
 								{% for software in softwares %}
 									<tr>
 										<td>
-											<a href="{{ path('software_details', {id: software.id}) }}">{{ software.ontologyId }}</a>
+											{{ software.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('software_details', {id: software.id}) }}">{{ software.name }}</a>
+											{{ software.name }}
 										</td>
 										<td>
-											<a href="{{ path('software_details', {id: software.id}) }}">{{ software.description }}</a>
+											{{ software.description }}
 										</td>
 										<td>
-											<a href="{{ path('software_details', {id: software.id}) }}">{{ software.parentTerm }}</a>
+											{{ software.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('software_details', {id: software.id}) }}">

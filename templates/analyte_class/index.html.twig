@@ -37,7 +37,7 @@
 								{% for analyteClass in analyteClasses %}
 									<tr>
 										<td>
-											<a href="{{ path('analyte_class_details', {id: analyteClass.id}) }}">{{ analyteClass.name }}</a>
+											{{ analyteClass.name }}
 										</td>
 										<td>
 											<a href="{{ path('analyte_class_details', {id: analyteClass.id}) }}">

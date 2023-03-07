@@ -52,16 +52,16 @@
 								{% for dataType in dataTypes %}
 									<tr>
 										<td>
-											<a href="{{ path('data_type_details', {id: dataType.id}) }}">{{ dataType.ontologyId }}</a>
+											{{ dataType.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('data_type_details', {id: dataType.id}) }}">{{ dataType.name }}</a>
+											{{ dataType.name }}
 										</td>
 										<td>
-											<a href="{{ path('data_type_details', {id: dataType.id}) }}">{{ dataType.description }}</a>
+											{{ dataType.description }}
 										</td>
 										<td>
-											<a href="{{ path('data_type_details', {id: dataType.id}) }}">{{ dataType.parentTerm }}</a>
+											{{ dataType.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('data_type_details', {id: dataType.id}) }}">

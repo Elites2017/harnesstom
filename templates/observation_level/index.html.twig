@@ -80,17 +80,17 @@
 	let data = [
 			{% for observationLevel in observationLevels %}
 				{
-				germaplasm: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.germaplasm }}</a>",
-				unitname: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.unitname }}</a>",
-				name: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.name }}</a>",
-				blockNumber: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.blockNumber }}</a>",
-				subBlockNumber: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.subBlockNumber }}</a>",
-				plotNumber: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.plotNumber }}</a>",
-				plantNumber: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.plantNumber }}</a>",
-				replicate: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.replicate }}</a>",
-				trial: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.study.trial.abbreviation }}</a>",
-				study: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}>{{ observationLevel.study }}</a>",
-				action: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+				germaplasm: "{% if observationLevel.germaplasm %}<a href={{ path('germplasm_details', {id: observationLevel.germaplasm.id}) }}>{{ observationLevel.germaplasm }}</a>{% endif %}",
+				unitname: "{{ observationLevel.unitname }}",
+				name: "{{ observationLevel.name }}",
+				blockNumber: "{{ observationLevel.blockNumber }}",
+				subBlockNumber: "{{ observationLevel.subBlockNumber }}",
+				plotNumber: "{{ observationLevel.plotNumber }}",
+				plantNumber: "{{ observationLevel.plantNumber }}",
+				replicate: "{{ observationLevel.replicate }}",
+				trial: "{% if observationLevel.study.trial %}<a href={{ path('trial_details', {id: observationLevel.study.trial.id}) }}>{{ observationLevel.study.trial.abbreviation }}</a>{% endif %}",
+				study: "{% if observationLevel.study %}<a href={{ path('study_details', {id: observationLevel.study.id}) }}>{{ observationLevel.study.abbreviation }}</a>{% endif %}",
+				action: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
 				},
 			{% endfor %}
 		];

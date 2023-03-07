@@ -52,16 +52,16 @@
 								{% for metaboliteClass in metaboliteClasses %}
 									<tr>
 										<td>
-											<a href="{{ path('metabolite_class_details', {id: metaboliteClass.id}) }}">{{ metaboliteClass.ontologyId }}</a>
+											{{ metaboliteClass.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('metabolite_class_details', {id: metaboliteClass.id}) }}">{{ metaboliteClass.name }}</a>
+											{{ metaboliteClass.name }}
 										</td>
 										<td>
-											<a href="{{ path('metabolite_class_details', {id: metaboliteClass.id}) }}">{{ metaboliteClass.description }}</a>
+											{{ metaboliteClass.description }}
 										</td>
 										<td>
-											<a href="{{ path('metabolite_class_details', {id: metaboliteClass.id}) }}">{{ metaboliteClass.parentTerm }}</a>
+											{{ metaboliteClass.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('metabolite_class_details', {id: metaboliteClass.id}) }}">

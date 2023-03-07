@@ -52,16 +52,16 @@
 								{% for annotationLevel in annotationLevels %}
 									<tr>
 										<td>
-											<a href="{{ path('annotation_level_details', {id: annotationLevel.id}) }}">{{ annotationLevel.ontologyId }}</a>
+											{{ annotationLevel.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('annotation_level_details', {id: annotationLevel.id}) }}">{{ annotationLevel.name }}</a>
+											{{ annotationLevel.name }}
 										</td>
 										<td>
-											<a href="{{ path('annotation_level_details', {id: annotationLevel.id}) }}">{{ annotationLevel.description }}</a>
+											{{ annotationLevel.description }}
 										</td>
 										<td>
-											<a href="{{ path('annotation_level_details', {id: annotationLevel.id}) }}">{{ annotationLevel.parentTerm }}</a>
+											{{ annotationLevel.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('annotation_level_details', {id: annotationLevel.id}) }}">

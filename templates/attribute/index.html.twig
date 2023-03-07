@@ -52,16 +52,16 @@
 								{% for attribute in attributes %}
 									<tr>
 										<td>
-											<a href="{{ path('attribute_details', {id: attribute.id}) }}">{{ attribute.name }}</a>
+											{{ attribute.name }}
 										</td>
 										<td>
-											<a href="{{ path('attribute_details', {id: attribute.id}) }}">{{ attribute.abbreviation }}</a>
+											{{ attribute.abbreviation }}
 										</td>
 										<td>
-											<a href="{{ path('attribute_details', {id: attribute.id}) }}">{{ attribute.description }}</a>
+											{{ attribute.description }}
 										</td>
 										<td>
-											<a href="{{ path('attribute_details', {id: attribute.id}) }}">{{ attribute.category }}</a>
+											{{ attribute.category }}
 										</td>
 										<td>
 											<a href="{{ path('attribute_details', {id: attribute.id}) }}">

@@ -52,16 +52,16 @@
 								{% for mlsStatus in mlsStatuses %}
 									<tr>
 										<td>
-											<a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">{{ mlsStatus.ontologyId }}</a>
+											{{ mlsStatus.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">{{ mlsStatus.name }}</a>
+											{{ mlsStatus.name }}
 										</td>
 										<td>
-											<a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">{{ mlsStatus.description }}</a>
+											{{ mlsStatus.description }}
 										</td>
 										<td>
-											<a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">{{ mlsStatus.parentTerm }}</a>
+											{{ mlsStatus.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('mls_status_details', {id: mlsStatus.id}) }}">

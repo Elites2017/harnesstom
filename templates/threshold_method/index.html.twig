@@ -52,16 +52,16 @@
 								{% for thresholdMethod in thresholdMethods %}
 									<tr>
 										<td>
-											<a href="{{ path('threshold_method_details', {id: thresholdMethod.id}) }}">{{ thresholdMethod.ontologyId }}</a>
+											{{ thresholdMethod.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('threshold_method_details', {id: thresholdMethod.id}) }}">{{ thresholdMethod.name }}</a>
+											{{ thresholdMethod.name }}
 										</td>
 										<td>
-											<a href="{{ path('threshold_method_details', {id: thresholdMethod.id}) }}">{{ thresholdMethod.description }}</a>
+											{{ thresholdMethod.description }}
 										</td>
 										<td>
-											<a href="{{ path('threshold_method_details', {id: thresholdMethod.id}) }}">{{ thresholdMethod.parentTerm }}</a>
+											{{ thresholdMethod.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('threshold_method_details', {id: thresholdMethod.id}) }}">

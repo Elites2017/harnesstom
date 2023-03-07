@@ -84,21 +84,21 @@
 		let data = [
                 {% for marker in markers %}
                     {
-                    name: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.name }}</a>",
-                    type: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.type }}</a>",
-                    genomeVersion: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.genotypingPlatform.refSetName }}</a>",
-                    linkageGroupName: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.linkageGroupName }}</a>",
-                    position: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.position }}</a>",
-                    start: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.start }}</a>",
-                    end: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.end }}</a>",
-					refAllele: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.refAllele }}</a>",
-                    altAlleles: "{% if marker.altAllele | length > 0 %}{% for oneAltAllele in marker.altAllele %}<a href={{ path('marker_details', {id: marker.id}) }}>{{ oneAltAllele }}</a>{% endfor %}{% endif %}",
-                    primerName1: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.primerName1 }}</a>",
-                    primerSeq1: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.primerSeq1 }}</a>",
-					primerName2: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.primerName2 }}</a>",
-                    primerSeq2: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.primerSeq2 }}</a>",
-					genotypingPlatform: "<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.genotypingPlatform }}</a>",
-                    action: "<a href={{ path('marker_details', {id: marker.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+                    name: "{{ marker.name }}",
+                    type: "{{ marker.type }}",
+                    genomeVersion: "{{ marker.genotypingPlatform.refSetName }}",
+                    linkageGroupName: "{{ marker.linkageGroupName }}",
+                    position: "{{ marker.position }}",
+                    start: "{{ marker.start }}",
+                    end: "{{ marker.end }}",
+					refAllele: "{{ marker.refAllele }}",
+                    altAlleles: "{% if marker.altAllele | length > 0 %}{% for oneAltAllele in marker.altAllele %}{{ oneAltAllele }}{% endfor %}{% endif %}",
+                    primerName1: "{{ marker.primerName1 }}",
+                    primerSeq1: "{{ marker.primerSeq1 }}",
+					primerName2: "{{ marker.primerName2 }}",
+                    primerSeq2: "{{ marker.primerSeq2 }}",
+					genotypingPlatform: "{% if marker.genotypingPlatform %}<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.genotypingPlatform }}</a>{% endif %}",
+                    action: "<a href={{ path('marker_details', {id: marker.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
                     },
                 {% endfor %}
             ];

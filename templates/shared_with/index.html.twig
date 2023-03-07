@@ -35,8 +35,8 @@
                             <tbody>
                                 {% for sharedWith in sharedWiths %}
                                     <tr>
-                                        <td><a href="{{ path('shared_with_details', {id: sharedWith.id}) }}">{{ sharedWith.trial }}</a></td>
-                                        <td><a href="{{ path('shared_with_details', {id: sharedWith.id}) }}">{{ sharedWith.user }}</a></td>
+                                        <td><a href="{{ path('trial_details', {id: sharedWith.trial.id}) }}">{{ sharedWith.trial }}</a></td>
+                                        <td><a href="{{ path('person_details', {id: sharedWith.user.person.id}) }}">{{ sharedWith.user }}</a></td>
                                         <td>
                                             <a href="{{ path('shared_with_details', {id: sharedWith.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
                                         </td>

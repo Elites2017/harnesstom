@@ -58,52 +58,52 @@
 								{% for gwasVariant in gwasVariants %}
 									<tr>
 										<td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.name }}</a>
+											{{ gwasVariant.name }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.maf }}</a>
+											{{ gwasVariant.maf }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.sampleSize }}</a>
+											{{ gwasVariant.sampleSize }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.snppValue }}</a>
+											{{ gwasVariant.snppValue }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.adjustedPValue }}</a>
+											{{ gwasVariant.adjustedPValue }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.allelicEffect }}</a>
+											{{ gwasVariant.allelicEffect }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.allelicEffectStat }}</a>
+											{{ gwasVariant.allelicEffectStat }}
 										</td>
                                         <td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.allelicEffStdE }}</a>
+											{{ gwasVariant.allelicEffStdE }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.allelicEffectdf }}</a>
+											{{ gwasVariant.allelicEffectdf }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.beta }}</a>
+											{{ gwasVariant.beta }}
 										</td>
                                         <td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.betaStdE }}</a>
+											{{ gwasVariant.betaStdE }}
 										</td>
                                         <td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.oddsRatio }}</a>
+											{{ gwasVariant.oddsRatio }}
 										</td>
                                         <td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.ciLower }}</a>
+											{{ gwasVariant.ciLower }}
 										</td>
                                         <td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.ciUpper }}</a>
+											{{ gwasVariant.ciUpper }}
 										</td>
                                         <td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.marker }}</a>
+											{{ gwasVariant.marker }}
 										</td>
                                         <td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.metabolite }}</a>
+											{{ gwasVariant.metabolite }}
 										</td>
                                         <td>
 											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.gwas }}</a>

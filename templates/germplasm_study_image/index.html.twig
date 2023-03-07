@@ -75,14 +75,14 @@
         let data = [
                 {% for germplasmStudyImage in germplasmStudyImages %}
                     {
-                    germplasmID: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}>{{ germplasmStudyImage.germplasmID }}</a>",
-                    StudyID: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}>{{ germplasmStudyImage.StudyID }}</a>",
-                    description: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}>{{ germplasmStudyImage.description }}</a>",
-                    factor: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}>{{ germplasmStudyImage.factor }}</a>",
-                    developmentStage: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}>{{ germplasmStudyImage.developmentStage }}</a>",
-                    plantAnatomicalEntity: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}>{{ germplasmStudyImage.plantAnatomicalEntity }}</a>",
+                    germplasmID: "{{ germplasmStudyImage.germplasmID }}</a>",
+                    StudyID: "{% if germplasmStudyImage.StudyID %}<a href={{ path('study_details', {id: germplasmStudyImage.StudyID.id}) }}>{{ germplasmStudyImage.StudyID.abbreviation }}</a>{% endif %}",
+                    description: "{{ germplasmStudyImage.description }}</a>",
+                    factor: "{% if germplasmStudyImage.factor %}<a href={{ path('factor_type_details', {id: germplasmStudyImage.factor.id}) }}>{{ germplasmStudyImage.factor }}</a>{% endif %}",
+                    developmentStage: "{% if germplasmStudyImage.developmentStage %}<a href={{ path('developmental_stage_details', {id: germplasmStudyImage.developmentStage.id}) }}>{{ germplasmStudyImage.developmentStage }}</a>{% endif %}",
+                    plantAnatomicalEntity: "{% if germplasmStudyImage.plantAnatomicalEntity %}<a href={{ path('anatomical_entity_details', {id: germplasmStudyImage.plantAnatomicalEntity.id}) }}>{{ germplasmStudyImage.plantAnatomicalEntity }}</a>{% endif %}",
                     filename: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}><img src={{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ germplasmStudyImage.filename ) }} width='50%' alt='' class='logo' /></a>",
-                    action: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}><button class='btn btn-outline-primary'>View</button></a>"
+                    action: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
                     },
                 {% endfor %}
             ];

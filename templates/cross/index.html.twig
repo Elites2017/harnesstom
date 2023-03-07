@@ -57,31 +57,39 @@
 								{% for cross in crosses %}
 									<tr>
 										<td>
-											<a href="{{ path('cross_details', {id: cross.id}) }}">{{ cross.name }}</a>
+											{{ cross.name }}
 										</td>
 										<td>
-											<a href="{{ path('cross_details', {id: cross.id}) }}">{{ cross.description }}</a>
+											{{ cross.description }}
 										</td>
 										<td>
-											<a href="{{ path('cross_details', {id: cross.id}) }}">{{ cross.parent1 }}</a>
+											{% if cross.parent1 %}
+												<a href="{{ path('germplasm_details', {id: cross.parent1.id}) }}">{{ cross.parent1 }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('cross_details', {id: cross.id}) }}">{{ cross.parent1Type }}</a>
+											{{ cross.parent1Type }}
 										</td>
 										<td>
-											<a href="{{ path('cross_details', {id: cross.id}) }}">{{ cross.parent2 }}</a>
+											{% if cross.parent2 %}
+												<a href="{{ path('germplasm_details', {id: cross.parent2.id}) }}">{{ cross.parent2 }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('cross_details', {id: cross.id}) }}">{{ cross.parent2Type }}</a>
+											{{ cross.parent2Type }}
 										</td>
 										<td>
-											<a href="{{ path('cross_details', {id: cross.id}) }}">{{ cross.study }}</a>
+											{% if cross.study %}
+												<a href="{{ path('study_details', {id: cross.study.id}) }}">{{ cross.study.abbreviation }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('cross_details', {id: cross.id}) }}">{{ cross.institute }}</a>
+											{% if cross.institute %}
+												<a href="{{ path('institute_details', {id: cross.institute.id}) }}">{{ cross.institute }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('cross_details', {id: cross.id}) }}">{{ cross.year }}</a>
+											{{ cross.year }}
 										</td>
 										<td>
 											<a href="{{ path('cross_details', {id: cross.id}) }}">

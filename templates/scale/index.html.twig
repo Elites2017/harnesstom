@@ -52,16 +52,20 @@
 								{% for scale in scales %}
 									<tr>
 										<td>
-											<a href="{{ path('scale_details', {id: scale.id}) }}">{{ scale.name }}</a>
+											{{ scale.name }}
 										</td>
 										<td>
-											<a href="{{ path('scale_details', {id: scale.id}) }}">{{ scale.description }}</a>
+											{{ scale.description }}
 										</td>
 										<td>
-											<a href="{{ path('scale_details', {id: scale.id}) }}">{{ scale.dataType }}</a>
+											{% if scale.dataType %}
+												<a href="{{ path('data_type_details', {id: scale.dataType.id}) }}">{{ scale.dataType }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('scale_details', {id: scale.id}) }}">{{ scale.unit }}</a>
+											{% if scale.unit %}
+												<a href="{{ path('unit_details', {id: scale.unit.id}) }}">{{ scale.unit }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('scale_details', {id: scale.id}) }}">

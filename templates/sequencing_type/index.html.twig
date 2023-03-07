@@ -52,16 +52,16 @@
 								{% for sequencingType in sequencingTypes %}
 									<tr>
 										<td>
-											<a href="{{ path('sequencing_type_details', {id: sequencingType.id}) }}">{{ sequencingType.ontologyId }}</a>
+											{{ sequencingType.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('sequencing_type_details', {id: sequencingType.id}) }}">{{ sequencingType.name }}</a>
+											{{ sequencingType.name }}
 										</td>
 										<td>
-											<a href="{{ path('sequencing_type_details', {id: sequencingType.id}) }}">{{ sequencingType.description }}</a>
+											{{ sequencingType.description }}
 										</td>
 										<td>
-											<a href="{{ path('sequencing_type_details', {id: sequencingType.id}) }}">{{ sequencingType.parentTerm }}</a>
+											{{ sequencingType.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('sequencing_type_details', {id: sequencingType.id}) }}">

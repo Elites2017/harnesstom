@@ -52,16 +52,16 @@
 								{% for sequencingInstrument in sequencingInstruments %}
 									<tr>
 										<td>
-											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">{{ sequencingInstrument.ontologyId }}</a>
+											{{ sequencingInstrument.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">{{ sequencingInstrument.name }}</a>
+											{{ sequencingInstrument.name }}
 										</td>
 										<td>
-											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">{{ sequencingInstrument.description }}</a>
+											{{ sequencingInstrument.description }}
 										</td>
 										<td>
-											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">{{ sequencingInstrument.parentTerm }}</a>
+											{{ sequencingInstrument.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('sequencing_instrument_details', {id: sequencingInstrument.id}) }}">

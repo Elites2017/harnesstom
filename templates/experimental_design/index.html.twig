@@ -50,10 +50,10 @@
 								{% for experimentalDesign in experimentalDesigns %}
 									<tr>
 										<td>
-											<a href="{{ path('experimental_design_details', {id: experimentalDesign.id}) }}">{{ experimentalDesign.name }}</a>
+											{{ experimentalDesign.name }}
 										</td>
 										<td>
-											<a href="{{ path('experimental_design_details', {id: experimentalDesign.id}) }}">{{ experimentalDesign.description }}</a>
+											{{ experimentalDesign.description }}
 										</td>
 										<td>
 											<a href="{{ path('experimental_design_details', {id: experimentalDesign.id}) }}">

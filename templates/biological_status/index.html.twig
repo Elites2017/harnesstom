@@ -52,16 +52,16 @@
 								{% for biologicalStatus in biologicalStatuses %}
 									<tr>
 										<td>
-											<a href="{{ path('biological_status_details', {id: biologicalStatus.id}) }}">{{ biologicalStatus.ontologyId }}</a>
+											{{ biologicalStatus.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('biological_status_details', {id: biologicalStatus.id}) }}">{{ biologicalStatus.name }}</a>
+											{{ biologicalStatus.name }}
 										</td>
 										<td>
-											<a href="{{ path('biological_status_details', {id: biologicalStatus.id}) }}">{{ biologicalStatus.parentTerm }}</a>
+											{{ biologicalStatus.parentTerm }}
 										</td>
 										<td>
-											<a href="{{ path('biological_status_details', {id: biologicalStatus.id}) }}">{{ biologicalStatus.description }}</a>
+											{{ biologicalStatus.description }}
 										</td>
 										<td>
 											<a href="{{ path('biological_status_details', {id: biologicalStatus.id}) }}">

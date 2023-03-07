@@ -55,25 +55,33 @@
 								{% for sample in samples %}
 									<tr>
 										<td>
-											<a href="{{ path('sample_details', {id: sample.id}) }}">{{ sample.name }}</a>
+											{{ sample.name }}
 										</td>
 										<td>
-											<a href="{{ path('sample_details', {id: sample.id}) }}">{{ sample.replicate }}</a>
+											{{ sample.replicate }}
 										</td>
 										<td>
-											<a href="{{ path('sample_details', {id: sample.id}) }}">{{ sample.description }}</a>
+											{{ sample.description }}
 										</td>
 										<td>
-											<a href="{{ path('sample_details', {id: sample.id}) }}">{{ sample.study }}</a>
+											{% if sample.study %}
+												<a href="{{ path('study_details', {id: sample.study.id}) }}">{{ sample.study.abbreviation }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('sample_details', {id: sample.id}) }}">{{ sample.germplasm }}</a>
+											{% if sample.germplasm %}
+												<a href="{{ path('germplasm_details', {id: sample.germplasm.id}) }}">{{ sample.germplasm }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('sample_details', {id: sample.id}) }}">{{ sample.developmentalStage }}</a>
+											{% if sample.developmentalStage %}
+												<a href="{{ path('developmental_stage_details', {id: sample.developmentalStage.id}) }}">{{ sample.developmentalStage }}</a>
+											{% endif %}
 										</td>
                                         <td>
-											<a href="{{ path('sample_details', {id: sample.id}) }}">{{ sample.observationLevel }}</a>
+											{% if sample.observationLevel %}
+												<a href="{{ path('observation_level_details', {id: sample.observationLevel.id}) }}">{{ sample.observationLevel }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('sample_details', {id: sample.id}) }}">

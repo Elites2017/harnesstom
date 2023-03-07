@@ -13,8 +13,8 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Code</th>
+								<th scope="col">Name</th>
+								<th scope="col">Ontology ID</th>
 								<th scope="col">Parent Term</th>
 								{% if is_granted("ROLE_ADMIN") %}
 									<th scope="col">Created By</th>
@@ -28,8 +28,8 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>{{ biologicalStatus.id }}</td>
-								<td>{{ biologicalStatus.code }}</td>
+								<td>{{ biologicalStatus.name }}</td>
+								<td>{{ biologicalStatus.ontologyId }}</td>
 								<td>{{ biologicalStatus.parentTerm }}</td>
 								{% if is_granted("ROLE_ADMIN") %}
 									<td>

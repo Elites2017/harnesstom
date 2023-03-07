@@ -52,16 +52,16 @@
 								{% for methodClass in methodClasses %}
 									<tr>
 										<td>
-											<a href="{{ path('method_class_details', {id: methodClass.id}) }}">{{ methodClass.ontologyId }}</a>
+											{{ methodClass.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('method_class_details', {id: methodClass.id}) }}">{{ methodClass.name }}</a>
+											{{ methodClass.name }}
 										</td>
 										<td>
-											<a href="{{ path('method_class_details', {id: methodClass.id}) }}">{{ methodClass.description }}</a>
+											{{ methodClass.description }}
 										</td>
 										<td>
-											<a href="{{ path('method_class_details', {id: methodClass.id}) }}">{{ methodClass.parentTerm }}</a>
+											{{ methodClass.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('method_class_details', {id: methodClass.id}) }}">

@@ -52,15 +52,15 @@
 								{% for gwasModel in gwasModels %}
 									<tr>
 										<td>
-											<a href="{{ path('gwas_model_details', {id: gwasModel.id}) }}">{{ gwasModel.ontologyID }}</a>
+											{{ gwasModel.ontologyID }}
 										</td><td>
-											<a href="{{ path('gwas_model_details', {id: gwasModel.id}) }}">{{ gwasModel.name }}</a>
+											{{ gwasModel.name }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_model_details', {id: gwasModel.id}) }}">{{ gwasModel.description }}</a>
+											{{ gwasModel.description }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_model_details', {id: gwasModel.id}) }}">{{ gwasModel.parentTerm }}</a>
+											{{ gwasModel.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('gwas_model_details', {id: gwasModel.id}) }}">

@@ -52,16 +52,16 @@
 								{% for season in seasons %}
 									<tr>
 										<td>
-											<a href="{{ path('season_details', {id: season.id}) }}">{{ season.ontologyId }}</a>
+											{{ season.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('season_details', {id: season.id}) }}">{{ season.name }}</a>
+											{{ season.name }}
 										</td>
 										<td>
-											<a href="{{ path('season_details', {id: season.id}) }}">{{ season.description }}</a>
+											{{ season.description }}
 										</td>
 										<td>
-											<a href="{{ path('season_details', {id: season.id}) }}">{{ season.parentTerm }}</a>
+											{{ season.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('season_details', {id: season.id}) }}">

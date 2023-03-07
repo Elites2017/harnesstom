@@ -52,16 +52,16 @@
 								{% for kinshipAlgorithm in kinshipAlgorithms %}
 									<tr>
 										<td>
-											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">{{ kinshipAlgorithm.ontologyId }}</a>
+											{{ kinshipAlgorithm.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">{{ kinshipAlgorithm.name }}</a>
+											{{ kinshipAlgorithm.name }}
 										</td>
 										<td>
-											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">{{ kinshipAlgorithm.description }}</a>
+											{{ kinshipAlgorithm.description }}
 										</td>
 										<td>
-											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">{{ kinshipAlgorithm.parentTerm }}</a>
+											{{ kinshipAlgorithm.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('kinship_algorithm_details', {id: kinshipAlgorithm.id}) }}">

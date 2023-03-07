@@ -52,16 +52,16 @@
 								{% for structureMethod in structureMethods %}
 									<tr>
 										<td>
-											<a href="{{ path('structure_method_details', {id: structureMethod.id}) }}">{{ structureMethod.ontologyId }}</a>
+											{{ structureMethod.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('structure_method_details', {id: structureMethod.id}) }}">{{ structureMethod.name }}</a>
+											{{ structureMethod.name }}
 										</td>
 										<td>
-											<a href="{{ path('structure_method_details', {id: structureMethod.id}) }}">{{ structureMethod.description }}</a>
+											{{ structureMethod.description }}
 										</td>
 										<td>
-											<a href="{{ path('structure_method_details', {id: structureMethod.id}) }}">{{ structureMethod.parentTerm }}</a>
+											{{ structureMethod.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('structure_method_details', {id: structureMethod.id}) }}">

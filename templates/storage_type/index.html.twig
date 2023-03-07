@@ -52,16 +52,16 @@
 								{% for storageType in storageTypes %}
 									<tr>
 										<td>
-											<a href="{{ path('storage_type_details', {id: storageType.id}) }}">{{ storageType.ontologyId }}</a>
+											{{ storageType.ontologyId }}
 										</td>
 										<td>
-											<a href="{{ path('storage_type_details', {id: storageType.id}) }}">{{ storageType.name }}</a>
+											{{ storageType.name }}
 										</td>
 										<td>
-											<a href="{{ path('storage_type_details', {id: storageType.id}) }}">{{ storageType.description }}</a>
+											{{ storageType.description }}
 										</td>
 										<td>
-											<a href="{{ path('storage_type_details', {id: storageType.id}) }}">{{ storageType.parentTerm }}</a>
+											{{ storageType.parentTerm }}
 										</td>
 										<td>
 											<a href="{{ path('storage_type_details', {id: storageType.id}) }}">

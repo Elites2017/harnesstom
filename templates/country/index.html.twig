@@ -50,10 +50,10 @@
 								{% for country in countries %}
 									<tr>
 										<td>
-											<a href="{{ path('country_details', {id: country.id}) }}">{{ country.name }}</a>
+											{{ country.name }}
 										</td>
 										<td>
-											<a href="{{ path('country_details', {id: country.id}) }}">{{ country.iso3 }}</a>
+											{{ country.iso3 }}
 										</td>
 										<td>
 											<a href="{{ path('country_details', {id: country.id}) }}">

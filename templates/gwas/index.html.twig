@@ -48,31 +48,43 @@
 								{% for gwas in gwases %}
 									<tr>
 										<td>
-											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.name }}</a>
+											{{ gwas.name }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.software }}</a>
+											{% if gwas.software %}
+												<a href="{{ path('software_details', {id: gwas.software.id}) }}">{{ gwas.software }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.gwasModel }}</a>
+											{% if gwas.gwasModel %}
+												<a href="{{ path('gwas_model_details', {id: gwas.gwasModel.id}) }}">{{ gwas.gwasModel }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.structureMethod }}</a>
+											{% if gwas.structureMethod %}
+												<a href="{{ path('structure_method_details', {id: gwas.structureMethod.id}) }}">{{ gwas.structureMethod }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.kinshipAlgorithm }}</a>
+											{% if gwas.kinshipAlgorithm %}
+												<a href="{{ path('kinship_algorithm_details', {id: gwas.kinshipAlgorithm.id}) }}">{{ gwas.kinshipAlgorithm }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.gwasStatTest }}</a>
+											{% if gwas.gwasStatTest %}
+												<a href="{{ path('gwas_stat_test_details', {id: gwas.gwasStatTest.id}) }}">{{ gwas.gwasStatTest }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.thresholdMethod }}</a>
+											{% if gwas.thresholdMethod %}
+												<a href="{{ path('threshold_method_details', {id: gwas.thresholdMethod.id}) }}">{{ gwas.thresholdMethod }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.thresholdValue }}</a>
+											{{ gwas.thresholdValue }}
 										</td>
 										<td>
-											<a href="{{ path('gwas_details', {id: gwas.id}) }}">{{ gwas.preprocessing }}</a>
+											{{ gwas.preprocessing }}
 										</td>
 										<td>
 											<a href="{{ path('gwas_details', {id: gwas.id}) }}">

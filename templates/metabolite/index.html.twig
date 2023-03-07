@@ -42,13 +42,13 @@
 								{% for metabolite in metabolites %}
 									<tr>
 										<td>
-											<a href="{{ path('metabolite_details', {id: metabolite.id}) }}">{{ metabolite.analyte }}</a>
+											{{ metabolite.analyte }}
 										</td>
 										<td>
-											<a href="{{ path('metabolite_details', {id: metabolite.id}) }}">{{ metabolite.metabolicTrait }}</a>
+											{{ metabolite.metabolicTrait }}
 										</td>
 										<td>
-											<a href="{{ path('metabolite_details', {id: metabolite.id}) }}">{{ metabolite.scale }}</a>
+											{{ metabolite.scale }}
 										</td>
 										<td>
 											<a href="{{ path('metabolite_details', {id: metabolite.id}) }}">

@@ -39,10 +39,14 @@
 								{% for variantSet in variantSets %}
 									<tr>
 										<td>
-											<a href="{{ path('variant_set_details', {id: variantSet.id}) }}">{{ variantSet.sample }}</a>
+											{% if variantSet.sample %}
+												<a href="{{ path('sample_details', {id: variantSet.sample.id}) }}">{{ variantSet.sample }}</a>
+											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('variant_set_details', {id: variantSet.id}) }}">{{ variantSet.marker }}</a>
+											{% if variantSet.marker %}
+												<a href="{{ path('marker_details', {id: variantSet.marker.id}) }}">{{ variantSet.marker }}</a>
+											{% endif %}
 										</td>
 										<td>
 											<a href="{{ path('variant_set_details', {id: variantSet.id}) }}">{{ variantSet.value }}</a>
