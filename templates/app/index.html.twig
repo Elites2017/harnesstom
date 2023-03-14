@@ -36,24 +36,24 @@
           omics data and metadata from different projects, trials and experiments including
           images using a controlled vocabulary and accepted standards.
         </p>
-      </div>
+    </div>
     
     <!-- end of the app page -->
     <!-- main end -->
 
-     <!-- Page Wrapper -->
+    <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav tomato-bg-color sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav tomato-bg-color rounded sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            {# <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
                 <div class="sidebar-brand-text mx-1">Harnesstom <sup>DB</sup></div>
-            </a>
+            </a> #}
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -62,7 +62,7 @@
             <li class="nav-item active">
                 <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Features</span></a>
             </li>
 
             <!-- Divider -->
@@ -141,7 +141,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="charts.html">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+                    <span>Statistics</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
@@ -152,13 +152,31 @@
             </li>
 
             <div class="sidebar-heading">
-                Tools
+                Tools <i class="fas fa-2x fa-tools"></i>
             </div>
 
-            <!-- Nav Item - Charts -->
+            <!-- Nav Item - Gourmetom -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
+                <a class="nav-link" href="{{ path('search_accession') }}">
+                    <i class="fas fa-fw fa-search"></i>
+                    <span>Gourmetom</span></a>
+            </li>
+
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="tables.html">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>New tool</span></a>
+            </li>
+
+            <div class="sidebar-heading">
+                BRAPPS <i class="fas fa-2x fa-gears"></i>
+            </div>
+
+            <!-- Nav Item - Gourmetom -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('search_accession') }}">
+                    <i class="fas fa-fw fa-search"></i>
                     <span>Gourmetom</span></a>
             </li>
 
@@ -198,7 +216,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                {# <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -398,7 +416,7 @@
 
                     </ul>
 
-                </nav>
+                </nav> #}
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -407,124 +425,181 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Overview</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        {# <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> #}
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Germplasm Summary Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-primary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                            <h3>Germplasm Summary</h3>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Accessions
+                                            </div>
+                                            <a href="{{ path('accession_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalAccession }}</div>
+                                            </a>
+                                            <hr>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Mapping Population
+                                            </div>
+                                            <a href="{{ path('accession_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalAccession }}</div>
+                                            </a>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            <i class="fas fa-seedling fa-6x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Experiment Summary Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card border-left-dark shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                            <h3>Experiment Summary</h3>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Programs
+                                            </div>
+                                            <a href="{{ path('program_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalProgram }}</div>
+                                            </a>
+                                            <hr>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Trials
+                                            </div>
+                                            <a href="{{ path('trial_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalTrial }}</div>
+                                            </a>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            <i class="fas fa-flask-vial fa-6x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Earnings (Monthly) Card Example -->
+                        <!-- Phenotyping Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-info shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            <h3>Phenotyping Summary</h3>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Traits
                                             </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
+                                            <a href="{{ path('trait_class_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalProgram }}</div>
+                                            </a>
+                                            <hr>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Observations Variables
                                             </div>
+                                            <a href="{{ path('observation_variable_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalTrial }}</div>
+                                            </a>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                            <i class="fas fa-magnifying-glass-plus fa-6x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Pending Requests Card Example -->
+                        <!-- Genotyping Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card border-left-secondary shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><div class="stat-text"><span class="count">349</span></div></div>
+                                            <h3>Genotyping Summary</h3>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Markers
+                                            </div>
+                                            <a href="{{ path('marker_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalMarker }}</div>
+                                            </a>
+                                            <hr>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Genotyping Platform
+                                            </div>
+                                            <a href="{{ path('genotyping_platform_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalGenotypingPlatform }}</div>
+                                            </a>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            <i class="fas fa-duotone fa-dna fa-6x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Variant Summary Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <h3>Variant Summary</h3>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                QTL Studies
+                                            </div>
+                                            <a href="{{ path('qtl_study_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalMarker }}</div>
+                                            </a>
+                                            <hr>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                GWAS
+                                            </div>
+                                            <a href="{{ path('gwas_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalGenotypingPlatform }}</div>
+                                            </a>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            <i class="fas fa-calendar fa-6x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Variant Summary Card Example -->
                         <div class="col-xl-4 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card border-left-success shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <h3>Genotyping Summary</h3>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Markers
+                                            </div>
+                                            <a href="{{ path('marker_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalMarker }}</div>
+                                            </a>
+                                            <hr>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Genotyping Platform
+                                            </div>
+                                            <a href="{{ path('genotyping_platform_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalGenotypingPlatform }}</div>
+                                            </a>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            <i class="fas fa-calendar fa-6x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -573,8 +648,8 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
+                                    <h6 class="m-0 font-weight-bold text-primary">Accession Main Countries of Origin</h6>
+                                    {# <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
@@ -587,7 +662,7 @@
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="#">Something else here</a>
                                         </div>
-                                    </div>
+                                    </div> #}
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
@@ -596,13 +671,19 @@
                                     </div>
                                     <div class="mt-4 text-center small">
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
+                                            <a id="accessionPerCountry0" data-name="{{ accessionPerCountry[0].ctry.iso3 }}" data-value="{{ accessionPerCountry[0].accQty }}" href="{{ path('accession_per_country', {id: accessionPerCountry[0].ctry.id}) }}">
+                                                <i class="fas fa-circle text-primary"></i> {{ accessionPerCountry[0].ctry.iso3 }}
+                                            </a>
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
+                                            <a id="accessionPerCountry1" data-name="{{ accessionPerCountry[1].ctry.iso3 }}" data-value="{{ accessionPerCountry[1].accQty }}" href="{{ path('accession_per_country', {id: accessionPerCountry[1].ctry.id}) }}">
+                                                <i class="fas fa-circle text-success"></i> {{ accessionPerCountry[1].ctry.iso3 }}
+                                            </a>
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
+                                            <a id="accessionPerCountry2" data-name="{{ accessionPerCountry[2].ctry.iso3 }}" data-value="{{ accessionPerCountry[2].accQty }}" href="{{ path('accession_per_country', {id: accessionPerCountry[2].ctry.id}) }}">
+                                                <i class="fas fa-circle text-info"></i> {{ accessionPerCountry[2].ctry.iso3 }}
+                                            </a>
                                         </span>
                                     </div>
                                 </div>
@@ -671,6 +752,13 @@
                                         <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
                                             src="img/undraw_posting_photo.svg" alt="...">
                                     </div>
+                                    <p>
+                                        How would you like tomatoes to be? Red, orange, pink, purple, green… ribbed, smooth… pear-shaped, round, flat… 
+                                        very sweet or very acid or both? It’s time to design your perfect tomato! After different research projects
+                                        we have studied more than 3,000 varieties of tomato. Do you want to help us select the best varieties?
+                                        It will only take you 5 minutes to answer this survey, but the information that you will
+                                        provide will last for thousand years… Let’s go?
+                                    </p>
                                     <p>Add some quality, svg illustrations to your project courtesy of <a
                                             target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
                                         constantly updated collection of beautiful svg images that you can use
@@ -693,11 +781,55 @@
 
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2021</span>
-                    </div>
+                <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center tomato-color">
+                    <h3 class="" id="main-sources">Main sources and collaborators</h3>
+                    <p class="lead text-muted">Below are the project partners & collaborators.</p>
                 </div>
+                    <!-- end of pricing / collaborators -->
+                    <!-- Main jumbotron for a primary marketing message or call to action -->
+                    <!-- <div class="jumbotron">
+                    </div> -->
+
+                <!-- start of the carousel -->
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                    <li data-target="#myCarousel"  data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                        <img src="{{ asset('assets/images/mainsource11.png') }}" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                        {# <h3 style="color:red;">Main sources and collaborators</h3> #}
+                        {# <p>Some info related to those species...</p> #}
+                        </div>
+                        </div>
+                        <div class="carousel-item">
+                        <img src="{{ asset('assets/images/mainsource12.png') }}" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                        {# <h3 style="color:red;">Main sources and collaborators</h3> #}
+                        {# <p>Some info related to those species...</p> #}
+                        </div>
+                        </div>
+                        <div class="carousel-item">
+                        <img src="{{ asset('assets/images/mainsource13.png') }}" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                        {# <h3 style="color:red;">Main sources and collaborators</h3> #}
+                        {# <p>Some info related to those species...</p> #}
+                        </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-target="#myCarousel" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-target="#myCarousel" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                    </button>
+                </div>
+                <!-- end of the carousel -->
             </footer>
             <!-- End of Footer -->
 
@@ -726,7 +858,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="{{ path('app_logout') }}">Logout</a>
                 </div>
             </div>
         </div>
@@ -737,17 +869,17 @@
 {% endblock %}
 
 {% block javascripts %}
-			<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-			<script>
-				window.jQuery || document.write('<script src="  {{ asset('../assets/js/vendor/jquery.slim.min.js') }}"><\/script>')
-			</script>
-			<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-			<!-- <script src="assets/js1/bootstrap.bundle.min.js"></script> -->
+        {# <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script>
+            window.jQuery || document.write('<script src="  {{ asset('../assets/js/vendor/jquery.slim.min.js') }}"><\/script>')
+        </script> #}
+        <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="assets/js1/bootstrap.bundle.min.js"></script>
 
       <!-- Guided Tour LH  -->
-			<script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
-			<script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
-			<script src="{{ asset('guidedtour/js/demo.js') }}"></script>
+        <script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
+        <script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
+        <script src="{{ asset('guidedtour/js/demo.js') }}"></script>
 
       <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
       <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -767,4 +899,4 @@
 
       <script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
       <script src="{{ asset('assets/nl/js/main.js') }}"></script>
-		{% endblock %}
+{% endblock %}
