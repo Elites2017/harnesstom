@@ -986,10 +986,10 @@
 {% endblock %}
 
 {% block javascripts %}
-        {# <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script>
             window.jQuery || document.write('<script src="  {{ asset('../assets/js/vendor/jquery.slim.min.js') }}"><\/script>')
-        </script> #}
+        </script>
         <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
         <script src="assets/js1/bootstrap.bundle.min.js"></script>
 
@@ -998,8 +998,8 @@
         <script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
         <script src="{{ asset('guidedtour/js/demo.js') }}"></script>
 
-      <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-      <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+      {# <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script> #}
+      {# <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> #}
 
       <!-- Core plugin JavaScript-->
       <script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
@@ -1011,9 +1011,12 @@
       <script src="{{ asset('assets/nl/vendor/chart.js/Chart.min.js') }}"></script>
 
       <!-- Page level custom scripts -->
+      <!-- mdbosstrap scripts -->
       <script src="{{ asset('assets/nl/js/demo/chart-area-demo.js') }}"></script>
-      <script src="{{ asset('assets/nl/js/demo/chart-pie-demo.js') }}"></script>
-
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0-rc"></script>
+      <script src="{{ asset('assets/nl/js/demo/doughnut_chart_with_labels.js') }}"></script>
+      
       <script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
       <script src="{{ asset('assets/nl/js/main.js') }}"></script>
 {% endblock %}
