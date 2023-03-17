@@ -6,9 +6,13 @@
 
 {% block stylesheets %}
 	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
 	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
 	<link
-	href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
 
 	<!-- Custom styles for this template -->
 	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
@@ -27,7 +31,6 @@
 		<div class="row">
 			<div class="col-md-12 order-md-1">
 				{% if countries | length > 0 %}
-					<h2 class="mb-3 text-center tomato-color font-weight-bold">Country List</h2>
 					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 						{% for message in messages %}
 							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -37,33 +40,40 @@
 							</div>
 						{% endfor %}
 					{% endfor %}
-					<div class="table-responsive">
-						<table id="datatable" class="table table-hover text-nowrap" width="100%">
-							<thead class="table-dark">
-								<tr>
-									<th scope="col">Name</th>
-									<th scope="col">ISO3</th>
-									<th scope="col">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for country in countries %}
-									<tr>
-										<td>
-											{{ country.name }}
-										</td>
-										<td>
-											{{ country.iso3 }}
-										</td>
-										<td>
-											<a href="{{ path('country_details', {id: country.id}) }}">
-												<button class="btn btn-outline-primary">Details</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
+					<div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h3 class="m-0 font-weight-bold text-center tomato-color">Country List</h3>
+                        </div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table id="datatable" class="table table-hover text-nowrap" width="100%">
+									<thead class="table-dark">
+										<tr>
+											<th scope="col">Name</th>
+											<th scope="col">ISO3</th>
+											<th scope="col">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for country in countries %}
+											<tr>
+												<td>
+													{{ country.name }}
+												</td>
+												<td>
+													{{ country.iso3 }}
+												</td>
+												<td>
+													<a href="{{ path('country_details', {id: country.id}) }}">
+														<button class="btn btn-outline-primary">Details</button>
+													</a>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				{% else %}
 					<h5 class="mb-3 text-center tomato-color font-weight-bold">No country has been provided in our system</h5>
