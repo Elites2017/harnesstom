@@ -15,7 +15,6 @@ var accPCtry0Value = parseInt(accPCtry0.getAttribute('data-value'));
 var accPCtry1Value = parseInt(accPCtry1.getAttribute('data-value'));
 var accPCtry2Value = parseInt(accPCtry2.getAttribute('data-value'));
 var accPCtryValues = [accPCtry0Value, accPCtry1Value, accPCtry2Value]; 
-console.log("type of ", accPCtryValues);
 
 // Doughnut Chart With Labels
 var ctxP = document.getElementById("myPieChart").getContext('2d');
