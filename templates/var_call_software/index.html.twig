@@ -84,19 +84,20 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script>
-		window.jQuery || document.write('<script src="  {{ asset('assets/js1/vendor/jquery.slim.min.js') }}"><\/script>')
-	</script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
+
 	<!-- DataTables JavaScript -->
 	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
 	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
-</script>
+	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
+	</script>
 <script>
 		$(document).ready(function () {
 $('#datatable').DataTable();
