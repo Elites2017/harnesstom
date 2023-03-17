@@ -9,6 +9,9 @@ use App\Entity\Marker;
 use App\Entity\Program;
 use App\Entity\Trial;
 use App\Entity\User;
+use App\Entity\MappingPopulation;
+use App\Entity\GWAS;
+use App\Entity\QTLStudy;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -105,9 +108,30 @@ class AppController extends AbstractController
                 ->getQuery()
                 ->getResult();
 
-        $repoAccession = $entityManager->getRepository(Accession::class);
-        // Query how many rows are there in the Accession table
-        $totalAccession = $repoAccession->createQueryBuilder('tab')
+        // Setup repository of some entity
+        $repoMappingPopulation = $entityManager->getRepository(MappingPopulation::class);
+        // Query how many rows are there in the MappingPopulation table
+        $totalMappingPopulation = $repoMappingPopulation->createQueryBuilder('tab')
+            // Filter by some parameter if you want
+            // ->where('a.isActive = 1')
+            ->select('count(tab.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        
+        // Setup repository of some entity
+        $repoGWAS = $entityManager->getRepository(GWAS::class);
+        // Query how many rows are there in the GWAS table
+        $totalGWAS = $repoGWAS->createQueryBuilder('tab')
+            // Filter by some parameter if you want
+            // ->where('a.isActive = 1')
+            ->select('count(tab.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Setup repository of some entity
+        $repoQTLStudy = $entityManager->getRepository(QTLStudy::class);
+        // Query how many rows are there in the QTLStudy table
+        $totalQTLStudy = $repoQTLStudy->createQueryBuilder('tab')
             // Filter by some parameter if you want
             // ->where('a.isActive = 1')
             ->select('count(tab.id)')
@@ -122,7 +146,10 @@ class AppController extends AbstractController
             "totalProgram" => $totalProgram,
             "totalTrial" => $totalTrial,
             "totalAccession" => $totalAccession,
-            "accessionPerCountry" => $accessionPerCountry
+            "accessionPerCountry" => $accessionPerCountry,
+            "totalMappingPopulation" => $totalMappingPopulation,
+            "totalGWAS" => $totalGWAS,
+            "totalQTLStudy" => $totalQTLStudy,
         ];
         return $this->render('app/index.html.twig', $context);
     }
