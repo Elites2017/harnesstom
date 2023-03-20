@@ -12,6 +12,7 @@ use App\Entity\User;
 use App\Entity\MappingPopulation;
 use App\Entity\GWAS;
 use App\Entity\QTLStudy;
+use App\Entity\GermplasmStudyImage;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -139,6 +140,18 @@ class AppController extends AbstractController
             ->getSingleScalarResult();
 
         
+        // Setup query to get the most accession per country
+        $repoGermplasmStudyImage = $entityManager->getRepository(GermplasmStudyImage::class);
+        $numbRows = $repoGermplasmStudyImage->getTotalRows();
+        //$qb = $this->getDoctrine()->getManager()->createQueryBuilder("Select c.id from App\Entity\Country c Where c.id=1");
+        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+        $germplasmStudyImages = $qb->select('germpSI')
+            ->from('App\Entity\GermplasmStudyImage', 'germpSI')
+            ->setFirstResult(rand(0, $numbRows))
+            ->setMaxResults(8)
+            ->getQuery()
+            ->getResult();
+        
         $context = [
             'title' => 'Harnesstom DB',
             "totalMarker" => $totalMarker,
@@ -150,6 +163,7 @@ class AppController extends AbstractController
             "totalMappingPopulation" => $totalMappingPopulation,
             "totalGWAS" => $totalGWAS,
             "totalQTLStudy" => $totalQTLStudy,
+            "germplasmStudyImages" => $germplasmStudyImages
         ];
         return $this->render('app/index.html.twig', $context);
     }
