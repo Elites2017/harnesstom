@@ -27,7 +27,7 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 order-md-1">
+            <div class="col-xl-10 col-lg-9">
                 {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
                     {% for message in messages %}
                         <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -39,8 +39,22 @@
                 {% endfor %}
                 {% if accessions | length > 0 %}
                     <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h3 class="m-0 font-weight-bold text-center tomato-color">Accession List</h3>
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-center tomato-color">Accession List</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Graph View:</div>
+                                    <a class="dropdown-item" href="#">Most Accession By Country</a>
+                                    <a class="dropdown-item" href="#">Most Accession By Institute</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Most Accession By ...</a>
+                                </div>
+                            </div>
                         </div>
 						<div class="card-body">
                             <div class="table-responsive">
@@ -104,7 +118,7 @@
                     collsrc: "{% if accession.collsrc %} <a href={{ path('collecting_source_details', {id: accession.collsrc.id}) }}>{{ accession.collsrc }}</a>{% endif %}",
                     sampstat: "{% if accession.sampstat %} <a href={{ path('biological_status_details', {id: accession.sampstat.id}) }}>{{ accession.sampstat }}</a>{% endif %}",
                     mlsStatus: "{% if accession.sampstat %} <a href={{ path('mls_status_details', {id: accession.sampstat.id}) }}>{{ accession.mlsStatus }}</a>{% endif %}",
-                    instcode: "{% if accession.instcode %} <a href={{ path('institute_details', {id: accession.instcode.id}) }}>{{ accession.instcode }}</a>{% endif %}",
+                    instcode: "{% if accession.instcode %} <a href={{ path('institute_details', {id: accession.instcode.id}) }}>{{ accession.instcode.acronym }}</a>{% endif %}",
                     maintainernumb: "{{ accession.maintainernumb }}",
                     action: "<a href={{ path('accession_details', {id: accession.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
                     },
