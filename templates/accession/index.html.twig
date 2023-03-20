@@ -27,16 +27,16 @@
 {% block body %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xl-10 col-lg-9">
-                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endfor %}
+            {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                 {% endfor %}
+            {% endfor %}
+            <div class="col-xl-10 col-lg-9">
                 {% if accessions | length > 0 %}
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
