@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<h1 class="mb-3 text-center font-weight-bold">After the submission</h1>
+        {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-3 ">
+                
+            </div>
+			<div class="col-md-6 text-justify">
+                <h2>Access private experiments in HarnesstomDB</h2><br/>
+				<h3 id="after_submission_dapr" class="tomato-color">Data availability and policy release</h3>
+                <h4>
+                    <p>Project and trial metadata, as well germplasm, accession passport and genotyping platform metadata will be always public
+                    in HarnesstomDB. Trial associated data (i.e. studies, phenotypic, images, genotype and variant data)
+                    are either 'public' or 'private'. HarnesstomDB is an EU-public one-stop-shop database, which will ensure that all
+                    results will be accessible. However, in order to protect intellectual property before publication, trial associated
+                    data will be kept private until the specified release date. In principle, the private status of a trial only allows
+                    the submitter and HarnesstomDB administrators to have access to the data. The other users only can view trial metadada,
+                    but not the rest of the information associated to a private trial. Submitter can share access to a private trial with other
+                    users. Follow the instructions here to share trial access.</p>
+                    <p>Trial associated data will be public when the specified release date is reached or the submitter e-mail us that the data can be public.</p>
+                </h4>
+                <hr/>
+                <h3 id="after_submission_crud_private_expe" class="tomato-color">Edit, add or remove data in a private experiment</h3>
+                <h4>
+                    <p>Submitters have the option to access all their private experiments. When you submit, you get rights to edit and remove your data. 
+                        This requires to be logged in. These post-submission modifications are done via the HarnesstomDB gateway.
+                        Post-submissions modifications include:<br/>
+                        <ul>
+                            • Edit or up-date an object uploaded in the database<br/>
+                            • Delete an object uploaded in the database<br/>
+                            • Create a new object<br/>
+                        </ul>
+                    </p>
+                    <p>
+                        Metadata and data modification can’t be done in bulk, it must be done one by one from the edit application forms.
+                        To modify an object in HarnesstomDB select the appropriate term from the menu and press search.
+                        HarnesstomDB will show the list of all objects matching the searching term. From the list, select the object you want
+                        to modify, click on details and then click on edit button. This will open the edit form.
+                        Edit forms have the same format than create. See HarnesstomDB v1.0 create application guide.
+                        Modify the fields you need in the forms and press update button. The changes will be visible in HarnesstomDB automatically.
+                    </p>
+                        To add a new object to an existing trial associated data, select the appropriate term from the menu and press create.
+                        Follow the instructions in HarnesstomDB v1.0 create application guide.
+                    </p>
+                </h4>
+                <hr/>
+                <h3 id="after_submission_crud_private_expe" class="tomato-color">Get access to a private trial</h3>
+                <h4>
+                    <p>
+                        If you are a submitter, you can find an option in the trial edit form to share with other person a trial associated
+                        data (i.e. studies, phenotypic, images, genotype and variant data). This requires first, to be logged in and second,
+                        that the person with whom you want to share the data is registered as a user in HarnesstomDB. Once you are logged in,
+                        search for the trial you want to share, click on details and then click on edit button and select from the Shared
+                        with field the person to whom you want to share data.
+                    </p>
+                </h4>
+                <hr/>
+			</div>
+            <div class="col-md-3">
+            </div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->{% endblock %}

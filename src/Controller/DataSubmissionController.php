@@ -8,8 +8,10 @@ use App\Repository\DataSubmissionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,15 +25,26 @@ class DataSubmissionController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(DataSubmissionRepository $dataSubRepo): Response
+    public function index(): Response
     {
-        //$this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $dataSubmissions =  $dataSubRepo->findAll();
         $context = [
-            'title' => 'Data Submission request',
-            'dataSubmissions' => $dataSubmissions
+            'title' => 'Data Submission Guide',
         ];
         return $this->render('data_submission/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/list", name="list")
+     */
+    public function list(DataSubmissionRepository $dataSubRepo): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $dataSubmissions =  $dataSubRepo->findAll();
+        $context = [
+            'title' => 'Data Submission Request',
+            'dataSubmissions' => $dataSubmissions
+        ];
+        return $this->render('data_submission/list.html.twig', $context);
     }
 
     /**
@@ -84,5 +97,49 @@ class DataSubmissionController extends AbstractController
             'dataSubmissionForm' => $form->createView()
         ];
         return $this->render('data_submission/new.html.twig', $context);
+    }
+
+    /**
+     * @Route("/before_starting", name="before_starting")
+     */
+    public function beforeStarting(): Response
+    {
+        $context = [
+            'title' => 'Before you start'
+        ];
+        return $this->render('data_submission/before_starting.html.twig', $context);
+    }
+
+    /**
+     * @Route("/submit", name="submit")
+     */
+    public function dataSubmission(): Response
+    {
+        $context = [
+            'title' => 'Data curation'
+        ];
+        return $this->render('data_submission/data_submission.html.twig', $context);
+    }
+
+    /**
+     * @Route("/after_submission", name="after_submission")
+     */
+    public function afterSubmission(): Response
+    {
+        $context = [
+            'title' => 'After the submission'
+        ];
+        return $this->render('data_submission/after_submission.html.twig', $context);
+    }
+
+    /**
+     * @Route("/download_template", name="download_template")
+     */
+    public function downloadTemplate(): Response
+    {
+        $response = new BinaryFileResponse('../public/todownload/harnesstom_database_templates_20221028.xlsx');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'harnesstom_database_templates_20221028.xlsx');
+        return $response;
+       
     }
 }

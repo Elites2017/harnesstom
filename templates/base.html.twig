@@ -26,10 +26,12 @@
 			<link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
 			<link href="{{ asset('assets/css/animate.min.css') }}" rel="stylesheet" />
 			
-			<!-- Guided Tour LH-->
-			<link href="{{ asset('guidedtour/dist/css/hopscotch.min.css') }}" rel="stylesheet"></link>
-			<link href="{{ asset('guidedtour/css/flat-ui.css') }}" rel="stylesheet"></link>
-			<link href="{{ asset('guidedtour/css/demo.css') }}" rel="stylesheet"></link>
+			{% if not app.user %}
+				<!-- Guided Tour LH-->
+				<link href="{{ asset('guidedtour/dist/css/hopscotch.min.css') }}" rel="stylesheet"></link>
+				<link href="{{ asset('guidedtour/css/flat-ui.css') }}" rel="stylesheet"></link>
+				<link href="{{ asset('guidedtour/css/demo.css') }}" rel="stylesheet"></link>
+			{% endif %}
 		{% endblock %}
 
 		<style>
@@ -78,6 +80,11 @@
 										<li>
 											<a class="dropdown-item" href="{{path('data_submission_new')}}">New Request</a>
 										</li>
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="{{path('data_submission_list')}}">Request List</a>
+											</li>
+										{% endif %}
 									</ul>
 								</li>
 								<li>
@@ -1650,13 +1657,13 @@
                         {% if app.user %}
 							{% if app.user.person %}
 								<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.person.lastName }}</span>
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.person.lastName }}
+									<span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
 								</a>
 							{% else %}
 								<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ app.user.username }}</span>
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}
+									<span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
 								</a>
 							{% endif %}
                             <!-- Dropdown - User Information -->
@@ -2009,10 +2016,12 @@
 			<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
 			<script src="{{ asset('assets/nl/js/main.js') }}"></script>
 
-			<!-- Guided Tour LH  -->
-			<script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
-			<script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
-			<script src="{{ asset('guidedtour/js/demo.js') }}"></script>
+			{% if not app.user %}
+				<!-- Guided Tour LH  -->
+				<script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
+				<script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
+				<script src="{{ asset('guidedtour/js/demo.js') }}"></script>
+			{% endif %}
 		{% endblock %}
 	</body>
 </html>

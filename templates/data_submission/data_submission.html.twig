@@ -1,0 +1,235 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<h1 class="mb-3 text-center font-weight-bold">Data Submission</h1>
+        {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="row">
+            
+            <div class="col-md-3 ">
+                
+            </div>
+			<div class="col-md-6 text-justify">
+                <h2>Submitting data through HarnesstomDB v1.0 create application</h2>
+				<h3 id="crud_submission_intro" class="tomato-color">Introduction</h3>
+                <h4>
+                    <p>This guide will introduce you into the HarnesstomDB gateway, which allows you to submit data through the main menu.
+                    To create a new object, user can select the appropriate term from the menu on the web interface and press create.
+                    Upon select the term, HarnesstomDB shows the form page.</p> 
+
+                    <p>HarnesstomDB aims to be a comprehensive publicly available open-source multi-omics database for facilitating the potential
+                    of tomato germplasm collections for breeding, make sure you provide adequate and detailed information.
+                    Be sure you have prepared the metadata and data according to type of experiment of the experiment you want to submit.
+                    Here there is a <a href="{{path('data_submission_before_starting')}}#what_to_prepare">table</a> indicating for each type of experiment submission the mandatory and optional tables to fill.
+                    You can download HarnesstomDB guide in pdf format here.</p>
+                    
+                    <p>Tables in the database have relational dependencies, to avoid submission problems,
+                    we recommend to submit data in the order they appear in this guide.</p>
+
+                    <i>Please feel free to <a href="mailto:email@email.eu">contact</a> us regarding questions and suggestions about format and content of your to-be-submitted results.</i>
+                </h4>
+                <hr/>
+                <h3 id="uploading_experimental_core_module" class="tomato-color">Uploading data into experimental core metadata module</h3>
+                <h4>
+                    <p>Every data submission to HarnesstomDB requires submission of core experimental metadata. To submit it,
+                        navigate through the main menu and click on experimental data and select program.
+                        Upon selected, HarnesstomDB will open the <a href="{{path('program_create')}}">New program form</a>.
+                        Fill the form and click on create button.</p> 
+
+                    <img class="mb-3" src="{{ asset('assets/images/program_create_form.png') }}" width="90%"/>
+
+                    <p>In the case of Crop or contact are not in the drop-down list you can click on
+                        the Add a new Crop or Add a new Contact and create a new one. Please follow the instructions here
+                        to Add a new Crop or Contact</p>
+
+                        <p>Next, select trial to <a href="{{path('trial_create')}}">open trial form</a>. Fill the form and click on create button.</p>
+                </h4>
+                <hr/>
+                
+                <h3 id="uploading_germplasm_module" class="tomato-color">Uploading data into germplasm module</h3>
+                <h4>
+                    <p>Text to come...</p> 
+
+                        {# <img class="mb-3" src="{{ asset('assets/images/program_create_form.png') }}" width="90%"/>
+
+                    <p>In the case of Crop or contact are not in the drop-down list you can click on
+                        the Add a new Crop or Add a new Contact and create a new one. Please follow the instructions here
+                        to Add a new Crop or Contact</p>
+
+                        <p>Next, select trial to <a href="{{path('trial_create')}}">open trial form</a>. Fill the form and click on create button.</p> #}
+                </h4>
+                <hr/>
+                <h3 id="uploading_genotyping_module" class="tomato-color">Uploading data into genotyping module</h3>
+                <h4>
+                    <p>Text to come...</p> 
+
+                        {# <img class="mb-3" src="{{ asset('assets/images/program_create_form.png') }}" width="90%"/>
+
+                    <p>In the case of Crop or contact are not in the drop-down list you can click on
+                        the Add a new Crop or Add a new Contact and create a new one. Please follow the instructions here
+                        to Add a new Crop or Contact</p>
+
+                        <p>Next, select trial to <a href="{{path('trial_create')}}">open trial form</a>. Fill the form and click on create button.</p> #}
+                </h4>
+                <hr/>
+                <h3 id="uploading_variant_module" class="tomato-color">Uploading data into variant module</h3>
+                <h4>
+                    <p>Text to come...</p> 
+
+                        {# <img class="mb-3" src="{{ asset('assets/images/program_create_form.png') }}" width="90%"/>
+
+                    <p>In the case of Crop or contact are not in the drop-down list you can click on
+                        the Add a new Crop or Add a new Contact and create a new one. Please follow the instructions here
+                        to Add a new Crop or Contact</p>
+
+                        <p>Next, select trial to <a href="{{path('trial_create')}}">open trial form</a>. Fill the form and click on create button.</p> #}
+                </h4>
+                <hr/>
+                <h3 id="add_objects" class="tomato-color">Add crops, contacts, institutes</h3>
+                <h4>
+                    <p>Text to come...</p> 
+
+                        {# <img class="mb-3" src="{{ asset('assets/images/program_create_form.png') }}" width="90%"/>
+
+                    <p>In the case of Crop or contact are not in the drop-down list you can click on
+                        the Add a new Crop or Add a new Contact and create a new one. Please follow the instructions here
+                        to Add a new Crop or Contact</p>
+
+                        <p>Next, select trial to <a href="{{path('trial_create')}}">open trial form</a>. Fill the form and click on create button.</p> #}
+                </h4>
+                <hr/>
+                <h3 id="request_new_ontology" class="tomato-color">Request a new ontology term</h3>
+                <h4>
+                    <p>Text to come...</p> 
+
+                        {# <img class="mb-3" src="{{ asset('assets/images/program_create_form.png') }}" width="90%"/>
+
+                    <p>In the case of Crop or contact are not in the drop-down list you can click on
+                        the Add a new Crop or Add a new Contact and create a new one. Please follow the instructions here
+                        to Add a new Crop or Contact</p>
+
+                        <p>Next, select trial to <a href="{{path('trial_create')}}">open trial form</a>. Fill the form and click on create button.</p> #}
+                </h4>
+                <hr/>
+                <h2>Bulk data submission using the HarnesstomDB v1.0 submission tool</h2>
+				<h3 id="bulk_submission_introduction" class="tomato-color">Introduction</h3>
+                <h4>
+                    <p>This guide will introduce you how to submit data in bulk into HarnesstomDB database.
+                        This guide is applicable to all submissions of results from up-loading high-throughput data or only a few results.</p> 
+                    <img class="mb-3" src="{{ asset('assets/images/bulk_submission_process_overview.png') }}" width="90%"/>
+                    <p>HarnesstomDB aims to be a comprehensive publicly available open-source multi-omics database for facilitating the potential
+                        of tomato germplasm collections for breeding, make sure you provide adequate and detailed information. Be sure you have prepared
+                        the metadata and data according to type of experiment of the experiment you want to submit.
+                        Here there is a <a href="{{path('data_submission_before_starting')}}#what_to_prepare">table</a> indicating for each
+                        type of experiment submission the mandatory and optional tables to fill.
+                        You can download HarnesstomDB guide in pdf format here.</p>
+                </h4>
+                <hr/>
+                <h2>Bulk submission step by step</h2>
+				<h3 id="bulk_submission_steps" class="tomato-color">Step one</h3>
+                <h4>
+                    <p>Download the excel template from data submission on the tools menu on the HarnesstomDB gateway.
+                        The template contains a README tab that describes how the template can and should be used.
+                        The template contains extra tabs with information regarding to <a href="{{path('data_submission_before_starting')}}#metadata_definition">definitions</a>,
+                        accepted <a href="{{path('data_submission_before_starting')}}#accepted_file_formats">file formats</a>
+                        and <a href="{{path('data_submission_before_starting')}}#harnesstom_db_standards">data standards</a>
+                        and links to the <a href="{{path('data_submission_before_starting')}}#metadata_controlled_vocabulary">HarnesstomDB ontologies</a>.
+                        Complete details and submission instructions are found
+                        in the Excel template tabs. The template covers all HarnesstomDB metadata.
+                    </p>
+                    <p>Through the template tabs are colour-coded as follows:</p> 
+                    <img class="mb-3" src="{{ asset('assets/images/bulk_submission_steps.png') }}" width="90%"/>
+                    <p>Fields in tabs are organized and highlighted as follows.</p> 
+                        row1<small class="mr-4"> </small>Field name<br/>
+                        row2<small class="mr-4"> </small>data type<br/>
+                        row3<small class="mr-4"> </small>Field description<br/>
+                        row4<small class="mr-4"> </small>Requirement<br/>
+                        row5<small class="mr-4"> </small>Example.<br/>
+                    </p>
+                    <img class="mb-3" src="{{ asset('assets/images/steps_mandatory_or_not.png') }}" width="90%"/>
+                    <p class="alert-danger"><i>Please never remove or rearrange any existing columns nor rename fields in the template</i></p>
+                </h4>
+                <hr/>
+                <h3 id="bulk_submission_steps" class="tomato-color">Step two</h3>
+                <h4>
+                    <p>Fill the template metadata according to the instructions.
+                        Complete the colored tabs according to the type of data you are submitting
+                        Here there is a <a href="{{path('data_submission_before_starting')}}#what_to_prepare">table</a> indicating for each type of experiment submission the mandatory and optional tables to fill.
+                        Tables in the database have relational dependencies, to avoid submission problems,
+                        we recommend to prepare data in the order they appear in the template.
+                    </p>
+                    <p>
+                        Fill your data from row 6 and use as many rows you need. Remember, mandatory fields can't be empty.
+                        The other fields are optional, but greater detail will enhance the quality and the available information in the database.
+                        Instructions for completing each field are in the tabs themselves. Use <a href="{{path('data_submission_before_starting')}}#harnesstom_db_standards">standard notations</a>. When ontologies are required,
+                        please search the corresponding ontologyID in the database. Here you can find all <a href="{{path('data_submission_before_starting')}}#metadata_controlled_vocabulary">HarnesstomDB ontologies</a>.
+                        If the ontology term you search is not in the database please contact with us before to create a new one.
+                        Here you can find the instructions how to request a new ontology.
+
+                        <p>Once your templates are completed according to the type of data you are submitting, remove rows 2 to 5 and the extra tabs (not required for the type of submission).</p>
+                        
+                        <p>When metadata annotation is completed, prepare the files with the corresponding phenotypic (both values and images) and genotypic data
+                            recorded for germplasm according to <a href="{{path('data_submission_before_starting')}}#accepted_file_formats">accepted file formats</a>
+                            and <a href="{{path('data_submission_before_starting')}}#harnesstom_db_standards">data standards</a> instructions.</p>
+
+                    <p class="alert-info">
+                        <i>IMPORTANT: Remember to fill accordingly the public release date in trial table. Data will be private for submitter until the public release date.
+                        Submitter can do further edits on its own data only from the web page. See Access private experiment</i>
+                    </p>
+                </h4>
+                <hr/>
+                <h3 id="bulk_submission_steps" class="tomato-color">Step three</h3>
+                <h4>
+                    Review your data before send filled templates. Please double-check that:<br/>
+                    ✅ All mandatory fields are completed<br/>
+                    ✅ The same nomenclature is used for the same field in all tables and modules, without any extra character.<br/> 
+                    ✅ Data follow the required metadata standards<br/>
+                    ✅ Data names or abbreviations are not duplicated in the database.<br/>
+                    ✅ Information to submit is not stored in the database under different names<br/>
+                </h4>
+                <hr/>
+                <h3 id="bulk_submission_steps" class="tomato-color">Step four</h3>
+                <h4>
+                    <p>
+                        When your files are ready to submit you can request a new submission by selecting
+                        <a href="{{path('data_submission_new')}}">New data submission request</a>
+                        from data submission on the tools menu on the HarnesstomDB gateway.
+                        Upon selected, HarnesstomDB will open the new request form
+                    </p>
+                    <p>
+                        Fill the form with your data and attach a compressed file with the filled template and all data files you want to submit.
+                        Please include a short description of the data you are submitting.
+                        You will receive an email from HarnesstomDB team within 24 hours confirming that the template and data are received.
+                    </p>
+                    <p>
+                        Templates will be validated by HarnesstomDB curators. This will take up 20 days.
+                        The validation step aims at identify errors such as missing mandatory information, duplicates, or inconsistencies in your submission.
+                        Please <a href="{{path('data_submission_before_starting')}}#pre_sub_checklist">double-check</a> your data before send filled templates.
+                        This will faster the uploading your data into the system.<br/>
+                        During the template validation, we will email you if we have any questions or to require further editing of template.
+                        Once fully curated, the experiment will be loaded into the database by the HarnesstomDB team.
+                        You will receive an e-mail from the HarnesstomDB team confirming that you data is successfully upload in the HarnesstomDB.
+                    </p>
+                </h4>
+                <hr/>
+			</div>
+            <div class="col-md-3">
+            </div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+    {% endblock %}
