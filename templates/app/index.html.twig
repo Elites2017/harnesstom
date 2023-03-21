@@ -536,7 +536,7 @@
                             {% for germSImg in germplasmStudyImages %}
                             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                                 <div class="card h-100">
-                                    <a href="#"><img src={{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ germSImg.filename ) }} width='50%' alt='' class='logo' /></a>
+                                    <a href="#"><img src={{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ germSImg.filename ) }} width='75px' heigth='75px' alt='' class="rounded" /></a>
                                     <div class="card-body">
                                         <h4 class="card-title">
                                             <a href="{{path('germplasm_details', {id:germSImg.germplasmID.id})}}">{{ germSImg.germplasmID }}</a>
