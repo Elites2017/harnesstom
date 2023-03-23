@@ -279,7 +279,7 @@
                                             </a>
                                             <hr>
                                             <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
-                                                Mapping Population
+                                                Mapping Populations
                                             </div>
                                             <a href="{{ path('mapping_population_index') }}">
                                                 <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalMappingPopulation }}</div>
@@ -301,17 +301,17 @@
                                         <div class="col mr-2">
                                             <h3>Experiment Summary</h3>
                                             <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
-                                                Programs
-                                            </div>
-                                            <a href="{{ path('program_index') }}">
-                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalProgram }}</div>
-                                            </a>
-                                            <hr>
-                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
                                                 Trials
                                             </div>
                                             <a href="{{ path('trial_index') }}">
                                                 <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalTrial }}</div>
+                                            </a>
+                                            <hr>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Studies
+                                            </div>
+                                            <a href="{{ path('study_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalStudy }}</div>
                                             </a>
                                         </div>
                                         <div class="col-auto">
@@ -330,17 +330,17 @@
                                         <div class="col mr-2">
                                             <h3>Phenotyping Summary</h3>
                                             <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
-                                                Traits
-                                            </div>
-                                            <a href="{{ path('trait_class_index') }}">
-                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalProgram }}</div>
-                                            </a>
-                                            <hr>
-                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
                                                 Observations Variables
                                             </div>
                                             <a href="{{ path('observation_variable_index') }}">
                                                 <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalTrial }}</div>
+                                            </a>
+                                            <hr>
+                                            <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
+                                                Metabolites
+                                            </div>
+                                            <a href="{{ path('metabolite_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalMetabolite }}</div>
                                             </a>
                                         </div>
                                         <div class="col-auto">
@@ -366,7 +366,7 @@
                                             </a>
                                             <hr>
                                             <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
-                                                Genotyping Platform
+                                                Genotyping Platforms
                                             </div>
                                             <a href="{{ path('genotyping_platform_index') }}">
                                                 <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalGenotypingPlatform }}</div>
@@ -386,7 +386,7 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <h3>Variant Summary</h3>
+                                            <h3>Variant Studies</h3>
                                             <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
                                                 QTL Studies
                                             </div>
@@ -415,23 +415,23 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <h3>Genotyping Summary</h3>
+                                            <h3>Variant Summary</h3>
                                             <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
-                                                Markers
+                                                QTL Variant
                                             </div>
-                                            <a href="{{ path('marker_index') }}">
-                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalMarker }}</div>
+                                            <a href="#">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalQTLVariant }}</div>
                                             </a>
                                             <hr>
                                             <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
-                                                Genotyping Platform
+                                                GWAS Variant
                                             </div>
-                                            <a href="{{ path('genotyping_platform_index') }}">
-                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalGenotypingPlatform }}</div>
+                                            <a href="{{ path('gwas_variant_index') }}">
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalGWASVariant }}</div>
                                             </a>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-6x text-gray-300"></i>
+                                            <i class="fas fa-chart-line fa-6x text-gray-300"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -580,7 +580,7 @@
                             <div class="card shadow mb-4">
                             
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Type of experiment in HarnessTomDB</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Type of experiment used in HarnessTomDB</h6>
                                 </div>
                                 <div class="card-body">
                                     {% for oneTT in trialAndType %}
@@ -647,6 +647,7 @@
                                         </p>
                                     </div>
                                 </div>
+                                </a>
                             </div>
 
                             <!-- Approach -->

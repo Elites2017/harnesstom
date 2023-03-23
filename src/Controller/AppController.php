@@ -6,13 +6,16 @@ use App\Entity\Accession;
 use App\Entity\Country;
 use App\Entity\GenotypingPlatform;
 use App\Entity\Marker;
-use App\Entity\Program;
+use App\Entity\Study;
 use App\Entity\Trial;
 use App\Entity\User;
 use App\Entity\MappingPopulation;
 use App\Entity\GWAS;
 use App\Entity\QTLStudy;
 use App\Entity\GermplasmStudyImage;
+use App\Entity\GWASVariant;
+use App\Entity\Metabolite;
+use App\Entity\QTLVariant;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,9 +69,9 @@ class AppController extends AbstractController
             ->getSingleScalarResult();
 
         // Setup repository of some entity
-        $repoProgram = $entityManager->getRepository(Program::class);
-        // Query how many rows are there in the Program table
-        $totalProgram = $repoProgram->createQueryBuilder('tab')
+        $repoStudy = $entityManager->getRepository(Study::class);
+        // Query how many rows are there in the Study table
+        $totalStudy = $repoStudy->createQueryBuilder('tab')
             // Filter by some parameter if you want
             // ->where('a.isActive = 1')
             ->select('count(tab.id)')
@@ -172,11 +175,41 @@ class AppController extends AbstractController
             $trialAndType[$key]['trtQty'] = round($value['trtQty'] / $trialRows * 100);
         }
 
+        // Setup repository of some entity
+        $repoQTLVariant = $entityManager->getRepository(QTLVariant::class);
+        // Query how many rows are there in the QTLVariant table
+        $totalQTLVariant = $repoQTLVariant->createQueryBuilder('tab')
+            // Filter by some parameter if you want
+            // ->where('a.isActive = 1')
+            ->select('count(tab.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Setup repository of some entity
+        $repoGWASVariant = $entityManager->getRepository(GWASVariant::class);
+        // Query how many rows are there in the GWASVariant table
+        $totalGWASVariant = $repoGWASVariant->createQueryBuilder('tab')
+            // Filter by some parameter if you want
+            // ->where('a.isActive = 1')
+            ->select('count(tab.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        // Setup repository of some entity
+        $repoMetabolite = $entityManager->getRepository(Metabolite::class);
+        // Query how many rows are there in the Metabolite table
+        $totalMetabolite = $repoMetabolite->createQueryBuilder('tab')
+            // Filter by some parameter if you want
+            // ->where('a.isActive = 1')
+            ->select('count(tab.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
         $context = [
             'title' => 'Harnesstom DB',
             "totalMarker" => $totalMarker,
             "totalGenotypingPlatform" => $totalGenotypingPlatform,
-            "totalProgram" => $totalProgram,
+            "totalStudy" => $totalStudy,
             "totalTrial" => $totalTrial,
             "totalAccession" => $totalAccession,
             "accessionPerCountry" => $accessionPerCountry,
@@ -184,12 +217,15 @@ class AppController extends AbstractController
             "totalGWAS" => $totalGWAS,
             "totalQTLStudy" => $totalQTLStudy,
             "germplasmStudyImages" => $germplasmStudyImages,
-            "trialAndType" => $trialAndType
+            "trialAndType" => $trialAndType,
+            "totalQTLVariant" => $totalQTLVariant,
+            "totalGWASVariant" => $totalGWASVariant,
+            "totalMetabolite" => $totalMetabolite,
 
         ];
         return $this->render('app/index.html.twig', $context);
     }
-
+    
     // /**
     //  * @Route("/", name="index")
     //  */
