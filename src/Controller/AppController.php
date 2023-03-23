@@ -151,7 +151,27 @@ class AppController extends AbstractController
             ->setMaxResults(8)
             ->getQuery()
             ->getResult();
+
+        // Setup query to get the most accession per country
+        $repoTrial = $entityManager->getRepository(Trial::class);
+        $trialRows = $repoTrial->totalRows();
+        //$qb = $this->getDoctrine()->getManager()->createQueryBuilder("Select c.id from App\Entity\Country c Where c.id=1");
+        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+        $trialAndType = $qb->select('tr as trial, count(tr.trialType) as trtQty')
+            ->from('App\Entity\Trial', 'tr')
+            ->join('App\Entity\TrialType', 'trt')
+            ->where('tr.trialType = trt.id')
+            ->groupBy('trt.name')
+            ->orderBy('count(tr.trialType)', 'DESC')
+            ->getQuery()
+            ->getResult();
         
+        // show percentage of trials
+        foreach ($trialAndType as $key => $value) {
+            # code...
+            $trialAndType[$key]['trtQty'] = round($value['trtQty'] / $trialRows * 100);
+        }
+
         $context = [
             'title' => 'Harnesstom DB',
             "totalMarker" => $totalMarker,
@@ -163,7 +183,9 @@ class AppController extends AbstractController
             "totalMappingPopulation" => $totalMappingPopulation,
             "totalGWAS" => $totalGWAS,
             "totalQTLStudy" => $totalQTLStudy,
-            "germplasmStudyImages" => $germplasmStudyImages
+            "germplasmStudyImages" => $germplasmStudyImages,
+            "trialAndType" => $trialAndType
+
         ];
         return $this->render('app/index.html.twig', $context);
     }

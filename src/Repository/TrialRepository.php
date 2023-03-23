@@ -19,6 +19,14 @@ class TrialRepository extends ServiceEntityRepository
         parent::__construct($registry, Trial::class);
     }
 
+    public function totalRows() {
+        return $this->createQueryBuilder('tab')
+            ->select('count(tab.id)')
+            ->where('tab.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     // /**
     //  * @return Trial[] Returns an array of Trial objects
     //  */
