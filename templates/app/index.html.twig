@@ -602,7 +602,7 @@
                                                     aria-valuenow="{{ oneTT['trtQty'] }}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
 
-                                        {% elseif oneTT['trtQty'] <= 40 %}
+                                        {% elseif oneTT['trtQty'] >= 20 %}
                                             <div class="progress mb-4">
                                                 <div class="progress-bar bg-dark" role="progressbar" style="width: {{ oneTT['trtQty'] }}%"
                                                     aria-valuenow="{{ oneTT['trtQty'] }}" aria-valuemin="0" aria-valuemax="100"></div>
