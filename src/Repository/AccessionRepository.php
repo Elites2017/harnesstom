@@ -1601,6 +1601,14 @@ class AccessionRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function totalRows() {
+        return $this->createQueryBuilder('tab')
+            ->select('count(tab.id)')
+            ->where('tab.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     // /**
     //  * @return Accession[] Returns an array of Accession objects
     //  */

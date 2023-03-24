@@ -275,7 +275,7 @@
                                                 Accessions
                                             </div>
                                             <a href="{{ path('accession_index') }}">
-                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalAccession }}</div>
+                                                <div id="accessionData" data-val= {{ jsonAcc }}  class="h5 mb-0 font-weight-bold text-primary count">{{ totalAccession }}</div>
                                             </a>
                                             <hr>
                                             <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
@@ -468,7 +468,7 @@
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
+                                         <div id="world-map-markers" style="height: 300px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -620,6 +620,10 @@
                                 </div>
                             </div>
 
+                            <div>
+                                <canvas id="myChart"></canvas>
+                            </div>
+
                             <!-- Color System -->
                             
                         </div>
@@ -748,15 +752,24 @@
     <script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
     <script src="{{ asset('guidedtour/js/demo.js') }}"></script>
 
+    <!-- VMap  -->
+    <script src="{{ asset('assets/vmap/js/jquery-jvectormap-2.0.2.min.js') }}"></script>
+    <script src="{{ asset('assets/vmap/js/jquery-jvectormap-world-mill-en.js') }}"></script>
+    <script src="{{ asset('assets/vmap/js/jvectormap.custom.js') }}"></script>
+
     {# <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script> #}
     {# <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script> #}
 
       
       <!-- Page level custom scripts -->
       <!-- mdbosstrap scripts -->
-      <script src="{{ asset('assets/nl/js/charts/chart-area-demo.js') }}"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      <script src="{{ asset('assets/nl/js/charts/multi_series_pie_chart.js') }}"></script>
       <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0-rc"></script>
       <script src="{{ asset('assets/nl/js/charts/doughnut_chart_with_labels.js') }}"></script>
+      
       
 {% endblock %}

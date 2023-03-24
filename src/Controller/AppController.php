@@ -100,6 +100,7 @@ class AppController extends AbstractController
 
         // Setup query to get the most accession per country
         //$qb = $this->getDoctrine()->getManager()->createQueryBuilder("Select c.id from App\Entity\Country c Where c.id=1");
+        $accessionTotalRows = $repoAccession->totalRows();
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
         $accessionPerCountry = $qb->select('country as ctry, count(accession.maintainernumb) as accQty')
                 ->from('App\Entity\Country', 'country')
@@ -111,6 +112,27 @@ class AppController extends AbstractController
                 ->setMaxResults(3)
                 ->getQuery()
                 ->getResult();
+
+        // Setup query to get the most accession per country with country fiels separately
+        // use substring function a in the map there a different iso version is used (iso with 2 letters code)
+        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+        $accessionPerCountryFields = $qb->select("country.id, substring(country.iso3, 1, length(country.iso3)-1) as iso2, count(accession.maintainernumb) as accQty, 'a' as percentage")
+                ->from('App\Entity\Country', 'country')
+                ->join('App\Entity\Accession', 'accession')
+                ->where('country.id = accession.origcty')
+                ->groupBy('accession.origcty')
+                ->orderBy('count(accession.maintainernumb)', 'DESC')
+                ->getQuery()
+                ->getResult();
+
+        // show percentage of trials
+        // foreach ($accessionPerCountryFields as $key => $value) {
+        //     # code...
+        //     $accessionPerCountryFields[$key]['percentage'] = round($value['accQty'] / $accessionTotalRows * 100);
+        // }
+        // dd($accessionPerCountryFields);
+        
+        //dd($qb->getDQL());
 
         // Setup repository of some entity
         $repoMappingPopulation = $entityManager->getRepository(MappingPopulation::class);
@@ -213,6 +235,7 @@ class AppController extends AbstractController
             "totalTrial" => $totalTrial,
             "totalAccession" => $totalAccession,
             "accessionPerCountry" => $accessionPerCountry,
+            "jsonAcc" => json_encode($accessionPerCountryFields),
             "totalMappingPopulation" => $totalMappingPopulation,
             "totalGWAS" => $totalGWAS,
             "totalQTLStudy" => $totalQTLStudy,
