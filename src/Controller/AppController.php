@@ -116,7 +116,8 @@ class AppController extends AbstractController
         // Setup query to get the most accession per country with country fiels separately
         // use substring function a in the map there a different iso version is used (iso with 2 letters code)
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-        $accessionPerCountryFields = $qb->select("country.id, substring(country.iso3, 1, length(country.iso3)-1) as iso2, count(accession.maintainernumb) as accQty, 'a' as percentage")
+        //$accessionPerCountryFields = $qb->select("country.id, substring(country.iso3, 1, length(country.iso3)-1) as iso2, count(accession.maintainernumb) as accQty, 'a' as percentage")
+        $accessionPerCountryFields = $qb->select("country.id, country.iso3, count(accession.maintainernumb) as accQty, 'a' as percentage")
                 ->from('App\Entity\Country', 'country')
                 ->join('App\Entity\Accession', 'accession')
                 ->where('country.id = accession.origcty')
@@ -126,14 +127,14 @@ class AppController extends AbstractController
                 ->getResult();
 
         // show percentage of trials
-        // foreach ($accessionPerCountryFields as $key => $value) {
-        //     # code...
-        //     $accessionPerCountryFields[$key]['percentage'] = round($value['accQty'] / $accessionTotalRows * 100);
-        // }
-        // dd($accessionPerCountryFields);
+        foreach ($accessionPerCountryFields as $key => $value) {
+            # code...
+            $numb = $value['accQty'] / $accessionTotalRows * 100;
+            // two digit after comma
+            $roundedVal = number_format((float)$numb, 2, '.', '');
+            $accessionPerCountryFields[$key]['percentage'] = $roundedVal;
+        }
         
-        //dd($qb->getDQL());
-
         // Setup repository of some entity
         $repoMappingPopulation = $entityManager->getRepository(MappingPopulation::class);
         // Query how many rows are there in the MappingPopulation table

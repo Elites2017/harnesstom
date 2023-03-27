@@ -2,24 +2,23 @@ $(function() {
     "use strict";
 
     var $accessionData = document.getElementById('accessionData');
-    var arr = jQuery.parseJSON($accessionData.getAttribute('data-val'));
-    var gdpData = {};
-    arr.forEach(element => {
-        gdpData[element.iso2] = element.accQty;
-        //console.log("Element.. ", gdpData);    
+    var accPercountry = jQuery.parseJSON($accessionData.getAttribute('data-val'));
+    // object
+    var accPerCountryData = {};
+    accPercountry.forEach(element => {
+        accPerCountryData[element.iso3] = element.accQty +' ('+ element.percentage +'%)';
     }); 
-
     jQuery('#world-map-markers').vectorMap({
         map: 'world_mill_en',
         series: {
             regions: [{
-            values: gdpData,
-            scale: ['#C8EEFF', '#0071A4', '#AFEEFF', '#0F971A4'],
+            values: accPerCountryData,
+            scale: ['#A8EEFF', '#DD00F2', '#F9A71A4'],
             normalizeFunction: 'polynomial'
             }]
         },
         onRegionTipShow: function(e, el, code){
-            el.html(el.html()+': '+gdpData[code]+' ');
+            el.html(el.html()+': '+accPerCountryData[code]);
         },
         backgroundColor: 'transparent',
         borderColor: '#818181',
@@ -45,8 +44,8 @@ $(function() {
         enableZoom: true,
         hoverColor: '#8b94d6',
         markers: [{
-            latLng: [21.00, 78.00],
-            name: 'India'
+            latLng: [53.0000, 9.0000],
+            name: 'Europe'
 
         }],
         hoverOpacity: null,
@@ -55,14 +54,15 @@ $(function() {
         selectedColor: '#c9dfaf',
         selectedRegions: [],
         showTooltip: true,
-        onRegionClick: function(element, code, region) {
-            var message = 'You clicked "' +
-                region +
-                '" which has the code: ' +
-                code.toUpperCase();
+        // onRegionClick: function(element, code, region) {
+        //     console.log("EL ", code, ' ', region, ' el ', element)
+        //     var message = 'You clicked "' +
+        //         region +
+        //         '" which has the code: ' +
+        //         code.toUpperCase();
 
-            alert(message);
-        }
+        //     alert(message);
+        // }
     });
 
 });
