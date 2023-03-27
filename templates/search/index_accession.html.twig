@@ -28,508 +28,612 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-3 col-lg-4 order-md-1">
-                <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card shadow h-100 py-2">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold text-primary">Filter By</h6>
                     </div>
                     <div class="card-body">
                         {# to create a form and use formData in javascript later #}
                         <form id="filters">
-                            <p class="text-muted font-weight-bold">Country</p>
-                            <div class="mb-3 objects_list_scroll_bar">
-                                {% for country in countries %}
-                                    <p >
-                                        <input type="checkbox" name="countries[]" id="country{{ country.id }}" value="{{ country.id }}">
-                                        <label for=country{{ country.id }}> {{ country.iso3 }} </label>
-                                    </p>
-                                {% endfor %}
+                            <!-- start country list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#countryCollapse" role="button" aria-expanded="true" aria-controls="countryCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#countryCollapse">Country</span>
+                                    </li>
+                                    <ul class="list collapse" id="countryCollapse">
+                                        {% for country in countries %}
+                                            <p >
+                                                <input type="checkbox" name="countries[]" id="country{{ country.id }}" value="{{ country.id }}">
+                                                <label for=country{{ country.id }}> {{ country.iso3 }} </label>
+                                            </p>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
                             </div>
-                            <p class="text-muted font-weight-bold">Biological Status</p>
-                            <div class="mb-3 objects_list_scroll_bar">
-                                {# to create a form and use formData in javascript later #}
-                                {% for biologicalStatus in biologicalStatuses %}
-                                    <p>
-                                        <input type="checkbox" name="biologicalStatuses[]" id="biologicalStatus{{ biologicalStatus.id }}" value="{{ biologicalStatus.id }}">
-                                        <label for=biologicalStatus{{ biologicalStatus.id }}> {{ biologicalStatus.name }} </label>
-                                    </p>
-                                {% endfor %}
-                            </div>
-                            
-                            <p class="text-muted font-weight-bold">Fruit weight in grams</p>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/wild_0-10g.png') }}" width="20%" />
-                                        <input type="checkbox" name="fwgs[]" id="fwg_1" value="Wild">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Wild (0-10g) </label>
-                                        </small>
-                                        
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/cherry_11-30g.png') }}" width="20%" />
-                                        <input type="checkbox" name="fwgs[]" id="fwg_2" value="cherry">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Cherry (10-30g) </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/cocktail_31-50g.png') }}" width="35%" />
-                                        <input type="checkbox" name="fwgs[]" id="fwg_3" value="cocktail">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Cocktail (30-50g) </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/small_51-100g.png') }}" width="50%" />
-                                        <input type="checkbox" name="fwgs[]" id="fwg_4" value="small">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Small (50-100g) </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/small_51-100g.png') }}" width="65%" />
-                                        <input type="checkbox" name="fwgs[]" id="fwg_5" value="medium">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Medium (100-200g) </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- end country list -->
 
-                                <div class="row" align="center">
-                                    <div class="col-md-4 ">
-                                        <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/big_201-300g.png') }}" width="30%" />
-                                        <input type="checkbox" name="fwgs[]" id="fwg_6" value="NA">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Large (200-30g) </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-4 ">
-                                        <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/verybig_301-400g.png') }}" width="40%" />
-                                        <input type="checkbox" name="fwgs[]" id="fwg_7" value="NA">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Very Large (300-400g) </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-4 ">
-                                        <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/giant_401-500g.png') }}" width="50%" />
-                                        <input type="checkbox" name="fwgs[]" id="fwg_8" value="NA">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Giant (> 400g) </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- start biological status list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#biologicalStatusCollapse" role="button" aria-expanded="true" aria-controls="biologicalStatusCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#biologicalStatusCollapse">Biological Status</span>
+                                    </li>
+                                    <ul class="list collapse" id="biologicalStatusCollapse">
+                                        {% for biologicalStatus in biologicalStatuses %}
+                                            <p>
+                                                <input type="checkbox" name="biologicalStatuses[]" id="biologicalStatus{{ biologicalStatus.id }}" value="{{ biologicalStatus.id }}">
+                                                <label for=biologicalStatus{{ biologicalStatus.id }}> {{ biologicalStatus.name }} </label>
+                                            </p>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end biological status list-->
 
+                            <!-- start fruit weight in grams list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#fruitWeightGramsCollapse" role="button" aria-expanded="true" aria-controls="fruitWeightGramsCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#fruitWeightGramsCollapse">Fruit weight in grams</span>
+                                    </li>
+                                    <ul class="list collapse" id="fruitWeightGramsCollapse">
+                                        <div class="row">
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/wild_0-10g.png') }}" width="20%" />
+                                                <input type="checkbox" name="fwgs[]" id="fwg_1" value="Wild">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Wild (0-10g) </label>
+                                                </small>
+                                                
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/cherry_11-30g.png') }}" width="20%" />
+                                                <input type="checkbox" name="fwgs[]" id="fwg_2" value="cherry">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Cherry (10-30g) </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/cocktail_31-50g.png') }}" width="35%" />
+                                                <input type="checkbox" name="fwgs[]" id="fwg_3" value="cocktail">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Cocktail (30-50g) </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/small_51-100g.png') }}" width="50%" />
+                                                <input type="checkbox" name="fwgs[]" id="fwg_4" value="small">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Small (50-100g) </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/small_51-100g.png') }}" width="65%" />
+                                                <input type="checkbox" name="fwgs[]" id="fwg_5" value="medium">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Medium (100-200g) </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/big_201-300g.png') }}" width="30%" />
+                                                <input type="checkbox" name="fwgs[]" id="fwg_6" value="NA">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Large (200-30g) </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="row" align="center">
+                                            <div class="col-md-4">
+                                                <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/verybig_301-400g.png') }}" width="40%" />
+                                                <input type="checkbox" name="fwgs[]" id="fwg_7" value="NA">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Very Large (300-400g) </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <img src="{{ asset('assets/images/fruit_mass_weight_in_grams/giant_401-500g.png') }}" width="50%" />
+                                                <input type="checkbox" name="fwgs[]" id="fwg_8" value="NA">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Giant (> 400g) </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
                             </div>
-                            
-                            <p class="text-muted font-weight-bold">Shape</p>
-                            <div class="mb-3">
-                                <div class="row" align="center">
-                                    <div class="col-md-3 ">
-                                        <img src="{{ asset('assets/images/tomato_shapes/bis_shape3.png') }}" width="90%" />
-                                        <input type="checkbox" name="shapes[]" id="shape_1" value="round">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Round </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/tomato_shapes/2bis_shape7.png') }}" width="90%" />
-                                        <input type="checkbox" name="shapes[]" id="shape_2" value="ellipsoid">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Ellipsoid </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/tomato_shapes/2bis_shape4.png') }}" width="90%" />
-                                        <input type="checkbox" name="shapes[]" id="shape_3" value="rectangular">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Rectangular </label>
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="row" align="center">
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/tomato_shapes/2bis_shape5.png') }}" width="90%" />
-                                        <input type="checkbox" name="shapes[]" id="shape_4" value="oxheart">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Oxheart </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/tomato_shapes/bellpepper.png') }}" width="90%" />
-                                        <input type="checkbox" name="shapes[]" id="shape_5" value="bell pepper">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Bell pepper </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/tomato_shapes/2bis_shape6.png') }}" width="90%" />
-                                        <input type="checkbox" name="shapes[]" id="shape_6" value="obovoid">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Obovoid </label>
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="row" align="center">
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/tomato_shapes/shape2.png') }}" width="90%" />
-                                        <input type="checkbox" name="shapes[]" id="shape_7" value="flat">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Flat </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/tomato_shapes/2bis_shape10.png') }}" width="90%" />
-                                        <input type="checkbox" name="shapes[]" id="shape_8" value="long">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Long </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/tomato_shapes/bitmap22.png') }}" width="60%" /> </br>
-                                        <input type="checkbox" name="shapes[]" id="shape_9" value="heart">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Heart </label>
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
+                            <!-- end fruit weight in grams list-->
 
-                            <p class="text-muted font-weight-bold">Fruit Fasciation</p>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/fruitfasciation/noribbed.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitf[]" id="fruitf_1" value="not present">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Not present </label>
-                                        </small>
-                                        
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/fruitfasciation/medium.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitf[]" id="fruitf_2" value="low">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Low </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/fruitfasciation/veryribbed.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitf[]" id="fruitf_3" value="intermediate">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Intermediate </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/fruitfasciation/stonglyribbed.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitf[]" id="fruitf_4" value="severe">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Severe </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- start shape list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#shapeCollapse" role="button" aria-expanded="true" aria-controls="shapeCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#shapeCollapse">Shape</span>
+                                    </li>
+                                    <ul class="list collapse" id="shapeCollapse">
+                                        <div class="row">
+                                            <div class="col-md-3 ">
+                                                <img src="{{ asset('assets/images/tomato_shapes/bis_shape3.png') }}" width="90%" />
+                                                <input type="checkbox" name="shapes[]" id="shape_1" value="round">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Round </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape7.png') }}" width="90%" />
+                                                <input type="checkbox" name="shapes[]" id="shape_2" value="ellipsoid">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Ellipsoid </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape4.png') }}" width="90%" />
+                                                <input type="checkbox" name="shapes[]" id="shape_3" value="rectangular">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Rectangular </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="row" align="center">
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape5.png') }}" width="90%" />
+                                                <input type="checkbox" name="shapes[]" id="shape_4" value="oxheart">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Oxheart </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/tomato_shapes/bellpepper.png') }}" width="90%" />
+                                                <input type="checkbox" name="shapes[]" id="shape_5" value="bell pepper">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Bell pepper </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape6.png') }}" width="90%" />
+                                                <input type="checkbox" name="shapes[]" id="shape_6" value="obovoid">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Obovoid </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="row" align="center">
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/tomato_shapes/shape2.png') }}" width="90%" />
+                                                <input type="checkbox" name="shapes[]" id="shape_7" value="flat">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Flat </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/tomato_shapes/2bis_shape10.png') }}" width="90%" />
+                                                <input type="checkbox" name="shapes[]" id="shape_8" value="long">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Long </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/tomato_shapes/bitmap22.png') }}" width="60%" /> </br>
+                                                <input type="checkbox" name="shapes[]" id="shape_9" value="heart">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Heart </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
                             </div>
+                            <!-- end shape list-->
 
-                            <p class="text-muted font-weight-bold">Fruit Shoulder Shape</p>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/shoulder_shape/flat.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitSS[]" id="fruitSS_1" value="flat">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Flat </label>
-                                        </small>
-                                        
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/shoulder_shape/slightdep.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitSS[]" id="fruitSS_2" value="slightly depressed">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Slightly depressed </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/shoulder_shape/medium.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitSS[]" id="fruitSS_3" value="moderately depressed">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Moderately depressed </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/shoulder_shape/strongdep.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitSS[]" id="fruitSS_4" value="strongly depressed">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Strongly depressed </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- start fruit fasciation list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#fruitFasciationCollapse" role="button" aria-expanded="true" aria-controls="fruitFasciationCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#fruitFasciationCollapse">Fruit Fasciation</span>
+                                    </li>
+                                    <ul class="list collapse" id="fruitFasciationCollapse">
+                                        <div class="row">
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/fruitfasciation/noribbed.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitf[]" id="fruitf_1" value="not present">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Not present </label>
+                                                </small>
+                                                
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/fruitfasciation/medium.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitf[]" id="fruitf_2" value="low">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Low </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/fruitfasciation/veryribbed.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitf[]" id="fruitf_3" value="intermediate">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Intermediate </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/fruitfasciation/stonglyribbed.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitf[]" id="fruitf_4" value="severe">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Severe </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
                             </div>
+                            <!-- end fruit fasciation list-->
 
-                            <p class="text-muted font-weight-bold">External Fruit Color</p>
-                            <div class="mb-3">
-                                <div class="row" align="center">
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/fruitcolor/yellow.png') }}" width="120%" />
-                                        <input type="checkbox" name="fruitColors[]" id="fruitColor_1" value="yellow">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Yellow </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/fruitcolor/orange.png') }}" width="120%" />
-                                        <input type="checkbox" name="fruitColors[]" id="fruitColor_2" value="orange">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Orange </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/fruitcolor/pink.png') }}" width="120%" />
-                                        <input type="checkbox" name="fruitColors[]" id="fruitColor_3" value="pink">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Pink </label>
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="row" align="center">
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/fruitcolor/red.png') }}" width="120%" />
-                                        <input type="checkbox" name="fruitColors[]" id="fruitColor_4" value="red">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Red </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/fruitcolor/purple.png') }}" width="120%" />
-                                        <input type="checkbox" name="fruitColors[]" id="fruitColor_5" value="purple">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Purple </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <img src="{{ asset('assets/images/fruitcolor/brown.png') }}" width="120%" /> </br>
-                                        <input type="checkbox" name="fruitColors[]" id="fruitColor_6" value="brown">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Brown </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- start fruit shoulder shape list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#fruitShoulderShapeCollapse" role="button" aria-expanded="true" aria-controls="fruitShoulderShapeCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#fruitShoulderShapeCollapse">Fruit Shoulder Shape</span>
+                                    </li>
+                                    <ul class="list collapse" id="fruitShoulderShapeCollapse">
+                                        <div class="row">
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/shoulder_shape/flat.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitSS[]" id="fruitSS_1" value="flat">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Flat </label>
+                                                </small>
+                                                
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/shoulder_shape/slightdep.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitSS[]" id="fruitSS_2" value="slightly depressed">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Slightly depressed </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/shoulder_shape/medium.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitSS[]" id="fruitSS_3" value="moderately depressed">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Moderately depressed </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/shoulder_shape/strongdep.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitSS[]" id="fruitSS_4" value="strongly depressed">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Strongly depressed </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
                             </div>
+                            <!-- end fruit shoulder shape list-->
 
-                            <p class="text-muted font-weight-bold">Green Shoulder Intensity</p>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/green_shoulder/absent.png') }}" width="100%" />
-                                        <input type="checkbox" name="greenSI[]" id="greenSI_1" value="uniform">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Uniform </label>
-                                        </small>
-                                        
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/green_shoulder/slight.png') }}" width="100%" />
-                                        <input type="checkbox" name="greenSI[]" id="greenSI_2" value="light green">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Light green </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/green_shoulder/medium.png') }}" width="100%" />
-                                        <input type="checkbox" name="greenSI[]" id="greenSI_3" value="medium green">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Medium green </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/green_shoulder/intense.png') }}" width="100%" />
-                                        <input type="checkbox" name="greenSI[]" id="greenSI_4" value="dark green">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Dark green </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- start external fruit color list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#externalFruitColorCollapse" role="button" aria-expanded="true" aria-controls="externalFruitColorCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#externalFruitColorCollapse">external fruit color</span>
+                                    </li>
+                                    <ul class="list collapse" id="externalFruitColorCollapse">
+                                        <div class="row" align="center">
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/fruitcolor/yellow.png') }}" width="120%" />
+                                                <input type="checkbox" name="fruitColors[]" id="fruitColor_1" value="yellow">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Yellow </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/fruitcolor/orange.png') }}" width="120%" />
+                                                <input type="checkbox" name="fruitColors[]" id="fruitColor_2" value="orange">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Orange </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/fruitcolor/pink.png') }}" width="120%" />
+                                                <input type="checkbox" name="fruitColors[]" id="fruitColor_3" value="pink">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Pink </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <div class="row" align="center">
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/fruitcolor/red.png') }}" width="120%" />
+                                                <input type="checkbox" name="fruitColors[]" id="fruitColor_4" value="red">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Red </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/fruitcolor/purple.png') }}" width="120%" />
+                                                <input type="checkbox" name="fruitColors[]" id="fruitColor_5" value="purple">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Purple </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <img src="{{ asset('assets/images/fruitcolor/brown.png') }}" width="120%" /> </br>
+                                                <input type="checkbox" name="fruitColors[]" id="fruitColor_6" value="brown">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Brown </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
                             </div>
+                            <!-- end external fruit color list-->
 
-                            <p class="text-muted font-weight-bold">Puffiness appearance</p>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/puffiness_appearance/0.png') }}" width="100%" />
-                                        <input type="checkbox" name="puffinessA[]" id="puffinessA_1" value="not present">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Not present </label>
-                                        </small>
-                                        
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/puffiness_appearance/1.png') }}" width="100%" />
-                                        <input type="checkbox" name="puffinessA[]" id="puffinessA_2" value="low">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Low </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/puffiness_appearance/2.png') }}" width="100%" />
-                                        <input type="checkbox" name="puffinessA[]" id="puffinessA_3" value="intermediate">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Intermediate </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/puffiness_appearance/3.png') }}" width="100%" />
-                                        <input type="checkbox" name="puffinessA[]" id="puffinessA_4" value="severe">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Severe </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- start green shoulder intensity list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#greenShoulderIntensityCollapse" role="button" aria-expanded="true" aria-controls="greenShoulderIntensityCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#greenShoulderIntensityCollapse">Green Shoulder Intensity</span>
+                                    </li>
+                                    <ul class="list collapse" id="greenShoulderIntensityCollapse">
+                                        <div class="row">
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/green_shoulder/absent.png') }}" width="100%" />
+                                                <input type="checkbox" name="greenSI[]" id="greenSI_1" value="uniform">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Uniform </label>
+                                                </small>
+                                                
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/green_shoulder/slight.png') }}" width="100%" />
+                                                <input type="checkbox" name="greenSI[]" id="greenSI_2" value="light green">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Light green </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/green_shoulder/medium.png') }}" width="100%" />
+                                                <input type="checkbox" name="greenSI[]" id="greenSI_3" value="medium green">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Medium green </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/green_shoulder/intense.png') }}" width="100%" />
+                                                <input type="checkbox" name="greenSI[]" id="greenSI_4" value="dark green">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Dark green </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
                             </div>
+                            <!-- end green shoulder intensity list-->
 
-                            <p class="text-muted font-weight-bold">Pericarp thickness [cm]</p>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/pericarp_thickness/jelly.png') }}" width="100%" />
-                                        <input type="checkbox" name="pericarpT[]" id="pericarpT_1" value="thin">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Thin [< 0.75 cm] </label>
-                                        </small>
-                                        
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/pericarp_thickness/medium.png') }}" width="100%" />
-                                        <input type="checkbox" name="pericarpT[]" id="pericarpT_2" value="medium">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Medium [ 0. 75 / 2 cm] </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/pericarp_thickness/pericarp.png') }}" width="100%" />
-                                        <input type="checkbox" name="pericarpT[]" id="pericarpT_3" value="thick">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Thick [> 2 cm] </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- start puffiness appearance list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#puffinessAppearanceCollapse" role="button" aria-expanded="true" aria-controls="puffinessAppearanceCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#puffinessAppearanceCollapse">Puffiness appearance</span>
+                                    </li>
+                                    <ul class="list collapse" id="puffinessAppearanceCollapse">
+                                        <div class="row">
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/puffiness_appearance/0.png') }}" width="100%" />
+                                                <input type="checkbox" name="puffinessA[]" id="puffinessA_1" value="not present">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Not present </label>
+                                                </small>
+                                                
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/puffiness_appearance/1.png') }}" width="100%" />
+                                                <input type="checkbox" name="puffinessA[]" id="puffinessA_2" value="low">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Low </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/puffiness_appearance/2.png') }}" width="100%" />
+                                                <input type="checkbox" name="puffinessA[]" id="puffinessA_3" value="intermediate">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Intermediate </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/puffiness_appearance/3.png') }}" width="100%" />
+                                                <input type="checkbox" name="puffinessA[]" id="puffinessA_4" value="severe">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Severe </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
                             </div>
+                            <!-- end puffiness appearance list-->
 
-                            <p class="text-muted font-weight-bold">Fruit firmness [0-100 scale]</p>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_firmness/verysoft.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitFirmness[]" id="fruitFirmness_1" value="very soft">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Very soft [< 30] </label>
-                                        </small>
-                                        
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_firmness/soft.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitFirmness[]" id="fruitFirmness_2" value="soft">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Soft [30-40] </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_firmness/medium.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitFirmness[]" id="fruitFirmness_3" value="medium">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Medium [40-60] </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_firmness/firm.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitFirmness[]" id="fruitFirmness_3" value="firm">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Firm [60-70] </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_firmness/veryfirm.png') }}" width="100%" />
-                                        <input type="checkbox" name="fruitFirmness[]" id="fruitFirmness_3" value="very firm">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> very firm [> 70] </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- start pericarp thickness list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#pericarpThicknessCollapse" role="button" aria-expanded="true" aria-controls="pericarpThicknessCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#pericarpThicknessCollapse">Pericarp thickness [cm]</span>
+                                    </li>
+                                    <ul class="list collapse" id="pericarpThicknessCollapse">
+                                        <div class="row">
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/pericarp_thickness/jelly.png') }}" width="100%" />
+                                                <input type="checkbox" name="pericarpT[]" id="pericarpT_1" value="thin">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Thin [< 0.75 cm] </label>
+                                                </small>
+                                                
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/pericarp_thickness/medium.png') }}" width="100%" />
+                                                <input type="checkbox" name="pericarpT[]" id="pericarpT_2" value="medium">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Medium [ 0. 75 / 2 cm] </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/pericarp_thickness/pericarp.png') }}" width="100%" />
+                                                <input type="checkbox" name="pericarpT[]" id="pericarpT_3" value="thick">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Thick [> 2 cm] </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
                             </div>
+                            <!-- end pericarp thickness list-->
 
-                            <p class="text-muted font-weight-bold">Suggar content [ºBrix]</p>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/sugar_content/poor.png') }}" width="100%" />
-                                        <input type="checkbox" name="brix[]" id="brix_2" value="poor">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Poor [< 4]</label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/sugar_content/fair.png') }}" width="100%" />
-                                        <input type="checkbox" name="brix[]" id="brix_3" value="fair">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Fair [4-6] </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/sugar_content/good.png') }}" width="100%" />
-                                        <input type="checkbox" name="brix[]" id="brix_3" value="good">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Good [6-8] </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-3" align="center">
-                                        <img src="{{ asset('assets/images/sugar_content/excellent.png') }}" width="100%" />
-                                        <input type="checkbox" name="brix[]" id="brix_3" value="excellent">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Excellent [> 8] </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- start fruit firmness list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#fruitFirmnessCollapse" role="button" aria-expanded="true" aria-controls="fruitFirmnessCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#fruitFirmnessCollapse">Fruit firmness [0-100 scale]</span>
+                                    </li>
+                                    <ul class="list collapse" id="fruitFirmnessCollapse">
+                                        <div class="row">
+                                            <div class="col-md-2" align="center">
+                                                <img src="{{ asset('assets/images/fruit_firmness/verysoft.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitFirmness[]" id="fruitFirmness_1" value="very soft">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Very soft [< 30] </label>
+                                                </small>
+                                                
+                                            </div>
+                                            <div class="col-md-2" align="center">
+                                                <img src="{{ asset('assets/images/fruit_firmness/soft.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitFirmness[]" id="fruitFirmness_2" value="soft">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Soft [30-40] </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-2" align="center">
+                                                <img src="{{ asset('assets/images/fruit_firmness/medium.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitFirmness[]" id="fruitFirmness_3" value="medium">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Medium [40-60] </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-2" align="center">
+                                                <img src="{{ asset('assets/images/fruit_firmness/firm.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitFirmness[]" id="fruitFirmness_3" value="firm">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Firm [60-70] </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-2" align="center">
+                                                <img src="{{ asset('assets/images/fruit_firmness/veryfirm.png') }}" width="100%" />
+                                                <input type="checkbox" name="fruitFirmness[]" id="fruitFirmness_3" value="very firm">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> very firm [> 70] </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
                             </div>
+                            <!-- end fruit firmness list-->
 
-                            <p class="text-muted font-weight-bold">Plant fruit load</p>
-                            <div class="mb-3">
-                                <div class="row">
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_load/scarce.png') }}" width="80%" />
-                                        <input type="checkbox" name="load[]" id="load_1" value="scarce">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Scarce </label>
-                                        </small>
-                                        
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_load/medium_scarce.png') }}" width="60%" />
-                                        <input type="checkbox" name="load[]" id="load_2" value="scarce-medium">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Scarce-medium </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_load/medium.png') }}" width="140%" />
-                                        <input type="checkbox" name="load[]" id="load_3" value="medium">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Medium </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_load/medium_high.png') }}" width="130%" />
-                                        <input type="checkbox" name="load[]" id="load_3" value="medium-high">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> Medium-high </label>
-                                        </small>
-                                    </div>
-                                    <div class="col-md-2" align="center">
-                                        <img src="{{ asset('assets/images/fruit_load/high.png') }}" width="190%" />
-                                        <input type="checkbox" name="load[]" id="load_3" value="high">
-                                        <small>
-                                            <label for="NA" class="text-center text-muted font-weight-bold"> High </label>
-                                        </small>
-                                    </div>
-                                </div>
+                            <!-- start sugar content list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#sugarContentCollapse" role="button" aria-expanded="true" aria-controls="sugarContentCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#sugarContentCollapse">Suggar content [ºBrix]</span>
+                                    </li>
+                                    <ul class="list collapse" id="sugarContentCollapse">
+                                        <div class="row">
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/sugar_content/poor.png') }}" width="100%" />
+                                                <input type="checkbox" name="brix[]" id="brix_2" value="poor">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Poor [< 4]</label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/sugar_content/fair.png') }}" width="100%" />
+                                                <input type="checkbox" name="brix[]" id="brix_3" value="fair">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Fair [4-6] </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/sugar_content/good.png') }}" width="100%" />
+                                                <input type="checkbox" name="brix[]" id="brix_3" value="good">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Good [6-8] </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-3" align="center">
+                                                <img src="{{ asset('assets/images/sugar_content/excellent.png') }}" width="100%" />
+                                                <input type="checkbox" name="brix[]" id="brix_3" value="excellent">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Excellent [> 8] </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
                             </div>
+                            <!-- end sugar content list-->
+
+                            <!-- start Plant fruit load list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#plantFruitLoadCollapse" role="button" aria-expanded="true" aria-controls="plantFruitLoadCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#plantFruitLoadCollapse">Plant fruit load</span>
+                                    </li>
+                                    <ul class="list collapse" id="plantFruitLoadCollapse">
+                                        <div class="row">
+                                            <div class="col-md-2" align="center">
+                                                <img src="{{ asset('assets/images/fruit_load/scarce.png') }}" width="80%" />
+                                                <input type="checkbox" name="load[]" id="load_1" value="scarce">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Scarce </label>
+                                                </small>
+                                                
+                                            </div>
+                                            <div class="col-md-2" align="center">
+                                                <img src="{{ asset('assets/images/fruit_load/medium_scarce.png') }}" width="60%" />
+                                                <input type="checkbox" name="load[]" id="load_2" value="scarce-medium">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Scarce-medium </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-2" align="center">
+                                                <img src="{{ asset('assets/images/fruit_load/medium.png') }}" width="140%" />
+                                                <input type="checkbox" name="load[]" id="load_3" value="medium">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Medium </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-2" align="center">
+                                                <img src="{{ asset('assets/images/fruit_load/medium_high.png') }}" width="130%" />
+                                                <input type="checkbox" name="load[]" id="load_3" value="medium-high">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> Medium-high </label>
+                                                </small>
+                                            </div>
+                                            <div class="col-md-2" align="center">
+                                                <img src="{{ asset('assets/images/fruit_load/high.png') }}" width="190%" />
+                                                <input type="checkbox" name="load[]" id="load_3" value="high">
+                                                <small>
+                                                    <label for="NA" class="text-center text-muted font-weight-bold"> High </label>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end Plant fruit load list-->
                             
                         </form>
                     </div>
