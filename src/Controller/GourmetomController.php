@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/search", name="search_")
+ * @Route("/gourmetom", name="gourmetom_")
  */
-class SearchController extends AbstractController
+class GourmetomController extends AbstractController
 {
     /**
      * @Route("/accession", name="accession")
@@ -55,7 +55,7 @@ class SearchController extends AbstractController
                 'accessions' => $filteredAccession
             ];
             return new JsonResponse([
-                'content' => $this->renderView('search/content_accession.html.twig', $context)
+                'content' => $this->renderView('gourmetom/content_accession.html.twig', $context)
             ]);
         }
 
@@ -67,6 +67,6 @@ class SearchController extends AbstractController
             'countries' => $countries,
             'biologicalStatuses' => $biologicalStatuses
         ];
-        return $this->render('search/index_accession.html.twig', $context);
+        return $this->render('gourmetom/index_accession.html.twig', $context);
     }
 }
