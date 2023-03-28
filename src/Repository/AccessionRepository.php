@@ -1609,6 +1609,24 @@ class AccessionRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    public function getAccessionAdvancedSearch(
+        $countries = null, $biologicalStatuses = null) {
+        
+        $query = $this->createQueryBuilder('acc')
+            ->where('acc.isActive = 1');
+        
+        if ($countries) {
+            $query->andWhere('acc.origcty IN(:selectedCountries)')
+            ->setParameter(':selectedCountries', array_values($countries));
+        }
+        if ($biologicalStatuses) {
+            $query->andWhere('acc.sampstat IN(:selectedBiologicalStatuses)')
+            ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
+        }
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Accession[] Returns an array of Accession objects
     //  */

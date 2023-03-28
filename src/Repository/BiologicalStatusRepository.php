@@ -28,6 +28,18 @@ class BiologicalStatusRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // to show the number of accession by each biological status
+    public function getAccessionsByBiologicalStatus() {
+        $query = $this->createQueryBuilder('biologicalS')
+            ->select('biologicalS as biologicalStatus, count(biologicalS.id) as accQty')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('biologicalS.isActive = 1')
+            ->andWhere('biologicalS.id = accession.sampstat')
+            ->groupBy('biologicalS.id')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return BiologicalStatus[] Returns an array of BiologicalStatus objects
     //  */

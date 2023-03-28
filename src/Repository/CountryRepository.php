@@ -28,6 +28,18 @@ class CountryRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // to show the number of accession by each country
+    public function getAccessionsByCountry() {
+        $query = $this->createQueryBuilder('ctry')
+            ->select('ctry as country, count(ctry.id) as accQty')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('ctry.isActive = 1')
+            ->andWhere('ctry.id = accession.origcty')
+            ->groupBy('ctry.id')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Country[] Returns an array of Country objects
     //  */

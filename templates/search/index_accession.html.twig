@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block stylesheets %}
+	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+	<!-- DataTables CSS -->
+	<link
+	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+	<!-- DataTables Responsive CSS -->
+	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 order-md-1">
+                <div class="card shadow h-100">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-center tomato-color">Filter By</h6>
+                    </div>
+                    <div class="card-body">
+                        {# to create a form and use formData in javascript later #}
+                        <form id="filters">
+                            <!-- start country list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#countryCollapse" role="button" aria-expanded="true" aria-controls="countryCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#countryCollapse">Country</span>
+                                    </li>
+                                    <ul class="list collapse" id="countryCollapse">
+                                        {% for oneObj in accessionsByCountry %}
+                                            <p class="mr-3">
+                                                <input type="checkbox" name="countries[]" id="country{{ oneObj['country'].id }}" value="{{ oneObj['country'].id }}">
+                                                <label for=country{{ oneObj['country'].id }}> {{ oneObj['country'].iso3 }} </label>
+                                                <span class="float-right"> {{ oneObj['accQty'] }} </span> 
+                                            </p>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end country list -->
+
+                            <!-- start biological status list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#biologicalStatusCollapse" role="button" aria-expanded="true" aria-controls="biologicalStatusCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#biologicalStatusCollapse">Biological Status</span>
+                                    </li>
+                                    <ul class="list collapse" id="biologicalStatusCollapse">
+                                        {% for oneObj in accessionsByBiologicalStatus %}
+                                            <p class="mr-3">
+                                                <input type="checkbox" name="biologicalStatuses[]" id="biologicalStatus{{ oneObj['biologicalStatus'].id }}" value="{{ oneObj['biologicalStatus'].id }}">
+                                                <label for=biologicalStatus{{ oneObj['biologicalStatus'].id }}> {{ oneObj['biologicalStatus'].name }} </label>
+                                                <span class="float-right"> {{ oneObj['accQty'] }} </span>
+                                            </p>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end biological status list-->
+
+                        </form>
+                    </div>
+                </div>        
+            </div>
+            <div class="col-xl-9 col-lg-9 order-md-2">
+                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                <div id="filtered_content">
+                    {% include "search/content_accession.html.twig" %}
+                </div>
+		    </div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
+
+	<!-- DataTables JavaScript -->
+	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
+	</script>
+
+    <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable();
+        } );
+    </script>
+    <script src="{{ asset('assets/js/filters.js') }}"></script>
+{% endblock %}
