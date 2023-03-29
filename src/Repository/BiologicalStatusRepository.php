@@ -36,6 +36,7 @@ class BiologicalStatusRepository extends ServiceEntityRepository
             ->where('biologicalS.isActive = 1')
             ->andWhere('biologicalS.id = accession.sampstat')
             ->groupBy('biologicalS.id')
+            ->orderBy('count(biologicalS.id)', 'DESC')
         ;
         return $query->getQuery()->getResult();
     }

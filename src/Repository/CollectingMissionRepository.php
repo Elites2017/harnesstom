@@ -19,6 +19,19 @@ class CollectingMissionRepository extends ServiceEntityRepository
         parent::__construct($registry, CollectingMission::class);
     }
 
+    // to show the number of accession by each collecting mission
+    public function getAccessionsByCollectingMission() {
+        $query = $this->createQueryBuilder('cm')
+            ->select('cm as collectingMission, count(cm.id) as accQty')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('cm.isActive = 1')
+            ->andWhere('cm.id = accession.collmissid')
+            ->groupBy('cm.id')
+            ->orderBy('count(cm.id)', 'DESC')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return CollectingMission[] Returns an array of CollectingMission objects
     //  */

@@ -19,6 +19,45 @@ class InstituteRepository extends ServiceEntityRepository
         parent::__construct($registry, Institute::class);
     }
 
+    // to show the number of accession by maintaining institute
+    public function getAccessionsByMaintainingInstitute() {
+        $query = $this->createQueryBuilder('inst')
+            ->select('inst as institute, count(inst.id) as accQty')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('inst.isActive = 1')
+            ->andWhere('inst.id = accession.instcode')
+            ->groupBy('inst.id')
+            ->orderBy('count(inst.id)', 'DESC')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+    // to show the number of accession by donor institute
+    public function getAccessionsByDonorInstitute() {
+        $query = $this->createQueryBuilder('inst')
+            ->select('inst as institute, count(inst.id) as accQty')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('inst.isActive = 1')
+            ->andWhere('inst.id = accession.donorcode')
+            ->groupBy('inst.id')
+            ->orderBy('count(inst.id)', 'DESC')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+    // to show the number of accession by breding institute
+    public function getAccessionsByBreedingInstitute() {
+        $query = $this->createQueryBuilder('inst')
+            ->select('inst as institute, count(inst.id) as accQty')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('inst.isActive = 1')
+            ->andWhere('inst.id = accession.bredcode')
+            ->groupBy('inst.id')
+            ->orderBy('count(inst.id)', 'DESC')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Institute[] Returns an array of Institute objects
     //  */

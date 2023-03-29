@@ -19,6 +19,19 @@ class MLSStatusRepository extends ServiceEntityRepository
         parent::__construct($registry, MLSStatus::class);
     }
 
+    // to show the number of accession by each mls status
+    public function getAccessionsByMLSStatus() {
+        $query = $this->createQueryBuilder('mlsS')
+            ->select('mlsS as mlsStatus, count(mlsS.id) as accQty')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('mlsS.isActive = 1')
+            ->andWhere('mlsS.id = accession.mlsStatus')
+            ->groupBy('mlsS.id')
+            ->orderBy('count(mlsS.id)', 'DESC')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return MLSStatus[] Returns an array of MLSStatus objects
     //  */

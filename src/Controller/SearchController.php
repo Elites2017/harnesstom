@@ -8,6 +8,11 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\AccessionRepository;
 use App\Repository\CountryRepository;
 use App\Repository\BiologicalStatusRepository;
+use App\Repository\CollectingMissionRepository;
+use App\Repository\CollectingSourceRepository;
+use App\Repository\InstituteRepository;
+use App\Repository\MLSStatusRepository;
+use App\Repository\TaxonomyRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -19,19 +24,40 @@ class SearchController extends AbstractController
     /**
      * @Route("/accession", name="accession")
      */
-    public function index(AccessionRepository $accessionRepo, CountryRepository $countryRepo, BiologicalStatusRepository $biologicalStatusRepo, Request $request): Response
+    public function index(AccessionRepository $accessionRepo, CountryRepository $countryRepo, BiologicalStatusRepository $biologicalStatusRepo,
+                        MLSStatusRepository $mlsStatusRepo, TaxonomyRepository $taxonomyRepo, CollectingMissionRepository $collectingMissionRepo, 
+                        CollectingSourceRepository $collectingSourceRepo, InstituteRepository $instituteRepo, Request $request): Response
     {
         // filters
         $accessionsByCountry = $countryRepo->getAccessionsByCountry();
         $accessionsByBiologicalStatus = $biologicalStatusRepo->getAccessionsByBiologicalStatus();
+        $accessionsByMLSStatus = $mlsStatusRepo->getAccessionsByMLSStatus();
+        $accessionsByTaxonomy = $taxonomyRepo->getAccessionsByTaxonomy();
+        //$accessionsBySpecies = $taxonomyRepo->getAccessionsBySpecies();
+        $accessionsByCollectingSource = $collectingSourceRepo->getAccessionsByCollectingSource();
+        $accessionsByCollectingMission = $collectingMissionRepo->getAccessionsByCollectingMission();
+        // institutes
+        $accessionsByMaintainingInstitute = $instituteRepo->getAccessionsByMaintainingInstitute();
+        $accessionsByDonorInstitute = $instituteRepo->getAccessionsByDonorInstitute();
+        $accessionsByBreedingInstitute = $instituteRepo->getAccessionsByBreedingInstitute();
         
         // get the filters selected by the user
         $selectedCountries = $request->get("countries");
-        //dd($selectedCountries);
         $selectedBiologicalStatuses = $request->get("biologicalStatuses");
+        $selectedMLSStatuses = $request->get('mlsStatuses');
+        $selectedTaxonomies = $request->get('taxonomies');
+        $selectedCollectingMissions = $request->get('collectingMissions');
+        $selectedCollectingSources = $request->get('collectingSources');
+        // institutes
+        $selectedMaintainingInstitutes = $request->get('maintainingInstitutes');
+        $selectedDonorInstitutes = $request->get('donorInstitutes');
+        $selectedBreedingInstitutes = $request->get('breedingInstitutes');
         
+        // to filter accessions by criterias
         $filteredAccession = $accessionRepo->getAccessionAdvancedSearch(
-            $selectedCountries, $selectedBiologicalStatuses
+            $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
+            $selectedCollectingMissions, $selectedCollectingSources, $selectedMaintainingInstitutes,
+            $selectedDonorInstitutes, $selectedBreedingInstitutes
         );
         //dd($selectedBiologicalStatuses);
         
@@ -52,7 +78,15 @@ class SearchController extends AbstractController
             'accessions' => $accessions,
             // filters
             'accessionsByCountry' => $accessionsByCountry,
-            'accessionsByBiologicalStatus' => $accessionsByBiologicalStatus
+            'accessionsByBiologicalStatus' => $accessionsByBiologicalStatus,
+            'accessionsByMLSStatus' => $accessionsByMLSStatus,
+            'accessionsByTaxonomy' => $accessionsByTaxonomy,
+            'accessionsByCollectingSource' => $accessionsByCollectingSource,
+            'accessionsByCollectingMission' => $accessionsByCollectingMission,
+            'accessionsByMaintainingInstitute' => $accessionsByMaintainingInstitute,
+            'accessionsByDonorInstitute' => $accessionsByDonorInstitute,
+            'accessionsByBreedingInstitute' => $accessionsByBreedingInstitute
+
         ];
         return $this->render('search/index_accession.html.twig', $context);
     }

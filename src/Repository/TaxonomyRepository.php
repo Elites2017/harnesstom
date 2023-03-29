@@ -19,6 +19,32 @@ class TaxonomyRepository extends ServiceEntityRepository
         parent::__construct($registry, Taxonomy::class);
     }
 
+    // to show the number of accession by each taxonomy
+    public function getAccessionsByTaxonomy() {
+        $query = $this->createQueryBuilder('tax')
+            ->select('tax as taxonomy, count(tax.id) as accQty')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('tax.isActive = 1')
+            ->andWhere('tax.id = accession.taxon')
+            ->groupBy('tax.id')
+            ->orderBy('count(tax.id)', 'DESC')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+    // to show the number of accession by species
+    // public function getAccessionsBySpecies() {
+    //     $query = $this->createQueryBuilder('tax')
+    //         ->select('tax.species as species, tax.id as id, count(tax.id) as accQty')
+    //         ->join('App\Entity\Accession', 'accession')
+    //         ->where('tax.isActive = 1')
+    //         ->andWhere('tax.id = accession.taxon')
+    //         ->groupBy('tax.id')
+    //         ->orderBy('count(tax.id)', 'DESC')
+    //     ;
+    //     return $query->getQuery()->getResult();
+    // }
+
     // /**
     //  * @return Taxonomy[] Returns an array of Taxonomy objects
     //  */

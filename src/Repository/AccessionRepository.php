@@ -1610,7 +1610,9 @@ class AccessionRepository extends ServiceEntityRepository
     }
 
     public function getAccessionAdvancedSearch(
-        $countries = null, $biologicalStatuses = null) {
+        $countries = null, $biologicalStatuses = null, $mlsStatuses = null, $taxonomies = null,
+        $collectingMissions = null, $collectingSources = null, $selectedMaintainingInstitutes = null,
+        $selectedDonorInstitutes =null, $selectedBreedingInstitutes = null) {
         
         $query = $this->createQueryBuilder('acc')
             ->where('acc.isActive = 1');
@@ -1622,6 +1624,34 @@ class AccessionRepository extends ServiceEntityRepository
         if ($biologicalStatuses) {
             $query->andWhere('acc.sampstat IN(:selectedBiologicalStatuses)')
             ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
+        }
+        if ($mlsStatuses) {
+                $query->andWhere('acc.mlsStatus IN(:selectedMLSStatuses)')
+                ->setParameter(':selectedMLSStatuses', array_values($mlsStatuses));
+        }
+        if ($taxonomies) {
+                $query->andWhere('acc.taxon IN(:selectedTaxonomies)')
+                ->setParameter(':selectedTaxonomies', array_values($taxonomies));
+        }
+        if ($collectingMissions) {
+                $query->andWhere('acc.collmissid IN(:selectedCollectingMissions)')
+                ->setParameter(':selectedCollectingMissions', array_values($collectingMissions));
+        }
+        if ($collectingSources) {
+                $query->andWhere('acc.collsrc IN(:selectedCollectingSources)')
+                ->setParameter(':selectedCollectingSources', array_values($collectingSources));
+        }
+        if ($selectedMaintainingInstitutes) {
+                $query->andWhere('acc.instcode IN(:selectedMaintainingInstitutes)')
+                ->setParameter(':selectedMaintainingInstitutes', array_values($selectedMaintainingInstitutes));
+        }
+        if ($selectedDonorInstitutes) {
+                $query->andWhere('acc.donorcode IN(:selectedDonorInstitutes)')
+                ->setParameter(':selectedDonorInstitutes', array_values($selectedDonorInstitutes));
+        }
+        if ($selectedBreedingInstitutes) {
+                $query->andWhere('acc.bredcode IN(:selectedBreedingInstitutes)')
+                ->setParameter(':selectedBreedingInstitutes', array_values($selectedBreedingInstitutes));
         }
         ;
         return $query->getQuery()->getResult();

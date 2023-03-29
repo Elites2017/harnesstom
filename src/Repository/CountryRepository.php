@@ -36,6 +36,7 @@ class CountryRepository extends ServiceEntityRepository
             ->where('ctry.isActive = 1')
             ->andWhere('ctry.id = accession.origcty')
             ->groupBy('ctry.id')
+            ->orderBy('count(ctry.id)', 'DESC')
         ;
         return $query->getQuery()->getResult();
     }
