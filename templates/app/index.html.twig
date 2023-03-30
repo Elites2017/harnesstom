@@ -275,7 +275,7 @@
                                                 Accessions
                                             </div>
                                             <a href="{{ path('accession_index') }}">
-                                                <div id="accessionData" data-val= {{ jsonAcc }}  class="h5 mb-0 font-weight-bold text-primary count">{{ totalAccession }}</div>
+                                                <div id="accessionData" data-val= "{{ jsonAcc }}"  class="h5 mb-0 font-weight-bold text-primary count">{{ totalAccession }}</div>
                                             </a>
                                             <hr>
                                             <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
@@ -478,7 +478,7 @@
                                 <!-- Card Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Accession Main Countries of Origin</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Biological Status Of Accession</h6>
                                     {# <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -496,26 +496,9 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <a id="accessionPerCountry0" data-name="{{ accessionPerCountry[0].ctry.iso3 }}" data-value="{{ accessionPerCountry[0].accQty }}" href="{{ path('accession_per_country', {id: accessionPerCountry[0].ctry.id}) }}">
-                                                <i class="fas fa-circle text-primary"></i> {{ accessionPerCountry[0].ctry.iso3 }}
-                                            </a>
-                                        </span>
-                                        <span class="mr-2">
-                                            <a id="accessionPerCountry1" data-name="{{ accessionPerCountry[1].ctry.iso3 }}" data-value="{{ accessionPerCountry[1].accQty }}" href="{{ path('accession_per_country', {id: accessionPerCountry[1].ctry.id}) }}">
-                                                <i class="fas fa-circle text-success"></i> {{ accessionPerCountry[1].ctry.iso3 }}
-                                            </a>
-                                        </span>
-                                        <span class="mr-2">
-                                            <a id="accessionPerCountry2" data-name="{{ accessionPerCountry[2].ctry.iso3 }}" data-value="{{ accessionPerCountry[2].accQty }}" href="{{ path('accession_per_country', {id: accessionPerCountry[2].ctry.id}) }}">
-                                                <i class="fas fa-circle text-info"></i> {{ accessionPerCountry[2].ctry.iso3 }}
-                                            </a>
-                                        </span>
-                                    </div>
+                                    
+                                    <div style="my-auto;" id="sunburstchart" ></div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -616,10 +599,6 @@
                                     {% endfor %}
                                     
                                 </div>
-                            </div>
-
-                            <div>
-                                <canvas id="myChart"></canvas>
                             </div>
 
                             <!-- Color System -->
@@ -764,11 +743,305 @@
       <!-- mdbosstrap scripts -->
 
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+ 
+      <script >
+     
+        function getData() {
+        return {
+            name: 'Accession',
+            children: [
+            {
+                name: "Wild",
+                children: [
+                    {
+                        name: "Natural",
+                        size: 1,
+                    },
+                    {
+                        name: "Semi-natural/wild",
+                        size: 45,
+                    },
+                    {
+                        name: "Semi-natural/sown",
+                        size: 45,
+                    },
+                ],
+            },
+            {
+                name: "Weedy",
+                size: 55,
+            },
+            {
+                name: "Traditional cultivar/landrace",
+                size: 1347,
+            },
+            {
+                name: "Breeding/research material",
+                children: [
+                    {
+                        name: "Breeder's line",
+                        size: 55,
+                    },
+                    {
+                        name: "Synthetic population",
+                        size: 45,
+                    },
+                    {
+                        name: "Hybrid",
+                        size: 46,
+                    },
+                    {
+                        name: "Founder stock/base population",
+                        size: 45,
+                    },
+                    {
+                        name: "Inbred line",
+                        size: 62,
+                    },
+                    {
+                        name: "Segregating population",
+                        size: 337,
+                    },
+                    {
+                        name: "Clonal selection",
+                        size: 2,
+                    },
+                    {
+                        name: "Genetic stock",
+                        size: 4,
+                    },
+                    {
+                        name: "Mutant",
+                        size: 5,
+                    },
+                    {
+                        name: "Cytogenetic stocks",
+                        size: 15,
+                    },
+                    {
+                        name: "Other genetic stocks",
+                        size: 28,
+                    },
+                ],
+            },
+            {
+                name: "Advanced or improved cultivar",
+                size: 62,
+            },
+            {
+                name: "GMO",
+                size: 9,
+            },
+            {
+                name: "Other",
+                size: 79,
+            },  
+        ]
+        }
+        }
 
-      <script src="{{ asset('assets/nl/js/charts/multi_series_pie_chart.js') }}"></script>
+
+        var colorScheme = [
+        "#E57373",
+        {# "#BA68C8",
+        "#7986CB",
+        "#A1887F",
+        "#90A4AE",
+        "#AED581",
+        "#9575CD",
+        "#FF8A65", #}
+        "#4DB6AC",
+        "#FFF176",
+        "#64B5F6",
+        "#00E676",
+        ];
+        dataset = getData();
+
+        var width = 300,
+        height = 300,
+        radius = Math.min(width / 2, height / 2) * 0.9;
+
+        var x = d3.scale.linear().range([0, 2 * Math.PI]);
+
+        var y = d3.scale.linear().range([0, radius]);
+
+        var color = d3.scale.ordinal().range(colorScheme);
+
+        var divHeight = height;
+        var divWidth = width;
+
+        var svg = d3
+        .select("#sunburstchart")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr(
+            "transform",
+            "translate(" + divWidth / 2 + "," + height / 2 + ") rotate(-90 0 0)"
+        );
+
+        var partition = d3.layout.partition().value(function (d) {
+        return d.size;
+        });
+
+        var tooltip = d3
+        .select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("opacity", 0);
+
+        var arc = d3.svg
+        .arc()
+        .startAngle(function (d) {
+            if (d.size != 0) return Math.max(0, Math.min(2 * Math.PI, x(d.x)));
+        })
+        .endAngle(function (d) {
+            if (d.depth == 0) return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx)));
+
+            if (d.depth == 2) {
+            return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx)));
+            }
+
+            if (d.size != 0) return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx)));
+        })
+        .innerRadius(function (d) {
+            if (d.size != 0) return Math.max(0, y(d.y));
+        })
+        .outerRadius(function (d) {
+            if (d.size != 0) return Math.max(0, y(d.y + d.dy));
+        });
+
+        var root = dataset;
+
+        var g = svg.selectAll("g").data(partition.nodes(root)).enter().append("g");
+
+        var path = g
+        .append("path")
+        .attr("d", arc)
+        .style("fill", function (d) {
+            return color((d.children ? d : d.parent).name);
+        })
+        .on("click", click)
+        .on("mouseover", function (d) {
+            tooltip.html(function () {
+            return d.name + "<br>" + d.value;
+            });
+            return tooltip.transition().duration(50).style("opacity", 0.9);
+        })
+        .on("mousemove", function (d) {
+            return tooltip
+            .style("top", d3.event.pageY - 10 + "px")
+            .style("left", d3.event.pageX + 10 + "px");
+        })
+        .on("mouseout", function () {
+            return tooltip.style("opacity", 0);
+        });
+
+        //.append("text")
+        var text = g
+        .append("text")
+        .attr("x", function (d) {
+            return y(d.y);
+        })
+        .attr("dx", function (d) {
+            return d.depth == 0 ? "9" : "9";
+        }) // margin
+        .attr("dy", ".35em") // vertical-align
+        .attr("transform", function (d) {
+            return "rotate(" + computeTextRotation(d) + ")";
+        })
+        .text(function (d) {
+            return d.size == null ? d.name : d.name ;
+        })
+        .style("fill", "black");
+
+        function computeTextRotation(d) {
+        var angle = x(d.x + d.dx / 2) - Math.PI / 2;
+        return (angle / Math.PI) * 180;
+        }
+
+        function click(d) {
+        // fade out all text elements
+        if (d.size !== undefined) {
+            d.size += 100;
+        }
+        text.transition().attr("opacity", 0);
+
+        path
+            .transition()
+            .duration(750)
+            .attrTween("d", arcTween(d))
+            .each("end", function (e, i) {
+            // check if the animated element's data e lies within the visible angle span given in d
+            if (e.x >= d.x && e.x < d.x + d.dx) {
+                // get a selection of the associated text element
+                var arcText = d3.select(this.parentNode).select("text");
+                // fade in the text element and recalculate positions
+                arcText
+                .transition()
+                .duration(750)
+                .attr("opacity", 1)
+                .attr("transform", function () {
+                    return "rotate(" + computeTextRotation(e) + ")";
+                })
+                .attr("x", function (d) {
+                    return y(d.y);
+                });
+            }
+            });
+        } //});
+
+        // Word wrap!
+        var insertLinebreaks = function (t, d, width) {
+        var el = d3.select(t);
+        var p = d3.select(t.parentNode);
+        p.append("g")
+            .attr("x", function (d) {
+            return y(d.y);
+            })
+            //.attr("dx", "6") // margin
+            //.attr("dy", ".35em") // vertical-align
+            .attr("transform", function (d) {
+            return "rotate(" + computeTextRotation(d) + ")";
+            })
+            //p
+            .append("foreignObject")
+            .attr("x", -width / 2)
+            .attr("width", width)
+            .attr("height", 200)
+            .append("xhtml:p")
+            .attr("style", "word-wrap: break-word; text-align:center;")
+            .html("d.name");
+        el.remove();
+        };
+
+        d3.select(self.frameElement).style("height", height + "px");
+
+        // Interpolate the scales!
+        function arcTween(d) {
+        var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
+            yd = d3.interpolate(y.domain(), [d.y, 1]),
+            yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
+        return function (d, i) {
+            return i
+            ? function (t) {
+                return arc(d);
+                }
+            : function (t) {
+                x.domain(xd(t));
+                y.domain(yd(t)).range(yr(t));
+                return arc(d);
+                };
+        };
+        }
+
+      </script>
       <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0-rc"></script>
-      <script src="{{ asset('assets/nl/js/charts/doughnut_chart_with_labels.js') }}"></script>
       
       
 {% endblock %}

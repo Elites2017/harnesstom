@@ -228,6 +228,32 @@ class AppController extends AbstractController
             ->getQuery()
             ->getSingleScalarResult();
 
+        // Setup query to get the most accession per country
+        //$qb = $this->getDoctrine()->getManager()->createQueryBuilder("Select c.id from App\Entity\Country c Where c.id=1");
+        $accessionTotalRows = $repoAccession->totalRows();
+        $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+        $accessionBiologicalStatus = $qb->select("biologicalS as biologicalStatus, count(biologicalS.id) as accQty, 'a' as percentage")
+            ->from('App\Entity\BiologicalStatus', 'biologicalS')    
+            ->join('App\Entity\Accession', 'accession')
+            ->where('biologicalS.isActive = 1')
+            ->andWhere('biologicalS.id = accession.sampstat')
+            ->groupBy('biologicalS.id')
+            ->orderBy('count(biologicalS.id)', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+            //dd($accessionBiologicalStatus);
+
+
+        // show percentage of trials
+        foreach ($accessionBiologicalStatus as $key => $value) {
+            # code...
+            $numb = $value['accQty'] / $accessionTotalRows * 100;
+            // two digit after comma
+            $roundedVal = number_format((float)$numb, 2, '.', '');
+            $accessionBiologicalStatus[$key]['percentage'] = $roundedVal;
+        }
+
         $context = [
             'title' => 'Harnesstom DB',
             "totalMarker" => $totalMarker,
@@ -237,6 +263,7 @@ class AppController extends AbstractController
             "totalAccession" => $totalAccession,
             "accessionPerCountry" => $accessionPerCountry,
             "jsonAcc" => json_encode($accessionPerCountryFields),
+            "jsonAccessionBiologicalStatus" => $accessionBiologicalStatus,
             "totalMappingPopulation" => $totalMappingPopulation,
             "totalGWAS" => $totalGWAS,
             "totalQTLStudy" => $totalQTLStudy,

@@ -1,0 +1,285 @@
+{% block body %}
+        <div class="row" >
+            <div class="col-xl-3 col-lg-4 order-md-1">
+                <div class="card shadow h-100">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h5 class="m-0 font-weight-bold text-center tomato-color">Filter By</h5>
+                    </div>
+                    <div class="card-body">
+                        {# to create a form and use formData in javascript later #}
+                        <form id="filters">
+                            <!-- start country list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#countryCollapse" role="button" aria-expanded="true" aria-controls="countryCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#countryCollapse">Country</span>
+                                    </li>
+                                    <ul class="list-group collapse" id="countryCollapse">
+                                        {% for oneObj in accessionsByCountry %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <input type="checkbox" name="countries[]" id="country{{ oneObj['country'].id }}" value="{{ oneObj['country'].id }}">
+                                                    <label for=country{{ oneObj['country'].id }}> {{ oneObj['country'].iso3 }} </label>
+                                                </div>
+                                                <span class="float-right badge badge-primary badge-pill">{{ oneObj['accQty'] }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end country list -->
+
+                            <!-- start biological status list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#biologicalStatusCollapse" role="button" aria-expanded="true" aria-controls="biologicalStatusCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#biologicalStatusCollapse">Biological Status</span>
+                                    </li>
+                                    <ul class="list-group collapse" id="biologicalStatusCollapse">
+                                        {% for oneObj in accessionsByBiologicalStatus %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <input type="checkbox" name="biologicalStatuses[]" id="biologicalStatus{{ oneObj['biologicalStatus'].id }}" value="{{ oneObj['biologicalStatus'].id }}">
+                                                    <label for=biologicalStatus{{ oneObj['biologicalStatus'].id }}> {{ oneObj['biologicalStatus'].name }} </label>
+                                                </div>
+                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end biological status list-->
+
+                            <!-- start mls status list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#mlsStatusCollapse" role="button" aria-expanded="true" aria-controls="mlsStatusCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#mlsStatusCollapse">MLS Status</span>
+                                    </li>
+                                    <ul class="list-group collapse" id="mlsStatusCollapse">
+                                        {% for oneObj in accessionsByMLSStatus %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <input type="checkbox" name="mlsStatuses[]" id="mlsStatus{{ oneObj['mlsStatus'].id }}" value="{{ oneObj['mlsStatus'].id }}">
+                                                    <label for=mlsStatus{{ oneObj['mlsStatus'].id }}> {{ oneObj['mlsStatus'].name }} </label>
+                                                </div>
+                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end mls status list-->
+
+                            <!-- start taxonomy list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#taxonomyCollapse" role="button" aria-expanded="true" aria-controls="taxonomyCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#taxonomyCollapse">Taxonomy</span>
+                                    </li>
+                                    <ul class="list-group collapse" id="taxonomyCollapse">
+                                        {% for oneObj in accessionsByTaxonomy %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <input type="checkbox" name="taxonomies[]" id="taxonomy{{ oneObj['taxonomy'].id }}" value="{{ oneObj['taxonomy'].id }}">
+                                                    <label for=taxonomy{{ oneObj['taxonomy'].id }}> {{ oneObj['taxonomy'].taxonid | upper }} </label>
+                                                </div>
+                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end mls taxonomy list-->
+
+                            <!-- start collecting mission list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#collectingMissionCollapse" role="button" aria-expanded="true" aria-controls="collectingMissionCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collectingMissionCollapse">Collecting Mission</span>
+                                    </li>
+                                    <ul class="list-group collapse" id="collectingMissionCollapse">
+                                        {% for oneObj in accessionsByCollectingMission %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <input type="checkbox" name="collectingMissions[]" id="collectingMission{{ oneObj['collectingMission'].id }}" value="{{ oneObj['collectingMission'].id }}">
+                                                    <label for=collectingMission{{ oneObj['collectingMission'].id }}> {{ oneObj['collectingMission'].name }} </label>
+                                                </div>
+                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end collecting mission list-->
+
+                            <!-- start collecting source list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#collectingSourceCollapse" role="button" aria-expanded="true" aria-controls="collectingSourceCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collectingSourceCollapse">Collecting Source</span>
+                                    </li>
+                                    <ul class="list-group collapse" id="collectingSourceCollapse">
+                                        {% for oneObj in accessionsByCollectingSource %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <input type="checkbox" name="collectingSources[]" id="collectingSource{{ oneObj['collectingSource'].id }}" value="{{ oneObj['collectingSource'].id }}">
+                                                    <label for=collectingSource{{ oneObj['collectingSource'].id }}> {{ oneObj['collectingSource'].name }} </label>
+                                                </div>
+                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end collecting source list-->
+
+                            <!-- start maintaining institute list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#maintainingInstituteCollapse" role="button" aria-expanded="true" aria-controls="maintainingInstituteCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#maintainingInstituteCollapse">Maintaining Institute</span>
+                                    </li>
+                                    <ul class="list-group collapse" id="maintainingInstituteCollapse">
+                                        {% for oneObj in accessionsByMaintainingInstitute %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <input type="checkbox" name="maintainingInstitutes[]" id="maintainingInstitute{{ oneObj['institute'].id }}" value="{{ oneObj['institute'].id }}">
+                                                    <label for=maintainingInstitute{{ oneObj['institute'].id }}> {{ oneObj['institute'].acronym }} </label>
+                                                </div>
+                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end maintaining institute list-->
+
+                            <!-- start donor institute list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#donorInstituteCollapse" role="button" aria-expanded="true" aria-controls="donorInstituteCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#donorInstituteCollapse">Donor Institute</span>
+                                    </li>
+                                    <ul class="list-group collapse" id="donorInstituteCollapse">
+                                        {% for oneObj in accessionsByDonorInstitute %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <input type="checkbox" name="donorInstitutes[]" id="donorInstitute{{ oneObj['institute'].id }}" value="{{ oneObj['institute'].id }}">
+                                                    <label for=donorInstitute{{ oneObj['institute'].id }}> {{ oneObj['institute'].acronym }} </label>
+                                                </div>
+                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end donor institute list-->
+
+                            <!-- start breeding institute list-->
+                            <div class="card border-left-primary shadow h-100 mb-3">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item card-header" data-toggle="collapse" href="#breedingInstituteCollapse" role="button" aria-expanded="true" aria-controls="breedingInstituteCollapse">
+                                        <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#breedingInstituteCollapse">Breeding Institute</span>
+                                    </li>
+                                    <ul class="list-group collapse" id="breedingInstituteCollapse">
+                                        {% for oneObj in accessionsByBreedingInstitute %}
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <input type="checkbox" name="breedingInstitutes[]" id="breedingInstitute{{ oneObj['institute'].id }}" value="{{ oneObj['institute'].id }}">
+                                                    <label for=breedingInstitute{{ oneObj['institute'].id }}> {{ oneObj['institute'].acronym }} </label>
+                                                </div>
+                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </ul>
+                            </div>
+                            <!-- end breeding institute list-->
+
+                        </form>
+                    </div>
+                </div>        
+            </div>
+            <div class="col-xl-9 col-lg-9 order-md-2">
+                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                <div id="filtered_content">
+                    {% if accessions | length > 0 %}
+    <h2 class="mb-3 text-center tomato-color font-weight-bold tomato-color">Accession List ({{ accessions | length }})</h2>
+    <div class="table-responsive">
+        <table id="datatable" class="table table-hover text-nowrap" width="100%">
+            <thead class="table-dark">
+                <tr>
+                <th scope="col">Taxon</th>
+                <th scope="col">Accession Number</th>
+                <th scope="col">Accession Name</th>
+                <th scope="col">Accession PUID</th>
+                <th scope="col">Country of Origin</th>
+                <th scope="col">Collecting Source</th>
+                <th scope="col">Biological Status</th>
+                <th scope="col">MLS Status</th>
+                <th scope="col">Maintaining Institute</th>
+                <th scope="col">Maintainer Number</th>
+                <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for accession in accessions %}
+                <tr>
+                    <td><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ accession.taxon.taxonid }}" target="_blank">{{ accession.taxon }}</a></td>
+                    <td>{{ accession.accenumb }}</td>
+                    <td>{{ accession.accename }}</td>
+                    <td>{{ accession.puid }}</td>
+                    <td>
+                        {% if accession.origcty %}
+                            <a href="{{ path('country_details', {id: accession.origcty.id}) }}">{{ accession.origcty }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if accession.collsrc %}
+                            <a href="{{ path('collecting_source_details', {id: accession.collsrc.id}) }}">{{ accession.collsrc }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if accession.sampstat %}
+                            <a href="{{ path('biological_status_details', {id: accession.sampstat.id}) }}">{{ accession.sampstat }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if accession.mlsStatus %}
+                            <a href="{{ path('mls_status_details', {id: accession.mlsStatus.id}) }}">{{ accession.mlsStatus }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if accession.instcode %}
+                            <a href="{{ path('institute_details', {id: accession.instcode.id}) }}">{{ accession.instcode.acronym }}</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ accession.maintainernumb }}
+                    </td>
+                    <td>
+                        <a href="{{ path('accession_details', {id: accession.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %} 
+    <h5 class="mb-3 text-center tomato-color font-weight-bold">No accession matched your criterias, remove some filters</h5>
+{% endif %}  
+                </div>
+		    </div>
+		</div>
+		<!-- .row -->
+	<!-- .container -->
+{% endblock %}

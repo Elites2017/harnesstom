@@ -29,7 +29,7 @@ class CountryRepository extends ServiceEntityRepository
     }
 
     // to show the number of accession by each country
-    public function getAccessionsByCountry() {
+    public function getAccessionsByCountry($biologicalStatuses = null) {
         $query = $this->createQueryBuilder('ctry')
             ->select('ctry as country, count(ctry.id) as accQty')
             ->join('App\Entity\Accession', 'accession')
@@ -38,6 +38,10 @@ class CountryRepository extends ServiceEntityRepository
             ->groupBy('ctry.id')
             ->orderBy('count(ctry.id)', 'DESC')
         ;
+        if ($biologicalStatuses) {
+            $query->andWhere('accession.sampstat IN(:selectedBiologicalStatuses)')
+            ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
+        }
         return $query->getQuery()->getResult();
     }
 

@@ -579,6 +579,54 @@
 
                         <div class="col-lg-6 mb-4">
 
+                        <!-- Pie Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary">Accession Main Countries of Origin</h6>
+                                    {# <div class="dropdown no-arrow">
+                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                            aria-labelledby="dropdownMenuLink">
+                                            <div class="dropdown-header">Dropdown Header:</div>
+                                            <a class="dropdown-item" href="#">Action</a>
+                                            <a class="dropdown-item" href="#">Another action</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </div>
+                                    </div> #}
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2">
+                                            <a id="accessionPerCountry0" data-name="{{ accessionPerCountry[0].ctry.iso3 }}" data-value="{{ accessionPerCountry[0].accQty }}" href="{{ path('accession_per_country', {id: accessionPerCountry[0].ctry.id}) }}">
+                                                <i class="fas fa-circle text-primary"></i> {{ accessionPerCountry[0].ctry.iso3 }}
+                                            </a>
+                                        </span>
+                                        <span class="mr-2">
+                                            <a id="accessionPerCountry1" data-name="{{ accessionPerCountry[1].ctry.iso3 }}" data-value="{{ accessionPerCountry[1].accQty }}" href="{{ path('accession_per_country', {id: accessionPerCountry[1].ctry.id}) }}">
+                                                <i class="fas fa-circle text-success"></i> {{ accessionPerCountry[1].ctry.iso3 }}
+                                            </a>
+                                        </span>
+                                        <span class="mr-2">
+                                            <a id="accessionPerCountry2" data-name="{{ accessionPerCountry[2].ctry.iso3 }}" data-value="{{ accessionPerCountry[2].accQty }}" href="{{ path('accession_per_country', {id: accessionPerCountry[2].ctry.id}) }}">
+                                                <i class="fas fa-circle text-info"></i> {{ accessionPerCountry[2].ctry.iso3 }}
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                             <!-- Illustrations -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
@@ -708,4 +756,6 @@
 
       <script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
       <script src="{{ asset('assets/nl/js/main.js') }}"></script>
+
+      <script src="{{ asset('assets/nl/js/charts/doughnut_chart_with_labels.js') }}"></script>
 		{% endblock %}
