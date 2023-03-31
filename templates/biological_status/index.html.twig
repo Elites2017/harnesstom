@@ -29,12 +29,12 @@
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xl-8 col-lg-9">
+			<div class="col-xl-10 col-lg-11">
 				<div class="card shadow mb-4">
 					<!-- Card Header - Dropdown -->
 					<div
 						class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary">Biological Status Of Accession</h6>
+						<h6 class="m-0 font-weight-bold tomato-color">Biological Status List</h6>
 						<div class="dropdown no-arrow">
 							<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
 								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,8 +42,8 @@
 							</a>
 							<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
 								aria-labelledby="dropdownMenuLink">
-								<div class="dropdown-header">Dropdown Header:</div>
-								<a class="dropdown-item" id="optionToShow" onclick="myFunc()">View list</a>
+								<div class="dropdown-header">Biological Status Option:</div>
+								<a class="dropdown-item" id="optionToShow" >View list</a>
 							</div>
 						</div>
 					</div>
@@ -53,9 +53,9 @@
 							{% macro menu_categories(parentOnlyBiologicalStatus) %}
 								{% import _self as macros %}
 								{% for oneBiologicalStatus in parentOnlyBiologicalStatus %}
-									<div class="card border-left-primary shadow h-100 mb-3">
+									<div class="card {{ oneBiologicalStatus.biologicalStatuses is not empty ? 'border-left-primary' : 'border-left-danger' }} shadow h-100 mb-3">
 										<ul class="list-group list-group-flush">
-											<li class="list-group-item card-header" data-toggle={{ oneBiologicalStatus.biologicalStatuses is not empty ? "collapse" : "" }} href="#{{ oneBiologicalStatus.name | slice(0,4) }}Collapse" role="button" aria-expanded="true" aria-controls="{{ oneBiologicalStatus.name | slice(0,4) }}Collapse">
+											<li class="list-group-item card-header" data-toggle="{{ oneBiologicalStatus.biologicalStatuses is not empty ? 'collapse' : '' }}" href="#{{ oneBiologicalStatus.name | slice(0,4) }}Collapse" role="button" aria-expanded="true" aria-controls="{{ oneBiologicalStatus.name | slice(0,4) }}Collapse">
 												<span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#{{ oneBiologicalStatus.name | slice(0,4) }}Collapse">{{ oneBiologicalStatus.name }}</span>
 												{% if oneBiologicalStatus.biologicalStatuses is not empty %}
 													<ul class="list-group collapse" id="{{ oneBiologicalStatus.name | slice(0,4) }}Collapse">
@@ -75,7 +75,6 @@
 
 						<div class="listView">
 							{% if biologicalStatuses | length > 0 %}
-								<h2 class="mb-3 text-center tomato-color font-weight-bold">Biological Status List</h2>
 								{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 									{% for message in messages %}
 										<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -158,8 +157,27 @@ $('#datatable').DataTable();
 	</script>
 
 	<script>
-		function myFunc(){
-			var treeCard = $(".treeView");
+		$(document).ready(function(){
+			var treeCard = $(".treeCard");
+			var listCard = $(".listView");
+			listCard.hide();
+			document.getElementById("optionToShow").addEventListener("click", function(e){
+				console.log("Testing event... ", e.target.text)
+				var option = e.target;
+				if (option.text === "View tree") {
+				option.text = "View list";
+				treeCard.show();
+				listCard.hide();
+				} else {
+					option.text = "View tree";
+					treeCard.hide();
+					listCard.show();
+				}
+			});
+		});
+
+		{# function myFunc(){
+			var treeCard = $(".treeCard");
 			var listCard = $(".listView");
 			var option = document.getElementById("optionToShow");
 			if (option.text === "View tree") {
@@ -171,7 +189,7 @@ $('#datatable').DataTable();
 				treeCard.hide();
 				listCard.show();
 			}
-		}
+		} #}
 	</script>
 	
 {% endblock %}
