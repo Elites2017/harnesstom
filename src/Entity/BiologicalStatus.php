@@ -268,4 +268,27 @@ class BiologicalStatus
 
         return $this;
     }
+
+    // public function buildTree() {
+    //     $tree = [];
+    //     if ($this->getParentTerm() == null) {
+    //         $tree ["root"] = $this->getName();
+    //         if($this->getBiologicalStatuses()){
+    //             $children = $this->getBiologicalStatuses();
+    //             foreach ($children as $key => $child) {
+    //                 # code...
+    //                 $tree["children"] = $child;
+    //                 $child->buildTree();
+    //             }
+    //         }
+    //     } else {
+    //         $children = $this->getParentTerm()->getBiologicalStatuses();
+    //         foreach ($children as $key => $child) {
+    //             # code...
+    //             $tree["children"] = $child;
+    //             $child->buildTree();
+    //         }
+    //     }
+    //     return $tree;
+    // }
 }

@@ -28,9 +28,11 @@ class BiologicalStatusController extends AbstractController
     public function index(BiologicalStatusRepository $biologicalStatusRepo): Response
     {
         $biologicalStatuses =  $biologicalStatusRepo->findAll();
+        $parentOnlyBiologicalStatus = $biologicalStatusRepo->getParentOnlyBiologicalStatus();
         $context = [
             'title' => 'Biological Status List',
-            'biologicalStatuses' => $biologicalStatuses
+            'biologicalStatuses' => $biologicalStatuses,
+            'parentOnlyBiologicalStatus' => $parentOnlyBiologicalStatus
         ];
         return $this->render('biological_status/index.html.twig', $context);
     }

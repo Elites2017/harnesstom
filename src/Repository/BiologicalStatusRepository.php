@@ -41,6 +41,15 @@ class BiologicalStatusRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // get only the parents
+    public function getParentOnlyBiologicalStatus()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return BiologicalStatus[] Returns an array of BiologicalStatus objects
     //  */

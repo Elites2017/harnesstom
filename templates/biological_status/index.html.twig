@@ -29,59 +29,107 @@
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
-				{% if biologicalStatuses | length > 0 %}
-					<h2 class="mb-3 text-center tomato-color font-weight-bold">Biological Status List</h2>
-					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-						{% for message in messages %}
-							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
+			<div class="col-xl-8 col-lg-9">
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+						<h6 class="m-0 font-weight-bold text-primary">Biological Status Of Accession</h6>
+						<div class="dropdown no-arrow">
+							<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+								aria-labelledby="dropdownMenuLink">
+								<div class="dropdown-header">Dropdown Header:</div>
+								<a class="dropdown-item" id="optionToShow" onclick="myFunc()">View list</a>
 							</div>
-						{% endfor %}
-					{% endfor %}
-					<div class="table-responsive">
-						<table id="datatable" class="table table-hover text-nowrap" width="100%">
-							<thead class="table-dark">
-								<tr>
-									<th scope="col">Ontology ID</th>
-									<th scope="col">Name</th>
-									<th scope="col">Description</th>
-									<th scope="col">Parent Term</th>
-									<th scope="col">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for biologicalStatus in biologicalStatuses %}
-									<tr>
-										<td>
-											{{ biologicalStatus.ontologyId }}
-										</td>
-										<td>
-											{{ biologicalStatus.name }}
-										</td>
-										<td>
-											{{ biologicalStatus.parentTerm }}
-										</td>
-										<td>
-											{{ biologicalStatus.description }}
-										</td>
-										<td>
-											<a href="{{ path('biological_status_details', {id: biologicalStatus.id}) }}">
-												<button class="btn btn-outline-primary">Details</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
-
-							</tbody>
-						</table>
+						</div>
 					</div>
-				{% else %}
-					<h5 class="mb-3 text-center tomato-color font-weight-bold">No biological status has been provided in our system</h5>
-				{% endif %}
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="treeCard">
+							{% macro menu_categories(parentOnlyBiologicalStatus) %}
+								{% import _self as macros %}
+								{% for oneBiologicalStatus in parentOnlyBiologicalStatus %}
+									<div class="card border-left-primary shadow h-100 mb-3">
+										<ul class="list-group list-group-flush">
+											<li class="list-group-item card-header" data-toggle={{ oneBiologicalStatus.biologicalStatuses is not empty ? "collapse" : "" }} href="#{{ oneBiologicalStatus.name | slice(0,4) }}Collapse" role="button" aria-expanded="true" aria-controls="{{ oneBiologicalStatus.name | slice(0,4) }}Collapse">
+												<span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#{{ oneBiologicalStatus.name | slice(0,4) }}Collapse">{{ oneBiologicalStatus.name }}</span>
+												{% if oneBiologicalStatus.biologicalStatuses is not empty %}
+													<ul class="list-group collapse" id="{{ oneBiologicalStatus.name | slice(0,4) }}Collapse">
+														{{ macros.menu_categories(oneBiologicalStatus.biologicalStatuses) }}
+													</ul>
+												{% endif %}
+											</li>
+										</ul>
+									</div>
+								{% endfor %}
+							{% endmacro %}
+
+							<ul class="menu-biological-status">
+								{{ _self.menu_categories(parentOnlyBiologicalStatus) }}
+							</ul>
+						</div>
+
+						<div class="listView">
+							{% if biologicalStatuses | length > 0 %}
+								<h2 class="mb-3 text-center tomato-color font-weight-bold">Biological Status List</h2>
+								{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+									{% for message in messages %}
+										<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+											<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+									{% endfor %}
+								{% endfor %}
+								<div class="table-responsive">
+									<table id="datatable" class="table table-hover text-nowrap" width="100%">
+										<thead class="table-dark">
+											<tr>
+												<th scope="col">Ontology ID</th>
+												<th scope="col">Name</th>
+												<th scope="col">Description</th>
+												<th scope="col">Parent Term</th>
+												<th scope="col">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for biologicalStatus in biologicalStatuses %}
+												<tr>
+													<td>
+														{{ biologicalStatus.ontologyId }}
+													</td>
+													<td>
+														{{ biologicalStatus.name }}
+													</td>
+													<td>
+														{{ biologicalStatus.parentTerm }}
+													</td>
+													<td>
+														{{ biologicalStatus.description }}
+													</td>
+													<td>
+														<a href="{{ path('biological_status_details', {id: biologicalStatus.id}) }}">
+															<button class="btn btn-outline-primary">Details</button>
+														</a>
+													</td>
+												</tr>
+											{% endfor %}
+
+										</tbody>
+									</table>
+								</div>
+							{% else %}
+								<h5 class="mb-3 text-center tomato-color font-weight-bold">No biological status has been provided in our system</h5>
+							{% endif %}
+						</div>
+					</div>
+				</div>
 			</div>
+
 		</div>
 		<!-- .row -->
 	</div>
@@ -108,4 +156,22 @@
 $('#datatable').DataTable();
 });
 	</script>
+
+	<script>
+		function myFunc(){
+			var treeCard = $(".treeView");
+			var listCard = $(".listView");
+			var option = document.getElementById("optionToShow");
+			if (option.text === "View tree") {
+				option.text = "View list";
+				treeCard.show();
+				listCard.hide();
+			} else {
+				option.text = "View tree";
+				treeCard.hide();
+				listCard.show();
+			}
+		}
+	</script>
+	
 {% endblock %}
