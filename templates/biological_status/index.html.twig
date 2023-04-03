@@ -49,8 +49,8 @@
 					</div>
 					<!-- Card Body -->
 					<div class="card-body">
-						<div class="treeCard">
-							{% macro menu_categories(parentOnlyBiologicalStatus) %}
+						<div class="treeView">
+							{% macro treeView(parentOnlyBiologicalStatus) %}
 								{% import _self as macros %}
 								{% for oneBiologicalStatus in parentOnlyBiologicalStatus %}
 									<div class="card {{ oneBiologicalStatus.biologicalStatuses is not empty ? 'border-left-primary' : 'border-left-danger' }} shadow h-100 mb-3">
@@ -59,7 +59,7 @@
 												<span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#{{ oneBiologicalStatus.name | slice(0,4) }}Collapse">{{ oneBiologicalStatus.name }}</span>
 												{% if oneBiologicalStatus.biologicalStatuses is not empty %}
 													<ul class="list-group collapse" id="{{ oneBiologicalStatus.name | slice(0,4) }}Collapse">
-														{{ macros.menu_categories(oneBiologicalStatus.biologicalStatuses) }}
+														{{ macros.treeView(oneBiologicalStatus.biologicalStatuses) }}
 													</ul>
 												{% endif %}
 											</li>
@@ -69,7 +69,7 @@
 							{% endmacro %}
 
 							<ul class="menu-biological-status">
-								{{ _self.menu_categories(parentOnlyBiologicalStatus) }}
+								{{ _self.treeView(parentOnlyBiologicalStatus) }}
 							</ul>
 						</div>
 
@@ -150,46 +150,12 @@
 	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
 	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
 	</script>
-<script>
-		$(document).ready(function () {
-$('#datatable').DataTable();
-});
-	</script>
-
 	<script>
-		$(document).ready(function(){
-			var treeCard = $(".treeCard");
-			var listCard = $(".listView");
-			listCard.hide();
-			document.getElementById("optionToShow").addEventListener("click", function(e){
-				console.log("Testing event... ", e.target.text)
-				var option = e.target;
-				if (option.text === "View tree") {
-				option.text = "View list";
-				treeCard.show();
-				listCard.hide();
-				} else {
-					option.text = "View tree";
-					treeCard.hide();
-					listCard.show();
-				}
-			});
+		$(document).ready(function () {
+			$('#datatable').DataTable();
 		});
-
-		{# function myFunc(){
-			var treeCard = $(".treeCard");
-			var listCard = $(".listView");
-			var option = document.getElementById("optionToShow");
-			if (option.text === "View tree") {
-				option.text = "View list";
-				treeCard.show();
-				listCard.hide();
-			} else {
-				option.text = "View tree";
-				treeCard.hide();
-				listCard.show();
-			}
-		} #}
 	</script>
+
+	<script src="{{ asset('assets/js/show_hide_panels.js') }}">
 	
 {% endblock %}

@@ -1,0 +1,44 @@
+{# In this file, define the function / macro #}
+{% macro treeView(grandParentOnly) %}
+  {% import _self as macros %}
+  {% for oneChild in grandParentOnly %}
+    <div class="card {{
+      oneChild.biologicalStatuses is not empty
+        ? 'border-left-primary'
+        : 'border-left-danger'
+      }} shadow h-100 mb-3">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item card-header"
+          data-toggle="{{
+          oneChild.biologicalStatuses is not empty
+            ? 'collapse'
+            : ''
+          }}"
+          href="#{{ oneChild.name|slice(0, 4) }}Collapse"
+          role="button"
+          aria-expanded="true"
+          aria-controls="{{ oneChild.name|slice(0, 4) }}Collapse">
+          <span id="headingOne"
+            class="font-weight-bold"
+            data-toggle="collapse"
+            data-target="#{{ oneChild.name|slice(0, 4) }}Collapse">
+            {{ oneChild.name }}
+          </span>
+          {% if oneChild.biologicalStatuses is not empty %}
+            <ul class="list-group collapse"
+              id="{{ oneChild.name|slice(0, 4) }}Collapse">
+              {{ macros.treeView(oneChild.biologicalStatuses) }}
+            </ul>
+          {% endif %}
+        </li>
+      </ul>
+    </div>
+  {% endfor %}
+{% endmacro %}
+
+{# In the file you want to call it, use #}
+{# {% include 'tree_view/tree.html.twig' %}
+{% from 'tree_view/tree.html.twig' import treeView %}
+<ul class="menu-biological-status">
+    {{ treeView(parentOnlyBiologicalStatus) }}
+</ul> #}
