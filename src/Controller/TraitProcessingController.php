@@ -28,9 +28,11 @@ class TraitProcessingController extends AbstractController
     public function index(TraitProcessingRepository $traitProcessingRepo): Response
     {
         $traitProcessings =  $traitProcessingRepo->findAll();
+        $parentsOnly = $traitProcessingRepo->getParentsOnly();
         $context = [
             'title' => 'Trait Processing List',
-            'traitProcessings' => $traitProcessings
+            'traitProcessings' => $traitProcessings,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('trait_processing/index.html.twig', $context);
     }

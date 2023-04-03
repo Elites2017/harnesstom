@@ -28,9 +28,11 @@ class StorageTypeController extends AbstractController
     public function index(StorageTypeRepository $storageTypeRepo): Response
     {
         $storageTypes =  $storageTypeRepo->findAll();
+        $parentsOnly = $storageTypeRepo->getParentsOnly();
         $context = [
             'title' => 'Storage Type List',
-            'storageTypes' => $storageTypes
+            'storageTypes' => $storageTypes,
+            'parentsOly' => $parentsOnly
         ];
         return $this->render('storage_type/index.html.twig', $context);
     }

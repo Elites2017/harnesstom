@@ -28,9 +28,11 @@ class GWASModelController extends AbstractController
     public function index(GWASModelRepository $gwasModelRepo): Response
     {
         $gwasModels =  $gwasModelRepo->findAll();
+        $parentsOnly = $gwasModelRepo->getParentsOnly();
         $context = [
             'title' => 'GWAS Model List',
-            'gwasModels' => $gwasModels
+            'gwasModels' => $gwasModels,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('gwas_model/index.html.twig', $context);
     }

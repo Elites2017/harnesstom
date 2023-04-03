@@ -19,6 +19,15 @@ class SequencingInstrumentRepository extends ServiceEntityRepository
         parent::__construct($registry, SequencingInstrument::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return SequencingInstrument[] Returns an array of SequencingInstrument objects
     //  */

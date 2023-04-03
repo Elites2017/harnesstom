@@ -28,9 +28,11 @@ class GWASStatTestController extends AbstractController
     public function index(GWASStatTestRepository $gwasStatTestRepo): Response
     {
         $gwasStatTests =  $gwasStatTestRepo->findAll();
+        $parentsOnly = $gwasStatTestRepo->getParentsOnly();
         $context = [
             'title' => 'GWAS Stat Test List',
-            'gwasStatTests' => $gwasStatTests
+            'gwasStatTests' => $gwasStatTests,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('gwas_stat_test/index.html.twig', $context);
     }

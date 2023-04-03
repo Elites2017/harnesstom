@@ -28,9 +28,11 @@ class SequencingTypeController extends AbstractController
     public function index(SequencingTypeRepository $sequencingTypeRepo): Response
     {
         $sequencingTypes =  $sequencingTypeRepo->findAll();
+        $parentsOnly = $parentsOnly->getParentsOnly();
         $context = [
             'title' => 'Sequencing Type List',
-            'sequencingTypes' => $sequencingTypes
+            'sequencingTypes' => $sequencingTypes,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('sequencing_type/index.html.twig', $context);
     }

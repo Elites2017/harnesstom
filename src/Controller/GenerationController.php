@@ -28,9 +28,11 @@ class GenerationController extends AbstractController
     public function index(GenerationRepository $generationRepo): Response
     {
         $generations =  $generationRepo->findAll();
+        $parentsOnly = $generationRepo->getParentsOnly();
         $context = [
             'title' => 'Generation',
-            'generations' => $generations
+            'generations' => $generations,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('generation/index.html.twig', $context);
     }

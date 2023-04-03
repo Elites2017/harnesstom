@@ -28,9 +28,11 @@ class ExperimentalDesignController extends AbstractController
     public function index(ExperimentalDesignTypeRepository $experimentalDesign): Response
     {
         $experimentalDesigns =  $experimentalDesign->findAll();
+        $parentsOnly = $experimentalDesign->getParentsOnly();
         $context = [
             'title' => 'Experimental Design List',
-            'experimentalDesigns' => $experimentalDesigns
+            'experimentalDesigns' => $experimentalDesigns,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('experimental_design/index.html.twig', $context);
     }

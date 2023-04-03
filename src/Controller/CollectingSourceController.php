@@ -28,9 +28,11 @@ class CollectingSourceController extends AbstractController
     public function index(CollectingSourceRepository $collectingSourceRepo): Response
     {
         $collectingSources =  $collectingSourceRepo->findAll();
+        $parentsOnly = $collectingSourceRepo->getParentsOnly();
         $context = [
             'title' => 'Collecting Source List',
-            'collectingSources' => $collectingSources
+            'collectingSources' => $collectingSources,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('collecting_source/index.html.twig', $context);
     }

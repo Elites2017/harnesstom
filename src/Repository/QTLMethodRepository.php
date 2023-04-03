@@ -19,6 +19,15 @@ class QTLMethodRepository extends ServiceEntityRepository
         parent::__construct($registry, QTLMethod::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return QTLMethod[] Returns an array of QTLMethod objects
     //  */

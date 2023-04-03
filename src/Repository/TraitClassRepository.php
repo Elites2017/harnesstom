@@ -19,6 +19,15 @@ class TraitClassRepository extends ServiceEntityRepository
         parent::__construct($registry, TraitClass::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return TraitClass[] Returns an array of TraitClass objects
     //  */

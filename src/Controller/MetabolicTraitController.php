@@ -28,9 +28,11 @@ class MetabolicTraitController extends AbstractController
     public function index(MetabolicTraitRepository $metabolicTraitRepo): Response
     {
         $metabolicTraits =  $metabolicTraitRepo->findAll();
+        $parentsOnly = $metabolicTraitRepo->getParentsOnly();
         $context = [
             'title' => 'Metabolic Trait List',
-            'metabolicTraits' => $metabolicTraits
+            'metabolicTraits' => $metabolicTraits,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('metabolic_trait/index.html.twig', $context);
     }

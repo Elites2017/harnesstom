@@ -28,9 +28,11 @@ class FlavorHealthController extends AbstractController
     public function index(AnalyteFlavorHealthRepository $flavorHealthRepo): Response
     {
         $flavorHealths =  $flavorHealthRepo->findAll();
+        $parentsOnly = $flavorHealthRepo->getParentsOnly();
         $context = [
             'title' => 'Analyte Flavor Health List',
-            'flavorHealths' => $flavorHealths
+            'flavorHealths' => $flavorHealths,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('flavor_health/index.html.twig', $context);
     }

@@ -29,58 +29,105 @@
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
-				{% if units | length > 0 %}
-					<h2 class="mb-3 text-center tomato-color font-weight-bold">Unit List</h2>
-					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-						{% for message in messages %}
-							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
+			<div class="col-xl-10 col-lg-11">
+					<div class="card shadow mb-4">
+						<!-- Card Header - Dropdown -->
+						<div
+							class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+							<h6 class="m-0 font-weight-bold tomato-color">Unit List</h6>
+							<div class="dropdown no-arrow">
+								<a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+									aria-labelledby="dropdownMenuLink">
+									<div class="dropdown-header">Unit Option:</div>
+									<a class="dropdown-item" id="optionToShow" >View list</a>
+								</div>
 							</div>
-						{% endfor %}
-					{% endfor %}
-					<div class="table-responsive">
-						<table id="datatable" class="table table-hover text-nowrap" width="100%">
-							<thead class="table-dark">
-								<tr>
-									<th scope="col">Ontology ID</th>
-									<th scope="col">Name</th>
-									<th scope="col">Description</th>
-									<th scope="col">Parent</th>
-									<th scope="col">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for unit in units %}
-									<tr>
-										<td>
-											{{ unit.ontologyId }}
-										</td>
-										<td>
-											{{ unit.name }}
-										</td>
-										<td>
-											{{ unit.description }}
-										</td>
-										<td>
-											{{ unit.parentTerm }}
-										</td>
-										<td>
-											<a href="{{ path('unit_details', {id: unit.id}) }}">
-												<button class="btn btn-outline-primary">Details</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
+						</div>
+						<!-- Card Body -->
+						<div class="card-body">
+							<div class="treeView">
+								{% macro treeView(parentsOnly) %}
+									{% import _self as macros %}
+									{% for oneChild in parentsOnly %}
+										<div class="card {{ oneChild.units is not empty ? 'border-left-primary' : 'border-left-danger' }} shadow h-100 mb-3">
+											<ul class="list-group list-group-flush">
+												<li class="list-group-item card-header" data-toggle="{{ oneChild.units is not empty ? 'collapse' : '' }}" href="#{{ oneChild.name | slice(0,4) }}Collapse" role="button" aria-expanded="true" aria-controls="{{ oneChild.name | slice(0,4) }}Collapse">
+													<span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#{{ oneChild.name | slice(0,4) }}Collapse">{{ oneChild.name }}</span>
+													{% if oneChild.units is not empty %}
+														<ul class="list-group collapse" id="{{ oneChild.name | slice(0,4) }}Collapse">
+															{{ macros.treeView(oneChild.units) }}
+														</ul>
+													{% endif %}
+												</li>
+											</ul>
+										</div>
+									{% endfor %}
+								{% endmacro %}
+
+								<ul class="menu-biological-status">
+									{{ _self.treeView(parentsOnly) }}
+								</ul>
+							</div>
+
+							<div class="listView">
+								{% if units | length > 0 %}
+									<h2 class="mb-3 text-center tomato-color font-weight-bold">Unit List</h2>
+									{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+										{% for message in messages %}
+											<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+												<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+										{% endfor %}
+									{% endfor %}
+									<div class="table-responsive">
+										<table id="datatable" class="table table-hover text-nowrap" width="100%">
+											<thead class="table-dark">
+												<tr>
+													<th scope="col">Ontology ID</th>
+													<th scope="col">Name</th>
+													<th scope="col">Description</th>
+													<th scope="col">Parent</th>
+													<th scope="col">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for unit in units %}
+													<tr>
+														<td>
+															{{ unit.ontologyId }}
+														</td>
+														<td>
+															{{ unit.name }}
+														</td>
+														<td>
+															{{ unit.description }}
+														</td>
+														<td>
+															{{ unit.parentTerm }}
+														</td>
+														<td>
+															<a href="{{ path('unit_details', {id: unit.id}) }}">
+																<button class="btn btn-outline-primary">Details</button>
+															</a>
+														</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								{% else %}
+									<h5 class="mb-3 text-center tomato-color font-weight-bold">No unit has been provided in our system</h5>
+								{% endif %}
+							</div>
+						</div>
 					</div>
-				{% else %}
-					<h5 class="mb-3 text-center tomato-color font-weight-bold">No unit has been provided in our system</h5>
-				{% endif %}
-			</div>
+				</div>
 		</div>
 		<!-- .row -->
 	</div>
@@ -102,9 +149,12 @@
 	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
 	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
 	</script>
-<script>
+	<script>
 		$(document).ready(function () {
-$('#datatable').DataTable();
-});
+			$('#datatable').DataTable();
+		});
 	</script>
+
+	<script src="{{ asset('assets/js/show_hide_panels.js') }}">
+	
 {% endblock %}

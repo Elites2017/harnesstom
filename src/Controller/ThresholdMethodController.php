@@ -28,9 +28,11 @@ class ThresholdMethodController extends AbstractController
     public function index(ThresholdMethodRepository $thresholdMethodRepo): Response
     {
         $thresholdMethods =  $thresholdMethodRepo->findAll();
+        $parentsOnly = $thresholdMethodRepo->getParentsOnly();
         $context = [
             'title' => 'Threshold Method List',
-            'thresholdMethods' => $thresholdMethods
+            'thresholdMethods' => $thresholdMethods,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('threshold_method/index.html.twig', $context);
     }

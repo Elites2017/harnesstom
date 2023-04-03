@@ -19,6 +19,15 @@ class GWASStatTestRepository extends ServiceEntityRepository
         parent::__construct($registry, GWASStatTest::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return GWASStatTest[] Returns an array of GWASStatTest objects
     //  */

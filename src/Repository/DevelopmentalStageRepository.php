@@ -19,6 +19,15 @@ class DevelopmentalStageRepository extends ServiceEntityRepository
         parent::__construct($registry, DevelopmentalStage::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return DevelopmentalStage[] Returns an array of DevelopmentalStage objects
     //  */

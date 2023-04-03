@@ -28,9 +28,11 @@ class UnitController extends AbstractController
     public function index(UnitRepository $unitRepo): Response
     {
         $units =  $unitRepo->findAll();
+        $parentsOnly = $unitRepo->getParentsOnly();
         $context = [
             'title' => 'Units',
-            'units' => $units
+            'units' => $units,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('unit/index.html.twig', $context);
     }

@@ -28,9 +28,11 @@ class AnatomicalEntityController extends AbstractController
     public function index(AnatomicalEntityRepository $anatomicalEntityRepo): Response
     {
         $anatomicalEntities =  $anatomicalEntityRepo->findAll();
+        $parentsOnly = $anatomicalEntityRepo->getParentsOnly();
         $context = [
             'title' => 'Anatomical Entity List',
-            'anatomicalEntities' => $anatomicalEntities
+            'anatomicalEntities' => $anatomicalEntities,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('anatomical_entity/index.html.twig', $context);
     }

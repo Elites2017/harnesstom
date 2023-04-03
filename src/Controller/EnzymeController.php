@@ -28,9 +28,11 @@ class EnzymeController extends AbstractController
     public function index(EnzymeRepository $enzymeRepo): Response
     {
         $enzymes =  $enzymeRepo->findAll();
+        $parentsOnly = $enzymeRepo->getParentsOnly();
         $context = [
             'title' => 'Enzyme',
-            'enzymes' => $enzymes
+            'enzymes' => $enzymes,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('enzyme/index.html.twig', $context);
     }

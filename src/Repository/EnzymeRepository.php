@@ -19,6 +19,15 @@ class EnzymeRepository extends ServiceEntityRepository
         parent::__construct($registry, Enzyme::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Enzyme[] Returns an array of Enzyme objects
     //  */

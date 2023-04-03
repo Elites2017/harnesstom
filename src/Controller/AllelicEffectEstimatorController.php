@@ -29,9 +29,11 @@ class AllelicEffectEstimatorController extends AbstractController
     public function index(AllelicEffectEstimatorRepository $allelicEffectEstimatorRepo): Response
     {
         $allelicEffectEstimators =  $allelicEffectEstimatorRepo->findAll();
+        $parentsOnly = $allelicEffectEstimatorRepo->getParentsOnly();
         $context = [
             'title' => 'Allelic Effect Estimator',
-            'allelicEffectEstimators' => $allelicEffectEstimators
+            'allelicEffectEstimators' => $allelicEffectEstimators,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('allelic_effect_estimator/index.html.twig', $context);
     }

@@ -28,9 +28,11 @@ class AnnotationLevelController extends AbstractController
     public function index(AnnotationLevelRepository $annotationLevelRepo): Response
     {
         $annotationLevels =  $annotationLevelRepo->findAll();
+        $parentsOnly = $annotationLevelRepo->getParentsOnly();
         $context = [
             'title' => 'Annotation Level List',
-            'annotationLevels' => $annotationLevels
+            'annotationLevels' => $annotationLevels,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('annotation_level/index.html.twig', $context);
     }

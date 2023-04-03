@@ -19,6 +19,15 @@ class TrialTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, TrialType::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return TrialType[] Returns an array of TrialType objects
     //  */

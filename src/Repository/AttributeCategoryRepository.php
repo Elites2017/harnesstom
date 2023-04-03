@@ -19,6 +19,15 @@ class AttributeCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, AttributeCategory::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return AttributeCategory[] Returns an array of AttributeCategory objects
     //  */

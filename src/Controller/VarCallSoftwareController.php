@@ -29,9 +29,11 @@ class VarCallSoftwareController extends AbstractController
     public function index(VarCallSoftwareRepository $varCallSoftwareRepo): Response
     {
         $varCallSoftwares =  $varCallSoftwareRepo->findAll();
+        $parentsOnly = $varCallSoftwareRepo->getParentsOnly();
         $context = [
             'title' => 'Var Call Software',
-            'varCallSoftwares' => $varCallSoftwares
+            'varCallSoftwares' => $varCallSoftwares,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('var_call_software/index.html.twig', $context);
     }

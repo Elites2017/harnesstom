@@ -19,6 +19,15 @@ class GenerationRepository extends ServiceEntityRepository
         parent::__construct($registry, Generation::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Generation[] Returns an array of Generation objects
     //  */

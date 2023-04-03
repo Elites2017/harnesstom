@@ -19,6 +19,15 @@ class MethodClassRepository extends ServiceEntityRepository
         parent::__construct($registry, MethodClass::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return MethodClass[] Returns an array of MethodClass objects
     //  */

@@ -19,6 +19,15 @@ class ExperimentalDesignTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, ExperimentalDesignType::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return ExperimentalDesignType[] Returns an array of ExperimentalDesignType objects
     //  */

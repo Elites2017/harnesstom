@@ -54,9 +54,11 @@ class SeasonController extends AbstractController
     public function index(SeasonRepository $seasonRepo): Response
     {
         $seasons =  $seasonRepo->findAll();
+        $parentsOnly = $seasonRepo->getParentsOnly();
         $context = [
             'title' => 'Seasons',
-            'seasons' => $seasons
+            'seasons' => $seasons,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('season/index.html.twig', $context);
     }
