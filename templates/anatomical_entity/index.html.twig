@@ -24,6 +24,8 @@
 
 	<!-- DataTables Responsive CSS -->
 	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	<!-- Treeview -->
+	<link rel="stylesheet" href="{{ asset('assets/treeview/css/mdbootstrap_treeview.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -105,4 +107,16 @@
             $('#datatable').DataTable();
         } );
     </script>
+
+	<script src="{{ asset('assets/js/show_hide_panels.js') }}"></script>
+	<script src="{{ asset('assets/treeview/js/mdbootstrap_treeview.js') }}"></script>
+
+    <script>
+		// Treeview Initialization
+		$(document).ready(function() {
+			$('.treeview-colorful').mdbTreeview();
+			$('.treeview-animated').mdbTreeview();
+			$('.treeview').mdbTreeview();
+		});
+	</script>
 {% endblock %}
