@@ -5,10 +5,9 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">New GWAS Variant</h2>
+			<div class="col-xl-12 col-lg-11">
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -18,139 +17,149 @@
 						</div>
 					{% endfor %}
 				{% endfor %}
-				{{ form_start(gwasVariantForm) }}
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.name, {label: "Name", 'attr': {'placeholder' : 'Enter the name'}}) }}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">New GWAS Variant</h4>
 					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(gwasVariantForm) }}
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.name, {label: "Name", 'attr': {'placeholder' : 'Enter the name'}}) }}
+							</div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.alternativeAllele, {label: "Alternative Allele", 'attr': {'placeholder' : 'Select the alternative allele'}}) }}
-					</div>
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.alternativeAllele, {label: "Alternative Allele", 'attr': {'placeholder' : 'Select the alternative allele'}}) }}
+							</div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.maf, {label: "MAF", 'attr': {'placeholder' : 'Enter the maf'}}) }}
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.maf, {label: "MAF", 'attr': {'placeholder' : 'Enter the maf'}}) }}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.sampleSize, {label: "Sample Size", 'attr': {'placeholder' : 'Select the sample size'}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.snppValue, {label: "SNNP Value", 'attr': {'placeholder' : 'Select the snnp value'}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.adjustedPValue, {label: "Adjusted PValue", 'attr': {'placeholder' : 'Select the adjusted PValue'}}) }}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.allelicEffect, {label: "Allelic Effect", 'attr': {'placeholder' : 'Select the allelic effect'}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.allelicEffectStat, {label: "Allelic Effect Stat", 'attr': {'placeholder' : 'Select the allelic effect stat'}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.allelicEffectdf, {label: "Allelic Effect DF", 'attr': {'placeholder' : 'Select the allelic effect df'}}) }}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.allelicEffStdE, {label: "Allelic Effect StdE", 'attr': {'placeholder' : 'Select the allelic effect StdE'}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.beta, {label: "Beta", 'attr': {'placeholder' : 'Enter the beta'}}) }}
+							</div>
+
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.betaStdE, {label: "Beta StdE", 'attr': {'placeholder' : 'Select the beta StdE'}}) }}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.oddsRatio, {label: "Odds Ratio", 'attr': {'placeholder' : 'Select the odds ratio'}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.ciLower, {label: "Ci Lower", 'attr': {'placeholder' : 'Enter the ci lower'}}) }}
+							</div>
+
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.ciUpper, {label: "Ci Upper", 'attr': {'placeholder' : 'Select the ci upper'}}) }}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.rSquareOfMode, {label: "R Square Of Mode", 'attr': {'placeholder' : 'Select the rSquareOfMode'}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.rSquareOfModeWithSNP, {label: "R SquareOfModeWithSNP", 'attr': {'placeholder' : 'Enter the rSquareOfModeWithSNP'}}) }}
+							</div>
+
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.rSquareOfModeWithoutSNP, {label: "R SquareOfModeWithoutSNP", 'attr': {'placeholder' : 'Select the rSquareOfModeWithoutSNP'}}) }}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.refAllele, {label: "Ref Allele", 'attr': {'placeholder' : 'Select the ref allele'}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.marker, {label: "Marker", 'attr': {'placeholder' : 'Enter the marker',
+											'class': "custom-select d-block w-100"}}) }}
+							</div>
+
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.metabolite, {label: "Metabolite", 'attr': {'placeholder' : 'Select the metabolite',
+												'class': "custom-select d-block w-100"}}) }}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.gwas, {label: "GWAS", 'attr': {'placeholder' : 'Select the GWAS',
+												'class': "custom-select d-block w-100"}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.traitPreprocessing, {label: "Trait Preprocessing", 'attr': {'placeholder' : 'Enter the trait preprocessing',
+												'class': "custom-select d-block w-100"}}) }}
+							</div>
+
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(gwasVariantForm.observationVariable, {label: "Observation Variable", 'attr': {'placeholder' : 'Select the observation variable',
+												'class': "custom-select d-block w-100"}}) }}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+							</div>
+						</div>
+						{{ form_end(gwasVariantForm) }}
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.sampleSize, {label: "Sample Size", 'attr': {'placeholder' : 'Select the sample size'}}) }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.snppValue, {label: "SNNP Value", 'attr': {'placeholder' : 'Select the snnp value'}}) }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.adjustedPValue, {label: "Adjusted PValue", 'attr': {'placeholder' : 'Select the adjusted PValue'}}) }}
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.allelicEffect, {label: "Allelic Effect", 'attr': {'placeholder' : 'Select the allelic effect'}}) }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.allelicEffectStat, {label: "Allelic Effect Stat", 'attr': {'placeholder' : 'Select the allelic effect stat'}}) }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.allelicEffectdf, {label: "Allelic Effect DF", 'attr': {'placeholder' : 'Select the allelic effect df'}}) }}
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.allelicEffStdE, {label: "Allelic Effect StdE", 'attr': {'placeholder' : 'Select the allelic effect StdE'}}) }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.beta, {label: "Beta", 'attr': {'placeholder' : 'Enter the beta'}}) }}
-					</div>
-
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.betaStdE, {label: "Beta StdE", 'attr': {'placeholder' : 'Select the beta StdE'}}) }}
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.oddsRatio, {label: "Odds Ratio", 'attr': {'placeholder' : 'Select the odds ratio'}}) }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.ciLower, {label: "Ci Lower", 'attr': {'placeholder' : 'Enter the ci lower'}}) }}
-					</div>
-
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.ciUpper, {label: "Ci Upper", 'attr': {'placeholder' : 'Select the ci upper'}}) }}
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.rSquareOfMode, {label: "R Square Of Mode", 'attr': {'placeholder' : 'Select the rSquareOfMode'}}) }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.rSquareOfModeWithSNP, {label: "R SquareOfModeWithSNP", 'attr': {'placeholder' : 'Enter the rSquareOfModeWithSNP'}}) }}
-					</div>
-
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.rSquareOfModeWithoutSNP, {label: "R SquareOfModeWithoutSNP", 'attr': {'placeholder' : 'Select the rSquareOfModeWithoutSNP'}}) }}
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.refAllele, {label: "Ref Allele", 'attr': {'placeholder' : 'Select the ref allele'}}) }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.marker, {label: "Marker", 'attr': {'placeholder' : 'Enter the marker',
-									'class': "custom-select d-block w-100"}}) }}
-					</div>
-
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.metabolite, {label: "Metabolite", 'attr': {'placeholder' : 'Select the metabolite',
-                                        'class': "custom-select d-block w-100"}}) }}
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.gwas, {label: "GWAS", 'attr': {'placeholder' : 'Select the GWAS',
-                                        'class': "custom-select d-block w-100"}}) }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.traitPreprocessing, {label: "Trait Preprocessing", 'attr': {'placeholder' : 'Enter the trait preprocessing',
-										'class': "custom-select d-block w-100"}}) }}
-					</div>
-
-
-					<div class="col-md-4 mb-3">
-						{{ form_row(gwasVariantForm.observationVariable, {label: "Observation Variable", 'attr': {'placeholder' : 'Select the observation variable',
-                                        'class': "custom-select d-block w-100"}}) }}
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
-					</div>
-
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-					</div>
-				</div>
-				{{ form_end(gwasVariantForm) }}
 			</div>
 		</div>
 		<!-- .row -->

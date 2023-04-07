@@ -18,12 +18,10 @@
 	{{ title }}
 {% endblock %}
 
-
 {% block body %}
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">New Collecting Mission</h2>
+			<div class="col-xl-12 col-lg-11">
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -33,51 +31,60 @@
 						</div>
 					{% endfor %}
 				{% endfor %}
-				{{ form_start(collectingMissionForm) }}
-
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (collectingMissionForm.name,
-                                            { label: "Name *",
-                                            'attr': {'placeholder': "Enter the name of the mission"}
-                                            }
-                                        )
-                                    }}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">New Collecting Mission</h4>
 					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(collectingMissionForm) }}
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row
+												(collectingMissionForm.name,
+													{ label: "Name *",
+													'attr': {'placeholder': "Enter the name of the mission"}
+													}
+												)
+											}}
+							</div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (collectingMissionForm.species,
-                                            { label: "Species",
-                                            'attr': {'placeholder': "Enter the name of the species"}
-                                            }
-                                        )
-                                    }}
-					</div>
+							<div class="col-md-4 mb-3">
+								{{ form_row
+												(collectingMissionForm.species,
+													{ label: "Species",
+													'attr': {'placeholder': "Enter the name of the species"}
+													}
+												)
+											}}
+							</div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (collectingMissionForm.institute,
-                                            { label: "Institute",
-                                            'attr': {'placeholder': "Select the institute",
-                                                    'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
+							<div class="col-md-4 mb-3">
+								{{ form_row
+												(collectingMissionForm.institute,
+													{ label: "Institute",
+													'attr': {'placeholder': "Select the institute",
+															'class': "custom-select d-block w-100"}
+													}
+												)
+											}}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+							</div>
+						</div>
+						{{ form_end(collectingMissionForm) }}
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
-					</div>
-
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-					</div>
-				</div>
-				{{ form_end(collectingMissionForm) }}
 			</div>
 		</div>
 		<!-- .row -->

@@ -5,10 +5,9 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">New Data Submission Request</h2>
+			<div class="col-xl-12 col-lg-11">
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -18,41 +17,52 @@
 						</div>
 					{% endfor %}
 				{% endfor %}
-				<div class="mb-3">
-					<h3>NOTE: Your data must be in one file whether it is a single file or a zipped folder</h3>
-				</div>
-				{{ form_start(dataSubmissionForm) }}
-				<div>
-					{{ form_row(dataSubmissionForm.file, {label: "Upload Your Data From ", 'attr': {'placeholder': "Choose an excel file" }}) }}
-				</div>
-				<div>
-					{{ form_row(dataSubmissionForm.firstName, {label: "First Name", 'attr': {'placeholder': "Please, enter your first name" }}) }}
-				</div>
-				<div>
-					{{ form_row(dataSubmissionForm.lastName, {label: "Last Name", 'attr': {'placeholder': "Please, enter your last name" }}) }}
-				</div>
-				<div>
-					{{ form_row(dataSubmissionForm.email, {label: "Email", 'attr': {'placeholder': "Please, enter your email" }}) }}
-				</div>
-				<div>
-					{{ form_row(dataSubmissionForm.message, {label: "Message", 'attr': {'placeholder': "Please, enter / write any specific request related to your data submission request" }}) }}
-				</div>
-
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Submit</button>
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">New Data Submission Request</h4>
 					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="mb-3">
+							<h3>NOTE: Your data must be in one file whether it is a single file or a zipped folder</h3>
+						</div>
+						{{ form_start(dataSubmissionForm) }}
+						<div>
+							{{ form_row(dataSubmissionForm.file, {label: "Upload Your Data From ", 'attr': {'placeholder': "Choose an excel file" }}) }}
+						</div>
+						<div>
+							{{ form_row(dataSubmissionForm.firstName, {label: "First Name", 'attr': {'placeholder': "Please, enter your first name" }}) }}
+						</div>
+						<div>
+							{{ form_row(dataSubmissionForm.lastName, {label: "Last Name", 'attr': {'placeholder': "Please, enter your last name" }}) }}
+						</div>
+						<div>
+							{{ form_row(dataSubmissionForm.email, {label: "Email", 'attr': {'placeholder': "Please, enter your email" }}) }}
+						</div>
+						<div>
+							{{ form_row(dataSubmissionForm.message, {label: "Message", 'attr': {'placeholder': "Please, enter / write any specific request related to your data submission request" }}) }}
+						</div>
 
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Submit</button>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+							</div>
+						</div>
+						{{ form_end(dataSubmissionForm) }}
 					</div>
 				</div>
-				{{ form_end(dataSubmissionForm) }}
 			</div>
 		</div>
 		<!-- .row -->
 	</div>
-	<!-- .container -->{% endblock %}
+	<!-- .container -->
+{% endblock %}
 
 {% block javascripts %}
 	<script src="{{ asset('assets/datatables/js/jquery-3.5.1.js') }}"></script>

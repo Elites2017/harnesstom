@@ -7,154 +7,159 @@
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
+			<div class="col-xl-12 col-lg-11">
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 mb-2 font-weight-bold text-center tomato-color">Data Submission Guide</h4>
+                        <p class="mb-3 text-center font-weight-bold">Find answers to all questions related to submitting data to Harnesstom DB</p>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="row">
+                            <div class="col-md-4">
+                                <h3><span class="badge badge-pill badge-info">Before you start</span></h3>
+                                <p class="mb-3">All you need  to know</p>
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample1Plus" role="button" aria-expanded="true" aria-controls="collapseExample1Plus">
+                                                <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample1Plus">Register / Log in <i class="fa fa-plus"></i>                                 
+                                                </span>
+                                            </li>
+                                            <ul class="list collapse" id="collapseExample1Plus">
+                                                <li><a href="{{path('data_submission_before_starting')}}#registration_signin" class="list-item">Registration or Log in</a></li>
+                                            </ul>
+                                        </ul>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="true" aria-controls="collapseExample1">
+                                                <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample1">What can be submitted? <i class="fa fa-plus"></i>                                 
+                                                </span>
+                                            </li>
+                                            <ul class="list collapse" id="collapseExample1">
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#what_to_submit" class="list-item">What data can be submitted ?</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#how_to_submit" class="list-item">How to submit data ?</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#what_to_prepare" class="list-item">What do I need to prepare ?</a></li>
+                                            </ul>
+                                        </ul>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="true" aria-controls="collapseExample2">
+                                                <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample2">HarnesstomDB overview <i class="fa fa-plus"></i>                                 
+                                                </span>
+                                            </li>
+                                            <ul class="list collapse" id="collapseExample2">
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#db_schema" class="list-item">Database schema</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#experimental_core_module" class="list-item">What is the experimental core metadata module?</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#germplasm_module" class="list-item">What is the germplasm module?</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#phenotyping_module" class="list-item">What is the phenotyping module?</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#genotyping_module" class="list-item">What is the genotyping module?</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#variant_catalogue_module" class="list-item">What is the variant catalogue module?</a></li>
+                                            </ul>
+                                        </ul>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExampleMetadataStandards" role="button" aria-expanded="true" aria-controls="collapseExampleMetadataStandards">
+                                                <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExampleMetadataStandards">Metadata standards<i class="fa fa-plus"></i>                                 
+                                                </span>
+                                            </li>
+                                            <ul class="list collapse" id="collapseExampleMetadataStandards">
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#metadata_definition" class="list-item">Definitions</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#metadata_controlled_vocabulary" class="list-item">Controlled vocabulary</a></li>
+                                            </ul>
+                                        </ul>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="true" aria-controls="collapseExample3">
+                                                <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample3">Accepted file formats & data standards ? <i class="fa fa-plus"></i>                                 
+                                                </span>
+                                            </li>
+                                            <ul class="list collapse" id="collapseExample3">
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#harnesstom_db_standards" class="list-item">HarnesstomDB Standards</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#accepted_file_formats" class="list-item">Accepted file formats</a></li>
+                                            </ul>
+                                        </ul>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="true" aria-controls="collapseExample4">
+                                                <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample4">Pre-submission checklist <i class="fa fa-plus"></i>                                 
+                                                </span>
+                                            </li>
+                                            <ul class="list collapse" id="collapseExample4">
+                                                <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#pre_sub_checklist" class="list-item">What to check ?</a></li>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <h3><span class="badge badge-pill badge-info">Data submission</span></h3>
+                                <p class="mb-3">All you need  to know</p>
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample7" role="button" aria-expanded="true" aria-controls="collapseExample7">
+                                                <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample7">Submitting data through HarnesstomDB v1.0 create application <i class="fa fa-plus"></i>                                 
+                                                </span>
+                                            </li>
+                                            <ul class="list collapse" id="collapseExample7">
+                                                <li class="mb-2"><a href="{{path('data_submission_submit')}}#crud_submission_intro" class="list-item">Introduction</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_submit')}}#uploading_experimental_core_module" class="list-item">Uploading data into experimental core metadata module</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_submit')}}#uploading_germplasm_module" class="list-item">Uploading data into germplasm module</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_submit')}}#uploading_phenotyping_module" class="list-item">Uploading data into phenotyping module</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_submit')}}#uploading_genotyping_module" class="list-item">Uploading data into genotyping module</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_submit')}}#uploading_variant_module" class="list-item">Uploading data into variant module</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_submit')}}#add_objects" class="list-item">Add crops, contacts, institutes</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_submit')}}#request_new_ontology" class="list-item">Request a new ontology term</a></li>
+                                            </ul>
+                                        </ul>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample8" role="button" aria-expanded="true" aria-controls="collapseExample8">
+                                                <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample8">Bulk data submission using the HarnesstomDB v1.0 submission tool <i class="fa fa-plus"></i>                                 
+                                                </span>
+                                            </li>
+                                            <ul class="list collapse" id="collapseExample8">
+                                                <li class="mb-2"><a href="{{path('data_submission_submit')}}#bulk_submission_introduction" class="list-item">Introduction</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_submit')}}#bulk_submission_steps" class="list-item">Bulk submission step-by-step</a></li>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <h3><span class="badge badge-pill badge-info">After the submission</span></h3>
+                                <p class="mb-3">All you need  to know</p>
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample9" role="button" aria-expanded="true" aria-controls="collapseExample9">
+                                                <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample9">Access private experiments in HarnesstomDB <i class="fa fa-plus"></i>                                 
+                                                </span>
+                                            </li>
+                                            <ul class="list collapse" id="collapseExample9">
+                                                <li class="mb-2"><a href="{{path('data_submission_after_submission')}}#after_submission_dapr" class="list-item">Data availability and policy release</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_after_submission')}}#after_submission_crud_private_expe" class="list-item">Edit, add or remove data in a private experiment</a></li>
+                                                <li class="mb-2"><a href="{{path('data_submission_after_submission')}}#after_submission_access_private_trial" class="list-item">Get access to a private trial</a></li>
+                                            </ul>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    {% endfor %}
-                {% endfor %}
-                <h2 class="mb-3 text-center tomato-color font-weight-bold">Data Submission Guide</h2>
-                <p class="mb-3 text-center font-weight-bold">Find answers to all questions related to submitting data to Harnesstom DB</p>
+                        <!-- .row -->
+					</div>
+				</div>
 			</div>
 		</div>
-        <!-- .row -->
-         <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h3><span class="badge badge-pill badge-info">Before you start</span></h3>
-                    <p class="mb-3">All you need  to know</p>
-                    <div class="accordion" id="accordionExample">
-                        <div class="card">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample1Plus" role="button" aria-expanded="true" aria-controls="collapseExample1Plus">
-                                    <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample1Plus">Register / Log in <i class="fa fa-plus"></i>                                 
-                                    </span>
-                                </li>
-                                <ul class="list collapse" id="collapseExample1Plus">
-                                    <li><a href="{{path('data_submission_before_starting')}}#registration_signin" class="list-item">Registration or Log in</a></li>
-                                </ul>
-                            </ul>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="true" aria-controls="collapseExample1">
-                                    <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample1">What can be submitted? <i class="fa fa-plus"></i>                                 
-                                    </span>
-                                </li>
-                                <ul class="list collapse" id="collapseExample1">
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#what_to_submit" class="list-item">What data can be submitted ?</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#how_to_submit" class="list-item">How to submit data ?</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#what_to_prepare" class="list-item">What do I need to prepare ?</a></li>
-                                </ul>
-                            </ul>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="true" aria-controls="collapseExample2">
-                                    <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample2">HarnesstomDB overview <i class="fa fa-plus"></i>                                 
-                                    </span>
-                                </li>
-                                <ul class="list collapse" id="collapseExample2">
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#db_schema" class="list-item">Database schema</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#experimental_core_module" class="list-item">What is the experimental core metadata module?</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#germplasm_module" class="list-item">What is the germplasm module?</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#phenotyping_module" class="list-item">What is the phenotyping module?</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#genotyping_module" class="list-item">What is the genotyping module?</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#variant_catalogue_module" class="list-item">What is the variant catalogue module?</a></li>
-                                </ul>
-                            </ul>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExampleMetadataStandards" role="button" aria-expanded="true" aria-controls="collapseExampleMetadataStandards">
-                                    <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExampleMetadataStandards">Metadata standards<i class="fa fa-plus"></i>                                 
-                                    </span>
-                                </li>
-                                <ul class="list collapse" id="collapseExampleMetadataStandards">
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#metadata_definition" class="list-item">Definitions</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#metadata_controlled_vocabulary" class="list-item">Controlled vocabulary</a></li>
-                                </ul>
-                            </ul>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample3" role="button" aria-expanded="true" aria-controls="collapseExample3">
-                                    <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample3">Accepted file formats & data standards ? <i class="fa fa-plus"></i>                                 
-                                    </span>
-                                </li>
-                                <ul class="list collapse" id="collapseExample3">
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#harnesstom_db_standards" class="list-item">HarnesstomDB Standards</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#accepted_file_formats" class="list-item">Accepted file formats</a></li>
-                                </ul>
-                            </ul>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample4" role="button" aria-expanded="true" aria-controls="collapseExample4">
-                                    <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample4">Pre-submission checklist <i class="fa fa-plus"></i>                                 
-                                    </span>
-                                </li>
-                                <ul class="list collapse" id="collapseExample4">
-                                    <li class="mb-2"><a href="{{path('data_submission_before_starting')}}#pre_sub_checklist" class="list-item">What to check ?</a></li>
-                                </ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <h3><span class="badge badge-pill badge-info">Data submission</span></h3>
-                    <p class="mb-3">All you need  to know</p>
-                    <div class="accordion" id="accordionExample">
-                        <div class="card">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample7" role="button" aria-expanded="true" aria-controls="collapseExample7">
-                                    <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample7">Submitting data through HarnesstomDB v1.0 create application <i class="fa fa-plus"></i>                                 
-                                    </span>
-                                </li>
-                                <ul class="list collapse" id="collapseExample7">
-                                    <li class="mb-2"><a href="{{path('data_submission_submit')}}#crud_submission_intro" class="list-item">Introduction</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_submit')}}#uploading_experimental_core_module" class="list-item">Uploading data into experimental core metadata module</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_submit')}}#uploading_germplasm_module" class="list-item">Uploading data into germplasm module</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_submit')}}#uploading_phenotyping_module" class="list-item">Uploading data into phenotyping module</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_submit')}}#uploading_genotyping_module" class="list-item">Uploading data into genotyping module</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_submit')}}#uploading_variant_module" class="list-item">Uploading data into variant module</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_submit')}}#add_objects" class="list-item">Add crops, contacts, institutes</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_submit')}}#request_new_ontology" class="list-item">Request a new ontology term</a></li>
-                                </ul>
-                            </ul>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample8" role="button" aria-expanded="true" aria-controls="collapseExample8">
-                                    <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample8">Bulk data submission using the HarnesstomDB v1.0 submission tool <i class="fa fa-plus"></i>                                 
-                                    </span>
-                                </li>
-                                <ul class="list collapse" id="collapseExample8">
-                                    <li class="mb-2"><a href="{{path('data_submission_submit')}}#bulk_submission_introduction" class="list-item">Introduction</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_submit')}}#bulk_submission_steps" class="list-item">Bulk submission step-by-step</a></li>
-                                </ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <h3><span class="badge badge-pill badge-info">After the submission</span></h3>
-                    <p class="mb-3">All you need  to know</p>
-                    <div class="accordion" id="accordionExample">
-                        <div class="card">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item card-header" data-toggle="collapse" href="#collapseExample9" role="button" aria-expanded="true" aria-controls="collapseExample9">
-                                    <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collapseExample9">Access private experiments in HarnesstomDB <i class="fa fa-plus"></i>                                 
-                                    </span>
-                                </li>
-                                <ul class="list collapse" id="collapseExample9">
-                                    <li class="mb-2"><a href="{{path('data_submission_after_submission')}}#after_submission_dapr" class="list-item">Data availability and policy release</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_after_submission')}}#after_submission_crud_private_expe" class="list-item">Edit, add or remove data in a private experiment</a></li>
-                                    <li class="mb-2"><a href="{{path('data_submission_after_submission')}}#after_submission_access_private_trial" class="list-item">Get access to a private trial</a></li>
-                                </ul>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- .row -->
-        </div>
-        <!-- .conainer row -->
+		<!-- .row -->
 	</div>
 	<!-- .container -->
-
 {% endblock %}

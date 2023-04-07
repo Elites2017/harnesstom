@@ -5,10 +5,9 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">New Metabolite</h2>
+			<div class="col-xl-12 col-lg-11">
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -18,53 +17,64 @@
 						</div>
 					{% endfor %}
 				{% endfor %}
-				{{ form_start(metaboliteForm) }}
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (metaboliteForm.analyte,
-                                            { label: "Analyte",
-                                            'attr': {'placeholder': "Enter the metabolite analyte",
-                                            'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">New Metabolite</h4>
 					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(metaboliteForm) }}
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row
+												(metaboliteForm.analyte,
+													{ label: "Analyte",
+													'attr': {'placeholder': "Enter the metabolite analyte",
+													'class': "custom-select d-block w-100"}
+													}
+												)
+											}}
+							</div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (metaboliteForm.metabolicTrait,
-                                            { label: "Metabolic trait",
-                                            'attr': {'placeholder': "Select the metabolite metabolic trait",
-                                            'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
-					</div>
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (metaboliteForm.scale,
-                                            { label: "Scale",
-                                            'attr': {'placeholder': "Select the metabolite scale",
-                                            'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
+							<div class="col-md-4 mb-3">
+								{{ form_row
+												(metaboliteForm.metabolicTrait,
+													{ label: "Metabolic trait",
+													'attr': {'placeholder': "Select the metabolite metabolic trait",
+													'class': "custom-select d-block w-100"}
+													}
+												)
+											}}
+							</div>
+							<div class="col-md-4 mb-3">
+								{{ form_row
+												(metaboliteForm.scale,
+													{ label: "Scale",
+													'attr': {'placeholder': "Select the metabolite scale",
+													'class': "custom-select d-block w-100"}
+													}
+												)
+											}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+							</div>
+						</div>
+						{{ form_end(metaboliteForm) }}
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
-					</div>
-
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-					</div>
-				</div>
-				{{ form_end(metaboliteForm) }}
 			</div>
 		</div>
 		<!-- .row -->
 	</div>
 	<!-- .container -->
 {% endblock %}
+

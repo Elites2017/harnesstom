@@ -2,102 +2,112 @@
 
 {% block title %}{{ title }}{% endblock %}
 
-
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 order-md-1">
-                <h2 class="mb-3 text-center tomato-color font-weight-bold">New Attribute Trait Value</h2>
-                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-                {{ form_start(attributeTraitValueForm) }}
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                   (attributeTraitValueForm.attribute,
-                                    { label: "Attribute *",
-                                        'attr': {'placeholder': "Select the attribute",
-                                        'class': "custom-select d-block w-100"}
-                                    })
-                        }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                             {{ form_row
-                            (attributeTraitValueForm.trait,
-                                { label: "Trait",
-                                'attr': {'placeholder': "Select the trait",
-                                        'class': "custom-select d-block w-100"}
-                                }
-                            )
-                        }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                            (attributeTraitValueForm.metabolicTrait,
-                                { label: "Metabolic Trait",
-                                'attr': {'placeholder': "Select the metabolica trait",
-                                        'class': "custom-select d-block w-100"}
-                                }
-                            )
-                        }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                    (attributeTraitValueForm.accession,
-                                    { label: "Accession",
-                                        'attr': {'placeholder': "Select the accession",
-                                        'class': "custom-select d-block w-100"}
-                                    })
-                        }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                            (attributeTraitValueForm.value,
-                                { label: "Value",
-                                'attr': {'placeholder': "Enter the value"}
-                                }
-                            )
-                        }}
-                        </div>
-                    </div>
-
-                    <div>
-					<div id="pubRef-fields-list" data-prototype="{{ form_widget(attributeTraitValueForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ attributeTraitValueForm.publicationReference|length }}">
-						{% for pubRef in attributeTraitValueForm.publicationReference %}
-							<li>
-								{{ form_errors(pubRef) }}
-								{{ form_widget(pubRef) }}
-							</li>
-						{% endfor %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">New Attribute Trait Value</h4>
 					</div>
-					<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#pubRef-fields-list">Add publication reference</button>
-				</div>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
-                        </div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(attributeTraitValueForm) }}
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                        (attributeTraitValueForm.attribute,
+                                            { label: "Attribute *",
+                                                'attr': {'placeholder': "Select the attribute",
+                                                'class': "custom-select d-block w-100"}
+                                            })
+                                }}
+                                </div>
 
-                        <div class="col-md-6 mb-3">
-                            <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                    (attributeTraitValueForm.trait,
+                                        { label: "Trait",
+                                        'attr': {'placeholder': "Select the trait",
+                                                'class': "custom-select d-block w-100"}
+                                        }
+                                    )
+                                }}
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                    (attributeTraitValueForm.metabolicTrait,
+                                        { label: "Metabolic Trait",
+                                        'attr': {'placeholder': "Select the metabolica trait",
+                                                'class': "custom-select d-block w-100"}
+                                        }
+                                    )
+                                }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                            (attributeTraitValueForm.accession,
+                                            { label: "Accession",
+                                                'attr': {'placeholder': "Select the accession",
+                                                'class': "custom-select d-block w-100"}
+                                            })
+                                }}
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                    (attributeTraitValueForm.value,
+                                        { label: "Value",
+                                        'attr': {'placeholder': "Enter the value"}
+                                        }
+                                    )
+                                }}
+                                </div>
+                            </div>
+
+                            <div>
+                            <div id="pubRef-fields-list" data-prototype="{{ form_widget(attributeTraitValueForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ attributeTraitValueForm.publicationReference|length }}">
+                                {% for pubRef in attributeTraitValueForm.publicationReference %}
+                                    <li>
+                                        {{ form_errors(pubRef) }}
+                                        {{ form_widget(pubRef) }}
+                                    </li>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#pubRef-fields-list">Add publication reference</button>
                         </div>
-                    </div>
-                {{ form_end(attributeTraitValueForm) }}
-            </div>
-        </div>
-    </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+                                </div>
+                            </div>
+                        {{ form_end(attributeTraitValueForm) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}

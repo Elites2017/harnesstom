@@ -5,10 +5,9 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Observation Variable Method Edition</h2>
+			<div class="col-xl-12 col-lg-11">
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -18,81 +17,92 @@
 						</div>
 					{% endfor %}
 				{% endfor %}
-				{{ form_start(observationVariableMethodForm) }}
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (observationVariableMethodForm.name,
-                                            { label: "Name *",
-                                            'attr': {'placeholder': "Enter the observation variable method name"}
-                                            }
-                                        )
-                                    }}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">Observation Variable Method Edition</h4>
 					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(observationVariableMethodForm) }}
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								{{ form_row
+												(observationVariableMethodForm.name,
+													{ label: "Name *",
+													'attr': {'placeholder': "Enter the observation variable method name"}
+													}
+												)
+											}}
+							</div>
 
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (observationVariableMethodForm.instrument,
-                                            { label: "Instrument",
-                                            'attr': {'placeholder': "Select the observation variable method instrument"}
-                                            }
-                                        )
-                                    }}
-					</div>
-				</div>
-				<div>
-					{{ form_row
-                                        (observationVariableMethodForm.description,
-                                            { label: "Description",
-                                            'attr': {'placeholder': "Enter the observation variable method description"}
-                                            }
-                                        )
-                                    }}
-				</div>
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (observationVariableMethodForm.software,
-                                            { label: "Software",
-                                            'attr': {'placeholder': "Enter the observation variable method software"}
-                                            }
-                                        )
-                                    }}
-					</div>
+							<div class="col-md-6 mb-3">
+								{{ form_row
+												(observationVariableMethodForm.instrument,
+													{ label: "Instrument",
+													'attr': {'placeholder': "Select the observation variable method instrument"}
+													}
+												)
+											}}
+							</div>
+						</div>
+						<div>
+							{{ form_row
+												(observationVariableMethodForm.description,
+													{ label: "Description",
+													'attr': {'placeholder': "Enter the observation variable method description"}
+													}
+												)
+											}}
+						</div>
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row
+												(observationVariableMethodForm.software,
+													{ label: "Software",
+													'attr': {'placeholder': "Enter the observation variable method software"}
+													}
+												)
+											}}
+							</div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (observationVariableMethodForm.methodClass,
-                                            { label: "Method class",
-                                            'attr': {'placeholder': "Enter the observation variable method method class",
-                                                    'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
-					</div>
+							
+							<div class="col-md-4 mb-3">
+								{{ form_row
+												(observationVariableMethodForm.methodClass,
+													{ label: "Method class",
+													'attr': {'placeholder': "Enter the observation variable method method class",
+															'class': "custom-select d-block w-100"}
+													}
+												)
+											}}
+							</div>
 
-					<div>
-					<div id="pubRef-fields-list" data-prototype="{{ form_widget(observationVariableMethodForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ observationVariableMethodForm.publicationReference|length }}">
-						{% for pubRef in observationVariableMethodForm.publicationReference %}
-							<li>
-								{{ form_errors(pubRef) }}
-								{{ form_widget(pubRef) }}
-							</li>
-						{% endfor %}
-					</div>
-					<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#pubRef-fields-list">Add publication reference</button>
-				</div>
-				</div>
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
-					</div>
+							<div>
+							<div id="pubRef-fields-list" data-prototype="{{ form_widget(observationVariableMethodForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ observationVariableMethodForm.publicationReference|length }}">
+								{% for pubRef in observationVariableMethodForm.publicationReference %}
+									<li>
+										{{ form_errors(pubRef) }}
+										{{ form_widget(pubRef) }}
+									</li>
+								{% endfor %}
+							</div>
+							<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#pubRef-fields-list">Add publication reference</button>
+						</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+							</div>
 
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+							</div>
+						</div>
+						{{ form_end(observationVariableMethodForm) }}
 					</div>
 				</div>
-				{{ form_end(observationVariableMethodForm) }}
 			</div>
 		</div>
 		<!-- .row -->

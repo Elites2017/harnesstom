@@ -1,176 +1,250 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{ title }}
+  {{ title }}
 {% endblock %}
 
-
 {% block body %}
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">New Marker</h2>
-				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-					{% for message in messages %}
-						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-					{% endfor %}
-				{% endfor %}
-				{{ form_start(markerForm) }}
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (markerForm.name,
-                                            { label: "Name *",
-                                            'attr': {'placeholder': "Enter the name"}
-                                            }
-                                        )
-                                    }}
-					</div>
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (markerForm.type,
-                                            { label: "Type",
-                                            'attr': {'placeholder': "Enter the type"}
-                                            }
-                                        )
-                                    }}
-					</div>
-				</div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-12 col-lg-11">
+        {% for category, messages in app.flashes(
+          ['success', 'warning', 'danger']
+        ) %}
+          {% for message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show"
+              role="alert">
+              {{ message }}
+              <button type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endfor %}
+        {% endfor %}
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 flex-row align-items-center justify-content-between">
+            <h4 class="m-0 font-weight-bold text-center tomato-color">
+              New Marker
+            </h4>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            {{ form_start(markerForm) }}
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                {{
+                  form_row(
+                    markerForm.name,
+                    {
+                      label: 'Name *',
+                      attr: {
+                        placeholder: 'Enter the name'
+                      }
+                    }
+                  )
+                }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{
+                  form_row(
+                    markerForm.type,
+                    {
+                      label: 'Type',
+                      attr: {
+                        placeholder: 'Enter the type'
+                      }
+                    }
+                  )
+                }}
+              </div>
+            </div>
 
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (markerForm.linkageGroupName,
-                                            { label: "Linkage group name",
-                                            'attr': {'placeholder': "Enter the linkage groupe name"}
-                                            }
-                                        )
-                                    }}
-					</div>
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (markerForm.refAllele,
-                                            { label: "Reference Allele",
-                                            'attr': {'placeholder': "Enter the reference allele"}
-                                            }
-                                        )
-                                    }}
-					</div>
-				</div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                {{
+                  form_row(
+                    markerForm.linkageGroupName,
+                    {
+                      label: 'Linkage group name',
+                      attr: {
+                        placeholder: 'Enter the linkage groupe name'
+                      }
+                    }
+                  )
+                }}
+              </div>
+              <div class="col-md-6 mb-3">
+                {{
+                  form_row(
+                    markerForm.refAllele,
+                    {
+                      label: 'Reference Allele',
+                      attr: {
+                        placeholder: 'Enter the reference allele'
+                      }
+                    }
+                  )
+                }}
+              </div>
+            </div>
 
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (markerForm.position,
-                                            { label: "Position",
-                                            'attr': {'placeholder': "Enter the position"}
-                                            }
-                                        )
-                                    }}
-					</div>
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (markerForm.start,
-                                            { label: "Start",
-                                            'attr': {'placeholder': "Enter the start"}
-                                            }
-                                        )
-                                    }}
-					</div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                {{
+                  form_row(
+                    markerForm.position,
+                    {
+                      label: 'Position',
+                      attr: {
+                        placeholder: 'Enter the position'
+                      }
+                    }
+                  )
+                }}
+              </div>
+              <div class="col-md-4 mb-3">
+                {{
+                  form_row(
+                    markerForm.start,
+                    {
+                      label: 'Start',
+                      attr: {
+                        placeholder: 'Enter the start'
+                      }
+                    }
+                  )
+                }}
+              </div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (markerForm.end,
-                                            { label: "End",
-                                            'attr': {'placeholder': "Enter the end"}
-                                            }
-                                        )
-                                    }}
-					</div>
-				</div>
+              <div class="col-md-4 mb-3">
+                {{
+                  form_row(
+                    markerForm.end,
+                    {
+                      label: 'End',
+                      attr: {
+                        placeholder: 'Enter the end'
+                      }
+                    }
+                  )
+                }}
+              </div>
+            </div>
 
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (markerForm.altAllele,
-                                            { label: "Alternative allele",
-                                            'attr': {'placeholder': "Enter the alternative allele"}
-                                            }
-                                        )
-                                    }}
-					</div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                {{
+                  form_row(
+                    markerForm.altAllele,
+                    {
+                      label: 'Alternative allele',
+                      attr: {
+                        placeholder: 'Enter the alternative allele'
+                      }
+                    }
+                  )
+                }}
+              </div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (markerForm.primerName1,
-                                            { label: "Primer name 1",
-                                            'attr': {'placeholder': "Enter the primer name 1"}
-                                            }
-                                        )
-                                    }}
-					</div>
+              <div class="col-md-4 mb-3">
+                {{
+                  form_row(
+                    markerForm.primerName1,
+                    {
+                      label: 'Primer name 1',
+                      attr: {
+                        placeholder: 'Enter the primer name 1'
+                      }
+                    }
+                  )
+                }}
+              </div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (markerForm.primerSeq1,
-                                            { label: "Primer seq 1",
-                                            'attr': {'placeholder': "Enter the primer seq 1"}
-                                            }
-                                        )
-                                    }}
-					</div>
-				</div>
+              <div class="col-md-4 mb-3">
+                {{
+                  form_row(
+                    markerForm.primerSeq1,
+                    {
+                      label: 'Primer seq 1',
+                      attr: {
+                        placeholder: 'Enter the primer seq 1'
+                      }
+                    }
+                  )
+                }}
+              </div>
+            </div>
 
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (markerForm.primerName2,
-                                            { label: "Primer name 2",
-                                            'attr': {'placeholder': "Enter the primer name 2"}
-                                            }
-                                        )
-                                    }}
-					</div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                {{
+                  form_row(
+                    markerForm.primerName2,
+                    {
+                      label: 'Primer name 2',
+                      attr: {
+                        placeholder: 'Enter the primer name 2'
+                      }
+                    }
+                  )
+                }}
+              </div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (markerForm.primerSeq2,
-                                            { label: "Primer seq 2",
-                                            'attr': {'placeholder': "Enter the primer seq 2"}
-                                            }
-                                        )
-                                    }}
-					</div>
+              <div class="col-md-4 mb-3">
+                {{
+                  form_row(
+                    markerForm.primerSeq2,
+                    {
+                      label: 'Primer seq 2',
+                      attr: {
+                        placeholder: 'Enter the primer seq 2'
+                      }
+                    }
+                  )
+                }}
+              </div>
 
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (markerForm.genotypingPlatform,
-                                            { label: "Genotyping platform",
-                                            'attr': {'placeholder': "Select the genotyping platform type",
-                                            'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
-					</div>
-				</div>
+              <div class="col-md-4 mb-3">
+                {{
+                  form_row(
+                    markerForm.genotypingPlatform,
+                    {
+                      label: 'Genotyping platform',
+                      attr: {
+                        placeholder: 'Select the genotyping platform type',
+                        class: 'custom-select d-block w-100'
+                      }
+                    }
+                  )
+                }}
+              </div>
+            </div>
 
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
-					</div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <button class="btn btn-outline-primary btn-lg btn-block"
+                  type="submit">
+                  Create
+                </button>
+              </div>
 
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-					</div>
-				</div>
-				{{ form_end(markerForm) }}
-			</div>
-		</div>
-		<!-- .row -->
-	</div>
-	<!-- .container -->
+              <div class="col-md-6 mb-3">
+                <button class="btn btn-outline-secondary btn-lg btn-block"
+                  type="reset">
+                  Cancel
+                </button>
+              </div>
+            </div>
+            {{ form_end(markerForm) }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- .container -->
 {% endblock %}

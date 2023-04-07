@@ -6,365 +6,379 @@
 
 {% block body %}
 	<div class="container-fluid">
-		<h1 class="mb-3 text-center font-weight-bold">Before you start</h1>
-        {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-            {% for message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endfor %}
-        {% endfor %}
+		<div class="row">
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">Before the submission</h4>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="row">
+                            <div class="col-md-1 ">
+                                
+                            </div>
+                            <div class="col-xl-8 col-lg-7 text-justify">
+                                <h3 id="registration_signin" class="tomato-color">Register, then sign in</h3>
+                                <h4>
+                                    <p>The first requirement to submit data to HarnesstomDB is to be logged in.
+                                    Only logged users with user account will be able to access certain functionality of the database through the web-application.
+                                    If you are not already registered, you must create an account.
+                                    To do so, please click on the login button at the right part of the Harnesstom gateway and then click on the <a href="{{path('app_register')}}">new around here ?</a></p>
+                                    <br class="mb-3" />
+                                    <img class="mb-3" src="{{ asset('assets/images/login_page.png') }}" width="90%"/>
+                                    <p>
+                                        To create an account, it is necessary to fill the <a href="{{path('app_register')}}">registration form</a> and accept <a href="#">the terms of use</a>.
+                                    </p>
+                                    <img class="mb-3" src="{{ asset('assets/images/register.png') }}" width="90%"/>
+                                    </br>
+                                    After filling out the registration form you should receive an account confirmation email from
+                                    <b class="tomato-color">noreply-emailverif@harnesstom.eu</b> to validate your account.
+                                    Once your account has been confirmed, you can login to the website.
 
-        <div class="row">
-            <div class="col-md-1 ">
-                
-            </div>
-			<div class="col-xl-8 col-lg-7 text-justify">
-				<h3 id="registration_signin" class="tomato-color">Register, then sign in</h3>
-                <h4>
-                    <p>The first requirement to submit data to HarnesstomDB is to be logged in.
-                    Only logged users with user account will be able to access certain functionality of the database through the web-application.
-                    If you are not already registered, you must create an account.
-                    To do so, please click on the login button at the right part of the Harnesstom gateway and then click on the <a href="{{path('app_register')}}">new around here ?</a></p>
-                    <br class="mb-3" />
-                    <img class="mb-3" src="{{ asset('assets/images/login_page.png') }}" width="90%"/>
-                    <p>
-                        To create an account, it is necessary to fill the <a href="{{path('app_register')}}">registration form</a> and accept <a href="#">the terms of use</a>.
-                    </p>
-                    <img class="mb-3" src="{{ asset('assets/images/register.png') }}" width="90%"/>
-                    </br>
-                    After filling out the registration form you should receive an account confirmation email from
-                    <b class="tomato-color">noreply-emailverif@harnesstom.eu</b> to validate your account.
-                    Once your account has been confirmed, you can login to the website.
+                                    <p>All registered users have permissions to submit, edit and update their own data, and download public HarnesstomDB data.</p>
+                                    <p><i>Accounts are only needed if you want to submit or download data</i></p>
+                                </h4>
+                                </hr>
+                                <h3 id="what_to_submit" class="tomato-color">What data can be submitted ?</h3>
+                                <h4>
+                                    <p>HarnesstomDB accepts curated data and metadata from germplasm collections and from different projects
+                                    related genotyping, phenotyping, GWAS and QTL experiments as well images.</p> 
 
-                    <p>All registered users have permissions to submit, edit and update their own data, and download public HarnesstomDB data.</p>
-                    <p><i>Accounts are only needed if you want to submit or download data</i></p>
-                </h4>
-                </hr>
-                <h3 id="what_to_submit" class="tomato-color">What data can be submitted ?</h3>
-                <h4>
-                    <p>HarnesstomDB accepts curated data and metadata from germplasm collections and from different projects
-                    related genotyping, phenotyping, GWAS and QTL experiments as well images.</p> 
+                                    <p>HarnesstomDB archives only curated data, raw data files should be submitted to specialized public repositories propriate to your field of study.
+                                    You can use <a href="https://fairsharing.org/" target="_blank">FAIRsharing registry</a> to find an appropriate repository for your raw data.</p> 
 
-                    <p>HarnesstomDB archives only curated data, raw data files should be submitted to specialized public repositories propriate to your field of study.
-                    You can use <a href="https://fairsharing.org/" target="_blank">FAIRsharing registry</a> to find an appropriate repository for your raw data.</p> 
+                                    <p><i>We currently don't accept transcriptomics data,
+                                    please submit it to <a href="https://tomexpress.gbfwebtools.fr/" target="_blank">TomExpress</a> or other transcriptomic databases.</i></p>
+                                </h4>
+                                <hr/>
+                                <h3 id="how_to_submit" class="tomato-color">How to submit data ?</h3>
+                                <h4>
+                                    <p>DB provide two options for submitting data. Manual entry through the <a href="{{path('data_submission_submit')}}#crud_submission_intro">HarnesstomDB v1.0 create
+                                    application</a> or bulk file submission using the <a href="{{path('data_submission_submit')}}#bulk_submission">HarnesstomDB v1.0 submission tool.</a>
+                                    The best option depends on the quantity of data you want to submit. The HarnesstomDB v1.0 create
+                                    application is the best choice if you have a few records to submit. The HarnesstomDB v1.0 submission
+                                    tool is the best option if you have many records to submit. You can combine both options.</p>   
 
-                    <p><i>We currently don't accept transcriptomics data,
-                    please submit it to <a href="https://tomexpress.gbfwebtools.fr/" target="_blank">TomExpress</a> or other transcriptomic databases.</i></p>
-                </h4>
-                <hr/>
-                <h3 id="how_to_submit" class="tomato-color">How to submit data ?</h3>
-                <h4>
-                    <p>DB provide two options for submitting data. Manual entry through the <a href="{{path('data_submission_submit')}}#crud_submission_intro">HarnesstomDB v1.0 create
-                    application</a> or bulk file submission using the <a href="{{path('data_submission_submit')}}#bulk_submission">HarnesstomDB v1.0 submission tool.</a>
-                    The best option depends on the quantity of data you want to submit. The HarnesstomDB v1.0 create
-                    application is the best choice if you have a few records to submit. The HarnesstomDB v1.0 submission
-                    tool is the best option if you have many records to submit. You can combine both options.</p>   
+                                    <p>To facilitate submission, we have created a guide to submit data using the HarnesstomDB v1.0 create
+                                    application and an excel template HarnesstomDB template v1.0 October 2022 for bulk submissions. 
+                                    Before submitting to HarnesstomDB v1.0, we encourage all HarnesstomDB users to read the guide
+                                    to understand the key HarnesstomDB concepts and familiarize yourself with the different forms available for data submission.</p>
 
-                    <p>To facilitate submission, we have created a guide to submit data using the HarnesstomDB v1.0 create
-                    application and an excel template HarnesstomDB template v1.0 October 2022 for bulk submissions. 
-                    Before submitting to HarnesstomDB v1.0, we encourage all HarnesstomDB users to read the guide
-                    to understand the key HarnesstomDB concepts and familiarize yourself with the different forms available for data submission.</p>
-
-                    <p><i>Please, feel free to <a href="mailto:contac.tocome">contact</a> us if you have doubts of problems with submission.
-                    Write a brief description of the type of data you are trying to submit, and one of our curators will quickly get back to you.</i></p>
-                </h4>
-                <hr/>
-                <h3 id="what_to_prepare" class="tomato-color">What do I need to prepare ?</h3>
-                <h4>
-                    <p>To submit data to HarnesstomDB v1.0 all you need is to collect metadata
-                    describing your experiment and the files containing the datasets. <b>In HarnesstomDB
-                    some fields are mandatory, therefore can't be empty</b>. Other fields are optional,
-                    but greater detail will enhance the quality and the available information in the database.</p>
-                    <p>Use the controlled vocabulary when required, the standard notations and accepted file formats.
-                    Please see <a href="#">Definitions and standards</a>, <a href="#">Controlled vocabulary</a> and <a href="#">accepted file formats.</a>  
-                    The table below outlines what metadata and data should be submitted through each for each type of experiment.</p>
-                    <img class="mb-3" src="{{ asset('assets/images/filling_requirement.png') }}" width="90%"/>
-                </h4>
-                <hr/>
-                <h3 id="db_schema" class="tomato-color">HarnesstomDB schema </h3>
-                <h4>
-                    <p>Before submitting data, it is important to understand how HarnesstomDB is organized.
-                        This will determine what you need to submit.</p>
-                        <p>HarnesstomDB contains several modules conformed by metadata,
-                        controlled vocabulary and data tables interconnected between them by the ID
-                        assigned to each object when inserted into the database</p>
-                        <ul>
-                            <li>Experimental metadata core module</li>
-                            <li>Germplasm module</li>
-                            <li>Phenotyping module</li>
-                            <li>Genotyping module</li>
-                            <li>Variant catalogue</li>
-                        </ul>
-                    </p>
-                    <img class="mb-3" src="{{ asset('assets/images/harnesstom_dbscheme.png') }}" width="120%"/>
-                </h4>
-                <hr/>
-                <h3 id="experimental_core_module" class="tomato-color">What is the experimental core metadata module?</h3>
-                <h4>
-                    <p>The experimental metadata module stores the minimal information required to describe an experiment.
-                        Tables in this module are organized by a hierarchical relationship (Crop, program, trial, study).</p>
-                        <ul>
-                            <b>• CROPS:</b>
-                                this table contains the common crop name associated with the data stored in the database
-                                (a crop includes the cultivated species and its wild relatives).
-                                HarnesstomDB is prepared to store data and metadata from multiple crops in separate sub-databases.</br>
-                            
-                            <b>• PROGRAMS:</b>
-                                programs are research projects with defined aims associated with a crop. They can exist at various scales
-                                (for example, they could encompass a grant-funded programme of work with trials and studies or a breeding program).
-                                Program contains basic information describing a program such as name, description and program leader. A Program can contain multiple Trials.</br> 
-                            <b>• TRIALS:</b>
-                                trials comprise single or multiple studies (e.g. multi location international trials) conducted to answer a particular biological question in a frame of a program.
-                                They contain the information describing the trial such as to which program is associated, the type of trial (i.e agronomic trial, environmental exposure trial),
-                                the name and its abbreviation, a short description, the start and end data, associated publications, permanent unique identifier (if data is submitted to any public repository),
-                                date of public release of this trial, License for reusability of the data associated with this investigation and the persons authorized by the submitter to use unpublished or non-public data.</br>
-                            <b>• STUDIES:</b>
-                                A study is defined as an experiment conducted at a single geographic location to answer the defined question in a trial.
-                                This contains minimal information to describe where and how the experiment was performed and the germplasm associated with the study.
-                                It contains several associated tables with a controlled vocabulary to describe the experiment such as growth facility type, experimental design, factor type, parameters, season.</br>
-                            <b>• CONTACTS:</b>
-                                List of program contacts (program leaders and other persons) related to the project (submitter, researcher…)</br>
-                            <b>• INSTITUTES:</b>
-                                List of institutions associated a project, study and accessions
-                        </ul>
-                    </p>
-                </h4>
-                <hr/>
-                <h3 id="germplasm_module" class="tomato-color">What is the germplasm module?</h3>
-                <h4>
-                    <p>The germplasm module stores general information about the germplasm stored in the database. In HarnesstomDB, the germplasm term is the identifier of an accession in a program. The same accession can be used in different programs with different germplasm names.
-                        The same accession can be maintained in different institutions under different names. The main tables in this module are:</p>
-                        <ul>
-                            <b>• GERMPLASM:</b>
-                                The name of the germplasm used in each program/trial and study, its donor and the donor accession number.</br>
-                            
-                            <b>• ACCESSIONS:</b>
-                                Multicrop passport descriptors of the accessions used as germplasm in each program. It contains information related to the
-                                name, the origin, the taxonomy, the maintaining, breeding and donor, institutes, the pedigree,
-                                the status of an accession with regards to the Multilateral System (MLS) of the International Treaty on
-                                Plant Genetic Resources for Food and Agriculture. Further, it contains additional information regarding to simply-inherited
-                                characteristics inherent in the germplasm line (mutations, QTLs, phenotypes and any other remarkable information of interest for breeding). </br> 
-                            <b>• COLLECTIONS:</b>
-                                Subsets of germplasm of interest, created in the frame of a project, using specific criteria. For example, core collections.</br>
-                            <b>• PEDIGREE:</b>
-                                Genetic relationship between germplasm, their parents and progeny, as result of breeding crosses.</br>
-                            <b>• MAPPING POPULATIONS:</b>
-                                Mapping populations used in the different projects/ trials or studies</br>
-                        </ul>
-                    </p>
-                </h4>
-                <hr/>
-                <h3 id="phenotyping_module" class="tomato-color">What is the phenotyping module?</h3>
-                <h4>
-                    <p>The phenotyping module stores metadata associated to the traits studied, the germplasm phenotyped in each study
-                        (at macromolecular or molecular scale) and the phenotypic values associated with each germplasm in each study.
-                        The main tables are:</p>
-                        <ul>
-                            <b>• OBSERVATION VARIABLES:</b>
-                                Metadata defining observation variable. An observation variable is the way a trait is recorded.
-                                A trait can be observed qualitative and quantitatively and with different methods or scales.
-                                Therefore, an observation variable is composed by the unique combination of one Trait, one Method and one Scale.</br>
-                            
-                            <b>• METABOLITES:</b>
-                                Metadata associated with a metabolomics experiment. A metabolite is a special type of observation variable.
-                                A metabolite is defined by the unique combination of one Trait, one analyte, a method, a retention time and / or mass to charge ratio,
-                                the confidence scores (annotation and identification level) and the scale it was measured. </br> 
-                            <b>• OBSERVATIONS:</b>
-                                Observations are the experimental units of a study. They contain metadata associated with a macroscopic phenotyping experimental unit:
-                                the study and the germplasm where the observation is taken for a given observation variable, the level (block, plot, plant) and replicate
-                                at which observation is performed and information about the position of the plants in the field accordingly to the experimental design and its coordinates.</br>
-                            <b>• SAMPLES:</b>
-                                Biological plant material collected in a study for molecular or microscopic phenotyping. Samples contain information about the study and 
-                                the germplasm (or the observation) where they were collected, the plant anatomical entity and developmental stage from which sample is collected and how sample was obtained.</br>
-                            <b>• PHENOTYPIC DATA:</b>
-                               Datasets recording the value of an observation variable or a metabolite in a given observation or sample.</br>
-                        </ul>
-                    </p>
-                </h4>
-                <hr/>
-                <h3 id="genotyping_module" class="tomato-color">What is the genotyping module?</h3>
-                <h4>
-                    <p>The genotyping module stores the genetic information related to germplasm (variant sets) and the metadata associated to it, including genotyping platforms and the markers genotyped by each platform. 
-                        HarnesstomDB V1.0 only can store short DNA variants, SNPs and PCR based makers. The main tables are:</p>
-                        <ul>
-                            <b>• GENOTYPING PLATFORMS:</b>
-                                A genotyping platform in HarnesstomDB is defined as a panel of markers mapped to a specific version of a reference
-                                genome and obtained using closed (SNP-arrays) or semi-open (GBS, RAD-seq, DArTseq..) genotyping technologies.</br>
-                            <b>• MARKERS:</b>
-                                collection of genetic landmarks with a known physical position on a chromosome created using a genotyping platform. </br> 
-                            <b>• GENOTYPIC VARIANT SETS METADATA:</b>
-                                Variant sets are the genotyping value of a maker in a germplasm sample. This contains information related to the genotyping platform used 
-                                the method (filters and software) used to generate the variant set and if there is any publication associated to this variant set.</br>
-                            <b>• GENOTYPIC VARIANT SET DATA:</b>
-                                Variant datasets recording the value of a marker in a given sample.</br>
-                        </ul>
-                    </p>
-                </h4>
-                <hr/>
-                <h3 id="variant_catalogue_module" class="tomato-color">What is the variant catalogue module?</h3>
-                <h4>
-                    <p>The variant catalogue contains comprehensive and curated information of published and non-published QTLs and GWAS variant.
-                        This module stores information related to QTLs and GWAS experiments and variant-trait association summary statistics.
-                        Information in this module can be uploaded only if core, germplasm, phenotyping and genotyping data regarding
-                        to this experiment is up-loaded in the database. The main tables are:</p>
-                        <ul>
-                            <b>• QTL STUDIES:</b>
-                                Information about how QTL study was performed. Phenotypic and genetic data, mapping population, methods and statistic cut-off.
-                                It can store metadata for single environment QTL study, multi-environment study or epistasis studies</br>
-                            <b>• QTL VARIANTS:</b>
-                                QTLs associated to a trait and the summary of statistics resulting from a QTL study.</br> 
-                            <b>• QTL EPISTASIS:</b>
-                                Interactions among multiple QTL affecting the same trait and the statistics resulting from a QTL study.</br>
-                            <b>• GWAS STUDY:</b>
-                                Information about how GWAS study was performed. Phenotypic and genetic data, GWAS panel population, methods and statistic cut-off.
-                                It can store metadata for single environment GWAS study and multi-environment studies.</br>
-                            <b>• GWAS VARIANTS:</b>
-                                SNPs associated to a trait and the summary of statistics resulting from GWAS study.</br>
-                        </ul>
-                    </p>
-                </h4>
-                <hr/>
-                <h3 id="metadata_definition" class="tomato-color">Definitions</h3>
-                <h4>
-                    <p>The most basic concepts and data standards terms used on HarnesstomDB are:</p>
-                        <ul>
-                            <b>• Accession:</b> a group of related plant material from a single species which is collected at one time from a specific location. Each accession is identified uniquely by the institute that maintains it and the original accession number from passport descriptor.
-                            <br/><b>• Accession attribute:</b> any heritable information inherent to the accession relevant for breeding. 
-                            <br/><b>• Analyte:</b> A chemical compound defined by a Mass to charge ratio or retention time, its name, an annotation and identification confidence Level, and the method used to measure it.
-                            <br/><b>• Collecting mission:</b> trips aimed at the collecting the still existing gene resources of plants in a region.
-                            <br/><b>• Collection:</b> Subset of germplasms selected by different criteria.
-                            <br/><b>• Contacts:</b> persons related to the project (program leader, submitter, researcher…)
-                            <br/><b>• Crops:</b> the common crop name associated with the data (a crop includes the cultivated species and its wild relatives). 
-                            <br/><b>• Genotyping platform:</b> a panel of markers mapped to a specific version of a reference genome and obtained using genotyping technologies.
-                            <br/><b>• Germplasm:</b> the identifier of an accession, provided by a specific institute, in a program. 
-                            <br/><b>• Location:</b> the place where the experiment took place.
-                            <br/><b>• Markers:</b> genetic landmark with a known physical position on a chromosome created using a genotyping platform.
-                            <br/><b>• Metabolite:</b> variable composed by the unique combination of one metabolic trait plus an analyte and one scale. 
-                            <br/><b>• Observation variable:</b> Unique combination of one trait, one method and one scale.
-                            <br/><b>• Observations:</b> define the experimental units where trait variables are recorded. Are defined by the unique combination of one study, one germplasm, the experimental unit in the experimental design.
-                            <br/><b>• Parameter:</b> any constant experimental condition used in the study different from the experimental factor or treatment. Is composed by a factor and its units.
-                            <br/><b>• Pedigree:</b> a germplasm resulting from a cross and a breeding generation. Define the genetic relationship between germplasm, their parents and progeny, as result of breeding crosses.
-                            <br/><b>• Program:</b> research projects with defined aims associated with a crop. They can exist at various scales (for example, they could encompass a grant-funded programme of work with trials and studies or a breeding program). A Program can contain multiple Trials. 
-                            <br/><b>• Samples:</b> Biological plant material collected in a study for molecular or microscopic phenotyping.
-                            <br/><b>• Study:</b> experiment conducted at a single geographic location to answer the defined question in a trial. 
-                            <br/><b>• Study factor:</b> The experimental factor or treatment whose effect is studied.
-                            <br/><b>• Synonyms:</b> Alternative names or IDs used to reference the accession in different projects, GenBanks or institutes.
-                            <br/><b>• Trial:</b> single or multiple studies (e.g. multi location international trials) conducted to answer a particular biological question in a frame of a program.
-                        </ul>
-                    </p>
-                </h4>
-                <hr/>
-                <h3 id="metadata_controlled_vocabulary" class="tomato-color">Controlled vocabulary</h3>
-                <h4>
-                    <p>To harmonize entity attributes covering different key aspects associated to the metadata, and ensure HarnesstomDB interoperability with other databases, attributes of specific tables use ontologies, ISO standards and custom controlled vocabularies. Custom controlled were defined when no standard or ontology was available. To facilitate submission, controlled vocabulary is provided in drop-down lists where possible.
-                        Some ontologies were common to all modules and other specific for each module. The ontologies provided in Harnesstom are:</p>
-                        <b>General ontologies</b>
-                        <ul>
-                            <li><a href="{{path('country_index')}}">Country</a></li>
-                            <li><a href="{{path('institute_index')}}">Institute</a></li>
-                            <li><a href="{{path('unit_index')}}">Unit</a></li>
-                        </ul>
-                        <b>Experimental core metadata</b>
-                        <ul>
-                            <li><a href="{{path('crop_index')}}">Crops</a></li>
-                            <li><a href="{{path('trial_index')}}">Trial</a></li>
-                            <li><a href="{{path('factor_type_index')}}">Factor</a></li>
-                            <li><a href="{{path('season_index')}}">Season</a></li>
-                            <li><a href="{{path('growth_facility_type_index')}}">Growth facility type</a></li>
-                            <li><a href="{{path('experimental_design_index')}}">Experimental design type</a></li>
-                        </ul>
-                        <b>Germplasm module</b>
-                        <ul>
-                            <li><a href="{{path('collecting_source_index')}}">Collecting/acquisition source</a></li>
-                            <li><a href="{{path('biological_status_index')}}">Biological Status of the accession</a></li>
-                            <li><a href="{{path('mls_status_index')}}">Multilateral System (MLS) Status</a></li>
-                            <li><a href="{{path('taxonomy_index')}}">Taxonomy</a></li>
-                            <li><a href="{{path('storage_type_index')}}">Storage type</a></li>
-                            <li><a href="{{path('attribute_category_index')}}">Attribute category</a></li>
-                            <li><a href="{{path('attribute_index')}}">Attribute</a></li>
-                            <li><a href="{{path('breeding_method_index')}}">Breeding method</a></li>
-                            <li><a href="{{path('generation_index')}}">Generation</a></li>
-                        </ul>
-                        <b>Phenotyping module</b>
-                        <ul>
-                            <li><a href="{{path('anatomical_entity_index')}}">Anatomical Entity</a></li>
-                            <li><a href="{{path('developmental_stage_index')}}">Developmental Stage</a></li>
-                            <li><a href="{{path('trait_class_index')}}">Trait</a></li>
-                            <li><a href="{{path('scale_category_index')}}">Scale Category</a></li>
-                            <li><a href="{{path('observation_variable_method_index')}}">Observation Variable Method</a></li>
-                            <li><a href="{{path('metabolic_trait_index')}}">Metabolic trait</a></li>
-                            <li><a href="{{path('identification_level_index')}}">Identification Level</a></li>
-                            <li><a href="{{path('annotation_level_index')}}">Annotation Level</a></li>
-                            <li><a href="{{path('metabolite_class_index')}}">Metabolite class</a></li>
-                            <li><a href="{{path('flavor_health_index')}}">Analyte health and Flavour class</a></li>
-                        </ul>
-                        <b>Genotyping module</b>
-                        <ul>
-                            <li><a href="{{path('sequencing_type_index')}}">Sequencing type</a></li>
-                            <li><a href="{{path('sequencing_instrument_index')}}">Genotyping Instrument</a></li>
-                            <li><a href="{{path('var_call_software_index')}}">Variant Calling Software</a></li>
-                            <li><a href="{{path('software_index')}}">Genetic analysis software</a></li>
-                            <li><a href="{{path('enzyme_index')}}">Enzyme</a></li>
-                        </ul>
-                        <b>Variant module</b>
-                        <ul>
-                            <li><a href="{{path('software_index')}}">Variant association Software</a></li>
-                            <li><a href="{{path('trait_processing_index')}}">Trait pre-processing</a></li>
-                            <li><a href="{{path('qtl_method_index')}}">QTL Method</a></li>
-                            <li><a href="{{path('qtl_statistic_index')}}">QTL Statistic</a></li>
-                            <li><a href="{{path('ci_criteria_index')}}">Ci criteria</a></li>
-                            <li><a href="{{path('threshold_method_index')}}">Threshold Method</a></li>
-                            <li><a href="{{path('gwas_model_index')}}">GWAS Model</a></li>
-                            <li><a href="{{path('kinship_algorithm_index')}}">Kinship algorithm</a></li>
-                            <li><a href="{{path('structure_method_index')}}">Structure method</a></li>
-                            <li><a href="{{path('genetic_testing_model_index')}}">Genetic testing model</a></li>
-                            <li><a href="{{path('allelic_effect_estimator_index')}}">Allelic effect estimator</a></li>
-                            <li><a href="{{path('gwas_stat_test_index')}}">GWAS Statistical significance test</a></li>
-                        </ul>
-                    </p>
-                </h4>
-                <hr/>
-                <h3 id="harnesstom_db_standards" class="tomato-color">HarnesstomDB Standards</h3>
-                <h4>
-                    <b>Numbers and dates</b>
-                    <p>Thousands without any separator, comma or dot. Example: 1000</br>
-                        Decimal number is represented by a dot. Example: 0.1</br>
-                        Missing data should be indicated by NA</br>
-                        Date should be in the format yyyyMMdd. Example: 20221029.</p>	
-                    <b>Geographical coordinates:</b>
-                    <p>Latitude: Expressed in two degrees in decimal format (±DD.DDDD). Example: +41.2587</br>
-                        Longitude: Expressed in two degrees in decimal format (±DD.DDDD). Example: -7.7809</br>
-                        Altitude: Its specified metres [m] value (±AAAA.AAA). Example:	162.</p>
-                </h4>
-                <hr/>
-                <h3 id="accepted_file_formats" class="tomato-color">Accepted file formats</h3>
-                <h4>
-                    <b>Phenotyping data files:</b> HarnesstomDB accepts xls or xlsx file for phenotyping data. In the files,
-                    observation unit names should be in rows and observation variables name in columns. The observationUnitName
-                    and the observationVariableUnits must be exactly the same as named in the corresponding tabs.<br/>	
-                    <b>Variant set genotyping data files:</b> HarnesstomDB accepts variant sets in <a href="https://github.com/samtools/hts-specs" target="_blank">vcf</a>  format, with genotype format option GT selected.
-                    The SampleName and the Marker must be exactly the same as named in the corresponding tabs.<br/>
-                    <b>Images:</b> HarnesstomDB accepts images in jpg or png files. The name of the file must be exactly 
-                    the same as named in the corresponding tabs.<br/>
-                </h4>
-                <hr/>
-                <h3 id="pre_sub_checklist" class="tomato-color">Pre-submission checklist </h3>
-                <h4>
-                    Please, before to submit data to HarnesstomDB double-check that:<br/>
-                    ✅ All mandatory fields are completed<br/>
-                    ✅ The same nomenclature is used for the same field in all tables and modules, without any extra character.<br/>
-                    ✅ Data follow the required metadata standards.<br/>
-                    ✅ Data names or abbreviations are not duplicated in the database. <br/>
-                    ✅ Information to submit is not stored in the database under different names. <br/>
-                </h4>
-                <hr/>
+                                    <p><i>Please, feel free to <a href="mailto:contac.tocome">contact</a> us if you have doubts of problems with submission.
+                                    Write a brief description of the type of data you are trying to submit, and one of our curators will quickly get back to you.</i></p>
+                                </h4>
+                                <hr/>
+                                <h3 id="what_to_prepare" class="tomato-color">What do I need to prepare ?</h3>
+                                <h4>
+                                    <p>To submit data to HarnesstomDB v1.0 all you need is to collect metadata
+                                    describing your experiment and the files containing the datasets. <b>In HarnesstomDB
+                                    some fields are mandatory, therefore can't be empty</b>. Other fields are optional,
+                                    but greater detail will enhance the quality and the available information in the database.</p>
+                                    <p>Use the controlled vocabulary when required, the standard notations and accepted file formats.
+                                    Please see <a href="#">Definitions and standards</a>, <a href="#">Controlled vocabulary</a> and <a href="#">accepted file formats.</a>  
+                                    The table below outlines what metadata and data should be submitted through each for each type of experiment.</p>
+                                    <img class="mb-3" src="{{ asset('assets/images/filling_requirement.png') }}" width="90%"/>
+                                </h4>
+                                <hr/>
+                                <h3 id="db_schema" class="tomato-color">HarnesstomDB schema </h3>
+                                <h4>
+                                    <p>Before submitting data, it is important to understand how HarnesstomDB is organized.
+                                        This will determine what you need to submit.</p>
+                                        <p>HarnesstomDB contains several modules conformed by metadata,
+                                        controlled vocabulary and data tables interconnected between them by the ID
+                                        assigned to each object when inserted into the database</p>
+                                        <ul>
+                                            <li>Experimental metadata core module</li>
+                                            <li>Germplasm module</li>
+                                            <li>Phenotyping module</li>
+                                            <li>Genotyping module</li>
+                                            <li>Variant catalogue</li>
+                                        </ul>
+                                    </p>
+                                    <img class="mb-3" src="{{ asset('assets/images/harnesstom_dbscheme.png') }}" width="120%"/>
+                                </h4>
+                                <hr/>
+                                <h3 id="experimental_core_module" class="tomato-color">What is the experimental core metadata module?</h3>
+                                <h4>
+                                    <p>The experimental metadata module stores the minimal information required to describe an experiment.
+                                        Tables in this module are organized by a hierarchical relationship (Crop, program, trial, study).</p>
+                                        <ul>
+                                            <b>• CROPS:</b>
+                                                this table contains the common crop name associated with the data stored in the database
+                                                (a crop includes the cultivated species and its wild relatives).
+                                                HarnesstomDB is prepared to store data and metadata from multiple crops in separate sub-databases.</br>
+                                            
+                                            <b>• PROGRAMS:</b>
+                                                programs are research projects with defined aims associated with a crop. They can exist at various scales
+                                                (for example, they could encompass a grant-funded programme of work with trials and studies or a breeding program).
+                                                Program contains basic information describing a program such as name, description and program leader. A Program can contain multiple Trials.</br> 
+                                            <b>• TRIALS:</b>
+                                                trials comprise single or multiple studies (e.g. multi location international trials) conducted to answer a particular biological question in a frame of a program.
+                                                They contain the information describing the trial such as to which program is associated, the type of trial (i.e agronomic trial, environmental exposure trial),
+                                                the name and its abbreviation, a short description, the start and end data, associated publications, permanent unique identifier (if data is submitted to any public repository),
+                                                date of public release of this trial, License for reusability of the data associated with this investigation and the persons authorized by the submitter to use unpublished or non-public data.</br>
+                                            <b>• STUDIES:</b>
+                                                A study is defined as an experiment conducted at a single geographic location to answer the defined question in a trial.
+                                                This contains minimal information to describe where and how the experiment was performed and the germplasm associated with the study.
+                                                It contains several associated tables with a controlled vocabulary to describe the experiment such as growth facility type, experimental design, factor type, parameters, season.</br>
+                                            <b>• CONTACTS:</b>
+                                                List of program contacts (program leaders and other persons) related to the project (submitter, researcher…)</br>
+                                            <b>• INSTITUTES:</b>
+                                                List of institutions associated a project, study and accessions
+                                        </ul>
+                                    </p>
+                                </h4>
+                                <hr/>
+                                <h3 id="germplasm_module" class="tomato-color">What is the germplasm module?</h3>
+                                <h4>
+                                    <p>The germplasm module stores general information about the germplasm stored in the database. In HarnesstomDB, the germplasm term is the identifier of an accession in a program. The same accession can be used in different programs with different germplasm names.
+                                        The same accession can be maintained in different institutions under different names. The main tables in this module are:</p>
+                                        <ul>
+                                            <b>• GERMPLASM:</b>
+                                                The name of the germplasm used in each program/trial and study, its donor and the donor accession number.</br>
+                                            
+                                            <b>• ACCESSIONS:</b>
+                                                Multicrop passport descriptors of the accessions used as germplasm in each program. It contains information related to the
+                                                name, the origin, the taxonomy, the maintaining, breeding and donor, institutes, the pedigree,
+                                                the status of an accession with regards to the Multilateral System (MLS) of the International Treaty on
+                                                Plant Genetic Resources for Food and Agriculture. Further, it contains additional information regarding to simply-inherited
+                                                characteristics inherent in the germplasm line (mutations, QTLs, phenotypes and any other remarkable information of interest for breeding). </br> 
+                                            <b>• COLLECTIONS:</b>
+                                                Subsets of germplasm of interest, created in the frame of a project, using specific criteria. For example, core collections.</br>
+                                            <b>• PEDIGREE:</b>
+                                                Genetic relationship between germplasm, their parents and progeny, as result of breeding crosses.</br>
+                                            <b>• MAPPING POPULATIONS:</b>
+                                                Mapping populations used in the different projects/ trials or studies</br>
+                                        </ul>
+                                    </p>
+                                </h4>
+                                <hr/>
+                                <h3 id="phenotyping_module" class="tomato-color">What is the phenotyping module?</h3>
+                                <h4>
+                                    <p>The phenotyping module stores metadata associated to the traits studied, the germplasm phenotyped in each study
+                                        (at macromolecular or molecular scale) and the phenotypic values associated with each germplasm in each study.
+                                        The main tables are:</p>
+                                        <ul>
+                                            <b>• OBSERVATION VARIABLES:</b>
+                                                Metadata defining observation variable. An observation variable is the way a trait is recorded.
+                                                A trait can be observed qualitative and quantitatively and with different methods or scales.
+                                                Therefore, an observation variable is composed by the unique combination of one Trait, one Method and one Scale.</br>
+                                            
+                                            <b>• METABOLITES:</b>
+                                                Metadata associated with a metabolomics experiment. A metabolite is a special type of observation variable.
+                                                A metabolite is defined by the unique combination of one Trait, one analyte, a method, a retention time and / or mass to charge ratio,
+                                                the confidence scores (annotation and identification level) and the scale it was measured. </br> 
+                                            <b>• OBSERVATIONS:</b>
+                                                Observations are the experimental units of a study. They contain metadata associated with a macroscopic phenotyping experimental unit:
+                                                the study and the germplasm where the observation is taken for a given observation variable, the level (block, plot, plant) and replicate
+                                                at which observation is performed and information about the position of the plants in the field accordingly to the experimental design and its coordinates.</br>
+                                            <b>• SAMPLES:</b>
+                                                Biological plant material collected in a study for molecular or microscopic phenotyping. Samples contain information about the study and 
+                                                the germplasm (or the observation) where they were collected, the plant anatomical entity and developmental stage from which sample is collected and how sample was obtained.</br>
+                                            <b>• PHENOTYPIC DATA:</b>
+                                            Datasets recording the value of an observation variable or a metabolite in a given observation or sample.</br>
+                                        </ul>
+                                    </p>
+                                </h4>
+                                <hr/>
+                                <h3 id="genotyping_module" class="tomato-color">What is the genotyping module?</h3>
+                                <h4>
+                                    <p>The genotyping module stores the genetic information related to germplasm (variant sets) and the metadata associated to it, including genotyping platforms and the markers genotyped by each platform. 
+                                        HarnesstomDB V1.0 only can store short DNA variants, SNPs and PCR based makers. The main tables are:</p>
+                                        <ul>
+                                            <b>• GENOTYPING PLATFORMS:</b>
+                                                A genotyping platform in HarnesstomDB is defined as a panel of markers mapped to a specific version of a reference
+                                                genome and obtained using closed (SNP-arrays) or semi-open (GBS, RAD-seq, DArTseq..) genotyping technologies.</br>
+                                            <b>• MARKERS:</b>
+                                                collection of genetic landmarks with a known physical position on a chromosome created using a genotyping platform. </br> 
+                                            <b>• GENOTYPIC VARIANT SETS METADATA:</b>
+                                                Variant sets are the genotyping value of a maker in a germplasm sample. This contains information related to the genotyping platform used 
+                                                the method (filters and software) used to generate the variant set and if there is any publication associated to this variant set.</br>
+                                            <b>• GENOTYPIC VARIANT SET DATA:</b>
+                                                Variant datasets recording the value of a marker in a given sample.</br>
+                                        </ul>
+                                    </p>
+                                </h4>
+                                <hr/>
+                                <h3 id="variant_catalogue_module" class="tomato-color">What is the variant catalogue module?</h3>
+                                <h4>
+                                    <p>The variant catalogue contains comprehensive and curated information of published and non-published QTLs and GWAS variant.
+                                        This module stores information related to QTLs and GWAS experiments and variant-trait association summary statistics.
+                                        Information in this module can be uploaded only if core, germplasm, phenotyping and genotyping data regarding
+                                        to this experiment is up-loaded in the database. The main tables are:</p>
+                                        <ul>
+                                            <b>• QTL STUDIES:</b>
+                                                Information about how QTL study was performed. Phenotypic and genetic data, mapping population, methods and statistic cut-off.
+                                                It can store metadata for single environment QTL study, multi-environment study or epistasis studies</br>
+                                            <b>• QTL VARIANTS:</b>
+                                                QTLs associated to a trait and the summary of statistics resulting from a QTL study.</br> 
+                                            <b>• QTL EPISTASIS:</b>
+                                                Interactions among multiple QTL affecting the same trait and the statistics resulting from a QTL study.</br>
+                                            <b>• GWAS STUDY:</b>
+                                                Information about how GWAS study was performed. Phenotypic and genetic data, GWAS panel population, methods and statistic cut-off.
+                                                It can store metadata for single environment GWAS study and multi-environment studies.</br>
+                                            <b>• GWAS VARIANTS:</b>
+                                                SNPs associated to a trait and the summary of statistics resulting from GWAS study.</br>
+                                        </ul>
+                                    </p>
+                                </h4>
+                                <hr/>
+                                <h3 id="metadata_definition" class="tomato-color">Definitions</h3>
+                                <h4>
+                                    <p>The most basic concepts and data standards terms used on HarnesstomDB are:</p>
+                                        <ul>
+                                            <b>• Accession:</b> a group of related plant material from a single species which is collected at one time from a specific location. Each accession is identified uniquely by the institute that maintains it and the original accession number from passport descriptor.
+                                            <br/><b>• Accession attribute:</b> any heritable information inherent to the accession relevant for breeding. 
+                                            <br/><b>• Analyte:</b> A chemical compound defined by a Mass to charge ratio or retention time, its name, an annotation and identification confidence Level, and the method used to measure it.
+                                            <br/><b>• Collecting mission:</b> trips aimed at the collecting the still existing gene resources of plants in a region.
+                                            <br/><b>• Collection:</b> Subset of germplasms selected by different criteria.
+                                            <br/><b>• Contacts:</b> persons related to the project (program leader, submitter, researcher…)
+                                            <br/><b>• Crops:</b> the common crop name associated with the data (a crop includes the cultivated species and its wild relatives). 
+                                            <br/><b>• Genotyping platform:</b> a panel of markers mapped to a specific version of a reference genome and obtained using genotyping technologies.
+                                            <br/><b>• Germplasm:</b> the identifier of an accession, provided by a specific institute, in a program. 
+                                            <br/><b>• Location:</b> the place where the experiment took place.
+                                            <br/><b>• Markers:</b> genetic landmark with a known physical position on a chromosome created using a genotyping platform.
+                                            <br/><b>• Metabolite:</b> variable composed by the unique combination of one metabolic trait plus an analyte and one scale. 
+                                            <br/><b>• Observation variable:</b> Unique combination of one trait, one method and one scale.
+                                            <br/><b>• Observations:</b> define the experimental units where trait variables are recorded. Are defined by the unique combination of one study, one germplasm, the experimental unit in the experimental design.
+                                            <br/><b>• Parameter:</b> any constant experimental condition used in the study different from the experimental factor or treatment. Is composed by a factor and its units.
+                                            <br/><b>• Pedigree:</b> a germplasm resulting from a cross and a breeding generation. Define the genetic relationship between germplasm, their parents and progeny, as result of breeding crosses.
+                                            <br/><b>• Program:</b> research projects with defined aims associated with a crop. They can exist at various scales (for example, they could encompass a grant-funded programme of work with trials and studies or a breeding program). A Program can contain multiple Trials. 
+                                            <br/><b>• Samples:</b> Biological plant material collected in a study for molecular or microscopic phenotyping.
+                                            <br/><b>• Study:</b> experiment conducted at a single geographic location to answer the defined question in a trial. 
+                                            <br/><b>• Study factor:</b> The experimental factor or treatment whose effect is studied.
+                                            <br/><b>• Synonyms:</b> Alternative names or IDs used to reference the accession in different projects, GenBanks or institutes.
+                                            <br/><b>• Trial:</b> single or multiple studies (e.g. multi location international trials) conducted to answer a particular biological question in a frame of a program.
+                                        </ul>
+                                    </p>
+                                </h4>
+                                <hr/>
+                                <h3 id="metadata_controlled_vocabulary" class="tomato-color">Controlled vocabulary</h3>
+                                <h4>
+                                    <p>To harmonize entity attributes covering different key aspects associated to the metadata, and ensure HarnesstomDB interoperability with other databases, attributes of specific tables use ontologies, ISO standards and custom controlled vocabularies. Custom controlled were defined when no standard or ontology was available. To facilitate submission, controlled vocabulary is provided in drop-down lists where possible.
+                                        Some ontologies were common to all modules and other specific for each module. The ontologies provided in Harnesstom are:</p>
+                                        <b>General ontologies</b>
+                                        <ul>
+                                            <li><a href="{{path('country_index')}}">Country</a></li>
+                                            <li><a href="{{path('institute_index')}}">Institute</a></li>
+                                            <li><a href="{{path('unit_index')}}">Unit</a></li>
+                                        </ul>
+                                        <b>Experimental core metadata</b>
+                                        <ul>
+                                            <li><a href="{{path('crop_index')}}">Crops</a></li>
+                                            <li><a href="{{path('trial_index')}}">Trial</a></li>
+                                            <li><a href="{{path('factor_type_index')}}">Factor</a></li>
+                                            <li><a href="{{path('season_index')}}">Season</a></li>
+                                            <li><a href="{{path('growth_facility_type_index')}}">Growth facility type</a></li>
+                                            <li><a href="{{path('experimental_design_index')}}">Experimental design type</a></li>
+                                        </ul>
+                                        <b>Germplasm module</b>
+                                        <ul>
+                                            <li><a href="{{path('collecting_source_index')}}">Collecting/acquisition source</a></li>
+                                            <li><a href="{{path('biological_status_index')}}">Biological Status of the accession</a></li>
+                                            <li><a href="{{path('mls_status_index')}}">Multilateral System (MLS) Status</a></li>
+                                            <li><a href="{{path('taxonomy_index')}}">Taxonomy</a></li>
+                                            <li><a href="{{path('storage_type_index')}}">Storage type</a></li>
+                                            <li><a href="{{path('attribute_category_index')}}">Attribute category</a></li>
+                                            <li><a href="{{path('attribute_index')}}">Attribute</a></li>
+                                            <li><a href="{{path('breeding_method_index')}}">Breeding method</a></li>
+                                            <li><a href="{{path('generation_index')}}">Generation</a></li>
+                                        </ul>
+                                        <b>Phenotyping module</b>
+                                        <ul>
+                                            <li><a href="{{path('anatomical_entity_index')}}">Anatomical Entity</a></li>
+                                            <li><a href="{{path('developmental_stage_index')}}">Developmental Stage</a></li>
+                                            <li><a href="{{path('trait_class_index')}}">Trait</a></li>
+                                            <li><a href="{{path('scale_category_index')}}">Scale Category</a></li>
+                                            <li><a href="{{path('observation_variable_method_index')}}">Observation Variable Method</a></li>
+                                            <li><a href="{{path('metabolic_trait_index')}}">Metabolic trait</a></li>
+                                            <li><a href="{{path('identification_level_index')}}">Identification Level</a></li>
+                                            <li><a href="{{path('annotation_level_index')}}">Annotation Level</a></li>
+                                            <li><a href="{{path('metabolite_class_index')}}">Metabolite class</a></li>
+                                            <li><a href="{{path('flavor_health_index')}}">Analyte health and Flavour class</a></li>
+                                        </ul>
+                                        <b>Genotyping module</b>
+                                        <ul>
+                                            <li><a href="{{path('sequencing_type_index')}}">Sequencing type</a></li>
+                                            <li><a href="{{path('sequencing_instrument_index')}}">Genotyping Instrument</a></li>
+                                            <li><a href="{{path('var_call_software_index')}}">Variant Calling Software</a></li>
+                                            <li><a href="{{path('software_index')}}">Genetic analysis software</a></li>
+                                            <li><a href="{{path('enzyme_index')}}">Enzyme</a></li>
+                                        </ul>
+                                        <b>Variant module</b>
+                                        <ul>
+                                            <li><a href="{{path('software_index')}}">Variant association Software</a></li>
+                                            <li><a href="{{path('trait_processing_index')}}">Trait pre-processing</a></li>
+                                            <li><a href="{{path('qtl_method_index')}}">QTL Method</a></li>
+                                            <li><a href="{{path('qtl_statistic_index')}}">QTL Statistic</a></li>
+                                            <li><a href="{{path('ci_criteria_index')}}">Ci criteria</a></li>
+                                            <li><a href="{{path('threshold_method_index')}}">Threshold Method</a></li>
+                                            <li><a href="{{path('gwas_model_index')}}">GWAS Model</a></li>
+                                            <li><a href="{{path('kinship_algorithm_index')}}">Kinship algorithm</a></li>
+                                            <li><a href="{{path('structure_method_index')}}">Structure method</a></li>
+                                            <li><a href="{{path('genetic_testing_model_index')}}">Genetic testing model</a></li>
+                                            <li><a href="{{path('allelic_effect_estimator_index')}}">Allelic effect estimator</a></li>
+                                            <li><a href="{{path('gwas_stat_test_index')}}">GWAS Statistical significance test</a></li>
+                                        </ul>
+                                    </p>
+                                </h4>
+                                <hr/>
+                                <h3 id="harnesstom_db_standards" class="tomato-color">HarnesstomDB Standards</h3>
+                                <h4>
+                                    <b>Numbers and dates</b>
+                                    <p>Thousands without any separator, comma or dot. Example: 1000</br>
+                                        Decimal number is represented by a dot. Example: 0.1</br>
+                                        Missing data should be indicated by NA</br>
+                                        Date should be in the format yyyyMMdd. Example: 20221029.</p>	
+                                    <b>Geographical coordinates:</b>
+                                    <p>Latitude: Expressed in two degrees in decimal format (±DD.DDDD). Example: +41.2587</br>
+                                        Longitude: Expressed in two degrees in decimal format (±DD.DDDD). Example: -7.7809</br>
+                                        Altitude: Its specified metres [m] value (±AAAA.AAA). Example:	162.</p>
+                                </h4>
+                                <hr/>
+                                <h3 id="accepted_file_formats" class="tomato-color">Accepted file formats</h3>
+                                <h4>
+                                    <b>Phenotyping data files:</b> HarnesstomDB accepts xls or xlsx file for phenotyping data. In the files,
+                                    observation unit names should be in rows and observation variables name in columns. The observationUnitName
+                                    and the observationVariableUnits must be exactly the same as named in the corresponding tabs.<br/>	
+                                    <b>Variant set genotyping data files:</b> HarnesstomDB accepts variant sets in <a href="https://github.com/samtools/hts-specs" target="_blank">vcf</a>  format, with genotype format option GT selected.
+                                    The SampleName and the Marker must be exactly the same as named in the corresponding tabs.<br/>
+                                    <b>Images:</b> HarnesstomDB accepts images in jpg or png files. The name of the file must be exactly 
+                                    the same as named in the corresponding tabs.<br/>
+                                </h4>
+                                <hr/>
+                                <h3 id="pre_sub_checklist" class="tomato-color">Pre-submission checklist </h3>
+                                <h4>
+                                    Please, before to submit data to HarnesstomDB double-check that:<br/>
+                                    ✅ All mandatory fields are completed<br/>
+                                    ✅ The same nomenclature is used for the same field in all tables and modules, without any extra character.<br/>
+                                    ✅ Data follow the required metadata standards.<br/>
+                                    ✅ Data names or abbreviations are not duplicated in the database. <br/>
+                                    ✅ Information to submit is not stored in the database under different names. <br/>
+                                </h4>
+                                <hr/>
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                        </div>
+                        <!-- .row -->
+					</div>
+				</div>
 			</div>
-            <div class="col-md-3">
-            </div>
 		</div>
 		<!-- .row -->
 	</div>
-	<!-- .container -->{% endblock %}
+	<!-- .container -->
+{% endblock %}

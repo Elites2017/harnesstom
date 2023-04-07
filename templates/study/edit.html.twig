@@ -17,205 +17,216 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 order-md-1">
-                <h2 class="mb-3 text-center tomato-color font-weight-bold">Study Edition</h2>
-                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-                {{ form_start(studyForm) }}
-                    <div>
-                        {{ form_row
-                                   (studyForm.name,
-                                    { label: "Name *",
-                                        'attr': {'placeholder': "Enter the study name"}
-                                    })
-                        }}
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                    (studyForm.abbreviation,
-                                    { label: "Abbreviation",
-                                        'attr': {'placeholder': "Enter the study abbreviation"}
-                                    })
-                        }}
-                        </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">Study Edition</h4>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(studyForm) }}
+                            <div>
+                                {{ form_row
+                                        (studyForm.name,
+                                            { label: "Name *",
+                                                'attr': {'placeholder': "Enter the study name"}
+                                            })
+                                }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                            (studyForm.abbreviation,
+                                            { label: "Abbreviation",
+                                                'attr': {'placeholder': "Enter the study abbreviation"}
+                                            })
+                                }}
+                                </div>
 
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                            (studyForm.startDate,
-                                { label: "Start date",
-                                'attr': {'placeholder': "Enter the study start date"}
-                                }
-                            )
-                        }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                            (studyForm.endDate,
-                                { label: "End date",
-                                'attr': {'placeholder': "Enter the study end date"}
-                                }
-                            )
-                        }}
-                        </div>
-                    </div>
-                    <div>
-                        {{ form_row
-                            (studyForm.description,
-                                { label: "Description",
-                                'attr': {'placeholder': "Enter the study description"}
-                                }
-                            )
-                        }}
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                (studyForm.factor,
-                                    { label: "Factor",
-                                    'attr': {
-                                        'placeholder': "Select the study crop",
-                                        'class': "custom-select d-block w-100"}
-                                    }
-                                )
-                            }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                (studyForm.season,
-                                    { label: "Season",
-                                    'attr': {
-                                        'placeholder': "Select the study contact",
-                                        'class': "custom-select d-block w-100"}
-                                    }
-                                )
-                            }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                (studyForm.institute,
-                                    { label: "Institute",
-                                    'attr': {
-                                        'placeholder': "Select the study contact",
-                                        'class': "custom-select d-block w-100"}
-                                    }
-                                )
-                            }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                (studyForm.location,
-                                    { label: "Location",
-                                    'attr': {
-                                        'placeholder': "Select the study crop",
-                                        'class': "custom-select d-block w-100"}
-                                    }
-                                )
-                            }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                (studyForm.growthFacility,
-                                    { label: "GrowthFacility",
-                                    'attr': {
-                                        'placeholder': "Select the study contact",
-                                        'class': "custom-select d-block w-100"}
-                                    }
-                                )
-                            }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                (studyForm.parameter,
-                                    { label: "Parameter",
-                                    'attr': {
-                                        'placeholder': "Select the study contact",
-                                        'class': "custom-select d-block w-100"}
-                                    }
-                                )
-                            }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                (studyForm.experimentalDesignType,
-                                    { label: "Experimerimental design type",
-                                    'attr': {
-                                        'placeholder': "Select the study crop",
-                                        'class': "custom-select d-block w-100"}
-                                    }
-                                )
-                            }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                (studyForm.trial,
-                                    { label: "Trial",
-                                    'attr': {
-                                        'placeholder': "Select the study contact",
-                                        'class': "custom-select d-block w-100"}
-                                    }
-                                )
-                            }}
-                        </div>
-                        
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                (studyForm.culturalPractice,
-                                    { label: "Cultural practice",
-                                    'attr': {
-                                        'placeholder': "Enter the cultural practice",
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                    (studyForm.startDate,
+                                        { label: "Start date",
+                                        'attr': {'placeholder': "Enter the study start date"}
                                         }
-                                    }
-                                )
-                            }}
-                        </div>
-                    </div>
+                                    )
+                                }}
+                                </div>
 
-                     <div>
-                        {{ form_row
-                            (studyForm.germplasms,
-                                { label: "Germplasms (You can select several germplasms)",
-                                'attr': {'placeholder': "Select the related germplasm(s)"}
-                                }
-                            )
-                        }}
-                    </div>
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                    (studyForm.endDate,
+                                        { label: "End date",
+                                        'attr': {'placeholder': "Enter the study end date"}
+                                        }
+                                    )
+                                }}
+                                </div>
+                            </div>
+                            <div>
+                                {{ form_row
+                                    (studyForm.description,
+                                        { label: "Description",
+                                        'attr': {'placeholder': "Enter the study description"}
+                                        }
+                                    )
+                                }}
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                        (studyForm.factor,
+                                            { label: "Factor",
+                                            'attr': {
+                                                'placeholder': "Select the study crop",
+                                                'class': "custom-select d-block w-100"}
+                                            }
+                                        )
+                                    }}
+                                </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
-                        </div>
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                        (studyForm.season,
+                                            { label: "Season",
+                                            'attr': {
+                                                'placeholder': "Select the study contact",
+                                                'class': "custom-select d-block w-100"}
+                                            }
+                                        )
+                                    }}
+                                </div>
 
-                        <div class="col-md-6 mb-3">
-                            <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-                        </div>
-                    </div>
-                {{ form_end(studyForm) }}
-            </div>
-        </div>
-    </div>
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                        (studyForm.institute,
+                                            { label: "Institute",
+                                            'attr': {
+                                                'placeholder': "Select the study contact",
+                                                'class': "custom-select d-block w-100"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                        (studyForm.location,
+                                            { label: "Location",
+                                            'attr': {
+                                                'placeholder': "Select the study crop",
+                                                'class': "custom-select d-block w-100"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                        (studyForm.growthFacility,
+                                            { label: "GrowthFacility",
+                                            'attr': {
+                                                'placeholder': "Select the study contact",
+                                                'class': "custom-select d-block w-100"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                        (studyForm.parameter,
+                                            { label: "Parameter",
+                                            'attr': {
+                                                'placeholder': "Select the study contact",
+                                                'class': "custom-select d-block w-100"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                        (studyForm.experimentalDesignType,
+                                            { label: "Experimerimental design type",
+                                            'attr': {
+                                                'placeholder': "Select the study crop",
+                                                'class': "custom-select d-block w-100"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                        (studyForm.trial,
+                                            { label: "Trial",
+                                            'attr': {
+                                                'placeholder': "Select the study contact",
+                                                'class': "custom-select d-block w-100"}
+                                            }
+                                        )
+                                    }}
+                                </div>
+                                
+                                <div class="col-md-4 mb-3">
+                                    {{ form_row
+                                        (studyForm.culturalPractice,
+                                            { label: "Cultural practice",
+                                            'attr': {
+                                                'placeholder': "Enter the cultural practice",
+                                                }
+                                            }
+                                        )
+                                    }}
+                                </div>
+                            </div>
+
+                            <div>
+                                {{ form_row
+                                    (studyForm.germplasms,
+                                        { label: "Germplasms (You can select several germplasms)",
+                                        'attr': {'placeholder': "Select the related germplasm(s)"}
+                                        }
+                                    )
+                                }}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+                                </div>
+                            </div>
+                        {{ form_end(studyForm) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}

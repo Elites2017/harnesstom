@@ -19,10 +19,9 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Contact Edition</h2>
+			<div class="col-xl-12 col-lg-11">
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -32,64 +31,74 @@
 						</div>
 					{% endfor %}
 				{% endfor %}
-				{{ form_start(contactForm) }}
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (contactForm.orcid,
-                                            { label: "ORCID *",
-                                            'attr': {'placeholder': "Enter the contact orcid"}
-                                            }
-                                        )
-                                    }}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">New Contact</h4>
 					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(contactForm) }}
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								{{ form_row
+												(contactForm.orcid,
+													{ label: "ORCID *",
+													'attr': {'placeholder': "Enter the contact orcid"}
+													}
+												)
+											}}
+							</div>
 
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (contactForm.person,
-                                            { label: "Email of the contact",
-                                            'attr': {'placeholder': "Select the contact's name",
-                                            'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
+							<div class="col-md-6 mb-3">
+								{{ form_row
+												(contactForm.person,
+													{ label: "Email of the contact",
+													'attr': {'placeholder': "Select the contact's name",
+													'class': "custom-select d-block w-100"}
+													}
+												)
+											}}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								{{ form_row
+												(contactForm.institute,
+													{ label: "Institute of the contact",
+													'attr': {'placeholder': "Select the contact's institute",
+													'class': "custom-select d-block w-100"}
+													}
+												)
+											}}
+							</div>
+
+							<div class="col-md-6 mb-3">
+								{{ form_row
+												(contactForm.type,
+													{ label: "Type",
+													'attr': {'placeholder': "Select the contact type",
+													'class': "custom-select d-block w-100"}
+													}
+												)
+											}}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+							</div>
+						</div>
+						{{ form_end(contactForm) }}
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (contactForm.institute,
-                                            { label: "Institute of the contact",
-                                            'attr': {'placeholder': "Select the contact's institute",
-                                            'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
-					</div>
-
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (contactForm.type,
-                                            { label: "Type",
-                                            'attr': {'placeholder': "Select the contact type",
-                                            'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
-					</div>
-
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-					</div>
-				</div>
-				{{ form_end(contactForm) }}
 			</div>
 		</div>
 		<!-- .row -->
