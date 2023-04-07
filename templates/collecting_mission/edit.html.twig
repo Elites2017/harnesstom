@@ -93,31 +93,17 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
-<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+			<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<script>
-    $(document).ready(function(){
-		document.querySelector('input[list]').addEventListener('input', function(e) {
-			var input = e.target,
-				list = input.getAttribute('list'),
-				options = document.querySelectorAll('#' + list + ' option'),
-				hiddenInput = document.getElementById(input.getAttribute('id') + '_hidden'),
-				inputValue = input.value;
+			<!-- Core plugin JavaScript-->
+			<script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
-			hiddenInput.value = inputValue;
+			<!-- Custom scripts for all pages-->
+			<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
 
-			for(var i = 0; i < options.length; i++) {
-				var option = options[i];
-				// do not use innerText as it returns other caracter thans the text value itself
-				if(option.text === inputValue) {
-					hiddenInput.value = option.getAttribute('data-value');
-					break;
-				}
-			}
-		});
-    });
-</script>
+			<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
+			<script src="{{ asset('assets/nl/js/main.js') }}"></script>
+
+<script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
 {% endblock %}
