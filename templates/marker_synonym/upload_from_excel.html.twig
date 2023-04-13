@@ -8,7 +8,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Marker Upload From Excel</h2>
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Marker Synonym Upload From Excel</h2>
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -19,15 +19,15 @@
 					{% endfor %}
 				{% endfor %}
 				<div class="mb-3">
-					<a href="{{ path('marker_download_template') }}" download target="_blank">
+					<a href="{{ path('marker_synonym_download_template') }}" download target="_blank">
 						<h1>Click to download a template example</h1></br>
 						<h3>NOTE: Your data must be in the same format as the template example file format</h3>
 					<img src="{{ asset('assets/images/excelicon.png') }}" alt="Example of excel template" width="104" height="142">
 				</a>
 			</div>
-			{{ form_start(markerUploadFromExcelForm) }}
+			{{ form_start(markerSynonymUploadFromExcelForm) }}
 			<div>
-				{{ form_row(markerUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
+				{{ form_row(markerSynonymUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file", 'accept':".txt, .xls, .xlsx" }}) }}
 			</div>
 
 			<div class="row">
@@ -39,7 +39,7 @@
 					<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
 				</div>
 			</div>
-			{{ form_end(markerUploadFromExcelForm) }}
+			{{ form_end(markerSynonymUploadFromExcelForm) }}
 		</div>
 	</div>
 	<!-- .row -->
