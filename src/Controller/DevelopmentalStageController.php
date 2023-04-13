@@ -28,11 +28,9 @@ class DevelopmentalStageController extends AbstractController
     public function index(DevelopmentalStageRepository $developmentalStageRepo): Response
     {
         $developmentalStages =  $developmentalStageRepo->findAll();
-        $parentsOnly = $developmentalStageRepo->getParentsOnly();
         $context = [
             'title' => 'Developmental Stage List',
-            'developmentalStages' => $developmentalStages,
-            'parentsOnly' => $parentsOnly
+            'developmentalStages' => $developmentalStages
         ];
         return $this->render('developmental_stage/index.html.twig', $context);
     }

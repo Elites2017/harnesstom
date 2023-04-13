@@ -28,11 +28,9 @@ class TraitClassController extends AbstractController
     public function index(TraitClassRepository $traitClassRepo): Response
     {
         $traitClasses =  $traitClassRepo->findAll();
-        $parentsOnly = $traitClassRepo->getParentsOnly();
         $context = [
             'title' => 'Trait List',
-            'traitClasses' => $traitClasses,
-            'parentsOnly' => $parentsOnly
+            'traitClasses' => $traitClasses
         ];
         return $this->render('trait_class/index.html.twig', $context);
     }

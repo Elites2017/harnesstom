@@ -19,15 +19,6 @@ class MetabolicTraitRepository extends ServiceEntityRepository
         parent::__construct($registry, MetabolicTrait::class);
     }
 
-    // get only the parents
-    public function getParentsOnly()
-    {
-        $query = $this->createQueryBuilder('c')
-            ->where('c.parentTerm IS NULL');
-
-        return $query->getQuery()->getResult();
-    }
-
     // /**
     //  * @return MetabolicTrait[] Returns an array of MetabolicTrait objects
     //  */

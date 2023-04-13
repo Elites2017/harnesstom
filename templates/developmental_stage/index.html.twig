@@ -1,88 +1,190 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{ title }}
+  {{ title }}
 {% endblock %}
 
 {% block stylesheets %}
-	<!-- Bootstrap core CSS -->
-	<link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-	<link
-		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
+  <!-- Bootstrap core CSS -->
+  <link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}"
+    rel="stylesheet" />
+  <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}"
+    rel="stylesheet" />
+  <link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet" />
 
-	<!-- Custom styles for this template -->
-	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
-	<link
-	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
-	<!-- DataTables CSS -->
-	<link
-	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet" />
+  <!-- DataTables CSS -->
+  <link href="{{
+    asset(
+      'assets/datatables/css/dataTables.bootstrap4.min.css'
+    )
+    }}"
+    rel="stylesheet" />
 
-	<!-- DataTables Responsive CSS -->
-	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
-	<!-- Treeview -->
-	<link rel="stylesheet" href="{{ asset('assets/treeview/css/mdbootstrap_treeview.css') }}">
+  <!-- DataTables Responsive CSS -->
+  <link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}"
+    rel="stylesheet" />
+  <!-- Treeview -->
+  <link rel="stylesheet"
+    href="{{ asset('assets/treeview/css/mdbootstrap_treeview.css') }}" />
 {% endblock %}
 
 {% block body %}
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 order-md-1">
-				{% if developmentalStages | length > 0 %}
-					<h2 class="mb-3 text-center tomato-color font-weight-bold">Developmental Stage List</h2>
-					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-						{% for message in messages %}
-							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-						{% endfor %}
-					{% endfor %}
-					<div class="table-responsive">
-						<table id="datatable" class="table table-hover text-nowrap" width="100%">
-							<thead class="table-dark">
-								<tr>
-									<th scope="col">Ontology ID</th>
-									<th scope="col">Name</th>
-									<th scope="col">Description</th>
-									<th scope="col">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for developmentalStage in developmentalStages %}
-									<tr>
-										<td>
-											{{ developmentalStage.ontologyId }}
-										</td>
-										<td>
-											{{ developmentalStage.name }}
-										</td>
-										<td>
-											{{ developmentalStage.description }}
-										</td>
-										<td>
-											<a href="{{ path('developmental_stage_details', {id: developmentalStage.id}) }}">
-												<button class="btn btn-outline-primary">Details</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-				{% else %}
-					<h5 class="mb-3 text-center tomato-color font-weight-bold">No developmental stage has been provided in our system</h5>
-				{% endif %}
-			</div>
-		</div>
-		<!-- .row -->
-	</div>
-	<!-- .container -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-10 col-lg-11">
+        <div class="card shadow mb-4">
+          <!-- Card Header - Dropdown -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold tomato-color">
+              Develomental Stage List
+            </h6>
+            <div class="dropdown no-arrow">
+              <a class="dropdown-toggle"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                aria-labelledby="dropdownMenuLink">
+                <div class="dropdown-header">
+                  Develomental Stage Option:
+                </div>
+                <a class="dropdown-item" id="optionToShow">View list</a>
+              </div>
+            </div>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="treeview-animated treeView">
+              {% macro treeView(developmentalStages) %}
+                {% import _self as macros %}
+                {% for oneChild in developmentalStages %}
+                  <div class="card closed {{
+                    oneChild.developmentalStages is not empty
+                      ? 'border-left-primary'
+                      : 'border-left-danger'
+                    }} shadow h-100 mb-3">
+                    <li class="treeview-animated-items">
+                      <span class="closed">
+                        <i class="{{
+                          oneChild.developmentalStages is not empty
+                            ? 'fas fa-angle-right'
+                            : ''
+                          }}">
+
+                        </i>
+                        <span>{{ oneChild.name }}</span>
+                      </span>
+                      {% if oneChild.developmentalStages is not empty %}
+                        <ul class="nested">
+                          {{ macros.treeView(oneChild.developmentalStages) }}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  </div>
+                {% endfor %}
+              {% endmacro %}
+
+              <ul class="treeview-animated-list">
+                {{ _self.treeView(developmentalStages) }}
+              </ul>
+            </div>
+
+            <div class="listView">
+              {% if (developmentalStages|length) > 0 %}
+                {% for category, messages in app.flashes(
+                  ['success', 'warning', 'danger']
+                ) %}
+                  {% for message in messages %}
+                    <div class="alert alert-{{
+                      category
+                      }} alert-dismissible fade show"
+                      role="alert">
+                      {{ message }}
+                      <button type="button"
+                        class="close"
+                        data-dismiss="alert"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                  {% endfor %}
+                {% endfor %}
+                <div class="table-responsive">
+                  <table id="datatable"
+                    class="table table-hover text-nowrap"
+                    width="100%">
+                    <thead class="table-dark">
+                      <tr>
+                        <th scope="col">
+                          Ontology ID
+                        </th>
+                        <th scope="col">
+                          Name
+                        </th>
+                        <th scope="col">
+                          Description
+                        </th>
+                        <th scope="col">
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for developmentalStage in developmentalStages %}
+                        <tr>
+                          <td>
+                            {{ developmentalStage.ontologyId }}
+                          </td>
+                          <td>
+                            {{ developmentalStage.name }}
+                          </td>
+                          <td>
+                            {{ developmentalStage.description }}
+                          </td>
+                          <td>
+                            <a href="{{
+                              path(
+                                'developmental_stage_details',
+                                {
+                                  id: developmentalStage.id
+                                }
+                              )
+                              }}">
+                              <button class="btn btn-outline-primary">
+                                Details
+                              </button>
+                            </a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% else %}
+                <h5 class="mb-3 text-center tomato-color font-weight-bold">
+                  No developmental stage has been provided in our system
+                </h5>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- .row -->
+  </div>
+  <!-- .container -->
 {% endblock %}
 
 {% block javascripts %}

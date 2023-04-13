@@ -52,11 +52,9 @@ class FactorTypeController extends AbstractController
     public function index(FactorTypeRepository $factorTypeRepo): Response
     {
         $factorTypes =  $factorTypeRepo->findAll();
-        $parentsOnly = $factorTypeRepo->getParentsOnly();
         $context = [
             'title' => 'FactorType List',
             'factorTypes' => $factorTypes,
-            'parentsOnly' => $parentsOnly
         ];
         return $this->render('factor_type/index.html.twig', $context);
     }
