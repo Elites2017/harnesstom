@@ -27,7 +27,7 @@
 			</div>
 			{{ form_start(gWASStatTestUploadFromExcelForm) }}
 			<div>
-				{{ form_row(gWASStatTestUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
+				{{ form_row(gWASStatTestUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file", 'accept':".txt, .xls, .xlsx" }}) }}
 			</div>
 
 			<div class="row">

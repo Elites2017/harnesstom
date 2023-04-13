@@ -27,7 +27,7 @@
 			</div>
 			{{ form_start(cropUploadFromExcelForm) }}
 			<div>
-				{{ form_row(cropUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
+				{{ form_row(cropUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file", 'accept':".txt, .xls, .xlsx" }}) }}
 			</div>
 
 			<div class="row">

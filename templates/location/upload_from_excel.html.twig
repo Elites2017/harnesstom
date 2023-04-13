@@ -27,7 +27,7 @@
 			</div>
 			{{ form_start(locationUploadFromExcelForm) }}
 			<div>
-				{{ form_row(locationUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
+				{{ form_row(locationUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file", 'accept':".txt, .xls, .xlsx" }}) }}
 			</div>
 
 			<div class="row">

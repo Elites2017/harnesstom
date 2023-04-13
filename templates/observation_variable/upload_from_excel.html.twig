@@ -27,7 +27,7 @@
 			</div>
 			{{ form_start(observationVariableUploadFromExcelForm) }}
 			<div>
-				{{ form_row(observationVariableUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file" }}) }}
+				{{ form_row(observationVariableUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file", 'accept':".txt, .xls, .xlsx" }}) }}
 			</div>
 
 			<div class="row">
