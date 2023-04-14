@@ -134,6 +134,38 @@ class VariantSetMetadataController extends AbstractController
         //return $this->redirect($this->generateUrl('season_home'));
     }
 
+    /**
+     * @Route("/upload/vcf/{id}", name="upload_vcf")
+     */
+    public function upload_vcf(VariantSetMetadata $variantSetMetadata, Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        // get teh file
+        //dd($request->files->get('vcf_upload')['vcf']);
+        $file = $request->files->get('vcf_upload')['vcf'];
+        // set the folder to send the file to
+        $fileFolder = __DIR__ . '/../../public/uploads/vcf/';
+        // apply md5 function to generate a unique id for the file and concat it with the original file name
+        if ($file->getClientOriginalName()) {
+            $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+            try {
+                $file->move($fileFolder, $filePathName);
+                if ($variantSetMetadata->getId()) {
+                    $variantSetMetadata->setFileUrl($filePathName);
+                }
+                $entmanager->persist($variantSetMetadata);
+                $entmanager->flush();
+        
+                return $this->redirect($this->generateUrl('variant_set_metadata_index'));
+            } catch (\Throwable $th) {
+                //throw $th;
+                $this->addFlash('danger', "Fail to upload the file, try again");
+            }
+        } else {
+            $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
+        }
+    }
+
     // this is to upload data in bulk using an excel file
     /**
      * @Route("/upload-from-excel", name="upload_from_excel")
@@ -253,42 +285,21 @@ class VariantSetMetadataController extends AbstractController
                             $this->addFlash('danger', " there is a problem with the variant set metadata publication Reference " .$publicationRef);
                         }
 
-                        if($fileURL){
+                        if($dataUploadVCF){
                             try {
                                 //code...
-                                $variantSetMetadata->setFileUrl($fileURL);
+                                $variantSetMetadata->setDataUpload($dataUploadVCF);
                             } catch (\Throwable $th) {
                                 //throw $th;
-                                $this->addFlash('danger', " there is a problem with the variant set metadata file url " .$fileURL);
+                                $this->addFlash('danger', " there is a problem with the variant set metadata VCF file " .$dataUploadVCF);
                             }
                         }
-
-                        // get the file (name from the CountryUploadFromExcelType form)
-                        // $file = $request->files->get('data_upload')['file'];
-                        // // set the folder to send the file to
-                        // $fileFolder = __DIR__ . '/../../public/uploads/vcf/';
-                        // // apply md5 function to generate a unique id for the file and concat it with the original file name
-                        // if ($file->getClientOriginalName()) {
-                        //     $filePathName = md5(uniqid()) . $file->getClientOriginalName();
-                        //     try {
-                        //         $file->move($fileFolder, $filePathName);
-                        //         $variantSetMetadata->setDataUpload($filePathName);
-                        //     } catch (\Throwable $th) {
-                        //         //throw $th;
-                        //         $this->addFlash('danger', "Fail to upload the VCF file, try again ");
-                        //     }
-                        // } else {
-                        //     $this->addFlash('danger', "Error in the VCF file name, try to rename the file and try again");
-                        // }
-
                         
-                        $variantSetMetadata->setDataUpload("test...");
                         $variantSetMetadata->setIsActive(true);
                         $variantSetMetadata->setCreatedAt(new \DateTime());
 
                         try {
                             //code...
-                            //dd($variantSetMetadata);
                             $entmanager->persist($variantSetMetadata);
                             $entmanager->flush();
                         } catch (\Throwable $th) {
