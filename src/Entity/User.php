@@ -494,6 +494,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $observationValueOriginals;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MarkerSynonym::class, mappedBy="createdBy")
+     */
+    private $markerSynonyms;
+
     public function __construct()
     {
         $this->countries = new ArrayCollection();
@@ -581,6 +586,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->variantSets = new ArrayCollection();
         $this->generations = new ArrayCollection();
         $this->observationValueOriginals = new ArrayCollection();
+        $this->markerSynonyms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -3269,6 +3275,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($observationValueOriginal->getCreatedBy() === $this) {
                 $observationValueOriginal->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MarkerSynonym>
+     */
+    public function getMarkerSynonyms(): Collection
+    {
+        return $this->markerSynonyms;
+    }
+
+    public function addMarkerSynonym(MarkerSynonym $markerSynonym): self
+    {
+        if (!$this->markerSynonyms->contains($markerSynonym)) {
+            $this->markerSynonyms[] = $markerSynonym;
+            $markerSynonym->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMarkerSynonym(MarkerSynonym $markerSynonym): self
+    {
+        if ($this->markerSynonyms->removeElement($markerSynonym)) {
+            // set the owning side to null (unless already changed)
+            if ($markerSynonym->getCreatedBy() === $this) {
+                $markerSynonym->setCreatedBy(null);
             }
         }
 

@@ -143,11 +143,17 @@ class Marker
      */
     private $platformNameBuffer;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MarkerSynonym::class, mappedBy="markerName")
+     */
+    private $markerSynonyms;
+
     public function __construct()
     {
         $this->gWASVariants = new ArrayCollection();
         $this->variantSets = new ArrayCollection();
         $this->qTLVariants = new ArrayCollection();
+        $this->markerSynonyms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -452,6 +458,36 @@ class Marker
     public function setPlatformNameBuffer(?string $platformNameBuffer): self
     {
         $this->platformNameBuffer = $platformNameBuffer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MarkerSynonym>
+     */
+    public function getMarkerSynonyms(): Collection
+    {
+        return $this->markerSynonyms;
+    }
+
+    public function addMarkerSynonym(MarkerSynonym $markerSynonym): self
+    {
+        if (!$this->markerSynonyms->contains($markerSynonym)) {
+            $this->markerSynonyms[] = $markerSynonym;
+            $markerSynonym->setMarkerName($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMarkerSynonym(MarkerSynonym $markerSynonym): self
+    {
+        if ($this->markerSynonyms->removeElement($markerSynonym)) {
+            // set the owning side to null (unless already changed)
+            if ($markerSynonym->getMarkerName() === $this) {
+                $markerSynonym->setMarkerName(null);
+            }
+        }
 
         return $this;
     }

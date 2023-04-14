@@ -28,9 +28,11 @@ class MetaboliteClassController extends AbstractController
     public function index(MetaboliteClassRepository $metaboliteClassRepo): Response
     {
         $metaboliteClasses =  $metaboliteClassRepo->findAll();
+        $parentsOnly = $metaboliteClassRepo->getParentsOnly();
         $context = [
             'title' => 'Metabolite Class List',
-            'metaboliteClasses' => $metaboliteClasses
+            'metaboliteClasses' => $metaboliteClasses,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('metabolite_class/index.html.twig', $context);
     }

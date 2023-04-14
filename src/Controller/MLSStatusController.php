@@ -28,9 +28,11 @@ class MLSStatusController extends AbstractController
     public function index(MLSStatusRepository $mlsStatusRepo): Response
     {
         $mlsStatuses =  $mlsStatusRepo->findAll();
+        $parentsOnly = $mlsStatusRepo->getParentsOnly();
         $context = [
             'title' => 'MLS Staus List',
-            'mlsStatuses' => $mlsStatuses
+            'mlsStatuses' => $mlsStatuses,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('mls_status/index.html.twig', $context);
     }

@@ -28,9 +28,11 @@ class CiCriteriaController extends AbstractController
     public function index(CiCriteriaRepository $ciCriteriaRepo): Response
     {
         $ciCriterias =  $ciCriteriaRepo->findAll();
+        $parentsOnly = $ciCriteriaRepo->getParentsOnly();
         $context = [
             'title' => 'Ci Criteria List',
-            'ciCriterias' => $ciCriterias
+            'ciCriterias' => $ciCriterias,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('ci_criteria/index.html.twig', $context);
     }

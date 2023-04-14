@@ -54,7 +54,7 @@ class FactorTypeController extends AbstractController
         $factorTypes =  $factorTypeRepo->findAll();
         $context = [
             'title' => 'FactorType List',
-            'factorTypes' => $factorTypes
+            'factorTypes' => $factorTypes,
         ];
         return $this->render('factor_type/index.html.twig', $context);
     }

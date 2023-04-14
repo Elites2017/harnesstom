@@ -88,11 +88,17 @@ class Software
      */
     private $is_poau;
 
+    /**
+     * @ORM\OneToMany(targetEntity=VariantSetMetadata::class, mappedBy="software")
+     */
+    private $variantSetMetadata;
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
         $this->qTLStudies = new ArrayCollection();
         $this->software = new ArrayCollection();
+        $this->variantSetMetadata = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -301,6 +307,36 @@ class Software
     public function setIsPoau(?bool $is_poau): self
     {
         $this->is_poau = $is_poau;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, VariantSetMetadata>
+     */
+    public function getVariantSetMetadata(): Collection
+    {
+        return $this->variantSetMetadata;
+    }
+
+    public function addVariantSetMetadata(VariantSetMetadata $variantSetMetadata): self
+    {
+        if (!$this->variantSetMetadata->contains($variantSetMetadata)) {
+            $this->variantSetMetadata[] = $variantSetMetadata;
+            $variantSetMetadata->setSoftware($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVariantSetMetadata(VariantSetMetadata $variantSetMetadata): self
+    {
+        if ($this->variantSetMetadata->removeElement($variantSetMetadata)) {
+            // set the owning side to null (unless already changed)
+            if ($variantSetMetadata->getSoftware() === $this) {
+                $variantSetMetadata->setSoftware(null);
+            }
+        }
 
         return $this;
     }

@@ -1,8 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}
-	{{ title }}
-{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block stylesheets %}
 	<!-- Bootstrap core CSS -->
@@ -27,60 +25,89 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container-fluid">
+    <div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
-				{% if variantSetMetadatas | length > 0 %}
-					<h2 class="mb-3 text-center tomato-color font-weight-bold">Variant Set Metadata List</h2>
-					<div class="table-responsive">
-						<table id="datatable" class="table table-hover text-nowrap" width="100%">
-							<thead class="table-dark">
-								<tr>
-									<th scope="col">Name</th>
-									<th scope="col">Description</th>
-									<th scope="col">Filsters</th>
-									<th scope="col">Variant Count</th>
-									<th scope="col">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for variantSetMetadata in variantSetMetadatas %}
-									<tr>
-										<td>
-											{{ variantSetMetadata.name }}
-										</td>
-										<td>
-											{{ variantSetMetadata.description }}
-										</td>
-										<td>
-											{{ variantSetMetadata.filters }}
-										</td>
-										<td>
-											{{ variantSetMetadata.variantCount }}
-										</td>
-										<td>
-											<a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">
-												<button class="btn btn-outline-primary">Details</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-
-				{% else %}
+			{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <div class="col-xl-12 col-lg-11">
+                {% if variantSetMetadatas | length > 0 %}
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-center tomato-color">Variant Set Metadata List</h6>
+                            {# <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Graph View:</div>
+                                    <a class="dropdown-item" href="#">Most Variant Set Metadata By Genotyping Platform</a>
+                                    <a class="dropdown-item" href="#">Most Variant Set Metadata By Software</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Most Variant Set Metadata By ...</a>
+                                </div>
+                            </div> #}
+                        </div>
+					    <div class="card-body">
+                            <div class="table-responsive">
+								<table id="datatable" class="table table-hover text-nowrap" width="100%">
+									<thead class="table-dark">
+										<tr>
+											<th scope="col">Name</th>
+											<th scope="col">Genotyping Platform</th>
+											<th scope="col">Variant Count</th>
+											<th scope="col text-center">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for variantSetMetadata in variantSetMetadatas %}
+											<tr>
+												<td>
+													{{ variantSetMetadata.name }}
+												</td>
+												<td>
+													{{ variantSetMetadata.genotypingPlatform }}
+												</td>
+												<td>
+													{{ variantSetMetadata.variantCount }}
+												</td>
+												<td>
+													{% if variantSetMetadata.dataUpload == null %}
+														<a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">
+															<button class="btn btn-outline-primary">Upload VCF</button>
+														</a>
+													{% endif %}
+													<a href="{{ path('variant_set_metadata_details', {id: variantSetMetadata.id}) }}">
+														<button class="btn btn-outline-primary">Details</button>
+													</a>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+                        </div>
+                    </div>
+                {% else %}
 					<h5 class="mb-3 text-center tomato-color font-weight-bold">No variant set metadata has been provided in our system</h5>
 				{% endif %}
-			</tbody>
-		</div>
+		    </div>
+        </div>
 		<!-- .row -->
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
@@ -94,9 +121,10 @@
 	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
 	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
 	</script>
-<script>
-		$(document).ready(function () {
-$('#datatable').DataTable();
-});
-	</script>
+
+    <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable();
+        } );
+    </script>
 {% endblock %}

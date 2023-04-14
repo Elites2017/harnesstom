@@ -19,6 +19,15 @@ class CollectingSourceRepository extends ServiceEntityRepository
         parent::__construct($registry, CollectingSource::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // to show the number of accession by each collecting source
     public function getAccessionsByCollectingSource() {
         $query = $this->createQueryBuilder('cs')

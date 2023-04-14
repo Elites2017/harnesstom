@@ -28,9 +28,11 @@ class StructureMethodController extends AbstractController
     public function index(StructureMethodRepository $structureMethodRepo): Response
     {
         $structureMethods =  $structureMethodRepo->findAll();
+        $parentsOnly = $structureMethodRepo->getParentsOnly();
         $context = [
             'title' => 'Structure Method List',
-            'structureMethods' => $structureMethods
+            'structureMethods' => $structureMethods,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('structure_method/index.html.twig', $context);
     }

@@ -29,9 +29,11 @@ class GeneticTestingModelController extends AbstractController
     public function index(GeneticTestingModelRepository $geneticTestingModelRepo): Response
     {
         $geneticTestingModels =  $geneticTestingModelRepo->findAll();
+        $parentsOnly = $geneticTestingModelRepo->getParentsOnly();
         $context = [
             'title' => 'Genetic Testing Model List',
-            'geneticTestingModels' => $geneticTestingModels
+            'geneticTestingModels' => $geneticTestingModels,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('genetic_testing_model/index.html.twig', $context);
     }

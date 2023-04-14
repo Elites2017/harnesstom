@@ -28,9 +28,11 @@ class SequencingInstrumentController extends AbstractController
     public function index(SequencingInstrumentRepository $sequencingInstrumentRepo): Response
     {
         $sequencingInstruments =  $sequencingInstrumentRepo->findAll();
+        $parentsOnly = $sequencingInstrumentRepo->getParentsOnly();
         $context = [
             'title' => 'Sequencing Instrument List',
-            'sequencingInstruments' => $sequencingInstruments
+            'sequencingInstruments' => $sequencingInstruments,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('sequencing_instrument/index.html.twig', $context);
     }

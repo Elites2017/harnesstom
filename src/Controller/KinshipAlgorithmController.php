@@ -28,9 +28,11 @@ class KinshipAlgorithmController extends AbstractController
     public function index(KinshipAlgorithmRepository $kinshipAlgorithmRepo): Response
     {
         $kinshipAlgorithms =  $kinshipAlgorithmRepo->findAll();
+        $parentsOnly = $kinshipAlgorithmRepo->getParentsOnly();
         $context = [
             'title' => 'Kinship Algorithm List',
-            'kinshipAlgorithms' => $kinshipAlgorithms
+            'kinshipAlgorithms' => $kinshipAlgorithms,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('kinship_algorithm/index.html.twig', $context);
     }

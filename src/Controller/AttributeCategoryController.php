@@ -29,9 +29,11 @@ class AttributeCategoryController extends AbstractController
     public function index(AttributeCategoryRepository $attributeCategoryRepo): Response
     {
         $attributeCategories =  $attributeCategoryRepo->findAll();
+        $parentsOnly = $attributeCategoryRepo->getParentsOnly();
         $context = [
             'title' => 'Anatomical Entity List',
-            'attributeCategories' => $attributeCategories
+            'attributeCategories' => $attributeCategories,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('attribute_category/index.html.twig', $context);
     }

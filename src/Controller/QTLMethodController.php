@@ -28,9 +28,11 @@ class QTLMethodController extends AbstractController
     public function index(QTLMethodRepository $qtlMethodRepo): Response
     {
         $qtlMethods =  $qtlMethodRepo->findAll();
+        $parentsOnly = $qtlMethodRepo->getParentsOnly();
         $context = [
             'title' => 'QTL Method List',
-            'qtlMethods' => $qtlMethods
+            'qtlMethods' => $qtlMethods,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('qtl_method/index.html.twig', $context);
     }

@@ -28,9 +28,11 @@ class SoftwareController extends AbstractController
     public function index(SoftwareRepository $softwareRepo): Response
     {
         $softwares =  $softwareRepo->findAll();
+        $parentsOnly = $softwareRepo->getParentsOnly();
         $context = [
             'title' => 'Software List',
-            'softwares' => $softwares
+            'softwares' => $softwares,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('software/index.html.twig', $context);
     }

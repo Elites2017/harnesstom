@@ -4,26 +4,39 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="card-body">
-				{% for flash_error in app.flashes('reset_password_error') %}
-					<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
 				{% endfor %}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">Rest Your Password</h4>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(requestForm) }}
+						{{ form_row(requestForm.email) }}
+						<div class="mb-2">
+							<small class="tomato-color">
+								Enter your email address and we will send you a
+																		link to reset your password.
+							</small>
+						</div>
 
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Reset your password</h1>
-
-				{{ form_start(requestForm) }}
-				{{ form_row(requestForm.email) }}
-				<div>
-					<small class="tomato-color">
-						Enter your email address and we will send you a
-						                                        link to reset your password.
-					</small>
+						<button class="btn btn-primary">Send password reset email</button>
+						{{ form_end(requestForm) }}
+					</div>
 				</div>
-
-				<button class="btn btn-primary">Send password reset email</button>
-				{{ form_end(requestForm) }}
 			</div>
 		</div>
 		<!-- .row -->

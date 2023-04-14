@@ -17,152 +17,149 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 order-md-1">
-                <h2 class="mb-3 text-center tomato-color font-weight-bold">Germplasm Edition</h2>
-                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-                {{ form_start(germplasmForm) }}
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                   (germplasmForm.germplasmID,
-                                    { label: "ID *",
-                                        'attr': {'placeholder': "Enter the germplasm ID"}
-                                    })
-                        }}
-                        </div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">Germplasm Edition</h4>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(germplasmForm) }}
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                {{ form_row
+                                    (germplasmForm.germplasmID,
+                                        { label: "ID *",
+                                            'attr': {'placeholder': "Enter the germplasm ID"}
+                                        })
+                            }}
+                            </div>
 
-                        {# <div class="col-md-4 mb-3">
-                             {{ form_row
-                            (germplasmForm.accession,
-                                { label: "Maintainer Accession Number",
-                                'attr': {'placeholder': "Enter ID_number assigned to this accession by maintainer",
-                                        'class': "custom-select d-block w-100"}
-                                }
-                            )
-                        }}
-                        </div> #}
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                            (germplasmForm.program,
-                                { label: "Program",
-                                'attr': {'placeholder': "Select the germplasm program",
-                                        'class': "custom-select d-block w-100"}
-                                }
-                            )
-                        }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                    (germplasmForm.maintainerInstituteCode,
-                                    { label: "Maintainer Institute Code - INSTCODE",
-                                        'attr': {'placeholder': "Select the insitute that provide the material for the germplasm - INSTCODE",
-                                                'class': "custom-select d-block w-100"}
-                                    })
-                        }}
-                        </div>
-
-                        {# <div class="col-md-4 mb-3">
-                            {{ form_row
-                            (germplasmForm.maintainerNumb,
-                                { label: "Maintainer Accession Number",
-                                'attr': {'placeholder': "Enter ID_number assigned to this accession by maintainer",
-                                'class': "custom-select d-block w-100"}
-                                }
-                            )
-                        }}
-                        </div> #}
-
-                        <div class="col-md-4 mb-3">
-                             {{ form_row
-                            (germplasmForm.accession,
-                                { label: "Maintainer Accession Number",
-                                'attr': {'placeholder': "Enter ID_number assigned to this accession by maintainer",
-                                        'class': "custom-select d-block w-100"}
-                                }
-                            )
-                        }}
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-                            {{ form_row
-                                (germplasmForm.preprocessing,
-                                    { label: "Preprocessing",
-                                    'attr': {
-                                        'placeholder': "Enter the germplasm preprocessing"}
+                            {# <div class="col-md-4 mb-3">
+                                {{ form_row
+                                (germplasmForm.accession,
+                                    { label: "Maintainer Accession Number",
+                                    'attr': {'placeholder': "Enter ID_number assigned to this accession by maintainer",
+                                            'class': "custom-select d-block w-100"}
                                     }
                                 )
                             }}
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        {# <div class="col-md-12 mb-3">
-                            {{ form_row
-                                (germplasmForm.study,
-                                    { label: "Study (You can select several studies)",
-                                    'attr': {
-                                        'placeholder': "Select the germplasm crop",
-                                        'class': "custom-select d-block w-100"}
+                            </div> #}
+
+                            <div class="col-md-4 mb-3">
+                                {{ form_row
+                                (germplasmForm.program,
+                                    { label: "Program",
+                                    'attr': {'placeholder': "Select the germplasm program",
+                                            'class': "custom-select d-block w-100"}
                                     }
                                 )
                             }}
-                        </div> #}
-                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                {{ form_row
+                                        (germplasmForm.maintainerInstituteCode,
+                                        { label: "Maintainer Institute Code - INSTCODE",
+                                            'attr': {'placeholder': "Select the insitute that provide the material for the germplasm - INSTCODE",
+                                                    'class': "custom-select d-block w-100"}
+                                        })
+                            }}
+                            </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+                            {# <div class="col-md-4 mb-3">
+                                {{ form_row
+                                (germplasmForm.maintainerNumb,
+                                    { label: "Maintainer Accession Number",
+                                    'attr': {'placeholder': "Enter ID_number assigned to this accession by maintainer",
+                                    'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                            </div> #}
+
+                            <div class="col-md-4 mb-3">
+                                {{ form_row
+                                (germplasmForm.accession,
+                                    { label: "Maintainer Accession Number",
+                                    'attr': {'placeholder': "Enter ID_number assigned to this accession by maintainer",
+                                            'class': "custom-select d-block w-100"}
+                                    }
+                                )
+                            }}
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                {{ form_row
+                                    (germplasmForm.preprocessing,
+                                        { label: "Preprocessing",
+                                        'attr': {
+                                            'placeholder': "Enter the germplasm preprocessing"}
+                                        }
+                                    )
+                                }}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            {# <div class="col-md-12 mb-3">
+                                {{ form_row
+                                    (germplasmForm.study,
+                                        { label: "Study (You can select several studies)",
+                                        'attr': {
+                                            'placeholder': "Select the germplasm crop",
+                                            'class': "custom-select d-block w-100"}
+                                        }
+                                    )
+                                }}
+                            </div> #}
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+                            </div>
                         </div>
-                    </div>
-                {{ form_end(germplasmForm) }}
-            </div>
-        </div>
-    </div>
+                    {{ form_end(germplasmForm) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
-<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+			<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<script>
-    $(document).ready(function(){
-		document.querySelector('input[list]').addEventListener('input', function(e) {
-			var input = e.target,
-				list = input.getAttribute('list'),
-				options = document.querySelectorAll('#' + list + ' option'),
-				hiddenInput = document.getElementById(input.getAttribute('id') + '_hidden'),
-				inputValue = input.value;
+			<!-- Core plugin JavaScript-->
+			<script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
-			hiddenInput.value = inputValue;
+			<!-- Custom scripts for all pages-->
+			<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
 
-			for(var i = 0; i < options.length; i++) {
-				var option = options[i];
-				// do not use innerText as it returns other caracter thans the text value itself
-				if(option.text === inputValue) {
-					hiddenInput.value = option.getAttribute('data-value');
-					break;
-				}
-			}
-		});
-    });
-</script>
+			<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
+			<script src="{{ asset('assets/nl/js/main.js') }}"></script>
+
+<script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
 {% endblock %}

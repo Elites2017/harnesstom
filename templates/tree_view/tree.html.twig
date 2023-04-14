@@ -42,3 +42,120 @@
 <ul class="menu-biological-status">
     {{ treeView(parentOnlyBiologicalStatus) }}
 </ul> #}
+
+{# Tree animate and no animate #}
+{# ANIMATE #}
+{% macro treeView(parentOnlyBiologicalStatus) %}
+    {% import _self as macros %}
+    {% for oneBiologicalStatus in parentOnlyBiologicalStatus %}
+        <div class="card closed {{ oneBiologicalStatus.biologicalStatuses is not empty ? 'border-left-primary' : 'border-left-danger' }} shadow h-100 mb-3">
+                <li class="treeview-animated-items">
+                    <a class="closed">
+                        <i class="{{ oneBiologicalStatus.biologicalStatuses is not empty ? 'fas fa-angle-right' : '' }}"></i>
+                        <span>{{ oneBiologicalStatus.name }}</span>
+                    </a>
+                    {% if oneBiologicalStatus.biologicalStatuses is not empty %}
+                        <ul class="nested">
+                            {{ macros.treeView(oneBiologicalStatus.biologicalStatuses) }}
+                        </ul>
+                    {% endif %}
+                </li>
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+<ul class="treeview-animated-list mb-3">
+    {{ _self.treeView(parentOnlyBiologicalStatus) }}
+</ul>
+
+{# NO ANIMATE #}
+{% macro treeView(parentOnlyBiologicalStatus) %}
+    {% import _self as macros %}
+    {% for oneBiologicalStatus in parentOnlyBiologicalStatus %}
+        <div class="card  {{ oneBiologicalStatus.biologicalStatuses is not empty ? 'border-left-primary' : 'border-left-danger' }} shadow h-100 mb-3">
+                <li >
+                    
+                        <i class="{{ oneBiologicalStatus.biologicalStatuses is not empty ? 'fas fa-angle-right rotate' : '' }}"></i>
+                        <span>{{ oneBiologicalStatus.name }}</span>
+                    {% if oneBiologicalStatus.biologicalStatuses is not empty %}
+                        <ul class="nested">
+                            {{ macros.treeView(oneBiologicalStatus.biologicalStatuses) }}
+                        </ul>
+                    {% endif %}
+                </li>
+        </div>
+    {% endfor %}
+{% endmacro %}
+
+<ul >
+    {{ _self.treeView(parentOnlyBiologicalStatus) }}
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+{# Bootstrap element #}
+
+<link rel="stylesheet" href="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/css/compiled-4.20.0.min.css">
+
+<div class="treeview-animated w-20 border mx-4 my-4">
+    <h6 class="pt-3 pl-3">Folders</h6>
+    <hr>
+    <ul class="treeview-animated-list mb-3">
+        <li class="treeview-animated-items">
+        <a class="closed">
+            <i class="fas fa-angle-right"></i>
+            <span><i class="far fa-envelope-open ic-w mx-1"></i>Mail</span>
+        </a>
+        <ul class="nested">
+            <li>
+            <div class="treeview-animated-element"><i class="far fa-bell ic-w mr-1"></i>Offers
+            </li>
+            <li>
+            <div class="treeview-animated-element"><i class="far fa-address-book ic-w mr-1"></i>Contacts
+            </li>
+            <li class="treeview-animated-items">
+            <a class="closed"><i class="fas fa-angle-right"></i>
+                <span><i class="far fa-calendar-alt ic-w mx-1"></i>Calendar</span></a>
+            <ul class="nested">
+                <li>
+                <div class="treeview-animated-element"><i class="far fa-clock ic-w mr-1"></i>Deadlines
+                </li>
+                <li>
+                <div class="treeview-animated-element"><i class="fas fa-users ic-w mr-1"></i>Meetings
+                </li>
+                <li>
+                <div class="treeview-animated-element"><i class="fas fa-basketball-ball ic-w mr-1"></i>Workouts
+                </li>
+                <li>
+                <div class="treeview-animated-element">
+                    <i class="fas fa-mug-hot ic-w mr-1"></i>Events
+                </li>
+            </ul>
+            </li>
+        </ul>
+        </li>
+    </ul>
+</div>
+
+
+<script type="text/javascript" src="https://mdbcdn.b-cdn.net/wp-content/themes/mdbootstrap4/docs-app/js/bundles/4.20.0/compiled.min.js"></script>
+    
+      <script>
+  // Treeview Initialization
+  $(document).ready(function() {
+    $('.treeview-colorful').mdbTreeview();
+    $('.treeview-animated').mdbTreeview();
+    $('.treeview').mdbTreeview();
+  });
+</script>
+
+

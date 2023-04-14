@@ -20,10 +20,9 @@
 
 
 {% block body %}
-	<div class="container">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Institute Edition</h2>
+			<div class="col-xl-12 col-lg-11">
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -33,91 +32,103 @@
 						</div>
 					{% endfor %}
 				{% endfor %}
-				{{ form_start(instituteForm) }}
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (instituteForm.instcode,
-                                            { label: "Institue code *",
-                                            'attr': {'placeholder': "Enter the institute code (instcode)"}
-                                            }
-                                        )
-                                    }}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">Institute Edition</h4>
 					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(instituteForm) }}
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									{{ form_row
+													(instituteForm.instcode,
+														{ label: "Institue code *",
+														'attr': {'placeholder': "Enter the institute code (instcode)"}
+														}
+													)
+												}}
+								</div>
 
-					<div class="col-md-6 mb-3">
-						{{ form_row
-                                        (instituteForm.acronym,
-                                            { label: "Acronym *",
-                                            'attr': {'placeholder': "Enter the institute acronym"}
-                                            }
-                                        )
-                                    }}
+								<div class="col-md-6 mb-3">
+									{{ form_row
+													(instituteForm.acronym,
+														{ label: "Acronym *",
+														'attr': {'placeholder': "Enter the institute acronym"}
+														}
+													)
+												}}
+								</div>
+							</div>
+							<div>
+								{{ form_row
+													(instituteForm.name,
+														{ label: "Name *",
+														'attr': {'placeholder': "Enter the institute name"}
+														}
+													)
+												}}
+							</div>
+							<div>
+								{{ form_row
+													(instituteForm.streetNumber,
+														{ label: "Street number & name",
+														'attr': {'placeholder': "Enter the street number & name"}
+														}
+													)
+												}}
+							</div>
+
+							<div class="row">
+								<div class="col-md-4 mb-3">
+									{{ form_row
+													(instituteForm.city,
+														{ label: "City",
+														'attr': {'placeholder': "Enter the institute city"}
+														}
+													)
+												}}
+								</div>
+
+								<div class="col-md-4 mb-3">
+									{{ form_row
+													(instituteForm.postalCode,
+														{ label: "Postal code",
+														'attr': {'placeholder': "Enter the institute postal code"}
+														}
+													)
+												}}
+								</div>
+
+								<div class="col-md-4 mb-3">
+									{{ form_row
+													(instituteForm.country,
+														{ label: "Country",
+														'attr': {'placeholder': "Enter the institute country",
+														'class': "custom-select d-block w-100"}
+														}
+													)
+												}}
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6 mb-3">
+									<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+								</div>
+
+								<div class="col-md-6 mb-3">
+									<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+								</div>
+							</div>
+							{{ form_end(instituteForm) }}
 					</div>
 				</div>
-				<div>
-					{{ form_row
-                                        (instituteForm.name,
-                                            { label: "Name *",
-                                            'attr': {'placeholder': "Enter the institute name"}
-                                            }
-                                        )
-                                    }}
-				</div>
-				<div>
-					{{ form_row
-                                        (instituteForm.streetNumber,
-                                            { label: "Street number & name",
-                                            'attr': {'placeholder': "Enter the street number & name"}
-                                            }
-                                        )
-                                    }}
-				</div>
-
-				<div class="row">
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (instituteForm.city,
-                                            { label: "City",
-                                            'attr': {'placeholder': "Enter the institute city"}
-                                            }
-                                        )
-                                    }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (instituteForm.postalCode,
-                                            { label: "Postal code",
-                                            'attr': {'placeholder': "Enter the institute postal code"}
-                                            }
-                                        )
-                                    }}
-					</div>
-
-					<div class="col-md-4 mb-3">
-						{{ form_row
-                                        (instituteForm.country,
-                                            { label: "Country",
-                                            'attr': {'placeholder': "Enter the institute country",
-                                            'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
-					</div>
-
-					<div class="col-md-6 mb-3">
-						<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-					</div>
-				</div>
-				{{ form_end(instituteForm) }}
 			</div>
+				
+				
 		</div>
 		<!-- .row -->
 	</div>
@@ -125,31 +136,17 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
-<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+			<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<script>
-    $(document).ready(function(){
-		document.querySelector('input[list]').addEventListener('input', function(e) {
-			var input = e.target,
-				list = input.getAttribute('list'),
-				options = document.querySelectorAll('#' + list + ' option'),
-				hiddenInput = document.getElementById(input.getAttribute('id') + '_hidden'),
-				inputValue = input.value;
+			<!-- Core plugin JavaScript-->
+			<script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
-			hiddenInput.value = inputValue;
+			<!-- Custom scripts for all pages-->
+			<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
 
-			for(var i = 0; i < options.length; i++) {
-				var option = options[i];
-				// do not use innerText as it returns other caracter thans the text value itself
-				if(option.text === inputValue) {
-					hiddenInput.value = option.getAttribute('data-value');
-					break;
-				}
-			}
-		});
-    });
-</script>
+			<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
+			<script src="{{ asset('assets/nl/js/main.js') }}"></script>
+
+<script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
 {% endblock %}

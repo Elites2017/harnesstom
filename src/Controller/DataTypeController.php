@@ -28,9 +28,11 @@ class DataTypeController extends AbstractController
     public function index(DataTypeRepository $dataTypeRepo): Response
     {
         $dataTypes =  $dataTypeRepo->findAll();
+        $parentsOnly = $dataTypeRepo->getParentsOnly();
         $context = [
             'title' => 'Data Type',
-            'dataTypes' => $dataTypes
+            'dataTypes' => $dataTypes,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('data_type/index.html.twig', $context);
     }

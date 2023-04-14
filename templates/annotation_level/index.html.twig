@@ -24,6 +24,8 @@
 
 	<!-- DataTables Responsive CSS -->
 	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	<!-- Treeview -->
+	<link rel="stylesheet" href="{{ asset('assets/treeview/css/mdbootstrap_treeview.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -96,17 +98,30 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
 
+	
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
+	</script>
+	
+	<script src="{{ asset('assets/js/show_hide_panels.js') }}"></script>
+	<script src="{{ asset('assets/treeview/js/mdbootstrap_treeview.js') }}"></script>
+	
+    <script>
+		// Treeview Initialization
+		$(document).ready(function() {
+			$('.treeview-colorful').mdbTreeview();
+			$('.treeview-animated').mdbTreeview();
+			$('.treeview').mdbTreeview();
+		});
+	</script>
 	<!-- DataTables JavaScript -->
 	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
-	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
-	</script>
-<script>
+	<script>
 		$(document).ready(function () {
-$('#datatable').DataTable();
-});
+			$('#datatable').DataTable();
+		});
 	</script>
 {% endblock %}

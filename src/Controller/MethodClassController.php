@@ -28,9 +28,11 @@ class MethodClassController extends AbstractController
     public function index(MethodClassRepository $methodClassRepo): Response
     {
         $methodClasses =  $methodClassRepo->findAll();
+        $parentsOnly = $methodClassRepo->getParentsOnly();
         $context = [
             'title' => 'Method Class List',
-            'methodClasses' => $methodClasses
+            'methodClasses' => $methodClasses,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('method_class/index.html.twig', $context);
     }

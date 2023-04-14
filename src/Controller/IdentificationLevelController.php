@@ -28,9 +28,11 @@ class IdentificationLevelController extends AbstractController
     public function index(IdentificationLevelRepository $identificationLevelRepo): Response
     {
         $identificationLevels =  $identificationLevelRepo->findAll();
+        $parentsOnly = $identificationLevelRepo->getParentsOnly();
         $context = [
             'title' => 'Identification Level List',
-            'identificationLevels' => $identificationLevels
+            'identificationLevels' => $identificationLevels,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('identification_level/index.html.twig', $context);
     }

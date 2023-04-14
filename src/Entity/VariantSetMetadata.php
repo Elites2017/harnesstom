@@ -49,12 +49,12 @@ class VariantSetMetadata
     private $publicationRef = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $dataUpload;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $fileUrl;
 
@@ -92,6 +92,11 @@ class VariantSetMetadata
      * @ORM\OneToMany(targetEntity=VariantSet::class, mappedBy="variantSetMetadata")
      */
     private $variantSets;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Software::class, inversedBy="variantSetMetadata")
+     */
+    private $software;
 
     public function __construct()
     {
@@ -313,5 +318,17 @@ class VariantSetMetadata
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getSoftware(): ?Software
+    {
+        return $this->software;
+    }
+
+    public function setSoftware(?Software $software): self
+    {
+        $this->software = $software;
+
+        return $this;
     }
 }

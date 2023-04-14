@@ -28,9 +28,11 @@ class GrowthFacilityTypeController extends AbstractController
     public function index(GrowthFacilityTypeRepository $growthFacilityTypeRepo): Response
     {
         $growthFacilityTypes =  $growthFacilityTypeRepo->findAll();
+        $parentsOnly = $growthFacilityTypeRepo->getParentsOnly();
         $context = [
             'title' => 'Growth Facility Type List',
-            'growthFacilityTypes' => $growthFacilityTypes
+            'growthFacilityTypes' => $growthFacilityTypes,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('growth_facility_type/index.html.twig', $context);
     }

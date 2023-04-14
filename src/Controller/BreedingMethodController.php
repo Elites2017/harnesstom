@@ -28,9 +28,11 @@ class BreedingMethodController extends AbstractController
     public function index(BreedingMethodRepository $breedingMethodRepo): Response
     {
         $breedingMethods =  $breedingMethodRepo->findAll();
+        $parentsOnly = $breedingMethodRepo->getParentsOnly();
         $context = [
             'title' => 'Breeding Method List',
-            'breedingMethods' => $breedingMethods
+            'breedingMethods' => $breedingMethods,
+            'parentsOnly' => $$parentsOnly
         ];
         return $this->render('breeding_method/index.html.twig', $context);
     }

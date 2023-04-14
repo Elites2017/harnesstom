@@ -28,9 +28,11 @@ class TrialTypeController extends AbstractController
     public function index(TrialTypeRepository $trialTypeRepo): Response
     {
         $trialTypes =  $trialTypeRepo->findAll();
+        $parentsOnly = $trialTypeRepo->getParentsOnly();
         $context = [
             'title' => 'Trial Type List',
-            'trialTypes' => $trialTypes
+            'trialTypes' => $trialTypes,
+            'parentsOnly' => $parentsOnly
         ];
         return $this->render('trial_type/index.html.twig', $context);
     }

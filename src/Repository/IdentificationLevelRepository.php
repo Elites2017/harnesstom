@@ -19,6 +19,15 @@ class IdentificationLevelRepository extends ServiceEntityRepository
         parent::__construct($registry, IdentificationLevel::class);
     }
 
+    // get only the parents
+    public function getParentsOnly()
+    {
+        $query = $this->createQueryBuilder('c')
+            ->where('c.parentTerm IS NULL');
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return IdentificationLevel[] Returns an array of IdentificationLevel objects
     //  */
