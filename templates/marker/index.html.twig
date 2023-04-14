@@ -54,10 +54,7 @@
 									<th scope="col">End</th>
 									<th scope="col">Ref Allele</th>
 									<th scope="col">Alternative Allele</th>
-									<th scope="col">Primer Name 1</th>
-									<th scope="col">Primer Seq 1</th>
-									<th scope="col">Primer Name 2</th>
-									<th scope="col">Primer Seq 2</th>
+									<th scope="col">Synonyms</th>
 									<th scope="col">Genotyping Platform</th>
 									<th scope="col">Action</th>
 								</tr>
@@ -105,10 +102,7 @@
                     end: "{{ marker.end }}",
 					refAllele: "{{ marker.refAllele }}",
                     altAlleles: "{% if marker.altAllele | length > 0 %}{% for oneAltAllele in marker.altAllele %}{{ oneAltAllele }}{% endfor %}{% endif %}",
-                    primerName1: "{{ marker.primerName1 }}",
-                    primerSeq1: "{{ marker.primerSeq1 }}",
-					primerName2: "{{ marker.primerName2 }}",
-                    primerSeq2: "{{ marker.primerSeq2 }}",
+                    synonyms: "{% if marker.markerSynonyms | length > 0 %}{% for oneSynonym in marker.markerSynonyms %}{{ oneSynonym }}{{ loop.index < marker.markerSynonyms | length ? ',' : ''}} {% endfor %}{% endif %}",
 					genotypingPlatform: "{% if marker.genotypingPlatform %}<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.genotypingPlatform }}</a>{% endif %}",
                     action: "<a href={{ path('marker_details', {id: marker.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
                     },
@@ -129,10 +123,7 @@
                     { data: 'end'},
 					{ data: 'refAllele'},
                     { data: 'altAlleles'},
-                    { data: 'primerName1'},
-                    { data: 'primerSeq1'},
-					{ data: 'primerName2'},
-                    { data: 'primerSeq2'},
+                    { data: 'synonyms'},
 					{ data: 'genotypingPlatform'},
                     { data: 'action'}
                 ]

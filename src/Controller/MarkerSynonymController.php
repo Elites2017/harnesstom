@@ -170,29 +170,31 @@ class MarkerSynonymController extends AbstractController
                 // check if the file doesn't have empty columns
                 if ($markerName != null & $synonymSource != null && $markerSynonymId != null) {
                     // check if for the provided name, a maker exists in the DB
-                    $existingMarker = $entmanager->getRepository(Marker::class)->findOneBy(['name' => $markerName]);
+                    $existingMarker = $entmanager->getRepository(Marker::class)->findBy(['name' => $markerName]);
                     if ($existingMarker) {
-                        // check if the data is upload in the database
-                        $existingMarkerSynonym = $entmanager->getRepository(MarkerSynonym::class)->findOneBy(['markerName' => $existingMarker->getId(), 'synonymSource' => $synonymSource, 'markerSynonymId' => $markerSynonymId]);
-                        // upload data only for objects that haven't been saved in the database
-                        if (!$existingMarkerSynonym) {
-                            $markerSynonym = new MarkerSynonym();
-                            $markerSynonym->setMarkerName($existingMarker);
-                            $markerSynonym->setSynonymSource($synonymSource);
-                            $markerSynonym->setMarkerSynonymId($markerSynonymId);
-                            if ($this->getUser()) {
-                                $markerSynonym->setCreatedBy($this->getUser());
-                            }
-                            $markerSynonym->setIsActive(true);
-                            $markerSynonym->setCreatedAt(new \DateTime());
-                            
-                            try {
-                                //code...
-                                $entmanager->persist($markerSynonym);
-                                $entmanager->flush();
-                            } catch (\Throwable $th) {
-                                //throw $th;
-                                $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                        foreach ($existingMarker as $key => $markerGenP) {
+                            // check if the data is upload in the database
+                            $existingMarkerSynonym = $entmanager->getRepository(MarkerSynonym::class)->findOneBy(['markerName' => $markerGenP->getId(), 'synonymSource' => $synonymSource, 'markerSynonymId' => $markerSynonymId]);
+                            // upload data only for objects that haven't been saved in the database
+                            if (!$existingMarkerSynonym) {
+                                $markerSynonym = new MarkerSynonym();
+                                $markerSynonym->setMarkerName($markerGenP);
+                                $markerSynonym->setSynonymSource($synonymSource);
+                                $markerSynonym->setMarkerSynonymId($markerSynonymId);
+                                if ($this->getUser()) {
+                                    $markerSynonym->setCreatedBy($this->getUser());
+                                }
+                                $markerSynonym->setIsActive(true);
+                                $markerSynonym->setCreatedAt(new \DateTime());
+                                
+                                try {
+                                    //code...
+                                    $entmanager->persist($markerSynonym);
+                                    $entmanager->flush();
+                                } catch (\Throwable $th) {
+                                    //throw $th;
+                                    $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                                }
                             }
                         }
                     } else {
