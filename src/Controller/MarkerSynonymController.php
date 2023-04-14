@@ -173,22 +173,22 @@ class MarkerSynonymController extends AbstractController
                     $existingMarker = $entmanager->getRepository(Marker::class)->findOneBy(['name' => $markerName]);
                     if ($existingMarker) {
                         // check if the data is upload in the database
-                        $existingMarkerSynonym = $entmanager->getRepository(MarkerSynonym::class)->findOneBy(['markerNameId' => $existingMarker->getId(), 'synonymSource' => $markerSynonym, 'markerSynonymId' => $markerSynonymId]);
+                        $existingMarkerSynonym = $entmanager->getRepository(MarkerSynonym::class)->findOneBy(['markerName' => $existingMarker->getId(), 'synonymSource' => $synonymSource, 'markerSynonymId' => $markerSynonymId]);
                         // upload data only for objects that haven't been saved in the database
                         if (!$existingMarkerSynonym) {
                             $markerSynonym = new MarkerSynonym();
-                            $markerSynonym->setMarkerNameId($existingMarker->getId());
+                            $markerSynonym->setMarkerName($existingMarker);
                             $markerSynonym->setSynonymSource($synonymSource);
-                            $markerSynonym->setSynonymSource($markerSynonymId);
+                            $markerSynonym->setMarkerSynonymId($markerSynonymId);
                             if ($this->getUser()) {
-                                $marker->setCreatedBy($this->getUser());
+                                $markerSynonym->setCreatedBy($this->getUser());
                             }
-                            $marker->setIsActive(true);
-                            $marker->setCreatedAt(new \DateTime());
+                            $markerSynonym->setIsActive(true);
+                            $markerSynonym->setCreatedAt(new \DateTime());
                             
                             try {
                                 //code...
-                                $entmanager->persist($marker);
+                                $entmanager->persist($markerSynonym);
                                 $entmanager->flush();
                             } catch (\Throwable $th) {
                                 //throw $th;
