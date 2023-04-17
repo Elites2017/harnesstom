@@ -19,6 +19,14 @@ class ObservationVariableRepository extends ServiceEntityRepository
         parent::__construct($registry, ObservationVariable::class);
     }
 
+    public function totalRows() {
+        return $this->createQueryBuilder('tab')
+            ->select('count(tab.id)')
+            ->where('tab.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     // /**
     //  * @return ObservationVariable[] Returns an array of ObservationVariable objects
     //  */

@@ -333,7 +333,7 @@
                                                 Observations Variables
                                             </div>
                                             <a href="{{ path('observation_variable_index') }}">
-                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalTrial }}</div>
+                                                <div class="h5 mb-0 font-weight-bold text-primary count">{{ totalObsVar }}</div>
                                             </a>
                                             <hr>
                                             <div class="text-xs font-weight-bold text-gray-800 text-uppercase mb-1">
@@ -763,86 +763,162 @@
                 children: [
                     {
                         name: "Natural",
-                        size: 1,
+                        {% if accessionQtyByBS['Natural'] is defined %}
+                            size: {{ accessionQtyByBS['Natural'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
                         name: "Semi-natural/wild",
-                        size: 45,
+                        {% if accessionQtyByBS['Semi-natural/wild'] is defined %}
+                            size: {{ accessionQtyByBS['Semi-natural/wild'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
                         name: "Semi-natural/sown",
-                        size: 45,
+                        {% if accessionQtyByBS['Semi-natural/sown'] is defined %}
+                            size: {{ accessionQtyByBS['Semi-natural/sown'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                 ],
             },
             {
                 name: "Weedy",
-                size: 55,
+                {% if accessionQtyByBS['Weedy'] is defined %}
+                    size: {{ accessionQtyByBS['Weedy'] }},
+                {% else %}
+                    size: 0
+                {% endif %}
             },
             {
                 name: "Traditional cultivar/landrace",
-                size: 1347,
+                {% if accessionQtyByBS['Traditional cultivar/landrace'] is defined %}
+                    size: {{ accessionQtyByBS['Traditional cultivar/landrace'] }},
+                {% else %}
+                    size: 0
+                {% endif %}
             },
             {
                 name: "Breeding/research material",
                 children: [
                     {
                         name: "Breeder's line",
-                        size: 55,
+                        {% if accessionQtyByBS["Breeder's line"] is defined %}
+                            size: {{ accessionQtyByBS["Breeder's line"] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
                         name: "Synthetic population",
-                        size: 45,
+                        {% if accessionQtyByBS['Synthetic population'] is defined %}
+                            size: {{ accessionQtyByBS['Synthetic population'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
                         name: "Hybrid",
-                        size: 46,
+                        {% if accessionQtyByBS['Hybrid'] is defined %}
+                            size: {{ accessionQtyByBS['Hybrid'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
                         name: "Founder stock/base population",
-                        size: 45,
+                        {% if accessionQtyByBS['Founder stock/base population'] is defined %}
+                            size: {{ accessionQtyByBS['Founder stock/base population'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
-                        name: "Inbred line",
-                        size: 62,
+                        name: "Inbred line (parent of hybrid cultivar)",
+                        {% if accessionQtyByBS['Inbred line (parent of hybrid cultivar)'] is defined %}
+                            size: {{ accessionQtyByBS['Inbred line (parent of hybrid cultivar)'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
                         name: "Segregating population",
-                        size: 337,
+                        {% if accessionQtyByBS['Segregating population'] is defined %}
+                            size: {{ accessionQtyByBS['Segregating population'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
                         name: "Clonal selection",
-                        size: 2,
+                        {% if accessionQtyByBS['Clonal selection'] is defined %}
+                            size: {{ accessionQtyByBS['Clonal selection'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
                         name: "Genetic stock",
-                        size: 4,
+                        {% if accessionQtyByBS['Genetic stock'] is defined %}
+                            size: {{ accessionQtyByBS['Genetic stock'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
-                        name: "Mutant",
-                        size: 5,
+                        name: "Mutant (e.g. induced/insertion mutants)",
+                        {% if accessionQtyByBS['Mutant (e.g. induced/insertion mutants)'] is defined %}
+                            size: {{ accessionQtyByBS['Mutant (e.g. induced/insertion mutants)'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
-                        name: "Cytogenetic stocks",
-                        size: 15,
+                        name: "Cytogenetic stocks (e.g. chromosome addition/substitution)",
+                        {% if accessionQtyByBS['Cytogenetic stocks (e.g. chromosome addition/substitution)'] is defined %}
+                            size: {{ accessionQtyByBS['Cytogenetic stocks (e.g. chromosome addition/substitution)'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                     {
-                        name: "Other genetic stocks",
-                        size: 28,
+                        name: "Other genetic stocks (e.g. mapping populations)",
+                        {% if accessionQtyByBS['Other genetic stocks (e.g. mapping populations)'] is defined %}
+                            size: {{ accessionQtyByBS['Other genetic stocks (e.g. mapping populations)'] }},
+                        {% else %}
+                            size: 0
+                        {% endif %}
                     },
                 ],
             },
             {
-                name: "Advanced or improved cultivar",
-                size: 62,
+                name: "Advanced or improved cultivar (conventional breeding methods)",
+                {% if accessionQtyByBS['Advanced or improved cultivar (conventional breeding methods)'] is defined %}
+                    size: {{ accessionQtyByBS['Advanced or improved cultivar (conventional breeding methods)'] }},
+                {% else %}
+                    size: 0
+                {% endif %}
             },
             {
-                name: "GMO",
-                size: 9,
+                name: "GMO (by genetic engineering)",
+                {% if accessionQtyByBS['GMO (by genetic engineering)'] is defined %}
+                    size: {{ accessionQtyByBS['GMO (by genetic engineering)'] }},
+                {% else %}
+                    size: 0
+                {% endif %}
             },
             {
-                name: "Other",
-                size: 79,
+                name: "Other (Elaborate in REMARKS field)",
+                {% if accessionQtyByBS['Other (Elaborate in REMARKS field)'] is defined %}
+                    size: {{ accessionQtyByBS['Other (Elaborate in REMARKS field)'] }},
+                {% else %}
+                    size: 0
+                {% endif %}
             },  
         ]
         }
@@ -851,13 +927,13 @@
 
         var colorScheme = [
         "#E57373",
-        {# "#BA68C8",
+        "#BA68C8",
         "#7986CB",
         "#A1887F",
         "#90A4AE",
         "#AED581",
         "#9575CD",
-        "#FF8A65", #}
+        "#FF8A65",
         "#4DB6AC",
         "#FFF176",
         "#64B5F6",
@@ -865,9 +941,9 @@
         ];
         dataset = getData();
 
-        var width = 300,
+        var width = 350,
         height = 300,
-        radius = Math.min(width / 2, height / 2) * 0.9;
+        radius = Math.min(width / 3, height / 3) * 1.5;
 
         var x = d3.scale.linear().range([0, 2 * Math.PI]);
 
@@ -886,7 +962,7 @@
         .append("g")
         .attr(
             "transform",
-            "translate(" + divWidth / 2 + "," + height / 2 + ") rotate(-90 0 0)"
+            "translate(" + divWidth / 2 + "," + height / 2 + ") rotate(-40 0 0)"
         );
 
         var partition = d3.layout.partition().value(function (d) {

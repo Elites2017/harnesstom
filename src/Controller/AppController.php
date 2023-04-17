@@ -15,6 +15,7 @@ use App\Entity\QTLStudy;
 use App\Entity\GermplasmStudyImage;
 use App\Entity\GWASVariant;
 use App\Entity\Metabolite;
+use App\Entity\ObservationVariable;
 use App\Entity\QTLVariant;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -230,29 +231,50 @@ class AppController extends AbstractController
 
         // Setup query to get the most accession per country
         //$qb = $this->getDoctrine()->getManager()->createQueryBuilder("Select c.id from App\Entity\Country c Where c.id=1");
-        $accessionTotalRows = $repoAccession->totalRows();
+        // $accessionTotalRows = $repoAccession->totalRows();
+        // $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
+        // $accessionBiologicalStatus = $qb->select("biologicalS as biologicalStatus, count(biologicalS.id) as accQty, 'a' as percentage")
+        //     ->from('App\Entity\BiologicalStatus', 'biologicalS')    
+        //     ->join('App\Entity\Accession', 'accession')
+        //     ->where('biologicalS.isActive = 1')
+        //     ->andWhere('biologicalS.id = accession.sampstat')
+        //     ->groupBy('biologicalS.id')
+        //     ->orderBy('count(biologicalS.id)', 'DESC')
+        //     ->getQuery()
+        //     ->getResult();
+
+        // // show percentage of trials
+        // foreach ($accessionBiologicalStatus as $key => $value) {
+        //     # code...
+        //     $numb = $value['accQty'] / $accessionTotalRows * 100;
+        //     // two digit after comma
+        //     $roundedVal = number_format((float)$numb, 2, '.', '');
+        //     $accessionBiologicalStatus[$key]['percentage'] = $roundedVal;
+        // }
+
+        // accession x biological status
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-        $accessionBiologicalStatus = $qb->select("biologicalS as biologicalStatus, count(biologicalS.id) as accQty, 'a' as percentage")
-            ->from('App\Entity\BiologicalStatus', 'biologicalS')    
-            ->join('App\Entity\Accession', 'accession')
-            ->where('biologicalS.isActive = 1')
-            ->andWhere('biologicalS.id = accession.sampstat')
-            ->groupBy('biologicalS.id')
-            ->orderBy('count(biologicalS.id)', 'DESC')
+        $accessionQtyByBS = $qb->select("bs.name, count(acc.id) as accQty")
+            ->from('App\Entity\BiologicalStatus', 'bs')    
+            ->join('App\Entity\Accession', 'acc')
+            ->where('bs.isActive = 1')
+            ->andWhere('bs.isActive = 1')
+            ->andWhere('bs.id = acc.sampstat')
+            ->groupBy('bs.id')
             ->getQuery()
             ->getResult();
 
-            //dd($accessionBiologicalStatus);
-
-
-        // show percentage of trials
-        foreach ($accessionBiologicalStatus as $key => $value) {
+        // create a new custom table
+        $bufferTab = [];
+        foreach ($accessionQtyByBS as $key => $value) {
             # code...
-            $numb = $value['accQty'] / $accessionTotalRows * 100;
-            // two digit after comma
-            $roundedVal = number_format((float)$numb, 2, '.', '');
-            $accessionBiologicalStatus[$key]['percentage'] = $roundedVal;
+            $bufferTab[$value['name']] = $value['accQty'];
         }
+        $accessionQtyByBS = $bufferTab;
+
+        // Setup query to get the most accession per country
+        $repoObsVar = $entityManager->getRepository(ObservationVariable::class);
+        $totalObsVar = $repoObsVar->totalRows();
 
         $context = [
             'title' => 'Harnesstom DB',
@@ -263,7 +285,6 @@ class AppController extends AbstractController
             "totalAccession" => $totalAccession,
             "accessionPerCountry" => $accessionPerCountry,
             "jsonAcc" => json_encode($accessionPerCountryFields),
-            "jsonAccessionBiologicalStatus" => $accessionBiologicalStatus,
             "totalMappingPopulation" => $totalMappingPopulation,
             "totalGWAS" => $totalGWAS,
             "totalQTLStudy" => $totalQTLStudy,
@@ -272,6 +293,8 @@ class AppController extends AbstractController
             "totalQTLVariant" => $totalQTLVariant,
             "totalGWASVariant" => $totalGWASVariant,
             "totalMetabolite" => $totalMetabolite,
+            "totalObsVar" => $totalObsVar,
+            "accessionQtyByBS" => $accessionQtyByBS
 
         ];
         return $this->render('app/index.html.twig', $context);
