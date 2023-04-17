@@ -15,6 +15,7 @@ use App\Entity\QTLStudy;
 use App\Entity\GermplasmStudyImage;
 use App\Entity\GWASVariant;
 use App\Entity\Metabolite;
+use App\Entity\ObservationVariable;
 use App\Entity\QTLVariant;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -254,6 +255,10 @@ class AppController extends AbstractController
             $accessionBiologicalStatus[$key]['percentage'] = $roundedVal;
         }
 
+        // Setup query to get the most accession per country
+        $repoObsVar = $entityManager->getRepository(ObservationVariable::class);
+        $totalObsVar = $repoObsVar->totalRows();
+
         $context = [
             'title' => 'Harnesstom DB',
             "totalMarker" => $totalMarker,
@@ -272,6 +277,7 @@ class AppController extends AbstractController
             "totalQTLVariant" => $totalQTLVariant,
             "totalGWASVariant" => $totalGWASVariant,
             "totalMetabolite" => $totalMetabolite,
+            "totalObsVar" => $totalObsVar
 
         ];
         return $this->render('app/index.html.twig', $context);
