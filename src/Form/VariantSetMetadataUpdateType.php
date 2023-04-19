@@ -33,8 +33,11 @@ class VariantSetMetadataUpdateType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '5')])
             ->add('filters', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '5')])
-            ->add('variantCount')
+                'attr' => array('cols' => '5', 'rows' => '5'),
+                'required' => false])
+            ->add('variantCount', TextType::class, [
+                'required' => false,
+            ])
             ->add('publicationRef', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
@@ -48,6 +51,7 @@ class VariantSetMetadataUpdateType extends AbstractType
                 'class' => Software::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlSoftware .'" target="_blank">Software</a>'
             ])
             ->add('genotypingPlatform', EntityType::class, [
