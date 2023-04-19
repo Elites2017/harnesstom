@@ -84,7 +84,7 @@
 													{{ variantSetMetadata.dataUpload }}
 												</td>
 												<td>
-													{% if variantSetMetadata.fileUrl == null %}
+													{% if (variantSetMetadata.fileUrl == null and variantSetMetadata.dataUpload == null) %}
 														<form name="uploadVCF" action="{{ path('variant_set_metadata_upload_vcf', {id: variantSetMetadata.id}) }}" method="POST" enctype="multipart/form-data">
 															<input type="file" id="vcf_upload_vcf" name="vcf_upload[vcf]" required="required" >
 															<button type="submit" class="btn btn-outline-primary">Upload</button>
