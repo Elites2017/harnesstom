@@ -60,6 +60,7 @@ class VariantSetMetadataController extends AbstractController
                 try {
                     $file->move($fileFolder, $filePathName);
                     $variantSetMetadata->setDataUpload($filePathName);
+                    $variantSetMetadata->setFileUrl($filePathName);
                 } catch (\Throwable $th) {
                     //throw $th;
                     $this->addFlash('danger', "Fail to upload the VCF file, try again ");
