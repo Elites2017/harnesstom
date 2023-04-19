@@ -42,6 +42,7 @@ class VariantSetMetadataType extends AbstractType
                 'entry_type' => TextType::class,
                 'allow_add' => true,
                 'prototype' => true,
+                'required' => false,
                 'label' => false
             ])
             ->add('dataUpload', FileType::class,[
