@@ -79,10 +79,16 @@ class QTLStatistic
      */
     private $is_poau;
 
+    /**
+     * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="epistasisStatistic")
+     */
+    private $qtlEpistasisStudies;
+
     public function __construct()
     {
         $this->qTLStudies = new ArrayCollection();
         $this->qTLStatistics = new ArrayCollection();
+        $this->qtlEpistasisStudies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -261,6 +267,36 @@ class QTLStatistic
     public function setIsPoau(?bool $is_poau): self
     {
         $this->is_poau = $is_poau;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLStudy>
+     */
+    public function getQtlEpistasisStudies(): Collection
+    {
+        return $this->qtlEpistasisStudies;
+    }
+
+    public function addQtlEpistasisStudy(QTLStudy $qtlEpistasisStudy): self
+    {
+        if (!$this->qtlEpistasisStudies->contains($qtlEpistasisStudy)) {
+            $this->qtlEpistasisStudies[] = $qtlEpistasisStudy;
+            $qtlEpistasisStudy->setEpistasisStatistic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQtlEpistasisStudy(QTLStudy $qtlEpistasisStudy): self
+    {
+        if ($this->qtlEpistasisStudies->removeElement($qtlEpistasisStudy)) {
+            // set the owning side to null (unless already changed)
+            if ($qtlEpistasisStudy->getEpistasisStatistic() === $this) {
+                $qtlEpistasisStudy->setEpistasisStatistic(null);
+            }
+        }
 
         return $this;
     }

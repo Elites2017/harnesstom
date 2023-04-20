@@ -72,10 +72,16 @@ class Generation
      */
     private $is_poau;
 
+    /**
+     * @ORM\OneToMany(targetEntity=MappingPopulation::class, mappedBy="pedigreeGeneration")
+     */
+    private $mappingPopulations;
+
     public function __construct()
     {
         $this->generations = new ArrayCollection();
         $this->pedigrees = new ArrayCollection();
+        $this->mappingPopulations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -226,5 +232,35 @@ class Generation
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * @return Collection<int, MappingPopulation>
+     */
+    public function getMappingPopulations(): Collection
+    {
+        return $this->mappingPopulations;
+    }
+
+    public function addMappingPopulation(MappingPopulation $mappingPopulation): self
+    {
+        if (!$this->mappingPopulations->contains($mappingPopulation)) {
+            $this->mappingPopulations[] = $mappingPopulation;
+            $mappingPopulation->setPedigreeGeneration($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMappingPopulation(MappingPopulation $mappingPopulation): self
+    {
+        if ($this->mappingPopulations->removeElement($mappingPopulation)) {
+            // set the owning side to null (unless already changed)
+            if ($mappingPopulation->getPedigreeGeneration() === $this) {
+                $mappingPopulation->setPedigreeGeneration(null);
+            }
+        }
+
+        return $this;
     }
 }

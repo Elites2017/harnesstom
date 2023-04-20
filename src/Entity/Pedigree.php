@@ -69,14 +69,6 @@ class Pedigree
     private $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity=MappingPopulation::class, mappedBy="pedigreeGeneration")
-     * @Groups({"mls_status:read", "marker:read", "trial:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read",
-     * "program:read", "accession:read", "cross:read", "sample:read", "institute:read", "observation_variable:read"})
-     */
-    private $mappingPopulations;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Cross::class, inversedBy="pedigrees")
      */
     private $pedigreeCross;
@@ -91,7 +83,6 @@ class Pedigree
     public function __construct()
     {
         $this->germplasm = new ArrayCollection();
-        $this->mappingPopulations = new ArrayCollection();
         $this->parenstOfPeds = new ArrayCollection();
     }
 
@@ -180,36 +171,6 @@ class Pedigree
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, MappingPopulation>
-     */
-    public function getMappingPopulations(): Collection
-    {
-        return $this->mappingPopulations;
-    }
-
-    public function addMappingPopulation(MappingPopulation $mappingPopulation): self
-    {
-        if (!$this->mappingPopulations->contains($mappingPopulation)) {
-            $this->mappingPopulations[] = $mappingPopulation;
-            $mappingPopulation->setPedigreeGeneration($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMappingPopulation(MappingPopulation $mappingPopulation): self
-    {
-        if ($this->mappingPopulations->removeElement($mappingPopulation)) {
-            // set the owning side to null (unless already changed)
-            if ($mappingPopulation->getPedigreeGeneration() === $this) {
-                $mappingPopulation->setPedigreeGeneration(null);
-            }
-        }
 
         return $this;
     }
