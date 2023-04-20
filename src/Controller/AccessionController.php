@@ -276,7 +276,7 @@ class AccessionController extends AbstractController
                             }
                         } catch (\Throwable $th) {
                             //throw $th;
-                            $this->addFlash('danger', " there is a problem with the biological status " .$accessionBioStatus);
+                            $this->addFlash('danger', " there is a problem with the biological status " .$sampStat);
                         }
 
                         try {
@@ -287,7 +287,7 @@ class AccessionController extends AbstractController
                             }
                         } catch (\Throwable $th) {
                             //throw $th;
-                            $this->addFlash('danger', " there is a problem with the mls status " .$accessionMLSStatus);
+                            $this->addFlash('danger', " there is a problem with the mls status " .$mlsStat);
                         }
 
                         try {
@@ -298,7 +298,7 @@ class AccessionController extends AbstractController
                             }
                         } catch (\Throwable $th) {
                             //throw $th;
-                            $this->addFlash('danger', " there is a problem with the taxonomy " .$accessionTaxonomy);
+                            $this->addFlash('danger', " there is a problem with the taxonomy " .$taxonid);
                         }
 
                         try {
@@ -331,7 +331,7 @@ class AccessionController extends AbstractController
                             }
                         } catch (\Throwable $th) {
                             //throw $th;
-                            $this->addFlash('danger', " there is a problem with the storage type " .$accessionStorageType);
+                            $this->addFlash('danger', " there is a problem with the storage type " .$storage);
                         }
 
                         try {
