@@ -28,7 +28,7 @@ class QTLStatisticController extends AbstractController
     public function index(QTLStatisticRepository $qtlStatisticRepo): Response
     {
         $qtlStatistics =  $qtlStatisticRepo->findAll();
-        $parentsOnly = $parentsOnly->getParentsOnly();
+        $parentsOnly = $qtlStatisticRepo->getParentsOnly();
         $context = [
             'title' => 'QTL Statistic',
             'qtlStatistics' => $qtlStatistics,
