@@ -21,11 +21,7 @@
 								<th scope="col">Cross Paret 1</th>
 								<th scope="col">Cross Parent 2</th>
 								<th scope="col">Cross Breeding Method</th>
-								<th scope="col">Cross Pedigree</th>
 								<th scope="col">Cross Year</th>
-								<th scope="col">Pedigree Generation</th>
-								<th scope="col">Pedigree Entry ID</th>
-								<th scope="col">Ancestor Pedigree Entry ID</th>
 								<th scope="col">Generation</th>
 								<th scope="col">Cross</th>
 								{% if is_granted("ROLE_ADMIN") %}
@@ -52,10 +48,13 @@
 									{% endif %}
 								</td>
 								<td>
-									{{ mappingPopulation.mappingPopulationCross.study }}
+									{{ mappingPopulation.pedigreeGeneration }}
 								</td>
 								<td>
-									{{ mappingPopulation.mappingPopulationCross.institute }}
+									{{ mappingPopulation.mappingPopulationCross.study.abbreviation }}
+								</td>
+								<td>
+									{{ mappingPopulation.mappingPopulationCross.institute.acronym }}
 								</td>
 								<td>
 									{{ mappingPopulation.mappingPopulationCross.parent1 }}
@@ -67,27 +66,7 @@
 									{{ mappingPopulation.mappingPopulationCross.breedingMethod }}
 								</td>
 								<td>
-									{{ mappingPopulation.mappingPopulationCross.pedigree }}
-								</td>
-								<td>
 									{{ mappingPopulation.mappingPopulationCross.year }}
-								</td>
-								<td>
-									{% if mappingPopulation.pedigreeGeneration %}
-										<a href="{{ path('pedigree_details', {id: mappingPopulation.pedigreeGeneration.id}) }}">{{ mappingPopulation.pedigreeGeneration }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{{ mappingPopulation.pedigreeGeneration.pedigreeEntryID }}
-								</td>
-								<td>
-									{{ mappingPopulation.pedigreeGeneration.ancestorPedigreeEntryID }}
-								</td>
-								<td>
-									{{ mappingPopulation.pedigreeGeneration.generation }}
-								</td>
-								<td>
-									{{ mappingPopulation.pedigreeGeneration.pedigreeCross }}
 								</td>
 								{% if is_granted("ROLE_ADMIN") %}
 									<td>
@@ -116,6 +95,49 @@
 			</div>
 		</div>
 		<!-- .row -->
+
+		{# Start of row #}
+		<div class="row">
+			{% if mappingPopulation.mappingPopulationCross.pedigrees | length > 0 %}
+				<div class="col-md-6 mb-4">
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<span class="tomato-color">{{ mappingPopulation.mappingPopulationCross.pedigrees | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</span>
+						<span class="badge badge-danger badge-pill">{{ mappingPopulation.mappingPopulationCross.pedigrees | length }}</span>
+					</h4>
+					<ul class="list-group mb-3">
+						{% for onePedigree in mappingPopulation.mappingPopulationCross.pedigrees %}
+							{# Loop each pedigree germplasm list #}
+							{% if onePedigree.germplasm | length > 0 %}
+								{% for oneGermplasm in onePedigree.germplasm %}
+									<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
+									<div>
+										<h6 class="my-0">Germplasm ID</h6>
+										<strong class="text-muted">{{ oneGermplasm.germplasmID }}</strong>
+									</div>
+									<div>
+										<h6 class="my-0">INSTCODE</h6>
+										<strong class="text-muted">{{ oneGermplasm.instcode }}</strong>
+									</div>
+									<div>
+										<h6 class="my-0">Maintainer Number</h6>
+										<strong class="text-muted">{{ oneGermplasm.maintainerNumb }}</strong>
+									</div>
+									<div>
+										<h6 class="my-0">Accession</h6>
+										<strong class="text-muted">{{ oneGermplasm.accession }}</strong>
+									</div>
+									{# <span class="text-muted">$12</span> #}
+									</li></a>
+								{% endfor %}
+							{% endif %}
+							
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+		{# End of row #}
+
 	</div>
 	<!-- .container -->
 {% endblock %}
