@@ -84,7 +84,7 @@ class VariantSetMetadata
     private $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity=GWAS::class, mappedBy="variantSetMetada")
+     * @ORM\OneToMany(targetEntity=GWAS::class, mappedBy="variantSetMetadata")
      */
     private $gWAS;
 
