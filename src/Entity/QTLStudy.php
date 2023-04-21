@@ -79,9 +79,9 @@ class QTLStudy
     private $method;
 
     /**
-     * @ORM\ManyToOne(targetEntity=VariantSet::class, inversedBy="qTLStudies")
+     * @ORM\ManyToOne(targetEntity=VariantSetMetadata::class, inversedBy="qTLStudies")
      */
-    private $variantSet;
+    private $variantSetMetadata;
 
     /**
      * @ORM\ManyToOne(targetEntity=MappingPopulation::class, inversedBy="qTLStudies")
@@ -112,6 +112,11 @@ class QTLStudy
      * @ORM\ManyToMany(targetEntity=Study::class, inversedBy="qTLStudies")
      */
     private $studyList;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=QTLStatistic::class, inversedBy="qtlEpistasisStudies")
+     */
+    private $epistasisStatistic;
 
     public function __construct()
     {
@@ -256,14 +261,14 @@ class QTLStudy
         return $this;
     }
 
-    public function getVariantSet(): ?VariantSet
+    public function getVariantSetMetadata(): ?VariantSetMetadata
     {
-        return $this->variantSet;
+        return $this->variantSetMetadata;
     }
 
-    public function setVariantSet(?VariantSet $variantSet): self
+    public function setVariantSetMetadata(?VariantSetMetadata $variantSetMetadata): self
     {
-        $this->variantSet = $variantSet;
+        $this->variantSetMetadata = $variantSetMetadata;
 
         return $this;
     }
@@ -373,6 +378,18 @@ class QTLStudy
     public function removeStudyList(Study $studyList): self
     {
         $this->studyList->removeElement($studyList);
+
+        return $this;
+    }
+
+    public function getEpistasisStatistic(): ?QTLStatistic
+    {
+        return $this->epistasisStatistic;
+    }
+
+    public function setEpistasisStatistic(?QTLStatistic $epistasisStatistic): self
+    {
+        $this->epistasisStatistic = $epistasisStatistic;
 
         return $this;
     }

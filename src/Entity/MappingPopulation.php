@@ -50,12 +50,6 @@ class MappingPopulation
     private $mappingPopulationCross;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Pedigree::class, inversedBy="mappingPopulations")
-     * @Groups({"study:read"})
-     */
-    private $pedigreeGeneration;
-
-    /**
      * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="mappingPopulation")
      * @Groups({"mapping_population:read", "study:read"})
      */
@@ -65,6 +59,11 @@ class MappingPopulation
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="mappingPopulations")
      */
     private $createdBy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Generation::class, inversedBy="mappingPopulations")
+     */
+    private $pedigreeGeneration;
 
     public function __construct()
     {
@@ -124,18 +123,6 @@ class MappingPopulation
         return $this;
     }
 
-    public function getPedigreeGeneration(): ?Pedigree
-    {
-        return $this->pedigreeGeneration;
-    }
-
-    public function setPedigreeGeneration(?Pedigree $pedigreeGeneration): self
-    {
-        $this->pedigreeGeneration = $pedigreeGeneration;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, QTLStudy>
      */
@@ -181,6 +168,18 @@ class MappingPopulation
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getPedigreeGeneration(): ?Generation
+    {
+        return $this->pedigreeGeneration;
+    }
+
+    public function setPedigreeGeneration(?Generation $pedigreeGeneration): self
+    {
+        $this->pedigreeGeneration = $pedigreeGeneration;
 
         return $this;
     }

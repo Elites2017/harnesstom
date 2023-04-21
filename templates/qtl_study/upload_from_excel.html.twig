@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}
+	{{ title }}
+{% endblock %}
 
 {% block body %}
 	<div class="container-fluid">
@@ -19,58 +21,32 @@
 					<!-- Card Header - Dropdown -->
 					<div
 						class="card-header py-3 flex-row align-items-center justify-content-between">
-						<h4 class="m-0 font-weight-bold text-center tomato-color">Germplasm Study Image Edition</h4>
+						<h4 class="mb-3 text-center tomato-color font-weight-bold">QTL Study Upload From Excel</h4>
 					</div>
 					<!-- Card Body -->
 					<div class="card-body">
-						{{ form_start(germplasmStudyImageForm) }}
-						<div class="row">
-							<div class="col-md-4 mb-3">
-								{{ form_row(germplasmStudyImageForm.factor, {label: "Factor Type", 'attr': {'placeholder' : 'Select the factor type',
-												'class': "custom-select d-block w-100"}}) }}
-							</div>
-
-							<div class="col-md-4 mb-3">
-								{{ form_row(germplasmStudyImageForm.developmentStage, {label: "Development Stage", 'attr': {'placeholder' : 'Select the  development stage',
-												'class': "custom-select d-block w-100"}}) }}
-							</div>
-
-							<div class="col-md-4 mb-3">
-								{{ form_row(germplasmStudyImageForm.plantAnatomicalEntity, {label: "Plant Anatomical Entity", 'attr': {'placeholder' : 'Select the  plant anatomical entity',
-												'class': "custom-select d-block w-100"}}) }}
-							</div>
+						<div class="mb-3">
+							<a href="{{ path('qtl_study_download_template') }}" download target="_blank">
+								<h1>Click to download a template example</h1></br>
+								<h3>NOTE: Your data must be in the same format as the template example file format</h3>
+								<img src="{{ asset('assets/images/excelicon.png') }}" alt="Example of excel template" width="104" height="142">
+							</a>
 						</div>
-						
+						{{ form_start(qtlStudyUploadFromExcelForm) }}
 						<div>
-							{{ form_row(germplasmStudyImageForm.description, {label: "Description", 'attr': {'placeholder': "Enter the description"}} ) }}
-						</div>
-
-						<div class="row">
-							<div class="col-md-4 mb-3">
-								{{ form_row(germplasmStudyImageForm.filename, {label: "Filename", 'attr': {'placeholder' : 'Select the image(s)'}}) }}
-							</div>
-
-							<div class="col-md-4 mb-3">
-								{{ form_row(germplasmStudyImageForm.GermplasmID, {label: "Germplasm", 'attr': {'placeholder' : 'Select the germplasm',
-												'class': "custom-select d-block w-100"}}) }}
-							</div>
-
-							<div class="col-md-4 mb-3">
-								{{ form_row(germplasmStudyImageForm.StudyID, {label: "Study", 'attr': {'placeholder' : 'Select the study',
-												'class': "custom-select d-block w-100"}}) }}
-							</div>
+							{{ form_row(qtlStudyUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file", 'accept':".txt, .xls, .xlsx" }}) }}
 						</div>
 
 						<div class="row">
 							<div class="col-md-6 mb-3">
-								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
+								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Upload</button>
 							</div>
 
 							<div class="col-md-6 mb-3">
 								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
 							</div>
 						</div>
-						{{ form_end(germplasmStudyImageForm) }}
+						{{ form_end(qtlStudyUploadFromExcelForm) }}
 					</div>
 				</div>
 			</div>

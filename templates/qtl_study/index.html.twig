@@ -31,6 +31,15 @@
 		<div class="row">
 			<div class="col-md-12 order-md-1">
 				{% if qtlStudies | length > 0 %}
+					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+						{% for message in messages %}
+							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endfor %}
 					<h2 class="mb-3 text-center tomato-color font-weight-bold">QTL Study List</h2>
 					<div class="table-responsive">
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
@@ -74,7 +83,7 @@
 										</td>
 										<td>
 											{% if qtlStudy.mappingPopulation %}
-												<a href="{{ path('mapping_popilation_details', {id: qtlStudy.mappingPopulation.id}) }}">{{ qtlStudy.mappingPopulation }}</a>
+												<a href="{{ path('mapping_population_details', {id: qtlStudy.mappingPopulation.id}) }}">{{ qtlStudy.mappingPopulation }}</a>
 											{% endif %}
 										</td>
 										<td>

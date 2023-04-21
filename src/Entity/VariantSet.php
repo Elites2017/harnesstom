@@ -54,19 +54,9 @@ class VariantSet
     private $variantSetMetadata;
 
     /**
-     * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="variantSet")
-     */
-    private $qTLStudies;
-
-    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="variantSets")
      */
     private $createdBy;
-
-    public function __construct()
-    {
-        $this->qTLStudies = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -141,36 +131,6 @@ class VariantSet
     public function setVariantSetMetadata(?VariantSetMetadata $variantSetMetadata): self
     {
         $this->variantSetMetadata = $variantSetMetadata;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, QTLStudy>
-     */
-    public function getQTLStudies(): Collection
-    {
-        return $this->qTLStudies;
-    }
-
-    public function addQTLStudy(QTLStudy $qTLStudy): self
-    {
-        if (!$this->qTLStudies->contains($qTLStudy)) {
-            $this->qTLStudies[] = $qTLStudy;
-            $qTLStudy->setVariantSet($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQTLStudy(QTLStudy $qTLStudy): self
-    {
-        if ($this->qTLStudies->removeElement($qTLStudy)) {
-            // set the owning side to null (unless already changed)
-            if ($qTLStudy->getVariantSet() === $this) {
-                $qTLStudy->setVariantSet(null);
-            }
-        }
 
         return $this;
     }

@@ -3,7 +3,8 @@
 namespace App\Form;
 
 use App\Entity\MappingPopulation;
-use App\Entity\Pedigree;
+use App\Entity\Generation;
+use App\Entity\Cross;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,23 +21,23 @@ class MappingPopulationUpdateType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $toUrlMappingPopulation = $this->router->generate('mapping_population_create');
-        $toUrlPedigree = $this->router->generate('pedigree_create');
+        $toUrlCross = $this->router->generate('cross_create');
+        $toUrlPedigree = $this->router->generate('generation_create');
 
         $builder
             ->add('name')
             ->add('mappingPopulationCross', EntityType::class, [
-                'class' => MappingPopulation::class,
+                'class' => Cross::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlMappingPopulation .'" target="_blank">Mapping Population</a>'
+                'help' => 'Add a new <a href="' . $toUrlCross .'" target="_blank">Cross</a>'
                 
             ])
             ->add('pedigreeGeneration', EntityType::class, [
-                'class' => Pedigree::class,
+                'class' => Generation::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlPedigree .'" target="_blank">Pedigree</a>'
+                'help' => 'Add a new <a href="' . $toUrlPedigree .'" target="_blank">Generation</a>'
                 
             ])
         ;

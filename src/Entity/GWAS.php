@@ -34,7 +34,7 @@ class GWAS
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"gwas:read"})
      */
     private $preprocessing;
@@ -56,14 +56,9 @@ class GWAS
     private $createdAt;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
-     */
-    private $studyID = [];
-
-    /**
      * @ORM\ManyToOne(targetEntity=VariantSetMetadata::class, inversedBy="gWAS")
      */
-    private $variantSetMetada;
+    private $variantSetMetadata;
 
     /**
      * @ORM\ManyToOne(targetEntity=Software::class, inversedBy="gWAS")
@@ -196,26 +191,14 @@ class GWAS
         return $this;
     }
 
-    public function getStudyID(): ?array
+    public function getVariantSetMetadata(): ?VariantSetMetadata
     {
-        return $this->studyID;
+        return $this->variantSetMetadata;
     }
 
-    public function setStudyID(?array $studyID): self
+    public function setVariantSetMetadata(?VariantSetMetadata $variantSetMetadata): self
     {
-        $this->studyID = $studyID;
-
-        return $this;
-    }
-
-    public function getVariantSetMetada(): ?VariantSetMetadata
-    {
-        return $this->variantSetMetada;
-    }
-
-    public function setVariantSetMetada(?VariantSetMetadata $variantSetMetada): self
-    {
-        $this->variantSetMetada = $variantSetMetada;
+        $this->variantSetMetadata = $variantSetMetadata;
 
         return $this;
     }

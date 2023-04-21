@@ -1622,6 +1622,11 @@
 										<li>
 											<a class="dropdown-item" href="{{ path('qtl_study_create') }}">Create</a>
 										</li>
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="{{path('qtl_study_upload_from_excel')}}">Upload From Excel</a>
+											</li>
+										{% endif %}
 										<li>
 											<a class="dropdown-item" href="{{ path('qtl_study_index') }}">Search</a>
 										</li>
@@ -1629,12 +1634,17 @@
 								</li>
 								<li>
 									<a class="dropdown-item" href="{{ path('gwas_index') }}">
-										GWAS Study &raquo;
+										GWAS &raquo;
 									</a>
 									<ul class="dropdown-menu dropdown-submenu">
 										<li>
 											<a class="dropdown-item" href="{{ path('gwas_create') }}">Create</a>
 										</li>
+										{% if is_granted("ROLE_ADMIN") %}
+											<li>
+												<a class="dropdown-item" href="{{path('gwas_upload_from_excel')}}">Upload From Excel</a>
+											</li>
+										{% endif %}
 										<li>
 											<a class="dropdown-item" href="{{ path('gwas_index') }}">Search</a>
 										</li>
