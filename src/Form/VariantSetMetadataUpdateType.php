@@ -45,8 +45,8 @@ class VariantSetMetadataUpdateType extends AbstractType
                 'required' => false,
                 'label' => false
             ])
-            ->add('dataUpload', TextType::class, [
-                'disabled' => true
+            ->add('dataUpload', FileType::class,[
+                'data_class' => null
             ])
             ->add('software', EntityType::class, [
                 'class' => Software::class,

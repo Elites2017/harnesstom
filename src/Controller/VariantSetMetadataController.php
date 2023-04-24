@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\File;
 
 // set a class level route
 /**
@@ -101,9 +102,43 @@ class VariantSetMetadataController extends AbstractController
     public function edit(VariantSetMetadata $variantSetMetadata, Request $request, EntityManagerInterface $entmanager): Response
     {
         $this->denyAccessUnlessGranted('variant_set_metadata_edit', $variantSetMetadata);
+        $fileFolder = __DIR__ . '/../../public/uploads/vcf/';
+        $currentFile = $variantSetMetadata->getDataUpload();
+        if ($currentFile !== null) {
+            try {
+                $variantSetMetadata->setDataUpload(new File($fileFolder.$currentFile));
+            } catch (\Throwable $th) {
+                //throw $th;
+                $this->addFlash('danger', "The file doesn't exist on the server, try to upload it first ");
+            }
+        }
+
         $form = $this->createForm(VariantSetMetadataUpdateType::class, $variantSetMetadata);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            // check if there is a new file
+            if ($variantSetMetadata->getDataUpload() != null) {
+                // get the file (name from the form. It takes the name of the form)
+                $file = $request->files->get('variant_set_metadata_update')['dataUpload'];
+                // apply md5 function to generate a unique id for the file and concat it with the original file name
+                if ($file->getClientOriginalName()) {
+                    $filePathName = md5(uniqid()) . $file->getClientOriginalName();
+                    try {
+                        $file->move($fileFolder, $filePathName);
+                        $variantSetMetadata->setDataUpload($filePathName);
+                        $variantSetMetadata->setFileUrl($filePathName);
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                        $this->addFlash('danger', "Fail to upload the VCF file, try again ");
+                    }
+                } else {
+                    $this->addFlash('danger', "Error in the VCF file name, try to rename the file and try again");
+                }
+            } else {
+                // restore the current file 
+                $variantSetMetadata->setDataUpload($currentFile);
+                $variantSetMetadata->setFileUrl($currentFile);
+            }
             $entmanager->persist($variantSetMetadata);
             $entmanager->flush();
             return $this->redirect($this->generateUrl('variant_set_metadata_index'));
