@@ -52,7 +52,7 @@ class GWASType extends AbstractType
                 'label' => false,
                 'prototype_data' => 'Publication reference...'
             ])
-            ->add('variantSetMetada', EntityType::class, [
+            ->add('variantSetMetadata', EntityType::class, [
                 'class' => VariantSetMetadata::class,
                 'help_html' => true,
                 'placeholder' => '',
