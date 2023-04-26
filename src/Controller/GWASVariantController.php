@@ -8,6 +8,7 @@ use App\Entity\GWAS;
 use App\Entity\Metabolite;
 use App\Entity\TraitPreprocessing;
 use App\Entity\ObservationVariable;
+use App\Entity\TraitProcessing;
 use App\Form\GWASVariantType;
 use App\Form\GWASVariantUpdateType;
 use App\Repository\GWASVariantRepository;
@@ -132,7 +133,7 @@ class GWASVariantController extends AbstractController
             // Setup repository of some entity
             $repoGWASVariant = $entmanager->getRepository(GWASVariant::class);
             // Query how many rows are there in the GWAS table
-            $totalGWASBefore = $repoGWASVariant->createQueryBuilder('tab')
+            $totalGWASVariantBefore = $repoGWASVariant->createQueryBuilder('tab')
                 // Filter by some parameter if you want
                 // ->where('a.isActive = 1')
                 ->select('count(tab.id)')
@@ -181,21 +182,20 @@ class GWASVariantController extends AbstractController
                 $snppValue = $row['L'];
                 $ajustedPVal = $row['M'];
 
-                $allelicEffect = $row['M'];
-                $allelicEffectStat = $row['M'];
-                $allelicEffectdf = $row['M'];
-                $allelicEffectStdE = $row['M'];
-                $beta = $row['M'];
-                $betaStdError = $row['M'];
-                $oddsRatio = $row['M'];
-                $ciLower = $row['M'];
-                $ciUpper = $row['M'];
-                $rSquareModelWithOutSNP = $row['M'];
-                $rSquareModelSNP = $row['M'];
+                $allelicEffect = $row['N'];
+                $allelicEffectStat = $row['O'];
+                $allelicEffectdf = $row['P'];
+                $allelicEffectStdE = $row['Q'];
+                $beta = $row['R'];
+                $betaStdError = $row['S'];
+                $oddsRatio = $row['T'];
+                $ciLower = $row['U'];
+                $ciUpper = $row['V'];
+                $rSquareModelWithOutSNP = $row['W'];
+                $rSquareModelSNP = $row['X'];
 
                 // check if the file doesn't have empty columns
-                if ($gwasVariantName != null && $studyIds != null && $variantSetMetadataName && $model != null
-                    && $kinshipAlgo != null && $structureMethod != null && $thresholdMethodId != null && $thresholdValue != null) {
+                if ($gwasName != null && $gwasVariantName != null && $observationVarId && $markerName != null) {
                     // check if the data is upload in the database
                     $existingGWASVariant = $entmanager->getRepository(GWASVariant::class)->findOneBy(['name' => $gwasVariantName]);
                     // upload data only for objects that haven't been saved in the database
@@ -211,158 +211,237 @@ class GWASVariantController extends AbstractController
                             
                         } catch (\Throwable $th) {
                             //throw $th;
-                            $this->addFlash('danger', " there is a problem with the gwasVariant name " .$gwasVariantName);
+                            $this->addFlash('danger', " there is a problem with the gwas variant name " .$gwasVariantName);
                         }
 
                         try {
                             //code...
-                            $gwasVariantVariantSetMD = $entmanager->getRepository(VariantSetMetadata::class)->findOneBy(['name' => $variantSetMetadataName]);
-                            if (($gwasVariantVariantSetMD != null) && ($gwasVariantVariantSetMD instanceof \App\Entity\VariantSetMetadata)) {
-                                $gwasVariant->setVariantSetMetadata($gwasVariantVariantSetMD);
+                            $gwasVariantGWAS = $entmanager->getRepository(GWAS::class)->findOneBy(['name' => $gwasName]);
+                            if (($gwasVariantGWAS != null) && ($gwasVariantGWAS instanceof \App\Entity\GWAS)) {
+                                $gwasVariant->setGwas($gwasVariantGWAS);
                             }
                         } catch (\Throwable $th) {
                             //throw $th;
-                            $this->addFlash('danger', " there is a problem with the variant set metadata name " .$variantSetMetadataName);
+                            $this->addFlash('danger', " there is a problem with the gwas name " .$gwasName);
+                        }
+
+                        try {
+                            //code...
+                            $gwasVariantMarker = $entmanager->getRepository(Marker::class)->findOneBy(['name' => $markerName]);
+                            if (($gwasVariantMarker != null) && ($gwasVariantMarker instanceof \App\Entity\Marker)) {
+                                $gwasVariant->setMarker($gwasVariantMarker);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the marker name " .$markerName);
+                        }
+
+                        try {
+                            //code...
+                            $gwasVariantTraitPrepro = $entmanager->getRepository(TraitProcessing::class)->findOneBy(['ontology_id' => $traitPreproId]);
+                            if (($gwasVariantTraitPrepro != null) && ($gwasVariantTraitPrepro instanceof \App\Entity\TraitProcessing)) {
+                                $gwasVariant->setTraitPreprocessing($gwasVariantTraitPrepro);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the trait preprocessing id " .$traitPreproId);
+                        }
+
+                        try {
+                            //code...
+                            $gwasVariantMetabolite = $entmanager->getRepository(Metabolite::class)->findOneBy(['scale' => $metaboliteCode]);
+                            if (($gwasVariantMetabolite != null) && ($gwasVariantMetabolite instanceof \App\Entity\Metabolite)) {
+                                $gwasVariant->setMetabolite($gwasVariantMetabolite);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the metabolite code " .$metaboliteCode);
                         }
                         
                         try {
                             //code...
-                            if ($preProcessing) {
-                                $gwasVariant->setPreprocessing($preProcessing);
+                            $gwasVariantObsVar = $entmanager->getRepository(ObservationVariable::class)->findOneBy(['name' => $observationVarName]);
+                            if (($gwasVariantObsVar != null) && ($gwasVariantObsVar instanceof \App\Entity\ObservationVariable)) {
+                                $gwasVariant->setObservationVariable($gwasVariantObsVar);
                             }
                         } catch (\Throwable $th) {
                             //throw $th;
-                            $this->addFlash('danger', " there is a problem with the gwasVariant preprocessing " .$preProcessing);
-                        }
-                        
-                        try {
-                            //code...
-                            $gwasVariantVarAssSoft = $entmanager->getRepository(Software::class)->findOneBy(['ontology_id' => $varAssSoftware]);
-                            if (($gwasVariantVarAssSoft != null) && ($gwasVariantVarAssSoft instanceof \App\Entity\Software)) {
-                                $gwasVariant->setSoftware($gwasVariantVarAssSoft);
-                            }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the var association software " .$varAssSoftware);
+                            $this->addFlash('danger', " there is a problem with the observation variable " .$observationVarName);
                         }
 
 
-                        try {
-                            //code...
-                            $gwasVariantModel = $entmanager->getRepository(GWASVariantModel::class)->findOneBy(['ontology_id' => $model]);
-                            if (($gwasVariantModel != null) && ($gwasVariantModel instanceof \App\Entity\GWASVariantModel)) {
-                                $gwasVariant->setGwasVariantModel($gwasVariantModel);
-                            }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the gwasVariant model " .$model);
-                        }
-
-                        try {
-                            //code...
-                            $gwasVariantKinshipAlgo = $entmanager->getRepository(KinshipAlgorithm::class)->findOneBy(['ontology_id' => $kinshipAlgo]);
-                            if (($gwasVariantKinshipAlgo != null) && ($gwasVariantKinshipAlgo instanceof \App\Entity\KinshipAlgorithm)) {
-                                $gwasVariant->setKinshipAlgorithm($gwasVariantKinshipAlgo);
-                            }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the kinship algorithm " .$kinshipAlgo);
-                        }
-                        
-                        try {
-                            //code...
-                            $gwasVariantStructureMethod = $entmanager->getRepository(StructureMethod::class)->findOneBy(['ontology_id' => $structureMethod]);
-                            if (($gwasVariantStructureMethod != null) && ($gwasVariantStructureMethod instanceof \App\Entity\StructureMethod)) {
-                                $gwasVariant->setStructureMethod($gwasVariantStructureMethod);
-                            }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the structure method " .$structureMethod);
-                        }
-
-                        try {
-                            //code...
-                            $gwasVariantGeneticTestModel = $entmanager->getRepository(GeneticTestingModel::class)->findOneBy(['ontology_id' => $geneticTestModel]);
-                            if (($gwasVariantGeneticTestModel != null) && ($gwasVariantGeneticTestModel instanceof \App\Entity\GeneticTestingModel)) {
-                                $gwasVariant->setGeneticTestingModel($gwasVariantGeneticTestModel);
-                            }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the genetic testing model " .$geneticTestModel);
-                        }
-
-                        try {
-                            //code...
-                            $gwasVariantAllelicEE = $entmanager->getRepository(AllelicEffectEstimator::class)->findOneBy(['ontology_id' => $allelicEffectEst]);
-                            if (($gwasVariantAllelicEE != null) && ($gwasVariantAllelicEE instanceof \App\Entity\AllelicEffectEstimator)) {
-                                $gwasVariant->setAllelicEffectEstimator($gwasVariantAllelicEE);
-                            }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the allelic effect estimator " .$allelicEffectEst);
-                        }
-
-                        try {
-                            //code...
-                            $gwasVariantStatTest = $entmanager->getRepository(GWASVariantStatTest::class)->findOneBy(['ontology_id' => $statTest]);
-                            if (($gwasVariantStatTest != null) && ($gwasVariantStatTest instanceof \App\Entity\GWASVariantStatTest)) {
-                                $gwasVariant->setGwasVariantStatTest($gwasVariantStatTest);
-                            }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the gwasVariant stat test " .$statTest);
-                        }
-
-                        try {
-                            //code...
-                            $gwasVariantThresholdMethod = $entmanager->getRepository(ThresholdMethod::class)->findOneBy(['ontology_id' => $thresholdMethodId]);
-                            if (($gwasVariantThresholdMethod != null) && ($gwasVariantThresholdMethod instanceof \App\Entity\ThresholdMethod)) {
-                                $gwasVariant->setThresholdMethod($gwasVariantThresholdMethod);
-                            }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the threshold method " .$thresholdMethodId);
-                        }
-
-                        try {
-                            //code...
-                            if ($thresholdValue) {
-                                $gwasVariant->setThresholdValue($thresholdValue);
-                            }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the threshold value " .$thresholdValue);
-                        }
-
-                        $publicationRef = explode(";", $publicationRef);
-                        
-                        try {
-                            //code...
-                            $gwasVariant->setPublicationReference($publicationRef);
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the publication reference ");
-                        }
-                        
-                        // study list
-                        $studyIds = explode(";", $studyIds);
-                        foreach ($studyIds as $key => $oneStudy) {
-                            # code...
+                        if ($maf) {
                             try {
                                 //code...
-                                $gwasVariantOneStudy = $entmanager->getRepository(Study::class)->findOneBy(['abbreviation' => $oneStudy]);
-                                if (($gwasVariantOneStudy != null) && ($gwasVariantOneStudy instanceof \App\Entity\Study)) {
-                                    $gwasVariant->addStudyList($gwasVariantOneStudy);
-                                }
+                                $gwasVariant->setMaf($maf);
                             } catch (\Throwable $th) {
                                 //throw $th;
-                                $this->addFlash('danger', " there is a problem with the study ", $oneStudy);
+                                $this->addFlash('danger', " there is a problem with the maf " .$maf);
+                            }
+                        }
+
+                        if ($refAllele) {
+                            try {
+                                //code...
+                                $gwasVariant->setRefAllele($refAllele);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the reference allele " .$refAllele);
+                            }
+                        }
+
+                        if ($altAllele) {
+                            try {
+                                //code...
+                                $gwasVariant->setAlternativeAllele($altAllele);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the alternative allele " .$altAllele);
+                            }
+                        }
+                        
+                        if ($sampleSize) {
+                            try {
+                                //code...
+                                $gwasVariant->setSampleSize($sampleSize);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the sample size " .$sampleSize);
+                            }
+                        }
+
+                        if ($snppValue) {
+                            try {
+                                //code...
+                                $gwasVariant->setSnppValue($snppValue);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the snpp value " .$snppValue);
+                            }
+                        }
+
+                        if ($ajustedPVal) {
+                            try {
+                                //code...
+                                $gwasVariant->setAdjustedPValue($ajustedPVal);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the ajusted pvalue " .$ajustedPVal);
+                            }
+                        }
+
+                        if ($allelicEffect) {
+                            try {
+                                //code...
+                                $gwasVariant->setAllelicEffect($allelicEffect);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the allelic effect " .$allelicEffect);
+                            }
+                        }
+
+                        if ($allelicEffectStat) {
+                            try {
+                                //code...
+                                $gwasVariant->setAllelicEffectStat($allelicEffectStat);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the allelic effect stat " .$allelicEffectStat);
+                            }
+                        }
+
+                        if ($allelicEffectdf) {
+                            try {
+                                //code...
+                                $gwasVariant->setAllelicEffectdf($allelicEffectdf);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the allelic effect df " .$allelicEffectdf);
+                            }
+                        }
+
+                        if ($allelicEffectStdE) {
+                            try {
+                                //code...
+                                $gwasVariant->setAllelicEffStdE($allelicEffectStdE);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the allelic effect stdE " .$allelicEffectStdE);
+                            }
+                        }
+
+                        if ($beta) {
+                            try {
+                                //code...
+                                $gwasVariant->setBeta($beta);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the beta " .$beta);
+                            }
+                        }
+
+                        if ($betaStdError) {
+                            try {
+                                //code...
+                                $gwasVariant->setBetaStdE($betaStdError);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the beta stdError " .$betaStdError);
+                            }
+                        }
+
+                        if ($oddsRatio) {
+                            try {
+                                //code...
+                                $gwasVariant->setOddsRatio($oddsRatio);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the odds ratio " .$oddsRatio);
+                            }
+                        }
+
+                        if ($ciLower) {
+                            try {
+                                //code...
+                                $gwasVariant->setCiLower($ciLower);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the ci lower " .$ciLower);
+                            }
+                        }
+
+                        if ($ciUpper) {
+                            try {
+                                //code...
+                                $gwasVariant->setCiUpper($ciUpper);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the ci upper " .$ciUpper);
+                            }
+                        }
+
+                        if ($rSquareModelSNP) {
+                            try {
+                                //code...
+                                $gwasVariant->setRSquareOfModeWithSNP($rSquareModelSNP);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the rsquare of mode with snp " .$rSquareModelSNP);
+                            }
+                        }
+
+                        if ($rSquareModelWithOutSNP) {
+                            try {
+                                //code...
+                                $gwasVariant->setRSquareOfModeWithoutSNP($rSquareModelWithOutSNP);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the rsquare of mode without snp " .$rSquareModelWithOutSNP);
                             }
                         }
 
                         $gwasVariant->setIsActive(true);
                         $gwasVariant->setCreatedAt(new \DateTime());
-                        
                         try {
                             //code...
                             $entmanager->persist($gwasVariant);
@@ -373,7 +452,7 @@ class GWASVariantController extends AbstractController
                         }
                     }
                 } else {
-                    $this->addFlash('danger', " The gwasVariant name, the study list and the variant set name can not be empty, provide them and try again");
+                    $this->addFlash('danger', " The gwas variant name, the gwas name and the marker name can not be empty, provide them and try again");
                 }
             }
             
@@ -386,15 +465,15 @@ class GWASVariantController extends AbstractController
                 ->getSingleScalarResult();
 
             if ($totalGWASVariantBefore == 0) {
-                $this->addFlash('success', $totalGWASVariantAfter . " gwasVariant have been successfuly added");
+                $this->addFlash('success', $totalGWASVariantAfter . " gwas variant have been successfuly added");
             } else {
                 $diffBeforeAndAfter = $totalGWASVariantAfter - $totalGWASVariantBefore;
                 if ($diffBeforeAndAfter == 0) {
-                    $this->addFlash('success', "No new gwasVariant has been added");
+                    $this->addFlash('success', "No new gwas variant has been added");
                 } else if ($diffBeforeAndAfter == 1) {
-                    $this->addFlash('success', $diffBeforeAndAfter . " gwasVariant has been successfuly added");
+                    $this->addFlash('success', $diffBeforeAndAfter . " gwas variant has been successfuly added");
                 } else {
-                    $this->addFlash('success', $diffBeforeAndAfter . " gwasVariant have been successfuly added");
+                    $this->addFlash('success', $diffBeforeAndAfter . " gwas variant have been successfuly added");
                 }
             }
             return $this->redirect($this->generateUrl('gwas_variant_index'));
