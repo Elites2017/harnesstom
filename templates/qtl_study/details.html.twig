@@ -24,7 +24,7 @@
 								<th scope="col">Threshold Method</th>
 								<th scope="col">Threshold Value</th>
 								<th scope="col">Multi Environment Stat</th>
-								<th scope="col">Variant Set</th>
+								<th scope="col">Variant Set Metadata</th>
 								<th scope="col">Statistic</th>
 								<th scope="col">Publication Reference</th>
 								{% if is_granted("ROLE_ADMIN") %}
@@ -50,7 +50,7 @@
 								<td>{{ qtlStudy.thresholdMethod }}</td>
 								<td>{{ qtlStudy.thresholdValue }}</td>
 								<td>{{ qtlStudy.multiEnvironmentStat }}</td>
-								<td>{{ qtlStudy.variantSet }}</td>
+								<td>{{ qtlStudy.variantSetMetadata }}</td>
 								<td>{{ qtlStudy.statistic }}</td>
 								<td>
 									{% if qtlStudy.publicationReference | length >= 0 %}

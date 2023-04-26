@@ -9,7 +9,8 @@ use App\Entity\QTLStatistic;
 use App\Entity\QTLStudy;
 use App\Entity\Software;
 use App\Entity\ThresholdMethod;
-use App\Entity\VariantSet;
+use App\Entity\Unit;
+use App\Entity\VariantSetMetadata;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -33,7 +34,7 @@ class QTLStudyUpdateType extends AbstractType
         $toUrlSoftware = $this->router->generate('software_create');
         $toUrlMultiEnvStat = $this->router->generate('qtl_statistic_create');
         $toUrlMethod = $this->router->generate('qtl_method_create');
-        $toUrlVariantSet = $this->router->generate('variant_set_create');
+        $toUrlVariantSetMetadata = $this->router->generate('variant_set_metadata_create');
         $toUrlMappingPopulation = $this->router->generate('mapping_population_create');
         $toUrlGenomeMapUnit = $this->router->generate('unit_create');
         $toUrlStatistic = $this->router->generate('qtl_statistic_create');
@@ -84,11 +85,11 @@ class QTLStudyUpdateType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlMethod .'" target="_blank">QTL Method</a>'
                 
             ])
-            ->add('variantSet', EntityType::class, [
-                'class' => VariantSet::class,
+            ->add('variantSetMetadata', EntityType::class, [
+                'class' => VariantSetMetadata::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlVariantSet .'" target="_blank">Variant Set</a>'
+                'help' => 'Add a new <a href="' . $toUrlVariantSetMetadata .'" target="_blank">Variant Set Metadata</a>'
                 
             ])
             ->add('mappingPopulation', EntityType::class, [
@@ -99,7 +100,7 @@ class QTLStudyUpdateType extends AbstractType
                 
             ])
             ->add('genomeMapUnit', EntityType::class, [
-                'class' => MappingPopulation::class,
+                'class' => Unit::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlGenomeMapUnit .'" target="_blank">Genome Map Unit</a>'

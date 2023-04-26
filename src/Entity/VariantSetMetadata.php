@@ -103,6 +103,7 @@ class VariantSetMetadata
      */
     private $qTLStudies;
 
+
     public function __construct()
     {
         $this->gWAS = new ArrayCollection();
@@ -331,7 +332,7 @@ class VariantSetMetadata
     {
         if (!$this->qTLStudies->contains($qTLStudy)) {
             $this->qTLStudies[] = $qTLStudy;
-            $qTLStudy->setVariantSet($this);
+            $qTLStudy->setVariantSetMetadata($this);
         }
 
         return $this;
@@ -341,8 +342,8 @@ class VariantSetMetadata
     {
         if ($this->qTLStudies->removeElement($qTLStudy)) {
             // set the owning side to null (unless already changed)
-            if ($qTLStudy->getVariantSet() === $this) {
-                $qTLStudy->setVariantSet(null);
+            if ($qTLStudy->getVariantSetMetadata() === $this) {
+                $qTLStudy->setVariantSetMetadata(null);
             }
         }
 
