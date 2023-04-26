@@ -48,7 +48,7 @@ class TrialType extends AbstractType
                 'allow_add' => true,
                 'prototype' => true,
                 'label' => false,
-                'prototype_data' => 'Publication reference...'
+                'prototype_data' => ''
             ])
             ->add('program', EntityType::class, [
                 'class' => Program::class,

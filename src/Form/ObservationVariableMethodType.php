@@ -36,7 +36,7 @@ class ObservationVariableMethodType extends AbstractType
                 'allow_add' => true,
                 'prototype' => true,
                 'label' => false,
-                'prototype_data' => 'Publication reference...'
+                'prototype_data' => ''
             ])
             ->add('methodClass', EntityType::class, [
                 'class' => MethodClass::class,

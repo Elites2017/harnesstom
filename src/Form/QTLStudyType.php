@@ -48,7 +48,7 @@ class QTLStudyType extends AbstractType
                 'allow_add' => true,
                 'prototype' => true,
                 'label' => false,
-                'prototype_data' => 'Publication reference...'
+                'prototype_data' => ''
             ])
             ->add('ciCriteria', EntityType::class, [
                 'class' => CiCriteria::class,
