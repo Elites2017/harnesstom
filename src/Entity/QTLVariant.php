@@ -144,12 +144,12 @@ class QTLVariant
     private $closestMarker;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Marker::class, inversedBy="qTLVariants")
+     * @ORM\ManyToOne(targetEntity=Marker::class, inversedBy="fMarkerStartQTLVariants")
      */
     private $flankingMarkerStart;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Marker::class, inversedBy="qTLVariants")
+     * @ORM\ManyToOne(targetEntity=Marker::class, inversedBy="fMarkerEndQTLVariants")
      */
     private $flankingMarkerEnd;
 

@@ -139,6 +139,18 @@ class Marker
     private $qTLVariants;
 
     /**
+     * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="flankingMarkerStart")
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
+     */
+    private $fMarkerStartQTLVariants;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="flankingMarkerEnd")
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
+     */
+    private $fMarkerEndQTLVariants;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $platformNameBuffer;
@@ -153,6 +165,8 @@ class Marker
         $this->gWASVariants = new ArrayCollection();
         $this->variantSets = new ArrayCollection();
         $this->qTLVariants = new ArrayCollection();
+        $this->fMarkerStartQTLVariants = new ArrayCollection();
+        $this->fMarkerEndQTLVariants = new ArrayCollection();
         $this->markerSynonyms = new ArrayCollection();
     }
 
@@ -437,6 +451,66 @@ class Marker
             // set the owning side to null (unless already changed)
             if ($qTLVariant->getClosestMarker() === $this) {
                 $qTLVariant->setClosestMarker(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLVariant>
+     */
+    public function getFMarkerStartQTLVariants(): Collection
+    {
+        return $this->fMarkerStartQTLVariants;
+    }
+
+    public function addFMarkerStartQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if (!$this->fMarkerStartQTLVariants->contains($qTLVariant)) {
+            $this->fMarkerStartQTLVariants[] = $qTLVariant;
+            $qTLVariant->setFlankingMarkerStart($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFMarkerStartQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if ($this->fMarkerStartQTLVariants->removeElement($qTLVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLVariant->getFlankingMarkerStart() === $this) {
+                $qTLVariant->setFlankingMarkerStart(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLVariant>
+     */
+    public function getFMarkerEndQTLVariants(): Collection
+    {
+        return $this->fMarkerEndQTLVariants;
+    }
+
+    public function addFMarkerEndQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if (!$this->fMarkerEndQTLVariants->contains($qTLVariant)) {
+            $this->fMarkerEndQTLVariants[] = $qTLVariant;
+            $qTLVariant->setFlankingMarkerEnd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFMarkerEndQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if ($this->fMarkerEndQTLVariants->removeElement($qTLVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLVariant->getFlankingMarkerEnd() === $this) {
+                $qTLVariant->setFlankingMarkerEnd(null);
             }
         }
 
