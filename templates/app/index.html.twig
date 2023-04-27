@@ -716,6 +716,7 @@
 
 
 {% block javascripts %}
+	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
     <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
@@ -731,10 +732,12 @@
     <script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
     <script src="{{ asset('assets/nl/js/main.js') }}"></script>
 
-    <!-- Guided Tour LH  -->
-    <script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
-    <script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
-    <script src="{{ asset('guidedtour/js/demo.js') }}"></script>
+    {% if not app.user %}
+        <!-- Guided Tour LH  -->
+        <script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
+        <script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
+        <script src="{{ asset('guidedtour/js/demo.js') }}"></script>
+    {% endif %}
 
     <!-- VMap  -->
     <script src="{{ asset('assets/vmap/js/jquery-jvectormap-2.0.2.min.js') }}"></script>
