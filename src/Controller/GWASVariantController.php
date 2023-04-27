@@ -195,7 +195,8 @@ class GWASVariantController extends AbstractController
                 $rSquareModelSNP = $row['X'];
 
                 // check if the file doesn't have empty columns
-                if ($gwasName != null && $gwasVariantName != null && $observationVarId && $markerName != null) {
+                if ($gwasName != null && $gwasVariantName != null && $markerName != null && $refAllele != null
+                    && $altAllele != null && $sampleSize != null && $snppValue != null && $allelicEffect != null) {
                     // check if the data is upload in the database
                     $existingGWASVariant = $entmanager->getRepository(GWASVariant::class)->findOneBy(['name' => $gwasVariantName]);
                     // upload data only for objects that haven't been saved in the database
