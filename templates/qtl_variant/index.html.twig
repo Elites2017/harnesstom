@@ -45,25 +45,13 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Name</th>
-									<th scope="col">MAF</th>
-									<th scope="col">Sample Size</th>
-									<th scope="col">SNP P Value</th>
-									<th scope="col">Adjusted PValue</th>
-									<th scope="col">Allelic Effect</th>
-									<th scope="col">Allelic Effect Stat</th>
-									<th scope="col">Allelic Effect DF</th>
-									<th scope="col">Allelic Effect StdE</th>
-                                    <th scope="col">Beta</th>
-                                    <th scope="col">Beta StdE</th>
-                                    <th scope="col">Odds Ratio</th>
-                                    <th scope="col">Ci Lower</th>
-                                    <th scope="col">Ci Upper</th>
-                                    <th scope="col">Marker</th>
-                                    <th scope="col">Metabolite</th>
-                                    <th scope="col">qtl</th>
-                                    <th scope="col">Trait Preprocessing</th>
-                                    <th scope="col">Observation Variable</th>
+									<th scope="col">QTL Variant Name</th>
+									<th scope="col2">Associated Phenotype</th>
+									<th scope="col">Linkage Group</th>
+									<th scope="col">Peak Position</th>
+									<th scope="col">Closest Marker</th>
+									<th scope="col">QTL Stat Value</th>
+									<th scope="col">R2</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -74,60 +62,32 @@
 											{{ qtlVariant.name }}
 										</td>
 										<td>
-											{{ qtlVariant.maf }}
+											{% if qtlVariant.observationVariable %}
+												<a href="{{ path('observation_variable_details', {id: qtlVariant.observationVariable.id}) }}">{{ qtlVariant.observationVariable }}</a>	
+											{% endif %}
+
+											{% if qtlVariant.metabolite %}
+												<a href="{{ path('metabolite_details', {id: qtlVariant.metabolite.id}) }}">{{ qtlVariant.metabolite }}</a>	
+											{% endif %}
 										</td>
 										<td>
-											{{ qtlVariant.sampleSize }}
+											{{ qtlVariant.linkageGroupName }}
 										</td>
 										<td>
-											{{ qtlVariant.snppValue }}
+											{{ qtlVariant.peakPosition }}
 										</td>
 										<td>
-											{{ qtlVariant.adjustedPValue }}
+											{% if qtlVariant.closestMarker %}
+												<a href="{{ path('marker_details', {id: qtlVariant.closestMarker.id}) }}">{{ qtlVariant.closestMarker }}</a>
+											{% endif %}
 										</td>
 										<td>
-											{{ qtlVariant.allelicEffect }}
+											{{ qtlVariant.qtlStatsValue }}
 										</td>
 										<td>
-											{{ qtlVariant.allelicEffectStat }}
+											{{ qtlVariant.r2 }}
 										</td>
                                         <td>
-											{{ qtlVariant.allelicEffStdE }}
-										</td>
-										<td>
-											{{ qtlVariant.allelicEffectdf }}
-										</td>
-										<td>
-											{{ qtlVariant.beta }}
-										</td>
-                                        <td>
-											{{ qtlVariant.betaStdE }}
-										</td>
-                                        <td>
-											{{ qtlVariant.oddsRatio }}
-										</td>
-                                        <td>
-											{{ qtlVariant.ciLower }}
-										</td>
-                                        <td>
-											{{ qtlVariant.ciUpper }}
-										</td>
-                                        <td>
-											{{ qtlVariant.marker }}
-										</td>
-                                        <td>
-											{{ qtlVariant.metabolite }}
-										</td>
-                                        <td>
-											<a href="{{ path('qtl_variant_details', {id: qtlVariant.id}) }}">{{ qtlVariant.qtl }}</a>
-										</td>
-                                        <td>
-											<a href="{{ path('qtl_variant_details', {id: qtlVariant.id}) }}">{{ qtlVariant.traitPreprocessing }}</a>
-										</td>
-                                        <td>
-											<a href="{{ path('qtl_variant_details', {id: qtlVariant.id}) }}">{{ qtlVariant.observationVariable }}</a>
-										</td>
-										<td>
 											<a href="{{ path('qtl_variant_details', {id: qtlVariant.id}) }}">
 												<button class="btn btn-outline-primary">Details</button>
 											</a>

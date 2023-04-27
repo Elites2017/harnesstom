@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Marker;
 use App\Entity\Metabolite;
+use App\Entity\ObservationVariable;
 use App\Entity\QTLStudy;
 use App\Entity\QTLVariant;
 use Symfony\Component\Form\AbstractType;
@@ -64,11 +65,12 @@ class QTLVariantType extends AbstractType
                 
             ])
             ->add('observationVariable', Datalist1Type::class, [
-                'class' => Metabolite::class,
+                'class' => ObservationVariable::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'choice_value' => 'name',
-                'help' => 'Add a new <a href="' . $urlObservationVariable .'" target="_blank">Observation Variable</a>'
+                'help' => 'Add a new <a href="' . $urlObservationVariable .'" target="_blank">Observation Variable</a>',
+                'required' => false
                 
             ])
             ->add('metabolite', Datalist2Type::class, [
@@ -76,7 +78,8 @@ class QTLVariantType extends AbstractType
                 'help_html' => true,
                 'placeholder' => '',
                 'choice_value' => 'name',
-                'help' => 'Add a new <a href="' . $urlMetabolite .'" target="_blank">Metabolite</a>'
+                'help' => 'Add a new <a href="' . $urlMetabolite .'" target="_blank">Metabolite</a>',
+                'required' => false
                 
             ])
             ->add('positiveAlleleParent')

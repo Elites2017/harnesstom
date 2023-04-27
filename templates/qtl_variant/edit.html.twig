@@ -1,5 +1,80 @@
 {% extends 'base.html.twig' %}
 
+{# Create a form them #}
+{% form_theme qtlVariantForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_variant_qtlStudy_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_variant_qtlStudy_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_variant[qtlStudy]" id="qtl_variant_qtlStudy_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_variant_observationVariable_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_variant_observationVariable_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_variant[observationVariable]" id="qtl_variant_observationVariable_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_variant_metabolite_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_variant_metabolite_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_variant[metabolite]" id="qtl_variant_metabolite_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist3_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_variant_closestMarker_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_variant_closestMarker_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_variant[closestMarker]" id="qtl_variant_closestMarker_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist4_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_variant_flankingMarkerStart_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_variant_flankingMarkerStart_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_variant[flankingMarkerStart]" id="qtl_variant_flankingMarkerStart_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist5_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_variant_flankingMarkerEnd_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_variant_flankingMarkerEnd_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_variant[flankingMarkerEnd]" id="qtl_variant_flankingMarkerEnd_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{title}}
 {% endblock %}
@@ -21,131 +96,159 @@
 					<!-- Card Header - Dropdown -->
 					<div
 						class="card-header py-3 flex-row align-items-center justify-content-between">
-						<h4 class="m-0 font-weight-bold text-center tomato-color">GWAS Variant Edition</h4>
+						<h4 class="m-0 font-weight-bold text-center tomato-color">QTL Variant Edition</h4>
 					</div>
 					<!-- Card Body -->
 					<div class="card-body">
-						{{ form_start(gwasVariantForm) }}
+						<span class="badge badge-info d-flex mb-3">
+							<h5 class="mx-auto">
+								Please check below the type of phenotyping data associated to this QTL Variant. Note: you can check both
+							</h5>
+						</span>
+						{{ form_start(qtlVariantForm) }}
+						<div class="row mb-3">
+								<div class="col-md-3">
+									<input type="checkbox" id="obsVarData" name="obsVarData" value="true" >
+									<label>Observation Variable Data<label/>
+								</div>
+								<div class="col-md-3">
+									<input type="checkbox" id="metaboliteData" name="metaboliteData" value="true" >
+									<label>Metabolite Data<label/>
+								</div>
+							</div>
 						<div class="row">
 							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.name, {label: "Name", 'attr': {'placeholder' : 'Enter the name'}}) }}
+								{{ form_row(qtlVariantForm.name, {label: "Name", 'attr': {'placeholder' : 'Enter the name'}}) }}
 							</div>
 
 							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.alternativeAllele, {label: "Alternative Allele", 'attr': {'placeholder' : 'Select the alternative allele'}}) }}
+								{{ form_row(qtlVariantForm.qtlStudy, {label: "QTL Study", 'attr': {'placeholder' : 'Select the qtl study',
+								'class': "custom-select d-block w-100"}}) }}
 							</div>
 
 							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.maf, {label: "MAF", 'attr': {'placeholder' : 'Enter the maf'}}) }}
+								{{ form_row(qtlVariantForm.observationVariable, {label: "Observation Variable", 'attr': {'placeholder' : 'Enter the observation variable',
+								'class': "custom-select d-block w-100"}}) }}
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.sampleSize, {label: "Sample Size", 'attr': {'placeholder' : 'Select the sample size'}}) }}
+								{{ form_row(qtlVariantForm.closestMarker, {label: "Closest Marker", 'attr': {'placeholder' : 'Select the closest marker',
+								'class': "custom-select d-block w-100"}}) }}
 							</div>
 
 							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.snppValue, {label: "SNNP Value", 'attr': {'placeholder' : 'Select the snnp value'}}) }}
+								{{ form_row(qtlVariantForm.flankingMarkerStart, {label: "Flanking Marker Start", 'attr': {'placeholder' : 'Select the flanking marker start',
+								'class': "custom-select d-block w-100"}}) }}
 							</div>
 
 							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.adjustedPValue, {label: "Adjusted PValue", 'attr': {'placeholder' : 'Select the adjusted PValue'}}) }}
+								{{ form_row(qtlVariantForm.flankingMarkerEnd, {label: "Flanking Marker End", 'attr': {'placeholder' : 'Select the flanking marker end',
+								'class': "custom-select d-block w-100"}}) }}
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.allelicEffect, {label: "Allelic Effect", 'attr': {'placeholder' : 'Select the allelic effect'}}) }}
+								{{ form_row(qtlVariantForm.metabolite, {label: "Metabolite", 'attr': {'placeholder' : 'Select the metabolite',
+								'class': "custom-select d-block w-100"}}) }}
 							</div>
 
 							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.allelicEffectStat, {label: "Allelic Effect Stat", 'attr': {'placeholder' : 'Select the allelic effect stat'}}) }}
+								{{ form_row(qtlVariantForm.positiveAlleleParent, {label: "Positive Allele Parent", 'attr': {'placeholder' : 'Select the positive allele parent',
+								'class': "custom-select d-block w-100"}}) }}
 							</div>
 
 							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.allelicEffectdf, {label: "Allelic Effect DF", 'attr': {'placeholder' : 'Select the allelic effect df'}}) }}
+								{{ form_row(qtlVariantForm.positiveAllele, {label: "Positive Allele", 'attr': {'placeholder' : 'Enter the positive allele'}}) }}
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.allelicEffStdE, {label: "Allelic Effect StdE", 'attr': {'placeholder' : 'Select the allelic effect StdE'}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.locusName, {label: "Locus Name", 'attr': {'placeholder' : 'Enter the locus name'}}) }}
 							</div>
 
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.beta, {label: "Beta", 'attr': {'placeholder' : 'Enter the beta'}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.locus, {label: "Locus", 'attr': {'placeholder' : 'Enter the locus'}}) }}
 							</div>
 
-
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.betaStdE, {label: "Beta StdE", 'attr': {'placeholder' : 'Select the beta StdE'}}) }}
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.oddsRatio, {label: "Odds Ratio", 'attr': {'placeholder' : 'Select the odds ratio'}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.r2QTLxE, {label: "R2QtlxE", 'attr': {'placeholder' : 'Enter the R2QtlxE'}}) }}
 							</div>
 
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.ciLower, {label: "Ci Lower", 'attr': {'placeholder' : 'Enter the ci lower'}}) }}
-							</div>
-
-
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.ciUpper, {label: "Ci Upper", 'attr': {'placeholder' : 'Select the ci upper'}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.r2Global, {label: "R2Global", 'attr': {'placeholder' : 'Select the beta StdE'}}) }}
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.rSquareOfMode, {label: "R Square Of Mode", 'attr': {'placeholder' : 'Select the rSquareOfMode'}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.statisticQTLxEValue, {label: "Statistic qTL X Evalue", 'attr': {'placeholder' : 'Enter the statistic Qtl x evalue'}}) }}
 							</div>
 
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.rSquareOfModeWithSNP, {label: "R SquareOfModeWithSNP", 'attr': {'placeholder' : 'Enter the rSquareOfModeWithSNP'}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.r2, {label: "R2", 'attr': {'placeholder' : 'Enter the R2'}}) }}
 							</div>
 
-
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.rSquareOfModeWithoutSNP, {label: "R SquareOfModeWithoutSNP", 'attr': {'placeholder' : 'Select the rSquareOfModeWithoutSNP'}}) }}
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.refAllele, {label: "Ref Allele", 'attr': {'placeholder' : 'Select the ref allele'}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.dA, {label: "dA", 'attr': {'placeholder' : 'Enter the dA'}}) }}
 							</div>
 
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.marker, {label: "Marker", 'attr': {'placeholder' : 'Enter the marker',
-											'class': "custom-select d-block w-100"}}) }}
-							</div>
-
-
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.metabolite, {label: "Metabolite", 'attr': {'placeholder' : 'Select the metabolite',
-												'class': "custom-select d-block w-100"}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.dominance, {label: "Dominance", 'attr': {'placeholder' : 'Enter the dominance'}}) }}
 							</div>
 						</div>
 
 						<div class="row">
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.gwas, {label: "GWAS", 'attr': {'placeholder' : 'Select the GWAS',
-												'class': "custom-select d-block w-100"}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.additive, {label: "Additive", 'attr': {'placeholder' : 'Enter the additive'}}) }}
 							</div>
 
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.traitPreprocessing, {label: "Trait Preprocessing", 'attr': {'placeholder' : 'Enter the trait preprocessing',
-												'class': "custom-select d-block w-100"}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.qtlStatsValue, {label: "QTL Stats Value", 'attr': {'placeholder' : 'Enter the qtl stats'}}) }}
 							</div>
 
-
-							<div class="col-md-4 mb-3">
-								{{ form_row(gwasVariantForm.observationVariable, {label: "Observation Variable", 'attr': {'placeholder' : 'Select the observation variable',
-												'class': "custom-select d-block w-100"}}) }}
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.ciStart, {label: "Ci Start", 'attr': {'placeholder' : 'Enter the ci start'}}) }}
 							</div>
+
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.ciEnd, {label: "Ci End", 'attr': {'placeholder' : 'Enter the ci end'}}) }}
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.detectName, {label: "Detect Name", 'attr': {'placeholder' : 'Enter the detect name'}}) }}
+							</div>
+
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.originalTraitName, {label: "Original Trait Name", 'attr': {'placeholder' : 'Enter the original trait name'}}) }}
+							</div>
+
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.peakPosition, {label: "Peak Position", 'attr': {'placeholder' : 'Enter the peak position'}}) }}
+							</div>
+
+							<div class="col-md-3 mb-3">
+								{{ form_row(qtlVariantForm.linkageGroupName, {label: "Linkage Group Name", 'attr': {'placeholder' : 'Enter the linkage group name'}}) }}
+							</div>
+
+						</div>
+
+						<div>
+							<div id="pubRef-fields-list" data-prototype="{{ form_widget(qtlVariantForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ qtlVariantForm.publicationReference|length }}">
+								{% for pubRef in qtlVariantForm.publicationReference %}
+									<li>
+										{{ form_errors(pubRef) }}
+										{{ form_widget(pubRef) }}
+									</li>
+								{% endfor %}
+							</div>
+							<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#pubRef-fields-list">Add publication reference</button>
 						</div>
 
 						<div class="row">
@@ -157,7 +260,7 @@
 								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
 							</div>
 						</div>
-						{{ form_end(gwasVariantForm) }}
+						{{ form_end(qtlVariantForm) }}
 					</div>
 				</div>
 			</div>
@@ -165,5 +268,49 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+	<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
+	<!-- publication ref -->
+	<script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/add-study-collecting-widget.js') }}"></script>
+
+	<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
+	<script src="{{ asset('assets/nl/js/main.js') }}"></script>
+	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
+	<script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
+	<script>
+		$(document).ready(function(){
+			var obsVarChecbox = document.getElementById('obsVarData');
+			var obsVarDataList = document.getElementById('qtl_variant_observationVariable');
+			// add event listener
+			obsVarChecbox.addEventListener('click', function(e){
+				if(e.target.checked){
+					obsVarDataList.required = true;
+				} else {
+					obsVarDataList.required = false;
+				}
+			});
+
+			var metaboliteChecbox = document.getElementById('metaboliteData');
+			var metaboliteDataList = document.getElementById('qtl_variant_metabolite');
+			// add event listener
+			metaboliteChecbox.addEventListener('click', function(e){
+				if(e.target.checked){
+					metaboliteDataList.required = true;
+				} else {
+					metaboliteDataList.required = false;
+				}
+			});
+		});
+	</script>
 {% endblock %}
 

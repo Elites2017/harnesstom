@@ -21,20 +21,20 @@
 					<!-- Card Header - Dropdown -->
 					<div
 						class="card-header py-3 flex-row align-items-center justify-content-between">
-						<h4 class="mb-3 text-center tomato-color font-weight-bold">GWAS Variant Upload From Excel</h4>
+						<h4 class="mb-3 text-center tomato-color font-weight-bold">QTL Variant Upload From Excel</h4>
 					</div>
 					<!-- Card Body -->
 					<div class="card-body">
 						<div class="mb-3">
-							<a href="{{ path('gwas_variant_download_template') }}" download target="_blank">
+							<a href="{{ path('qtl_variant_download_template') }}" download target="_blank">
 								<h1>Click to download a template example</h1></br>
 								<h3>NOTE: Your data must be in the same format as the template example file format</h3>
 								<img src="{{ asset('assets/images/excelicon.png') }}" alt="Example of excel template" width="104" height="142">
 							</a>
 						</div>
-						{{ form_start(gwasVariantUploadFromExcelForm) }}
+						{{ form_start(qtlVariantUploadFromExcelForm) }}
 						<div>
-							{{ form_row(gwasVariantUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file", 'accept':".txt, .xls, .xlsx" }}) }}
+							{{ form_row(qtlVariantUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file", 'accept':".txt, .xls, .xlsx" }}) }}
 						</div>
 
 						<div class="row">
@@ -46,7 +46,7 @@
 								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
 							</div>
 						</div>
-						{{ form_end(gwasVariantUploadFromExcelForm) }}
+						{{ form_end(qtlVariantUploadFromExcelForm) }}
 					</div>
 				</div>
 			</div>
