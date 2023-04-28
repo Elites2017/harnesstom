@@ -34,7 +34,7 @@
 								<th scope="col">refAllele</th>
 								<th scope="col">Marker</th>
 								<th scope="col">Metabolite</th>
-								<th scope="col">GWAS</th>
+								<th scope="col">qtl</th>
 								<th scope="col">Trait Preprocessing</th>
 								<th scope="col">Observation Variable</th>
 								{% if is_granted("ROLE_ADMIN") %}
@@ -42,75 +42,75 @@
 									<th scope="col">Creation Date</th>
 									<th scope="col">Status</th>
 								{% endif %}
-								{% if is_granted("gwas_variant_edit", gwasVariant) %}
+								{% if is_granted("qtl_variant_edit", qtlVariant) %}
 									<th scope="col">Action</th>
 								{% endif %}
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>{{ gwasVariant.id }}</td>
-								<td>{{ gwasVariant.name }}</td>
-								<td>{{ gwasVariant.maf }}</td>
-								<td>{{ gwasVariant.sampleSize }}</td>
-								<td>{{ gwasVariant.snppValue }}</td>
-								<td>{{ gwasVariant.adjustedPValue }}</td>
-								<td>{{ gwasVariant.allelicEffect }}</td>
-								<td>{{ gwasVariant.allelicEffectStat }}</td>
-								<td>{{ gwasVariant.allelicEffectdf }}</td>
-								<td>{{ gwasVariant.allelicEffStdE }}</td>
-								<td>{{ gwasVariant.beta }}</td>
-								<td>{{ gwasVariant.betaStdE }}</td>
-								<td>{{ gwasVariant.oddsRatio }}</td>
-								<td>{{ gwasVariant.ciLower }}</td>
-								<td>{{ gwasVariant.ciUpper }}</td>
-								<td>{{ gwasVariant.rSquareOfMode }}</td>
-								<td>{{ gwasVariant.rSquareOfModeWithSNP }}</td>
-								<td>{{ gwasVariant.rSquareOfModeWithoutSNP }}</td>
-								<td>{{ gwasVariant.refAllele }}</td>
+								<td>{{ qtlVariant.id }}</td>
+								<td>{{ qtlVariant.name }}</td>
+								<td>{{ qtlVariant.maf }}</td>
+								<td>{{ qtlVariant.sampleSize }}</td>
+								<td>{{ qtlVariant.snppValue }}</td>
+								<td>{{ qtlVariant.adjustedPValue }}</td>
+								<td>{{ qtlVariant.allelicEffect }}</td>
+								<td>{{ qtlVariant.allelicEffectStat }}</td>
+								<td>{{ qtlVariant.allelicEffectdf }}</td>
+								<td>{{ qtlVariant.allelicEffStdE }}</td>
+								<td>{{ qtlVariant.beta }}</td>
+								<td>{{ qtlVariant.betaStdE }}</td>
+								<td>{{ qtlVariant.oddsRatio }}</td>
+								<td>{{ qtlVariant.ciLower }}</td>
+								<td>{{ qtlVariant.ciUpper }}</td>
+								<td>{{ qtlVariant.rSquareOfMode }}</td>
+								<td>{{ qtlVariant.rSquareOfModeWithSNP }}</td>
+								<td>{{ qtlVariant.rSquareOfModeWithoutSNP }}</td>
+								<td>{{ qtlVariant.refAllele }}</td>
 								<td>
-									{% if gwasVariant.marker %}
-										<a href="{{ path('marker_details', {id: gwasVariant.marker.id}) }}">{{ gwasVariant.marker }}</a>
+									{% if qtlVariant.marker %}
+										<a href="{{ path('marker_details', {id: qtlVariant.marker.id}) }}">{{ qtlVariant.marker }}</a>
 									{% endif %}
 								</td>
 								<td>
-									{% if gwasVariant.metabolite %}
-										<a href="{{ path('metabolite_details', {id: gwasVariant.metabolite.id}) }}">{{ gwasVariant.metabolite }}</a>
+									{% if qtlVariant.metabolite %}
+										<a href="{{ path('metabolite_details', {id: qtlVariant.metabolite.id}) }}">{{ qtlVariant.metabolite }}</a>
 									{% endif %}
 								</td>
 								<td>
-									{% if gwasVariant.gwas %}
-										<a href="{{ path('gwas_details', {id: gwasVariant.gwas.id}) }}">{{ gwasVariant.gwas }}</a>
+									{% if qtlVariant.qtl %}
+										<a href="{{ path('qtl_details', {id: qtlVariant.qtl.id}) }}">{{ qtlVariant.qtl }}</a>
 									{% endif %}
 								</td>
 								<td>
-									{% if gwasVariant.traitPreprocessing %}
-										<a href="{{ path('trait_processing_details', {id: gwasVariant.traitPreprocessing.id}) }}">{{ gwasVariant.traitPreprocessing }}</a>
+									{% if qtlVariant.traitPreprocessing %}
+										<a href="{{ path('trait_processing_details', {id: qtlVariant.traitPreprocessing.id}) }}">{{ qtlVariant.traitPreprocessing }}</a>
 									{% endif %}
 								</td>
 								<td>
-									{% if gwasVariant.observationVariable %}
-										<a href="{{ path('observation_variable_details', {id: gwasVariant.observationVariable.id}) }}">{{ gwasVariant.observationVariable }}</a>
+									{% if qtlVariant.observationVariable %}
+										<a href="{{ path('observation_variable_details', {id: qtlVariant.observationVariable.id}) }}">{{ qtlVariant.observationVariable }}</a>
 									{% endif %}
 								</td>
 								{% if is_granted("ROLE_ADMIN") %}
 									<td>
-										{% if gwasVariant.createdBy %}
-											<a href="{{ path('person_details', {id: gwasVariant.createdBy.id}) }}">{{ gwasVariant.createdBy }}</a>
+										{% if qtlVariant.createdBy %}
+											<a href="{{ path('person_details', {id: qtlVariant.createdBy.id}) }}">{{ qtlVariant.createdBy }}</a>
 										{% endif %}
 									</td>
-									<td>{{ gwasVariant.createdAt | date('d/m/Y h:m:s') }}</td>
+									<td>{{ qtlVariant.createdAt | date('d/m/Y h:m:s') }}</td>
 									<td>
-										<a href="{{ path('gwas_variant_delete', {id: gwasVariant.id}) }}" class="changeStatusLink" id="{{ gwasVariant.id }}">
+										<a href="{{ path('qtl_variant_delete', {id: qtlVariant.id}) }}" class="changeStatusLink" id="{{ qtlVariant.id }}">
 											<span class="changeStatusSpan">
-												<input type="checkbox" {{ gwasVariant.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+												<input type="checkbox" {{ qtlVariant.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
 											</span>
 										</a>
 									</td>
 								{% endif %}
-								{% if is_granted("gwas_variant_edit", gwasVariant) %}
+								{% if is_granted("qtl_variant_edit", qtlVariant) %}
 									<td>
-										<a href="{{ path('gwas_variant_edit', {id: gwasVariant.id}) }}">
+										<a href="{{ path('qtl_variant_edit', {id: qtlVariant.id}) }}">
 											<button class="btn btn-outline-warning">Edit</button>
 										</a>
 									</td>

@@ -50,6 +50,7 @@
 									<th scope="col">Linkage Group</th>
 									<th scope="col">Peak Position</th>
 									<th scope="col">Closest Marker</th>
+									<th scope="col">Selected Statistic</th>
 									<th scope="col">QTL Stat Value</th>
 									<th scope="col">R2</th>
 									<th scope="col">Action</th>
@@ -80,6 +81,9 @@
 											{% if qtlVariant.closestMarker %}
 												<a href="{{ path('marker_details', {id: qtlVariant.closestMarker.id}) }}">{{ qtlVariant.closestMarker }}</a>
 											{% endif %}
+										</td>
+										<td>
+											{{ qtlVariant.qtlStudy.statistic }}
 										</td>
 										<td>
 											{{ qtlVariant.qtlStatsValue }}

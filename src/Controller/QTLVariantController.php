@@ -9,6 +9,7 @@ use App\Entity\ObservationVariable;
 use App\Entity\QTLStudy;
 use App\Entity\QTLVariant;
 use App\Entity\Study;
+use App\Entity\TraitClass;
 use App\Form\QTLVariantType;
 use App\Form\QTLVariantUpdateType;
 use App\Form\UploadFromExcelType;
@@ -297,15 +298,26 @@ class QTLVariantController extends AbstractController
                                 $this->addFlash('danger', " there is a problem with the metabolite code " .$metaboliteCode);
                             }
 
-                            try {
-                                //code...
-                                $qtlVariantObservationVariable = $entmanager->getRepository(ObservationVariable::class)->findOneBy(['id' => $observationVarId]);
-                                if (($qtlVariantObservationVariable != null) && ($qtlVariantObservationVariable instanceof \App\Entity\ObservationVariable)) {
-                                    $qtlVariant->setObservationVariable($qtlVariantObservationVariable);
+                            if ($observationVarId) {
+                                try {
+                                    //code...
+                                    $traitOnId = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $observationVarId]);
+                                    if ($traitOnId != null) {
+                                        try {
+                                            //code...
+                                            $qtlVariantObservationVariable = $entmanager->getRepository(ObservationVariable::class)->findOneBy(['variable' => $traitOnId->getId()]);
+                                            if ($qtlVariantObservationVariable) {
+                                                $qtlVariant->setObservationVariable($qtlVariantObservationVariable);
+                                            }
+                                        } catch (\Throwable $th) {
+                                            //throw $th;
+                                            $this->addFlash('danger', " observation variable not found for the trait ontology id " .$observationVarId);
+                                        }
+                                    }
+                                } catch (\Throwable $th) {
+                                    //throw $th;
+                                    $this->addFlash('danger', " there is a problem with the given trait ontology id " .$observationVarId);
                                 }
-                            } catch (\Throwable $th) {
-                                //throw $th;
-                                $this->addFlash('danger', " there is a problem with the observation variable " .$observationVarId);
                             }
 
                             if ($qtlDetectName) {
@@ -347,7 +359,47 @@ class QTLVariantController extends AbstractController
                                     $this->addFlash('danger', " there is a problem with the ci end " .$ciEnd);
                                 }
                             }
+
+                            if ($linkageGroupName) {
+                                try {
+                                    //code...
+                                    $qtlVariant->setLinkageGroupName($linkageGroupName);
+                                } catch (\Throwable $th) {
+                                    //throw $th;
+                                    $this->addFlash('danger', " there is a problem with the linkage group name " .$linkageGroupName);
+                                }
+                            }
+
+                            if ($peakPosition) {
+                                try {
+                                    //code...
+                                    $qtlVariant->setPeakPosition($peakPosition);
+                                } catch (\Throwable $th) {
+                                    //throw $th;
+                                    $this->addFlash('danger', " there is a problem with the peak position " .$peakPosition);
+                                }
+                            }
+
+                            if ($qtlStatValue) {
+                                try {
+                                    //code...
+                                    $qtlVariant->setQtlStatsValue($qtlStatValue);
+                                } catch (\Throwable $th) {
+                                    //throw $th;
+                                    $this->addFlash('danger', " there is a problem with the qtl stat value " .$qtlStatValue);
+                                }
+                            }
                             
+                            if ($r2) {
+                                try {
+                                    //code...
+                                    $qtlVariant->setR2($r2);
+                                } catch (\Throwable $th) {
+                                    //throw $th;
+                                    $this->addFlash('danger', " there is a problem with the r2 " .$r2);
+                                }
+                            }
+
                             if ($dominance) {
                                 try {
                                     //code...
