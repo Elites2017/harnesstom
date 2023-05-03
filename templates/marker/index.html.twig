@@ -105,7 +105,9 @@
 			{
 				"data": "id",
 				"render": function(data, type, row, meta) {
-					let actionlink = "<a href='http://127.0.0.1:443/marker/details/"+data+"'><button class='btn btn-outline-primary'>Details</button></a>";
+					let url = '{{ path("marker_details", {'id': 'dataId'}) }}'; 
+					url = url.replace("dataId", data);
+					let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
 					return actionlink;
 				}
 			},
