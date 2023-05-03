@@ -19,6 +19,15 @@ class MarkerRepository extends ServiceEntityRepository
         parent::__construct($registry, Marker::class);
     }
 
+    public function myMarker() {
+        $query = $this->createQueryBuilder('m')
+            ->where('m.isActive = 1')
+            ;
+        
+        return $query->getQuery()->getArrayResult();
+
+    }
+
     // /**
     //  * @return Marker[] Returns an array of Marker objects
     //  */

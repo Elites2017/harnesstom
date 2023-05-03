@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -31,9 +32,18 @@ class MarkerController extends AbstractController
         $markers =  $markerRepo->findAll();
         $context = [
             'title' => 'Marker List',
-            'markers' => $markers
+            'markers' => $markers,
         ];
         return $this->render('marker/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(MarkerRepository $markerRepo)
+    {
+        $markers =  $markerRepo->myMarker();
+        return new JsonResponse($markers);
     }
 
     /**
