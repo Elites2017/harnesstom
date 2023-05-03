@@ -105,7 +105,7 @@
 			{
 				"data": "id",
 				"render": function(data, type, row, meta) {
-					let actionlink = "<a href='http://127.0.0.1:80/marker/details/"+data+"'><button class='btn btn-outline-primary'>Details</button></a>";
+					let actionlink = "<a href='http://127.0.0.1:443/marker/details/"+data+"'><button class='btn btn-outline-primary'>Details</button></a>";
 					return actionlink;
 				}
 			},
@@ -123,7 +123,7 @@
 				"responsive": true,
 				"serverSide": false,
                 "ajax": {
-					"url": "http://127.0.0.1:80/marker/datatable",
+					"url": "{{ path('marker_datatable') }}",
 					"type": "POST",
 					error: function(e) {
 						alert(e);
