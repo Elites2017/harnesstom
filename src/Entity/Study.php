@@ -121,13 +121,6 @@ class Study
     private $growthFacility;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Parameter::class, inversedBy="studies")
-     * @Groups({"location:read", "study:read"})
-     * @SerializedName("parameter")
-     */
-    private $parameter;
-
-    /**
      * @ORM\ManyToOne(targetEntity=ExperimentalDesignType::class, inversedBy="studies")
      * @Groups({"study:read"})
      */
@@ -143,12 +136,6 @@ class Study
      * @Groups({"location:read"})
      */
     private $germplasms;
-
-    /**
-     * @ORM\OneToOne(targetEntity=StudyParameterValue::class, mappedBy="study", cascade={"persist", "remove"})
-     * @Groups({"location:read", "study:read"})
-     */
-    private $studyParameterValue;
 
     /**
      * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="study")
@@ -221,6 +208,11 @@ class Study
      */
     private $experimentalDesignDescription;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=ParameterValue::class, inversedBy="studies")
+     */
+    private $parameterValue;
+
     public function __construct()
     {
         $this->germplasms = new ArrayCollection();
@@ -231,6 +223,7 @@ class Study
         $this->gwas = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
         $this->qTLStudies = new ArrayCollection();
+        $this->parameterValue = new ArrayCollection();
         // API SECTION
         $this->contacts = new ArrayCollection();
         
@@ -421,18 +414,6 @@ class Study
         return $this;
     }
 
-    public function getParameter(): ?Parameter
-    {
-        return $this->parameter;
-    }
-
-    public function setParameter(?Parameter $parameter): self
-    {
-        $this->parameter = $parameter;
-
-        return $this;
-    }
-
     public function getExperimentalDesignType(): ?ExperimentalDesignType
     {
         return $this->experimentalDesignType;
@@ -480,23 +461,6 @@ class Study
         if ($this->germplasms->removeElement($germplasm)) {
             $germplasm->removeStudy($this);
         }
-
-        return $this;
-    }
-
-    public function getStudyParameterValue(): ?StudyParameterValue
-    {
-        return $this->studyParameterValue;
-    }
-
-    public function setStudyParameterValue(StudyParameterValue $studyParameterValue): self
-    {
-        // set the owning side of the relation if necessary
-        if ($studyParameterValue->getStudy() !== $this) {
-            $studyParameterValue->setStudy($this);
-        }
-
-        $this->studyParameterValue = $studyParameterValue;
 
         return $this;
     }
@@ -712,6 +676,30 @@ class Study
         return $this;
     }
 
+    /**
+     * @return Collection<int, ParameterValue>
+     */
+    public function getParameterValue(): Collection
+    {
+        return $this->parameterValue;
+    }
+
+    public function addParameterValue(ParameterValue $parameterValue): self
+    {
+        if (!$this->parameterValue->contains($parameterValue)) {
+            $this->parameterValue[] = $parameterValue;
+        }
+
+        return $this;
+    }
+
+    public function removeParameterValue(ParameterValue $parameterValue): self
+    {
+        $this->parameterValue->removeElement($parameterValue);
+
+        return $this;
+    }
+
     // API SECTION
     /**
      * @Groups({"study:read"})
@@ -844,6 +832,5 @@ class Study
             "name" => $this->getStudyImages()
         ];
         return $this->datalinks;
-    }
-    
+    }    
 }

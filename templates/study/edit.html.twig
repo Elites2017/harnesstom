@@ -150,15 +150,15 @@
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    {{ form_row
-                                        (studyForm.parameter,
-                                            { label: "Parameter",
-                                            'attr': {
-                                                'placeholder': "Select the study contact",
-                                                'class': "custom-select d-block w-100"}
-                                            }
-                                        )
-                                    }}
+                                    <div id="paramValue-fields-list" data-prototype="{{ form_widget(studyForm.extra.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ studyForm.extra|length }}">
+                                        {% for paramValue in studyForm.extra %}
+                                            <li>
+                                                {{ form_errors(paramValue) }}
+                                                {{ form_widget(paramValue) }}
+                                            </li>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#paramValue-fields-list">Add Parameter Value</button>
                                 </div>
                             </div>
 
@@ -200,16 +200,6 @@
                                 </div>
                             </div>
 
-                            <div>
-                                {{ form_row
-                                    (studyForm.germplasms,
-                                        { label: "Germplasms (You can select several germplasms)",
-                                        'attr': {'placeholder': "Select the related germplasm(s)"}
-                                        }
-                                    )
-                                }}
-                            </div>
-
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
@@ -230,17 +220,19 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-			<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
+    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
 
-			<!-- Core plugin JavaScript-->
-			<script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
-			<!-- Custom scripts for all pages-->
-			<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
 
-			<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
-			<script src="{{ asset('assets/nl/js/main.js') }}"></script>
+    <script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
+    <script src="{{ asset('assets/nl/js/main.js') }}"></script>
 
-<script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
+    <script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
 {% endblock %}

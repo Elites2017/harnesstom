@@ -25,7 +25,6 @@
 								<th scope="col">Institute</th>
 								<th scope="col">Location</th>
 								<th scope="col">GrowthFacility</th>
-								<th scope="col">Parameter</th>
 								<th scope="col">Experimental Design</th>
 								{% if is_granted("ROLE_ADMIN") %}
 									<th scope="col">Created By</th>
@@ -73,11 +72,6 @@
 								<td>
 									{% if study.growthFacility %}
 										<a href="{{ path('growth_facility_type_details', {id: study.growthFacility.id}) }}">{{ study.growthFacility }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if study.parameter %}
-										<a href="{{ path('parameter_details', {id: study.parameter.id}) }}">{{ study.parameter }}</a>
 									{% endif %}
 								</td>
 								<td>
