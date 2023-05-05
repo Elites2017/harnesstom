@@ -59,21 +59,13 @@ class Parameter
     private $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity=Study::class, mappedBy="parameter")
-     * @Groups({"contact:read"})
+     * @ORM\OneToMany(targetEntity=ParameterValue::class, mappedBy="paramter")
      */
-    private $studies;
-
-    /**
-     * @ORM\OneToMany(targetEntity=StudyParameterValue::class, mappedBy="parameter")
-     * @Groups({"contact:read", "study:read"})
-     */
-    private $studyParameterValues;
+    private $parameterValues;
 
     public function __construct()
     {
-        $this->studies = new ArrayCollection();
-        $this->studyParameterValues = new ArrayCollection();
+        $this->parameterValues = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,70 +145,40 @@ class Parameter
         return $this;
     }
 
-    /**
-     * @return Collection<int, Study>
-     */
-    public function getStudies(): Collection
-    {
-        return $this->studies;
-    }
-
-    public function addStudy(Study $study): self
-    {
-        if (!$this->studies->contains($study)) {
-            $this->studies[] = $study;
-            $study->setParameter($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudy(Study $study): self
-    {
-        if ($this->studies->removeElement($study)) {
-            // set the owning side to null (unless already changed)
-            if ($study->getParameter() === $this) {
-                $study->setParameter(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, StudyParameterValue>
-     */
-    public function getStudyParameterValues(): Collection
-    {
-        return $this->studyParameterValues;
-    }
-
-    public function addStudyParameterValue(StudyParameterValue $studyParameterValue): self
-    {
-        if (!$this->studyParameterValues->contains($studyParameterValue)) {
-            $this->studyParameterValues[] = $studyParameterValue;
-            $studyParameterValue->setParameter($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudyParameterValue(StudyParameterValue $studyParameterValue): self
-    {
-        if ($this->studyParameterValues->removeElement($studyParameterValue)) {
-            // set the owning side to null (unless already changed)
-            if ($studyParameterValue->getParameter() === $this) {
-                $studyParameterValue->setParameter(null);
-            }
-        }
-
-        return $this;
-    }
-
     // create a toString method to return the object name / code which will appear
     // in an upper level related form field from a foreign key
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    /**
+     * @return Collection<int, ParameterValue>
+     */
+    public function getParameterValues(): Collection
+    {
+        return $this->parameterValues;
+    }
+
+    public function addParameterValue(ParameterValue $parameterValue): self
+    {
+        if (!$this->parameterValues->contains($parameterValue)) {
+            $this->parameterValues[] = $parameterValue;
+            $parameterValue->setParamter($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParameterValue(ParameterValue $parameterValue): self
+    {
+        if ($this->parameterValues->removeElement($parameterValue)) {
+            // set the owning side to null (unless already changed)
+            if ($parameterValue->getParamter() === $this) {
+                $parameterValue->setParamter(null);
+            }
+        }
+
+        return $this;
     }
 }
