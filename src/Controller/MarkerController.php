@@ -40,10 +40,196 @@ class MarkerController extends AbstractController
     /**
      * @Route("/datatable", name="datatable")
      */
-    public function datatable(MarkerRepository $markerRepo)
+    public function datatable(MarkerRepository $markerRepo, Request $request)
     {
-        $markers =  $markerRepo->myMarker();
-        return new JsonResponse($markers);
+        // Get the parameters from DataTable Ajax Call
+        if ($request->getMethod() == 'POST')
+        {
+            $draw = intval($request->request->get('draw'));
+            // $name = $request->request->get('name');
+            // $type = $request->request->get('type');
+            // $linkageGroupName = $request->request->get('linkageGroupName');
+            // $position = $request->request->get('position');
+            // $start = $request->request->get('start');
+            // $end = $request->request->get('end');
+            // $refAllele = $request->request->get('refAllele');
+            // $platformNameBuffer = $request->request->get('platformNameBuffer');
+
+            //https://growingcookies.com/datatables-server-side-processing-in-symfony/
+
+            $start = $request->request->get('start');
+            $length = $request->request->get('length');
+            $search = $request->request->get('search');
+            $orders = $request->request->get('order');
+            $columns = $request->request->get('columns');
+            //dd($columns);
+        }
+
+        foreach ($orders as $key => $order)
+        {
+            // Orders does not contain the name of the column, but its number,
+            // so add the name so we can handle it just like the $columns array
+            $orders[$key]['name'] = $columns[$order['column']]['name'];
+        }
+
+        // Further filtering can be done in the Repository by passing necessary arguments
+        $otherConditions = "array or whatever is needed";
+
+        // Get results from the Repository
+        $results = $markerRepo->getRequiredDTData($start, $length, $orders, $search, $columns, $otherConditions = null);
+
+        // Returned objects are of type Town
+        $objects = $results["results"];
+        // Get total number of objects
+        $total_objects_count = $markerRepo->count();
+        // Get total number of results
+        $selected_objects_count = count($objects);
+        // Get total number of filtered data
+        $filtered_objects_count = $results["countResult"];
+        
+        // Construct response
+        $response = '{
+            "draw": '.$draw.',
+            "recordsTotal": '.$total_objects_count.',
+            "recordsFiltered": '.$filtered_objects_count.',
+            "data": [';
+    
+        $i = 0;
+
+        foreach ($objects as $key => $marker)
+        {
+            $response .= '["';
+    
+            $j = 0; 
+            $nbColumn = count($columns);
+            foreach ($columns as $key => $column)
+            {
+            // In all cases where something does not exist or went wrong, return -
+            $responseTemp = "-";
+    
+                switch($column['name'])
+                {
+                    case 'id':
+                    {
+                        // We know from the class definition that the postal code cannot be null
+                        // But if that werent't the case, its value should have been tested
+                        // before assigning it to $responseTemp
+                        $responseTemp = $marker->getId();
+                        break;
+                    }
+
+                    case 'name':
+                    {
+                        $name = $marker->getName();
+    
+                        // Do this kind of treatments if you suspect that the string is not JS compatible
+                        $name = htmlentities(str_replace(array("\r\n", "\n", "\r"), ' ', $name));
+    
+                        // View permission ?
+                        if ($this->get('security.authorization_checker')->isGranted('view_town', $marker))
+                        {
+                            // Get the ID
+                            $id = $marker->getId();
+                            // Construct the route
+                            $url = $this->generateUrl('playground_town_view', array('id' => $id));
+                            // Construct the html code to send back to datatables
+                            $responseTemp = "<a href='".$url."' target='_self'>".$ref."</a>";
+                        }
+                        else
+                        {
+                            $responseTemp = $name;
+                        }
+                        break;
+                    }
+    
+                    case 'type':
+                    {
+                        // We know from the class definition that the postal code cannot be null
+                        // But if that werent't the case, its value should have been tested
+                        // before assigning it to $responseTemp
+                        $responseTemp = $marker->getType();
+                        break;
+                    }
+
+                    case 'linkageGroupName':
+                    {
+                        // We know from the class definition that the postal code cannot be null
+                        // But if that werent't the case, its value should have been tested
+                        // before assigning it to $responseTemp
+                        $responseTemp = $marker->getLinkageGroupName();
+                        break;
+                    }
+
+                    case 'position':
+                    {
+                        // We know from the class definition that the postal code cannot be null
+                        // But if that werent't the case, its value should have been tested
+                        // before assigning it to $responseTemp
+                        $responseTemp = $marker->getPosition();
+                        break;
+                    }
+
+                    case 'start':
+                    {
+                        // We know from the class definition that the postal code cannot be null
+                        // But if that werent't the case, its value should have been tested
+                        // before assigning it to $responseTemp
+                        $responseTemp = $marker->getStart();
+                        break;
+                    }
+
+                    case 'end':
+                    {
+                        // We know from the class definition that the postal code cannot be null
+                        // But if that werent't the case, its value should have been tested
+                        // before assigning it to $responseTemp
+                        $responseTemp = $marker->getEnd();
+                        break;
+                    }
+
+                    case 'refAllele':
+                    {
+                        // We know from the class definition that the postal code cannot be null
+                        // But if that werent't the case, its value should have been tested
+                        // before assigning it to $responseTemp
+                        $responseTemp = $marker->getRefAllele();
+                        break;
+                    }
+
+                    case 'platformNameBuffer':
+                    {
+                        // We know from the class definition that the postal code cannot be null
+                        // But if that werent't the case, its value should have been tested
+                        // before assigning it to $responseTemp
+                        $responseTemp = $marker->getPlatformNameBuffer();
+                        break;
+                    }
+                }
+    
+                // Add the found data to the json
+                $response .= $responseTemp;
+    
+                if(++$j !== $nbColumn)
+                    $response .='","';
+            }
+    
+            $response .= '"]';
+    
+            // Not on the last item
+            if(++$i !== $selected_objects_count)
+                $response .= ',';
+        }
+    
+        $response .= ']}';
+    
+        // Send all this stuff back to DataTables
+        $returnResponse = new JsonResponse();
+        $returnResponse->setJson($response);
+    
+        return $returnResponse;
+           
+        //$markers =  $markerRepo->myMarker();
+        //return new JsonResponse($markers);
     }
 
     /**
