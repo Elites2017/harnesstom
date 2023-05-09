@@ -34,7 +34,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
-				{% if markers | length > 0 %}
+				{% if markerTotalRows != 0 %}
 					<h2 class="mb-3 text-center tomato-color font-weight-bold">Marker List</h2>
 					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 						{% for message in messages %}
@@ -87,11 +87,10 @@
 	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 	
-	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
-	</script>
-
+	<!-- Load data table server side processing -->
+	<script src="{{ asset('assets/datatables/js/datatable_server_side_processing.js') }}"></script>
 	<script>
+		let dataTableId = "#datatable";
 		let colsDef = [
 				// These are the column name variables that will be sent to the server
 				{ "data": "name", "targets": 0 },
@@ -111,34 +110,9 @@
 						return actionlink;
 					}
 				}
-			
 			];
-		$(document).ready(function() {
-            $('#datatable').DataTable( {
-                "bDestroy": true,
-				"pageLength": 10,
-				"paging": true,
-				"lengthChange": true,
-				"ordering": true,
-				"searching": true,
-				"processing": true,
-				"responsive": true,
-				"serverSide": true,
-                "ajax": {
-					"url": "{{ path('marker_datatable') }}",
-					"type": "POST",
-					error: function(e) {
-							alert(e);
-						},
-						"dataSrc": function(data){
-							console.log(data);
-							return data["name"];
-						}
-				},
-				"info" : true, 
-				"order": [[2, 'asc']],
-				"columns": colsDef
-            } );
-        } );
+		let url = "{{ path('marker_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
     </script>
 {% endblock %}

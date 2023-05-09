@@ -29,10 +29,10 @@ class MarkerController extends AbstractController
      */
     public function index(MarkerRepository $markerRepo): Response
     {
-        $markers =  $markerRepo->findAll();
+        $markers =  $markerRepo->totalRows();
         $context = [
             'title' => 'Marker List',
-            'markers' => $markers,
+            'markerTotalRows' => $markers,
         ];
         return $this->render('marker/index.html.twig', $context);
     }
@@ -64,11 +64,8 @@ class MarkerController extends AbstractController
             $orders[$key]['name'] = $columns[$order['column']]['data'];
         }
 
-        // Further filtering can be done in the Repository by passing necessary arguments
-        $otherConditions = "array or whatever is needed";
-
         // Get results from the Repository
-        $results = $markerRepo->getRequiredDTData($start, $length, $orders, $searchFilter, $columns, $otherConditions = null);
+        $results = $markerRepo->getObjectsList($start, $length, $orders, $searchFilter, $columns);
 
         // Returned objects are of type Town
         $objects = $results["results"];

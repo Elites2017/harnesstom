@@ -37,7 +37,7 @@ class MarkerRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function getRequiredDTData($start, $length, $orders, $search, $columns, $otherConditions)
+    public function getObjectsList($start, $length, $orders, $search, $columns)
     {
         // Create Main Query
         $query = $this->createQueryBuilder('mkr');
@@ -46,19 +46,15 @@ class MarkerRepository extends ServiceEntityRepository
         $countQuery = $this->createQueryBuilder('mkr');
         $countQuery->select('COUNT(mkr.id)');
         
-        // Other conditions than the ones sent by the Ajax call ?
-        if ($otherConditions === null)
-        {
-            // No
-            // However, add a "always true" condition to keep an uniform treatment in all cases
-            $query->where("1=1");
-            $countQuery->where("1=1");
-        }
-        if($search["filter"] != null) {
+        if ($search["filter"] != null) {
             $query->andWhere(
                 $query->expr()->orX(
                     "mkr.name like :filter",
+                    "mkr.linkageGroupName like :filter",
                     "mkr.position like :filter",
+                    "mkr.start like :filter",
+                    "mkr.end like :filter",
+                    "mkr.platformNameBuffer like :filter"
                     )
             )
             ->setParameter('filter', "%".$search['filter']."%")
@@ -67,17 +63,15 @@ class MarkerRepository extends ServiceEntityRepository
             $countQuery->andWhere(
                 $countQuery->expr()->orX(
                     "mkr.name like :filter",
+                    "mkr.linkageGroupName like :filter",
                     "mkr.position like :filter",
+                    "mkr.start like :filter",
+                    "mkr.end like :filter",
+                    "mkr.platformNameBuffer like :filter"
                     )
             )
             ->setParameter('filter', "%".$search['filter']."%")
             ;
-        }
-        if ($otherConditions != null)
-        {
-            // Add condition
-            $query->where($otherConditions);
-            $countQuery->where($otherConditions);
         }
                 
         // Limit
@@ -90,21 +84,38 @@ class MarkerRepository extends ServiceEntityRepository
             if ($order['name'] != '')
             {
                 $orderColumn = null;
-            
-                switch($order['name'])
-                {
-                    case 'name':
-                    {
-                        $orderColumn = 'mkr.name';
-                        break;
-                    }
-                    case 'position':
-                    {
-                        $orderColumn = 'mkr.position';
-                        break;
-                    }
+                if ($order['name'] == 'name') {
+                    $orderColumn = 'mkr.name';
                 }
-        
+
+                if ($order['name'] == 'type') {
+                    $orderColumn = 'mkr.type';
+                }
+
+                if ($order['name'] == 'linkageGroupName') {
+                    $orderColumn = 'mkr.linkageGroupName';
+                }
+
+                if ($order['name'] == 'position') {
+                    $orderColumn = 'mkr.position';
+                }
+
+                if ($order['name'] == 'start') {
+                    $orderColumn = 'mkr.start';
+                }
+
+                if ($order['name'] == 'end') {
+                    $orderColumn = 'mkr.end';
+                }
+
+                if ($order['name'] == 'refAllele') {
+                    $orderColumn = 'mkr.refAllele';
+                }
+
+                if ($order['name'] == 'platformNameBuffer') {
+                    $orderColumn = 'mkr.platformNameBuffer';
+                }
+
                 if ($orderColumn !== null)
                 {
                     $query->orderBy($orderColumn, $order['dir']);
@@ -114,13 +125,12 @@ class MarkerRepository extends ServiceEntityRepository
         
         // Execute
         $results = $query->getQuery()->getArrayResult();
-        //dd($query->getDQL());
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
         
-        return array(
-            "results" 		=> $results,
-            "countResult"	=> $countResult
-        );
+        return [
+            "results" => $results,
+            "countResult" => $countResult
+        ];
     }
 
     // /**
