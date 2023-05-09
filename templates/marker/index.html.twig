@@ -28,17 +28,6 @@
 	<!-- DataTables Animate CSS -->
 	<link href="{{ asset('assets/datatables/css/animate.1.13.4.css.jquery.dataTables.min.css') }}" rel="stylesheet">
 
-	<style>
-		.dataTables_filter {
-			display: none;
-		}
-
-		/* Move tfood in the upper part of the table */
-		tfoot {
-			display: table-header-group;
-		}
-	</style>
-
 {% endblock %}
 
 {% block body %}
@@ -58,19 +47,6 @@
 					{% endfor %}
 					<div class="table-responsive">
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
-							<tfoot>
-								<tr>
-									<th scope="col">Name</th>
-									<th scope="col">Type</th>
-									<th scope="col">Linkage G. Name</th>
-									<th scope="col">Position</th>
-									<th scope="col">Start</th>
-									<th scope="col">End</th>
-									<th scope="col">Ref Allele</th>
-									<th scope="col">Genotyping Platform</th>
-								</tr>
-							</tfoot>
-
 							<thead class="table-dark">
 								<tr>
 									<th scope="col">Name</th>
@@ -115,50 +91,19 @@
 	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
 	</script>
 
-    <script>
+	<script>
 		let colsDef = [
-			{"data": "name"},
-			{"data": "type"},
-			{"data": "linkageGroupName"},
-			{"data": "position"},
-			{"data": "start"},
-			{"data": "end"},
-			{"data": "refAllele"},
-			{"data": "platformNameBuffer"},
-			{
-				"data": "id",
-				"render": function(data, type, row, meta) {
-					let url = '{{ path("marker_details", {'id': 'dataId'}) }}'; 
-					url = url.replace("dataId", data);
-					let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
-					return actionlink;
-				}
-			},
-		];
-
-		// Add a text input to each footer cell
-		var pos = 1;
-		$('#datatable tfoot th').each( function () {
-			var title = $(this).text();
-			$(this).html( "<input id='input" + pos + "' type='text' class='form-control' placeholder='& #xf002;' style='font-family:Arial, FontAwesome; width:100%'/>" );
-
-			pos ++;
-		});
-
-		var table = $('#datatable').DataTable({
-			"columnDefs": [
-			
 				// These are the column name variables that will be sent to the server
-				{ "name": "name",   "targets": 0 },
-				{ "name": "type",   "targets": 1 },
-				{ "name": "linkageGroupName",  "targets": 2 },
-				{ "name": "position",  "targets": 3 },
-				{ "name": "start",  "targets": 4 },
-				{ "name": "end",  "targets": 5 },
-				{ "name": "refAllele",  "targets": 6 },
-				{ "name": "platformNameBuffer",  "targets": 7 },
+				{ "data": "name", "targets": 0 },
+				{ "data": "type", "targets": 1 },
+				{ "data": "linkageGroupName", "targets": 2 },
+				{ "data": "position", "targets": 3 },
+				{ "data": "start", "targets": 4 },
+				{ "data": "end", "targets": 5 },
+				{ "data": "refAllele", "targets": 6 },
+				{ "data": "platformNameBuffer", "targets": 7 },
 				{
-				"name": "id", "targets": 8,
+				"data": "id", "targets": 8,
 					"render": function(data, type, row, meta) {
 						let url = '{{ path("marker_details", {'id': 'dataId'}) }}'; 
 						url = url.replace("dataId", data);
@@ -167,43 +112,11 @@
 					}
 				}
 			
-			],
-			// Server-side parameters
-			"processing": true,
-			"serverSide": true,
-			// Ajax call
-			"ajax": {
-				"url": "{{ path('marker_datatable') }}",
-				"type": "POST"
-			},
-			// Classic DataTables parameters
-			"paging" : true,
-			"info" : true, 
-			"searching": true,
-			"pageLength": 25,
-			"order": [[2, 'asc']]
-		});
-
-		// Apply the search
-		pos = 1;
-		table.columns().every( function () {
-			var that = this;
-		
-			$("#input"+pos).on( 'keyup change', function () {
-				if ( that.search() !== this.value )
-				{
-					that
-						.search( this.value )
-						.draw();
-				}
-			});
-			pos++;
-		});
-
-		{# $(document).ready(function() {
+			];
+		$(document).ready(function() {
             $('#datatable').DataTable( {
                 "bDestroy": true,
-				"pageLength": 25,
+				"pageLength": 10,
 				"paging": true,
 				"lengthChange": true,
 				"ordering": true,
@@ -215,14 +128,17 @@
 					"url": "{{ path('marker_datatable') }}",
 					"type": "POST",
 					error: function(e) {
-						alert(e);
-					},
-					"dataSrc": function(data){
-						return data;
-					}
+							alert(e);
+						},
+						"dataSrc": function(data){
+							console.log(data);
+							return data["name"];
+						}
 				},
-				"columns": colsDef,
+				"info" : true, 
+				"order": [[2, 'asc']],
+				"columns": colsDef
             } );
-        } ); #}
+        } );
     </script>
 {% endblock %}

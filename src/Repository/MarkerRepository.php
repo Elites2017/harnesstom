@@ -20,8 +20,8 @@ class MarkerRepository extends ServiceEntityRepository
     }
 
     public function myMarker() {
-        $query = $this->createQueryBuilder('m')
-            ->where('m.isActive = 1')
+        $query = $this->createQueryBuilder('mkr')
+            ->where('mkr.isActive = 1')
             ;
         
         return $query->getQuery()->getArrayResult();
@@ -29,10 +29,10 @@ class MarkerRepository extends ServiceEntityRepository
     }
 
     // Get the total number of elements
-    public function count() {
-        return $this->createQueryBuilder('tab')
-            ->select('count(tab.id)')
-            ->where('tab.isActive = 1')
+    public function totalRows() {
+        return $this->createQueryBuilder('mkr')
+            ->select('count(mkr.id)')
+            ->where('mkr.isActive = 1')
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -40,11 +40,11 @@ class MarkerRepository extends ServiceEntityRepository
     public function getRequiredDTData($start, $length, $orders, $search, $columns, $otherConditions)
     {
         // Create Main Query
-        $query = $this->createQueryBuilder('town');
+        $query = $this->createQueryBuilder('mkr');
         
         // Create Count Query
-        $countQuery = $this->createQueryBuilder('town');
-        $countQuery->select('COUNT(town)');
+        $countQuery = $this->createQueryBuilder('mkr');
+        $countQuery->select('COUNT(mkr.id)');
         
         // Other conditions than the ones sent by the Ajax call ?
         if ($otherConditions === null)
@@ -54,45 +54,32 @@ class MarkerRepository extends ServiceEntityRepository
             $query->where("1=1");
             $countQuery->where("1=1");
         }
-        else
+        if($search["filter"] != null) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    "mkr.name like :filter",
+                    "mkr.position like :filter",
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+
+            $countQuery->andWhere(
+                $countQuery->expr()->orX(
+                    "mkr.name like :filter",
+                    "mkr.position like :filter",
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+        }
+        if ($otherConditions != null)
         {
             // Add condition
             $query->where($otherConditions);
             $countQuery->where($otherConditions);
         }
-        
-        // Fields Search
-        foreach ($columns as $key => $column)
-        {
-            if ($column['search']['value'] != '')
-            {
-                // $searchItem is what we are looking for
-                $searchItem = $column['search']['value'];
-                $searchQuery = null;
-        
-                // $column['name'] is the name of the column as sent by the JS
-                switch($column['name'])
-                {
-                    case 'name':
-                    {
-                        $searchQuery = 'town.name LIKE \'%'.$searchItem.'%\'';
-                        break;
-                    }
-                    case 'position':
-                    {
-                        $searchQuery = 'town.position LIKE \'%'.$searchItem.'%\'';
-                        break;
-                    }
-                }
-        
-                if ($searchQuery !== null)
-                {
-                    $query->andWhere($searchQuery);
-                    $countQuery->andWhere($searchQuery);
-                }
-            }
-        }
-        
+                
         // Limit
         $query->setFirstResult($start)->setMaxResults($length);
         
@@ -108,12 +95,12 @@ class MarkerRepository extends ServiceEntityRepository
                 {
                     case 'name':
                     {
-                        $orderColumn = 'town.name';
+                        $orderColumn = 'mkr.name';
                         break;
                     }
                     case 'position':
                     {
-                        $orderColumn = 'town.position';
+                        $orderColumn = 'mkr.position';
                         break;
                     }
                 }
@@ -126,7 +113,8 @@ class MarkerRepository extends ServiceEntityRepository
         }
         
         // Execute
-        $results = $query->getQuery()->getResult();
+        $results = $query->getQuery()->getArrayResult();
+        //dd($query->getDQL());
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
         
         return array(
