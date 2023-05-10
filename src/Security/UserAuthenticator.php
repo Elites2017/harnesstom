@@ -50,6 +50,15 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
+        // prevent the user from being logged in if not active nor verified
+        if (!$token->getUser()->getIsActive()) {
+            return new RedirectResponse($this->urlGenerator->generate('app_logout'));
+        }
+
+        if (!$token->getUser()->isVerified()) {
+            return new RedirectResponse($this->urlGenerator->generate('app_logout'));
+        }
+        
         // For example:
         return new RedirectResponse($this->urlGenerator->generate('app_home'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
