@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+// call the datatable service
+use App\Service\Datatable;
+
 
 // set a class level route
 /**
@@ -40,54 +43,10 @@ class MarkerController extends AbstractController
     /**
      * @Route("/datatable", name="datatable")
      */
-    public function datatable(MarkerRepository $markerRepo, Request $request)
+    public function datatable(Datatable $datatableService, MarkerRepository $markerRepo, Request $request)
     {
-        // Get the parameters from DataTable Ajax Call
-        if ($request->getMethod() == 'POST')
-        {
-            $draw = intval($request->request->get('draw'));
-            $start = $request->request->get('start');
-            $length = $request->request->get('length');
-            $search = $request->request->get('search');
-            $searchFilter = [
-                "filter" => $search["value"]
-            ];
-            $orders = $request->request->get('order');
-            $columns = $request->request->get('columns');
-            //dd($columns);
-        }
-
-        foreach ($orders as $key => $order)
-        {
-            // Orders does not contain the name of the column, but its number,
-            // so add the name so we can handle it just like the $columns array
-            $orders[$key]['name'] = $columns[$order['column']]['data'];
-        }
-
-        // Get results from the Repository
-        $results = $markerRepo->getObjectsList($start, $length, $orders, $searchFilter, $columns);
-
-        // Returned objects are of type Town
-        $objects = $results["results"];
-        // Get total number of objects
-        $total_objects_count = $markerRepo->totalRows();
-        // Get total number of results
-        $selected_objects_count = count($objects);
-        // Get total number of filtered data
-        $filtered_objects_count = $results["countResult"];
-        
-        // Construct response
-        $response = [
-            "draw"=> $draw,
-            "recordsTotal"=> $total_objects_count,
-            "recordsFiltered"=> $filtered_objects_count,
-            "name"=> $objects
-        ];
-    
-        // Send all this stuff back to DataTables
-        $returnResponse = new JsonResponse($response);
-    
-        return $returnResponse;
+        $datatableRes = $datatableService->getDatatable($markerRepo, $request);
+        return $datatableRes;
     }
 
     /**

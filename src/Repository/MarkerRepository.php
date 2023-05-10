@@ -19,15 +19,6 @@ class MarkerRepository extends ServiceEntityRepository
         parent::__construct($registry, Marker::class);
     }
 
-    public function myMarker() {
-        $query = $this->createQueryBuilder('mkr')
-            ->where('mkr.isActive = 1')
-            ;
-        
-        return $query->getQuery()->getArrayResult();
-
-    }
-
     // Get the total number of elements
     public function totalRows() {
         return $this->createQueryBuilder('mkr')
@@ -127,10 +118,13 @@ class MarkerRepository extends ServiceEntityRepository
         $results = $query->getQuery()->getArrayResult();
         $countResult = $countQuery->getQuery()->getSingleScalarResult();
         
-        return [
+        // data returned
+        $rawDatatable = [];
+        $rawDatatable = [
             "results" => $results,
             "countResult" => $countResult
         ];
+        return $rawDatatable;
     }
 
     // /**
