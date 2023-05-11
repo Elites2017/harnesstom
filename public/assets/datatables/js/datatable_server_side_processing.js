@@ -20,7 +20,6 @@ function dataTable(dataTableId, colsDef, ajaxUrl) {
                         alert(e);
                     },
                 "dataSrc": function(data){
-                    console.log(data);
                     return data["name"];
                 }
             }

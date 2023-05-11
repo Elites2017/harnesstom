@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+// call the datatable service
+use App\Service\Datatable;
 
 // set a class level route
 /**
@@ -28,12 +30,21 @@ class InstituteController extends AbstractController
      */
     public function index(InstituteRepository $instituteRepo): Response
     {
-        $institutes =  $instituteRepo->findAll();
+        $institutes =  $instituteRepo->totalRows();
         $context = [
             'title' => 'Institute List',
-            'institutes' => $institutes
+            'instituteTotalRows' => $institutes
         ];
         return $this->render('institute/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, InstituteRepository $instituteRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($instituteRepo, $request);
+        return $datatableRes;
     }
 
     /**
