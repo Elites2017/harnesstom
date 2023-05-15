@@ -27,6 +27,30 @@ class TrialRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    public function findReleasedTrials($user = null)
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('tr')
+            ->Where('tr.isActive = 1')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+
+        if ($user) {
+            //dd($user->getId());
+            $query->orWhere(
+                $query->expr()->orX(
+                        'tr.createdBy = :user'))
+                    ->setParameter(':user', $user->getId());
+        }
+
+        //dd($query->getDQL());
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Trial[] Returns an array of Trial objects
     //  */

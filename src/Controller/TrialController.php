@@ -29,7 +29,21 @@ class TrialController extends AbstractController
      */
     public function index(TrialRepository $trialRepo): Response
     {
-        $trials =  $trialRepo->findAll();
+        $trials = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            foreach ($userRoles as $userRole) {
+                # code...
+                if ($userRole == "ROLE_ADMIN") {
+                    $trials = $trialRepo->findAll();
+                } else {
+                    $trials = $trialRepo->findReleasedTrials($this->getUser());
+                }
+            }
+        } else {
+            $trials = $trialRepo->findReleasedTrials();
+        }
+        
         $context = [
             'title' => 'Trial List',
             'trials' => $trials

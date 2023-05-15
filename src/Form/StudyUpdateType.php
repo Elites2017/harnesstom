@@ -20,13 +20,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
+// call the trial public release service
+use App\Service\PublicReleaseTrial;
 
 class StudyUpdateType extends AbstractType
 {
     private $router;
+    private $pubRelTrialService;
 
-    function __construct(RouterInterface $router){
+    function __construct(RouterInterface $router, PublicReleaseTrial $pubRelTrialService){
         $this->router = $router;
+        $this->pubRelTrialService = $pubRelTrialService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -56,8 +60,8 @@ class StudyUpdateType extends AbstractType
                 'class' => Trial::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'query_builder' => $this->pubRelTrialService->getPublicReleaseTrials(),
                 'help' => 'Add a new <a href="' . $toUrlTrial .'" target="_blank">Trial</a>'
-                
             ])
             ->add('factor', EntityType::class, [
                 'class' => FactorType::class,
