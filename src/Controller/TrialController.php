@@ -4,10 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Program;
 use App\Entity\Trial;
+use App\Entity\SharedWith;
 use App\Entity\TrialType as EntityTrialType;
 use App\Form\TrialType;
 use App\Form\TrialUpType;
 use App\Form\UploadFromExcelType;
+use App\Repository\UserRepository;
+use App\Repository\SharedWithRepository;
 use App\Repository\TrialRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -17,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 // set a class level route
 /**
@@ -76,6 +80,64 @@ class TrialController extends AbstractController
             'trialForm' => $form->createView()
         ];
         return $this->render('trial/create.html.twig', $context);
+    }
+
+    /**
+     * @Route("/{id}/share/with", name="share_with")
+     */
+    public function shareWith(Request $request, EntityManagerInterface $entmanager, Trial $trialSelected, UserRepository $userRepo, SharedWithRepository $sharedWithRepo): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $users = $userRepo->findAll();
+        // prevent the user from sharing other users' trials
+        if ($trialSelected->getCreatedBy() == $this->getUser()) {
+            // check if the an action has been performed on the button
+            // if so, a parameter is added to the url
+            if ($request->query->get("userId")) {
+                $userId = $request->query->get("userId");
+                $user = $userRepo->findOneById($userId);
+                // check if this trial has already been shared with this user
+                $existedSW = $sharedWithRepo->findOneBy(["trial" => $trialSelected, "user" => $user]);
+                if ($existedSW) {
+                    $entmanager->remove($existedSW);
+                    $entmanager->flush();
+                    // json reponse
+                    $response = [
+                        "code"=> "200",
+                        "message"=> "Share With"
+                    ];
+                    $returnResponse = new JsonResponse($response);
+                    return $returnResponse;
+                } else {
+                    // create the shared with object
+                    $sharedWith = new SharedWith();
+                    $sharedWith->setTrial($trialSelected);
+                    $sharedWith->setUser($user);
+                    $sharedWith->setIsActive(true);
+                    $sharedWith->setCreatedAt(new \DateTime());
+                    $sharedWith->setCreatedBy($this->getUser());
+                    $entmanager->persist($sharedWith);
+                    $entmanager->flush();
+                    // Json reponse response
+                    $response = [
+                        "code"=> "200",
+                        "message"=> "Shared With"
+                    ];
+                    $returnResponse = new JsonResponse($response);
+                    return $returnResponse;
+                }
+            }
+        } else {
+            $this->addFlash('danger', "You are not allowed to share the trial of another user");
+            return $this->redirect($this->generateUrl('trial_index'));
+        }
+
+        $context = [
+            'title' => 'Trial Details',
+            'trial' => $trialSelected,
+            'users' => $users
+        ];
+        return $this->render('trial/share_with.html.twig', $context);
     }
 
     /**

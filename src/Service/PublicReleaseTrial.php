@@ -26,7 +26,6 @@ class PublicReleaseTrial
                 ->setParameter(':currentDate', $currentDate);
 
                 if ($user) {
-                    //dd($user->getId());
                     $query->orWhere(
                         $query->expr()->orX(
                                 'tr.createdBy = :userId'))
