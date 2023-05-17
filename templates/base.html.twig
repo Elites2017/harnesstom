@@ -73,2019 +73,2038 @@
 		</style>
 	</head>
 	<body id="page-top">
-		<!-- nav start -->
-		<nav class="navbar navbar-expand-lg navbar-light" id="hopscotch-title">
-			<a href="{{path('app_home')}}" class="branding">
-				<div class="logo-type">
-					<img src="{{ asset('assets/images/harnesstomlogo.png') }}" width="auto" alt="" class="logo">
-				</div>
-			</a>
-			<!-- <a class="navbar-brand" href="#">Navbar</a> -->
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
 
-			<div
-				class="collapse navbar-collapse justify-content-md-center" id="navbarNavAltMarkup">
-				<!-- start of menu -->
-				<div class="container">
-					<ul class="navbar-nav" id="nav-menu">
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Tools *</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<li>
-									<a class="dropdown-item" href="{{path('data_submission_index')}}">
-										Data Submission &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
-										<li>
-											<a class="dropdown-item" href="{{path('data_submission_new')}}">New Request</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<!-- Begin Page Content -->
+			<div class="container-fluid">
+				<!-- Main Content -->
+				<div id="content">
+
+					<!-- nav start -->
+					<nav class="navbar navbar-expand-lg navbar-light" id="hopscotch-title">
+						<a href="{{path('app_home')}}" class="branding">
+							<div class="logo-type">
+								<img src="{{ asset('assets/images/harnesstomlogo.png') }}" width="auto" alt="" class="logo">
+							</div>
+						</a>
+						<!-- <a class="navbar-brand" href="#">Navbar</a> -->
+						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+
+						<div
+							class="collapse navbar-collapse justify-content-md-center" id="navbarNavAltMarkup">
+							<!-- start of menu -->
+							<div class="container">
+								<ul class="navbar-nav" id="nav-menu">
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Tools *</a>
+										<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 											<li>
-												<a class="dropdown-item" href="{{path('data_submission_list')}}">Request List</a>
-											</li>
-										{% endif %}
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#">
-										Download &raquo;
-									</a>
-								</li>
-
-								<li>
-									<a class="dropdown-item" href="#">
-										Ontology &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
-										<li>
-											<a class="dropdown-item" href="#">
-												Experimental Data Ontologies &raquo;
-											</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="{{path('crop_index')}}">
-														Crop &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('crop_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('crop_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('crop_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('trial_type_index')}}">
-														Trial Type &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('trial_type_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('trial_type_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('trial_type_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('factor_type_index')}}">
-														Factor &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('factor_type_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-															<li>
-																<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('factor_type_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('season_index')}}">
-														Season &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('season_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('season_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('season_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('growth_facility_type_index')}}">
-														Growth Facility Type &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('growth_facility_type_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('growth_facility_type_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('growth_facility_type_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('experimental_design_index')}}">
-														Experimental Design Type &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('experimental_design_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('experimental_design_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-															<li>
-																<a class="dropdown-item" href="{{ path('experimental_design_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('experimental_design_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-											</ul>
-										</li>
-
-										<li>
-											<a class="dropdown-item" href="{{path('collecting_source_index')}}">
-												Germplasm Ontologies &raquo;
-											</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="#">
-														Collecting Source &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('collecting_source_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('collecting_source_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('collecting_source_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('biological_status_index')}}">
-														Biological Status &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('biological_status_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('biological_status_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('biological_status_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('mls_status_index')}}">
-														MLS Status &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('mls_status_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('mls_status_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('mls_status_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('taxonomy_index')}}">
-														Taxonomy &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('taxonomy_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('taxonomy_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('taxonomy_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('storage_type_index')}}">
-														Storage type &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('storage_type_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('storage_type_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('storage_type_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('attribute_category_index')}}">
-														Attribute Category &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('attribute_category_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('attribute_category_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('attribute_category_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('attribute_index')}}">
-														Attribute &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('attribute_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="#">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('attribute_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('breeding_method_index')}}">
-														Breeding Method &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('breeding_method_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('breeding_method_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('breeding_method_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('generation_index')}}">
-														Generation &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('generation_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{ path('generation_upload_from_excel') }}">Upload From Excel </a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('generation_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-											</ul>
-										</li>
-
-										<li>
-											<a class="dropdown-item" href="#">
-												Phenotyping Ontologies &raquo;
-											</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="{{path('anatomical_entity_index')}}">
-														Anatomical Entity &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('anatomical_entity_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('anatomical_entity_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-															<li>
-																<a class="dropdown-item" href="{{path('anatomical_entity_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('anatomical_entity_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('developmental_stage_index')}}">
-														Developmental Stage &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('developmental_stage_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('developmental_stage_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-															<li>
-																<a class="dropdown-item" href="{{path('developmental_stage_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('developmental_stage_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('trait_class_index')}}">
-														Trait &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('trait_class_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('trait_class_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-															<li>
-																<a class="dropdown-item" href="{{path('trait_class_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
-															</li>
-															<li>
-																<a class="dropdown-item" href="{{path('trait_class_upload_from_excel_var_of')}}">Upload From Excel Variable Of</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('trait_class_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('metabolic_trait_index')}}">
-														Metabolic Trait &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('metabolic_trait_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('metabolic_trait_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-															<li>
-																<a class="dropdown-item" href="{{path('metabolic_trait_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('metabolic_trait_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('identification_level_index')}}">
-														Analyte Identification Level &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('identification_level_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('identification_level_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('identification_level_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('annotation_level_index')}}">
-														Analyte Annotation Level &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('annotation_level_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('annotation_level_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('annotation_level_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('metabolite_class_index')}}">
-														Metabolite Class &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('metabolite_class_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('metabolite_class_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('metabolite_class_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('flavor_health_index')}}">
-														Analyte Health & Flavor &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('flavor_health_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('flavor_health_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('flavor_health_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('method_class_index')}}">
-														Observation Variable Method Class &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('method_class_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('method_class_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('method_class_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('data_type_index')}}">
-														Data Type &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('data_type_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('data_type_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('data_type_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('scale_category_index')}}">
-														Scale Category &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('scale_category_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="#">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('scale_category_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-											</ul>
-										</li>
-
-										<li>
-											<a class="dropdown-item" href="{{path('sequencing_instrument_index')}}">
-												Genotyping Ontologies &raquo;
-											</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="#">
-														Sequencing Instrument &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('sequencing_instrument_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('sequencing_instrument_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('sequencing_instrument_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('sequencing_type_index')}}">
-														Sequencing Type &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('sequencing_type_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('sequencing_type_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('sequencing_type_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('var_call_software_index')}}">
-														Variant Call Software &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('var_call_software_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('var_call_software_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('var_call_software_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('enzyme_index')}}">
-														Enzyme &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('enzyme_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('enzyme_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('enzyme_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('software_index')}}">
-														Genetic Analysis Software &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('software_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('software_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('software_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-											</ul>
-										</li>
-
-										<li>
-											<a class="dropdown-item" href="#">
-												Variant Ontologies &raquo;
-											</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="{{path('software_index')}}">
-														Variant Association Software &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('software_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('software_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('software_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('qtl_method_index')}}">
-														QTL Method &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('qtl_method_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('qtl_method_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('qtl_method_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('ci_criteria_index')}}">
-														Ci Criteria &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('ci_criteria_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('ci_criteria_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('ci_criteria_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('qtl_statistic_index')}}">
-														QTL Statistic &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('qtl_statistic_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('qtl_statistic_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('qtl_statistic_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('gwas_model_index')}}">
-														GWAS Model &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('gwas_model_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('gwas_model_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('gwas_model_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('kinship_algorithm_index')}}">
-														Kinship Algorithm &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('kinship_algorithm_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('kinship_algorithm_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('kinship_algorithm_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-										
-												<li>
-													<a class="dropdown-item" href="{{path('structure_method_index')}}">
-														Structure Method &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('structure_method_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('structure_method_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('structure_method_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('genetic_testing_model_index')}}">
-														Genetic Testing Model &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('genetic_testing_model_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('genetic_testing_model_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('genetic_testing_model_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('allelic_effect_estimator_index')}}">
-														Allelic Effect Estimator &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('allelic_effect_estimator_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('allelic_effect_estimator_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('allelic_effect_estimator_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-										
-												<li>
-													<a class="dropdown-item" href="{{path('gwas_stat_test_index')}}">
-														GWAS Stat Test &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('gwas_stat_test_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('gwas_stat_test_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('gwas_stat_test_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('trait_processing_index')}}">
-														Trait Preprocessing &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('trait_processing_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('trait_processing_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('trait_processing_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-
-												<li>
-													<a class="dropdown-item" href="{{path('threshold_method_index')}}">
-														Threshold Method &raquo;
-													</a>
-													<ul class="dropdown-menu dropdown-submenu">
-														<li>
-															<a class="dropdown-item" href="{{path('threshold_method_create')}}">Create</a>
-														</li>
-														{% if is_granted("ROLE_ADMIN") %}
-															<li>
-																<a class="dropdown-item" href="{{path('threshold_method_upload_from_excel')}}">Upload From Excel</a>
-															</li>
-														{% endif %}
-														<li>
-															<a class="dropdown-item" href="{{path('threshold_method_index')}}">Search</a>
-														</li>
-													</ul>
-												</li>
-											</ul>
-										</li>
-										
-										<li>
-											<a class="dropdown-item" href="{{ path('country_index') }}">
-												Country &raquo;
-											</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="{{ path('country_create') }}">Create</a>
-												</li>
-												{% if is_granted("ROLE_ADMIN") %}
-													<li>
-														<a class="dropdown-item" href="{{path('country_upload_from_excel')}}">Upload From Excel</a>
-													</li>
-												{% endif %}
-												<li>
-													<a class="dropdown-item" href="{{ path('country_index') }}">Search</a>
-												</li>
-											</ul>
-										</li>
-										
-										
-										<li>
-											<a class="dropdown-item" href="{{path('institute_index')}}">
-												Institute &raquo;
-											</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="{{path('institute_create')}}">Create</a>
-												</li>
-												{% if is_granted("ROLE_ADMIN") %}
-													<li>
-														<a class="dropdown-item" href="{{path('institute_upload_from_excel')}}">Upload From Excel</a>
-													</li>
-												{% endif %}
-												<li>
-													<a class="dropdown-item" href="{{path('institute_index')}}">Search</a>
-												</li>
-											</ul>
-										</li>
-										
-										<li>
-											<a class="dropdown-item" href="{{path('unit_index')}}">
-												Unit &raquo;
-											</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="{{path('unit_create')}}">Create</a>
-												</li>
-												{% if is_granted("ROLE_ADMIN") %}
-													<li>
-														<a class="dropdown-item" href="{{path('unit_upload_from_excel')}}">Upload From Excel</a>
-													</li>
-												{% endif %}
-												<li>
-													<a class="dropdown-item" href="{{path('unit_index')}}">Search</a>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-
-								<li>
-									<a class="dropdown-item" href="#">
-										More &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('person_index')}}">
-													Person &raquo;
+												<a class="dropdown-item" href="{{path('data_submission_index')}}">
+													Data Submission &raquo;
 												</a>
-												<ul class="dropdown-menu dropdown-submenu">
+												<ul class="dropdown-menu dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
 													<li>
-														<a class="dropdown-item" href="{{path('person_create')}}">Create</a>
+														<a class="dropdown-item" href="{{path('data_submission_new')}}">New Request</a>
 													</li>
 													{% if is_granted("ROLE_ADMIN") %}
 														<li>
-															<a class="dropdown-item" href="{{path('person_upload_from_excel')}}">Upload From Excel</a>
+															<a class="dropdown-item" href="{{path('data_submission_list')}}">Request List</a>
 														</li>
 													{% endif %}
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="#">
+													Download &raquo;
+												</a>
+											</li>
+
+											<li>
+												<a class="dropdown-item" href="#">
+													Ontology &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
 													<li>
-														<a class="dropdown-item" href="{{path('person_index')}}">Search</a>
+														<a class="dropdown-item" href="#">
+															Experimental Data Ontologies &raquo;
+														</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('crop_index')}}">
+																	Crop &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('crop_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('crop_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('crop_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('trial_type_index')}}">
+																	Trial Type &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('trial_type_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('trial_type_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('trial_type_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('factor_type_index')}}">
+																	Factor &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('factor_type_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																		<li>
+																			<a class="dropdown-item" href="{{ path('factor_type_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('factor_type_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('season_index')}}">
+																	Season &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('season_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('season_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('season_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('growth_facility_type_index')}}">
+																	Growth Facility Type &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('growth_facility_type_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('growth_facility_type_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('growth_facility_type_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('experimental_design_index')}}">
+																	Experimental Design Type &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('experimental_design_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('experimental_design_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																		<li>
+																			<a class="dropdown-item" href="{{ path('experimental_design_upload_from_excel_mtm') }}">Upload From Excel MTM</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('experimental_design_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+
+													<li>
+														<a class="dropdown-item" href="{{path('collecting_source_index')}}">
+															Germplasm Ontologies &raquo;
+														</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="#">
+																	Collecting Source &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('collecting_source_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('collecting_source_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('collecting_source_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('biological_status_index')}}">
+																	Biological Status &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('biological_status_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('biological_status_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('biological_status_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('mls_status_index')}}">
+																	MLS Status &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('mls_status_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('mls_status_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('mls_status_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('taxonomy_index')}}">
+																	Taxonomy &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('taxonomy_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('taxonomy_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('taxonomy_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('storage_type_index')}}">
+																	Storage type &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('storage_type_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('storage_type_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('storage_type_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('attribute_category_index')}}">
+																	Attribute Category &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('attribute_category_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('attribute_category_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('attribute_category_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('attribute_index')}}">
+																	Attribute &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('attribute_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="#">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('attribute_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('breeding_method_index')}}">
+																	Breeding Method &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('breeding_method_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('breeding_method_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('breeding_method_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('generation_index')}}">
+																	Generation &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('generation_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{ path('generation_upload_from_excel') }}">Upload From Excel </a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('generation_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+
+													<li>
+														<a class="dropdown-item" href="#">
+															Phenotyping Ontologies &raquo;
+														</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('anatomical_entity_index')}}">
+																	Anatomical Entity &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('anatomical_entity_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('anatomical_entity_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																		<li>
+																			<a class="dropdown-item" href="{{path('anatomical_entity_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('anatomical_entity_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('developmental_stage_index')}}">
+																	Developmental Stage &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('developmental_stage_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('developmental_stage_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																		<li>
+																			<a class="dropdown-item" href="{{path('developmental_stage_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('developmental_stage_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('trait_class_index')}}">
+																	Trait &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('trait_class_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('trait_class_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																		<li>
+																			<a class="dropdown-item" href="{{path('trait_class_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
+																		</li>
+																		<li>
+																			<a class="dropdown-item" href="{{path('trait_class_upload_from_excel_var_of')}}">Upload From Excel Variable Of</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('trait_class_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('metabolic_trait_index')}}">
+																	Metabolic Trait &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('metabolic_trait_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('metabolic_trait_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																		<li>
+																			<a class="dropdown-item" href="{{path('metabolic_trait_upload_from_excel_mtm')}}">Upload From Excel MTM</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('metabolic_trait_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('identification_level_index')}}">
+																	Analyte Identification Level &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('identification_level_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('identification_level_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('identification_level_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('annotation_level_index')}}">
+																	Analyte Annotation Level &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('annotation_level_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('annotation_level_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('annotation_level_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('metabolite_class_index')}}">
+																	Metabolite Class &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('metabolite_class_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('metabolite_class_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('metabolite_class_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('flavor_health_index')}}">
+																	Analyte Health & Flavor &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('flavor_health_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('flavor_health_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('flavor_health_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('method_class_index')}}">
+																	Observation Variable Method Class &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('method_class_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('method_class_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('method_class_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('data_type_index')}}">
+																	Data Type &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('data_type_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('data_type_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('data_type_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('scale_category_index')}}">
+																	Scale Category &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('scale_category_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="#">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('scale_category_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+
+													<li>
+														<a class="dropdown-item" href="{{path('sequencing_instrument_index')}}">
+															Genotyping Ontologies &raquo;
+														</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="#">
+																	Sequencing Instrument &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('sequencing_instrument_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('sequencing_instrument_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('sequencing_instrument_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('sequencing_type_index')}}">
+																	Sequencing Type &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('sequencing_type_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('sequencing_type_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('sequencing_type_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('var_call_software_index')}}">
+																	Variant Call Software &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('var_call_software_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('var_call_software_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('var_call_software_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('enzyme_index')}}">
+																	Enzyme &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('enzyme_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('enzyme_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('enzyme_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('software_index')}}">
+																	Genetic Analysis Software &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('software_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('software_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('software_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+
+													<li>
+														<a class="dropdown-item" href="#">
+															Variant Ontologies &raquo;
+														</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('software_index')}}">
+																	Variant Association Software &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('software_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('software_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('software_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('qtl_method_index')}}">
+																	QTL Method &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('qtl_method_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('qtl_method_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('qtl_method_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('ci_criteria_index')}}">
+																	Ci Criteria &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('ci_criteria_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('ci_criteria_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('ci_criteria_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('qtl_statistic_index')}}">
+																	QTL Statistic &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('qtl_statistic_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('qtl_statistic_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('qtl_statistic_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('gwas_model_index')}}">
+																	GWAS Model &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('gwas_model_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('gwas_model_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('gwas_model_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('kinship_algorithm_index')}}">
+																	Kinship Algorithm &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('kinship_algorithm_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('kinship_algorithm_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('kinship_algorithm_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+													
+															<li>
+																<a class="dropdown-item" href="{{path('structure_method_index')}}">
+																	Structure Method &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('structure_method_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('structure_method_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('structure_method_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('genetic_testing_model_index')}}">
+																	Genetic Testing Model &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('genetic_testing_model_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('genetic_testing_model_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('genetic_testing_model_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('allelic_effect_estimator_index')}}">
+																	Allelic Effect Estimator &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('allelic_effect_estimator_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('allelic_effect_estimator_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('allelic_effect_estimator_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+													
+															<li>
+																<a class="dropdown-item" href="{{path('gwas_stat_test_index')}}">
+																	GWAS Stat Test &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('gwas_stat_test_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('gwas_stat_test_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('gwas_stat_test_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('trait_processing_index')}}">
+																	Trait Preprocessing &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('trait_processing_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('trait_processing_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('trait_processing_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+
+															<li>
+																<a class="dropdown-item" href="{{path('threshold_method_index')}}">
+																	Threshold Method &raquo;
+																</a>
+																<ul class="dropdown-menu dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('threshold_method_create')}}">Create</a>
+																	</li>
+																	{% if is_granted("ROLE_ADMIN") %}
+																		<li>
+																			<a class="dropdown-item" href="{{path('threshold_method_upload_from_excel')}}">Upload From Excel</a>
+																		</li>
+																	{% endif %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('threshold_method_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+													
+													<li>
+														<a class="dropdown-item" href="{{ path('country_index') }}">
+															Country &raquo;
+														</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{ path('country_create') }}">Create</a>
+															</li>
+															{% if is_granted("ROLE_ADMIN") %}
+																<li>
+																	<a class="dropdown-item" href="{{path('country_upload_from_excel')}}">Upload From Excel</a>
+																</li>
+															{% endif %}
+															<li>
+																<a class="dropdown-item" href="{{ path('country_index') }}">Search</a>
+															</li>
+														</ul>
+													</li>
+													
+													
+													<li>
+														<a class="dropdown-item" href="{{path('institute_index')}}">
+															Institute &raquo;
+														</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('institute_create')}}">Create</a>
+															</li>
+															{% if is_granted("ROLE_ADMIN") %}
+																<li>
+																	<a class="dropdown-item" href="{{path('institute_upload_from_excel')}}">Upload From Excel</a>
+																</li>
+															{% endif %}
+															<li>
+																<a class="dropdown-item" href="{{path('institute_index')}}">Search</a>
+															</li>
+														</ul>
+													</li>
+													
+													<li>
+														<a class="dropdown-item" href="{{path('unit_index')}}">
+															Unit &raquo;
+														</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('unit_create')}}">Create</a>
+															</li>
+															{% if is_granted("ROLE_ADMIN") %}
+																<li>
+																	<a class="dropdown-item" href="{{path('unit_upload_from_excel')}}">Upload From Excel</a>
+																</li>
+															{% endif %}
+															<li>
+																<a class="dropdown-item" href="{{path('unit_index')}}">Search</a>
+															</li>
+														</ul>
 													</li>
 												</ul>
 											</li>
-										{% endif %}
-										
-										<li>
-											<a class="dropdown-item" href="{{path('contact_index')}}">
-												Contact &raquo;
-											</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="{{path('contact_create')}}">Create</a>
-												</li>
-												{% if is_granted("ROLE_ADMIN") %}
+
+											<li>
+												<a class="dropdown-item" href="#">
+													More &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('person_index')}}">
+																Person &raquo;
+															</a>
+															<ul class="dropdown-menu dropdown-submenu">
+																<li>
+																	<a class="dropdown-item" href="{{path('person_create')}}">Create</a>
+																</li>
+																{% if is_granted("ROLE_ADMIN") %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('person_upload_from_excel')}}">Upload From Excel</a>
+																	</li>
+																{% endif %}
+																<li>
+																	<a class="dropdown-item" href="{{path('person_index')}}">Search</a>
+																</li>
+															</ul>
+														</li>
+													{% endif %}
+													
 													<li>
-														<a class="dropdown-item" href="{{path('contact_upload_from_excel')}}">Upload From Excel</a>
+														<a class="dropdown-item" href="{{path('contact_index')}}">
+															Contact &raquo;
+														</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('contact_create')}}">Create</a>
+															</li>
+															{% if is_granted("ROLE_ADMIN") %}
+																<li>
+																	<a class="dropdown-item" href="{{path('contact_upload_from_excel')}}">Upload From Excel</a>
+																</li>
+															{% endif %}
+															<li>
+																<a class="dropdown-item" href="{{path('contact_index')}}">Search</a>
+															</li>
+														</ul>
 													</li>
-												{% endif %}
-												<li>
-													<a class="dropdown-item" href="{{path('contact_index')}}">Search</a>
-												</li>
-											</ul>
-										</li>
 
-										<li>
-											<a class="dropdown-item" href="{{path('location_index')}}">
-												Location &raquo;
-											</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="{{path('location_create')}}">Create</a>
-												</li>
-												{% if is_granted("ROLE_ADMIN") %}
 													<li>
-														<a class="dropdown-item" href="{{path('location_upload_from_excel')}}">Upload From Excel</a>
+														<a class="dropdown-item" href="{{path('location_index')}}">
+															Location &raquo;
+														</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('location_create')}}">Create</a>
+															</li>
+															{% if is_granted("ROLE_ADMIN") %}
+																<li>
+																	<a class="dropdown-item" href="{{path('location_upload_from_excel')}}">Upload From Excel</a>
+																</li>
+															{% endif %}
+															<li>
+																<a class="dropdown-item" href="{{path('location_index')}}">Search</a>
+															</li>
+														</ul>
 													</li>
-												{% endif %}
-												<li>
-													<a class="dropdown-item" href="{{path('location_index')}}">Search</a>
-												</li>
-											</ul>
-										</li>
 
-									</ul>								
-								</li>
-							</ul>
-						</li>
-
-					
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Experimental Data</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<li>
-									<a class="dropdown-item" href="{{path('program_index')}}">
-										Program &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('program_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('program_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('program_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('trial_index')}}">
-										Trial &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('trial_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('trial_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('trial_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('study_index')}}">
-										Study &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('study_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('study_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('study_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('sample_index')}}">
-										Sample &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('sample_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('sample_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('sample_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('observation_level_index')}}">
-										Observation Level &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('observation_level_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('observation_level_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('observation_level_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Germplasm</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<li>
-									<a class="dropdown-item" href="#">
-										Species &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="#">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="#">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{ path('germplasm_index') }}">
-										Germplasm &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('germplasm_create') }}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{ path('germplasm_upload_from_excel') }}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{ path('germplasm_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
-								{% if is_granted("ROLE_ADMIN") %}
-									<li>
-										<a class="dropdown-item" href="#">
-											Germplasm x Study &raquo;
-										</a>
-										<ul class="dropdown-menu dropdown-submenu">
-											<li>
-												<a class="dropdown-item" href="{{ path('germplasm_study_upload_from_excel') }}">Upload From Excel</a>
+												</ul>								
 											</li>
 										</ul>
 									</li>
-									<li>
-										<a class="dropdown-item" href="{{ path('germplasm_study_image_index') }}">
-											Germplasm x Study Images &raquo;
-										</a>
-										<ul class="dropdown-menu dropdown-submenu">
+
+								
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Experimental Data</a>
+										<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 											<li>
-												<a class="dropdown-item" href="{{ path('germplasm_study_image_create') }}">Create</a>
+												<a class="dropdown-item" href="{{path('program_index')}}">
+													Program &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('program_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('program_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('program_index')}}">Search</a>
+													</li>
+												</ul>
 											</li>
 											<li>
-												<a class="dropdown-item" href="{{ path('germplasm_study_image_upload_from_excel') }}">Upload From Excel</a>
+												<a class="dropdown-item" href="{{path('trial_index')}}">
+													Trial &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('trial_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('trial_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('trial_index')}}">Search</a>
+													</li>
+												</ul>
 											</li>
 											<li>
-												<a class="dropdown-item" href="{{ path('germplasm_study_image_index') }}">Search</a>
+												<a class="dropdown-item" href="{{path('study_index')}}">
+													Study &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('study_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('study_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('study_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('sample_index')}}">
+													Sample &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('sample_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('sample_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('sample_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('observation_level_index')}}">
+													Observation Level &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('observation_level_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('observation_level_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('observation_level_index')}}">Search</a>
+													</li>
+												</ul>
 											</li>
 										</ul>
 									</li>
-								{% endif %}
-								<li>
-									<a class="dropdown-item" href="{{ path('cross_index') }}">
-										Cross &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('cross_create') }}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Germplasm</a>
+										<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 											<li>
-												<a class="dropdown-item" href="{{path('cross_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{ path('cross_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{ path('collection_index') }}">
-										Collection &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('collection_create') }}">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('collection_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{ path('collecting_mission_index') }}">
-										Collecting Mission &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('collecting_mission_create') }}">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('collecting_mission_upload_from_excel') }}">Upload From Excel</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('collecting_mission_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('accession_index')}}">
-										Accession &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('accession_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('accession_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('accession_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('attribute_index')}}">
-										Attribute &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('attribute_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('attribute_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('attribute_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('attribute_trait_value_index')}}">
-										Attribute Trait Value &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('attribute_trait_value_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('attribute_trait_value_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('attribute_trait_value_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{ path('pedigree_index') }}">
-										Pedigree &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('pedigree_create') }}">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('pedigree_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{ path('mapping_population_index') }}">
-										Mapping Population &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('mapping_population_create') }}">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{ path('mapping_population_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Phenotyping Data</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<li>
-									<a class="dropdown-item" href="{{path('metabolite_index')}}">
-										Metabolite &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('metabolite_create')}}">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{path('metabolite_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('analyte_index')}}">
-										Analyte &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('analyte_create')}}">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{path('analyte_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('trait_class_index')}}">
-										Traits &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('trait_class_create')}}">Create</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{path('trait_class_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('observation_value_index')}}">
-										Observation Value &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('observation_value_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('observation_value_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('observation_value_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#">
-										Observation Value GOURMETOM &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('observation_value_gourmetom_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('observation_variable_method_index')}}">
-										Observation Variable Method &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('observation_variable_method_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('observation_variable_method_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('observation_variable_method_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('observation_variable_index')}}">
-										Observation Variable &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('observation_variable_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('observation_variable_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('observation_variable_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Genotyping Data</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<li>
-									<a class="dropdown-item" href="{{path('marker_index')}}">
-										Markers &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('marker_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('marker_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('marker_index')}}">Search</a>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{path('marker_synonym_index')}}">Synonym &raquo;</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="{{path('marker_synonym_create')}}">Create</a>
-												</li>
-												{% if is_granted("ROLE_ADMIN") %}
+												<a class="dropdown-item" href="#">
+													Species &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
 													<li>
-														<a class="dropdown-item" href="{{path('marker_synonym_upload_from_excel')}}">Upload From Excel</a>
+														<a class="dropdown-item" href="#">Create</a>
 													</li>
-												{% endif %}
-												<li>
-													<a class="dropdown-item" href="{{path('marker_synonym_index')}}">Search</a>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{path('genotyping_platform_index')}}">
-										Genotyping Platform &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('genotyping_platform_create')}}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
-											<li>
-												<a class="dropdown-item" href="{{path('genotyping_platform_upload_from_excel')}}">Upload From Excel</a>
-											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{path('genotyping_platform_index')}}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="#">
-										Variants &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{path('variant_set_metadata_index')}}">Metadata &raquo;</a>
-											<ul class="dropdown-menu dropdown-submenu">
-												<li>
-													<a class="dropdown-item" href="{{path('variant_set_metadata_create')}}">Create</a>
-												</li>
-												{% if is_granted("ROLE_ADMIN") %}
 													<li>
-														<a class="dropdown-item" href="{{path('variant_set_metadata_upload_from_excel')}}">Upload From Excel</a>
+														<a class="dropdown-item" href="#">Search</a>
 													</li>
-												{% endif %}
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{ path('germplasm_index') }}">
+													Germplasm &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('germplasm_create') }}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{ path('germplasm_upload_from_excel') }}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{ path('germplasm_index') }}">Search</a>
+													</li>
+												</ul>
+											</li>
+											{% if is_granted("ROLE_ADMIN") %}
 												<li>
-													<a class="dropdown-item" href="{{path('variant_set_metadata_index')}}">Search</a>
+													<a class="dropdown-item" href="#">
+														Germplasm x Study &raquo;
+													</a>
+													<ul class="dropdown-menu dropdown-submenu">
+														<li>
+															<a class="dropdown-item" href="{{ path('germplasm_study_upload_from_excel') }}">Upload From Excel</a>
+														</li>
+													</ul>
 												</li>
-											</ul>
-										</li>
-										<li>
-											<a class="dropdown-item" href="{{path('variant_set_index')}}">Variant Set &raquo;</a>
-											<ul class="dropdown-menu dropdown-submenu">
 												<li>
-													<a class="dropdown-item" href="{{path('variant_set_create')}}">Create</a>
+													<a class="dropdown-item" href="{{ path('germplasm_study_image_index') }}">
+														Germplasm x Study Images &raquo;
+													</a>
+													<ul class="dropdown-menu dropdown-submenu">
+														<li>
+															<a class="dropdown-item" href="{{ path('germplasm_study_image_create') }}">Create</a>
+														</li>
+														<li>
+															<a class="dropdown-item" href="{{ path('germplasm_study_image_upload_from_excel') }}">Upload From Excel</a>
+														</li>
+														<li>
+															<a class="dropdown-item" href="{{ path('germplasm_study_image_index') }}">Search</a>
+														</li>
+													</ul>
 												</li>
-												<li>
-													<a class="dropdown-item" href="{{path('variant_set_index')}}">Search</a>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
+											{% endif %}
+											<li>
+												<a class="dropdown-item" href="{{ path('cross_index') }}">
+													Cross &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('cross_create') }}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('cross_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{ path('cross_index') }}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{ path('collection_index') }}">
+													Collection &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('collection_create') }}">Create</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('collection_index') }}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{ path('collecting_mission_index') }}">
+													Collecting Mission &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('collecting_mission_create') }}">Create</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('collecting_mission_upload_from_excel') }}">Upload From Excel</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('collecting_mission_index') }}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('accession_index')}}">
+													Accession &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('accession_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('accession_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('accession_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('attribute_index')}}">
+													Attribute &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('attribute_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('attribute_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('attribute_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('attribute_trait_value_index')}}">
+													Attribute Trait Value &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('attribute_trait_value_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('attribute_trait_value_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('attribute_trait_value_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{ path('pedigree_index') }}">
+													Pedigree &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('pedigree_create') }}">Create</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('pedigree_index') }}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{ path('mapping_population_index') }}">
+													Mapping Population &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('mapping_population_create') }}">Create</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('mapping_population_index') }}">Search</a>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Phenotyping Data</a>
+										<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+											<li>
+												<a class="dropdown-item" href="{{path('metabolite_index')}}">
+													Metabolite &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('metabolite_create')}}">Create</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{path('metabolite_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('analyte_index')}}">
+													Analyte &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('analyte_create')}}">Create</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{path('analyte_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('trait_class_index')}}">
+													Traits &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('trait_class_create')}}">Create</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{path('trait_class_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('observation_value_index')}}">
+													Observation Value &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('observation_value_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('observation_value_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('observation_value_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="#">
+													Observation Value GOURMETOM &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('observation_value_gourmetom_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('observation_variable_method_index')}}">
+													Observation Variable Method &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('observation_variable_method_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('observation_variable_method_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('observation_variable_method_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('observation_variable_index')}}">
+													Observation Variable &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('observation_variable_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('observation_variable_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('observation_variable_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
 
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Variant Catalogue</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-								<li>
-									<a class="dropdown-item" href="{{ path('qtl_study_index') }}">
-										QTL Study &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('qtl_study_create') }}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Genotyping Data</a>
+										<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 											<li>
-												<a class="dropdown-item" href="{{path('qtl_study_upload_from_excel')}}">Upload From Excel</a>
+												<a class="dropdown-item" href="{{path('marker_index')}}">
+													Markers &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('marker_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('marker_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('marker_index')}}">Search</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{path('marker_synonym_index')}}">Synonym &raquo;</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('marker_synonym_create')}}">Create</a>
+															</li>
+															{% if is_granted("ROLE_ADMIN") %}
+																<li>
+																	<a class="dropdown-item" href="{{path('marker_synonym_upload_from_excel')}}">Upload From Excel</a>
+																</li>
+															{% endif %}
+															<li>
+																<a class="dropdown-item" href="{{path('marker_synonym_index')}}">Search</a>
+															</li>
+														</ul>
+													</li>
+												</ul>
 											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{ path('qtl_study_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{ path('gwas_index') }}">
-										GWAS &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('gwas_create') }}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
 											<li>
-												<a class="dropdown-item" href="{{path('gwas_upload_from_excel')}}">Upload From Excel</a>
+												<a class="dropdown-item" href="{{path('genotyping_platform_index')}}">
+													Genotyping Platform &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('genotyping_platform_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('genotyping_platform_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('genotyping_platform_index')}}">Search</a>
+													</li>
+												</ul>
 											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{ path('gwas_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
+											<li>
+												<a class="dropdown-item" href="#">
+													Variants &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('variant_set_metadata_index')}}">Metadata &raquo;</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('variant_set_metadata_create')}}">Create</a>
+															</li>
+															{% if is_granted("ROLE_ADMIN") %}
+																<li>
+																	<a class="dropdown-item" href="{{path('variant_set_metadata_upload_from_excel')}}">Upload From Excel</a>
+																</li>
+															{% endif %}
+															<li>
+																<a class="dropdown-item" href="{{path('variant_set_metadata_index')}}">Search</a>
+															</li>
+														</ul>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{path('variant_set_index')}}">Variant Set &raquo;</a>
+														<ul class="dropdown-menu dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('variant_set_create')}}">Create</a>
+															</li>
+															<li>
+																<a class="dropdown-item" href="{{path('variant_set_index')}}">Search</a>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
 
-								<li>
-									<a class="dropdown-item" href="{{ path('gwas_variant_index') }}">
-										GWAS Variant &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('gwas_variant_create') }}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Variant Catalogue</a>
+										<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 											<li>
-												<a class="dropdown-item" href="{{path('gwas_variant_upload_from_excel')}}">Upload From Excel</a>
+												<a class="dropdown-item" href="{{ path('qtl_study_index') }}">
+													QTL Study &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('qtl_study_create') }}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('qtl_study_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{ path('qtl_study_index') }}">Search</a>
+													</li>
+												</ul>
 											</li>
-										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{ path('gwas_variant_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<a class="dropdown-item" href="{{ path('qtl_variant_index') }}">
-										QTL Variant &raquo;
-									</a>
-									<ul class="dropdown-menu dropdown-submenu">
-										<li>
-											<a class="dropdown-item" href="{{ path('qtl_variant_create') }}">Create</a>
-										</li>
-										{% if is_granted("ROLE_ADMIN") %}
 											<li>
-												<a class="dropdown-item" href="{{ path('qtl_variant_upload_from_excel') }}">Upload From Excel</a>
+												<a class="dropdown-item" href="{{ path('gwas_index') }}">
+													GWAS &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('gwas_create') }}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('gwas_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{ path('gwas_index') }}">Search</a>
+													</li>
+												</ul>
 											</li>
+
+											<li>
+												<a class="dropdown-item" href="{{ path('gwas_variant_index') }}">
+													GWAS Variant &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('gwas_variant_create') }}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('gwas_variant_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{ path('gwas_variant_index') }}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{ path('qtl_variant_index') }}">
+													QTL Variant &raquo;
+												</a>
+												<ul class="dropdown-menu dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('qtl_variant_create') }}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{ path('qtl_variant_upload_from_excel') }}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{ path('qtl_variant_index') }}">Search</a>
+													</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							<!-- end of menu -->
+							
+							<div class="nav-item dropdown animate__heartBeat">
+								{# {% if app.user %}
+									<a class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										{% if app.user.person %}
+											Hi
+											{{ app.user.person.lastName }},
+										{% else %}
+											Hi
+											{{ app.user.username }}
 										{% endif %}
-										<li>
-											<a class="dropdown-item" href="{{ path('qtl_variant_index') }}">Search</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-				<!-- end of menu -->
-				
-				<div class="nav-item dropdown animate__heartBeat">
-					{# {% if app.user %}
-						<a class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							{% if app.user.person %}
-								Hi
-								{{ app.user.person.lastName }},
-							{% else %}
-								Hi
-								{{ app.user.username }}
-							{% endif %}
-						</a>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							{% if is_granted("ROLE_ADMIN") %}
-								<a class="dropdown-item" href="{{ path('admin_user_index') }}">Admin User</a>
-							{% endif %}
-							<a class="dropdown-item" href="{{ path('change_password') }}">Change password</a>
-							<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+									</a>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										{% if is_granted("ROLE_ADMIN") %}
+											<a class="dropdown-item" href="{{ path('admin_user_index') }}">Admin User</a>
+										{% endif %}
+										<a class="dropdown-item" href="{{ path('change_password') }}">Change password</a>
+										<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+									</div>
+								{% else %}
+									<a class="btn btn-info" id="login-btn" type="button" href="{{ path('app_login') }}">Login</a>
+								{% endif %} #}
+
+								<!-- Nav Item - User Information -->
+									{% if app.user %}
+										{% if app.user.person %}
+											<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+												data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.person.lastName }}
+												<span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+											</a>
+										{% else %}
+											<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+												data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}
+												<span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+											</a>
+										{% endif %}
+										<!-- Dropdown - User Information -->
+										<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+											aria-labelledby="userDropdown">
+											{% if is_granted("ROLE_ADMIN") %}
+												<a class="dropdown-item" href="{{ path('admin_user_index') }}">
+													<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+													Admin User
+												</a>
+											{% endif %}
+											<a class="dropdown-item" href="{{ path('change_password') }}">
+												<i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+												Change password
+											</a>
+											<a class="dropdown-item" href="#">
+												<i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+												Activity Log
+											</a>
+											<div class="dropdown-divider"></div>
+											<a class="dropdown-item" href="{{ path('app_logout') }}" data-toggle="modal" data-target="#logoutModal">
+												<i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+												Logout
+											</a>
+										</div>
+									{% else %}
+										{# <a class="btn btn-info" id="login-btn" type="button" href="{{ path('app_login') }}">Login</a> #}
+										<a class="nav-link" id="login-btn" role="button"
+											href="{{ path('app_login') }}" >
+											Login
+										</a>
+									{% endif %}
+
+							</div>
 						</div>
-					{% else %}
-						<a class="btn btn-info" id="login-btn" type="button" href="{{ path('app_login') }}">Login</a>
-					{% endif %} #}
+					</nav>
 
-					<!-- Nav Item - User Information -->
-                        {% if app.user %}
-							{% if app.user.person %}
-								<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.person.lastName }}
-									<span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-								</a>
-							{% else %}
-								<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-									data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}
-									<span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
-								</a>
-							{% endif %}
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                {% if is_granted("ROLE_ADMIN") %}
-									<a class="dropdown-item" href="{{ path('admin_user_index') }}">
-										<i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-										Admin User
-									</a>
-								{% endif %}
-								<a class="dropdown-item" href="{{ path('change_password') }}">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Change password
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ path('app_logout') }}" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
-                                </a>
-                            </div>
-						{% else %}
-							{# <a class="btn btn-info" id="login-btn" type="button" href="{{ path('app_login') }}">Login</a> #}
-							<a class="nav-link" id="login-btn" role="button"
-								href="{{ path('app_login') }}" >
-								Login
-							</a>
-						{% endif %}
-
+					{% if app.request.attributes.get('_route') == 'app_home' and not app.user %}
+						<p class="text-center"><button id="startTourBtn" class="btn btn-large btn-info">Take a tour</button></p>
+					{% endif %}
+					<!-- nav end -->
 				</div>
 			</div>
-		</nav>
-
-		{% if app.request.attributes.get('_route') == 'app_home' and not app.user %}
-			<p class="text-center"><button id="startTourBtn" class="btn btn-large btn-info">Take a tour</button></p>
-		{% endif %}
-		<!-- nav end -->
-
-		<!-- Page Wrapper -->
-    <div id="wrapper">
-
-        {% block sidebar %}
-		<!-- Sidebar -->
-        <ul class="navbar-nav tomato-bg-color rounded sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            {# <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-1">Harnesstom <sup>DB</sup></div>
-            </a> #}
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="{{path('app_home')}}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Features</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
-            </div>
-
-			<!-- start search -->
-			<li class="nav-item">
-                <a class="nav-link" href="{{ path('search_accession') }}">
-					<i class="fa-brands fa-searchengin"></i>
-                    <span>Advanced Search</span></a>
-            </li>
-			<!-- end search -->
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-database"></i>
-                    <span>Data Submission</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Overview:</h6>
-                        <a class="collapse-item" href="{{path('data_submission_index')}}">Guide</a>
-                        <a class="collapse-item" href="{{path('data_submission_new')}}">Request</a>
-                    </div>
-                </div>
-            </li>
-
-			<!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDownload"
-                    aria-expanded="true" aria-controls="collapseDownload">
-                    <i class="fas fa-fw fa-download"></i>
-                    <span>Download</span>
-                </a>
-                <div id="collapseDownload" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Overview:</h6>
-                        <a class="collapse-item" href="#">1</a>
-                        <a class="collapse-item" href="#">2</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="#">Util 1</a>
-                        <a class="collapse-item" href="#">Util 2</a>
-                        <a class="collapse-item" href="#">Util 3</a>
-                        <a class="collapse-item" href="#">Other</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Addons
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="#">Login</a>
-                        <a class="collapse-item" href="#">Register</a>
-                        <a class="collapse-item" href="#">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="#">404 Page</a>
-                        <a class="collapse-item" href="#">Blank Page</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Statistics</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
-            <div class="sidebar-heading">
-                Tools <i class="fas fa-2x fa-tools"></i>
-            </div>
-
-            <!-- Nav Item - Gourmetom -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('gourmetom_accession') }}">
-                    <i class="fas fa-fw fa-search"></i>
-                    <span>Gourmetom</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>New tool</span></a>
-            </li>
-
-            <div class="sidebar-heading">
-                BRAPPS <i class="fas fa-2x fa-gears"></i>
-            </div>
-
-            <!-- Nav Item - Gourmetom -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('gourmetom_accession') }}">
-                    <i class="fas fa-fw fa-search"></i>
-                    <span>Gourmetom</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>New tool</span></a>
-            </li>
-
-            
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-            
-
-            <!-- Sidebar Message -->
-            <!-- <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div> -->
-
-        </ul>
-        <!-- End of Sidebar -->
-		{% endblock %}
-
-		{% block body %}
+		</div>
 		
-		{% endblock %}
+		<!-- Page Wrapper -->
+    	<div id="wrapper">
+
+			{% block sidebar %}
+				<!-- Sidebar -->
+				<ul class="navbar-nav tomato-bg-color rounded sidebar sidebar-dark accordion" id="accordionSidebar">
+
+					<!-- Sidebar - Brand -->
+					{# <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+						<div class="sidebar-brand-icon rotate-n-15">
+							<i class="fas fa-laugh-wink"></i>
+						</div>
+						<div class="sidebar-brand-text mx-1">Harnesstom <sup>DB</sup></div>
+					</a> #}
+
+					<!-- Divider -->
+					<hr class="sidebar-divider my-0">
+
+					<!-- Nav Item - Dashboard -->
+					<li class="nav-item active">
+						<a class="nav-link" href="{{path('app_home')}}">
+							<i class="fas fa-fw fa-tachometer-alt"></i>
+							<span>Features</span></a>
+					</li>
+
+					<!-- Divider -->
+					<hr class="sidebar-divider">
+
+					<!-- Heading -->
+					<div class="sidebar-heading">
+						Interface
+					</div>
+
+					<!-- start search -->
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('search_accession') }}">
+							<i class="fa-brands fa-searchengin"></i>
+							<span>Advanced Search</span></a>
+					</li>
+					<!-- end search -->
+
+					<!-- Nav Item - Pages Collapse Menu -->
+					<li class="nav-item">
+						<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+							aria-expanded="true" aria-controls="collapseTwo">
+							<i class="fas fa-fw fa-database"></i>
+							<span>Data Submission</span>
+						</a>
+						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+							<div class="bg-white py-2 collapse-inner rounded">
+								<h6 class="collapse-header">Overview:</h6>
+								<a class="collapse-item" href="{{path('data_submission_index')}}">Guide</a>
+								<a class="collapse-item" href="{{path('data_submission_new')}}">Request</a>
+							</div>
+						</div>
+					</li>
+
+					<!-- Nav Item - Pages Collapse Menu -->
+					<li class="nav-item">
+						<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDownload"
+							aria-expanded="true" aria-controls="collapseDownload">
+							<i class="fas fa-fw fa-download"></i>
+							<span>Download</span>
+						</a>
+						<div id="collapseDownload" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+							<div class="bg-white py-2 collapse-inner rounded">
+								<h6 class="collapse-header">Overview:</h6>
+								<a class="collapse-item" href="#">1</a>
+								<a class="collapse-item" href="#">2</a>
+							</div>
+						</div>
+					</li>
+
+					<!-- Nav Item - Utilities Collapse Menu -->
+					<li class="nav-item">
+						<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+							aria-expanded="true" aria-controls="collapseUtilities">
+							<i class="fas fa-fw fa-wrench"></i>
+							<span>Utilities</span>
+						</a>
+						<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+							data-parent="#accordionSidebar">
+							<div class="bg-white py-2 collapse-inner rounded">
+								<h6 class="collapse-header">Custom Utilities:</h6>
+								<a class="collapse-item" href="#">Util 1</a>
+								<a class="collapse-item" href="#">Util 2</a>
+								<a class="collapse-item" href="#">Util 3</a>
+								<a class="collapse-item" href="#">Other</a>
+							</div>
+						</div>
+					</li>
+
+					<!-- Divider -->
+					<hr class="sidebar-divider">
+
+					<!-- Heading -->
+					<div class="sidebar-heading">
+						Addons
+					</div>
+
+					<!-- Nav Item - Pages Collapse Menu -->
+					<li class="nav-item">
+						<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+							aria-expanded="true" aria-controls="collapsePages">
+							<i class="fas fa-fw fa-folder"></i>
+							<span>Pages</span>
+						</a>
+						<div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+							<div class="bg-white py-2 collapse-inner rounded">
+								<h6 class="collapse-header">Login Screens:</h6>
+								<a class="collapse-item" href="#">Login</a>
+								<a class="collapse-item" href="#">Register</a>
+								<a class="collapse-item" href="#">Forgot Password</a>
+								<div class="collapse-divider"></div>
+								<h6 class="collapse-header">Other Pages:</h6>
+								<a class="collapse-item" href="#">404 Page</a>
+								<a class="collapse-item" href="#">Blank Page</a>
+							</div>
+						</div>
+					</li>
+
+					<!-- Nav Item - Charts -->
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<i class="fas fa-fw fa-chart-area"></i>
+							<span>Statistics</span></a>
+					</li>
+
+					<!-- Nav Item - Tables -->
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<i class="fas fa-fw fa-table"></i>
+							<span>Tables</span></a>
+					</li>
+
+					<div class="sidebar-heading">
+						Tools <i class="fas fa-2x fa-tools"></i>
+					</div>
+
+					<!-- Nav Item - Gourmetom -->
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('gourmetom_accession') }}">
+							<i class="fas fa-fw fa-search"></i>
+							<span>Gourmetom</span></a>
+					</li>
+
+					<!-- Nav Item - Tables -->
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<i class="fas fa-fw fa-table"></i>
+							<span>New tool</span></a>
+					</li>
+
+					<div class="sidebar-heading">
+						BRAPPS <i class="fas fa-2x fa-gears"></i>
+					</div>
+
+					<!-- Nav Item - Gourmetom -->
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('gourmetom_accession') }}">
+							<i class="fas fa-fw fa-search"></i>
+							<span>Gourmetom</span></a>
+					</li>
+
+					<!-- Nav Item - Tables -->
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<i class="fas fa-fw fa-table"></i>
+							<span>New tool</span></a>
+					</li>
+
+					
+
+					<!-- Divider -->
+					<hr class="sidebar-divider d-none d-md-block">
+
+					<!-- Sidebar Toggler (Sidebar) -->
+					<div class="text-center d-none d-md-inline">
+						<button class="rounded-circle border-0" id="sidebarToggle"></button>
+					</div>
+
+					
+
+					<!-- Sidebar Message -->
+					<!-- <div class="sidebar-card d-none d-lg-flex">
+						<img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
+						<p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
+						<a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
+					</div> -->
+
+				</ul>
+				<!-- End of Sidebar -->
+			{% endblock %}
+
+			{% block body %}
+			
+			{% endblock %}
+
+			<!-- Scroll to Top Button-->
+			<a class="scroll-to-top rounded" href="#page-top">
+				<i class="fas fa-angle-up"></i>
+			</a>
+        
+		</div>
+		<!-- End of Page Wrapper -->
 
 		<!-- Scroll to Top Button-->
 		<a class="scroll-to-top rounded" href="#page-top">
 			<i class="fas fa-angle-up"></i>
 		</a>
-        
-    </div>
-    <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+		<!-- Logout Modal-->
+		<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+						<a class="btn btn-primary" href="{{ path('app_logout') }}">Logout</a>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-		
 
 		<!-- footer start -->
 		<footer class="pt-4 my-md-5 pt-md-5 border-top">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-12 col-md">
-						<a href="{{path('app_home')}}">
-						<img class="mb-2" src="{{ asset('assets/images/harnesstomlogo.png') }}" width="auto" alt="" class="logo">
-						</a>
-						<small class="d-block mb-3 text-muted">&copy; 2020-2023</small>
-					</div>
-					<div class="col-6 col-md">
-						<h5>Abou us</h5>
-						<ul class="list-unstyled text-small">
-							<li>
-								<a class="text-muted" href="http://harnesstom.eu/" target="blank">About us</a>
-							</li>
-							<li>
-								<a class="text-muted" href="http://harnesstom.eu/en/network.html" target="blank">Project Partners</a>
-							</li>
-							<li>
-								<a class="text-muted" href="#">Contact us</a>
-							</li>
-							<li>
-								<a class="text-muted" href="#">Terms of use</a>
-							</li>
-							<li>
-								<a class="text-muted" href="#">Citing HarnessTom</a>
-							</li>
-						</ul>
-					</div>
-					<div class="col-6 col-md">
-						<h5>Get help</h5>
-						<ul class="list-unstyled text-small">
-							<li>
-								<a class="text-muted" href="#">Using this website</a>
-							</li>
-							<li>
-								<a class="text-muted" href="#">Uploading data</a>
-							</li>
-							<li>
-								<a class="text-muted" href="#">Downloading data</a>
-							</li>
-							<li>
-								<a class="text-muted" href="#">Videos tutorials</a>
-							</li>
-						</ul>
-					</div>
-					<div class="col-6 col-md">
-						<h5>Follow us</h5>
-						<ul class="list-unstyled text-small">
-							<!-- Twitter -->
-							<li>
-								<a class="btn-primary btn-floating m-1" href="https://twitter.com/HARNESSTOM_EU" target="blank" style="background-color: #55acee;" role="button">
-								<i class="fab fa-twitter"></i>
-							</li>
-						</ul>
-					</div>
-					<div class="col-6 col-md">
-						<div class="row">
-							<div class="container">
-								<div class="col-3 col-md" id="funding">
-									<a href="https://cordis.europa.eu/project/id/101000716/en" target="blank">
-										<p>Funding Provided By</p>
-										<img class="mb-2" src="{{ asset('assets/images/eu.png') }}" width="20%" alt="" class="logo">
+			<!-- Page Wrapper -->
+    		<div id="wrapper">
+				<!-- Content Wrapper -->
+				<div id="content-wrapper" class="d-flex flex-column">
+					<div class="container-fluid">
+						<!-- Main Content -->
+        				<div id="content">
+							<div class="row">
+								<div class="col-12 col-md">
+									<a href="{{path('app_home')}}">
+									<img class="mb-2" src="{{ asset('assets/images/harnesstomlogo.png') }}" width="auto" alt="" class="logo">
 									</a>
+									<small class="d-block mb-3 text-muted">&copy; 2020-2023</small>
+								</div>
+								<div class="col-6 col-md">
+									<h5>Abou us</h5>
+									<ul class="list-unstyled text-small">
+										<li>
+											<a class="text-muted" href="http://harnesstom.eu/" target="blank">About us</a>
+										</li>
+										<li>
+											<a class="text-muted" href="http://harnesstom.eu/en/network.html" target="blank">Project Partners</a>
+										</li>
+										<li>
+											<a class="text-muted" href="#">Contact us</a>
+										</li>
+										<li>
+											<a class="text-muted" href="#">Terms of use</a>
+										</li>
+										<li>
+											<a class="text-muted" href="#">Citing HarnessTom</a>
+										</li>
+									</ul>
+								</div>
+								<div class="col-6 col-md">
+									<h5>Get help</h5>
+									<ul class="list-unstyled text-small">
+										<li>
+											<a class="text-muted" href="#">Using this website</a>
+										</li>
+										<li>
+											<a class="text-muted" href="#">Uploading data</a>
+										</li>
+										<li>
+											<a class="text-muted" href="#">Downloading data</a>
+										</li>
+										<li>
+											<a class="text-muted" href="#">Videos tutorials</a>
+										</li>
+									</ul>
+								</div>
+								<div class="col-6 col-md">
+									<h5>Follow us</h5>
+									<ul class="list-unstyled text-small">
+										<!-- Twitter -->
+										<li>
+											<a class="btn-primary btn-floating m-1" href="https://twitter.com/HARNESSTOM_EU" target="blank" style="background-color: #55acee;" role="button">
+											<i class="fab fa-twitter"></i>
+										</li>
+									</ul>
+								</div>
+								<div class="col-6 col-md">
+									<div class="row">
+										<div class="container">
+											<div class="col-3 col-md" id="funding">
+												<a href="https://cordis.europa.eu/project/id/101000716/en" target="blank">
+													<p>Funding Provided By</p>
+													<img class="mb-2" src="{{ asset('assets/images/eu.png') }}" width="20%" alt="" class="logo">
+												</a>
+											</div>
+										</div>
+										<div class="container">
+											<div class="col-3 col-md">
+												<a href="">
+													<p>Hosted By</p>
+													<img class="mb-2" src="{{ asset('assets/images/inpt.jpg') }}" width="20%" alt="" class="logo">
+												</a>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="container">
-								<div class="col-3 col-md">
-									<a href="">
-										<p>Hosted By</p>
-										<img class="mb-2" src="{{ asset('assets/images/inpt.jpg') }}" width="20%" alt="" class="logo">
-									</a>
-								</div>
+							<div class="dropdown-divider"></div>
+							<div class="text-center text-lg-start bg-light text-muted">
+								<p class="colophon tomato-color"  id="dev-team">© 2023 HarnessTom. Developed by
+									<a href="https://fr.linkedin.com/in/david-pierre-932847160" title="David PIERRE, R&D Engineer" target="_blank">David PIERRE * </a> / 
+									<a href="mailto:mohamed.zouine@toulouse-inp.fr?subject=Mail from HarnessTom DB">Mohamed Zouine </a> /
+									<a href="mailto:cpons@upvnet.upv.es?subject=Mail from HarnessTom DB">Clara PONS </a> /
+									<a href="https://www.linkedin.com/in/eden-darnige-260142a5" target="_blank">Eden DARNIDGE</a>. For HarnessTom - All rights reserved</p>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="dropdown-divider"></div>
-				<div class="text-center text-lg-start bg-light text-muted">
-					<p class="colophon tomato-color"  id="dev-team">© 2023 HarnessTom. Developed by
-						<a href="https://fr.linkedin.com/in/david-pierre-932847160" title="David PIERRE, R&D Engineer" target="_blank">David PIERRE * </a> / 
-						<a href="mailto:mohamed.zouine@toulouse-inp.fr?subject=Mail from HarnessTom DB">Mohamed Zouine </a> /
-						<a href="mailto:cpons@upvnet.upv.es?subject=Mail from HarnessTom DB">Clara PONS </a> /
-						<a href="https://www.linkedin.com/in/eden-darnige-260142a5" target="_blank">Eden DARNIDGE</a>. For HarnessTom - All rights reserved</p>
 				</div>
 			</div>
 		</footer>
