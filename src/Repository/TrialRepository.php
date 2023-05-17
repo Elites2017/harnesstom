@@ -27,6 +27,14 @@ class TrialRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    public function swTotalRows() {
+        $query = $this->createQueryBuilder('tab')
+            ->join('App\Entity\SharedWith', 'sw')
+            ->select('count(sw.id)');
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
     public function findReleasedTrials($user = null)
     {
         // MySQL format
@@ -39,14 +47,22 @@ class TrialRepository extends ServiceEntityRepository
         ;
 
         if ($user) {
-            //dd($user->getId());
-            $query->orWhere(
-                $query->expr()->orX(
-                        'tr.createdBy = :user'))
-                    ->setParameter(':user', $user->getId());
+            if ($this->swTotalRows() == 0) {
+                $query->orWhere(
+                        $query->expr()->orX(
+                            'tr.createdBy = :user'))
+                        ->setParameter(':user', $user->getId());
+            }
+            
+            if ($this->swTotalRows() > 0) {
+                $query->from('App\Entity\SharedWith', 'sw')
+                    ->orWhere(
+                        $query->expr()->orX(
+                            'tr.createdBy = :user',
+                            'sw.user = :user'))
+                        ->setParameter(':user', $user->getId());
+            }
         }
-
-        //dd($query->getDQL());
 
         return $query->getQuery()->getResult();
     }

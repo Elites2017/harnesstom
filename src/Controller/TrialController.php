@@ -36,13 +36,12 @@ class TrialController extends AbstractController
         $trials = [];
         if($this->getUser()) {
             $userRoles = $this->getUser()->getRoles();
-            foreach ($userRoles as $userRole) {
-                # code...
-                if ($userRole == "ROLE_ADMIN") {
-                    $trials = $trialRepo->findAll();
-                } else {
-                    $trials = $trialRepo->findReleasedTrials($this->getUser());
-                }
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res != false) {
+                $trials = $trialRepo->findAll();
+            } else {
+                $trials = $trialRepo->findReleasedTrials($this->getUser());
             }
         } else {
             $trials = $trialRepo->findReleasedTrials();
@@ -88,7 +87,7 @@ class TrialController extends AbstractController
     public function shareWith(Request $request, EntityManagerInterface $entmanager, Trial $trialSelected, UserRepository $userRepo, SharedWithRepository $sharedWithRepo): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $users = $userRepo->findAll();
+        $users = $userRepo->getUserShareableTrial($this->getUser());
         // prevent the user from sharing other users' trials
         if ($trialSelected->getCreatedBy() == $this->getUser()) {
             // check if the an action has been performed on the button
@@ -121,7 +120,7 @@ class TrialController extends AbstractController
                     // Json reponse response
                     $response = [
                         "code"=> "200",
-                        "message"=> "Shared With"
+                        "message"=> "UnShare With"
                     ];
                     $returnResponse = new JsonResponse($response);
                     return $returnResponse;

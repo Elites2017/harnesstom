@@ -45,7 +45,7 @@
 				{% if users | length > 0 %}
 					<h2 class="mb-3 text-center tomato-color font-weight-bold">User List</h2>
 					<table id="datatable" class="table table-hover text-nowrap" width="100%">
-						<thead class="table-dark text-center font-weight-bold">
+						<thead class="table-dark font-weight-bold">
 							<tr>
 								<td>Email</td>
 								<td>First Name</td>
@@ -77,16 +77,16 @@
 										<td>
 											<a data-id="{{ user.id }}" href="{{ path('trial_share_with', {id: trial.id, userId:user.id}) }}" class="shareWithLink" id="{{ user.id }}">
 												<button class="btn btn-outline-primary shareWithBtn">
-													{% if user.roles | length == 1 %}
-														Share With {{ user.roles[0] }}
-													{% elseif user.roles | length == 2 %}
-														{% if (user.roles[0] or user.role[1]) != "ROLE_ADMIN" %}
-															Make Admin
-														{% else %}
-															Remove Admin
-														{% endif %}
+													{# check if the trial has been already shard with the logged in user #}
+													{% set sharedTrialUsers = [] %}
+													{% for sharedTrial in trial.sharedWiths %}
+														{% set sharedTrialUsers = sharedTrialUsers|merge([sharedTrial.user]) %}
+													{% endfor %}
+													{% if user in sharedTrialUsers %}
+														{# already shared with this user #}
+														Unshare with
 													{% else %}
-														Remove Admin
+														Share with
 													{% endif %}
 												</button>
 											</a>
