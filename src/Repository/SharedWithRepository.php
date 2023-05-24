@@ -19,6 +19,19 @@ class SharedWithRepository extends ServiceEntityRepository
         parent::__construct($registry, SharedWith::class);
     }
 
+    public function totalRows($user = null) {
+        $query = $this->createQueryBuilder('sw')
+            ->select('count(sw.id)')
+        ;
+
+        if ($user) {
+            $query->where('sw.user = :userId')
+            ->setParameter(':userId', $user->getId());
+        }
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
     // /**
     //  * @return SharedWith[] Returns an array of SharedWith objects
     //  */

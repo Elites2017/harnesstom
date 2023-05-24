@@ -35,7 +35,19 @@ class StudyController extends AbstractController
      */
     public function index(StudyRepository $studyRepo): Response
     {
-        $studies =  $studyRepo->findAll();
+        $studies = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res != false) {
+                $studies = $studyRepo->findAll();
+            } else {
+                $studies = $studyRepo->findReleasedTrialStudy($this->getUser());
+            }
+        } else {
+            $studies = $studyRepo->findReleasedTrialStudy();
+        }
         $context = [
             'title' => 'Study List',
             'studies' => $studies

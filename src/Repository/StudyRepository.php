@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Study;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\SharedWithRepository;
 
 /**
  * @method Study|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +15,56 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class StudyRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $swRepo;
+    public function __construct(ManagerRegistry $registry, SharedWithRepository $swRepo)
     {
+        $this->swRepo = $swRepo;
         parent::__construct($registry, Study::class);
+    }
+
+    public function findReleasedTrialStudy($user = null)
+    {
+        //dd($this->swRepo->totalRows($user));
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('st')
+            ->from('App\Entity\Trial', 'tr')
+            ->Where('st.isActive = 1')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+
+        if ($user) {
+            // check if any trial is shared with this user
+            // 0 means no trial is shared with this user
+            // in this case show the studies where this user
+            // is the owner of future trials used in those studies
+            if ($this->swRepo->totalRows($user) == 0) {
+                $query->orWhere(
+                        $query->expr()->andX(
+                            'tr.createdBy = :user',
+                            'st.trial = tr.id',
+                            'tr.publicReleaseDate >= :currentDate'))
+                        ->setParameter(':user', $user->getId())
+                        ->setParameter(':currentDate', $currentDate);
+            }
+            
+            // if one trial is shared with this user
+            // include the shared trial in the list study list
+            if ($this->swRepo->totalRows($user) > 0) {
+                $query->from('App\Entity\SharedWith', 'sw')
+                    ->orWhere(
+                        $query->expr()->andX(
+                            'sw.trial = tr.id',
+                            'st.trial = tr.id',
+                            'sw.user = :user'))
+                        ->setParameter(':user', $user->getId());
+            }
+        }
+        //dd($query->getDQL());
+        return $query->getQuery()->getResult();
     }
 
     // /**
