@@ -38,7 +38,7 @@ class TrialController extends AbstractController
             $userRoles = $this->getUser()->getRoles();
             $adm = "ROLE_ADMIN";
             $res = array_search($adm, $userRoles);
-            if ($res != false) {
+            if ($res !== false) {
                 $trials = $trialRepo->findAll();
             } else {
                 $trials = $trialRepo->findReleasedTrials($this->getUser());

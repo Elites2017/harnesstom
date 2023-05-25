@@ -15,6 +15,7 @@ use App\Form\StudyType;
 use App\Form\StudyUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\StudyRepository;
+use App\Repository\TrialRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,7 +41,7 @@ class StudyController extends AbstractController
             $userRoles = $this->getUser()->getRoles();
             $adm = "ROLE_ADMIN";
             $res = array_search($adm, $userRoles);
-            if ($res != false) {
+            if ($res !== false) {
                 $studies = $studyRepo->findAll();
             } else {
                 $studies = $studyRepo->findReleasedTrialStudy($this->getUser());
@@ -100,14 +101,20 @@ class StudyController extends AbstractController
     /**
      * @Route("/details/{id}", name="details")
      */
-    public function details(Study $studieSelected): Response
+    public function details(Study $studieSelected, TrialRepository $trialRepo): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $context = [
-            'title' => 'Study Details',
-            'study' => $studieSelected
-        ];
-        return $this->render('study/details.html.twig', $context);
+        // test if the trial is accessible to this user in order to show the trial study
+        if ($trialRepo->isAccessible($this->getUser(), $studieSelected->getTrial())) {
+            $context = [
+                'title' => 'Study Details',
+                'study' => $studieSelected
+            ];
+            return $this->render('study/details.html.twig', $context);
+        } else {
+            $this->addFlash('danger', "You are not allowed to see a study that is private and not shared with you");
+            return $this->redirect($this->generateUrl('study_index'));
+        }
     }
 
     /**

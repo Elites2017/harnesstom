@@ -14,8 +14,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TrialRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $swRepo;
+    public function __construct(ManagerRegistry $registry, SharedWithRepository $swRepo)
     {
+        $this->swRepo = $swRepo;
         parent::__construct($registry, Trial::class);
     }
 
@@ -25,14 +27,6 @@ class TrialRepository extends ServiceEntityRepository
             ->where('tab.isActive = 1')
             ->getQuery()
             ->getSingleScalarResult();
-    }
-
-    public function swTotalRows() {
-        $query = $this->createQueryBuilder('tab')
-            ->join('App\Entity\SharedWith', 'sw')
-            ->select('count(sw.id)');
-
-        return $query->getQuery()->getSingleScalarResult();
     }
 
     public function findReleasedTrials($user = null)
@@ -47,14 +41,14 @@ class TrialRepository extends ServiceEntityRepository
         ;
 
         if ($user) {
-            if ($this->swTotalRows() == 0) {
+            if ($this->swRepo->totalRows($user) === 0) {
                 $query->orWhere(
                         $query->expr()->orX(
                             'tr.createdBy = :user'))
                         ->setParameter(':user', $user->getId());
             }
             
-            if ($this->swTotalRows() > 0) {
+            if ($this->swRepo->totalRows($user) > 0) {
                 $query->from('App\Entity\SharedWith', 'sw')
                     ->orWhere(
                         $query->expr()->orX(
@@ -65,6 +59,33 @@ class TrialRepository extends ServiceEntityRepository
         }
 
         return $query->getQuery()->getResult();
+    }
+
+    public function isAccessible($user = null, $trial)
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('tr')
+            ->Where('tr.isActive = 1')
+            ->andWhere('tr.id = :trial')
+            ->setParameter(':trial', $trial->getId())
+        ;
+
+        $foundTrial = $query->getQuery()->getResult();
+        if($foundTrial[0]) {
+            $foundTrial = $foundTrial[0];
+            if ($foundTrial->getPublicReleaseDate() <= $currentDate) {
+                return true;
+            } else if ($foundTrial->getCreatedBy() === $user) {
+                return true;
+            } else if (count($this->swRepo->findBy(["trial" => $trial, "user" => $user])) === 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     // /**
