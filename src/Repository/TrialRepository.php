@@ -41,7 +41,7 @@ class TrialRepository extends ServiceEntityRepository
         ;
 
         if ($user) {
-            if ($this->swRepo->totalRows($user) === 0) {
+            if ($this->swRepo->totalRows($user) == 0) {
                 $query->orWhere(
                         $query->expr()->orX(
                             'tr.createdBy = :user'))

@@ -40,7 +40,7 @@ class StudyRepository extends ServiceEntityRepository
             // 0 means no trial is shared with this user
             // in this case show the studies where this user
             // is the owner of future trials used in those studies
-            if ($this->swRepo->totalRows($user) === 0) {
+            if ($this->swRepo->totalRows($user) == 0) {
                 $query->orWhere(
                         $query->expr()->andX(
                             'tr.createdBy = :user',
