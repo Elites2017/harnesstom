@@ -43,18 +43,26 @@ class TrialRepository extends ServiceEntityRepository
         if ($user) {
             if ($this->swRepo->totalRows($user) == 0) {
                 $query->orWhere(
-                        $query->expr()->orX(
-                            'tr.createdBy = :user'))
-                        ->setParameter(':user', $user->getId());
+                        $query->expr()->andX(
+                            'tr.createdBy = :user',
+                            'tr.publicReleaseDate >= :currentDate'))
+                        ->setParameter(':user', $user->getId())
+                        ->setParameter(':currentDate', $currentDate);
             }
-            
             if ($this->swRepo->totalRows($user) > 0) {
                 $query->from('App\Entity\SharedWith', 'sw')
                     ->orWhere(
-                        $query->expr()->orX(
+                        $query->expr()->andX(
+                            'tr.publicReleaseDate >= :currentDate',
+                            'sw.user = :user',
+                            'sw.trial = tr.id',
+                            ))
+                    ->orWhere(
+                        $query->expr()->andX(
                             'tr.createdBy = :user',
-                            'sw.user = :user'))
-                        ->setParameter(':user', $user->getId());
+                            'tr.publicReleaseDate >= :currentDate'))
+                        ->setParameter(':user', $user->getId())
+                        ->setParameter(':currentDate', $currentDate);
             }
         }
 
