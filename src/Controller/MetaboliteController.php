@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Analyte;
+use App\Entity\MetabolicTrait;
 use App\Entity\Metabolite;
+use App\Entity\Scale;
 use App\Form\MetaboliteType;
 use App\Form\MetaboliteUpdateType;
 use App\Form\UploadFromExcelType;
@@ -162,34 +165,80 @@ class MetaboliteController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $ontology_id = $row['A'];
-                $name = $row['B'];
-                $parentTerm = $row['C'];
+                $analyteCode = $row['A'];
+                $metabolicTraitOntId = $row['B'];
+                $scale = $row['C'];
+                $metaboliteAnalyte = "";
+                $metaboliteMetabolicTrait = "";
+                $metaboliteScale = "";
                 // check if the file doesn't have empty columns
-                if ($ontology_id != null & $name != null) {
+                if ($analyteCode != null & $scale != null) {
                     // check if the data is upload in the database
-                    $existingMetabolite = $entmanager->getRepository(Metabolite::class)->findOneBy(['name' => $name]);
+                    try {
+                        //code...
+                        $metaboliteAnalyte = $entmanager->getRepository(Analyte::class)->findOneBy(['analyteCode' => $analyteCode]);
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                        $this->addFlash('danger', " there is a problem with the analyte code " .$analyteCode);
+                    }
+
+                    $metabolicTraitOntId = explode(";", $metabolicTraitOntId);
+                    
+                    try {
+                        //code...
+                        $metaboliteMetabolicTrait = $entmanager->getRepository(MetabolicTrait::class)->findOneBy(['ontology_id' => $metabolicTraitOntId[0]]);
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                        $this->addFlash('danger', " there is a problem with the metabolic trait ontology " .$metabolicTraitOntId);
+                    }
+
+                    try {
+                        //code...
+                        $metaboliteScale = $entmanager->getRepository(Scale::class)->findOneBy(['name' => $scale]);
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                        $this->addFlash('danger', " there is a problem with the scale name " .$scale);
+                    }
+
+                    $existingMetabolite = $entmanager->getRepository(Metabolite::class)->findOneBy(
+                        ['analyte' => $metaboliteAnalyte ? $metaboliteAnalyte->getId() : "",
+                        "metabolicTrait" => $metaboliteMetabolicTrait ? $metaboliteMetabolicTrait->getId() : "",
+                        "scale" => $metaboliteScale ? $metaboliteScale->getId() : ""]);
+
                     // upload data only for countries that haven't been saved in the database
                     if (!$existingMetabolite) {
-                        $metabolite = new Metabolite();
-                        if ($this->getUser()) {
-                            $metabolite->setCreatedBy($this->getUser());
-                        }
-                        $metabolite->setIsActive(true);
-                        $metabolite->setCreatedAt(new \DateTime());
+                        // handle the fact the metabolic trait can be a bunch a ; separated value
+                        foreach ($metabolicTraitOntId as $oneMetabTraitOnt) {
+                            # code...
+                            $metabolite = new Metabolite();
+                            if ($this->getUser()) {
+                                $metabolite->setCreatedBy($this->getUser());
+                            }
+                            $metabolite->setAnalyte($metaboliteAnalyte);
+                            $metabolite->setScale($metaboliteScale);
+                            $metabolite->setIsActive(true);
+                            $metabolite->setCreatedAt(new \DateTime());
 
-                        try {
-                            //code...
-                            $entmanager->persist($metabolite);
-                            $entmanager->flush();
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                            try {
+                                //code...
+                                $metaboliteMetabolicTraitOne = $entmanager->getRepository(MetabolicTrait::class)->findOneBy(['ontology_id' => $oneMetabTraitOnt]);
+                                $metabolite->setMetabolicTrait($metaboliteMetabolicTraitOne);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the metabolic trait ontology " .$oneMetabTraitOnt);
+                            }
+                            try {
+                                //code...
+                                $entmanager->persist($metabolite);
+                                $entmanager->flush();
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                            }
                         }
                     }
                 }
             }
-            //$entmanager->flush();
             // Query how many rows are there in the Country table
             $totalMetaboliteAfter = $repoMetabolite->createQueryBuilder('tab')
                 // Filter by some parameter if you want
