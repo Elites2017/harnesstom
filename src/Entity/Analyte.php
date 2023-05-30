@@ -37,16 +37,16 @@ class Analyte
      * @ORM\Column(type="string", length=255)
      * @Groups({"analyte:read"})
      */
-    private $AnalyteCode;
+    private $analyteCode;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"analyte:read"})
      */
     private $retentionTime;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"analyte:read"})
      */
     private $massToChargeRatio;
@@ -120,34 +120,34 @@ class Analyte
 
     public function getAnalyteCode(): ?string
     {
-        return $this->AnalyteCode;
+        return $this->analyteCode;
     }
 
-    public function setAnalyteCode(string $AnalyteCode): self
+    public function setAnalyteCode(string $analyteCode): self
     {
-        $this->AnalyteCode = $AnalyteCode;
+        $this->analyteCode = $analyteCode;
 
         return $this;
     }
 
-    public function getRetentionTime(): ?float
+    public function getRetentionTime(): ?string
     {
         return $this->retentionTime;
     }
 
-    public function setRetentionTime(?float $retentionTime): self
+    public function setRetentionTime(?string $retentionTime): self
     {
         $this->retentionTime = $retentionTime;
 
         return $this;
     }
 
-    public function getMassToChargeRatio(): ?float
+    public function getMassToChargeRatio(): ?string
     {
         return $this->massToChargeRatio;
     }
 
-    public function setMassToChargeRatio(?float $massToChargeRatio): self
+    public function setMassToChargeRatio(?string $massToChargeRatio): self
     {
         $this->massToChargeRatio = $massToChargeRatio;
 
