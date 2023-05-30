@@ -1409,6 +1409,11 @@
 													<li>
 														<a class="dropdown-item" href="{{ path('mapping_population_create') }}">Create</a>
 													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('mapping_population_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
 													<li>
 														<a class="dropdown-item" href="{{ path('mapping_population_index') }}">Search</a>
 													</li>
