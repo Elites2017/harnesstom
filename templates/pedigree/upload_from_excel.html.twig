@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">Pedigree Upload From Excel</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="mb-3">
+					<a href="{{ path('pedigree_download_template') }}" download target="_blank">
+						<h1>Click to download a template example</h1></br>
+						<h3>NOTE: Your data must be in the same format as the template example file format</h3>
+					<img src="{{ asset('assets/images/excelicon.png') }}" alt="Example of excel template" width="104" height="142">
+				</a>
+			</div>
+			{{ form_start(pedigreeUploadFromExcelForm) }}
+			<div>
+				{{ form_row(pedigreeUploadFromExcelForm.file, {label: "Upload Data From An Excel File", 'attr': {'placeholder': "Choose an excel file", 'accept':".txt, .xls, .xlsx" }}) }}
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 mb-3">
+					<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Upload</button>
+				</div>
+
+				<div class="col-md-6 mb-3">
+					<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+				</div>
+			</div>
+			{{ form_end(pedigreeUploadFromExcelForm) }}
+		</div>
+	</div>
+	<!-- .row -->
+</div>
+<!-- .container -->{% endblock %}
+
+{% block javascripts %}
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
+<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
+
+<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
+<script src="{{ asset('assets/nl/js/main.js') }}"></script>
+<script>
+	$('.custom-file-input').on('change', function(event) {
+	let inputFile = event.currentTarget;
+	$(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+	});
+</script>
+{% endblock %}
