@@ -263,7 +263,7 @@ class CollectionController extends AbstractController
         }
 
         $context = [
-            'title' => 'Collwction Upload From Excel',
+            'title' => 'Collection Upload From Excel',
             'collectionUploadFromExcelForm' => $form->createView()
         ];
         return $this->render('collection/upload_from_excel.html.twig', $context);
