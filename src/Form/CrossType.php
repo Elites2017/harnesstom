@@ -15,13 +15,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
+// call the trial public release service
+use App\Service\PublicReleaseTrial;
 
 class CrossType extends AbstractType
 {
     private $router;
+    private $pubRelTrialService;
 
-    function __construct(RouterInterface $router){
+    function __construct(RouterInterface $router, PublicReleaseTrial $pubRelTrialService){
         $this->router = $router;
+        $this->pubRelTrialService = $pubRelTrialService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -48,8 +52,8 @@ class CrossType extends AbstractType
                 'class' => Study::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>'
-                
+                'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
+                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Trial</a>'
             ])
             ->add('institute', DatalistType::class, [
                 'class' => Institute::class,
