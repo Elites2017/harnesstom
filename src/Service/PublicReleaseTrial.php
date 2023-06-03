@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Repository\CrossRepository;
+use App\Repository\SampleRepository;
 use Symfony\Component\Security\Core\Security;
 use App\Repository\TrialRepository;
 use App\Repository\SharedWithRepository;
@@ -14,14 +15,16 @@ class PublicReleaseTrial
     private $swRepo;
     private $studyRepo;
     private $crossRepo;
+    private $sampleRepo;
     private $security;
 
     function __construct(TrialRepository $trialRepo, SharedWithRepository $swRepo, StudyRepository $studyRepo,
-                        CrossRepository $crossRepo, Security $security) {
+                        CrossRepository $crossRepo, SampleRepository $sampleRepo, Security $security) {
         $this->trialRepo = $trialRepo;
         $this->swRepo = $swRepo;
         $this->studyRepo = $studyRepo;
         $this->crossRepo = $crossRepo;
+        $this->sampleRepo = $sampleRepo;
         $this->security = $security;
     }
 
@@ -132,6 +135,50 @@ class PublicReleaseTrial
             ->from('App\Entity\Trial', 'tr')
             ->Where('cr.isActive = 1')
             ->AndWhere('cr.study = st.id')
+            ->AndWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+
+        if ($user) {
+            if ($this->swRepo->totalRows($user) == 0) {
+                $query->orWhere(
+                        $query->expr()->andX(
+                            'tr.createdBy = :user',
+                            'tr.publicReleaseDate >= :currentDate'))
+                        ->setParameter(':user', $user->getId())
+                        ->setParameter(':currentDate', $currentDate);
+            }
+            if ($this->swRepo->totalRows($user) > 0) {
+                $query->from('App\Entity\SharedWith', 'sw')
+                    ->orWhere(
+                        $query->expr()->andX(
+                            'tr.publicReleaseDate >= :currentDate',
+                            'sw.user = :user',
+                            'sw.trial = tr.id',
+                            ))
+                    ->orWhere(
+                        $query->expr()->andX(
+                            'tr.createdBy = :user',
+                            'tr.publicReleaseDate >= :currentDate'))
+                        ->setParameter(':user', $user->getId())
+                        ->setParameter(':currentDate', $currentDate);
+            }
+        }
+        return $query;
+    }
+
+    // sample
+    function getVisibleSamples() {
+        $user = $this->security->getUser();
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->sampleRepo->createQueryBuilder('spl')
+            ->from('App\Entity\Study', 'st')
+            ->from('App\Entity\Trial', 'tr')
+            ->Where('spl.isActive = 1')
+            ->AndWhere('spl.study = st.id')
             ->AndWhere('st.trial = tr.id')
             ->andWhere('tr.publicReleaseDate <= :currentDate')
             ->setParameter(':currentDate', $currentDate)
