@@ -22,7 +22,7 @@ class StudyImageRepository extends ServiceEntityRepository
         parent::__construct($registry, StudyImage::class);
     }
 
-    public function findReleasedTrialStudyCross($user = null)
+    public function findReleasedTrialStudyImage($user = null)
     {
         // MySQL format
         $currentDate = date('Y-m-d');
