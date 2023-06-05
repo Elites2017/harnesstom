@@ -31,7 +31,7 @@ class CrossRepository extends ServiceEntityRepository
             ->from('App\Entity\Study', 'st')    
             ->from('App\Entity\Trial', 'tr')
             ->Where('cr.isActive = 1')
-            ->Where('cr.study = st.id')
+            ->andWhere('cr.study = st.id')
             ->andWhere('st.trial = tr.id')
             ->andWhere('tr.publicReleaseDate <= :currentDate')
             ->setParameter(':currentDate', $currentDate)
