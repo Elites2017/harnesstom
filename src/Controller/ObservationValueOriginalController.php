@@ -30,7 +30,19 @@ class ObservationValueOriginalController extends AbstractController
      */
     public function index(ObservationValueOriginalRepository $observationValueRepo): Response
     {
-        $observationValues =  $observationValueRepo->findAll();
+        $observationValues = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $observationValues = $observationValueRepo->findAll();
+            } else {
+                $observationValues = $observationValueRepo->findReleasedTrialStudyObsLevelObsValues($this->getUser());
+            }
+        } else {
+            $observationValues = $observationValueRepo->findReleasedTrialStudyObsLevelObsValues();
+        }
         $context = [
             'title' => 'Observation Value List',
             'observationValues' => $observationValues
