@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\ObservationLevel;
 use App\Entity\Sample;
 use App\Entity\Study;
 use Symfony\Component\Form\AbstractType;
@@ -26,6 +27,7 @@ class SampleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $toUrlStudy = $this->router->generate('study_create');
+        $toUrlObsLevel = $this->router->generate('observation_level_create');
 
         $builder
             ->add('name')
@@ -42,7 +44,13 @@ class SampleType extends AbstractType
             ->add('germplasm')
             ->add('developmentalStage')
             ->add('anatomicalEntity')
-            ->add('observationLevel')
+            ->add('observationLevel', EntityType::class, [
+                'class' => ObservationLevel::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'query_builder' => $this->pubRelTrialService->getVisibleObservationLevels(),
+                'help' => 'Add a new <a href="' . $toUrlObsLevel .'" target="_blank">Trial</a>'
+            ])
         ;
     }
 
