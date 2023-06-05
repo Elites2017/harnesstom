@@ -11,6 +11,7 @@ use App\Entity\Software;
 use App\Entity\ThresholdMethod;
 use App\Entity\Unit;
 use App\Entity\VariantSetMetadata;
+use App\Service\PublicReleaseTrial;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -23,8 +24,11 @@ class QTLStudyUpdateType extends AbstractType
 {
     private $router;
 
-    function __construct(RouterInterface $router){
+    private $pubRelTrialService;
+
+    function __construct(RouterInterface $router, PublicReleaseTrial $pubRelTrialService){
         $this->router = $router;
+        $this->pubRelTrialService = $pubRelTrialService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -96,6 +100,7 @@ class QTLStudyUpdateType extends AbstractType
                 'class' => MappingPopulation::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'query_builder' => $this->pubRelTrialService->getVisibleMappingPopulations(),
                 'help' => 'Add a new <a href="' . $toUrlMappingPopulation .'" target="_blank">Mapping Population</a>'
                 
             ])

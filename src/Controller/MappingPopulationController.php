@@ -29,7 +29,19 @@ class MappingPopulationController extends AbstractController
      */
     public function index(MappingPopulationRepository $mappingPopulationRepo): Response
     {
-        $mappingPopulations =  $mappingPopulationRepo->findAll();
+        $mappingPopulations = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $mappingPopulations = $mappingPopulationRepo->findAll();
+            } else {
+                $mappingPopulations = $mappingPopulationRepo->findReleasedTrialStudyCrossMappingPop($this->getUser());
+            }
+        } else {
+            $mappingPopulations = $mappingPopulationRepo->findReleasedTrialStudyCrossMappingPop();
+        }
         $context = [
             'title' => 'Mapping Population List',
             'mappingPopulations' => $mappingPopulations
