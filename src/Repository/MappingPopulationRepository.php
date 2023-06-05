@@ -28,7 +28,7 @@ class MappingPopulationRepository extends ServiceEntityRepository
         $currentDate = date('Y-m-d');
         $currentDate = new \DateTime($currentDate);
         $query = $this->createQueryBuilder('mp')
-            ->from('App\Entity\Study', 'cr')
+            ->from('App\Entity\Cross', 'cr')
             ->from('App\Entity\Study', 'st')    
             ->from('App\Entity\Trial', 'tr')
             ->Where('mp.isActive = 1')
