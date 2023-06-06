@@ -181,10 +181,16 @@ class ObservationValueOriginalController extends AbstractController
                 $value = $row['C'];
                 // check if the file doesn't have empty columns
                 if ($unitName !== null && $obsVarId !== null && $value !== null) {
+                    $obsValUnitName = $entmanager->getRepository(ObservationLevel::class)->findOneBy(['unitname' => $unitName]);
+                    $obsVariableTraitId = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $obsVarId]);
                     // check if the data is upload in the database
-                    // $existingObservationValue = $entmanager->getRepository(ObservationValueOriginal::class)->findOneBy(['value' => $unitName]);
-                    // // upload data only for objects that haven't been saved in the database
-                    // if (!$existingObservationValue) {
+                    $existingObservationValue = $entmanager->getRepository(ObservationValueOriginal::class)->findOneBy([
+                        'unitName' => $obsValUnitName->getId(),
+                        'observationVariableOriginal' => $obsVariableTraitId->getObservationVariable()->getId(),
+                        'value' => $value]);
+                        
+                    // upload data only for objects that haven't been saved in the database
+                    if (!$existingObservationValue) {
                         $observationValue = new ObservationValueOriginal();
                         if ($this->getUser()) {
                             $observationValue->setCreatedBy($this->getUser());
@@ -230,7 +236,7 @@ class ObservationValueOriginalController extends AbstractController
                             //throw $th;
                             $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
                         }
-                    // }
+                    }
                 }
             }
 
