@@ -31,13 +31,6 @@ class ScaleType extends AbstractType
             ->add('name')
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '5')])
-            ->add('scaleCategory', EntityType::class, [
-                'class' => ScaleCategory::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlScaleCategory .'" target="_blank">Scale Category</a>'
-                
-            ])
             ->add('dataType', EntityType::class, [
                 'class' => DataType::class,
                 'help_html' => true,
