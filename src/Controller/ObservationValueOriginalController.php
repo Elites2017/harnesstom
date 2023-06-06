@@ -180,7 +180,7 @@ class ObservationValueOriginalController extends AbstractController
                 $obsVarId = $row['B'];
                 $value = $row['C'];
                 // check if the file doesn't have empty columns
-                if ($unitName != null && $obsVarId != null && $value != null) {
+                if ($unitName !== null && $obsVarId !== null && $value !== null) {
                     // check if the data is upload in the database
                     // $existingObservationValue = $entmanager->getRepository(ObservationValueOriginal::class)->findOneBy(['value' => $unitName]);
                     // // upload data only for objects that haven't been saved in the database
