@@ -87,8 +87,8 @@
 				{
 				observationVariableOriginal: "{{ observationValue.observationVariableOriginal }}",
 				unitName: "{% if observationValue.unitName %}<a href={{ path('observation_level_details', {id: observationValue.unitName.id}) }}>{{ observationValue.unitName }}</a>{% endif %}",
-				value: "{% if observationValue.observationVariableOriginal.scale.dataType == "Nominal data" or observationValue.observationVariableOriginal.scale.dataType == "Ordinal data" %}
-							{% if observationValue.value == 'NA' %} {{ observationValue.value }}{% elseif observationValue.value matches '/^[+-]?(?=\d*[.eE])(?=\.?\d)\d*\.?\d*(?:[eE][+-]?\d+)?/' %} {{ observationValue.value }} {% else %} {% for key, oneSC in observationValue.observationVariableOriginal.scale.scaleCategories %} {% if key == observationValue.value %}{{ oneSC }} {% endif %} {% endfor %} {% endif %} {% else %} {{ observationValue.value }} {% endif %}",
+				value: "{% if observationValue.observationVariableOriginal.scale %} {% if observationValue.observationVariableOriginal.scale.dataType == "Nominal data" or observationValue.observationVariableOriginal.scale.dataType == "Ordinal data" %}
+							{% if observationValue.value == 'NA' %} {{ observationValue.value }} {% elseif observationValue.value matches '/^[+-]?(?=\d*[.eE])(?=\.?\d)\d*\.?\d*(?:[eE][+-]?\d+)?/' %} {{ observationValue.value }} {% elseif observationValue.value matches '/^\\d+$/' %} {% for key, oneSC in observationValue.observationVariableOriginal.scale.scaleCategories %} {% if key == observationValue.value %}{{ oneSC }} {% endif %} {% endfor %} {% elseif observationValue.value matches '/[\s\S]*/' %} {{ observationValue.value }} {% endif %} {% else %} {{ observationValue.value }} {% endif %} {% endif %}",
 				action: "<a href={{ path('observation_value_details', {id: observationValue.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
 				},
 			{% endfor %}
