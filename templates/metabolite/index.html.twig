@@ -58,7 +58,7 @@
 											{{ metabolite.analyte }}
 										</td>
 										<td>
-											{{ metabolite.metabolicTrait }}
+											{{ metabolite.metabolicTrait ? metabolite.metabolicTrait : 'Unasigned' }}
 										</td>
 										<td>
 											{{ metabolite.scale }}
