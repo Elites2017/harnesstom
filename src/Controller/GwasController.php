@@ -38,6 +38,18 @@ class GwasController extends AbstractController
     public function index(GWASRepository $gwasRepo): Response
     {
         $gwases =  $gwasRepo->findAll();
+        // if($this->getUser()) {
+        //     $userRoles = $this->getUser()->getRoles();
+        //     $adm = "ROLE_ADMIN";
+        //     $res = array_search($adm, $userRoles);
+        //     if ($res !== false) {
+        //         $gwases = $qtlStudyRepo->findAll();
+        //     } else {
+        //         $gwases = $qtlStudyRepo->findReleasedTrialStudyGWAS($this->getUser());
+        //     }
+        // } else {
+        //     $gwases = $qtlStudyRepo->findReleasedTrialStudyGWAS();
+        // }
         $context = [
             'title' => 'GWAS List',
             'gwases' => $gwases

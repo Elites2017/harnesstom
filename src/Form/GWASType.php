@@ -10,8 +10,10 @@ use App\Entity\GWASStatTest;
 use App\Entity\KinshipAlgorithm;
 use App\Entity\Software;
 use App\Entity\StructureMethod;
+use App\Entity\Study;
 use App\Entity\ThresholdMethod;
 use App\Entity\VariantSetMetadata;
+use App\Service\PublicReleaseTrial;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -24,8 +26,11 @@ class GWASType extends AbstractType
 {
     private $router;
 
-    function __construct(RouterInterface $router){
+    private $pubRelTrialService;
+
+    function __construct(RouterInterface $router, PublicReleaseTrial $pubRelTrialService){
         $this->router = $router;
+        $this->pubRelTrialService = $pubRelTrialService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -40,6 +45,7 @@ class GWASType extends AbstractType
         $toUrlGeneticTestingModel = $this->router->generate('genetic_testing_model_create');
         $toUrlAllelicEffectEstimator = $this->router->generate('allelic_effect_estimator_create');
         $toUrlGWASStatTest = $this->router->generate('gwas_stat_test_create');
+        $toUrlStudy = $this->router->generate('study_create');
 
         $builder
             ->add('name')
@@ -115,7 +121,14 @@ class GWASType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlSoftware .'" target="_blank">Software</a>'
                 
             ])
-            ->add('studyList')
+            ->add('studyList', EntityType::class, [
+                'class' => Study::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
+                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>',
+                'multiple' => true
+            ])
         ;
     }
 
