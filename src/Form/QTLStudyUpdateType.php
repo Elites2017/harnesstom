@@ -8,6 +8,7 @@ use App\Entity\QTLMethod;
 use App\Entity\QTLStatistic;
 use App\Entity\QTLStudy;
 use App\Entity\Software;
+use App\Entity\Study;
 use App\Entity\ThresholdMethod;
 use App\Entity\Unit;
 use App\Entity\VariantSetMetadata;
@@ -42,6 +43,7 @@ class QTLStudyUpdateType extends AbstractType
         $toUrlMappingPopulation = $this->router->generate('mapping_population_create');
         $toUrlGenomeMapUnit = $this->router->generate('unit_create');
         $toUrlStatistic = $this->router->generate('qtl_statistic_create');
+        $toUrlStudy = $this->router->generate('study_create');
 
         $builder
             ->add('name')
@@ -118,7 +120,14 @@ class QTLStudyUpdateType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlStatistic .'" target="_blank">QTL Statistic</a>'
                 
             ])
-            ->add('studyList')
+            ->add('studyList', EntityType::class, [
+                'class' => Study::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
+                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>',
+                'multiple' => true
+            ])
         ;
     }
 
