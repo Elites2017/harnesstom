@@ -144,7 +144,29 @@
                             </div>
 
                             <div class="col-md-3 mb-3">
-                                {{ form_row(registrationForm.agreeTerms) }}
+                                <a href="#">{{ form_row(registrationForm.agreeTerms) }}</a>
+                                <small class="tomato-color justify-content">
+                                    By clicking the checkbox below, you agree to give consent to
+                                    HarnessTom Team to use ... for statistic purposes.
+                                </small>
+                                {{ form_row(registrationForm.consentTerms) }}
+
+                                <style>
+                                    label {
+                                        display: block;
+                                        padding-left: 15px;
+                                        text-indent: -15px;
+                                    }
+                                    input {
+                                        width: 15px;
+                                        height: 15px;
+                                        padding: 0;
+                                        margin: 0;
+                                        vertical-align: bottom;
+                                        position: relative;
+                                        top: -1px;
+                                    }
+                                </style>
                             </div>
                         </div>
 

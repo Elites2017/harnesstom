@@ -28,6 +28,14 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('consentTerms', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'You should give consent for statistic purposes.',
+                    ]),
+                ],
+            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => [
