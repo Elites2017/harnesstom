@@ -81,22 +81,25 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
-<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
+	<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
 
-<!-- Core plugin JavaScript-->
-<script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+	<!-- Core plugin JavaScript-->
+	<script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 
-<!-- Custom scripts for all pages-->
-<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
 
-<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
-<script src="{{ asset('assets/nl/js/main.js') }}"></script>
-<script>
-	$('.custom-file-input').on('change', function(event) {
-	let inputFile = event.currentTarget;
-	$(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
-	});
-</script>
+	<script src="{{ asset('assets/js/data_upload_message.js') }}"></script>
+
+	<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
+	<script src="{{ asset('assets/nl/js/main.js') }}"></script>
+	<script>
+		$('.custom-file-input').on('change', function(event) {
+		let inputFile = event.currentTarget;
+		$(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+		});
+	</script>
+
 {% endblock %}

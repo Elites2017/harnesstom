@@ -27,6 +27,7 @@ class UploadFromExcelType extends AbstractType
     {
         $resolver->setDefaults([
             // Configure your form options here
+            'attr' => ['id' => 'uploadFromFile']
         ]);
     }
 }
