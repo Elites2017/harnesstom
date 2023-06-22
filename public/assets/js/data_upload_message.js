@@ -1,7 +1,13 @@
 $(document).ready(function () {
+    var timesRun = 0;
     document.getElementById("uploadFromFile").addEventListener("submit", function () {
-        setInterval(function () {
+        var interval = setInterval(function () {
+            timesRun += 1;
             $('#dataUploadModalCenter').modal('show');
-        }, 10000);
+            if(timesRun === 3){
+                clearInterval(interval);
+                return;
+            }
+        }, 20000);
     });
 });
