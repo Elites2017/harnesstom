@@ -41,7 +41,8 @@ class SearchController extends AbstractController
         $selectedBreedingInstitutes = $request->get('breedingInstitutes');
 
         // filters
-        $accessionsByCountry = $countryRepo->getAccessionsByCountry($selectedBiologicalStatuses);
+        // $accessionsByCountry = $countryRepo->getAccessionsByCountry($selectedBiologicalStatuses);
+        $accessionsByCountry = $countryRepo->getAccessionCountries();
         $accessionsByBiologicalStatus = $biologicalStatusRepo->getAccessionsByBiologicalStatus();
         $accessionsByMLSStatus = $mlsStatusRepo->getAccessionsByMLSStatus();
         $accessionsByTaxonomy = $taxonomyRepo->getAccessionsByTaxonomy();
@@ -54,11 +55,11 @@ class SearchController extends AbstractController
         $accessionsByBreedingInstitute = $instituteRepo->getAccessionsByBreedingInstitute();
         
         // to filter accessions by criterias
-        $filteredAccession = $accessionRepo->getAccessionAdvancedSearch(
-            $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
-            $selectedCollectingMissions, $selectedCollectingSources, $selectedMaintainingInstitutes,
-            $selectedDonorInstitutes, $selectedBreedingInstitutes
-        );
+        // $filteredAccession = $accessionRepo->getAccessionAdvancedSearch(
+        //     $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
+        //     $selectedCollectingMissions, $selectedCollectingSources, $selectedMaintainingInstitutes,
+        //     $selectedDonorInstitutes, $selectedBreedingInstitutes
+        // );
         //dd($selectedBiologicalStatuses);
         
         // check if the coming query is from the filtering with ajax
@@ -72,56 +73,92 @@ class SearchController extends AbstractController
         //     ]);
         // }
 
+        $accessionQtyCountry =  $countryRepo->getAccessionQtyCountry($selectedBiologicalStatuses);
+        // create a new custom table
+        $bufferTab = [];
+        foreach ($accessionQtyCountry as $value) {
+            //dd($value);
+            # code...
+            $bufferTab[$value['id']] =  $value['accQty'];
+        }
+        // $accessionQtyCountry = $bufferTab;
+        //dd($accessionQtyCountry);
+        
+
         if ($request->get('ajax')) {
             // get the filters selected by the user
-        // $selectedCountries = $request->get("countries");
-        // $selectedBiologicalStatuses = $request->get("biologicalStatuses");
-        // $selectedMLSStatuses = $request->get('mlsStatuses');
-        // $selectedTaxonomies = $request->get('taxonomies');
-        // $selectedCollectingMissions = $request->get('collectingMissions');
-        // $selectedCollectingSources = $request->get('collectingSources');
-        // // institutes
-        // $selectedMaintainingInstitutes = $request->get('maintainingInstitutes');
-        // $selectedDonorInstitutes = $request->get('donorInstitutes');
-        // $selectedBreedingInstitutes = $request->get('breedingInstitutes');
+            // $selectedCountries = $request->get("countries");
+            // $selectedBiologicalStatuses = $request->get("biologicalStatuses");
+            // $selectedMLSStatuses = $request->get('mlsStatuses');
+            // $selectedTaxonomies = $request->get('taxonomies');
+            // $selectedCollectingMissions = $request->get('collectingMissions');
+            // $selectedCollectingSources = $request->get('collectingSources');
+            // // institutes
+            // $selectedMaintainingInstitutes = $request->get('maintainingInstitutes');
+            // $selectedDonorInstitutes = $request->get('donorInstitutes');
+            // $selectedBreedingInstitutes = $request->get('breedingInstitutes');
 
-        // filters
-        $accessionsByCountry = $countryRepo->getAccessionsByCountry($selectedBiologicalStatuses);
-        $accessionsByBiologicalStatus = $biologicalStatusRepo->getAccessionsByBiologicalStatus();
-        $accessionsByMLSStatus = $mlsStatusRepo->getAccessionsByMLSStatus();
-        $accessionsByTaxonomy = $taxonomyRepo->getAccessionsByTaxonomy();
-        //$accessionsBySpecies = $taxonomyRepo->getAccessionsBySpecies();
-        $accessionsByCollectingSource = $collectingSourceRepo->getAccessionsByCollectingSource();
-        $accessionsByCollectingMission = $collectingMissionRepo->getAccessionsByCollectingMission();
-        // institutes
-        $accessionsByMaintainingInstitute = $instituteRepo->getAccessionsByMaintainingInstitute();
-        $accessionsByDonorInstitute = $instituteRepo->getAccessionsByDonorInstitute();
-        $accessionsByBreedingInstitute = $instituteRepo->getAccessionsByBreedingInstitute();
-        
-        // to filter accessions by criterias
-        $filteredAccession = $accessionRepo->getAccessionAdvancedSearch(
-            $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
-            $selectedCollectingMissions, $selectedCollectingSources, $selectedMaintainingInstitutes,
-            $selectedDonorInstitutes, $selectedBreedingInstitutes
-        );
+            $accessionQtyCountry =  $countryRepo->getAccessionQtyCountry($selectedBiologicalStatuses);
+            foreach ($accessionQtyCountry as $value) {
+                # code...
+                $bufferTab[$value['id']] = $value['accQty'];
+            }
+            $accessionQtyCountry = $bufferTab;
+            //dd($selectedBiologicalStatuses);
+
+            // filters
+            $accessionsByCountryNumber = $countryRepo->getAccessionsByCountry($selectedBiologicalStatuses);
+
+            $accessionsByCountry = $countryRepo->getAccessionCountries($selectedBiologicalStatuses);
+            //dd($accessionsByCountry);
+            
+
+            $accessionsByBiologicalStatus = $biologicalStatusRepo->getAccessionsByBiologicalStatus();
+            $accessionsByMLSStatus = $mlsStatusRepo->getAccessionsByMLSStatus();
+            $accessionsByTaxonomy = $taxonomyRepo->getAccessionsByTaxonomy();
+            //$accessionsBySpecies = $taxonomyRepo->getAccessionsBySpecies();
+            $accessionsByCollectingSource = $collectingSourceRepo->getAccessionsByCollectingSource();
+            $accessionsByCollectingMission = $collectingMissionRepo->getAccessionsByCollectingMission();
+            // institutes
+            $accessionsByMaintainingInstitute = $instituteRepo->getAccessionsByMaintainingInstitute();
+            $accessionsByDonorInstitute = $instituteRepo->getAccessionsByDonorInstitute();
+            $accessionsByBreedingInstitute = $instituteRepo->getAccessionsByBreedingInstitute();
+            
+            // to filter accessions by criterias
+            $filteredAccession = $accessionRepo->getAccessionAdvancedSearch(
+                $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
+                $selectedCollectingMissions, $selectedCollectingSources, $selectedMaintainingInstitutes,
+                $selectedDonorInstitutes, $selectedBreedingInstitutes
+            );
         
             $context = [
                 'title' => 'Accession Filtered List',
                 'accessions' => $filteredAccession,
                 'accessionsByCountry' => $accessionsByCountry,
-            'accessionsByBiologicalStatus' => $accessionsByBiologicalStatus,
-            'accessionsByMLSStatus' => $accessionsByMLSStatus,
-            'accessionsByTaxonomy' => $accessionsByTaxonomy,
-            'accessionsByCollectingSource' => $accessionsByCollectingSource,
-            'accessionsByCollectingMission' => $accessionsByCollectingMission,
-            'accessionsByMaintainingInstitute' => $accessionsByMaintainingInstitute,
-            'accessionsByDonorInstitute' => $accessionsByDonorInstitute,
-            'accessionsByBreedingInstitute' => $accessionsByBreedingInstitute
+                'accessionQtyCountry' => $accessionQtyCountry,
+                'accessionsByBiologicalStatus' => $accessionsByBiologicalStatus,
+                'accessionsByMLSStatus' => $accessionsByMLSStatus,
+                'accessionsByTaxonomy' => $accessionsByTaxonomy,
+                'accessionsByCollectingSource' => $accessionsByCollectingSource,
+                'accessionsByCollectingMission' => $accessionsByCollectingMission,
+                'accessionsByMaintainingInstitute' => $accessionsByMaintainingInstitute,
+                'accessionsByDonorInstitute' => $accessionsByDonorInstitute,
+                'accessionsByBreedingInstitute' => $accessionsByBreedingInstitute
             ];
+            
             return new JsonResponse([
-                'content' => $this->renderView('search/content_accession.html.twig', $context)
+                'content' => $this->renderView('search/content_accession.html.twig', $context),
+                'accessionQtyCountry' => $accessionQtyCountry
             ]);
         }
+
+
+        // SELECT country.id, count(acc.id)
+        // FROM country, biological_status bs
+        // LEFT JOIN accession acc
+        // ON country.id = acc.origcty_id
+        // WHERE bs.id = acc.sampstat_id AND bs.id = 6
+        // GROUP By country.id Order By count(acc.id) DESC; 
 
         $accessions =  $accessionRepo->findAll();
         $context = [
@@ -129,6 +166,7 @@ class SearchController extends AbstractController
             'accessions' => $accessions,
             // filters
             'accessionsByCountry' => $accessionsByCountry,
+            'accessionQtyCountry' => $accessionQtyCountry,
             'accessionsByBiologicalStatus' => $accessionsByBiologicalStatus,
             'accessionsByMLSStatus' => $accessionsByMLSStatus,
             'accessionsByTaxonomy' => $accessionsByTaxonomy,

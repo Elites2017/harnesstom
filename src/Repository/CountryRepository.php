@@ -19,12 +19,36 @@ class CountryRepository extends ServiceEntityRepository
         parent::__construct($registry, Country::class);
     }
     
-    public function getAccessionCountries() {
+    public function getAccessionCountries($biologicalStatuses = null) {
         $query = $this->createQueryBuilder('country')
+            ->select('country.id as id, country.iso3, count(accession.id) as accQty')
             ->join('App\Entity\Accession', 'accession')
             ->where('country.isActive = 1')
             ->andWhere('country.id = accession.origcty')
+            ->groupBy('country.id')
+            ->orderBy('count(country.id)', 'DESC')
         ;
+        if ($biologicalStatuses) {
+            $query->andWhere('accession.sampstat IN(:selectedBiologicalStatuses)')
+            ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
+        }
+        return $query->getQuery()->getResult();
+    }
+
+    // to show ion the right side of each country
+    public function getAccessionQtyCountry($biologicalStatuses = null) {
+        $query = $this->createQueryBuilder('country')
+            ->select('country.id as id, count(accession.id) as accQty')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('country.isActive = 1')
+            ->andWhere('country.id = accession.origcty')
+            ->groupBy('country.id')
+            ->orderBy('count(accession.id)', 'DESC')
+        ;
+        if ($biologicalStatuses) {
+            $query->andWhere('accession.sampstat IN(:selectedBiologicalStatuses)')
+            ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
+        }
         return $query->getQuery()->getResult();
     }
 
