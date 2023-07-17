@@ -19,7 +19,7 @@ class CountryRepository extends ServiceEntityRepository
         parent::__construct($registry, Country::class);
     }
     
-    public function getAccessionCountries($biologicalStatuses = null) {
+    public function getAccessionCountries() {
         $query = $this->createQueryBuilder('country')
             ->select('country.id as id, country.iso3, count(accession.id) as accQty')
             ->join('App\Entity\Accession', 'accession')
@@ -28,10 +28,6 @@ class CountryRepository extends ServiceEntityRepository
             ->groupBy('country.id')
             ->orderBy('count(country.id)', 'DESC')
         ;
-        if ($biologicalStatuses) {
-            $query->andWhere('accession.sampstat IN(:selectedBiologicalStatuses)')
-            ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
-        }
         return $query->getQuery()->getArrayResult();
     }
 
