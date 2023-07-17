@@ -36,47 +36,35 @@ function filter() {
                 const filteredAccQty = document.querySelectorAll("#accQtyCtry");
 
                 var accQtyTab = data.accessionQtyCountry;
-                console.log(accQtyTab);
-
+                console.log("Acc Qty ", accQtyTab);
+                
                 filteredAccQty.forEach(element => {
                     if (accQtyTab[element.getAttribute('data-id')]) {
-                        var elExists = document.getElementById(element.getAttribute('data-id'));
-                        // console.log("Pap + ", element.parentElement);
-                        // if (elExists) {
-                        //     console.log("Hello ", elExists);
-                        // } else {
-                        //     console.log("NOTHING");
-                        // }
-                        element.className = "float-right badge badge-primary badge-pill";
-                        element.innerHTML = accQtyTab[element.getAttribute('data-id')]; 
+                        element.innerHTML = accQtyTab[element.getAttribute('data-id')];
+                        element.parentElement.classList.add("d-flex");
+                        //element.parentElement.style.display = "block";
+                        //element.style.display = "block";
+                        //console.log("Ele ", element.parentElement, " key ", accQtyTab, "div Tog ", divToggle);
+                        //document.querySelector(".tryyy div");
+                        //$("#"+element.getAttribute('data-id')).children().prop('disabled',false);
+                        
+                        
+                        //element.style.display = "block";
+                        //element.className = "float-right badge badge-primary badge-pill";
+                        //element.innerHTML = accQtyTab[element.getAttribute('data-id')]; 
+                        //element.parentElement.appendChild(elExists);
                     } else {
-                        element.innerHTML = 0;
+                        //element.innerHTML = 0;
+                        element.parentElement.classList.remove("d-flex");
+                        element.parentElement.style.display = "none";
+                        //console.log("Else div Tog ", divToggle);
+                        //element.style.display = "none";
+                        //element.parentElement.style.display = "none";
                         //element.parentElement.remove();
-                        element.parentElement.disabled = "disabled";
-                        element.className = "float-right badge badge-danger badge-pill";
+                        //$("#"+element.getAttribute('data-id')).children().prop('disabled',true);
+                        //element.className = "float-right badge badge-danger badge-pill";
                     }
                 });
-                //console.log(filteredAccQty);
-                // filteredAccQty.getAttribute('data-id').forEach(element => {
-                //     console.log(element);
-                // });
-                
-                // console.log("Hello ", filteredAccQty, "id ", filteredAccQty.getAttribute('data-id'));
-                // // filteredAccQty.innerHTML = 9999;
-
-                // var accQtyTab = data.accessionQtyCountry;
-                // console.log("Acc Qty Lits Returned ", accQtyTab);
-                // accQtyTab.forEach(element => {
-                //     if (element.id == filteredAccQty.getAttribute('data-id'))
-                //     filteredAccQty.innerHTML = element.accQty;
-                // });
-                
-                
-                // if (params.get('countries[]')) {
-                //     countries.push(params.get('countries[]'));
-                // }
-                // //console.log("For Country ", formFilteredContent, " Params ", params.get('countries[]'), " Countries ", countries, " URL ", currentUrl);
-                //formFilteredContent.innerHTML = data.ctyFil;
                 
                 // update the URL
                 history.pushState({}, null, currentUrl.pathname + "?" + params.toString());

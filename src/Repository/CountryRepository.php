@@ -32,11 +32,12 @@ class CountryRepository extends ServiceEntityRepository
             $query->andWhere('accession.sampstat IN(:selectedBiologicalStatuses)')
             ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
         }
-        return $query->getQuery()->getResult();
+        return $query->getQuery()->getArrayResult();
     }
 
     // to show ion the right side of each country
-    public function getAccessionQtyCountry($biologicalStatuses = null) {
+    public function getAccessionQtyCountry($biologicalStatuses = null, $mlsStatuses = null, $taxonomies = null, $collectingMissions = null,
+                                    $collectingSources = null, $maintainingInstitutes = null, $donorInstitutes =  null, $breedingInstitutes = null) {
         $query = $this->createQueryBuilder('country')
             ->select('country.id as id, count(accession.id) as accQty')
             ->join('App\Entity\Accession', 'accession')
@@ -49,25 +50,53 @@ class CountryRepository extends ServiceEntityRepository
             $query->andWhere('accession.sampstat IN(:selectedBiologicalStatuses)')
             ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
         }
-        return $query->getQuery()->getResult();
+        if ($mlsStatuses) {
+            $query->andWhere('accession.mlsStatus IN(:selectedMLSStatuses)')
+            ->setParameter(':selectedMLSStatuses', array_values($mlsStatuses));
+        }
+        if ($taxonomies) {
+            $query->andWhere('accession.taxon IN(:selectedTaxonomies)')
+            ->setParameter(':selectedTaxonomies', array_values($taxonomies));
+        }
+        if ($collectingMissions) {
+                $query->andWhere('accession.collmissid IN(:selectedCollectingMissions)')
+                ->setParameter(':selectedCollectingMissions', array_values($collectingMissions));
+        }
+        if ($collectingSources) {
+                $query->andWhere('accession.collsrc IN(:selectedCollectingSources)')
+                ->setParameter(':selectedCollectingSources', array_values($collectingSources));
+        }
+        if ($maintainingInstitutes) {
+                $query->andWhere('accession.instcode IN(:selectedMaintainingInstitutes)')
+                ->setParameter(':selectedMaintainingInstitutes', array_values($maintainingInstitutes));
+        }
+        if ($donorInstitutes) {
+                $query->andWhere('accession.donorcode IN(:selectedDonorInstitutes)')
+                ->setParameter(':selectedDonorInstitutes', array_values($donorInstitutes));
+        }
+        if ($breedingInstitutes) {
+                $query->andWhere('accession.bredcode IN(:selectedBreedingInstitutes)')
+                ->setParameter(':selectedBreedingInstitutes', array_values($breedingInstitutes));
+        }
+        return $query->getQuery()->getArrayResult();
     }
 
     // to show the number of accession by each country
-    public function getAccessionsByCountry($biologicalStatuses = null) {
-        $query = $this->createQueryBuilder('ctry')
-            ->select('ctry as country, count(ctry.id) as accQty')
-            ->join('App\Entity\Accession', 'accession')
-            ->where('ctry.isActive = 1')
-            ->andWhere('ctry.id = accession.origcty')
-            ->groupBy('ctry.id')
-            ->orderBy('count(ctry.id)', 'DESC')
-        ;
-        if ($biologicalStatuses) {
-            $query->andWhere('accession.sampstat IN(:selectedBiologicalStatuses)')
-            ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
-        }
-        return $query->getQuery()->getResult();
-    }
+    // public function getAccessionsByCountry($biologicalStatuses = null) {
+    //     $query = $this->createQueryBuilder('ctry')
+    //         ->select('ctry as country, count(ctry.id) as accQty')
+    //         ->join('App\Entity\Accession', 'accession')
+    //         ->where('ctry.isActive = 1')
+    //         ->andWhere('ctry.id = accession.origcty')
+    //         ->groupBy('ctry.id')
+    //         ->orderBy('count(ctry.id)', 'DESC')
+    //     ;
+    //     if ($biologicalStatuses) {
+    //         $query->andWhere('accession.sampstat IN(:selectedBiologicalStatuses)')
+    //         ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
+    //     }
+    //     return $query->getQuery()->getResult();
+    // }
 
     // /**
     //  * @return Country[] Returns an array of Country objects

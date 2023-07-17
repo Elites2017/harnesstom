@@ -76,11 +76,11 @@ class SearchController extends AbstractController
         $accessionQtyCountry =  $countryRepo->getAccessionQtyCountry($selectedBiologicalStatuses);
         // create a new custom table
         $bufferTab = [];
-        foreach ($accessionQtyCountry as $value) {
-            //dd($value);
-            # code...
-            $bufferTab[$value['id']] =  $value['accQty'];
-        }
+        // foreach ($accessionQtyCountry as $value) {
+        //     //dd($value);
+        //     # code...
+        //     $bufferTab[$value['id']] =  $value['accQty'];
+        // }
         // $accessionQtyCountry = $bufferTab;
         //dd($accessionQtyCountry);
         
@@ -98,7 +98,11 @@ class SearchController extends AbstractController
             // $selectedDonorInstitutes = $request->get('donorInstitutes');
             // $selectedBreedingInstitutes = $request->get('breedingInstitutes');
 
-            $accessionQtyCountry =  $countryRepo->getAccessionQtyCountry($selectedBiologicalStatuses);
+            $accessionQtyCountry =  $countryRepo->getAccessionQtyCountry(
+                $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
+                $selectedCollectingMissions, $selectedCollectingSources, $selectedMaintainingInstitutes,
+                $selectedDonorInstitutes, $selectedBreedingInstitutes
+            );
             foreach ($accessionQtyCountry as $value) {
                 # code...
                 $bufferTab[$value['id']] = $value['accQty'];
@@ -106,8 +110,16 @@ class SearchController extends AbstractController
             $accessionQtyCountry = $bufferTab;
             //dd($selectedBiologicalStatuses);
 
+            // $newArrBuf = [];
+            // foreach ($accessionsByCountry as $value) {
+            //     # code...
+            //     $newArrBuf[$value['id']] = ["id" => $value['id'], "iso3" => $value['iso3'], "accQty" => $value["accQty"] ];
+            // }
+            // $accessionQtyCountry = $newArrBuf;
+            //dd($newArrBuf);
+
             // filters
-            $accessionsByCountryNumber = $countryRepo->getAccessionsByCountry($selectedBiologicalStatuses);
+            //$accessionsByCountryNumber = $countryRepo->getAccessionsByCountry($selectedBiologicalStatuses);
 
             $accessionsByCountry = $countryRepo->getAccessionCountries($selectedBiologicalStatuses);
             //dd($accessionsByCountry);
@@ -135,7 +147,7 @@ class SearchController extends AbstractController
                 'title' => 'Accession Filtered List',
                 'accessions' => $filteredAccession,
                 'accessionsByCountry' => $accessionsByCountry,
-                'accessionQtyCountry' => $accessionQtyCountry,
+                //'accessionQtyCountry' => $accessionQtyCountry,
                 'accessionsByBiologicalStatus' => $accessionsByBiologicalStatus,
                 'accessionsByMLSStatus' => $accessionsByMLSStatus,
                 'accessionsByTaxonomy' => $accessionsByTaxonomy,
