@@ -33,10 +33,10 @@ function filter() {
                 filteredContent.innerHTML = data.content;
                 //const formFilteredContent = document.querySelector("#countryCollapse");
 
-                const filteredAccQty = document.querySelectorAll("#accQtyCtry");
-
+                const filteredAccQty = document.querySelectorAll("#accQtyCountry");
+                
                 var accQtyTab = data.accessionQtyCountry;
-                console.log("Acc Qty ", accQtyTab);
+                //console.log("Acc Qty ", accQtyTab);
                 
                 filteredAccQty.forEach(element => {
                     if (accQtyTab[element.getAttribute('data-id')]) {
@@ -63,6 +63,36 @@ function filter() {
                         //element.parentElement.remove();
                         //$("#"+element.getAttribute('data-id')).children().prop('disabled',true);
                         //element.className = "float-right badge badge-danger badge-pill";
+                    }
+                });
+
+                // biological status
+                const filteredBiologicalStatQty = document.querySelectorAll("#accQtyBiologicalStat");
+                var accQtyBiologicalStatTab = data.accessionQtyBiologicalStatus;
+                filteredBiologicalStatQty.forEach(element => {
+                    if (accQtyBiologicalStatTab[element.getAttribute('data-id')]) {
+                        element.innerHTML = accQtyBiologicalStatTab[element.getAttribute('data-id')];
+                        element.parentElement.classList.add("d-flex");
+                        
+                    } else {
+                        //element.innerHTML = 0;
+                        element.parentElement.classList.remove("d-flex");
+                        element.parentElement.style.display = "none";
+                    }
+                });
+
+                // mls status
+                const filteredMLSStatQty = document.querySelectorAll("#accQtyMLSStat");
+                var accQtyMLSStatTab = data.accessionQtyMLSStatus;
+                filteredMLSStatQty.forEach(element => {
+                    if (accQtyMLSStatTab[element.getAttribute('data-id')]) {
+                        element.innerHTML = accQtyMLSStatTab[element.getAttribute('data-id')];
+                        element.parentElement.classList.add("d-flex");
+                        
+                    } else {
+                        //element.innerHTML = 0;
+                        element.parentElement.classList.remove("d-flex");
+                        element.parentElement.style.display = "none";
                     }
                 });
                 
