@@ -52,7 +52,7 @@
                                                     <input type="checkbox" name="countries[]" id="country{{ oneObj.id }}" value="{{ oneObj.id }}" >
                                                     <label for=country{{ oneObj.id }}> {{ oneObj.iso3 }} </label>
                                                 </div>
-                                                <span class="float-right badge badge-primary badge-pill" id="accQtyCtry" data-id="{{ oneObj.id }}" >{{ oneObj.accQty }}</span>
+                                                <span class="float-right badge badge-primary badge-pill" id="accQtyCountry" data-id="{{ oneObj.id }}" >{{ oneObj.accQty }}</span>
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -70,10 +70,10 @@
                                         {% for oneObj in accessionsByBiologicalStatus %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
-                                                    <input type="checkbox" name="biologicalStatuses[]" id="biologicalStatus{{ oneObj['biologicalStatus'].id }}" value="{{ oneObj['biologicalStatus'].id }}">
-                                                    <label for=biologicalStatus{{ oneObj['biologicalStatus'].id }}> {{ oneObj['biologicalStatus'].name }} </label>
+                                                    <input type="checkbox" name="biologicalStatuses[]" id="biologicalStatus{{ oneObj.id }}" value="{{ oneObj.id }}">
+                                                    <label for=biologicalStatus{{ oneObj.id }}> {{ oneObj.name }} </label>
                                                 </div>
-                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                                <span class="float-right badge badge-primary badge-pill" id="accQtyBiologicalStat" data-id="{{ oneObj.id }}"> {{ oneObj['accQty'] }} </span>
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -91,10 +91,10 @@
                                         {% for oneObj in accessionsByMLSStatus %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
-                                                    <input type="checkbox" name="mlsStatuses[]" id="mlsStatus{{ oneObj['mlsStatus'].id }}" value="{{ oneObj['mlsStatus'].id }}">
-                                                    <label for=mlsStatus{{ oneObj['mlsStatus'].id }}> {{ oneObj['mlsStatus'].name }} </label>
+                                                    <input type="checkbox" name="mlsStatuses[]" id="mlsStatus{{ oneObj.id }}" value="{{ oneObj.id }}">
+                                                    <label for=mlsStatus{{ oneObj.id }}> {{ oneObj.name }} </label>
                                                 </div>
-                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                                <span class="float-right badge badge-primary badge-pill" id="accQtyMLSStat" data-id="{{ oneObj.id }}"> {{ oneObj['accQty'] }} </span>
                                             </li>
                                         {% endfor %}
                                     </ul>
