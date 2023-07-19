@@ -158,7 +158,7 @@ class SearchController extends AbstractController
 
             // collecting mission
             $accessionQtyColMission = $collectingMissionRepo->getAccessionQtyColMission(
-                $selectedCountries, $selectedBiologicalStatuses, $selectedTaxonomies,
+                $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
                 $selectedCollectingSources, $selectedMaintainingInstitutes,
                 $selectedDonorInstitutes, $selectedBreedingInstitutes
             );
@@ -169,6 +169,20 @@ class SearchController extends AbstractController
                 $bufferTabColMission[$value['id']] = $value['accQty'];
             }
             $accessionQtyColMission = $bufferTabColMission;
+
+            // collecting source
+            $accessionQtyColSource = $collectingSourceRepo->getAccessionQtyColSource(
+                $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
+                $selectedCollectingMissions, $selectedMaintainingInstitutes,
+                $selectedDonorInstitutes, $selectedBreedingInstitutes
+            );
+
+            $bufferTabColSource = [];
+            foreach ($accessionQtyColSource as $value) {
+                # code...
+                $bufferTabColSource[$value['id']] = $value['accQty'];
+            }
+            $accessionQtyColSource = $bufferTabColSource;
 
             //dd($accessionQtyColMission);
         
@@ -229,7 +243,8 @@ class SearchController extends AbstractController
                 'accessionQtyCountry' => $accessionQtyCountry,
                 'accessionQtyBiologicalStatus' => $accessionQtyBiologicalStatus,
                 'accessionQtyMLSStatus' => $accessionQtyMLSStatus,
-                'accessionQtyColMission' => $accessionQtyColMission
+                'accessionQtyColMission' => $accessionQtyColMission,
+                'accessionQtyColSource' => $accessionQtyColSource
             ]);
         }
 

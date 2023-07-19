@@ -110,10 +110,26 @@ function filter() {
                         element.parentElement.style.display = "none";
                     }
                 });
+
+                // Add filter condition for collecting mission
+
+                // collecting source
+                const filteredColSource = document.querySelectorAll("#accQtyColSource");
+                var accQtyColSourceTab = data.accessionQtyColSource;
+                filteredColSource.forEach(element => {
+                    if (accQtyColSourceTab[element.getAttribute('data-id')]) {
+                        element.innerHTML = accQtyColSourceTab[element.getAttribute('data-id')];
+                        element.parentElement.classList.add("d-flex");
+                        
+                    } else {
+                        //element.innerHTML = 0;
+                        element.parentElement.classList.remove("d-flex");
+                        element.parentElement.style.display = "none";
+                    }
+                });
                 
                 // update the URL
                 history.pushState({}, null, currentUrl.pathname + "?" + params.toString());
-                //filter();
             }).catch(e => alert(e));
         });
     });
