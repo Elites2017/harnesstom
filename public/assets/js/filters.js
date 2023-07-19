@@ -4,6 +4,23 @@ function filter() {
 
     // get the inputs of the form filters
     const inputs = document.querySelectorAll("#filters input");
+
+    // get the remove all filter btn
+    const btnFilterRemove = document.querySelector("#btnFilterRemove");
+    btnFilterRemove.addEventListener("click", function(){
+        // create a change event that is to fired
+        // when the remove filter btn is clicked
+        const event = new Event("change");
+
+        inputs.forEach(input => {
+            // if the input is checked as there are only checkboxes in the form
+            if (input.checked) {
+                input.checked = false;
+                input.dispatchEvent(event);
+            }
+        });
+            
+    });
     
     // add event listener on each input
     inputs.forEach(input => {
