@@ -4,7 +4,6 @@ function filter() {
 
     // get the inputs of the form filters
     const inputs = document.querySelectorAll("#filters input");
-    //var countries = [];
     
     // add event listener on each input
     inputs.forEach(input => {
@@ -31,38 +30,29 @@ function filter() {
                 // get the div id filtered_content which is to be replaced by the response data
                 const filteredContent = document.querySelector("#filtered_content");
                 filteredContent.innerHTML = data.content;
-                //const formFilteredContent = document.querySelector("#countryCollapse");
-
+                
+                // country
                 const filteredAccQty = document.querySelectorAll("#accQtyCountry");
-                
+                // accessionQtyCountry coming from the controller to update the number
+                // display in the bagde. AccQtyTab is a key value data list [id => val]
                 var accQtyTab = data.accessionQtyCountry;
-                //console.log("Acc Qty ", accQtyTab);
-                
+                // get the badges to check which parent (objects) satifying the criteria or not.
+                // loop over list of elements (badges...)
+                // check if the data exists in the key value data array
+                // for each data-id of the elements (each one).
+                // if the data exists, update the badge value coming from the data array 
+                // the object should be shown to the user
+                // otherwise do not show the object(s) not satisfying the filters 
                 filteredAccQty.forEach(element => {
                     if (accQtyTab[element.getAttribute('data-id')]) {
                         element.innerHTML = accQtyTab[element.getAttribute('data-id')];
+                        // important to add the d-flex class as removed when the object doesn't exist
                         element.parentElement.classList.add("d-flex");
-                        //element.parentElement.style.display = "block";
-                        //element.style.display = "block";
-                        //console.log("Ele ", element.parentElement, " key ", accQtyTab, "div Tog ", divToggle);
-                        //document.querySelector(".tryyy div");
-                        //$("#"+element.getAttribute('data-id')).children().prop('disabled',false);
-                        
-                        
-                        //element.style.display = "block";
-                        //element.className = "float-right badge badge-primary badge-pill";
-                        //element.innerHTML = accQtyTab[element.getAttribute('data-id')]; 
-                        //element.parentElement.appendChild(elExists);
                     } else {
-                        //element.innerHTML = 0;
+                        // important to remove the d-flex class as it's ovveriden the display none prop
+                        // by some boostrap files
                         element.parentElement.classList.remove("d-flex");
                         element.parentElement.style.display = "none";
-                        //console.log("Else div Tog ", divToggle);
-                        //element.style.display = "none";
-                        //element.parentElement.style.display = "none";
-                        //element.parentElement.remove();
-                        //$("#"+element.getAttribute('data-id')).children().prop('disabled',true);
-                        //element.className = "float-right badge badge-danger badge-pill";
                     }
                 });
 
@@ -75,7 +65,6 @@ function filter() {
                         element.parentElement.classList.add("d-flex");
                         
                     } else {
-                        //element.innerHTML = 0;
                         element.parentElement.classList.remove("d-flex");
                         element.parentElement.style.display = "none";
                     }
@@ -90,7 +79,6 @@ function filter() {
                         element.parentElement.classList.add("d-flex");
                         
                     } else {
-                        //element.innerHTML = 0;
                         element.parentElement.classList.remove("d-flex");
                         element.parentElement.style.display = "none";
                     }
@@ -105,13 +93,10 @@ function filter() {
                         element.parentElement.classList.add("d-flex");
                         
                     } else {
-                        //element.innerHTML = 0;
                         element.parentElement.classList.remove("d-flex");
                         element.parentElement.style.display = "none";
                     }
                 });
-
-                // Add filter condition for collecting mission
 
                 // collecting source
                 const filteredColSource = document.querySelectorAll("#accQtyColSource");
@@ -122,7 +107,6 @@ function filter() {
                         element.parentElement.classList.add("d-flex");
                         
                     } else {
-                        //element.innerHTML = 0;
                         element.parentElement.classList.remove("d-flex");
                         element.parentElement.style.display = "none";
                     }
@@ -137,7 +121,6 @@ function filter() {
                         element.parentElement.classList.add("d-flex");
                         
                     } else {
-                        //element.innerHTML = 0;
                         element.parentElement.classList.remove("d-flex");
                         element.parentElement.style.display = "none";
                     }
@@ -152,7 +135,6 @@ function filter() {
                         element.parentElement.classList.add("d-flex");
                         
                     } else {
-                        //element.innerHTML = 0;
                         element.parentElement.classList.remove("d-flex");
                         element.parentElement.style.display = "none";
                     }
@@ -167,7 +149,6 @@ function filter() {
                         element.parentElement.classList.add("d-flex");
                         
                     } else {
-                        //element.innerHTML = 0;
                         element.parentElement.classList.remove("d-flex");
                         element.parentElement.style.display = "none";
                     }
@@ -182,13 +163,14 @@ function filter() {
                         element.parentElement.classList.add("d-flex");
                         
                     } else {
-                        //element.innerHTML = 0;
                         element.parentElement.classList.remove("d-flex");
                         element.parentElement.style.display = "none";
                     }
                 });
 
-                
+                // reinitialize the data table for type in filter / condition
+                // client-side processing
+                $('#datatable').DataTable();
                 // update the URL
                 history.pushState({}, null, currentUrl.pathname + "?" + params.toString());
             }).catch(e => alert(e));
@@ -197,4 +179,3 @@ function filter() {
 }
 
 $(document).ready(filter());
-
