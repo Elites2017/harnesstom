@@ -142,6 +142,52 @@ function filter() {
                         element.parentElement.style.display = "none";
                     }
                 });
+
+                // maintaining institute
+                const filteredMainInstitute = document.querySelectorAll("#accQtyMainInstitute");
+                var accQtyMainInstituteTab = data.accessionQtyMainInstitute;
+                filteredMainInstitute.forEach(element => {
+                    if (accQtyMainInstituteTab[element.getAttribute('data-id')]) {
+                        element.innerHTML = accQtyMainInstituteTab[element.getAttribute('data-id')];
+                        element.parentElement.classList.add("d-flex");
+                        
+                    } else {
+                        //element.innerHTML = 0;
+                        element.parentElement.classList.remove("d-flex");
+                        element.parentElement.style.display = "none";
+                    }
+                });
+
+                // donor institute
+                const filteredDonorInstitute = document.querySelectorAll("#accQtyDonorInstitute");
+                var accQtyDonorInstituteTab = data.accessionQtyDonorInstitute;
+                filteredDonorInstitute.forEach(element => {
+                    if (accQtyDonorInstituteTab[element.getAttribute('data-id')]) {
+                        element.innerHTML = accQtyDonorInstituteTab[element.getAttribute('data-id')];
+                        element.parentElement.classList.add("d-flex");
+                        
+                    } else {
+                        //element.innerHTML = 0;
+                        element.parentElement.classList.remove("d-flex");
+                        element.parentElement.style.display = "none";
+                    }
+                });
+
+                // bred institute
+                const filteredBredInstitute = document.querySelectorAll("#accQtyBredInstitute");
+                var accQtyBredInstituteTab = data.accessionQtyBredInstitute;
+                filteredBredInstitute.forEach(element => {
+                    if (accQtyBredInstituteTab[element.getAttribute('data-id')]) {
+                        element.innerHTML = accQtyBredInstituteTab[element.getAttribute('data-id')];
+                        element.parentElement.classList.add("d-flex");
+                        
+                    } else {
+                        //element.innerHTML = 0;
+                        element.parentElement.classList.remove("d-flex");
+                        element.parentElement.style.display = "none";
+                    }
+                });
+
                 
                 // update the URL
                 history.pushState({}, null, currentUrl.pathname + "?" + params.toString());

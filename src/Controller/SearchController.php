@@ -156,6 +156,7 @@ class SearchController extends AbstractController
             }
             $accessionQtyMLSStatus = $bufferTabMLSStat;
 
+
             // collecting mission
             $accessionQtyColMission = $collectingMissionRepo->getAccessionQtyColMission(
                 $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
@@ -170,6 +171,7 @@ class SearchController extends AbstractController
             }
             $accessionQtyColMission = $bufferTabColMission;
 
+
             // collecting source
             $accessionQtyColSource = $collectingSourceRepo->getAccessionQtyColSource(
                 $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
@@ -183,6 +185,7 @@ class SearchController extends AbstractController
                 $bufferTabColSource[$value['id']] = $value['accQty'];
             }
             $accessionQtyColSource = $bufferTabColSource;
+
 
             // taxonomy
             $accessionQtyTaxonomy = $taxonomyRepo->getAccessionQtyTaxonomy(
@@ -199,8 +202,64 @@ class SearchController extends AbstractController
             $accessionQtyTaxonomy = $bufferTabTaxonomy;
 
 
+            // maintaining institute
+            $accessionQtyMainInstitute = $instituteRepo->getAccessionQtyMainInstitute(
+                $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
+                $selectedCollectingMissions, $selectedCollectingSources,
+                $selectedDonorInstitutes, $selectedBreedingInstitutes
+            );
+
+            $bufferTabMainInstitute = [];
+            foreach ($accessionQtyMainInstitute as $value) {
+                # code...
+                $bufferTabMainInstitute[$value['id']] = $value['accQty'];
+            }
+            $accessionQtyMainInstitute = $bufferTabMainInstitute;
+            
+
+            // donor institute
+            $accessionQtyDonorInstitute = $instituteRepo->getAccessionQtyDonorInstitute(
+                $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
+                $selectedCollectingMissions, $selectedCollectingSources,
+                $selectedMaintainingInstitutes, $selectedBreedingInstitutes
+            );
+
+            $bufferTabDonorInstitute = [];
+            foreach ($accessionQtyDonorInstitute as $value) {
+                # code...
+                $bufferTabDonorInstitute[$value['id']] = $value['accQty'];
+            }
+            $accessionQtyDonorInstitute = $bufferTabDonorInstitute;
+
+            
+            // bred institute
+            $accessionQtyBredInstitute = $instituteRepo->getAccessionQtyBredInstitute(
+                $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
+                $selectedCollectingMissions, $selectedCollectingSources,
+                $selectedMaintainingInstitutes, $selectedDonorInstitutes
+            );
+
+            $bufferTabBredInstitute = [];
+            foreach ($accessionQtyBredInstitute as $value) {
+                # code...
+                $bufferTabBredInstitute[$value['id']] = $value['accQty'];
+            }
+            $accessionQtyBredInstitute = $bufferTabBredInstitute;
+
+
             //dd($accessionQtyColMission);
-        
+            
+            // (
+            //     $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
+            //     $selectedCollectingMissions, $selectedCollectingSources, $selectedMaintainingInstitutes,
+            //     $selectedBreedingInstitutes
+            // )
+
+            // (
+            //     $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses, $selectedTaxonomies,
+            //     $selectedCollectingMissions, $selectedCollectingSources, $selectedMaintainingInstitutes,
+            //     $selectedDonorInstitutes
+            // )
 
             
             
@@ -260,7 +319,10 @@ class SearchController extends AbstractController
                 'accessionQtyMLSStatus' => $accessionQtyMLSStatus,
                 'accessionQtyColMission' => $accessionQtyColMission,
                 'accessionQtyColSource' => $accessionQtyColSource,
-                'accessionQtyTaxonomy' => $accessionQtyTaxonomy
+                'accessionQtyTaxonomy' => $accessionQtyTaxonomy,
+                'accessionQtyMainInstitute'  => $accessionQtyMainInstitute,
+                'accessionQtyDonorInstitute' => $accessionQtyDonorInstitute,
+                'accessionQtyBredInstitute' => $accessionQtyBredInstitute
             ]);
         }
 
