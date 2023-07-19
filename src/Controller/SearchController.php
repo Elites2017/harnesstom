@@ -155,6 +155,22 @@ class SearchController extends AbstractController
                 $bufferTabMLSStat[$value['id']] = $value['accQty'];
             }
             $accessionQtyMLSStatus = $bufferTabMLSStat;
+
+            // collecting mission
+            $accessionQtyColMission = $collectingMissionRepo->getAccessionQtyColMission(
+                $selectedCountries, $selectedBiologicalStatuses, $selectedTaxonomies,
+                $selectedCollectingSources, $selectedMaintainingInstitutes,
+                $selectedDonorInstitutes, $selectedBreedingInstitutes
+            );
+
+            $bufferTabColMission = [];
+            foreach ($accessionQtyColMission as $value) {
+                # code...
+                $bufferTabColMission[$value['id']] = $value['accQty'];
+            }
+            $accessionQtyColMission = $bufferTabColMission;
+
+            //dd($accessionQtyColMission);
         
 
             
@@ -212,7 +228,8 @@ class SearchController extends AbstractController
                 'content' => $this->renderView('search/content_accession.html.twig', $context),
                 'accessionQtyCountry' => $accessionQtyCountry,
                 'accessionQtyBiologicalStatus' => $accessionQtyBiologicalStatus,
-                'accessionQtyMLSStatus' => $accessionQtyMLSStatus
+                'accessionQtyMLSStatus' => $accessionQtyMLSStatus,
+                'accessionQtyColMission' => $accessionQtyColMission
             ]);
         }
 

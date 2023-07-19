@@ -95,10 +95,25 @@ function filter() {
                         element.parentElement.style.display = "none";
                     }
                 });
+
+                // collecting mission
+                const filteredColMission = document.querySelectorAll("#accQtyColMission");
+                var accQtyColMissionTab = data.accessionQtyColMission;
+                filteredColMission.forEach((element, key) => {
+                    if (accQtyColMissionTab[element.getAttribute('data-id')]) {
+                        element.innerHTML = accQtyColMissionTab[element.getAttribute('data-id')];
+                        element.parentElement.classList.add("d-flex");
+                        
+                    } else {
+                        //element.innerHTML = 0;
+                        element.parentElement.classList.remove("d-flex");
+                        element.parentElement.style.display = "none";
+                    }
+                });
                 
                 // update the URL
                 history.pushState({}, null, currentUrl.pathname + "?" + params.toString());
-                filter();
+                //filter();
             }).catch(e => alert(e));
         });
     });
