@@ -22,14 +22,61 @@ class TaxonomyRepository extends ServiceEntityRepository
     // to show the number of accession by each taxonomy
     public function getAccessionsByTaxonomy() {
         $query = $this->createQueryBuilder('tax')
-            ->select('tax as taxonomy, count(tax.id) as accQty')
+            ->select('tax.id as id, tax.taxonid as taxonid, count(tax.id) as accQty')
             ->join('App\Entity\Accession', 'accession')
             ->where('tax.isActive = 1')
             ->andWhere('tax.id = accession.taxon')
             ->groupBy('tax.id')
             ->orderBy('count(tax.id)', 'DESC')
         ;
-        return $query->getQuery()->getResult();
+        return $query->getQuery()->getArrayResult();
+    }
+
+    // to show ion the right side of each country
+    public function getAccessionQtyTaxonomy($countries = null, $biologicalStatuses = null, $mlsStatuses = null, $collectingMissions = null,
+                            $collectingSources = null, $maintainingInstitutes = null, $donorInstitutes =  null, $breedingInstitutes = null) {
+        $query = $this->createQueryBuilder('tax')
+            ->select('tax.id as id, count(accession.id) as accQty')
+            ->join('App\Entity\Accession', 'accession')
+            ->where('tax.isActive = 1')
+            ->andWhere('tax.id = accession.taxon')
+            ->groupBy('tax.id')
+            ->orderBy('count(accession.id)', 'DESC')
+        ;
+
+        if ($countries) {
+            $query->andWhere('accession.origcty IN(:selectedCountries)')
+            ->setParameter(':selectedCountries', array_values($countries));
+        }
+        if ($biologicalStatuses) {
+            $query->andWhere('accession.sampstat IN(:selectedBiologicalStatuses)')
+            ->setParameter(':selectedBiologicalStatuses', array_values($biologicalStatuses));
+        }
+        if ($mlsStatuses) {
+            $query->andWhere('accession.mlsStatus IN(:selectedMLSStatuses)')
+            ->setParameter(':selectedMLSStatuses', array_values($mlsStatuses));
+        }
+        if ($collectingMissions) {
+                $query->andWhere('accession.collmissid IN(:selectedCollectingMissions)')
+                ->setParameter(':selectedCollectingMissions', array_values($collectingMissions));
+        }
+        if ($collectingSources) {
+                $query->andWhere('accession.collsrc IN(:selectedCollectingSources)')
+                ->setParameter(':selectedCollectingSources', array_values($collectingSources));
+        }
+        if ($maintainingInstitutes) {
+                $query->andWhere('accession.instcode IN(:selectedMaintainingInstitutes)')
+                ->setParameter(':selectedMaintainingInstitutes', array_values($maintainingInstitutes));
+        }
+        if ($donorInstitutes) {
+                $query->andWhere('accession.donorcode IN(:selectedDonorInstitutes)')
+                ->setParameter(':selectedDonorInstitutes', array_values($donorInstitutes));
+        }
+        if ($breedingInstitutes) {
+                $query->andWhere('accession.bredcode IN(:selectedBreedingInstitutes)')
+                ->setParameter(':selectedBreedingInstitutes', array_values($breedingInstitutes));
+        }
+        return $query->getQuery()->getArrayResult();
     }
 
     // to show the number of accession by species

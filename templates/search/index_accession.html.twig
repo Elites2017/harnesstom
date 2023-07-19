@@ -112,10 +112,10 @@
                                         {% for oneObj in accessionsByTaxonomy %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
-                                                    <input type="checkbox" name="taxonomies[]" id="taxonomy{{ oneObj['taxonomy'].id }}" value="{{ oneObj['taxonomy'].id }}">
-                                                    <label for=taxonomy{{ oneObj['taxonomy'].id }}> {{ oneObj['taxonomy'].taxonid | upper }} </label>
+                                                    <input type="checkbox" name="taxonomies[]" id="taxonomy{{ oneObj.id }}" value="{{ oneObj.id }}">
+                                                    <label for=taxonomy{{ oneObj.id }}> {{ oneObj.taxonid | upper }} </label>
                                                 </div>
-                                                <span class="float-right badge badge-primary badge-pill"> {{ oneObj['accQty'] }} </span>
+                                                <span class="float-right badge badge-primary badge-pill" id="accQtyTaxonomy" data-id="{{ oneObj.id }}"> {{ oneObj['accQty'] }} </span>
                                             </li>
                                         {% endfor %}
                                     </ul>

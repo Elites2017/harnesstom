@@ -127,6 +127,21 @@ function filter() {
                         element.parentElement.style.display = "none";
                     }
                 });
+
+                // taxonomy
+                const filteredTaxonomy = document.querySelectorAll("#accQtyTaxonomy");
+                var accQtyTaxonomyTab = data.accessionQtyTaxonomy;
+                filteredTaxonomy.forEach(element => {
+                    if (accQtyTaxonomyTab[element.getAttribute('data-id')]) {
+                        element.innerHTML = accQtyTaxonomyTab[element.getAttribute('data-id')];
+                        element.parentElement.classList.add("d-flex");
+                        
+                    } else {
+                        //element.innerHTML = 0;
+                        element.parentElement.classList.remove("d-flex");
+                        element.parentElement.style.display = "none";
+                    }
+                });
                 
                 // update the URL
                 history.pushState({}, null, currentUrl.pathname + "?" + params.toString());

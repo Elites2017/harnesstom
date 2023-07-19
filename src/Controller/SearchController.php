@@ -184,6 +184,21 @@ class SearchController extends AbstractController
             }
             $accessionQtyColSource = $bufferTabColSource;
 
+            // taxonomy
+            $accessionQtyTaxonomy = $taxonomyRepo->getAccessionQtyTaxonomy(
+                $selectedCountries, $selectedBiologicalStatuses, $selectedMLSStatuses,
+                $selectedCollectingMissions, $selectedCollectingSources, $selectedMaintainingInstitutes,
+                $selectedDonorInstitutes, $selectedBreedingInstitutes
+            );
+
+            $bufferTabTaxonomy = [];
+            foreach ($accessionQtyTaxonomy as $value) {
+                # code...
+                $bufferTabTaxonomy[$value['id']] = $value['accQty'];
+            }
+            $accessionQtyTaxonomy = $bufferTabTaxonomy;
+
+
             //dd($accessionQtyColMission);
         
 
@@ -244,7 +259,8 @@ class SearchController extends AbstractController
                 'accessionQtyBiologicalStatus' => $accessionQtyBiologicalStatus,
                 'accessionQtyMLSStatus' => $accessionQtyMLSStatus,
                 'accessionQtyColMission' => $accessionQtyColMission,
-                'accessionQtyColSource' => $accessionQtyColSource
+                'accessionQtyColSource' => $accessionQtyColSource,
+                'accessionQtyTaxonomy' => $accessionQtyTaxonomy
             ]);
         }
 
