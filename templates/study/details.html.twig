@@ -181,8 +181,22 @@
 						<tbody>
 							{% for oneGermplasm in study.germplasms %}
 								<tr>
-									<td><strong class="text-muted">{{ oneGermplasm.germplasmID }}</strong></td>
-									<td><strong class="text-muted">{{ oneGermplasm.instcode }}</strong></td>
+									<td>
+										{% if oneGermplasm.germplasmID %}
+											<strong class="text-muted">
+												<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
+											</strong>
+										{% endif %}
+									</td>
+									<td>
+										{% if oneGermplasm.accession.instcode.acronym %}
+											<strong class="text-muted">
+												<a href="{{ path('institute_details', {id: oneGermplasm.accession.instcode.id}) }}">
+													{{ oneGermplasm.accession.instcode.acronym }}
+												</a>
+											</strong>
+										{% endif %}
+									</td>
 									<td><strong class="text-muted">{{ oneGermplasm.maintainerNumb }}</strong></td>
 									<td>
 										{% if oneGermplasm.accession %}
