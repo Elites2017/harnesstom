@@ -109,7 +109,7 @@
 								<th>Abbreviation</th> 
 								<th>Start Date</th>
 								<th>End Date</th>
-								<th>Location</th>
+								<th>Trial</th>
 							</tr>
 						<thead>
 						<tbody>
@@ -123,9 +123,9 @@
 									<td><strong class="text-muted">{{ oneStudy.startDate | date('d/m/Y') }}</strong></td>
 									<td><strong class="text-muted">{{ oneStudy.endDate | date('d/m/Y') }}</strong></td>
 									<td>
-										{% if oneStudy.location %}
+										{% if oneStudy.trial %}
 											<strong class="text-muted">
-												<a href="{{ path('location_details', {id: oneStudy.location.id}) }}">{{ oneStudy.location }}</a>
+												<a href="{{ path('trial_details', {id: oneStudy.trial.id}) }}">{{ oneStudy.trial.abbreviation }}</a>
 											</strong>
 										{% endif %}
 									</td>
