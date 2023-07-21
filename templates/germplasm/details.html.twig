@@ -4,6 +4,28 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+	<!-- DataTables CSS -->
+	<link
+	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+	<!-- DataTables Responsive CSS -->
+	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
@@ -75,36 +97,45 @@
 			</div>
 
 			{% if germplasm.study | length > 0 %}
-				<div class="col-md-6 mb-4">
+				<div class="col-md-6 mt-4">
+
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<span class="tomato-color">{{ germplasm.study | length == 1 ? 'Related Study Summary' : 'Related Studies Summary' }}</span>
 						<span class="badge badge-danger badge-pill">{{ germplasm.study | length }}</span>
 					</h4>
-					<ul class="list-group mb-3">
-						{% for oneStudy in germplasm.study %}
-							<a href="{{ path('study_details', {id: oneStudy.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
-							<div>
-								<h6 class="my-0">Abbreviation</h6>
-								<strong class="text-muted">{{ oneStudy.abbreviation }}</strong>
-							</div>
-							<div>
-								<h6 class="my-0">Start Date</h6>
-								<strong class="text-muted">{{ oneStudy.startDate | date('d/m/Y') }}</strong>
-							</div>
-							<div>
-								<h6 class="my-0">End Date</h6>
-								<strong class="text-muted">{{ oneStudy.endDate | date('d/m/Y') }}</strong>
-							</div>
-							<div>
-								<h6 class="my-0">Location</h6>
-								<strong class="text-muted">{{ oneStudy.location }}</strong>
-							</div>
-							{# <span class="text-muted">$12</span> #}
-							</li></a>
-						{% endfor %}
-					</ul>
+					<table id="datatable_study" class="table table-hover text-nowrap">
+						<thead>
+							<tr>
+								<th>Abbreviation</th> 
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Location</th>
+							</tr>
+						<thead>
+						<tbody>
+							{% for oneStudy in germplasm.study %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('study_details', {id: oneStudy.id}) }}">{{ oneStudy.abbreviation }}</a>
+										</strong>
+									</td>
+									<td><strong class="text-muted">{{ oneStudy.startDate | date('d/m/Y') }}</strong></td>
+									<td><strong class="text-muted">{{ oneStudy.endDate | date('d/m/Y') }}</strong></td>
+									<td>
+										{% if oneStudy.location %}
+											<strong class="text-muted">
+												<a href="{{ path('location_details', {id: oneStudy.location.id}) }}">{{ oneStudy.location }}</a>
+											</strong>
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
 			{% endif %}
+
 		</div>
 		{# End of row #}
 	</div>
@@ -116,6 +147,11 @@
 	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
 	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+
+	<!-- DataTables JavaScript -->
+	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
 	<script>
 		/*
@@ -151,4 +187,10 @@ document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
 link.addEventListener('click', changeStatus);
 })
 	</script>
+
+	<script>
+        $(document).ready(function() {
+            $('#datatable_study').DataTable();
+        } );
+    </script>
 {% endblock %}
