@@ -17,53 +17,53 @@
                             <div class="card-body">
                                 <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Accession Number: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.accenumb}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].accenumb}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Accession Name: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.accename}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].accename}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Country of Origin: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.origcty}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].origcty}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Municipality: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.origmuni}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].origmuni}}</span>
                             </div>
                             
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Municipality 1: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.origadmin1}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].origadmin1}}</span>
                             </div>
                             
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Municipality 2: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.origadmin2}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].origadmin2}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Collecting Source: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.collsrc}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].collsrc}}</span>
                             </div>
                             
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Biological Status: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.sampstat}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].sampstat}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">MLS Status: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.mlsStatus}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].mlsStatus}}</span>
                             </div>
                             
                             <div class="col-md-12 mb-1">
-                                <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ accession.taxon.taxonid }}" target="_blank">
+                                <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ accessions[0].taxon.taxonid }}" target="_blank">
                                     <label for="validationTooltip01">Taxon: </label>
-                                    <span class="tomato-color font-weight-bold">{{accession.taxon}}</span>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].taxon}}</span>
                                 </a>
                             </div>
                                 
@@ -82,42 +82,42 @@
                             <div class="card-body">
                                 <div class="col-md-12 mb-1">
                                     <label for="validationTooltip01">Collecting Number: </label>
-                                    <span class="tomato-color font-weight-bold">{{accession.collnumb}}</span>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].collnumb}}</span>
                                 </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Collecting institute Code: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.collcode}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].collcode}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Collecting mission identifier: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.collmissid}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].collmissid}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Collecting date: </label>
-                                <span class="tomato-color font-weight-bold">{{ accession.colldate }}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].colldate }}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Collecting site latitude: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.declatitude}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].declatitude}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Collecting site longitude: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.declongitude}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].declongitude}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Collecting site elevation: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.elevation}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].elevation}}</span>
                             </div>
 
                             <div class="col-md-12 mb-1">
                                 <label for="validationTooltip01">Collecting site: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.collsite}}</span>
+                                <span class="tomato-color font-weight-bold">{{ accessions[0].collsite}}</span>
                             </div>
                                 
                             </div>
@@ -127,47 +127,54 @@
                         </div>
                 </div>
 
-                <div class="col-md-3 mb-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="tomato-color">Maintaining information</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="col-md-12 mb-1">
-                                <label for="validationTooltip01">Accession PUID: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.puid}}</span>
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="tomato-color">Maintaining institute information</h3>
                             </div>
+                            <div class="card-body">
+                                {% for oneAccession in accessions %}
+                                    <div class="col-md-12 mb-1">
+                                        <label for="validationTooltip01">Maintaining institute Code: </label>
+                                        <span class="tomato-color font-weight-bold">{{ oneAccession.instcode.acronym}}</span>
+                                    </div>
 
-                            <div class="col-md-12 mb-1">
-                                <label for="validationTooltip01">Maintaining Accession Number: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.maintainerNumb}}</span>
-                            </div>
+                                    <div class="col-md-12 mb-1">
+                                        <label for="validationTooltip01">Accession PUID: </label>
+                                        <span class="tomato-color font-weight-bold">{{ oneAccession.puid}}</span>
+                                    </div>
 
-                            <div class="col-md-12 mb-1">
-                                <label for="validationTooltip01">Maintaining institute Code: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.instcode}}</span>
-                            </div>
+                                    <div class="col-md-12 mb-1">
+                                        <label for="validationTooltip01">Maintaining Accession Number: </label>
+                                        <span class="tomato-color font-weight-bold">{{ oneAccession.maintainerNumb}}</span>
+                                    </div>
 
+                                    <div class="col-md-12 mb-1">
+                                        <label for="validationTooltip01">Acquisition date: </label>
+                                        <span class="tomato-color font-weight-bold">{{ oneAccession.acqdate }}</span>
+                                    </div>
 
-                            <div class="col-md-12 mb-1">
-                                <label for="validationTooltip01">Acquisition date: </label>
-                                <span class="tomato-color font-weight-bold">{{ accession.acqdate }}</span>
-                            </div>
+                                    <div class="col-md-12 mb-1">
+                                        <label for="validationTooltip01">Storage type: </label>
+                                        <span class="tomato-color font-weight-bold">{{ oneAccession.storage}}</span>
+                                    </div>
 
-                            <div class="col-md-12 mb-1">
-                                <label for="validationTooltip01">Storage type: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.storage}}</span>
-                            </div>
+                                    <div class="col-md-12 mb-1">
+                                        <label for="validationTooltip01">Donnor institute code: </label>
+                                        <span class="tomato-color font-weight-bold">
+                                            {{ oneAccession.donorcode }}
+                                        </span>
+                                    </div>
 
-                            <div class="col-md-12 mb-1">
-                                <label for="validationTooltip01">Donnor institute code: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.donorcode}}</span>
-                            </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="validationTooltip01">Donnor number: </label>
+                                        <span class="tomato-color font-weight-bold">{{ oneAccession.donornumb}}</span>
+                                    </div>
 
-                            <div class="col-md-12 mb-3">
-                                <label for="validationTooltip01">Donnor number: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.donornumb}}</span>
-                            </div>
+                                    {% if loop.index != accessions | length %}
+                                        <hr>
+                                    {% endif %}
+                                {% endfor %}
 
                             </div>
                             <div class="card-footer text-muted">
@@ -176,41 +183,50 @@
                         </div>
                     </div>
                     
-                <div class="col-md-3 mb-3">
-                    <div class="card">
+                    <div class="col-md-3 mb-3">
+                        <div class="card">
                             <div class="card-header">
                                 <h3 class="tomato-color">Breeding information</h3>
                             </div>
                             <div class="card-body">
-                                <div class="col-md-12 mb-1">
-                                    <label for="validationTooltip01">Breeding institute code: </label>
-                                    <span class="tomato-color font-weight-bold">{{accession.bredcode}}</span>
-                                </div>
+                                {% for oneAccession in accessions %}
+                                    {% if oneAccession.bredcode %}
+                                        <div class="col-md-12 mb-1">
+                                            <label for="validationTooltip01">Breeding institute code: </label>
+                                            <span class="tomato-color font-weight-bold">{{ oneAccession.bredcode}}</span>
+                                        </div>
+                                    {% endif %}
 
-                            <div class="col-md-12 mb-1">
-                                <label for="validationTooltip01">Pedigree: </label>
-                                <span class="tomato-color font-weight-bold">{{accession.breedingInfo}}</span>
-                            </div>
-
-
-
+                                    {% if oneAccession.breedingInfo %}
+                                        <div class="col-md-12 mb-1">
+                                            <label for="validationTooltip01">Pedigree: </label>
+                                            <span class="tomato-color font-weight-bold">
+                                                {{ oneAccession.breedingInfo }}
+                                            </span>
+                                        </div>
+                                    {% endif %}
+                                    {% if loop.index != accessions | length and (oneAccession.bredcode or oneAccession.breedingInfo) %}
+                                        <hr>
+                                    {% endif %}
+                                {% endfor %}
+                            
                             </div>
                             <div class="card-footer text-muted">
                                 
                             </div>
                         </div>
-                </div>
+                    </div>
 
                 <div class="col-md-12">
                 {# Attribute trait value #}
-            {% if accession.attributeTraitValues | length > 0 %}
+            {% if accessions[0].attributeTraitValues | length > 0 %}
                 <div class="col-md-4 mb-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">{{ accession.attributeTraitValues | length == 1 ? 'Attribute Summary' : 'Attributes Summary' }}</span>
-						<span class="badge badge-danger badge-pill">{{ accession.attributeTraitValues | length }}</span>
+						<span class="tomato-color">{{ accessions[0].attributeTraitValues | length == 1 ? 'Attribute Summary' : 'Attributes Summary' }}</span>
+						<span class="badge badge-danger badge-pill">{{ accessions[0].attributeTraitValues | length }}</span>
 					</h4>
 					<ul class="list-group mb-3">
-						{% for attTraitValue in accession.attributeTraitValues %}
+						{% for attTraitValue in accessions[0].attributeTraitValues %}
 							<a href="{{ path('germplasm_details', {id: attTraitValue.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
 							<div>
 								<h6 class="my-0">Attribute Name</h6>
@@ -261,7 +277,7 @@
         {# Start of row #}
 		<div class="row">
 			<div class="col-md-9 mb-4">
-            {% if accession.germplasms | length > 0 %}
+            {% if accessions[0].germplasms | length > 0 %}
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -286,7 +302,7 @@
                         </td>
                         </tr>
                         
-                {% for oneG in accession.germplasms %}
+                {% for oneG in accessions[0].germplasms %}
                     {% if oneG.germplasmStudyImages | length > 0 %}
                         {% for oneS in oneG.germplasmStudyImages %}
                         <tr>
@@ -336,14 +352,14 @@
 
             
 
-			{% if accession.germplasms | length > 0 %}
+			{% if accessions[0].germplasms | length > 0 %}
 				<div class="col-md-3 mb-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">{{ accession.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</span>
-						<span class="badge badge-danger badge-pill">{{ accession.germplasms | length }}</span>
+						<span class="tomato-color">{{ accessions[0].germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</span>
+						<span class="badge badge-danger badge-pill">{{ accessions[0].germplasms | length }}</span>
 					</h4>
 					<ul class="list-group mb-3">
-						{% for oneGermplasm in accession.germplasms %}
+						{% for oneGermplasm in accessions[0].germplasms %}
 							<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
 							<div>
 								<h6 class="my-0">Germplasm ID</h6>
