@@ -32,7 +32,7 @@
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xl-10 col-lg-9">
+			<div class="col-xl-12 col-lg-11">
 				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 					{% for message in messages %}
 						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
