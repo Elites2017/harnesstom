@@ -57,7 +57,11 @@
 								<td>{{ germplasm.id }}</td>
 								<td>{{ germplasm.germplasmID }}</td>
 								<td>{{ germplasm.instcode }}</td>
-								<td>{{ germplasm.maintainerNumb }}</td>
+								<td>
+									{% if germplasm.maintainerNumb %}
+										<a href="{{ path('accession_details', {id: germplasm.accession.id}) }}">{{ germplasm.maintainerNumb }}</a>
+									{% endif %}
+								</td>
 								<td>
 									{% if germplasm.program %}
 										<a href="{{ path('program_details', {id: germplasm.program.id}) }}">{{ germplasm.program }}</a>
