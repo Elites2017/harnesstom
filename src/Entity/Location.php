@@ -282,26 +282,26 @@ class Location
     /**
      * @Groups({"location:read"})
      */
-    public function getInstituteName()
-    {
-        $this->instituteName = "";
-        foreach ($this->studies as $OneOfThem) {
-            $instituteName = $OneOfThem->getInstitute()->getName();
-        }
-        return $instituteName;
-    }
+    // public function getInstituteName()
+    // {
+    //     $this->instituteName = "";
+    //     foreach ($this->studies as $OneOfThem) {
+    //         $instituteName = $OneOfThem->getInstitute()->getName();
+    //     }
+    //     return $this->instituteName;
+    // }
 
-    /**
-     * @Groups({"location:read"})
-     */
-    public function getInstituteAddress()
-    {
-        $this->instituteAddress = "";
-        foreach ($this->studies as $OneOfThem) {
-            $instituteAddress = $OneOfThem->getInstitute();
-        }
-        return $instituteAddress->getStreetNumber() ." ". $instituteAddress->getPostalCode() ." ". $instituteAddress->getCity() ." ". $instituteAddress->getCountry();
-    }
+    // /**
+    //  * @Groups({"location:read"})
+    //  */
+    // public function getInstituteAddress()
+    // {
+    //     // $this->streetNumber = "";
+    //     // foreach ($this->studies as $oneOfThem) {
+    //     //     $this->streetNumber = $oneOfThem->getInstitute()->getStreetNumber();
+    //     // }
+    //     return "";
+    // }
 
     public function getAbbreviation(): ?string
     {
