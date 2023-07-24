@@ -223,7 +223,7 @@ class Contact
      * @Groups({"contact:read"})
      */
     public function getInstituteName(){
-        return $this->institute->getName();
+        return $this->institute ? $this->institute->getName() : "N/A";
     }
 
     /**
@@ -235,7 +235,7 @@ class Contact
         $this->contacts = [
             "contactDbId" => $this->getOrcid(),
             "email" => $this->person->getUser()->getEmail(),
-            "instituteName" => $this->institute->getName(),
+            "instituteName" => $this->institute ? $this->institute->getName() : "N/A",
             "name" => $this->person->getFirstName() ." ". $this->person->getMiddleName() ." ".$this->person->getLastName(),
             "orcid" => $this->orcid,
             "type" => $this->type
