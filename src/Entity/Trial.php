@@ -92,6 +92,8 @@ class Trial
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"trial:read"})
+     * @SerializedName("active")
      */
     private $isActive;
 
