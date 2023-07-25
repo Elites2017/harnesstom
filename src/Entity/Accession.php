@@ -739,7 +739,7 @@ class Accession
     public function getDonnors(): Array
     {
         $this->donnors = [
-            "donnorInstituteCode" => $this->donorcode->getInstcode(),
+            "donnorInstituteCode" => $this->donorcode ? $this->donorcode->getInstcode() : null,
             "donnorAccessionNumber"=> $this->getDonornumb()
         ];
         return $this->donnors;
@@ -779,7 +779,7 @@ class Accession
      */
     public function getAcquisitionSourceCode()
     {
-        return $this->collsrc->getOntologyId();
+        return $this->collsrc ? $this->collsrc->getOntologyId() : null;
     }
 
     /**

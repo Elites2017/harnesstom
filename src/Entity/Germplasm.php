@@ -566,7 +566,7 @@ class Germplasm
      */
     public function getAcquisitionSourceCode()
     {
-        return $this->accession->getCollsrc()->getOntologyId();
+        return $this->accession->getCollsrc() ? $this->accession->getCollsrc()->getOntologyId() : null;
     }
 
     /**
@@ -590,7 +590,7 @@ class Germplasm
      */
     public function getMLSStatus()
     {
-        return $code = $this->accession->getMLSStatus()->getOntologyId();
+        return $code = $this->accession->getMLSStatus() ? $this->accession->getMLSStatus()->getOntologyId() : null;
     }
 
     /**
@@ -720,8 +720,8 @@ class Germplasm
     public function getStorageType()
     {
         $storageType = [
-            "code" => $this->accession->getStorage()->getOntologyId(),
-            "description" => $this->accession->getStorage()->getName()
+            "code" => $this->accession->getStorage() ? $this->accession->getStorage()->getOntologyId() : null,
+            "description" => $this->accession->getStorage() ? $this->accession->getStorage()->getName() : null
         ];
         return $storageType;
     }
@@ -745,12 +745,12 @@ class Germplasm
     {
         $collectingInfo = [
             "collectingDate" => $this->accession->getColldate(),
-            "collectingMissionIdentifier" => $this->accession->getCollmissid()->getName(),
+            "collectingMissionIdentifier" => $this->accession->getCollmissid() ? $this->accession->getCollmissid()->getName() : null,
             "collectingNumber" => $this->accession->getCollnumb(),
             "collectingInstitute" => [
-                "instituteCode" => $this->accession->getCollCode()->getInstcode(),
-                "instituteName" => $this->accession->getCollCode()->getName(),
-                "instituteAddress" => $this->accession->getCollCode()->getStreetNumber() ." ". $this->accession->getCollCode()->getPostalCode() ." ". $this->accession->getCollCode()->getCity() ." ". $this->accession->getCollCode()->getCountry()
+                "instituteCode" => $this->accession->getCollCode() ? $this->accession->getCollCode()->getInstcode() : null,
+                "instituteName" => $this->accession->getCollCode() ? $this->accession->getCollCode()->getName() : null,
+                "instituteAddress" => $this->accession->getCollCode() ? $this->accession->getCollCode()->getStreetNumber() ." ". $this->accession->getCollCode()->getPostalCode() ." ". $this->accession->getCollCode()->getCity() ." ". $this->accession->getCollCode()->getCountry() : null
             ],
             "collectingSite" => [
                 "latituteDecimal" => $this->accession->getDeclatitude(),
@@ -792,8 +792,8 @@ class Germplasm
     public function getBreedingInstitute()
     {
         $breedingInstitute = [
-            "instituteCode" => $this->accession->getBredcode()->getInstcode(),
-            "instituteName" => $this->accession->getBredcode()->getName(),
+            "instituteCode" => $this->accession->getBredcode() ? $this->accession->getBredcode()->getInstcode() : null,
+            "instituteName" => $this->accession->getBredcode() ? $this->accession->getBredcode()->getName() : null,
               
         ];
         return $breedingInstitute;
