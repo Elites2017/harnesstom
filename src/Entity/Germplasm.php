@@ -546,6 +546,14 @@ class Germplasm
 
     /**
      * @Groups({"germplasm:read"})
+    */
+    public function getDefaultDisplayName()
+    {
+        return $this->accession->getAccename();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
      * @SerializedName("germplasmPUI")
     */
     public function getPUI()
@@ -632,6 +640,7 @@ class Germplasm
     {
         return $this->preprocessing;
     }
+    
 
     /**
      * @Groups({"germplasm:read"})
@@ -646,11 +655,11 @@ class Germplasm
      */
     public function getTaxonIds()
     {
-        $this->taxonIds = [
+        $taxonIds = [
             "SourceName" => "NCBI",
-            "taxonId" => $this->accession->getTaxon()->getId() 
+            "taxonId" => $this->accession->getTaxon()->getTaxonid()
         ];
-        return $this->taxonIds;
+        return $taxonIds;
     }
 
     /**
@@ -706,18 +715,17 @@ class Germplasm
      */
     public function getCollection()
     {
-        $this->germplasmCollections = $this->germplasmCollection;
-        $this->collectionName = [];
-        foreach ($this->germplasmCollections as $key => $collection) {
-            $this->collectionName [] = $collection->getName();
+        $collectionName = [];
+        foreach ($this->germplasmCollection as $key => $collection) {
+            $collectionName [] = $collection->getName();
         }
-        return $this->collectionName;
+        return $collectionName;
     }
 
     /**
      * @Groups({"germplasm:read"})
      */
-    public function getStorageType()
+    public function getStorageTypes()
     {
         $storageType = [
             "code" => $this->accession->getStorage() ? $this->accession->getStorage()->getOntologyId() : null,
@@ -733,7 +741,7 @@ class Germplasm
     {
         $donors = [
             "donorAccessionNumber" => $this->accession->getDonornumb(),
-            "donorInstituteCode" => $this->accession->getDonorcode()->getInstcode(),
+            "donorInstituteCode" => $this->accession->getDonorcode() ? $this->accession->getDonorcode()->getInstcode(): null,
         ];
         return $donors;
     }
@@ -784,6 +792,15 @@ class Germplasm
     public function getAncestor()
     {
         return $this->accession->getBreedingInfo();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
+     * 
+     */
+    public function getCommonCropName()
+    {
+        return $this->program->getCrop()->getCommonCropName();
     }
 
     /**
