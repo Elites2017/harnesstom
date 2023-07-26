@@ -80,10 +80,16 @@ class Pedigree
      */
     private $generation;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=PedigreeMirror::class, inversedBy="pedigrees")
+     */
+    private $allSiblings;
+
     public function __construct()
     {
         $this->germplasm = new ArrayCollection();
         $this->parenstOfPeds = new ArrayCollection();
+        $this->allSiblings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -220,7 +226,7 @@ class Pedigree
      * @Groups({"pedigree:read"})
      */
     public function getCrossingProjectDbId() {
-        return $this->pedigreeCross->getStudy()->getName();
+        return $this->pedigreeCross->getId();
     }
 
     /**
@@ -234,7 +240,7 @@ class Pedigree
      * @Groups({"pedigree:read"})
      */
     public function getDefaultDisplayName() {
-        return $this->pedigreeEntryID;
+        return $this->getPedigreeCross()->getName();
     }
 
     /**
@@ -303,7 +309,7 @@ class Pedigree
 
         // If their generation is P for parent, do not add it in the realProgenyOnly array
         foreach ($progenies as $key => $progen) {
-            if ($progen->getPedigreeGermplasm()->getPedigrees()[0]->getGeneration() !== "P"){
+            if ($progen->getPedigreeGermplasm()->getPedigrees()[0]->getGeneration() != "P"){
                 $realProgeniesOnly [] = $progen;
             }
         }
@@ -328,13 +334,72 @@ class Pedigree
         return $pedigreeProgenyArr;
     }
 
-    //  * @Groups({"pedigree:read"})
-    //  */
+    /**
+    * @Groups({"pedigree:read"})
+     */
     public function getSiblings() {
-        $siblings = [];
-        return $this->id;
+        
+        $realSiblings = [];
+
+        foreach ($this->allSiblings as $key => $oneFakeSibling) {
+            # code...
+            if (($oneFakeSibling->getPedigreeCross() == $this->getPedigreeCross())
+                && ($oneFakeSibling->getGeneration() == $this->getGeneration())
+                && ($oneFakeSibling->getId() != $this->getId())
+                && ($oneFakeSibling->getGeneration() != "P"))
+            $realSiblings [] = [
+                "germplasmDbId" => $oneFakeSibling->getGermplasm()[0]->getGermplasmID(),
+                "germplasmName" => $oneFakeSibling->getGermplasm()[0]->getAccession()->getAccename()
+            ];
+        }
+
+
+        // // $this->getGeneration()->getName();
+        // // $this->getPedigreeCross()->getName()
+
+        // // progenies with all data even if parent
+        // $progenies = $this->getGermplasm()[0]->getProgenies();
+
+        // // this array is to filter the progenies to have only the real ones
+        // $realProgeniesOnly = [];
+
+        // // If their generation is P for parent, do not add it in the realProgenyOnly array
+        // foreach ($progenies as $key => $progen) {
+        //     if ($progen->getPedigreeGermplasm()->getPedigrees()[0]->getGeneration() != "P"){
+        //         $realProgeniesOnly [] = $progen;
+        //     }
+        // }
+
+        // $tesSib = [];
+        // foreach ($realProgeniesOnly as $key => $oneProgeny) {
+        //     # code...
+        //     $tesSib [] = [
+        //         "cross" => $oneProgeny->getProgenyCross()->getName(),
+        //         "generation" => $oneProgeny->getPedigreeGermplasm()->getPedigrees()[0]->getGeneration()->getName(),
+        //     ];
+        // }
+        // $realProgeniesOnly[0]->getProgenyCross();
+        // $realProgeniesOnly[0]->getPedigreeGermplasm();
+        return $realSiblings;
     }
 
+    // Select * from pedigree where pedigree_cross_id = (Select pedigree_cross_id from pedigree where id = 9)
+    // AND generation_id = (Select generation_id from pedigree where id = 9)
+    // AND id != 9;
+
+    
+    // SELECT p1.id, p1.generation_id, p1.pedigree_cross_id, p1.pedigree_entry_id
+    // FROM pedigree p1
+    // INNER JOIN pedigree p2
+    // ON p1.pedigree_cross_id = p2.pedigree_cross_id
+    // AND p1.generation_id = p2.generation_id
+    // AND p1.pedigree_entry_id != p2.pedigree_entry_id;
+
+    // SELECT p1.id, p1.generation_id, p1.pedigree_cross_id, p1.pedigree_entry_id
+    // FROM pedigree p1
+    // INTERSECT
+    // SELECT p2.id, p2.generation_id, p2.pedigree_cross_id, p2.pedigree_entry_id
+    // FROM pedigree p2 where p2.id = 9;
 
     // public function getParent() {
     //     $parent = [
@@ -418,6 +483,30 @@ class Pedigree
     public function setGeneration(?Generation $generation): self
     {
         $this->generation = $generation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PedigreeMirror>
+     */
+    public function getAllSiblings(): Collection
+    {
+        return $this->allSiblings;
+    }
+
+    public function addAllSibling(PedigreeMirror $allSibling): self
+    {
+        if (!$this->allSiblings->contains($allSibling)) {
+            $this->allSiblings[] = $allSibling;
+        }
+
+        return $this;
+    }
+
+    public function removeAllSibling(PedigreeMirror $allSibling): self
+    {
+        $this->allSiblings->removeElement($allSibling);
 
         return $this;
     }
