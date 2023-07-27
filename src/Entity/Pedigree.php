@@ -73,23 +73,26 @@ class Pedigree
      */
     private $pedigreeCross;
 
-    private $parenstOfPeds;
-
     /**
      * @ORM\ManyToOne(targetEntity=Generation::class, inversedBy="pedigrees")
      */
     private $generation;
 
     /**
-     * @ORM\ManyToMany(targetEntity=PedigreeMirror::class, inversedBy="pedigrees")
+     * @ORM\ManyToMany(targetEntity=Pedigree::class, inversedBy="pedigreeLists")
      */
-    private $allSiblings;
+    private $mirrors;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Pedigree::class, mappedBy="mirrors")
+     */
+    private $pedigreeLists;
 
     public function __construct()
     {
         $this->germplasm = new ArrayCollection();
-        $this->parenstOfPeds = new ArrayCollection();
-        $this->allSiblings = new ArrayCollection();
+        $this->mirrors = new ArrayCollection();
+        $this->pedigreeLists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,7 +203,70 @@ class Pedigree
         return $this;
     }
 
-    // API SECTION
+    public function getGeneration(): ?Generation
+    {
+        return $this->generation;
+    }
+
+    public function setGeneration(?Generation $generation): self
+    {
+        $this->generation = $generation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getMirrors(): Collection
+    {
+        return $this->mirrors;
+    }
+
+    public function addMirror(self $mirror): self
+    {
+        if (!$this->mirrors->contains($mirror)) {
+            $this->mirrors[] = $mirror;
+        }
+
+        return $this;
+    }
+
+    public function removeMirror(self $mirror): self
+    {
+        $this->mirrors->removeElement($mirror);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getPedigreeLists(): Collection
+    {
+        return $this->pedigreeLists;
+    }
+
+    public function addPedigreeList(self $pedigreeList): self
+    {
+        if (!$this->pedigreeLists->contains($pedigreeList)) {
+            $this->pedigreeLists[] = $pedigreeList;
+            $pedigreeList->addMirror($this);
+        }
+
+        return $this;
+    }
+
+    public function removePedigreeList(self $pedigreeList): self
+    {
+        if ($this->pedigreeLists->removeElement($pedigreeList)) {
+            $pedigreeList->removeMirror($this);
+        }
+
+        return $this;
+    }
+
+    // API SECTION BRAPI V2.1 - Last Code Update July 2023
     /**
      * @Groups({"pedigree:read"})
      */
@@ -275,21 +341,26 @@ class Pedigree
     * @Groups({"pedigree:read"})
      */
     public function getParents() {
-        $this->parenstOfPeds [] = $this->pedigreeCross->getParent1()->getGermplasmID();
-        $this->parenstOfPeds [] = $this->pedigreeCross->getParent2()->getGermplasmID();
-        $parent = [
-            [
-                "germplasmDbid" => $this->pedigreeCross->getParent1()->getGermplasmID(),
-                "germplasmName" => $this->pedigreeCross->getParent1()->getAccession()->getAccename(),
-                "parentType" => $this->pedigreeCross->getParent1Type()
-            ],
-            [
-                "germplasmDbid" => $this->pedigreeCross->getParent2()->getGermplasmID(),
-                "germplasmName" => $this->pedigreeCross->getParent2()->getAccession()->getAccename(),
-                "parentType" => $this->pedigreeCross->getParent2Type()
-            ]
-        ];
-        return $parent;
+        $parents = [];
+        $pedGeneration = $this->getGeneration();
+        if ($pedGeneration != "P") {
+            $parents = [
+                [
+                    "germplasmDbid" => $this->pedigreeCross->getParent1()->getGermplasmID(),
+                    "germplasmName" => $this->pedigreeCross->getParent1()->getAccession()->getAccename(),
+                    "parentType" => $this->pedigreeCross->getParent1Type()
+                ],
+                [
+                    "germplasmDbid" => $this->pedigreeCross->getParent2()->getGermplasmID(),
+                    "germplasmName" => $this->pedigreeCross->getParent2()->getAccession()->getAccename(),
+                    "parentType" => $this->pedigreeCross->getParent2Type()
+                ]
+            ];
+        }
+        //$parenstOfPeds [] = $this->pedigreeCross->getParent1()->getGermplasmID();
+        //$parenstOfPeds [] = $this->pedigreeCross->getParent2()->getGermplasmID();
+        
+        return $parents;
     }
 
     /**
@@ -338,176 +409,18 @@ class Pedigree
     * @Groups({"pedigree:read"})
      */
     public function getSiblings() {
-        
-        $realSiblings = [];
-
-        foreach ($this->allSiblings as $key => $oneFakeSibling) {
+        $siblings = [];
+        foreach ($this->pedigreeLists as $key => $onePedigree) {
             # code...
-            if (($oneFakeSibling->getPedigreeCross() == $this->getPedigreeCross())
-                && ($oneFakeSibling->getGeneration() == $this->getGeneration())
-                && ($oneFakeSibling->getId() != $this->getId())
-                && ($oneFakeSibling->getGeneration() != "P"))
-            $realSiblings [] = [
-                "germplasmDbId" => $oneFakeSibling->getGermplasm()[0]->getGermplasmID(),
-                "germplasmName" => $oneFakeSibling->getGermplasm()[0]->getAccession()->getAccename()
+            if (($onePedigree->getPedigreeCross() == $this->getPedigreeCross())
+                && ($onePedigree->getGeneration() == $this->getGeneration())
+                && ($onePedigree->getId() != $this->getId())
+                && ($onePedigree->getGeneration() != "P"))
+            $siblings [] = [
+                "germplasmDbId" => $onePedigree->getGermplasm()[0]->getGermplasmID(),
+                "germplasmName" => $onePedigree->getGermplasm()[0]->getAccession()->getAccename()
             ];
         }
-
-
-        // // $this->getGeneration()->getName();
-        // // $this->getPedigreeCross()->getName()
-
-        // // progenies with all data even if parent
-        // $progenies = $this->getGermplasm()[0]->getProgenies();
-
-        // // this array is to filter the progenies to have only the real ones
-        // $realProgeniesOnly = [];
-
-        // // If their generation is P for parent, do not add it in the realProgenyOnly array
-        // foreach ($progenies as $key => $progen) {
-        //     if ($progen->getPedigreeGermplasm()->getPedigrees()[0]->getGeneration() != "P"){
-        //         $realProgeniesOnly [] = $progen;
-        //     }
-        // }
-
-        // $tesSib = [];
-        // foreach ($realProgeniesOnly as $key => $oneProgeny) {
-        //     # code...
-        //     $tesSib [] = [
-        //         "cross" => $oneProgeny->getProgenyCross()->getName(),
-        //         "generation" => $oneProgeny->getPedigreeGermplasm()->getPedigrees()[0]->getGeneration()->getName(),
-        //     ];
-        // }
-        // $realProgeniesOnly[0]->getProgenyCross();
-        // $realProgeniesOnly[0]->getPedigreeGermplasm();
-        return $realSiblings;
-    }
-
-    // Select * from pedigree where pedigree_cross_id = (Select pedigree_cross_id from pedigree where id = 9)
-    // AND generation_id = (Select generation_id from pedigree where id = 9)
-    // AND id != 9;
-
-    
-    // SELECT p1.id, p1.generation_id, p1.pedigree_cross_id, p1.pedigree_entry_id
-    // FROM pedigree p1
-    // INNER JOIN pedigree p2
-    // ON p1.pedigree_cross_id = p2.pedigree_cross_id
-    // AND p1.generation_id = p2.generation_id
-    // AND p1.pedigree_entry_id != p2.pedigree_entry_id;
-
-    // SELECT p1.id, p1.generation_id, p1.pedigree_cross_id, p1.pedigree_entry_id
-    // FROM pedigree p1
-    // INTERSECT
-    // SELECT p2.id, p2.generation_id, p2.pedigree_cross_id, p2.pedigree_entry_id
-    // FROM pedigree p2 where p2.id = 9;
-
-    // public function getParent() {
-    //     $parent = [
-    //         "germplasmDbId" =>,
-    //         "germplasmName" =>,
-    //         "parentType" =>
-    //     ];
-    //     return $parent;
-    // }
-
-    // /**
-    //  * @Groups({"pedigree:read"})
-    //  */
-    // public function getPedigree() {
-    //     return $this->id;
-    // }
-
-    // /**
-    //  * @Groups({"pedigree:read"})
-    //  */
-    // public function getProgeny() {
-    //     $progeny = [
-    //         "germplasmDbId" =>,
-    //         "germplasmName" =>,
-    //         "parentType" =>
-    //     ];
-    //     return $progeny;
-    // }
-
-    /**
-     * @Groups({"pedigree:read"})
-     */
-    // public function getSiblings() {
-    //     $siblings = [
-    //         "germplasmDbId" =>,
-    //         "germplasmName" =>
-    //     ];
-    //     return $siblings;
-    // }
-
-    /**
-     * @Groups({"pedigree:read"})
-     */
-    // public function getExternalReferences() {
-    //     $externalReferences = [
-    //         "externalReferenceId" =>,
-    //         "referenceSource" =>
-    //     ];
-    //     return $externalReferences;
-    // }
-
-    /**
-     * @Groups({"pedigree:read"})
-     */
-    // public function getCrossAttributes() {
-    //     $crossAttribute = [
-    //         "crossAttributeName" => "... No name",
-    //         "crossAttributeValue" => "... No value",
-    //     ];
-    //     return $crossAttribute;
-    // }
-
-    /**
-     * @Groups({"pedigree:read"})
-     */
-    // public function getPollinationEvents() {
-    //     $pollinationEvents = [
-    //         "pollinationNumber" => "... N/A",
-    //         "pollinationSuccessful" => "... N/A",
-    //         "pollinationTimeStamp" => $this->year,
-    //     ];
-    //     return $pollinationEvents;
-
-    // }
-
-    public function getGeneration(): ?Generation
-    {
-        return $this->generation;
-    }
-
-    public function setGeneration(?Generation $generation): self
-    {
-        $this->generation = $generation;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, PedigreeMirror>
-     */
-    public function getAllSiblings(): Collection
-    {
-        return $this->allSiblings;
-    }
-
-    public function addAllSibling(PedigreeMirror $allSibling): self
-    {
-        if (!$this->allSiblings->contains($allSibling)) {
-            $this->allSiblings[] = $allSibling;
-        }
-
-        return $this;
-    }
-
-    public function removeAllSibling(PedigreeMirror $allSibling): self
-    {
-        $this->allSiblings->removeElement($allSibling);
-
-        return $this;
+        return $siblings;
     }
 }
