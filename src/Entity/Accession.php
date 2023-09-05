@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 /**
  * @ORM\Entity(repositoryClass=AccessionRepository::class)
  * @ApiResource(
- *      normalizationContext={"groups"={"accession:read"}},
+ *      normalizationContext={"groups"={"accession:read", "germplasm:read"}},
  *      denormalizationContext={"groups"={"accession:write"}}
  * )
  */
@@ -222,6 +222,8 @@ class Accession
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"accession:read", "germplasm:read"})
+     * @SerializedName("pedigree")
      */
     private $breedingInfo;
 

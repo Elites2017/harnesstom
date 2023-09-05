@@ -82,7 +82,6 @@ class Study
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"study:read"})
      */
     private $lastUpdated;
 
@@ -186,16 +185,6 @@ class Study
     /**
      * @Groups({"study:read"})
      */
-    private $studyPUI;
-
-    /**
-     * @Groups({"study:read"})
-     */
-    private $contacts;
-
-    /**
-     * @Groups({"study:read"})
-     */
     private $experimentalDesign;
 
     /**
@@ -226,8 +215,6 @@ class Study
         $this->germplasmStudyImages = new ArrayCollection();
         $this->qTLStudies = new ArrayCollection();
         $this->parameterValue = new ArrayCollection();
-        // API SECTION
-        $this->contacts = new ArrayCollection();
         
     }
 
@@ -731,22 +718,22 @@ class Study
      * @Groups({"study:read"})
      */
     public function getTrialDbId(){
-        return $this->trial->getId();
+        return $this->trial ? $this->trial->getId() : null ;
     }
 
     /**
      * @Groups({"study:read"})
      */
     public function getTrialName(){
-        return $this->trial->getName();
+        return $this->trial ? $this->trial->getName() : null ;
     }
 
     /**
      * @Groups({"study:read"})
      */
     public function getStudyPUI(){
-        $this->studyPUI = "Study PUI";
-        return $this->studyPUI;
+        $studyPUI = "Study PUI";
+        return $studyPUI;
     }
 
     /**
@@ -767,31 +754,31 @@ class Study
      * @Groups({"study:read"})
      */
     public function getLicense(){
-        return $this->trial->getLicense();
+        return $this->trial ? $this->trial->getLicense() : null ;
     }
 
     /**
      * @Groups({"study:read"})
      */
-    public function getContacts(): Array
+    public function getContacts()
     {
-        $this->contacts = [
-            "contactDbId" => $this->trial->getProgram()->getContact()->getOrcid(),
-            "email" => $this->trial->getProgram()->getContact()->getPerson()->getEmailAddress(),
-            "instituteName" => $this->trial->getProgram()->getContact()->getInstitute() ? $this->trial->getProgram()->getContact()->getInstitute()->getName() : "N/A",
-            "name" => $this->trial->getProgram()->getContact()->getPerson()->getFirstName() ." ". $this->trial->getProgram()->getContact()->getPerson()->getMiddleName() ." ".$this->trial->getProgram()->getContact()->getPerson()->getLastName(),
-            "orcid" => $this->trial->getProgram()->getContact()->getOrcid(),
-            "type" => $this->trial->getProgram()->getContact()->getType()
+        $institute = $this->trial ? $this->trial->getProgram()->getContact()->getInstitute() : null;
+        $contacts = [
+            "contactDbId" => $this->trial ? $this->trial->getProgram()->getContact()->getOrcid() : null,
+            "email" => $this->trial ? $this->trial->getProgram()->getContact()->getPerson()->getEmailAddress() : null,
+            "instituteName" => $institute ? $institute->getName() : "N/A",
+            "name" => $this->trial ? $this->trial->getProgram()->getContact()->getPerson()->getFirstName() ." ". $this->trial->getProgram()->getContact()->getPerson()->getMiddleName() ." ". $this->trial->getProgram()->getContact()->getPerson()->getLastName() : null,
+            "orcid" => $this->trial ? $this->trial->getProgram()->getContact()->getOrcid() : null,
+            "type" => $this->trial ? $this->trial->getProgram()->getContact()->getType() : null
         ];
-        return $this->contacts;
+        return $contacts;
     }
 
     /**
      * @Groups({"study:read"})
      */
     public function getCommonCropName(){
-        
-        return $this->trial->getProgram()->getCrop()->getCommonCropName();
+        return $this->trial ? $this->trial->getProgram()->getCrop()->getCommonCropName() : null;
     }
 
     /**
@@ -799,7 +786,7 @@ class Study
      */
     public function getStudyType(){
         
-        return $this->trial->getTrialType()->getName();
+        return $this->trial ? $this->trial->getTrialType()->getName() : null;
     }
 
     /**
@@ -807,7 +794,7 @@ class Study
      */
     public function getSeasons(){
         $seasons = [];
-        $seasons [] = $this->season->getName();
+        $seasons [] = $this->season ? $this->season->getName() : null;
         return $seasons;
     }
 
@@ -827,10 +814,10 @@ class Study
      * @SerializedName("observationLevels")
      */
     public function getBraApiObservationLevels(){
-        $this->brApiObservationLevels = [
+        $rApiObservationLevels = [
             "levelName" => $this->getObservationLevels(),
         ];
-        return $this->brApiObservationLevels;
+        return $rApiObservationLevels;
     }
 
     /**
@@ -840,10 +827,10 @@ class Study
         $unitNames = [];
         $obsValues = [];
         $variableIds = [];
-        foreach ($this->observationLevels as $OneObsLevel) {
+        foreach ($this->observationLevels as $oneObsLevel) {
             # code...
-            $unitNames [] = $OneObsLevel->getUnitname();
-            $obsValues [] = $OneObsLevel->getObservationValueOriginals();
+            $unitNames [] = $oneObsLevel->getUnitname();
+            $obsValues [] = $oneObsLevel->getObservationValueOriginals();
         }
 
         foreach ($obsValues as $key => $oneObsValue) {
@@ -879,11 +866,22 @@ class Study
      * @Groups({"study:read"})
      */
     public function getDataLinks(){
-        $this->datalinks = [
+        $datalinks = [
             "description" => ",..",
             "dataFormat" => "Image archives",
             "name" => $this->getStudyImages()
         ];
-        return $this->datalinks;
-    } 
+        return $datalinks;
+    }
+    
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getLastUpdate(){
+        $lastUpdate = [
+            "timestamp" => $this->lastUpdated,
+            "version" => "N/A"
+        ];
+        return $lastUpdate;
+    }
 }

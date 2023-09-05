@@ -588,7 +588,7 @@ class Germplasm
     /**
      * @Groups({"germplasm:read"})
      */
-    public function getBiologicalStatusOfAccessisonDescription()
+    public function getBiologicalStatusOfAccessionDescription()
     {
         return $this->accession->getSampstat()->getName();
     }

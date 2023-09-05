@@ -270,7 +270,7 @@ class Location
     /**
      * @Groups({"location:read"})
      */
-    public function getCooordinates(): Array
+    public function getCoordinates(): Array
     {
         $this->coordinates = [
             "geometry" => [$this->longitudeCo, $this->latitudeCo, $this->altitudeCo],

@@ -342,18 +342,27 @@ class Pedigree
      */
     public function getParents() {
         $parents = [];
+        //dd($this->getPedigreeLists()[4]);
+        // $forTest = [];
+        // foreach ($this->getPedigreeLists() as $key => $onePed) {
+        //     # code...
+        //     if ($this == $onePed) {
+        //         $forTest [] = $onePed;
+        //     }
+        // }
         $pedGeneration = $this->getGeneration();
-        if ($pedGeneration != "P") {
+        //dd($pedGeneration->getName(), " - ", $this->getAncestorPedigreeEntryID());
+        if (($pedGeneration != "P") || ($pedGeneration == "P" && $this->getAncestorPedigreeEntryID() != null)){
             $parents = [
                 [
                     "germplasmDbid" => $this->pedigreeCross->getParent1()->getGermplasmID(),
-                    "germplasmName" => $this->pedigreeCross->getParent1()->getAccession()->getAccename(),
-                    "parentType" => $this->pedigreeCross->getParent1Type()
+                    "parentType" => $this->pedigreeCross->getParent1Type(),
+                    "germplasmName" => $this->pedigreeCross->getParent1()->getAccession()->getAccename()
                 ],
                 [
                     "germplasmDbid" => $this->pedigreeCross->getParent2()->getGermplasmID(),
-                    "germplasmName" => $this->pedigreeCross->getParent2()->getAccession()->getAccename(),
-                    "parentType" => $this->pedigreeCross->getParent2Type()
+                    "parentType" => $this->pedigreeCross->getParent2Type(),
+                    "germplasmName" => $this->pedigreeCross->getParent2()->getAccession()->getAccename()
                 ]
             ];
         }
@@ -397,8 +406,8 @@ class Pedigree
             }
             $pedigreeProgenyArr [] = [
                 "germplasmDbid" => $oneProgeny->getPedigreeGermplasm()->getGermplasmID(),
-                "germplasmName" => $oneProgeny->getPedigreeGermplasm()->getAccession()->getAccename(),
                 "parentType" => $typeOfParentOfProgeny,
+                "germplasmName" => $oneProgeny->getPedigreeGermplasm()->getAccession()->getAccename()
             ];
         }
 
@@ -421,6 +430,20 @@ class Pedigree
                 "germplasmName" => $onePedigree->getGermplasm()[0]->getAccession()->getAccename()
             ];
         }
+        // logic to test with Clara
+        // $onePedigreeParent1 = $onePedigree->getPedigreeCross()->getParent1();
+        // $onePedigreeParent2 = $onePedigree->getPedigreeCross()->getParent2();
+        // if (
+        //         ($this->getPedigreeCross()->getParent1() == $onePedigreeParent1
+        //         || $this->getPedigreeCross()->getParent1() == $onePedigreeParent2
+        //         || $this->getPedigreeCross()->getParent2() == $onePedigreeParent1
+        //         || $this->getPedigreeCross()->getParent2() == $onePedigreeParent2) 
+        //         && ($onePedigree->getId() != $this->getId())
+        //         && ($onePedigree->getGeneration() != "P")
+        //     ) {
+        //         // onePedigree is a sibling of this pedigree
+
+        // }
         return $siblings;
     }
 }
