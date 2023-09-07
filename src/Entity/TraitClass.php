@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=TraitClassRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"trait:read"}},
+ *      denormalizationContext={"groups"={"trait:write"}}
+ * )
  */
 class TraitClass
 {
@@ -20,22 +23,29 @@ class TraitClass
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"trait:read", "observation_variable:read"})
+     * @SerializedName("traitDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"trait:read", "observation_variable:read"})
+     * @SerializedName("traitName")
      */
     private $name;
 
     /**
      * 
      * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     * @Groups({"trait:read", "observation_variable:read"})
      */
     private $ontology_id;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"trait:read", "observation_variable:read"})
+     * @SerializedName("traitDescription")
      */
     private $description;
 
@@ -88,6 +98,7 @@ class TraitClass
     /**
      * @ORM\ManyToMany(targetEntity=TraitClass::class, inversedBy="varOfTraitclasses")
      * @ORM\JoinTable(name="trait_class_variable_of")
+     * @Groups({"observation_variable:read"})
      */
     private $varOf;
 

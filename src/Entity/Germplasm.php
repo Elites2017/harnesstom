@@ -566,7 +566,7 @@ class Germplasm
     */
     public function getCountryOfOriginCode()
     {
-        return $this->accession->getOrigcty()->getIso3();
+        return $this->accession->getOrigcty() ? $this->accession->getOrigcty()->getIso3() : null;
     }
 
     /**
@@ -582,7 +582,7 @@ class Germplasm
      */
     public function getBiologicalStatusOfAccessionCode()
     {
-        return $this->accession->getSampstat()->getOntologyId();
+        return $this->accession->getSampstat() ? $this->accession->getSampstat()->getOntologyId() : null;
     }
 
     /**
@@ -590,7 +590,7 @@ class Germplasm
      */
     public function getBiologicalStatusOfAccessionDescription()
     {
-        return $this->accession->getSampstat()->getName();
+        return $this->accession->getSampstat() ? $this->accession->getSampstat()->getName() : null;
     }
 
     /**
@@ -691,7 +691,7 @@ class Germplasm
      */
     public function getInstituteCode()
     {
-        return $this->accession->getInstcode()->getInstcode();
+        return $this->accession->getInstcode() ? $this->accession->getInstcode()->getInstcode() : null;
     }
 
     /**
@@ -699,7 +699,7 @@ class Germplasm
      */
     public function getInstituteName()
     {
-        return $this->accession->getInstcode()->getName();
+        return $this->accession->getInstcode() ? $this->accession->getInstcode()->getName() : null;
     }
 
     /**

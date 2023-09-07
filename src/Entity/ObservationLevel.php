@@ -25,6 +25,7 @@ class ObservationLevel
      * @ORM\Column(type="integer")
      * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read"})
+     * @SerializedName("observationUnitDbId")
      */
     private $id;
 
@@ -39,6 +40,7 @@ class ObservationLevel
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read"})
+     * @SerializedName("levelName")
      */
     private $name;
 
@@ -493,4 +495,88 @@ class ObservationLevel
 
         return $this;
     }
+
+    // API September 2023 . BrAPI 2.1
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getGermplasmDbId() {
+        return $this->germaplasm->getGermplasmID();
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getGermplasmName() {
+        return "To see with Clara";
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getLocationDbId() {
+        return $this->study->getLocation() ? $this->study->getLocation()->getId() : null;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getLocationName() {
+        return $this->study->getLocation() ? $this->study->getLocation()->getName() : null;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getProgramDbId() {
+        return $this->germaplasm->getProgram() ? $this->germaplasm->getProgram()->getId() : null;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getProgramName() {
+        return $this->germaplasm->getProgram() ? $this->germaplasm->getProgram()->getName() : null;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getStudyDbId() {
+        return $this->study->getId();
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getStudyName() {
+        return $this->study->getName();
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getTrialDbId() {
+        return $this->study->getTrial() ? $this->study->getTrial()->getId() : null;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getTrialName() {
+        return $this->study->getTrial() ? $this->study->getTrial()->getName() : null;
+    }
+    
+
 }

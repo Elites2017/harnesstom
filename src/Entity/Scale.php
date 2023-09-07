@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=ScaleRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"scale:read"}},
+ *      denormalizationContext={"groups"={"scale:write"}}
+ * )
  */
 class Scale
 {
@@ -20,21 +23,27 @@ class Scale
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"scale:read", "observation_variable:read"})
+     * @SerializedName("scaleDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string")
+     * @Groups({"scale:read", "observation_variable:read"})
+     * @SerializedName("scaleName")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"scale:read", "observation_variable:read"})
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=DataType::class, inversedBy="scales")
+     * @Groups({"observation_variable:read"})
      */
     private $dataType;
 
@@ -264,5 +273,22 @@ class Scale
         }
 
         return $this;
+    }
+
+    // API September 2023 . BrAPI 2.1
+
+    /**
+     * @Groups({"scale:read"})
+     * @SerializedName("dataType")
+     */
+    public function getScaleDataType() {
+        return $this->dataType ? $this->dataType->getName() : null;
+    }
+
+    /**
+     * @Groups({"scale:read"})
+     */
+    public function getUnits() {
+        return $this->unit ? $this->unit->getName() : null;
     }
 }
