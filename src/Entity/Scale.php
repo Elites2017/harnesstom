@@ -291,4 +291,25 @@ class Scale
     public function getUnits() {
         return $this->unit ? $this->unit->getName() : null;
     }
+
+    /**
+     * @Groups({"scale:read"})
+     */
+    public function getValidValues() {
+        $validVal = [];
+        foreach ($this->scaleCategories as $key => $oneScaleCat) {
+            # code...
+            $validVal [] = [
+                "categories" => [
+                    "label" => $oneScaleCat->getLabel(),
+                    "value" => $oneScaleCat->getScore()
+                    ],
+                "max" => $oneScaleCat->getMax(),
+                "maximumValue" => $oneScaleCat->getMax(),
+                "min" => $oneScaleCat->getMin(),
+                "minimumValue" => $oneScaleCat->getMin()
+            ];
+        }
+        return $validVal;
+    }
 }

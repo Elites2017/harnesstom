@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=SampleRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"sample:read"}},
+ *      denormalizationContext={"groups"={"sample:write"}}
+ * )
  */
 class Sample
 {
@@ -20,11 +23,14 @@ class Sample
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("sample:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("sample:read")
+     * @SerializedName("sampleName")
      */
     private $name;
 
@@ -35,11 +41,15 @@ class Sample
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("sample:read")
+     * @SerializedName("sampleDescription")
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("sample:read")
+     * @SerializedName("sampleTimestamp")
      */
     private $createdAt;
 
@@ -313,5 +323,42 @@ class Sample
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    // API September 2023 . BrAPI 2.1
+
+    /**
+     * @Groups({"sample:read"})
+     */
+    public function getGermplasmDbId() {
+        return $this->germplasm ? $this->germplasm->getGermplasmID() : null;
+    }
+
+    /**
+     * @Groups({"sample:read"})
+     */
+    public function getObservationUnitDbId() {
+        return $this->observationLevel ? $this->observationLevel->getId() : null;
+    }
+
+    /**
+     * @Groups({"sample:read"})
+     */
+    public function getProgramDbId() {
+        return $this->germplasm ? $this->germplasm->getProgram()->getId() : null;
+    }
+
+    /**
+     * @Groups({"sample:read"})
+     */
+    public function getStudyDbId() {
+        return $this->study ? $this->study->getId() : null;
+    }
+
+    /**
+     * @Groups({"sample:read"})
+     */
+    public function getTrialDbId() {
+        return $this->study ? $this->study->getTrial()->getId() : null;
     }
 }

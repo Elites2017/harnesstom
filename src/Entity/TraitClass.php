@@ -7,6 +7,7 @@ use App\Repository\TraitClassRepository;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\Id;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
@@ -24,7 +25,6 @@ class TraitClass
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"trait:read", "observation_variable:read"})
-     * @SerializedName("traitDbId")
      */
     private $id;
 
@@ -401,16 +401,39 @@ class TraitClass
     {
         // unset the owning side of the relation if necessary
         if ($observationVariable === null && $this->observationVariable !== null) {
-            $this->observationVariable->setVariableId(null);
+            $this->observationVariable->setVariable(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($observationVariable !== null && $observationVariable->getVariableId() !== $this) {
-            $observationVariable->setVariableId($this);
+        if ($observationVariable !== null && $observationVariable->getVariable() !== $this) {
+            $observationVariable->setVariable($this);
         }
 
         $this->observationVariable = $observationVariable;
 
         return $this;
+    }
+
+    // API September 2023 . BrAPI 2.1
+
+    /**
+     * @Groups({"trait:read"})
+     */
+    public function getTraitDbId() {
+        return $this->ontology_id;
+    }
+
+    /**
+     * @Groups({"trait:read"})
+     */
+    public function getAdditionalInfo() {
+        $addInfo = [
+            "Variables" => $this->varOf,
+            "Parents" => [
+                "Ontology" => $this->traitClasses[0]->getOntologyId(),
+                "Name" => $this->traitClasses[0]->getName()
+                ]
+        ];
+        return $addInfo;
     }
 }

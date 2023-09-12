@@ -296,4 +296,12 @@ class ObservationVariableMethod
         return $this->methodClass->getName();
     }
 
+    /**
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_v_m:read"})
+     */
+    public function getBibliographicalReference() {
+        return $this->publicationReference ? $this->publicationReference[0] : null;
+    }
+
 }

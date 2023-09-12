@@ -25,7 +25,6 @@ class ObservationLevel
      * @ORM\Column(type="integer")
      * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read"})
-     * @SerializedName("observationUnitDbId")
      */
     private $id;
 
@@ -502,6 +501,14 @@ class ObservationLevel
      * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read"})
      */
+    public function getObservationUnitDbId() {
+        return $this->unitname;
+    }
+    
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
     public function getGermplasmDbId() {
         return $this->germaplasm->getGermplasmID();
     }
@@ -511,7 +518,7 @@ class ObservationLevel
      * "metabolite:read"})
      */
     public function getGermplasmName() {
-        return "To see with Clara";
+        return $this->germaplasm->getAccession()->getAccename();
     }
 
     /**
@@ -578,5 +585,80 @@ class ObservationLevel
         return $this->study->getTrial() ? $this->study->getTrial()->getName() : null;
     }
     
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getObservationUnitName() {
+        return $this->unitname;
+    }
 
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getObservationUnitPosition() {
+        $obsUnitPosition = [
+            "entryType" => "",
+            "geoCoordinates" => [
+                "geometry" => "",
+                "type" => ""
+                ],
+            "observationLevel" => [
+                "levelCode" => "",
+                "levelName" => $this->name,
+                "levelOrder" => ""
+                ],
+            "observationLevelRelationships" => [
+                "levelName" => "",
+                "levelOrder" => "",
+                "observationUnitDbId" => "",
+                ],
+            "positionCoordinateX" => $this->unitCoordinateX,
+            "positionCoordinateXType" => $this->unitCoordinateXType,
+            "positionCoordinateY" => $this->unitCoordinateY,
+            "positionCoordinateYType" => $this->unitCoordinateYType,
+        ];
+
+        return $obsUnitPosition;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getObservations() {
+        $obs = [];
+        foreach ($this->observationValueOriginals as $key => $obsValueOri) {
+            # code...
+            $obs [] = [
+                "observationDbId" => $obsValueOri->getId(),
+                "germplasmDbId" => $obsValueOri->getUnitName()->getGermaplasm()->getGermplasmID(),
+                "germplasmName" => $obsValueOri->getUnitName()->getGermaplasm()->getGermplasmName(),
+                "observationUnitDbId" => $obsValueOri->getUnitName()->getUnitname(),
+                "observationUnitName" => $obsValueOri->getUnitName()->getUnitname(),
+                "observationVariableDbId" => $obsValueOri->getObservationVariableOriginal()->getVariable()->getOntologyId(),
+                "observationVariableName" => $obsValueOri->getObservationVariableOriginal()->getName(),
+                "season" => [
+                    "seasonName" => $obsValueOri->getUnitname()->getStudy()->getSeason()->getName()
+                    ],
+                "studyDbId" => $obsValueOri->getUnitname()->getStudy()->getid(),
+                "uploadedBy" => $obsValueOri->getCreatedBy()->getEmail(),
+                "value" => $obsValueOri->getValue(),
+            ];
+        }
+        return $obs;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getTreatments() {
+        $fact = [
+          "factor" => $this->study->getFactor() ? $this->study->getFactor()->getOntologyId() : null,
+          "modality" => $this->study->getFactor() ? $this->study->getFactor()->getDescription() : null,  
+        ];
+        return $fact;
+    }
 }
