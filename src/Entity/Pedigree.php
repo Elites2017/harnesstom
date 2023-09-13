@@ -38,12 +38,14 @@ class Pedigree
     private $pedigreeEntryID;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read",
-     * "program:read", "accession:read", "cross:read", "sample:read", "institute:read", "observation_variable:read"})
+     * @ORM\ManyToOne(targetEntity=Pedigree::class, inversedBy="ancestorPedigrees")
      */
-    private $ancestorPedigreeEntryID;
+    private $pedigreeAncestorEntryId;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Pedigree::class, mappedBy="pedigreeAncestorEntryId")
+     */
+    private $ancestorPedigrees;
 
     /**
      * @ORM\Column(type="datetime")
@@ -93,6 +95,7 @@ class Pedigree
         $this->germplasm = new ArrayCollection();
         $this->mirrors = new ArrayCollection();
         $this->pedigreeLists = new ArrayCollection();
+        $this->ancestorPedigrees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,14 +115,44 @@ class Pedigree
         return $this;
     }
 
-    public function getAncestorPedigreeEntryID(): ?string
+    public function getPedigreeAncestorEntryId(): ?self
     {
-        return $this->ancestorPedigreeEntryID;
+        return $this->pedigreeAncestorEntryId;
     }
 
-    public function setAncestorPedigreeEntryID(?string $ancestorPedigreeEntryID): self
+    public function setPedigreeAncestorEntryId(?self $pedigreeAncestorEntryId): self
     {
-        $this->ancestorPedigreeEntryID = $ancestorPedigreeEntryID;
+        $this->pedigreeAncestorEntryId = $pedigreeAncestorEntryId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAncestorPedigrees(): Collection
+    {
+        return $this->ancestorPedigrees;
+    }
+
+    public function addAncestorPedigree(self $ancestorPedigree): self
+    {
+        if (!$this->ancestorPedigrees->contains($ancestorPedigree)) {
+            $this->ancestorPedigrees[] = $ancestorPedigree;
+            $ancestorPedigree->setPedigreeAncestorEntryId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAncestorPedigree(self $ancestorPedigree): self
+    {
+        if ($this->ancestorPedigrees->removeElement($ancestorPedigree)) {
+            // set the owning side to null (unless already changed)
+            if ($ancestorPedigree->getPedigreeAncestorEntryId() === $this) {
+                $ancestorPedigree->setPedigreeAncestorEntryId(null);
+            }
+        }
 
         return $this;
     }
@@ -352,15 +385,16 @@ class Pedigree
         // }
         $pedGeneration = $this->getGeneration();
         //dd($pedGeneration->getName(), " - ", $this->getAncestorPedigreeEntryID());
-        if (($pedGeneration != "P") || ($pedGeneration == "P" && $this->getAncestorPedigreeEntryID() != null)){
+        // || ($pedGeneration == "P" && $this->getAncestorPedigreeEntryID() != null)
+        if ($pedGeneration != "P"){
             $parents = [
                 [
-                    "germplasmDbid" => $this->pedigreeCross->getParent1()->getGermplasmID(),
+                    "germplasmDbId" => $this->pedigreeCross->getParent1()->getGermplasmID(),
                     "parentType" => $this->pedigreeCross->getParent1Type(),
                     "germplasmName" => $this->pedigreeCross->getParent1()->getAccession()->getAccename()
                 ],
                 [
-                    "germplasmDbid" => $this->pedigreeCross->getParent2()->getGermplasmID(),
+                    "germplasmDbId" => $this->pedigreeCross->getParent2()->getGermplasmID(),
                     "parentType" => $this->pedigreeCross->getParent2Type(),
                     "germplasmName" => $this->pedigreeCross->getParent2()->getAccession()->getAccename()
                 ]
@@ -405,7 +439,7 @@ class Pedigree
                 $typeOfParentOfProgeny = $oneProgeny->getProgenyCross()->getParent2Type();
             }
             $pedigreeProgenyArr [] = [
-                "germplasmDbid" => $oneProgeny->getPedigreeGermplasm()->getGermplasmID(),
+                "germplasmDbId" => $oneProgeny->getPedigreeGermplasm()->getGermplasmID(),
                 "parentType" => $typeOfParentOfProgeny,
                 "germplasmName" => $oneProgeny->getPedigreeGermplasm()->getAccession()->getAccename()
             ];

@@ -29,7 +29,7 @@ class PedigreeType extends AbstractType
         $builder
             ->add('pedigreeEntryID')
             ->add('generation')
-            ->add('ancestorPedigreeEntryID')
+            ->add('pedigreeAncestorEntryId')
             ->add('pedigreeCross', EntityType::class, [
                 'class' => Cross::class,
                 'help_html' => true,

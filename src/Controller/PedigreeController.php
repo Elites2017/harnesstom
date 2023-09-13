@@ -236,7 +236,7 @@ class PedigreeController extends AbstractController
                 $germplasmDbId = $row['B'];
                 $crossName = $row['C'];
                 $generationOntId = $row['D'];
-                $ancestorPedigreeId = $row['E'];
+                $pedigreeAncestorEntryId = $row['E'];
                 // check if the file doesn't have empty columns
                 if ($pedigreeEntryId != null && $germplasmDbId != null && $crossName != null && $generationOntId != null) {
                     // check if the data is upload in the database
@@ -256,14 +256,15 @@ class PedigreeController extends AbstractController
                             $this->addFlash('danger', " there is a problem with the pedigree entry ID " .$pedigreeEntryId);
                         }
 
-                        if ($ancestorPedigreeId) {
-                            try {
-                                //code...
-                                $pedigree->setAncestorPedigreeEntryID($ancestorPedigreeId);
-                            } catch (\Throwable $th) {
-                                //throw $th;
-                                $this->addFlash('danger', " there is a problem with the ancesstor pedigree ID " .$ancestorPedigreeId);
-                            }   
+                        try {
+                            //code...
+                            $pedigreeAncestorEntId = $entmanager->getRepository(Pedigree::class)->findOneBy(['pedigreeEntryID' => $pedigreeAncestorEntryId]);
+                            if (($pedigreeAncestorEntId != null) && ($pedigreeAncestorEntId instanceof \App\Entity\Pedigree)) {
+                                $pedigree->setPedigreeAncestorEntryId($pedigreeAncestorEntId);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the ancesstor pedigree ID " .$pedigreeAncestorEntryId);
                         }
 
                         try {
