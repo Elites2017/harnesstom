@@ -338,14 +338,14 @@ class Sample
      * @Groups({"sample:read"})
      */
     public function getObservationUnitDbId() {
-        return $this->observationLevel ? $this->observationLevel->getId() : null;
+        return $this->observationLevel ? $this->observationLevel->getUnitname() : null;
     }
 
     /**
      * @Groups({"sample:read"})
      */
     public function getProgramDbId() {
-        return $this->germplasm ? $this->germplasm->getProgram()->getId() : null;
+        return $this->study ? $this->study->getTrial()->getProgram()->getId() : null;
     }
 
     /**
@@ -360,5 +360,19 @@ class Sample
      */
     public function getTrialDbId() {
         return $this->study ? $this->study->getTrial()->getId() : null;
+    }
+
+    /**
+     * @Groups({"sample:read"})
+     */
+    public function getTissueType() {
+        return $this->anatomicalEntity ? $this->anatomicalEntity->getOntologyId() : null;
+    }
+
+    /**
+     * @Groups({"sample:read"})
+     */
+    public function getAdditionalInfo() {
+        return $this->developmentalStage ? $this->developmentalStage->getOntologyId() : null;
     }
 }
