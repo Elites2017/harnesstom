@@ -92,6 +92,8 @@ class Trial
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"trial:read"})
+     * @SerializedName("active")
      */
     private $isActive;
 
@@ -410,7 +412,7 @@ class Trial
         $this->contacts = [
             "contactDbId" => $this->program->getContact()->getOrcid(),
             "email" => $this->program->getContact()->getPerson()->getEmailAddress(),
-            "instituteName" => $this->program->getContact()->getInstitute()->getName(),
+            "instituteName" => $this->program->getContact()->getInstitute() ? $this->program->getContact()->getInstitute()->getId() : "N/A",
             "name" => $this->program->getContact()->getPerson()->getFirstName() ." ". $this->program->getContact()->getPerson()->getMiddleName() ." ".$this->program->getContact()->getPerson()->getLastName(),
             "orcid" => $this->program->getContact()->getOrcid(),
             "type" => $this->program->getContact()->getType()

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Cross;
 use App\Entity\Generation;
+use App\Entity\Germplasm;
 use App\Entity\Pedigree;
 use App\Entity\Progeny;
 use App\Form\PedigreeType;
@@ -39,10 +40,37 @@ class PedigreeController extends AbstractController
         return $this->render('pedigree/index.html.twig', $context);
     }
 
+    // to fill the many to many table
+    public function fillPedigreePedigree($pedigree, $pedRepo, $entmanager) {
+        // to fill the many to many to many pedigree_pedigree tables
+        $pedigrees = $pedRepo->findAll();
+        $pedNumber = count($pedigrees);
+        $connexion = $entmanager->getConnection();
+
+        $onePedId = $pedigree->getId();
+
+        foreach ($pedigrees as $key => $onePed) {
+            # code...
+            for ($i=0; $i < $pedNumber; $i++) { 
+                # code...
+                $onePedTargetId = $pedigrees[$i]->getId();
+                $selResult = $connexion->executeStatement("SELECT pedigree_source FROM pedigree_pedigree WHERE pedigree_source = ? AND pedigree_target = ?", [$onePedId, $onePedTargetId]);
+                if ($selResult == 0) {
+                    $result = $connexion->executeStatement("INSERT INTO pedigree_pedigree VALUES('$onePedId', '$onePedTargetId')");
+                }
+                // the other way
+                $selResultInversed = $connexion->executeStatement("SELECT pedigree_source FROM pedigree_pedigree WHERE pedigree_source = ? AND pedigree_target = ?", [$onePedTargetId, $onePedId]);
+                if ($selResultInversed == 0) {
+                    $result2 = $connexion->executeStatement("INSERT INTO pedigree_pedigree VALUES('$onePedTargetId', '$onePedId')");
+                }
+            }
+        }
+    }
+
     /**
      * @Route("/create", name="create")
      */
-    public function create(Request $request, EntityManagerInterface $entmanager): Response
+    public function create(Request $request, PedigreeRepository $pedRepo, EntityManagerInterface $entmanager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $pedigree = new Pedigree();
@@ -53,7 +81,7 @@ class PedigreeController extends AbstractController
                 $pedigree->setCreatedBy($this->getUser());
             }
             //dd($pedigree);
-            if ($pedigree->getGeneration() !== "P") {
+            if ($pedigree->getGeneration() != "P") {
                 $progeny =  new Progeny();
                 // We had a many to many relationship which we have realized that was a many to one relationship
                 $progeny->setPedigreeGermplasm($pedigree->getGermplasm()[0]);
@@ -67,11 +95,15 @@ class PedigreeController extends AbstractController
                 //$progeny->addProgenyCross($pedigree->getPedigreeCross());
                 //dd("Progeny will be created ", $progeny);
             }
-            //dd("Progeny should not be created");
+            //dd($pedigree);
             $pedigree->setIsActive(true);
             $pedigree->setCreatedAt(new \DateTime());
             $entmanager->persist($pedigree);
             $entmanager->flush();
+
+            // to fill the many to many to many pedigree_pedigree tables
+            $this->fillPedigreePedigree($pedigree, $pedRepo, $entmanager);
+
             return $this->redirect($this->generateUrl('pedigree_index'));
         }
 
@@ -156,7 +188,7 @@ class PedigreeController extends AbstractController
     /**
      * @Route("/upload-from-excel", name="upload_from_excel")
      */
-    public function uploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
+    public function uploadFromExcel(Request $request, PedigreeRepository $pedRepo, EntityManagerInterface $entmanager): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(UploadFromExcelType::class);
@@ -204,7 +236,7 @@ class PedigreeController extends AbstractController
                 $germplasmDbId = $row['B'];
                 $crossName = $row['C'];
                 $generationOntId = $row['D'];
-                $ancestorPedigreeId = $row['E'];
+                $pedigreeAncestorEntryId = $row['E'];
                 // check if the file doesn't have empty columns
                 if ($pedigreeEntryId != null && $germplasmDbId != null && $crossName != null && $generationOntId != null) {
                     // check if the data is upload in the database
@@ -224,14 +256,15 @@ class PedigreeController extends AbstractController
                             $this->addFlash('danger', " there is a problem with the pedigree entry ID " .$pedigreeEntryId);
                         }
 
-                        if ($ancestorPedigreeId) {
-                            try {
-                                //code...
-                                $pedigree->setAncestorPedigreeEntryID($ancestorPedigreeId);
-                            } catch (\Throwable $th) {
-                                //throw $th;
-                                $this->addFlash('danger', " there is a problem with the ancesstor pedigree ID " .$ancestorPedigreeId);
-                            }   
+                        try {
+                            //code...
+                            $pedigreeAncestorEntId = $entmanager->getRepository(Pedigree::class)->findOneBy(['pedigreeEntryID' => $pedigreeAncestorEntryId]);
+                            if (($pedigreeAncestorEntId != null) && ($pedigreeAncestorEntId instanceof \App\Entity\Pedigree)) {
+                                $pedigree->setPedigreeAncestorEntryId($pedigreeAncestorEntId);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the ancesstor pedigree ID " .$pedigreeAncestorEntryId);
                         }
 
                         try {
@@ -267,12 +300,27 @@ class PedigreeController extends AbstractController
                             $this->addFlash('danger', " there is a problem with the germplasm " .$germplasmDbId);
                         }
 
+                        if ($pedigree->getGeneration() != "P") {
+                            $progeny =  new Progeny();
+                            // We had a many to many relationship which we have realized that was a many to one relationship
+                            $progeny->setPedigreeGermplasm($pedigree->getGermplasm()[0]);
+                            $progeny->setProgenyId($pedigree->getPedigreeEntryId());
+                            $progeny->setProgenyCross($pedigree->getPedigreeCross());
+                            $progeny->setProgenyParent1($pedigree->getPedigreeCross()->getParent1());
+                            $progeny->setProgenyParent2($pedigree->getPedigreeCross()->getParent2());
+                            $entmanager->persist($progeny);
+                        }
+
                         $pedigree->setIsActive(true);
                         $pedigree->setCreatedAt(new \DateTime());
                         try {
                             //code...
                             $entmanager->persist($pedigree);
                             $entmanager->flush();
+
+                            // to fill the pedigree pedigree mtm table
+                            $this->fillPedigreePedigree($pedigree, $pedRepo, $entmanager);
+
                         } catch (\Throwable $th) {
                             //throw $th;
                             $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));

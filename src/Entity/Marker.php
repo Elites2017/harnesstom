@@ -565,4 +565,78 @@ class Marker
 
         return $this;
     }
+
+    // API September 2023 . BrAPI 2.1
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getVariantDbId() {
+        return $this->name;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getAdditionalInfo() {
+        $addInfo = [
+            "genotypingPlatform" => [
+                "name" => $this->genotypingPlatform ? $this->genotypingPlatform->getName() : null,
+                "description" => $this->genotypingPlatform ? $this->genotypingPlatform->getDescription() : null,
+                "markerCount" => $this->genotypingPlatform ? $this->genotypingPlatform->getMarkerCount() : null,
+                "bioProjectId" => $this->genotypingPlatform ? $this->genotypingPlatform->getBioProjectID() : null
+            ]
+
+        ];
+        return $addInfo;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getAlternateBases() {
+        return $this->altAllele;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getReferenceBases() {
+        return $this->refAllele;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getReferenceName() {
+        return $this->linkageGroupName;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getReferenceSetName() {
+        return $this->genotypingPlatform ? $this->genotypingPlatform->getRefSetName() : null;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getVariantNames() {
+        $synonyms = [];
+        foreach ($this->markerSynonyms as $key => $oneSynonym) {
+            # code...
+            $synonyms [] = $oneSynonym->getMarkerName();
+        }
+        return $synonyms;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getVariantType() {
+        return $this->type;
+    }
+
+    
 }

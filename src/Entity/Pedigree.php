@@ -38,12 +38,14 @@ class Pedigree
     private $pedigreeEntryID;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read", "parameter:read", "germplasm:read", "pedigree:read",
-     * "program:read", "accession:read", "cross:read", "sample:read", "institute:read", "observation_variable:read"})
+     * @ORM\ManyToOne(targetEntity=Pedigree::class, inversedBy="ancestorPedigrees")
      */
-    private $ancestorPedigreeEntryID;
+    private $pedigreeAncestorEntryId;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Pedigree::class, mappedBy="pedigreeAncestorEntryId")
+     */
+    private $ancestorPedigrees;
 
     /**
      * @ORM\Column(type="datetime")
@@ -73,17 +75,27 @@ class Pedigree
      */
     private $pedigreeCross;
 
-    private $parenstOfPeds;
-
     /**
      * @ORM\ManyToOne(targetEntity=Generation::class, inversedBy="pedigrees")
      */
     private $generation;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Pedigree::class, inversedBy="pedigreeLists")
+     */
+    private $mirrors;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Pedigree::class, mappedBy="mirrors")
+     */
+    private $pedigreeLists;
+
     public function __construct()
     {
         $this->germplasm = new ArrayCollection();
-        $this->parenstOfPeds = new ArrayCollection();
+        $this->mirrors = new ArrayCollection();
+        $this->pedigreeLists = new ArrayCollection();
+        $this->ancestorPedigrees = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,14 +115,44 @@ class Pedigree
         return $this;
     }
 
-    public function getAncestorPedigreeEntryID(): ?string
+    public function getPedigreeAncestorEntryId(): ?self
     {
-        return $this->ancestorPedigreeEntryID;
+        return $this->pedigreeAncestorEntryId;
     }
 
-    public function setAncestorPedigreeEntryID(?string $ancestorPedigreeEntryID): self
+    public function setPedigreeAncestorEntryId(?self $pedigreeAncestorEntryId): self
     {
-        $this->ancestorPedigreeEntryID = $ancestorPedigreeEntryID;
+        $this->pedigreeAncestorEntryId = $pedigreeAncestorEntryId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getAncestorPedigrees(): Collection
+    {
+        return $this->ancestorPedigrees;
+    }
+
+    public function addAncestorPedigree(self $ancestorPedigree): self
+    {
+        if (!$this->ancestorPedigrees->contains($ancestorPedigree)) {
+            $this->ancestorPedigrees[] = $ancestorPedigree;
+            $ancestorPedigree->setPedigreeAncestorEntryId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAncestorPedigree(self $ancestorPedigree): self
+    {
+        if ($this->ancestorPedigrees->removeElement($ancestorPedigree)) {
+            // set the owning side to null (unless already changed)
+            if ($ancestorPedigree->getPedigreeAncestorEntryId() === $this) {
+                $ancestorPedigree->setPedigreeAncestorEntryId(null);
+            }
+        }
 
         return $this;
     }
@@ -194,7 +236,70 @@ class Pedigree
         return $this;
     }
 
-    // API SECTION
+    public function getGeneration(): ?Generation
+    {
+        return $this->generation;
+    }
+
+    public function setGeneration(?Generation $generation): self
+    {
+        $this->generation = $generation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getMirrors(): Collection
+    {
+        return $this->mirrors;
+    }
+
+    public function addMirror(self $mirror): self
+    {
+        if (!$this->mirrors->contains($mirror)) {
+            $this->mirrors[] = $mirror;
+        }
+
+        return $this;
+    }
+
+    public function removeMirror(self $mirror): self
+    {
+        $this->mirrors->removeElement($mirror);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getPedigreeLists(): Collection
+    {
+        return $this->pedigreeLists;
+    }
+
+    public function addPedigreeList(self $pedigreeList): self
+    {
+        if (!$this->pedigreeLists->contains($pedigreeList)) {
+            $this->pedigreeLists[] = $pedigreeList;
+            $pedigreeList->addMirror($this);
+        }
+
+        return $this;
+    }
+
+    public function removePedigreeList(self $pedigreeList): self
+    {
+        if ($this->pedigreeLists->removeElement($pedigreeList)) {
+            $pedigreeList->removeMirror($this);
+        }
+
+        return $this;
+    }
+
+    // API SECTION BRAPI V2.1 - Last Code Update July 2023
     /**
      * @Groups({"pedigree:read"})
      */
@@ -206,6 +311,12 @@ class Pedigree
      * @Groups({"pedigree:read"})
      */
     public function getBreedingMethodDbId() {
+        if (!$this->getParents()) {
+            return null;
+        }
+        if (($this->getPedigreeAncestorEntryId() != null) && ($this->getPedigreeAncestorEntryId()->getGeneration() != 'P')) {
+            return $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getBreedingMethod()->getOntologyId();
+        }
         return $this->pedigreeCross->getBreedingMethod()->getOntologyId();
     }
 
@@ -213,6 +324,12 @@ class Pedigree
      * @Groups({"pedigree:read"})
      */
     public function getBreedingMethodName() {
+        if (!$this->getParents()) {
+            return null;
+        }
+        if (($this->getPedigreeAncestorEntryId() != null) && ($this->getPedigreeAncestorEntryId()->getGeneration() != 'P')) {
+            return $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getBreedingMethod()->getName();
+        }
         return $this->pedigreeCross->getBreedingMethod()->getName();
     }
 
@@ -220,13 +337,25 @@ class Pedigree
      * @Groups({"pedigree:read"})
      */
     public function getCrossingProjectDbId() {
-        return $this->pedigreeCross->getStudy()->getName();
+        if (!$this->getParents()) {
+            return null;
+        }
+        if (($this->getPedigreeAncestorEntryId() != null) && ($this->getPedigreeAncestorEntryId()->getGeneration() != 'P')) {
+            return $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getName();
+        }
+        return $this->pedigreeCross->getName();
     }
 
     /**
      * @Groups({"pedigree:read"})
      */
     public function getCrossingYear() {
+        if (!$this->getParents()) {
+            return null;
+        }
+        if (($this->getPedigreeAncestorEntryId() != null) && ($this->getPedigreeAncestorEntryId()->getGeneration() != 'P')) {
+            return $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getYear();
+        }
         return $this->pedigreeCross->getYear();
     }
 
@@ -234,7 +363,7 @@ class Pedigree
      * @Groups({"pedigree:read"})
      */
     public function getDefaultDisplayName() {
-        return $this->pedigreeEntryID;
+        return $this->germplasm[0]->getAccession()->getAcceName();
     }
 
     /**
@@ -269,21 +398,51 @@ class Pedigree
     * @Groups({"pedigree:read"})
      */
     public function getParents() {
-        $this->parenstOfPeds [] = $this->pedigreeCross->getParent1()->getGermplasmID();
-        $this->parenstOfPeds [] = $this->pedigreeCross->getParent2()->getGermplasmID();
-        $parent = [
-            [
-                "germplasmDbid" => $this->pedigreeCross->getParent1()->getGermplasmID(),
-                "germplasmName" => $this->pedigreeCross->getParent1()->getAccession()->getAccename(),
-                "parentType" => $this->pedigreeCross->getParent1Type()
-            ],
-            [
-                "germplasmDbid" => $this->pedigreeCross->getParent2()->getGermplasmID(),
-                "germplasmName" => $this->pedigreeCross->getParent2()->getAccession()->getAccename(),
-                "parentType" => $this->pedigreeCross->getParent2Type()
-            ]
-        ];
-        return $parent;
+        $parents = [];
+        //dd($this->getPedigreeLists()[4]);
+        // $forTest = [];
+        // foreach ($this->getPedigreeLists() as $key => $onePed) {
+        //     # code...
+        //     if ($this == $onePed) {
+        //         $forTest [] = $onePed;
+        //     }
+        // }
+        $pedGeneration = $this->getGeneration();
+        //dd($pedGeneration->getName(), " - ", $this->getAncestorPedigreeEntryID());
+        // || ($pedGeneration == "P" && $this->getAncestorPedigreeEntryID() != null)
+        if ($pedGeneration != "P"){
+            $parents = [
+                [
+                    "germplasmDbId" => $this->pedigreeCross->getParent1()->getGermplasmID(),
+                    "parentType" => $this->pedigreeCross->getParent1Type(),
+                    "germplasmName" => $this->pedigreeCross->getParent1()->getAccession()->getAccename()
+                ],
+                [
+                    "germplasmDbId" => $this->pedigreeCross->getParent2()->getGermplasmID(),
+                    "parentType" => $this->pedigreeCross->getParent2Type(),
+                    "germplasmName" => $this->pedigreeCross->getParent2()->getAccession()->getAccename()
+                ]
+            ];
+        }
+
+        if (($pedGeneration == "P") && ($this->getPedigreeAncestorEntryId() != null) && ($this->getPedigreeAncestorEntryId()->getGeneration() != 'P')){
+            $parents = [
+                [
+                    "germplasmDbId" => $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getParent1()->getGermplasmID(),
+                    "parentType" => $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getParent1Type(),
+                    "germplasmName" => $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getParent1()->getAccession()->getAccename()
+                ],
+                [
+                    "germplasmDbId" => $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getParent2()->getGermplasmID(),
+                    "parentType" => $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getParent2Type(),
+                    "germplasmName" => $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getParent2()->getAccession()->getAccename()
+                ]
+            ];
+        }
+        //$parenstOfPeds [] = $this->pedigreeCross->getParent1()->getGermplasmID();
+        //$parenstOfPeds [] = $this->pedigreeCross->getParent2()->getGermplasmID();
+        
+        return $parents ? $parents : null;
     }
 
     /**
@@ -303,7 +462,7 @@ class Pedigree
 
         // If their generation is P for parent, do not add it in the realProgenyOnly array
         foreach ($progenies as $key => $progen) {
-            if ($progen->getPedigreeGermplasm()->getPedigrees()[0]->getGeneration() !== "P"){
+            if ($progen->getPedigreeGermplasm()->getPedigrees()[0]->getGeneration() != "P"){
                 $realProgeniesOnly [] = $progen;
             }
         }
@@ -319,106 +478,68 @@ class Pedigree
                 $typeOfParentOfProgeny = $oneProgeny->getProgenyCross()->getParent2Type();
             }
             $pedigreeProgenyArr [] = [
-                "germplasmDbid" => $oneProgeny->getPedigreeGermplasm()->getGermplasmID(),
-                "germplasmName" => $oneProgeny->getPedigreeGermplasm()->getAccession()->getAccename(),
+                "germplasmDbId" => $oneProgeny->getPedigreeGermplasm()->getGermplasmID(),
                 "parentType" => $typeOfParentOfProgeny,
+                "germplasmName" => $oneProgeny->getPedigreeGermplasm()->getAccession()->getAccename()
             ];
         }
 
         return $pedigreeProgenyArr;
     }
 
-    //  * @Groups({"pedigree:read"})
-    //  */
+    /**
+    * @Groups({"pedigree:read"})
+     */
     public function getSiblings() {
         $siblings = [];
-        return $this->id;
-    }
+        foreach ($this->pedigreeLists as $key => $onePedigree) {
+            # code...
+            // logic to test with Clara -  share at least one parent.
+            $onePedigreeParent1 = $onePedigree->getPedigreeCross()->getParent1();
+            $onePedigreeParent2 = $onePedigree->getPedigreeCross()->getParent2();
+            if (
+                    ($this->getPedigreeCross()->getParent1() == $onePedigreeParent1
+                    || $this->getPedigreeCross()->getParent1() == $onePedigreeParent2
+                    || $this->getPedigreeCross()->getParent2() == $onePedigreeParent1
+                    || $this->getPedigreeCross()->getParent2() == $onePedigreeParent2) 
+                    && ($onePedigree->getId() != $this->getId())
+                    && ($onePedigree->getGeneration() == $this->getGeneration())
+                    && ($onePedigree->getGeneration() != "P")
+                ) {
+                    // onePedigree is a sibling of this pedigree
+                    $siblings [] = [
+                            "germplasmDbId" => $onePedigree->getGermplasm()[0]->getGermplasmID(),
+                            "germplasmName" => $onePedigree->getGermplasm()[0]->getAccession()->getAccename()
+                        ];
 
+            }
 
-    // public function getParent() {
-    //     $parent = [
-    //         "germplasmDbId" =>,
-    //         "germplasmName" =>,
-    //         "parentType" =>
-    //     ];
-    //     return $parent;
-    // }
+            if (($this->getPedigreeAncestorEntryId() != null) && ($this->getPedigreeAncestorEntryId()->getGeneration() != 'P')) {
+                $ancestorParent1 = $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getParent1();
+                $ancestorParent2 = $this->getPedigreeAncestorEntryId()->getPedigreeCross()->getParent2();
+                $ancestorCross = $this->getPedigreeAncestorEntryId()->getPedigreeCross();
+                $ancestorGeneration = $this->getPedigreeAncestorEntryId()->getGeneration();
+                $ancestorId = $this->getPedigreeAncestorEntryId()->getId();
 
-    // /**
-    //  * @Groups({"pedigree:read"})
-    //  */
-    // public function getPedigree() {
-    //     return $this->id;
-    // }
+                if (
+                    ($this->getPedigreeCross()->getParent1() == $ancestorParent1
+                    || $this->getPedigreeCross()->getParent1() == $ancestorParent2
+                    || $this->getPedigreeCross()->getParent2() == $ancestorParent1
+                    || $this->getPedigreeCross()->getParent2() == $ancestorParent2) 
+                    && ($onePedigree->getId() != $ancestorId)
+                    && ($onePedigree->getGeneration() == $ancestorGeneration)
+                    ) {
+                        // onePedigree is a sibling of this pedigree
+                        $siblings [] = [
+                                "germplasmDbId" => $onePedigree->getGermplasm()[0]->getGermplasmID(),
+                                "germplasmName" => $onePedigree->getGermplasm()[0]->getAccession()->getAccename()
+                            ];
 
-    // /**
-    //  * @Groups({"pedigree:read"})
-    //  */
-    // public function getProgeny() {
-    //     $progeny = [
-    //         "germplasmDbId" =>,
-    //         "germplasmName" =>,
-    //         "parentType" =>
-    //     ];
-    //     return $progeny;
-    // }
-
-    /**
-     * @Groups({"pedigree:read"})
-     */
-    // public function getSiblings() {
-    //     $siblings = [
-    //         "germplasmDbId" =>,
-    //         "germplasmName" =>
-    //     ];
-    //     return $siblings;
-    // }
-
-    /**
-     * @Groups({"pedigree:read"})
-     */
-    // public function getExternalReferences() {
-    //     $externalReferences = [
-    //         "externalReferenceId" =>,
-    //         "referenceSource" =>
-    //     ];
-    //     return $externalReferences;
-    // }
-
-    /**
-     * @Groups({"pedigree:read"})
-     */
-    // public function getCrossAttributes() {
-    //     $crossAttribute = [
-    //         "crossAttributeName" => "... No name",
-    //         "crossAttributeValue" => "... No value",
-    //     ];
-    //     return $crossAttribute;
-    // }
-
-    /**
-     * @Groups({"pedigree:read"})
-     */
-    // public function getPollinationEvents() {
-    //     $pollinationEvents = [
-    //         "pollinationNumber" => "... N/A",
-    //         "pollinationSuccessful" => "... N/A",
-    //         "pollinationTimeStamp" => $this->year,
-    //     ];
-    //     return $pollinationEvents;
-
-    // }
-
-    public function getGeneration(): ?Generation
-    {
-        return $this->generation;
-    }
-
-    public function setGeneration(?Generation $generation): self
-    {
-        $this->generation = $generation;
-
-        return $this;
+                }
+                
+            }
+        }
+        
+        return $siblings;
     }
 }

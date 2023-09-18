@@ -546,6 +546,14 @@ class Germplasm
 
     /**
      * @Groups({"germplasm:read"})
+    */
+    public function getDefaultDisplayName()
+    {
+        return $this->accession->getAccename();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
      * @SerializedName("germplasmPUI")
     */
     public function getPUI()
@@ -558,7 +566,7 @@ class Germplasm
     */
     public function getCountryOfOriginCode()
     {
-        return $this->accession->getOrigcty()->getIso3();
+        return $this->accession->getOrigcty() ? $this->accession->getOrigcty()->getIso3() : null;
     }
 
     /**
@@ -566,7 +574,7 @@ class Germplasm
      */
     public function getAcquisitionSourceCode()
     {
-        return $this->accession->getCollsrc()->getOntologyId();
+        return $this->accession->getCollsrc() ? $this->accession->getCollsrc()->getOntologyId() : null;
     }
 
     /**
@@ -574,15 +582,15 @@ class Germplasm
      */
     public function getBiologicalStatusOfAccessionCode()
     {
-        return $this->accession->getSampstat()->getOntologyId();
+        return $this->accession->getSampstat() ? $this->accession->getSampstat()->getOntologyId() : null;
     }
 
     /**
      * @Groups({"germplasm:read"})
      */
-    public function getBiologicalStatusOfAccessisonDescription()
+    public function getBiologicalStatusOfAccessionDescription()
     {
-        return $this->accession->getSampstat()->getName();
+        return $this->accession->getSampstat() ? $this->accession->getSampstat()->getName() : null;
     }
 
     /**
@@ -590,7 +598,7 @@ class Germplasm
      */
     public function getMLSStatus()
     {
-        return $code = $this->accession->getMLSStatus()->getOntologyId();
+        return $code = $this->accession->getMLSStatus() ? $this->accession->getMLSStatus()->getOntologyId() : null;
     }
 
     /**
@@ -632,6 +640,7 @@ class Germplasm
     {
         return $this->preprocessing;
     }
+    
 
     /**
      * @Groups({"germplasm:read"})
@@ -646,11 +655,11 @@ class Germplasm
      */
     public function getTaxonIds()
     {
-        $this->taxonIds = [
+        $taxonIds = [
             "SourceName" => "NCBI",
-            "taxonId" => $this->accession->getTaxon()->getId() 
+            "taxonId" => $this->accession->getTaxon()->getTaxonid()
         ];
-        return $this->taxonIds;
+        return $taxonIds;
     }
 
     /**
@@ -682,7 +691,7 @@ class Germplasm
      */
     public function getInstituteCode()
     {
-        return $this->accession->getInstcode()->getInstcode();
+        return $this->accession->getInstcode() ? $this->accession->getInstcode()->getInstcode() : null;
     }
 
     /**
@@ -690,7 +699,7 @@ class Germplasm
      */
     public function getInstituteName()
     {
-        return $this->accession->getInstcode()->getName();
+        return $this->accession->getInstcode() ? $this->accession->getInstcode()->getName() : null;
     }
 
     /**
@@ -706,22 +715,21 @@ class Germplasm
      */
     public function getCollection()
     {
-        $this->germplasmCollections = $this->germplasmCollection;
-        $this->collectionName = [];
-        foreach ($this->germplasmCollections as $key => $collection) {
-            $this->collectionName [] = $collection->getName();
+        $collectionName = [];
+        foreach ($this->germplasmCollection as $key => $collection) {
+            $collectionName [] = $collection->getName();
         }
-        return $this->collectionName;
+        return $collectionName;
     }
 
     /**
      * @Groups({"germplasm:read"})
      */
-    public function getStorageType()
+    public function getStorageTypes()
     {
         $storageType = [
-            "code" => $this->accession->getStorage()->getOntologyId(),
-            "description" => $this->accession->getStorage()->getName()
+            "code" => $this->accession->getStorage() ? $this->accession->getStorage()->getOntologyId() : null,
+            "description" => $this->accession->getStorage() ? $this->accession->getStorage()->getName() : null
         ];
         return $storageType;
     }
@@ -733,7 +741,7 @@ class Germplasm
     {
         $donors = [
             "donorAccessionNumber" => $this->accession->getDonornumb(),
-            "donorInstituteCode" => $this->accession->getDonorcode()->getInstcode(),
+            "donorInstituteCode" => $this->accession->getDonorcode() ? $this->accession->getDonorcode()->getInstcode(): null,
         ];
         return $donors;
     }
@@ -745,12 +753,12 @@ class Germplasm
     {
         $collectingInfo = [
             "collectingDate" => $this->accession->getColldate(),
-            "collectingMissionIdentifier" => $this->accession->getCollmissid()->getName(),
+            "collectingMissionIdentifier" => $this->accession->getCollmissid() ? $this->accession->getCollmissid()->getName() : null,
             "collectingNumber" => $this->accession->getCollnumb(),
             "collectingInstitute" => [
-                "instituteCode" => $this->accession->getCollCode()->getInstcode(),
-                "instituteName" => $this->accession->getCollCode()->getName(),
-                "instituteAddress" => $this->accession->getCollCode()->getStreetNumber() ." ". $this->accession->getCollCode()->getPostalCode() ." ". $this->accession->getCollCode()->getCity() ." ". $this->accession->getCollCode()->getCountry()
+                "instituteCode" => $this->accession->getCollCode() ? $this->accession->getCollCode()->getInstcode() : null,
+                "instituteName" => $this->accession->getCollCode() ? $this->accession->getCollCode()->getName() : null,
+                "instituteAddress" => $this->accession->getCollCode() ? $this->accession->getCollCode()->getStreetNumber() ." ". $this->accession->getCollCode()->getPostalCode() ." ". $this->accession->getCollCode()->getCity() ." ". $this->accession->getCollCode()->getCountry() : null
             ],
             "collectingSite" => [
                 "latituteDecimal" => $this->accession->getDeclatitude(),
@@ -788,12 +796,21 @@ class Germplasm
 
     /**
      * @Groups({"germplasm:read"})
+     * 
+     */
+    public function getCommonCropName()
+    {
+        return $this->program->getCrop()->getCommonCropName();
+    }
+
+    /**
+     * @Groups({"germplasm:read"})
      */
     public function getBreedingInstitute()
     {
         $breedingInstitute = [
-            "instituteCode" => $this->accession->getBredcode()->getInstcode(),
-            "instituteName" => $this->accession->getBredcode()->getName(),
+            "instituteCode" => $this->accession->getBredcode() ? $this->accession->getBredcode()->getInstcode() : null,
+            "instituteName" => $this->accession->getBredcode() ? $this->accession->getBredcode()->getName() : null,
               
         ];
         return $breedingInstitute;

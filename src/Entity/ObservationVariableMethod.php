@@ -25,6 +25,7 @@ class ObservationVariableMethod
      * @ORM\Column(type="integer")
      * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
+     * @SerializedName("methodDbId")
      */
     private $id;
 
@@ -32,6 +33,7 @@ class ObservationVariableMethod
      * @ORM\Column(type="string", length=255)
      * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
+     * @SerializedName("methodName")
      */
     private $name;
 
@@ -80,8 +82,6 @@ class ObservationVariableMethod
 
     /**
      * @ORM\ManyToOne(targetEntity=MethodClass::class, inversedBy="observationVariableMethods")
-     * @Groups({"mls_status:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
-     * "metabolite:read", "observation_variable:read", "observation_v_m:read"})
      */
     private $methodClass;
 
@@ -284,4 +284,24 @@ class ObservationVariableMethod
     {
         return (string) $this->name;
     }
+
+    // API September 2023 . BrAPI 2.1
+
+    /**
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_v_m:read"})
+     * @SerializedName("methodClass")
+     */
+    public function getObservationVariableMethod() {
+        return $this->methodClass->getName();
+    }
+
+    /**
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_v_m:read"})
+     */
+    public function getBibliographicalReference() {
+        return $this->publicationReference ? $this->publicationReference[0] : null;
+    }
+
 }

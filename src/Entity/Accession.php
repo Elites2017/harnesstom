@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 /**
  * @ORM\Entity(repositoryClass=AccessionRepository::class)
  * @ApiResource(
- *      normalizationContext={"groups"={"accession:read"}},
+ *      normalizationContext={"groups"={"accession:read", "germplasm:read"}},
  *      denormalizationContext={"groups"={"accession:write"}}
  * )
  */
@@ -222,6 +222,8 @@ class Accession
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"accession:read", "germplasm:read"})
+     * @SerializedName("pedigree")
      */
     private $breedingInfo;
 
@@ -739,7 +741,7 @@ class Accession
     public function getDonnors(): Array
     {
         $this->donnors = [
-            "donnorInstituteCode" => $this->donorcode->getInstcode(),
+            "donnorInstituteCode" => $this->donorcode ? $this->donorcode->getInstcode() : null,
             "donnorAccessionNumber"=> $this->getDonornumb()
         ];
         return $this->donnors;
@@ -779,7 +781,7 @@ class Accession
      */
     public function getAcquisitionSourceCode()
     {
-        return $this->collsrc->getOntologyId();
+        return $this->collsrc ? $this->collsrc->getOntologyId() : null;
     }
 
     /**
