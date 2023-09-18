@@ -28,7 +28,7 @@ class SequencingTypeController extends AbstractController
     public function index(SequencingTypeRepository $sequencingTypeRepo): Response
     {
         $sequencingTypes =  $sequencingTypeRepo->findAll();
-        $parentsOnly = $parentsOnly->getParentsOnly();
+        $parentsOnly = $sequencingTypeRepo->getParentsOnly();
         $context = [
             'title' => 'Sequencing Type List',
             'sequencingTypes' => $sequencingTypes,
