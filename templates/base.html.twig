@@ -1922,6 +1922,14 @@
 						</div>
 					</li>
 
+					<!-- start api -->
+					<li class="nav-item">
+						<a class="nav-link" href="/api">
+							<i class="fa-solid fa-gears"></i>
+							<span>API Docs</span></a>
+					</li>
+					<!-- end api -->
+
 					<!-- Divider -->
 					<hr class="sidebar-divider">
 
@@ -2196,6 +2204,16 @@
 
 			<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
 			<script src="{{ asset('assets/nl/js/main.js') }}"></script>
+
+			<!-- BrApi Integration -->
+			<!-- Graphical filtering files -->
+			<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+			<script>
+
+				const div = d3.selectAll("div");
+
+			</script>
+
 
 			{% if not app.user %}
 				<!-- Guided Tour LH  -->
