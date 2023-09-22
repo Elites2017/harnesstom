@@ -815,7 +815,7 @@ class Study
      */
     public function getBraApiObservationLevels(){
         $rApiObservationLevels = [
-            "levelName" => $this->getObservationLevels(),
+            "levelName" => $this->observationLevels,
         ];
         return $rApiObservationLevels;
     }

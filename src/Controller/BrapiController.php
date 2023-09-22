@@ -23,4 +23,15 @@ class BrapiController extends AbstractController
         return $this->render('brapi/graphical_filtering.html.twig', $context);
     }
 
+    /**
+     * @Route("/studycomp", name="studycomp")
+     */
+    public function studyComp(): Response
+    {
+        $context = [
+            'title' => 'Study Comp',
+        ];
+        return $this->render('brapi/study_comparison.html.twig', $context);
+    }
+
 }
