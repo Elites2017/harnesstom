@@ -59,7 +59,7 @@
                             <form id="brapi-form" action="#" class="form-group" style="margin:1em" name="brapi-form" enctype="multipart/form-data">
                                 <div class="form-group">
                                     {# <label for="brapi-server">BrAPI Server Adress</label>  #}
-                                    <input type="hidden" class="form-control" id="brapi-server" name="server" value="http://127.0.0.1:8000/brapi/phenotypes-search">
+                                    <input type="hidden" class="form-control" id="brapi-server" name="server">
                                 </div>
                                 <div class="form-group">
                                     {# <label for="brapi-username">Username</label> #}
@@ -188,7 +188,7 @@
                 // for local development
                 var dev_brapi = BrAPI("http://127.0.0.1:8000/brapi/");
                 // on production
-                var prod_brapi = BrAPI("gateway.harnesstom.eu/brapi/");
+                var prod_brapi = BrAPI("/");
                 {% if appEnv is same as "dev" %}
                     brapi = dev_brapi;
                 {% else %}
