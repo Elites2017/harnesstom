@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class BrapiController extends AbstractController
 {
     /**
-     * @Route("/graphical/filtering", name="graphical_filtering")
+     * @Route("/old/graphical/filtering", name="graphical_filtering")
      */
     public function graphicalFiltering(): Response
     {
