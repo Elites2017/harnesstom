@@ -18,111 +18,132 @@ use Symfony\Component\Routing\Annotation\Route;
 class GraphicalFilteringController extends AbstractController
 {
     /**
-     * @Route("/phenotypes-search", name="phenotype_search", methods={"POST", "GET"})
+     * @Route("/graphical/filtering", name="graphical_filtering")
+     */
+    public function graphicalFiltering(): Response
+    {
+        $context = [
+            'title' => 'Graphical Filtering',
+            'appEnv' => $_SERVER['APP_ENV']
+        ];
+        return $this->render('brapi/graphical_filtering.html.twig', $context);
+    }
+
+    /**
+     * @Route("/phenotypes-search", name="phenotypes_search", methods={"POST"})
      */
     public function phenotypesSearch(Request $request, StudyRepository $studyRepo, ObservationValueOriginalRepository $obsValOriRepo): Response
     {
         // get the params
-        // $study = $request->request->get('brapi-form');
-        //var_dump("Req ", $request->get('studyDbIds'));
-        $studyProvided = $request->get('study');
-        //dd($studyProvided);
-        $studySelected = $studyRepo->findOneBy(["id"=>15]);
-        //dd("Study - ", $studySelected->getBraApiObservationLevels()["levelName"]);
-        //dd(count($studySelected->getObservationVariableDbIds()));
-        $obsLevels = $studySelected->getObservationLevels();
-        $obsUnitsAndValues = [];
-        foreach ($obsLevels as $key => $oneObsLevel) {
-            # code...
-            $oneObsValOri = $obsValOriRepo->findBy(["unitName" => $oneObsLevel->getId()]);
-            $obsValuesByUnit = [];
-            foreach ($oneObsValOri as $keyo => $oneSingleObsValOri) {
+        // use json decode, because the params sent to this controller is in json
+        $paramsSent = json_decode($request->getContent(), true);
+        $studyIdAbbreviation = $paramsSent["studyDbIds"];
+        $observationLevel = $paramsSent["observationLevel"];
+        $studySelected = "";
+        // querying the db to get the study
+        if ($studyRepo->findOneBy(["id" => $studyIdAbbreviation]) != null) {
+            $studySelected = $studyRepo->findOneBy(["id" => $studyIdAbbreviation]);
+        } else {
+            $studySelected = $studyRepo->findOneBy(["abbreviation" => $studyIdAbbreviation]);
+        }
+        // test if one correct study was found
+        if ($studySelected != null) {
+            $obsLevels = $studySelected->getObservationLevels();
+            $obsUnitsAndValues = [];
+            foreach ($obsLevels as $key => $oneObsLevel) {
                 # code...
-                $obsValuesByUnit [] = [
-                        "observationVariableName" => $oneSingleObsValOri->getObservationVariableOriginal()->getName(),
-                        "value" => $oneSingleObsValOri->getValue()
-                    
-                    ];
-            } 
-            $obsUnitsAndValues[] = $obsValuesByUnit; 
-        }
+                $oneObsValOri = $obsValOriRepo->findBy(["unitName" => $oneObsLevel->getId()]);
+                $obsValuesByUnit = [];
+                foreach ($oneObsValOri as $keyo => $oneSingleObsValOri) {
+                    # code...
+                    $obsValuesByUnit [] = [
+                            "observationVariableName" => $oneSingleObsValOri->getObservationVariableOriginal()->getName(),
+                            "value" => $oneSingleObsValOri->getValue()
+                        
+                        ];
+                } 
+                $obsUnitsAndValues[] = [
+                    "obsValuesByUnit" => $obsValuesByUnit,
+                    "germplasmName" => $oneObsLevel->getGermaplasm()->getAccession()->getAccename(),
+                    "germplasmId" => $oneObsLevel->getGermaplasm()->getAccession()->getId(),
+                    "unitName" => $oneObsLevel->getUnitname(),
+                ]; 
+            }
 
-        //dd($obsUnitsAndValues);
-        $myDat = [];
-        foreach ($obsUnitsAndValues as $key => $one) {
-            # code...
-            //dd($obsUnitsAndValues);
-            $myDat [] = 
-            [
-                "studyLocationDbId" => "string",
-                "studyDbId" => "string",
-                "germplasmDbId" => "string",
-                "germplasmName" => "string",
-                "observationLevel" => "string",
-                "observationUnitXref" => 
+            $returnedData = [];
+            foreach ($obsUnitsAndValues as $key => $oneOBU) {
+                # code...
+                $returnedData [] = 
                 [
-                  [
-                    "id" => "string",
-                    "source" => "string"
-                  ]
-                ],
-                "programDbId" => "string",
-                "observationUnitDbId" => "string",
-                "observationUnitName" => "string",
-                "observationLevels" => "string",
-                "plotNumber" => "string",
-                "plantNumber" => "string",
-                "blockNumber" => "string",
-                "replicate" => "string",
-                "entryType" => "string",
-                "entryNumber" => "string",
-                "studyName" => $studySelected->getAbbreviation(),
-                "studyLocation" => "string",
-                "programName" => "string",
-                "treatments" => 
-                [
-                  [
-                    "modality" => "string",
-                    "factor" => "string"
-                  ]
-                ],
-                "observations" => $one,
-                "Y" => "string",
-                "X" => "string"
-            ];
-        }
-
-        //dd($myDat);
-
-        return new JsonResponse([
-            'result' => 
-            [
-                "data" => $myDat
-                ],
-                "metadata" => 
-                [
-                  "status" => 
-                  [
+                    "studyLocationDbId" => "string",
+                    "studyDbId" => "string",
+                    "germplasmDbId" => $oneOBU["germplasmId"],
+                    "germplasmName" => $oneOBU["germplasmName"],
+                    "observationLevel" => "string",
+                    "observationUnitXref" => 
                     [
-                      "name" => "string",
-                      "code" => "string"
+                    [
+                        "id" => "string",
+                        "source" => "string"
                     ]
-                  ],
-                  "datafiles" => 
-                  [
-                    "string"
-                  ],
-                  "pagination" => 
-                  [
-                    "totalCount" => 0,
-                    "pageSize" => 0,
-                    "currentPage" => 0,
-                    "totalPages" => 0
-                  ]
-                ],
-            ]
+                    ],
+                    "programDbId" => "string",
+                    "observationUnitDbId" => "string",
+                    "observationUnitName" => $oneOBU["unitName"],
+                    "observationLevels" => "string",
+                    "plotNumber" => "string",
+                    "plantNumber" => "string",
+                    "blockNumber" => "string",
+                    "replicate" => "string",
+                    "entryType" => "string",
+                    "entryNumber" => "string",
+                    "studyName" => $studySelected->getAbbreviation(),
+                    "studyLocation" => "string",
+                    "programName" => "string",
+                    "treatments" => 
+                    [
+                    [
+                        "modality" => "string",
+                        "factor" => "string"
+                    ]
+                    ],
+                    "observations" => $oneOBU["obsValuesByUnit"],
+                    "Y" => "string",
+                    "X" => "string"
+                ];
+            }
 
-        );
+            return new JsonResponse([
+                'result' => 
+                [
+                    "data" => $returnedData
+                    ],
+                    "metadata" => 
+                    [
+                    "status" => 
+                    [
+                        [
+                        "name" => "string",
+                        "code" => "string"
+                        ]
+                    ],
+                    "datafiles" => 
+                    [
+                        "string"
+                    ],
+                    "pagination" => 
+                    [
+                        "totalCount" => 0,
+                        "pageSize" => 0,
+                        "currentPage" => 0,
+                        "totalPages" => 0
+                    ]
+                    ],
+                ]
+
+            );
+
+        }
     }
 
     /**
@@ -136,146 +157,3 @@ class GraphicalFilteringController extends AbstractController
     }
 
 }
-
-//dd($newTest);
-        //$ooo = [];
-        //$temp = [];
-        // foreach ($allObsValOri as $key => $justOne) {
-        //     # code...
-        //     foreach ($justOne as $keyL => $one) {
-        //         # code...
-        //         $temp = [
-        //             "observationVariableName" => $one->getObservationVariableOriginal()->getName(),
-        //             "value" => $one->getValue()
-
-        //         ];
-        //     }
-        //     //dd($justOne->getObservationVariableOriginal()->getName());
-        //     $ooo [] = $temp;
-        //     //dd("ooo", $ooo);
-        // }
-
-//dd($ooo);
-        // $returnedVal = [];
-
-        // $allObsVar = [];
-        // $allStudies = [];
-        // $allObs = [];
-
-        // foreach ($oneObsValOri as $keyo => $oneSingleObsValOri) {
-        //     # code...
-        //     dd(count($oneSingleObsValOri));
-        //     $allObsVar [] =  $oneSingleObsValOri;
-        //     $allStudies [] = $studySelected->getAbbreviation();
-        //     $allObs [] = [
-        //         "observationVariableName" => $oneSingleObsValOri[$keyo]->getObservationVariableOriginal()->getName(),
-        //         "value" => $oneSingleObsValOri[$keyo]->getValue()
-        //     ];
-
-            //dd(count($oneSingleObsValOri));
-            // foreach ($oneSingleObsValOri as $key => $newTab) {
-            //     # code...
-
-            //     $returnedVal [] = [
-            //         'studyName' => [$studySelected->getAbbreviation()],
-            //         'observations' => $obsValues
-            //     ];
-
-            //     $obsValues [] = [
-            //         [
-            //             "observationVariableName" => $newTab->getObservationVariableOriginal()->getName(),
-            //             "value" => $newTab->getValue()
-            //         ],
-            //     ];
-            // }
-            
-        // }
-       //dd($allObs);
-
-        // foreach ($obsLevels as $key => $oneObsLevel) {
-        //     # code...
-        //     $obsVaroriginals [] = $obsValOriRepo->findBy(["unitName" => $oneObsLevel->getId()]);
-            
-        // }
-
-        // $testK = [];
-        // foreach ($obsVaroriginals as $key => $onebsVarOri) {
-        //     # code...
-        //     $testK [] = $onebsVarOri;
-        //     //dd(count($obsVaroriginals));
-        //     if($onebsVarOri[$key] <= 7) {
-        //         $obsValues [] = [
-        //             "observationvariableName" => $onebsVarOri[$key]->getObservationVariableOriginal()->getName(),
-        //             "value" => $onebsVarOri->getValue()
-        //         ];
-        //     }
-        // }
-        // dd($testK);
-        
-
-        
-
-    //     /**
-    //  * @Groups({"study:read"})
-    //  */
-    // public function getObservationVariableDbIds() {
-    //     $unitNames = [];
-    //     $obsValues = [];
-    //     $variableIds = [];
-    //     foreach ($this->observationLevels as $oneObsLevel) {
-    //         # code...
-    //         $unitNames [] = $oneObsLevel->getUnitname();
-    //         $obsValues [] = $oneObsLevel->getObservationValueOriginals();
-    //     }
-
-    //     foreach ($obsValues as $key => $oneObsValue) {
-    //         # code...
-    //         if ($oneObsValue[$key] !== null) {
-    //             $variableIds [] = $oneObsValue[$key]->getObservationVariableOriginal()->getName();
-    //         }
-    //     }
-    //     return $variableIds;
-    // }
-    // return new JsonResponse([
-    //     'content' => $this->renderView('gourmetom/content_accession.html.twig', $context)
-    // ]);
-
-
-// 'germplasmName' => [["Acce 1"], ["Acce 2"]],
-                // 'observationUnitName' => [["Unit 1"], ["Unit 2"],],
-                // 'studyName' => $studySelected->getAbbreviation(),
-                // 'observations' => $obsValues
-                // 'observations' => [
-                //     [
-                //         "observationVariableName" => "My Name",
-                //         "value" => 78
-                //     ],
-                //     [
-                //         "observationVariableName" => "My 2Name",
-                //         "value" => 738
-                //     ],
-                //     [
-                //         "observationVariableName" => "My 3 Name",
-                //         "value" => 337
-                //     ],
-                //     [
-                //         "observationVariableName" => "My new Name",
-                //         "value" => 78
-                //     ],
-                //     [
-                //         "observationVariableName" => "My new 2 Name",
-                //         "value" => 738
-                //     ],
-                //     [
-                //         "observationVariableName" => "My new 3 Name",
-                //         "value" => 337
-                //     ],
-                //     [
-                //         "observationVariableName" => "My new x Name",
-                //         "value" => 80
-                //     ],
-                //     [
-                //         "observationVariableName" => "My Y Name",
-                //         "value" => 444
-                //     ],
-                // ],

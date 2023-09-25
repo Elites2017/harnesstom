@@ -28,9 +28,6 @@
 	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
 	<!-- DataTables Animate CSS -->
 	<link href="{{ asset('assets/datatables/css/animate.1.13.4.css.jquery.dataTables.min.css') }}" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 			
 {% endblock %}
 
@@ -47,127 +44,85 @@
 						</div>
 					{% endfor %}
 				{% endfor %}
+                <!-- .card start -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                         <h6 class="m-0 font-weight-bold tomato-color">Graphical Filtering</br>
                             <small>...</small>
                         </h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">Graph View:</div>
-                                <a class="dropdown-item" href="#">Most Trial By Country</a>
-                                <a class="dropdown-item" href="#">Most Trial By Institute</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Most Trial By ...</a>
-                            </div>
-                        </div>
                     </div>
                     <div class="card-body">
 
-                        {# <div style="width:1000px;padding:1em;position:relative;">
-                            <div id="filter_div" style="margin:1em"></div>
-                            <div style="width:100%;overflow-x:scroll;">
-                                <table id="filtered_results"></table>
-                            </div>
-                        </div> #}
-
                         <div class="forward-container">
-                        <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/brapigraphicalfiltering/css/GraphicalFilter.css') }}">
-                        <link rel="stylesheet" property="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-                        {# {% if obsValues %}
-                            {{ obsValues | length }}
-                        {% endif %} #}
-                        <form id="brapi-form" action="#" class="form-inline" style="margin:1em" name="brapi-form">
-                            <div class="form-group">
-                            <label for="brapi-server">BrAPI Server Adress</label> <input type="text" class="form-control" id="brapi-server" name="server" value="http://127.0.0.1:8000/brapi/phenotypes-search">
-                            </div>
-                            <div class="form-group">
-                            <label for="brapi-username">Username</label> <input type="text" class="form-control" id="brapi-username" name="username" placeholder="">
-                            </div>
-                            <div class="form-group">
-                            <label for="brapi-password">Password</label> <input type="password" class="form-control" id="brapi-password" name="password" placeholder="">
-                            </div><br>
-                            <br>
-                            <div class="form-group">
-                            <label for="brapi-study">Study ID</label> <input type="text" class="form-control" id="brapi-study" name="study" value="15">
-                            </div>
-                            <div class="form-group">
-                            <label for="brapi-unit">Unit Type</label> <select id="brapi-unit" class="form-control" name="unit">
-                                <option value="plot">
-                                Plot
-                                </option>
-                                <option value="plant">
-                                Plant
-                                </option>
-                            </select>
-                            </div>
-                            <div class="form-group">
-                            <label><input type="checkbox" name="group"> Group By Accession</label>
-                            </div><input type="submit" action="#" id="load-brapi" class="btn btn-primary" value="Load">
-                        </form>
+                            <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/brapigraphicalfiltering/css/GraphicalFilter.css') }}">
+                            
+                            <form id="brapi-form" action="#" class="form-group" style="margin:1em" name="brapi-form" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    {# <label for="brapi-server">BrAPI Server Adress</label>  #}
+                                    <input type="hidden" class="form-control" id="brapi-server" name="server" value="http://127.0.0.1:8000/brapi/phenotypes-search">
+                                </div>
+                                <div class="form-group">
+                                    {# <label for="brapi-username">Username</label> #}
+                                    <input type="hidden" class="form-control" id="brapi-username" name="username" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    {# <label for="brapi-password">Password</label> #}
+                                    <input type="hidden" class="form-control" id="brapi-password" name="password" placeholder="">
+                                </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="brapi-study">Study</label> <input type="text" class="form-control" id="brapi-study" name="study" placeholder="Please provide the study abbreviation or the study DB id">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="brapi-unit">Unit Type</label>
+                                            <select id="brapi-unit" class="custom-select mr-sm-2" name="unit">
+                                                <option value="plot">
+                                                Plot
+                                                </option>
+                                                <option value="plant">
+                                                Plant
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="group"> Group By Accession</label>
+                                        </div>
+                                    </div>
+                                    <div class="row  mb-3">
+                                        <div class="col-md-6">
+                                            <button class="btn btn-outline-primary btn-lg btn-block" type="submit" action="#" id="load-brapi" value="Load">Load</button>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+                                        </div>
+                                    </div>
+                            </form>
                         </div>
                         <div class="brapp-container" style="position:relative;">
-                        <div value="brapp-wrapper" style="display:inline-block; border:solid 1px #ccc;border-radius:4px;">
-                            <div class="brapp-body" style="background-color:#fff;border-top-left-radius:4px;border-top-right-radius:4px;">
-                            <div style="width:1000px;padding:1em;position:relative;">
-                                <div id="filter_div" style="margin:1em"></div>
-                                <div style="width:100%;overflow-x:scroll;">
-                                <table id="filtered_results"></table>
+                            <div class="col-xl-12 col-lg-11" value="brapp-wrapper" style="display:inline-block; border:solid 1px #ccc;border-radius:10px;">
+                                <div style="background-color:#fff;border-top-left-radius:4px;border-top-right-radius:4px;">
+                                    <div>
+                                        <div id="filter_div" style="margin:1em"></div>
+                                        <div class="table-responsive">
+                                            <table id="filtered_results" class="table table-hover text-nowrap"></table>
+                                        </div>
+                                    </div>
+                                    <div style="clear:both"></div>
+                                </div>
+                                <div class="brapp-footer" style="background-color:#ddd;border-top:solid 1px #ccc;font-family:Arial;color:#555;font-size:11px;padding:0.3em;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
+                                    <div style="min-height:14px;text-align:right;">
+                                        <a href="https://github.com/solgenomics/BrAPI-Graphical-Filtering" style="color:inherit;white-space:nowrap;text-decoration:underline;">Graphical Filtering</a>
+                                        developed at the <a href="https://btiscience.org/" style="color:inherit;white-space:nowrap;text-decoration:underline;">Boyce Thompson Institute</a>
+                                        , <b>addapted by HarnessTom</b>
+                                    </div>
                                 </div>
                             </div>
-                            <div style="clear:both"></div>
-                            </div>
-                            <div class="brapp-footer" style="background-color:#ddd;border-top:solid 1px #ccc;font-family:Arial;color:#555;font-size:11px;padding:0.3em;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
-                            <div style="min-height:14px;text-align:right;">
-                                <a href="https://github.com/solgenomics/BrAPI-Graphical-Filtering" style="color:inherit;white-space:nowrap;text-decoration:underline;">Graphical Filtering</a> developed at the <a href="https://btiscience.org/" style="color:inherit;white-space:nowrap;text-decoration:underline;">Boyce Thompson Institute</a>
-                            </div>
-                            </div>
-                        </div>
                         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        <div class="table-responsive"> 
-                            <table id="datatable" class="table table-hover text-nowrap" width="100%">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th scope="col">Abbreviation</th>
-                                        <th scope="col">Name </th>
-                                        <th scope="col" data-orderable="false">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
+                    <!-- .card end -->
                 </div>
 		    </div>
 		</div>
@@ -201,8 +156,6 @@
 
     <!-- Graphical filtering files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.12.0/d3.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" charset="utf-8"></script>
     <script src="{{ asset('assets/brapigraphicalfiltering/js/BrAPI.js') }}"></script>
     <script src="{{ asset('assets/brapigraphicalfiltering/js/GraphicalFilter.js') }}" charset="utf-8"></script>
     <script type="text/javascript">
@@ -230,21 +183,31 @@
                     'password': form.password
                 } : undefined;
                 //var brapi = BrAPI(base_url + "brapi/v1", auth);
-                var brapi = BrAPI("http://127.0.0.1:8000/brapi/");
+                
+                var brapi = "";
+                // for local development
+                var dev_brapi = BrAPI("http://127.0.0.1:8000/brapi/");
+                // on production
+                var prod_brapi = BrAPI("gateway.harnesstom.eu/brapi/");
+                {% if appEnv is same as "dev" %}
+                    brapi = dev_brapi;
+                {% else %}
+                    brapi = prod_brapi;
+                {% endif %}
+                
+
                 var params = {
-                    "studyDbIds": [form.study],
+                    // even though it's studyDbIds, the search can be also done by study abbreviation 
+                    "studyDbIds": form.study,
                     "observationLevel": form.unit
                 };
                 GraphicalFilter(
                     brapi.phenotypes_search(params),
                     function(d) { // traits/values
-                    console.log("What it gets ", d);
                         var traits = {}
                         d.observations.forEach(function(obs){
-                            console.log("OBS for now ", obs);
                             traits[obs.observationVariableName] = obs.value;
                         });
-                        console.log("Traits ", traits);
                         return traits;
                     },
                     form.group? function(d) {
@@ -267,11 +230,4 @@
             })
         });
     </script>
-
-    {# <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <script>
-
-        const div = d3.selectAll("div");
-
-    </script> #}
 {% endblock %}
