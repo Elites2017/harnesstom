@@ -188,7 +188,7 @@
                 // for local development
                 var dev_brapi = BrAPI("http://127.0.0.1:8000/brapi/");
                 // on production
-                var prod_brapi = BrAPI("/");
+                var prod_brapi = BrAPI("/brapi/");
                 {% if appEnv is same as "dev" %}
                     brapi = dev_brapi;
                 {% else %}
