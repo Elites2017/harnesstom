@@ -24,7 +24,6 @@ class GraphicalFilteringController extends AbstractController
     {
         $context = [
             'title' => 'Graphical Filtering',
-            'appEnv' => $_SERVER['APP_ENV']
         ];
         return $this->render('brapi/graphical_filtering.html.twig', $context);
     }

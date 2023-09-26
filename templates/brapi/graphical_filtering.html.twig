@@ -184,18 +184,8 @@
                 } : undefined;
                 //var brapi = BrAPI(base_url + "brapi/v1", auth);
                 
-                var brapi = "";
-                // for local development
-                var dev_brapi = BrAPI("http://127.0.0.1:8000/brapi/");
-                // on production
-                var prod_brapi = BrAPI("/brapi/");
-                {% if appEnv is same as "dev" %}
-                    brapi = dev_brapi;
-                {% else %}
-                    brapi = prod_brapi;
-                {% endif %}
+                var brapi = BrAPI("/brapi/");
                 
-
                 var params = {
                     // even though it's studyDbIds, the search can be also done by study abbreviation 
                     "studyDbIds": form.study,
