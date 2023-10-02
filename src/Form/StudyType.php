@@ -50,10 +50,12 @@ class StudyType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '7')])
             ->add('startDate', DateType::class, array(
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false
             ))
             ->add('endDate', DateType::class, array(
                 'widget' => 'single_text',
+                'required' => false
             ))
             ->add('culturalPractice')
             ->add('trial', EntityType::class, [

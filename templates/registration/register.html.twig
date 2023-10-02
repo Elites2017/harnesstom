@@ -143,11 +143,13 @@
                     }}
                             </div>
 
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <a href="#">{{ form_row(registrationForm.agreeTerms) }}</a>
                                 <small class="tomato-color text-justify">
-                                    By clicking the checkbox below, you agree to give consent to
-                                    HarnessTom Team to use ... for statistic purposes.
+                                    <b>By keeping this box checked you give consent
+                                    to the Harnesstom team to use for statistic purposes
+                                    those data for which you have requested a pre-publication confidential hold only.
+                                    Note that the data as well as the metadata will remain confidential until the specified release date of the associated trial</b>
                                 </small>
                                 {{ form_row(registrationForm.consentTerms) }}
 

@@ -73,6 +73,15 @@ class StudyRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function getStudyObsLevels($study) {
+        $query = $this->createQueryBuilder('study')
+            ->join('App\Entity\ObservationLevel', 'obsLevel')
+            ->where('study.isActive = 1')
+            ->andWhere('study.id = obsLevel.study')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Study[] Returns an array of Study objects
     //  */
