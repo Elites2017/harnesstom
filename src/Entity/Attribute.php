@@ -24,12 +24,14 @@ class Attribute
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"attribute:read"})
+     * @SerializedName("attributeDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"attribute:read"})
+     * @SerializedName("attributeName")
      */
     private $name;
 
@@ -217,5 +219,96 @@ class Attribute
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    // API SECTION BRAPI V2.1 - Last Code Update July 2023
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getTrait() {
+        $trait = [];
+        foreach ($this->attributeTraitValues as $key => $oneTraitVal) {
+            # code...
+            $trait [] = $oneTraitVal->getTrait() ? $oneTraitVal->getTrait()->getName() : null;
+        }
+        return $trait;
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getAttributeCategory() {
+        return $this->category->getName();
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getAttributeDescription() {
+        return $this->description;
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getAttributePUI() {
+        return "...";
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getCommonCropName() {
+        return "...";
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getDefaultValue() {
+        return "...";
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getGrowthStage() {
+        return "...";
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getInstitution() {
+        return "...";
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getLanguage() {
+        return "...";
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getScientist() {
+        return $this->createdBy->getPerson() ? $this->createdBy->getPerson()->getFirstName()." ".$this->createdBy->getPerson()->getLastName() : '';
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getStatus() {
+        return $this->isActive == true ? 'active' : 'obsolete';
+    }
+
+    /**
+     * @Groups({"attribute:read"})
+     */
+    public function getSubmissionTimeStamp() {
+        return $this->createdAt;
     }
 }

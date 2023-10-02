@@ -12,10 +12,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
+// call the datatable service
+use App\Service\Datatable;
+
 
 // set a class level route
 /**
@@ -28,12 +32,21 @@ class MarkerController extends AbstractController
      */
     public function index(MarkerRepository $markerRepo): Response
     {
-        $markers =  $markerRepo->findAll();
+        $markers =  $markerRepo->totalRows();
         $context = [
             'title' => 'Marker List',
-            'markers' => $markers
+            'markerTotalRows' => $markers,
         ];
         return $this->render('marker/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, MarkerRepository $markerRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($markerRepo, $request);
+        return $datatableRes;
     }
 
     /**

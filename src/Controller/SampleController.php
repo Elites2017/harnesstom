@@ -32,7 +32,19 @@ class SampleController extends AbstractController
      */
     public function index(SampleRepository $sampleRepo): Response
     {
-        $samples =  $sampleRepo->findAll();
+        $samples = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $samples = $sampleRepo->findAll();
+            } else {
+                $samples = $sampleRepo->findReleasedTrialStudySample($this->getUser());
+            }
+        } else {
+            $samples = $sampleRepo->findReleasedTrialStudySample();
+        }
         $context = [
             'title' => 'Sample List',
             'samples' => $samples

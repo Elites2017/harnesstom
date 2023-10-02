@@ -31,7 +31,19 @@ class CrossController extends AbstractController
      */
     public function index(CrossRepository $crossRepo): Response
     {
-        $crosses =  $crossRepo->findAll();
+        $crosses = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $crosses = $crossRepo->findAll();
+            } else {
+                $crosses = $crossRepo->findReleasedTrialStudyCross($this->getUser());
+            }
+        } else {
+            $crosses = $crossRepo->findReleasedTrialStudyCross();
+        }
         $context = [
             'title' => 'Cross List',
             'crosses' => $crosses

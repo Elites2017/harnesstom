@@ -16,6 +16,7 @@ class ScaleCategoryType extends AbstractType
             ->add('score')
             ->add('min')
             ->add('max')
+            ->add('scale')
         ;
     }
 

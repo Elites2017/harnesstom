@@ -37,16 +37,16 @@ class Analyte
      * @ORM\Column(type="string", length=255)
      * @Groups({"analyte:read"})
      */
-    private $AnalyteCode;
+    private $analyteCode;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"analyte:read"})
      */
     private $retentionTime;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"analyte:read"})
      */
     private $massToChargeRatio;
@@ -77,11 +77,6 @@ class Analyte
     private $observationVariableMethod;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AnalyteClass::class, inversedBy="analytes")
-     */
-    private $analyteClass;
-
-    /**
      * @ORM\ManyToOne(targetEntity=AnalyteFlavorHealth::class, inversedBy="analytes")
      */
     private $healthAndFlavor;
@@ -95,6 +90,11 @@ class Analyte
      * @ORM\OneToMany(targetEntity=Metabolite::class, mappedBy="analyte")
      */
     private $metabolites;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=MetaboliteClass::class, inversedBy="analytes")
+     */
+    private $metaboliteClass;
 
     public function __construct()
     {
@@ -120,34 +120,34 @@ class Analyte
 
     public function getAnalyteCode(): ?string
     {
-        return $this->AnalyteCode;
+        return $this->analyteCode;
     }
 
-    public function setAnalyteCode(string $AnalyteCode): self
+    public function setAnalyteCode(string $analyteCode): self
     {
-        $this->AnalyteCode = $AnalyteCode;
+        $this->analyteCode = $analyteCode;
 
         return $this;
     }
 
-    public function getRetentionTime(): ?float
+    public function getRetentionTime(): ?string
     {
         return $this->retentionTime;
     }
 
-    public function setRetentionTime(?float $retentionTime): self
+    public function setRetentionTime(?string $retentionTime): self
     {
         $this->retentionTime = $retentionTime;
 
         return $this;
     }
 
-    public function getMassToChargeRatio(): ?float
+    public function getMassToChargeRatio(): ?string
     {
         return $this->massToChargeRatio;
     }
 
-    public function setMassToChargeRatio(?float $massToChargeRatio): self
+    public function setMassToChargeRatio(?string $massToChargeRatio): self
     {
         $this->massToChargeRatio = $massToChargeRatio;
 
@@ -214,18 +214,6 @@ class Analyte
         return $this;
     }
 
-    public function getAnalyteClass(): ?AnalyteClass
-    {
-        return $this->analyteClass;
-    }
-
-    public function setAnalyteClass(?AnalyteClass $analyteClass): self
-    {
-        $this->analyteClass = $analyteClass;
-
-        return $this;
-    }
-
     public function getHealthAndFlavor(): ?AnalyteFlavorHealth
     {
         return $this->healthAndFlavor;
@@ -285,5 +273,17 @@ class Analyte
     public function __toString()
     {
         return (string) $this->name;
+    }
+
+    public function getMetaboliteClass(): ?MetaboliteClass
+    {
+        return $this->metaboliteClass;
+    }
+
+    public function setMetaboliteClass(?MetaboliteClass $metaboliteClass): self
+    {
+        $this->metaboliteClass = $metaboliteClass;
+
+        return $this;
     }
 }

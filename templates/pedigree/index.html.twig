@@ -28,6 +28,15 @@
     <div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
+                {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
 				{% if pedigrees | length > 0 %}
                     <h2 class="mb-3 text-center tomato-color font-weight-bold">Pedigree List</h2>
                     <div class="table-responsive"> 
@@ -47,7 +56,7 @@
                                     <tr>
                                         <td>{{ pedigree.pedigreeEntryID }}</td>
                                         <td>
-                                            {% if pedigree.germplasm[0] %}
+                                            {% if pedigree.germplasm | length > 0 %}
                                                 <a href="{{ path('germplasm_details', {id: pedigree.germplasm[0].id}) }}">{{ pedigree.germplasm[0] }}</a>
                                             {% endif %}
                                         </td>
@@ -58,7 +67,7 @@
                                         </td>
 
                                         <td>
-                                            {{ pedigree.ancestorPedigreeEntryID }}
+                                            {{ pedigree.pedigreeAncestorEntryId }}
                                         <td>
                                             {% if pedigree.pedigreeCross %}
                                                 <a href="{{ path('cross_details', {id: pedigree.pedigreeCross.id}) }}">{{ pedigree.pedigreeCross }}</a>

@@ -30,32 +30,71 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
-				{% if studyParameterValues | length > 0 %}
-					<h2 class="mb-3 text-center tomato-color font-weight-bold">Study Parameter Value List</h2>
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{% if qtlVariants | length > 0 %}
+					<h6 class="m-0 font-weight-bold tomato-color">QTL Variant List</br>
+						<small>Private data are not shown unless they are shared with you.</small>
+					</h6>
 					<div class="table-responsive">
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Study</th>
-									<th scope="col">Parameter</th>
-									<th scope="col">Value</th>
+									<th scope="col">QTL Variant Name</th>
+									<th scope="col2">Associated Phenotype</th>
+									<th scope="col">Linkage Group</th>
+									<th scope="col">Peak Position</th>
+									<th scope="col">Closest Marker</th>
+									<th scope="col">Selected Statistic</th>
+									<th scope="col">QTL Stat Value</th>
+									<th scope="col">R2</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for studyParameterValue in studyParameterValues %}
+								{% for qtlVariant in qtlVariants %}
 									<tr>
 										<td>
-											<a href="{{ path('study_details', {id: studyParameterValue.study.id}) }}">{{ studyParameterValue.study.abbreviation }}</a>
+											{{ qtlVariant.name }}
 										</td>
 										<td>
-											<a href="{{ path('parameter_details', {id: studyParameterValue.parameter.id}) }}">{{ studyParameterValue.parameter }}</a>
+											{% if qtlVariant.observationVariable %}
+												<a href="{{ path('observation_variable_details', {id: qtlVariant.observationVariable.id}) }}">{{ qtlVariant.observationVariable }}</a>	
+											{% endif %}
+
+											{% if qtlVariant.metabolite %}
+												<a href="{{ path('metabolite_details', {id: qtlVariant.metabolite.id}) }}">{{ qtlVariant.metabolite }}</a>	
+											{% endif %}
 										</td>
 										<td>
-											{{ studyParameterValue.value }}
+											{{ qtlVariant.linkageGroupName }}
 										</td>
 										<td>
-											<a href="{{ path('study_parameter_value_details', {id: studyParameterValue.id}) }}">
+											{{ qtlVariant.peakPosition }}
+										</td>
+										<td>
+											{% if qtlVariant.closestMarker %}
+												<a href="{{ path('marker_details', {id: qtlVariant.closestMarker.id}) }}">{{ qtlVariant.closestMarker }}</a>
+											{% endif %}
+										</td>
+										<td>
+											{{ qtlVariant.qtlStudy.statistic }}
+										</td>
+										<td>
+											{{ qtlVariant.qtlStatsValue }}
+										</td>
+										<td>
+											{{ qtlVariant.r2 }}
+										</td>
+                                        <td>
+											<a href="{{ path('qtl_variant_details', {id: qtlVariant.id}) }}">
 												<button class="btn btn-outline-primary">Details</button>
 											</a>
 										</td>
@@ -65,7 +104,7 @@
 						</table>
 					</div>
 				{% else %}
-					<h5 class="mb-3 text-center tomato-color font-weight-bold">No study parameter value has been provided in our system</h5>
+					<h5 class="mb-3 text-center tomato-color font-weight-bold">No qtl variant has been provided in our system</h5>
 				{% endif %}
 			</div>
 		</div>

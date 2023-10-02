@@ -400,7 +400,7 @@ class Cross
      * @Groups({"cross:read"})
      */
     public function getCrossType() {
-        return "type...";
+        return $this->getBreedingMethod()->getName();
     }
 
     /**

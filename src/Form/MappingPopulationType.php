@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\MappingPopulation;
 use App\Entity\Generation;
 use App\Entity\Cross;
+use App\Service\PublicReleaseTrial;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,8 +16,11 @@ class MappingPopulationType extends AbstractType
 {
     private $router;
 
-    function __construct(RouterInterface $router){
+    private $pubRelTrialService;
+
+    function __construct(RouterInterface $router, PublicReleaseTrial $pubRelTrialService){
         $this->router = $router;
+        $this->pubRelTrialService = $pubRelTrialService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -30,6 +34,7 @@ class MappingPopulationType extends AbstractType
                 'class' => Cross::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'query_builder' => $this->pubRelTrialService->getVisibleCrosses(),
                 'help' => 'Add a new <a href="' . $toUrlCross .'" target="_blank">Cross</a>'
                 
             ])

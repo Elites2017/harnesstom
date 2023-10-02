@@ -23,7 +23,19 @@ class VariantSetController extends AbstractController
      */
     public function index(VariantSetRepository $variantSetRepo): Response
     {
-        $variantSets =  $variantSetRepo->findAll();
+        $variantSets = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $variantSets = $variantSetRepo->findAll();
+            } else {
+                $variantSets = $variantSetRepo->findReleasedTrialStudySampleVariantSet($this->getUser());
+            }
+        } else {
+            $variantSets = $variantSetRepo->findReleasedTrialStudySampleVariantSet();
+        }
         $context = [
             'title' => 'Variant Set List',
             'variantSets' => $variantSets

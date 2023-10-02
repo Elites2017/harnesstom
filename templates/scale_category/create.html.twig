@@ -36,12 +36,22 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-6 mb-3">
+							<div class="col-md-3 mb-3">
 								{{ form_row(scaleCategoryForm.min, {'attr': {'placeholder' : 'Enter the min value'}}) }}
 							</div>
 
-							<div class="col-md-6 mb-3">
+							<div class="col-md-3 mb-3">
 								{{ form_row(scaleCategoryForm.max, {'attr': {'placeholder' : 'Enter the max value'}}) }}
+							</div>
+							<div class="col-md-6 mb-3">
+								{{ form_row
+												(scaleCategoryForm.scale,
+													{ label: "Scale",
+													'attr': {'placeholder': "Select the scale",
+												'class': "custom-select d-block w-100"}
+													}
+												)
+											}}
 							</div>
 						</div>
 

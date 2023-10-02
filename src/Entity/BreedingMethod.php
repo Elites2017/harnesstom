@@ -24,12 +24,14 @@ class BreedingMethod
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"breeding_method:read"})
+     * @SerializedName("breedingMethodDbId")
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
      * @Groups({"breeding_method:read"})
+     * @SerializedName("breedingMethodName")
      */
     private $name;
 
@@ -271,4 +273,6 @@ class BreedingMethod
 
         return $this;
     }
+
+    // API SECTION BRAPI V2.1 - Last Code Update July 2023
 }

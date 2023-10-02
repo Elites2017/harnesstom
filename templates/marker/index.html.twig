@@ -19,18 +19,22 @@
 	<link
 	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
 	<!-- DataTables CSS -->
+
 	<link
 	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
 	<!-- DataTables Responsive CSS -->
 	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	<!-- DataTables Animate CSS -->
+	<link href="{{ asset('assets/datatables/css/animate.1.13.4.css.jquery.dataTables.min.css') }}" rel="stylesheet">
+
 {% endblock %}
 
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 order-md-1">
-				{% if markers | length > 0 %}
+				{% if markerTotalRows != 0 %}
 					<h2 class="mb-3 text-center tomato-color font-weight-bold">Marker List</h2>
 					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 						{% for message in messages %}
@@ -47,14 +51,11 @@
 								<tr>
 									<th scope="col">Name</th>
 									<th scope="col">Type</th>
-									<th scope="col">Genome Version</th>
 									<th scope="col">Linkage G. Name</th>
 									<th scope="col">Position</th>
 									<th scope="col">Start</th>
 									<th scope="col">End</th>
 									<th scope="col">Ref Allele</th>
-									<th scope="col">Alternative Allele</th>
-									<th scope="col">Synonyms</th>
 									<th scope="col">Genotyping Platform</th>
 									<th scope="col">Action</th>
 								</tr>
@@ -80,54 +81,38 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
 
+	<!-- DataTables animate JavaScript -->
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 	<!-- DataTables JavaScript -->
-	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-
-	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
-	</script>
-
-    <script>
-		let data = [
-                {% for marker in markers %}
-                    {
-                    name: "{{ marker.name }}",
-                    type: "{{ marker.type }}",
-                    genomeVersion: "{{ marker.genotypingPlatform.refSetName }}",
-                    linkageGroupName: "{{ marker.linkageGroupName }}",
-                    position: "{{ marker.position }}",
-                    start: "{{ marker.start }}",
-                    end: "{{ marker.end }}",
-					refAllele: "{{ marker.refAllele }}",
-                    altAlleles: "{% if marker.altAllele | length > 0 %}{% for oneAltAllele in marker.altAllele %}{{ oneAltAllele }}{% endfor %}{% endif %}",
-                    synonyms: "{% if marker.markerSynonyms | length > 0 %}{% for oneSynonym in marker.markerSynonyms %}{{ oneSynonym }}{{ loop.index < marker.markerSynonyms | length ? ',' : ''}} {% endfor %}{% endif %}",
-					genotypingPlatform: "{% if marker.genotypingPlatform %}<a href={{ path('marker_details', {id: marker.id}) }}>{{ marker.genotypingPlatform }}</a>{% endif %}",
-                    action: "<a href={{ path('marker_details', {id: marker.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
-                    },
-                {% endfor %}
-            ];
-        $(document).ready(function() {
-            $('#datatable').DataTable( {
-                "bDestroy": true,
-                "pageLength": 25,
-                data: data,
-                columns: [
-                    { data: 'name'},
-                    { data: 'type'},
-                    { data: 'genomeVersion'},
-                    { data: 'linkageGroupName'},
-                    { data: 'position'},
-                    { data: 'start'},
-                    { data: 'end'},
-					{ data: 'refAllele'},
-                    { data: 'altAlleles'},
-                    { data: 'synonyms'},
-					{ data: 'genotypingPlatform'},
-                    { data: 'action'}
-                ]
-            } );
-        } );
+	
+	<!-- Load data table server side processing -->
+	<script src="{{ asset('assets/datatables/js/datatable_server_side_processing.js') }}"></script>
+	<script>
+		let dataTableId = "#datatable";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{ "data": "name", "targets": 0 },
+				{ "data": "type", "targets": 1 },
+				{ "data": "linkageGroupName", "targets": 2 },
+				{ "data": "position", "targets": 3 },
+				{ "data": "start", "targets": 4 },
+				{ "data": "end", "targets": 5 },
+				{ "data": "refAllele", "targets": 6 },
+				{ "data": "platformNameBuffer", "targets": 7 },
+				{
+				"data": "id", "targets": 8,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("marker_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('marker_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
     </script>
 {% endblock %}

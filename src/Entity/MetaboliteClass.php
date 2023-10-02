@@ -81,9 +81,15 @@ class MetaboliteClass
      */
     private $is_poau;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Analyte::class, mappedBy="metaboliteClass")
+     */
+    private $analytes;
+
     public function __construct()
     {
         $this->metaboliteClasses = new ArrayCollection();
+        $this->analytes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,6 +238,36 @@ class MetaboliteClass
     public function setIsPoau(?bool $is_poau): self
     {
         $this->is_poau = $is_poau;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Analyte>
+     */
+    public function getAnalytes(): Collection
+    {
+        return $this->analytes;
+    }
+
+    public function addAnalyte(Analyte $analyte): self
+    {
+        if (!$this->analytes->contains($analyte)) {
+            $this->analytes[] = $analyte;
+            $analyte->setMetaboliteClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnalyte(Analyte $analyte): self
+    {
+        if ($this->analytes->removeElement($analyte)) {
+            // set the owning side to null (unless already changed)
+            if ($analyte->getMetaboliteClass() === $this) {
+                $analyte->setMetaboliteClass(null);
+            }
+        }
 
         return $this;
     }

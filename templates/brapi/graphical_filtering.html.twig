@@ -1,0 +1,223 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+	<!-- DataTables CSS -->
+
+	<link
+	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+	<!-- DataTables Responsive CSS -->
+	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	<!-- DataTables Animate CSS -->
+	<link href="{{ asset('assets/datatables/css/animate.1.13.4.css.jquery.dataTables.min.css') }}" rel="stylesheet">
+			
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+                <!-- .card start -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold tomato-color">Graphical Filtering</br>
+                            <small>...</small>
+                        </h6>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="forward-container">
+                            <link rel="stylesheet" property="stylesheet" href="{{ asset('assets/brapigraphicalfiltering/css/GraphicalFilter.css') }}">
+                            
+                            <form id="brapi-form" action="#" class="form-group" style="margin:1em" name="brapi-form" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    {# <label for="brapi-server">BrAPI Server Adress</label>  #}
+                                    <input type="hidden" class="form-control" id="brapi-server" name="server">
+                                </div>
+                                <div class="form-group">
+                                    {# <label for="brapi-username">Username</label> #}
+                                    <input type="hidden" class="form-control" id="brapi-username" name="username" placeholder="">
+                                </div>
+                                <div class="form-group">
+                                    {# <label for="brapi-password">Password</label> #}
+                                    <input type="hidden" class="form-control" id="brapi-password" name="password" placeholder="">
+                                </div>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="brapi-study">Study</label> <input type="text" class="form-control" id="brapi-study" name="study" placeholder="Please provide the study abbreviation or the study DB id">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="brapi-unit">Unit Type</label>
+                                            <select id="brapi-unit" class="custom-select mr-sm-2" name="unit">
+                                                <option value="plot">
+                                                Plot
+                                                </option>
+                                                <option value="plant">
+                                                Plant
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label><input type="checkbox" name="group"> Group By Accession</label>
+                                        </div>
+                                    </div>
+                                    <div class="row  mb-3">
+                                        <div class="col-md-6">
+                                            <button class="btn btn-outline-primary btn-lg btn-block" type="submit" action="#" id="load-brapi" value="Load">Load</button>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                        <div class="brapp-container" style="position:relative;">
+                            <div class="col-xl-12 col-lg-11" value="brapp-wrapper" style="display:inline-block; border:solid 1px #ccc;border-radius:10px;">
+                                <div style="background-color:#fff;border-top-left-radius:4px;border-top-right-radius:4px;">
+                                    <div>
+                                        <div id="filter_div" style="margin:1em"></div>
+                                        <div class="table-responsive">
+                                            <table id="filtered_results" class="table table-hover text-nowrap"></table>
+                                        </div>
+                                    </div>
+                                    <div style="clear:both"></div>
+                                </div>
+                                <div class="brapp-footer" style="background-color:#ddd;border-top:solid 1px #ccc;font-family:Arial;color:#555;font-size:11px;padding:0.3em;border-bottom-left-radius:4px;border-bottom-right-radius:4px;">
+                                    <div style="min-height:14px;text-align:right;">
+                                        <a href="https://github.com/solgenomics/BrAPI-Graphical-Filtering" style="color:inherit;white-space:nowrap;text-decoration:underline;">Graphical Filtering</a>
+                                        developed at the <a href="https://btiscience.org/" style="color:inherit;white-space:nowrap;text-decoration:underline;">Boyce Thompson Institute</a>
+                                        , <b>addapted by HarnessTom</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- .card end -->
+                </div>
+		    </div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
+
+	<!-- DataTables animate JavaScript -->
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+	<!-- DataTables JavaScript -->
+	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
+
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
+	</script>
+
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable();
+        });
+	</script>
+
+    <!-- Graphical filtering files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.12.0/d3.js"></script>
+    <script src="{{ asset('assets/brapigraphicalfiltering/js/BrAPI.js') }}"></script>
+    <script src="{{ asset('assets/brapigraphicalfiltering/js/GraphicalFilter.js') }}" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var run = false;
+            $("#brapi-form").submit(function() {
+                if (run) {
+                    $("#filtered_results").DataTable().destroy();
+                    $("#filtered_results").html("");
+                }
+                run = true;
+                var form = $(this).serializeArray().reduce(function(vals, entry) {
+                    vals[entry.name] = entry.value
+                    return vals
+                }, {});
+                var base_url = form.server;
+                if (base_url.slice(0, 8) != "https://" && base_url.slice(0, 7) != "http://") {
+                    base_url = "https://" + base_url;
+                }
+                if (base_url.slice(-1) != "/") {
+                    base_url += "/";
+                }
+                var auth = form.username ? {
+                    'username': form.username,
+                    'password': form.password
+                } : undefined;
+                //var brapi = BrAPI(base_url + "brapi/v1", auth);
+                
+                var brapi = BrAPI("/brapi/");
+                
+                var params = {
+                    // even though it's studyDbIds, the search can be also done by study abbreviation 
+                    "studyDbIds": form.study,
+                    "observationLevel": form.unit
+                };
+                GraphicalFilter(
+                    brapi.phenotypes_search(params),
+                    function(d) { // traits/values
+                        var traits = {}
+                        d.observations.forEach(function(obs){
+                            traits[obs.observationVariableName] = obs.value;
+                        });
+                        return traits;
+                    },
+                    form.group? function(d) {
+                        return {
+                            'Accession':d.germplasmName
+                        }
+                    } : function(d) { // header columns accessor
+                        return {
+                            'Study':d.studyName,
+                            'Unit':d.observationUnitName,
+                            'Accession':d.germplasmName,
+                        }
+                    },
+                    form.group? ["Accession"] : ["Study","Unit","Accession"], // header column order
+                    form.group? function(d) { // groupBy function
+                        return d.germplasmDbId
+                    } : undefined
+                ).draw("#filter_div","#filtered_results")
+                return false;
+            })
+        });
+    </script>
+{% endblock %}

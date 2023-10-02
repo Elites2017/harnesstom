@@ -63,11 +63,6 @@ class ScaleCategory
      */
     private $scale;
 
-    public function __construct()
-    {
-        $this->scales = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -155,14 +150,6 @@ class ScaleCategory
         $this->createdBy = $createdBy;
 
         return $this;
-    }
-
-    /**
-     * @return Collection<int, Scale>
-     */
-    public function getScales(): Collection
-    {
-        return $this->scales;
     }
 
     // create a toString method to return the object name / code which will appear

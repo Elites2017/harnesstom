@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Analyte;
-use App\Entity\AnalyteClass;
+use App\Entity\MetaboliteClass;
 use App\Entity\AnalyteFlavorHealth;
 use App\Entity\AnnotationLevel;
 use App\Entity\IdentificationLevel;
@@ -27,7 +27,7 @@ class AnalyteType extends AbstractType
         $toUrlAnnotationLevel = $this->router->generate('annotation_level_create');
         $toUrlIdentificationLevel = $this->router->generate('identification_level_create');
         $toUrlObservationVariableMethod = $this->router->generate('observation_variable_method_create');
-        $toUrlAnalyteClass = $this->router->generate('analyte_class_create');
+        $toUrlMetaboliteClass = $this->router->generate('metabolite_class_create');
         $toUrlHealthFlavor = $this->router->generate('flavor_health_create');
 
         $builder
@@ -56,11 +56,11 @@ class AnalyteType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlObservationVariableMethod .'" target="_blank">ObservationVariable Method</a>'
                 
             ])
-            ->add('analyteClass', EntityType::class, [
-                'class' => AnalyteClass::class,
+            ->add('metaboliteClass', EntityType::class, [
+                'class' => MetaboliteClass::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlAnalyteClass .'" target="_blank">Analyte Class</a>'
+                'help' => 'Add a new <a href="' . $toUrlMetaboliteClass .'" target="_blank">Metabolite Class</a>'
                 
             ])
             ->add('healthAndFlavor', EntityType::class, [

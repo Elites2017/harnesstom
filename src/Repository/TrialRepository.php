@@ -14,8 +14,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TrialRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $swRepo;
+    public function __construct(ManagerRegistry $registry, SharedWithRepository $swRepo)
     {
+        $this->swRepo = $swRepo;
         parent::__construct($registry, Trial::class);
     }
 
@@ -25,6 +27,73 @@ class TrialRepository extends ServiceEntityRepository
             ->where('tab.isActive = 1')
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    public function findReleasedTrials($user = null)
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('tr')
+            ->Where('tr.isActive = 1')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+
+        if ($user) {
+            if ($this->swRepo->totalRows($user) == 0) {
+                $query->orWhere(
+                        $query->expr()->andX(
+                            'tr.createdBy = :user',
+                            'tr.publicReleaseDate >= :currentDate'))
+                        ->setParameter(':user', $user->getId())
+                        ->setParameter(':currentDate', $currentDate);
+            }
+            if ($this->swRepo->totalRows($user) > 0) {
+                $query->from('App\Entity\SharedWith', 'sw')
+                    ->orWhere(
+                        $query->expr()->andX(
+                            'tr.publicReleaseDate >= :currentDate',
+                            'sw.user = :user',
+                            'sw.trial = tr.id',
+                            ))
+                    ->orWhere(
+                        $query->expr()->andX(
+                            'tr.createdBy = :user',
+                            'tr.publicReleaseDate >= :currentDate'))
+                        ->setParameter(':user', $user->getId())
+                        ->setParameter(':currentDate', $currentDate);
+            }
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    public function isAccessible($user = null, $trial)
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('tr')
+            ->Where('tr.isActive = 1')
+            ->andWhere('tr.id = :trial')
+            ->setParameter(':trial', $trial->getId())
+        ;
+
+        $foundTrial = $query->getQuery()->getResult();
+        if($foundTrial[0]) {
+            $foundTrial = $foundTrial[0];
+            if ($foundTrial->getPublicReleaseDate() <= $currentDate) {
+                return true;
+            } else if ($foundTrial->getCreatedBy() === $user) {
+                return true;
+            } else if (count($this->swRepo->findBy(["trial" => $trial, "user" => $user])) === 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     // /**

@@ -36,6 +36,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    // possible users with who a trial can be shared with
+    // users with who the trial has not been already shared with
+    // user that is not the trial owner
+    public function getUserShareableTrial($user, $trial = null)
+    {
+        $query = $this->createQueryBuilder('u')
+            ->Where('u.isActive = 1')
+            ->andWhere('u.id != :userId')
+            ->setParameter(':userId', $user)
+        ;
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

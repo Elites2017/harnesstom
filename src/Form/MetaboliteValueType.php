@@ -3,17 +3,38 @@
 namespace App\Form;
 
 use App\Entity\MetaboliteValue;
+use App\Entity\Sample;
+use App\Service\PublicReleaseTrial;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 
 class MetaboliteValueType extends AbstractType
 {
+    private $router;
+
+    private $pubRelTrialService;
+
+    function __construct(RouterInterface $router, PublicReleaseTrial $pubRelTrialService){
+        $this->router = $router;
+        $this->pubRelTrialService = $pubRelTrialService;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $toUrlSample = $this->router->generate('sample_create');
         $builder
             ->add('value')
-            ->add('sample')
+            ->add('sample', EntityType::class, [
+                'class' => Sample::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'query_builder' => $this->pubRelTrialService->getVisibleSamples(),
+                'help' => 'Add a new <a href="' . $toUrlSample .'" target="_blank">Sample</a>'
+                
+            ])
             ->add('metabolite')
         ;
     }

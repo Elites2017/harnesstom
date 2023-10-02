@@ -25,6 +25,7 @@ class ObservationVariable
      * @ORM\Column(type="integer")
      * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read", "observation_value:read", "observation_variable:read"})
+     * @SerializedName("observationVariableDbId")
      */
     private $id;
 
@@ -32,6 +33,7 @@ class ObservationVariable
      * @ORM\Column(type="string", length=255)
      * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read", "observation_value:read", "observation_variable:read"})
+     * @SerializedName("observationVariableName")
      */
     private $name;
 
@@ -67,11 +69,15 @@ class ObservationVariable
      * @ORM\ManyToOne(targetEntity=ObservationVariableMethod::class, inversedBy="observationVariables")
      * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read", "observation_value:read", "observation_variable:read"})
+     * @Serializedname("method")
      */
     private $observationVariableMethod;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"mls_status:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read", "observation_variable:read"})
+     * @SerializedName("submissionTimestamp")
      */
     private $createdAt;
 

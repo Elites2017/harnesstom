@@ -395,11 +395,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $germplasms;
 
     /**
-     * @ORM\OneToMany(targetEntity=StudyParameterValue::class, mappedBy="createdBy")
-     */
-    private $studyParameterValues;
-
-    /**
      * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="createdBy")
      */
     private $crosses;
@@ -567,7 +562,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sharedWiths = new ArrayCollection();
         $this->studies = new ArrayCollection();
         $this->germplasms = new ArrayCollection();
-        $this->studyParameterValues = new ArrayCollection();
         $this->crosses = new ArrayCollection();
         $this->studyImages = new ArrayCollection();
         $this->observationLevels = new ArrayCollection();
@@ -2693,36 +2687,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($germplasm->getCreatedBy() === $this) {
                 $germplasm->setCreatedBy(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, StudyParameterValue>
-     */
-    public function getStudyParameterValues(): Collection
-    {
-        return $this->studyParameterValues;
-    }
-
-    public function addStudyParameterValue(StudyParameterValue $studyParameterValue): self
-    {
-        if (!$this->studyParameterValues->contains($studyParameterValue)) {
-            $this->studyParameterValues[] = $studyParameterValue;
-            $studyParameterValue->setCreatedBy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudyParameterValue(StudyParameterValue $studyParameterValue): self
-    {
-        if ($this->studyParameterValues->removeElement($studyParameterValue)) {
-            // set the owning side to null (unless already changed)
-            if ($studyParameterValue->getCreatedBy() === $this) {
-                $studyParameterValue->setCreatedBy(null);
             }
         }
 

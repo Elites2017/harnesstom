@@ -12,7 +12,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=VariantSetMetadataRepository::class)
- * @ApiResource
+ * @ApiResource(
+ *      normalizationContext={"groups"={"variant_set_metadata:read"}},
+ *      denormalizationContext={"groups"={"variant_set_metadata:write"}}
+ * )
  */
 class VariantSetMetadata
 {
@@ -20,26 +23,31 @@ class VariantSetMetadata
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"variant_set_metadata:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"variant_set_metadata:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"variant_set_metadata:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"variant_set_metadata:read"})
      */
     private $filters;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"variant_set_metadata:read"})
      */
     private $variantCount;
 
@@ -102,6 +110,7 @@ class VariantSetMetadata
      * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="variantSetMetadata")
      */
     private $qTLStudies;
+
 
     public function __construct()
     {
@@ -331,7 +340,7 @@ class VariantSetMetadata
     {
         if (!$this->qTLStudies->contains($qTLStudy)) {
             $this->qTLStudies[] = $qTLStudy;
-            $qTLStudy->setVariantSet($this);
+            $qTLStudy->setVariantSetMetadata($this);
         }
 
         return $this;
@@ -341,8 +350,8 @@ class VariantSetMetadata
     {
         if ($this->qTLStudies->removeElement($qTLStudy)) {
             // set the owning side to null (unless already changed)
-            if ($qTLStudy->getVariantSet() === $this) {
-                $qTLStudy->setVariantSet(null);
+            if ($qTLStudy->getVariantSetMetadata() === $this) {
+                $qTLStudy->setVariantSetMetadata(null);
             }
         }
 
@@ -366,5 +375,70 @@ class VariantSetMetadata
         $this->software = $software;
 
         return $this;
+    }
+    // API September 2023 . BrAPI 2.1
+
+    /**
+     * @Groups({"variant_set_metadata:read"})
+     */
+    public function getVariantSetDbId() {
+        return $this->id;
+    }
+
+    /**
+     * @Groups({"variant_set_metadata:read"})
+     */
+    public function getVariantSetName() {
+        return $this->name;
+    }
+
+    /**
+     * @Groups({"variant_set_metadata:read"})
+     */
+    public function getCallSetCount() {
+        return $this->variantCount;
+    }
+
+    /**
+     * @Groups({"variant_set_metadata:read"})
+     */
+    public function getAnalysis() {
+        $analysis = [
+            "description" => $this->filters,
+            "software" => $this->software ? $this->software->getName() : null,
+            "type" => "Variant Set Filters"
+        ];
+        return $analysis;
+    }
+
+    /**
+     * @Groups({"variant_set_metadata:read"})
+     */
+    public function getAdditionalInfo() {
+        $addInfo = [
+            "genotypingPlatform" => [
+                "name" => $this->genotypingPlatform ? $this->genotypingPlatform->getName() : null,
+                "description" => $this->genotypingPlatform ? $this->genotypingPlatform->getDescription() : null,
+                "sequencingType" => $this->genotypingPlatform ? $this->genotypingPlatform->getSequencingType()->getName() : null,
+                "methodDescription" => $this->genotypingPlatform ? $this->genotypingPlatform->getMethodDescription() : null,
+                "sequencingInstrument" => $this->genotypingPlatform ? $this->genotypingPlatform->getSequencingInstrument()->getName() : null,
+                "variantCallSoftware" => $this->genotypingPlatform ? $this->genotypingPlatform->getVarCallSoftware()->getName() : null,
+                "markerCount" => $this->genotypingPlatform ? $this->genotypingPlatform->getMarkerCount() : null,
+                "bioProjectId" => $this->genotypingPlatform ? $this->genotypingPlatform->getBioProjectID() : null
+            ]
+
+        ];
+        return $addInfo;
+    }
+
+    /**
+     * @Groups({"variant_set_metadata:read"})
+     */
+    public function getAvailableFormats() {
+        $availFormat = [
+            "dataFormat" => "VCF",
+            "fileFormat" => "VCF",
+        ];
+        return $availFormat;
     }
 }

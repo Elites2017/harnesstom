@@ -12,19 +12,25 @@ use App\Entity\Season;
 use App\Entity\Study;
 use App\Entity\Trial;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
+// call the trial public release service
+use App\Service\PublicReleaseTrial;
 
 class StudyUpdateType extends AbstractType
 {
     private $router;
+    private $pubRelTrialService;
 
-    function __construct(RouterInterface $router){
+    function __construct(RouterInterface $router, PublicReleaseTrial $pubRelTrialService){
         $this->router = $router;
+        $this->pubRelTrialService = $pubRelTrialService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -44,18 +50,20 @@ class StudyUpdateType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '7')])
             ->add('startDate', DateType::class, array(
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false
             ))
             ->add('endDate', DateType::class, array(
                 'widget' => 'single_text',
+                'required' => false
             ))
             ->add('culturalPractice')
             ->add('trial', EntityType::class, [
                 'class' => Trial::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'query_builder' => $this->pubRelTrialService->getPublicReleaseTrials(),
                 'help' => 'Add a new <a href="' . $toUrlTrial .'" target="_blank">Trial</a>'
-                
             ])
             ->add('factor', EntityType::class, [
                 'class' => FactorType::class,
@@ -93,13 +101,6 @@ class StudyUpdateType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlGrowthFaciliType .'" target="_blank">Growth Facility Type</a>'
                 
             ])
-            ->add('parameter', EntityType::class, [
-                'class' => Parameter::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlParameter .'" target="_blank">Parameter</a>'
-                
-            ])
             ->add('experimentalDesignType', EntityType::class, [
                 'class' => ExperimentalDesignType::class,
                 'help_html' => true,
@@ -107,7 +108,14 @@ class StudyUpdateType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlExperimentalDesignType .'" target="_blank">Experimental Design Type</a>'
                 
             ])
-            ->add('germplasms')
+            ->add('extra', CollectionType::class, [
+                'entry_type' => ParameterValueType::class,
+                'allow_add' => true,
+                'prototype' => true,
+                'required' => false,
+                'label' => false,
+                'mapped' => false
+            ])
         ;
     }
 

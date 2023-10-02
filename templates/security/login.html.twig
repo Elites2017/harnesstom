@@ -15,6 +15,15 @@
 					</div>
 					
 					<div class="col-xl-6 col-lg-7">
+						{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+							{% for message in messages %}
+								<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							{% endfor %}
+						{% endfor %}
 						<div class="card mb-4 shadow-sm">
 							<div id="sign-in" class="card-header text-center tomato-color">
 								<h1 class="my-0 font-weight-normal">Please sign in</h1>
@@ -53,6 +62,23 @@
 											Remember me
 										</label>
 									</div>
+
+									<style>
+										label {
+											display: block;
+											padding-left: 15px;
+											text-indent: -15px;
+										}
+										input {
+											width: 15px;
+											height: 15px;
+											padding: 0;
+											margin: 0;
+											vertical-align: bottom;
+											position: relative;
+											top: -1px;
+										}
+									</style>
 
 									{#
 										Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.

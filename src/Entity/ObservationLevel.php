@@ -39,6 +39,7 @@ class ObservationLevel
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read"})
+     * @SerializedName("levelName")
      */
     private $name;
 
@@ -492,5 +493,172 @@ class ObservationLevel
         }
 
         return $this;
+    }
+
+    // API September 2023 . BrAPI 2.1
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getObservationUnitDbId() {
+        return $this->unitname;
+    }
+    
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getGermplasmDbId() {
+        return $this->germaplasm->getGermplasmID();
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getGermplasmName() {
+        return $this->germaplasm->getAccession()->getAccename();
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getLocationDbId() {
+        return $this->study->getLocation() ? $this->study->getLocation()->getId() : null;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getLocationName() {
+        return $this->study->getLocation() ? $this->study->getLocation()->getName() : null;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getProgramDbId() {
+        return $this->germaplasm->getProgram() ? $this->germaplasm->getProgram()->getId() : null;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getProgramName() {
+        return $this->germaplasm->getProgram() ? $this->germaplasm->getProgram()->getName() : null;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getStudyDbId() {
+        return $this->study->getId();
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getStudyName() {
+        return $this->study->getName();
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getTrialDbId() {
+        return $this->study->getTrial() ? $this->study->getTrial()->getId() : null;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getTrialName() {
+        return $this->study->getTrial() ? $this->study->getTrial()->getName() : null;
+    }
+    
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getObservationUnitName() {
+        return $this->unitname;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getObservationUnitPosition() {
+        $obsUnitPosition = [
+            "entryType" => "",
+            "geoCoordinates" => [
+                "geometry" => "",
+                "type" => ""
+                ],
+            "observationLevel" => [
+                "levelCode" => "",
+                "levelName" => $this->name,
+                "levelOrder" => ""
+                ],
+            "observationLevelRelationships" => [
+                "levelName" => "",
+                "levelOrder" => "",
+                "observationUnitDbId" => "",
+                ],
+            "positionCoordinateX" => $this->unitCoordinateX,
+            "positionCoordinateXType" => $this->unitCoordinateXType,
+            "positionCoordinateY" => $this->unitCoordinateY,
+            "positionCoordinateYType" => $this->unitCoordinateYType,
+        ];
+
+        return $obsUnitPosition;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getObservations() {
+        $obs = [];
+        foreach ($this->observationValueOriginals as $key => $obsValueOri) {
+            # code...
+            $obs [] = [
+                "observationDbId" => $obsValueOri->getId(),
+                "germplasmDbId" => $obsValueOri->getUnitName()->getGermaplasm()->getGermplasmID(),
+                "germplasmName" => $obsValueOri->getUnitName()->getGermaplasm()->getGermplasmName(),
+                "observationUnitDbId" => $obsValueOri->getUnitName()->getUnitname(),
+                "observationUnitName" => $obsValueOri->getUnitName()->getUnitname(),
+                "observationVariableDbId" => $obsValueOri->getObservationVariableOriginal()->getVariable()->getOntologyId(),
+                "observationVariableName" => $obsValueOri->getObservationVariableOriginal()->getName(),
+                "season" => [
+                    "seasonName" => $obsValueOri->getUnitname()->getStudy()->getSeason()->getName()
+                    ],
+                "studyDbId" => $obsValueOri->getUnitname()->getStudy()->getid(),
+                "uploadedBy" => $obsValueOri->getCreatedBy()->getEmail(),
+                "value" => $obsValueOri->getValue(),
+            ];
+        }
+        return $obs;
+    }
+
+    /**
+     * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
+     * "metabolite:read"})
+     */
+    public function getTreatments() {
+        $fact = [
+          "factor" => $this->study->getFactor() ? $this->study->getFactor()->getOntologyId() : null,
+          "modality" => $this->study->getFactor() ? $this->study->getFactor()->getDescription() : null,  
+        ];
+        return $fact;
     }
 }

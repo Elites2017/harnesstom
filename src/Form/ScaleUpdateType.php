@@ -16,7 +16,6 @@ class ScaleUpdateType extends AbstractType
             ->add('name')
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '5')])
-            ->add('scaleCategory')
             ->add('dataType')
             ->add('unit')
         ;

@@ -7,6 +7,7 @@ use App\Entity\FactorType;
 use App\Entity\GrowthFacilityType;
 use App\Entity\Institute;
 use App\Entity\Location;
+use App\Entity\ParameterValue;
 use App\Entity\Season;
 use App\Entity\Study;
 use App\Entity\Trial;
@@ -14,6 +15,7 @@ use App\Form\StudyType;
 use App\Form\StudyUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\StudyRepository;
+use App\Repository\TrialRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +36,19 @@ class StudyController extends AbstractController
      */
     public function index(StudyRepository $studyRepo): Response
     {
-        $studies =  $studyRepo->findAll();
+        $studies = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $studies = $studyRepo->findAll();
+            } else {
+                $studies = $studyRepo->findReleasedTrialStudy($this->getUser());
+            }
+        } else {
+            $studies = $studyRepo->findReleasedTrialStudy();
+        }
         $context = [
             'title' => 'Study List',
             'studies' => $studies
@@ -54,6 +68,7 @@ class StudyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $startDate = $form->get('startDate')->getData();
             $endDate = $form->get('endDate')->getData();
+            $parameterValues = $form->get('extra')->getData();
             if ($startDate > $endDate) {
                 $this->addFlash('danger', "The end date must be greater than the start date");
             } else {
@@ -63,6 +78,14 @@ class StudyController extends AbstractController
                 $study->setIsActive(true);
                 $study->setCreatedAt(new \DateTime());
                 $entmanager->persist($study);
+                // study parameter value
+                if ($parameterValues) {
+                    foreach ($parameterValues as $key => $parameterValue) {
+                        # code...
+                        $entmanager->persist($parameterValue);
+                        $study->addParameterValue($parameterValue);
+                    }
+                }
                 $entmanager->flush();
                 return $this->redirect($this->generateUrl('study_index'));
             }
@@ -78,14 +101,20 @@ class StudyController extends AbstractController
     /**
      * @Route("/details/{id}", name="details")
      */
-    public function details(Study $studieSelected): Response
+    public function details(Study $studieSelected, TrialRepository $trialRepo): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $context = [
-            'title' => 'Study Details',
-            'study' => $studieSelected
-        ];
-        return $this->render('study/details.html.twig', $context);
+        // test if the trial is accessible to this user in order to show the trial study
+        if ($trialRepo->isAccessible($this->getUser(), $studieSelected->getTrial())) {
+            $context = [
+                'title' => 'Study Details',
+                'study' => $studieSelected
+            ];
+            return $this->render('study/details.html.twig', $context);
+        } else {
+            $this->addFlash('danger', "You are not allowed to see a study that is private and not shared with you");
+            return $this->redirect($this->generateUrl('study_index'));
+        }
     }
 
     /**

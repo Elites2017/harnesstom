@@ -37,7 +37,7 @@ class AttributeTraitValueType extends AbstractType
                 'allow_add' => true,
                 'prototype' => true,
                 'label' => false,
-                'prototype_data' => 'Publication reference...'
+                'prototype_data' => ''
             ])
             ->add('trait', EntityType::class, [
                 'class' => TraitClass::class,

@@ -23,7 +23,19 @@ class StudyImageController extends AbstractController
      */
     public function index(StudyImageRepository $studyImageRepo): Response
     {
-        $studyImages =  $studyImageRepo->findAll();
+        $studyImages = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $studyImages = $studyImageRepo->findAll();
+            } else {
+                $studyImages = $studyImageRepo->findReleasedTrialStudyImage($this->getUser());
+            }
+        } else {
+            $studyImages = $studyImageRepo->findReleasedTrialStudyImage();
+        }
         $context = [
             'title' => 'Study Image List',
             'studyImages' => $studyImages

@@ -378,4 +378,20 @@ class GenotypingPlatform
     {
         return (string) $this->name;
     }
+
+    // API September 2023 . BrAPI 2.1
+
+    /**
+     * @Groups({"genotyping_platform:read"})
+     */
+    public function getReferenceSetDbId() {
+        return $this->refSetName;
+    }
+
+    /**
+     * @Groups({"genotyping_platform:read"})
+     */
+    public function getReferenceSetName() {
+        return $this->refSetName;
+    }
 }

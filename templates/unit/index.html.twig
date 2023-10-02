@@ -52,27 +52,10 @@
 						<!-- Card Body -->
 						<div class="card-body">
 							<div class="treeview-animated treeView">
-								{% macro treeView(units) %}
-									{% import _self as macros %}
-									{% for oneChild in units %}
-										<div class="card closed {{ oneChild.units is not empty ? 'border-left-primary' : 'border-left-danger' }} shadow h-100 mb-3">
-											<li class="treeview-animated-items">
-												<span class="closed">
-													<i class="{{ oneChild.units is not empty ? 'fas fa-angle-right' : '' }}"></i>
-													<span>{{ oneChild.name }}</span>
-												</span>
-												{% if oneChild.units is not empty %}
-													<ul class="nested">
-														{{ macros.treeView(oneChild.units) }}
-													</ul>
-												{% endif %}
-											</li>
-										</div>
-									{% endfor %}
-								{% endmacro %}
-
+								{% include 'tree_view/tree.html.twig' %}
+								{% from 'tree_view/tree.html.twig' import treeView %}
 								<ul class="treeview-animated-list">
-									{{ _self.treeView(units) }}
+									{{ treeView(units) }}
 								</ul>							
 							</div>
 

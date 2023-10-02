@@ -65,6 +65,11 @@ class MappingPopulation
      */
     private $pedigreeGeneration;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $publicationRef = [];
+
     public function __construct()
     {
         $this->qTLStudies = new ArrayCollection();
@@ -180,6 +185,18 @@ class MappingPopulation
     public function setPedigreeGeneration(?Generation $pedigreeGeneration): self
     {
         $this->pedigreeGeneration = $pedigreeGeneration;
+
+        return $this;
+    }
+
+    public function getPublicationRef(): ?array
+    {
+        return $this->publicationRef;
+    }
+
+    public function setPublicationRef(?array $publicationRef): self
+    {
+        $this->publicationRef = $publicationRef;
 
         return $this;
     }

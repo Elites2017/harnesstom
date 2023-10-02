@@ -29,7 +29,19 @@ class ObservationLevelController extends AbstractController
      */
     public function index(ObservationLevelRepository $observationLevelRepo): Response
     {
-        $observationLevels =  $observationLevelRepo->findAll();
+        $observationLevels = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $observationLevels = $observationLevelRepo->findAll();
+            } else {
+                $observationLevels = $observationLevelRepo->findReleasedTrialStudyObsLevel($this->getUser());
+            }
+        } else {
+            $observationLevels = $observationLevelRepo->findReleasedTrialStudyObsLevel();
+        }
         $context = [
             'title' => 'Observation Level List',
             'observationLevels' => $observationLevels

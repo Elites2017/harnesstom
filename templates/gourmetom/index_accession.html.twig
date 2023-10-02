@@ -24,6 +24,9 @@
 	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
 {% endblock %}
 
+{% block sidebar %}
+{% endblock %}
+
 {% block body %}
     <div class="container-fluid">
         <div class="row">
@@ -680,5 +683,5 @@
             $('#datatable').DataTable();
         } );
     </script>
-    <script src="{{ asset('assets/js/filters.js') }}"></script>
+    <script src="{{ asset('assets/js/gourmetom_filters.js') }}"></script>
 {% endblock %}

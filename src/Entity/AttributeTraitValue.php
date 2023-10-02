@@ -48,6 +48,7 @@ class AttributeTraitValue
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"attribute_t_v:read"})
      */
     private $value;
 
@@ -190,4 +191,47 @@ class AttributeTraitValue
     {
         return (string) $this->trait;
     }
+
+    // API Septembre 2023
+    
+    /**
+     * @Groups({"attribute_t_v:read"})
+     * 
+     */
+    public function getAttributeName() {
+        return $this->attribute->getName();
+    }
+
+    /**
+     * @Groups({"attribute_t_v:read"})
+     * 
+     */
+    public function getAttributeValueDbId() {
+        return $this->id;
+    }
+
+    /**
+     * @Groups({"attribute_t_v:read"})
+     * 
+     */
+    public function getAttributeDbId() {
+        return $this->attribute->getId();
+    }
+
+    /**
+     * @Groups({"attribute_t_v:read"})
+     * 
+     */
+    public function getGermplasmDbId() {
+        return $this->accession->getId();
+    }
+
+    /**
+     * @Groups({"attribute_t_v:read"})
+     * 
+     */
+    public function getGermplasmName() {
+        return $this->accession->getAccename();
+    }
+
 }

@@ -32,7 +32,19 @@ class GermplasmStudyImageController extends AbstractController
      */
     public function index(GermplasmStudyImageRepository $germplasmStudyImageRepo): Response
     {
-        $germplasmStudyImages =  $germplasmStudyImageRepo->findAll();
+        $germplasmStudyImages = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $germplasmStudyImages = $germplasmStudyImageRepo->findAll();
+            } else {
+                $germplasmStudyImages = $germplasmStudyImageRepo->findReleasedTrialStudyGermplasmStudyImage($this->getUser());
+            }
+        } else {
+            $germplasmStudyImages = $germplasmStudyImageRepo->findReleasedTrialStudyGermplasmStudyImage();
+        }
         $context = [
             'title' => 'Germplasm Study Image List',
             'germplasmStudyImages' => $germplasmStudyImages

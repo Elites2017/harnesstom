@@ -76,12 +76,13 @@ class AccessionController extends AbstractController
     /**
      * @Route("/details/{id}", name="details")
      */
-    public function details(Accession $accessionSelected): Response
+    public function details(Accession $accessionSelected, AccessionRepository $acceRepo): Response
     {
         //$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $accessions = $acceRepo->findBy(["accenumb" => $accessionSelected->getAccenumb()]);
         $context = [
             'title' => 'Accession Details',
-            'accession' => $accessionSelected
+            'accessions' => $accessions
         ];
         return $this->render('accession/details.html.twig', $context);
     }

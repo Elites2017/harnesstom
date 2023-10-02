@@ -87,7 +87,7 @@
                     {
                     germplasmID: "{{ germplasm.germplasmID }}</a>",
                     instcode: "{% if germplasm.maintainerInstituteCode %}<a href={{ path('institute_details', {id: germplasm.maintainerInstituteCode.id}) }}>{{ germplasm.maintainerInstituteCode }}</a>{% endif %}",
-                    maintainerNumb: "{{ germplasm.maintainerNumb }}",
+                    maintainerNumb: "{% if germplasm.accession %}<a href={{ path('accession_details', {id: germplasm.accession.id}) }}>{{ germplasm.maintainerNumb }}</a>{% endif %}",
                     progAbbreviation: "{% if germplasm.program %}<a href={{ path('program_details', {id: germplasm.program.id}) }}>{{ germplasm.program.abbreviation }}</a>{% endif %}",
                     preprocessing: "{{ germplasm.preprocessing }}",
                     action: "<a href={{ path('germplasm_details', {id: germplasm.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"

@@ -30,7 +30,19 @@ class ObservationValueOriginalController extends AbstractController
      */
     public function index(ObservationValueOriginalRepository $observationValueRepo): Response
     {
-        $observationValues =  $observationValueRepo->findAll();
+        $observationValues = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $observationValues = $observationValueRepo->findAll();
+            } else {
+                $observationValues = $observationValueRepo->findReleasedTrialStudyObsLevelObsValues($this->getUser());
+            }
+        } else {
+            $observationValues = $observationValueRepo->findReleasedTrialStudyObsLevelObsValues();
+        }
         $context = [
             'title' => 'Observation Value List',
             'observationValues' => $observationValues
@@ -168,57 +180,68 @@ class ObservationValueOriginalController extends AbstractController
                 $obsVarId = $row['B'];
                 $value = $row['C'];
                 // check if the file doesn't have empty columns
-                if ($unitName != null && $obsVarId != null && $value != null) {
-                    // check if the data is upload in the database
-                    // $existingObservationValue = $entmanager->getRepository(ObservationValueOriginal::class)->findOneBy(['value' => $unitName]);
-                    // // upload data only for objects that haven't been saved in the database
-                    // if (!$existingObservationValue) {
-                        $observationValue = new ObservationValueOriginal();
-                        if ($this->getUser()) {
-                            $observationValue->setCreatedBy($this->getUser());
-                        }
-
-                        try {
-                            //code...
-                            $obsValUnitName = $entmanager->getRepository(ObservationLevel::class)->findOneBy(['unitname' => $unitName]);
-                            if (($obsValUnitName != null) && ($obsValUnitName instanceof \App\Entity\ObservationLevel)) {
-                                $observationValue->setUnitName($obsValUnitName);
+                if ($unitName !== null && $obsVarId !== null && $value !== null) {
+                    $obsValUnitName = $entmanager->getRepository(ObservationLevel::class)->findOneBy(['unitname' => $unitName]);
+                    $obsVariableTraitId = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $obsVarId]);
+                    if ($obsValUnitName && $obsVariableTraitId){
+                        // check if the data is upload in the database
+                        $existingObservationValue = $entmanager->getRepository(ObservationValueOriginal::class)->findOneBy([
+                            'unitName' => $obsValUnitName->getId(),
+                            'observationVariableOriginal' => $obsVariableTraitId->getObservationVariable()->getId(),
+                            'value' => $value]);
+                            
+                        // upload data only for objects that haven't been saved in the database
+                        if (!$existingObservationValue) {
+                            $observationValue = new ObservationValueOriginal();
+                            if ($this->getUser()) {
+                                $observationValue->setCreatedBy($this->getUser());
                             }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the unitname " .$unitName);
-                        }
 
-                        try {
-                            //code...
-                            $obsVariableTraitId = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $obsVarId]);
-                            if (($obsVariableTraitId != null) && ($obsVariableTraitId instanceof \App\Entity\TraitClass)) {
-                                $observationValue->setObservationVariableOriginal ($obsVariableTraitId->getObservationVariable());
+                            try {
+                                //code...
+                                $obsValUnitName = $entmanager->getRepository(ObservationLevel::class)->findOneBy(['unitname' => $unitName]);
+                                if (($obsValUnitName != null) && ($obsValUnitName instanceof \App\Entity\ObservationLevel)) {
+                                    $observationValue->setUnitName($obsValUnitName);
+                                }
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the unitname " .$unitName);
                             }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the variable id " .$obsVarId);
-                        }
 
-                        try {
-                            //code...
-                            $observationValue->setValue($value);
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the observation value " .$value);
+                            try {
+                                //code...
+                                $obsVariableTraitId = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $obsVarId]);
+                                if (($obsVariableTraitId != null) && ($obsVariableTraitId instanceof \App\Entity\TraitClass)) {
+                                    $observationValue->setObservationVariableOriginal ($obsVariableTraitId->getObservationVariable());
+                                }
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the variable id " .$obsVarId);
+                            }
+
+                            try {
+                                //code...
+                                $observationValue->setValue($value);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the observation value " .$value);
+                            }
+                                                    
+                            $observationValue->setIsActive(true);
+                            $observationValue->setCreatedAt(new \DateTime());
+                            try {
+                                //code...
+                                $entmanager->persist($observationValue);
+                                $entmanager->flush();
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                            }
                         }
-                                                
-                        $observationValue->setIsActive(true);
-                        $observationValue->setCreatedAt(new \DateTime());
-                        try {
-                            //code...
-                            $entmanager->persist($observationValue);
-                            $entmanager->flush();
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
-                        }
-                    // }
+                    } else {
+                        $this->addFlash('danger', "Either the observation level " .$unitName. " does not exist or the trait ontology " .$obsVarId. " does not have observation variable ");
+                    }
+                    
                 }
             }
 

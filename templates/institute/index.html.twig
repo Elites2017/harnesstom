@@ -19,19 +19,22 @@
 	<link
 	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
 	<!-- DataTables CSS -->
+
 	<link
 	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
 	<!-- DataTables Responsive CSS -->
 	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	<!-- DataTables Animate CSS -->
+	<link href="{{ asset('assets/datatables/css/animate.1.13.4.css.jquery.dataTables.min.css') }}" rel="stylesheet">
+
 {% endblock %}
 
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xl-12 col-lg-11">
-				{% if institutes | length > 0 %}
-					<h2 class="mb-3 text-center tomato-color font-weight-bold">Institute List</h2>
+				{% if instituteTotalRows | length > 0 %}
 					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
 						{% for message in messages %}
 							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
@@ -56,8 +59,9 @@
 											<th scope="col">Institute Code</th>
 											<th scope="col">Acronym</th>
 											<th scope="col">Name</th>
+											<th scope="col" data-orderable="false"></th>
 											<th scope="col">Country</th>
-											<th scope="col">Action</th>
+											<th scope="col" data-orderable="false">Action</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -77,46 +81,56 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
 
+	<!-- DataTables animate JavaScript -->
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 	<!-- DataTables JavaScript -->
-	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-
-	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
-	</script>
-
-<script>
-	let data = [
-			{% for institute in institutes %}
+	
+	<!-- Load data table server side processing -->
+	<script src="{{ asset('assets/datatables/js/datatable_server_side_processing.js') }}"></script>
+	<script>
+		let dataTableId = "#datatable";
+		let linkId = "";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{ "data": "instcode", "targets": 0 },
+				{ "data": "acronym", "targets": 1 },
+				{ "data": "name", "targets": 2 },
 				{
-				instcode: "{{ institute.instcode }}",
-				acronym: "{{ institute.acronym }}",
-				name: "{{ institute.name }}",
-				country: "{% if institute.country %}<a href={{ path('country_details', {id: institute.country.id}) }}>{{ institute.country }}</a>{% endif %}",
-				action: "<a href={{ path('institute_details', {id: institute.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
+				"data": "country_id", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkId = data;
+						return null;
+					}
 				},
-			{% endfor %}
-		];
-    $(document).ready(function() {
-		$('#datatable').DataTable( {
-            "bDestroy": true,
-            "pageLength": 25,
-            data: data,
-            columns: [
-                { data: 'instcode'},
-                { data: 'acronym'},
-                { data: 'name'},
-                { data: 'country'},
-				{ data: 'action'}
-            ]
-        } );
-    } );
-</script>
+				{
+				"data": "country_iso3", "targets": 4,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("country_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", linkId);
+						let actionlink = "<a href="+ url +">"+data+"</a>";
+						return actionlink;
+					}
+				},
+				{
+				"data": "id", "targets": 5,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("institute_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('institute_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
+    </script>
 {% endblock %}

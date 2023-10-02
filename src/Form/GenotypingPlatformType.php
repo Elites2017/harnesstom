@@ -48,7 +48,7 @@ class GenotypingPlatformType extends AbstractType
                 'allow_add' => true,
                 'prototype' => true,
                 'label' => false,
-                'prototype_data' => 'Publication reference...'
+                'prototype_data' => ''
             ])
             ->add('sequencingType', EntityType::class, [
                 'class' => SequencingType::class,

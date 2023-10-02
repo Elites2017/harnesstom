@@ -139,6 +139,18 @@ class Marker
     private $qTLVariants;
 
     /**
+     * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="flankingMarkerStart")
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
+     */
+    private $fMarkerStartQTLVariants;
+
+    /**
+     * @ORM\OneToMany(targetEntity=QTLVariant::class, mappedBy="flankingMarkerEnd")
+     * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
+     */
+    private $fMarkerEndQTLVariants;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $platformNameBuffer;
@@ -153,6 +165,8 @@ class Marker
         $this->gWASVariants = new ArrayCollection();
         $this->variantSets = new ArrayCollection();
         $this->qTLVariants = new ArrayCollection();
+        $this->fMarkerStartQTLVariants = new ArrayCollection();
+        $this->fMarkerEndQTLVariants = new ArrayCollection();
         $this->markerSynonyms = new ArrayCollection();
     }
 
@@ -443,6 +457,66 @@ class Marker
         return $this;
     }
 
+    /**
+     * @return Collection<int, QTLVariant>
+     */
+    public function getFMarkerStartQTLVariants(): Collection
+    {
+        return $this->fMarkerStartQTLVariants;
+    }
+
+    public function addFMarkerStartQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if (!$this->fMarkerStartQTLVariants->contains($qTLVariant)) {
+            $this->fMarkerStartQTLVariants[] = $qTLVariant;
+            $qTLVariant->setFlankingMarkerStart($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFMarkerStartQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if ($this->fMarkerStartQTLVariants->removeElement($qTLVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLVariant->getFlankingMarkerStart() === $this) {
+                $qTLVariant->setFlankingMarkerStart(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QTLVariant>
+     */
+    public function getFMarkerEndQTLVariants(): Collection
+    {
+        return $this->fMarkerEndQTLVariants;
+    }
+
+    public function addFMarkerEndQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if (!$this->fMarkerEndQTLVariants->contains($qTLVariant)) {
+            $this->fMarkerEndQTLVariants[] = $qTLVariant;
+            $qTLVariant->setFlankingMarkerEnd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFMarkerEndQTLVariant(QTLVariant $qTLVariant): self
+    {
+        if ($this->fMarkerEndQTLVariants->removeElement($qTLVariant)) {
+            // set the owning side to null (unless already changed)
+            if ($qTLVariant->getFlankingMarkerEnd() === $this) {
+                $qTLVariant->setFlankingMarkerEnd(null);
+            }
+        }
+
+        return $this;
+    }
+
     // create a toString method to return the object name / code which will appear
     // in an upper level related form field from a foreign key
     public function __toString()
@@ -491,4 +565,78 @@ class Marker
 
         return $this;
     }
+
+    // API September 2023 . BrAPI 2.1
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getVariantDbId() {
+        return $this->name;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getAdditionalInfo() {
+        $addInfo = [
+            "genotypingPlatform" => [
+                "name" => $this->genotypingPlatform ? $this->genotypingPlatform->getName() : null,
+                "description" => $this->genotypingPlatform ? $this->genotypingPlatform->getDescription() : null,
+                "markerCount" => $this->genotypingPlatform ? $this->genotypingPlatform->getMarkerCount() : null,
+                "bioProjectId" => $this->genotypingPlatform ? $this->genotypingPlatform->getBioProjectID() : null
+            ]
+
+        ];
+        return $addInfo;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getAlternateBases() {
+        return $this->altAllele;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getReferenceBases() {
+        return $this->refAllele;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getReferenceName() {
+        return $this->linkageGroupName;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getReferenceSetName() {
+        return $this->genotypingPlatform ? $this->genotypingPlatform->getRefSetName() : null;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getVariantNames() {
+        $synonyms = [];
+        foreach ($this->markerSynonyms as $key => $oneSynonym) {
+            # code...
+            $synonyms [] = $oneSynonym->getMarkerName();
+        }
+        return $synonyms;
+    }
+
+    /**
+     * @Groups({"marker:read"})
+     */
+    public function getVariantType() {
+        return $this->type;
+    }
+
+    
 }

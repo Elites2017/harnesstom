@@ -134,11 +134,21 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
 	<script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
 
 	<script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
+	<script>
+		var fileUrl = "{{ variantSetMetadataForm.vars.data.fileUrl }}";
+		var fileTypeText = $('.custom-file-input').parent().find('.custom-file-label');
+		fileTypeText.html(fileUrl ? fileUrl : '');
+
+		$('.custom-file-input').on('change', function(event) {
+		let inputFile = event.currentTarget;
+		$(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+		});
+	</script>
 {% endblock %}

@@ -48,16 +48,6 @@ class AnalyteClass
      */
     private $createdBy;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Analyte::class, mappedBy="analyteClass")
-     */
-    private $analytes;
-
-    public function __construct()
-    {
-        $this->analytes = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -107,36 +97,6 @@ class AnalyteClass
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Analyte>
-     */
-    public function getAnalytes(): Collection
-    {
-        return $this->analytes;
-    }
-
-    public function addAnalyte(Analyte $analyte): self
-    {
-        if (!$this->analytes->contains($analyte)) {
-            $this->analytes[] = $analyte;
-            $analyte->setAnalyteClass($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnalyte(Analyte $analyte): self
-    {
-        if ($this->analytes->removeElement($analyte)) {
-            // set the owning side to null (unless already changed)
-            if ($analyte->getAnalyteClass() === $this) {
-                $analyte->setAnalyteClass(null);
-            }
-        }
 
         return $this;
     }

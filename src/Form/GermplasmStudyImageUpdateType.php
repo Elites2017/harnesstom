@@ -6,6 +6,7 @@ use App\Entity\AnatomicalEntity;
 use App\Entity\DevelopmentalStage;
 use App\Entity\FactorType;
 use App\Entity\GermplasmStudyImage;
+use App\Entity\Study;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -13,18 +14,23 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
+// call the trial public release service
+use App\Service\PublicReleaseTrial;
 
 class GermplasmStudyImageUpdateType extends AbstractType
 {
     private $router;
+    private $pubRelTrialService;
 
-    function __construct(RouterInterface $router){
+    function __construct(RouterInterface $router, PublicReleaseTrial $pubRelTrialService){
         $this->router = $router;
+        $this->pubRelTrialService = $pubRelTrialService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $toUrlFactorType = $this->router->generate('factor_type_create');
+        $toUrlStudy = $this->router->generate('study_create');
         $toUrlDevelopmentalStage = $this->router->generate('developmental_stage_create');
         $toUrlAnatomicalEntity = $this->router->generate('anatomical_entity_create');
 
@@ -51,7 +57,13 @@ class GermplasmStudyImageUpdateType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlAnatomicalEntity .'" target="_blank">Anatomical Entity</a>'
             ])
             ->add('GermplasmID')
-            ->add('StudyID')
+            ->add('StudyID', EntityType::class, [
+                'class' => Study::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
+                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Trial</a>'
+            ])
         ;
     }
 

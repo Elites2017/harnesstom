@@ -23,7 +23,7 @@ class DataType
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"data_type:read"})
+     * @Groups({"data_type:read", "scale:read", "observation_variable:read"})
      */
     private $id;
 
@@ -49,16 +49,19 @@ class DataType
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"data_type:read", "scale:read", "observation_variable:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"data_type:read", "scale:read", "observation_variable:read"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     * @Groups({"data_type:read", "scale:read", "observation_variable:read"})
      */
     private $ontology_id;
 

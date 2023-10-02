@@ -3,14 +3,29 @@
 namespace App\Form;
 
 use App\Entity\ObservationLevel;
+use App\Entity\Study;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+// call the trial public release service
+use App\Service\PublicReleaseTrial;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Routing\RouterInterface;
 
 class ObservationLevelUpdateType extends AbstractType
 {
+    private $router;
+    private $pubRelTrialService;
+
+    function __construct(RouterInterface $router, PublicReleaseTrial $pubRelTrialService){
+        $this->router = $router;
+        $this->pubRelTrialService = $pubRelTrialService;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $toUrlStudy = $this->router->generate('study_create');
+
         $builder
             ->add('unitname')
             ->add('name')
@@ -25,7 +40,13 @@ class ObservationLevelUpdateType extends AbstractType
             ->add('unitCoordinateXType')
             ->add('unitCoordinateYType')
             ->add('germaplasm')
-            ->add('study')
+            ->add('study', EntityType::class, [
+                'class' => Study::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
+                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Trial</a>'
+            ])
         ;
     }
 

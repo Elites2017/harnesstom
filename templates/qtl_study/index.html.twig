@@ -40,7 +40,9 @@
 							</div>
 						{% endfor %}
 					{% endfor %}
-					<h2 class="mb-3 text-center tomato-color font-weight-bold">QTL Study List</h2>
+					<h6 class="m-0 font-weight-bold tomato-color">QTL List</br>
+						<small>Private data are not shown unless they are shared with you.</small>
+					</h6>
 					<div class="table-responsive">
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
@@ -95,7 +97,7 @@
 											{% endif %}
 										</td>
 										<td>
-											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">{{ qtlStudy.thresholdValue }}</a>
+											{{ qtlStudy.thresholdValue }}
 										</td>
 										<td>
 											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">

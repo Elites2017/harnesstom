@@ -75,12 +75,13 @@ class Study
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"study:read"})
+     * @SerializedName("active")
      */
     private $isActive;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"study:read"})
      */
     private $lastUpdated;
 
@@ -121,13 +122,6 @@ class Study
     private $growthFacility;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Parameter::class, inversedBy="studies")
-     * @Groups({"location:read", "study:read"})
-     * @SerializedName("parameter")
-     */
-    private $parameter;
-
-    /**
      * @ORM\ManyToOne(targetEntity=ExperimentalDesignType::class, inversedBy="studies")
      * @Groups({"study:read"})
      */
@@ -143,12 +137,6 @@ class Study
      * @Groups({"location:read"})
      */
     private $germplasms;
-
-    /**
-     * @ORM\OneToOne(targetEntity=StudyParameterValue::class, mappedBy="study", cascade={"persist", "remove"})
-     * @Groups({"location:read", "study:read"})
-     */
-    private $studyParameterValue;
 
     /**
      * @ORM\OneToMany(targetEntity=Cross::class, mappedBy="study")
@@ -197,16 +185,6 @@ class Study
     /**
      * @Groups({"study:read"})
      */
-    private $studyPUI;
-
-    /**
-     * @Groups({"study:read"})
-     */
-    private $contacts;
-
-    /**
-     * @Groups({"study:read"})
-     */
     private $experimentalDesign;
 
     /**
@@ -221,6 +199,11 @@ class Study
      */
     private $experimentalDesignDescription;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=ParameterValue::class, inversedBy="studies")
+     */
+    private $parameterValue;
+
     public function __construct()
     {
         $this->germplasms = new ArrayCollection();
@@ -231,8 +214,7 @@ class Study
         $this->gwas = new ArrayCollection();
         $this->germplasmStudyImages = new ArrayCollection();
         $this->qTLStudies = new ArrayCollection();
-        // API SECTION
-        $this->contacts = new ArrayCollection();
+        $this->parameterValue = new ArrayCollection();
         
     }
 
@@ -421,18 +403,6 @@ class Study
         return $this;
     }
 
-    public function getParameter(): ?Parameter
-    {
-        return $this->parameter;
-    }
-
-    public function setParameter(?Parameter $parameter): self
-    {
-        $this->parameter = $parameter;
-
-        return $this;
-    }
-
     public function getExperimentalDesignType(): ?ExperimentalDesignType
     {
         return $this->experimentalDesignType;
@@ -480,23 +450,6 @@ class Study
         if ($this->germplasms->removeElement($germplasm)) {
             $germplasm->removeStudy($this);
         }
-
-        return $this;
-    }
-
-    public function getStudyParameterValue(): ?StudyParameterValue
-    {
-        return $this->studyParameterValue;
-    }
-
-    public function setStudyParameterValue(StudyParameterValue $studyParameterValue): self
-    {
-        // set the owning side of the relation if necessary
-        if ($studyParameterValue->getStudy() !== $this) {
-            $studyParameterValue->setStudy($this);
-        }
-
-        $this->studyParameterValue = $studyParameterValue;
 
         return $this;
     }
@@ -712,102 +665,28 @@ class Study
         return $this;
     }
 
-    // API SECTION
     /**
-     * @Groups({"study:read"})
+     * @return Collection<int, ParameterValue>
      */
-    public function getTrialDbId(){
-        return $this->trial->getId();
-    }
-
-    /**
-     * @Groups({"study:read"})
-     */
-    public function getTrialName(){
-        return $this->trial->getName();
-    }
-
-    /**
-     * @Groups({"study:read"})
-     */
-    public function getStudyPUI(){
-        $this->studyPUI = "Study PUI";
-        return $this->studyPUI;
-    }
-
-    /**
-     * @Groups({"study:read"})
-     */
-    public function getLocationDbId(){
-        return $this->location->getId();
-    }
-
-    /**
-     * @Groups({"study:read"})
-     */
-    public function getLocationName(){
-        return $this->location->getName();
-    }
-
-    /**
-     * @Groups({"study:read"})
-     */
-    public function getLicense(){
-        return $this->trial->getLicense();
-    }
-
-    /**
-     * @Groups({"study:read"})
-     */
-    public function getContacts(): Array
+    public function getParameterValue(): Collection
     {
-        $this->contacts = [
-            "contactDbId" => $this->trial->getProgram()->getContact()->getOrcid(),
-            "email" => $this->trial->getProgram()->getContact()->getPerson()->getEmailAddress(),
-            "instituteName" => $this->trial->getProgram()->getContact()->getInstitute()->getName(),
-            "name" => $this->trial->getProgram()->getContact()->getPerson()->getFirstName() ." ". $this->trial->getProgram()->getContact()->getPerson()->getMiddleName() ." ".$this->trial->getProgram()->getContact()->getPerson()->getLastName(),
-            "orcid" => $this->trial->getProgram()->getContact()->getOrcid(),
-            "type" => $this->trial->getProgram()->getContact()->getType()
-        ];
-        return $this->contacts;
+        return $this->parameterValue;
     }
 
-    /**
-     * @Groups({"study:read"})
-     */
-    public function getenvironnmentParameters(): Array
+    public function addParameterValue(ParameterValue $parameterValue): self
     {
-        $this->environnmentParameters = [
-            "parameterName" => $this->parameter->getFactorType()->getName(),
-            "description" => $this->parameter->getFactorType()->getDescription(),
-            "parameterPUI" => "",
-            "unit" => $this->parameter->getUnit()->getName(),
-            "unitPUI" => $this->parameter->getUnit()->getOntologyId(),
-            "value" => $this->parameter->getStudyParameterValues()->getValues()[0]->getValue(),
-        ];
-        return $this->environnmentParameters;
+        if (!$this->parameterValue->contains($parameterValue)) {
+            $this->parameterValue[] = $parameterValue;
+        }
+
+        return $this;
     }
 
-    /**
-     * @Groups({"study:read"})
-     */
-    public function getExperimentalDesign(){
-        $this->experimentalDesign = [
-            "PUI" => $this->experimentalDesignType->getOntologyId(),
-            "description" => $this->experimentalDesignDescription
-        ];
-        return $this->experimentalDesign;
-    }
+    public function removeParameterValue(ParameterValue $parameterValue): self
+    {
+        $this->parameterValue->removeElement($parameterValue);
 
-    /**
-     * @Groups({"study:read"})
-     * @SerializedName("observationLevels")
-     */
-    public function getBraApiObservationLevels(){
-        $this->brApiObservationLevels = [
-            "levelName" => $this->getObservationLevels(),
-        ];
-        return $this->brApiObservationLevels;
+        return $this;
     }
 
     public function getObservationUnitsDescription(): ?string
@@ -834,16 +713,175 @@ class Study
         return $this;
     }
 
+    // API SECTION
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getTrialDbId(){
+        return $this->trial ? $this->trial->getId() : null ;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getTrialName(){
+        return $this->trial ? $this->trial->getName() : null ;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getStudyPUI(){
+        $studyPUI = "Study PUI";
+        return $studyPUI;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getLocationDbId(){
+        return $this->location ? $this->location->getId() : null ;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getLocationName(){
+        return $this->location ? $this->location->getName() : null;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getLicense(){
+        return $this->trial ? $this->trial->getLicense() : null ;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getContacts()
+    {
+        $institute = $this->trial ? $this->trial->getProgram()->getContact()->getInstitute() : null;
+        $contacts = [
+            "contactDbId" => $this->trial ? $this->trial->getProgram()->getContact()->getOrcid() : null,
+            "email" => $this->trial ? $this->trial->getProgram()->getContact()->getPerson()->getEmailAddress() : null,
+            "instituteName" => $institute ? $institute->getName() : "N/A",
+            "name" => $this->trial ? $this->trial->getProgram()->getContact()->getPerson()->getFirstName() ." ". $this->trial->getProgram()->getContact()->getPerson()->getMiddleName() ." ". $this->trial->getProgram()->getContact()->getPerson()->getLastName() : null,
+            "orcid" => $this->trial ? $this->trial->getProgram()->getContact()->getOrcid() : null,
+            "type" => $this->trial ? $this->trial->getProgram()->getContact()->getType() : null
+        ];
+        return $contacts;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getCommonCropName(){
+        return $this->trial ? $this->trial->getProgram()->getCrop()->getCommonCropName() : null;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getStudyType(){
+        
+        return $this->trial ? $this->trial->getTrialType()->getName() : null;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getSeasons(){
+        $seasons = [];
+        $seasons [] = $this->season ? $this->season->getName() : null;
+        return $seasons;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getExperimentalDesign(){
+        $this->experimentalDesign = [
+            "PUI" => $this->experimentalDesignType ? $this->experimentalDesignType->getOntologyId() : "",
+            "description" => $this->experimentalDesignDescription
+        ];
+        return $this->experimentalDesign;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     * @SerializedName("observationLevels")
+     */
+    public function getBraApiObservationLevels(){
+        $rApiObservationLevels = [
+            "levelName" => $this->observationLevels,
+        ];
+        return $rApiObservationLevels;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getObservationVariableDbIds() {
+        $unitNames = [];
+        $obsValues = [];
+        $variableIds = [];
+        foreach ($this->observationLevels as $oneObsLevel) {
+            # code...
+            $unitNames [] = $oneObsLevel->getUnitname();
+            $obsValues [] = $oneObsLevel->getObservationValueOriginals();
+        }
+
+        foreach ($obsValues as $key => $oneObsValue) {
+            # code...
+            if ($oneObsValue[$key] !== null) {
+                $variableIds [] = $oneObsValue[$key]->getObservationVariableOriginal()->getName();
+            }
+        }
+        return $variableIds;
+    }
+
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getEnvironmentParameters() {
+        $paramValues = [];
+        foreach ($this->parameterValue as $key => $oneParameterValue) {
+            # code...
+            $param[$key] = [
+                "parameterName" => $oneParameterValue->getParamter()->getName(),
+                "parameterPUI" => $oneParameterValue->getParamter()->getFactorType()->getOntologyId(),
+                "description" => $oneParameterValue->getParamter()->getFactorType()->getDescription(),
+                "unit" => $oneParameterValue->getParamter()->getUnit()->getName(),
+                "unitPUI" => $oneParameterValue->getParamter()->getUnit()->getOntologyId(),
+                "value" => $oneParameterValue->getValue(),
+            ];
+            $paramValues [] = $param[$key];
+        }
+        return $paramValues;
+    }
+
     /**
      * @Groups({"study:read"})
      */
     public function getDataLinks(){
-        $this->datalinks = [
+        $datalinks = [
             "description" => ",..",
             "dataFormat" => "Image archives",
             "name" => $this->getStudyImages()
         ];
-        return $this->datalinks;
+        return $datalinks;
     }
     
+    /**
+     * @Groups({"study:read"})
+     */
+    public function getLastUpdate(){
+        $lastUpdate = [
+            "timestamp" => $this->lastUpdated,
+            "version" => "N/A"
+        ];
+        return $lastUpdate;
+    }
 }
