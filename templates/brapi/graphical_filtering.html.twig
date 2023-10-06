@@ -72,7 +72,12 @@
 
                                     <div class="row">
                                         <div class="form-group col-md-6">
-                                            <label for="brapi-study">Study</label> <input type="text" class="form-control" id="brapi-study" name="study" placeholder="Please provide the study abbreviation or the study DB id">
+                                            <label for="brapi-study">Study</label>
+                                            <select id="brapi-study" name="study" class="custom-select mr-sm-2">
+                                            {% for study in observedStudies %}
+                                                <option value="{{ study.id }}">{{ study.abbreviation }}</option>
+                                            {% endfor %}
+                                        </select>
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="brapi-unit">Unit Type</label>
@@ -189,6 +194,7 @@
                 var params = {
                     // even though it's studyDbIds, the search can be also done by study abbreviation 
                     "studyDbIds": form.study,
+                    "signature" : "graphicalFiltering",
                     "observationLevel": form.unit
                 };
                 GraphicalFilter(
