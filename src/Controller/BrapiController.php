@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-// As of October 2nd 2023, this controller is aimed to render / process all the brapi
+// As of October 10th 2023, this controller is aimed to render / process all the brapi
 // related third party apps.
 
-// In the case of the graphical filtering, 
-// 1. the graphicalFiltering() renders a twig template which is waiting from the user some
+// In the case of the graphical filtering & study comparison,
+// 1. the graphicalFiltering() & studyComparison() render a twig template which is waiting from the user some
 // input value as paramaters. Once the paramaters are set and the user sends the request,
 
 // 2. A javascript code in the same rendered twig template sends a request to the BrAPI.js
@@ -24,7 +24,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 // 3. The phenotypesSearch() in this controller decodes the content of the request to get
 // the paramaters sent by user as the parameters are sent on json encode in the request content.
-// Then a query is sent to the DB to get the study related based on its id or its abbreviation.
+// if the signature of the content is graphicalFiltering, the controller process the graphical filtering
+// case which is a little bit similar to study comparison. If the signature content is different to
+// graphicalFiltering, the study comparison is processed.
+// Then a query is sent to the DB to get the study related based on its id* or its abbreviation (old version).
 // From the study related (selected), the realted observationLevels list is retrived. Furthermore
 // A loop has been performed on that list in order to get observationValueOriginal based on the unitname
 // for each element of the observationLevels list. The observationValueOriginal is a list of each
@@ -37,6 +40,9 @@ use Symfony\Component\Routing\Annotation\Route;
 // 4. Finally another loop is performed on the returned obsUnitsAndValues list to build the exact
 // data structure waiting by the graphical filtering js code in the graphical filteringctwig template.
 
+// 5. related only to study comparison. In the study comparison, several studies are selected which is
+// different in the case of graphical filtering, as a matter of fact, one more lopp is executed on the
+// study comparison to get the observation level for each one of the studies selected by the user
 
 // set a class level route
  /**
