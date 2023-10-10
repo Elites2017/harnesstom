@@ -82,6 +82,18 @@ class StudyRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function getStudyObervations() {
+        $query = $this->createQueryBuilder('study')
+            ->join('App\Entity\ObservationLevel', 'obsLevel')
+            ->join('App\Entity\ObservationValueOriginal', 'obsVal')
+            ->where('study.isActive = 1')
+            ->andWhere('study.id = obsLevel.study')
+            ->andWhere('obsLevel.id = obsVal.unitName')
+        ;
+
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Study[] Returns an array of Study objects
     //  */
