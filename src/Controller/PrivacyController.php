@@ -13,6 +13,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class PrivacyController extends AbstractController
 {
     /**
+     * @Route("/", name="index")
+     */
+    public function index(): Response
+    {
+        $context = [
+            'title' => 'Privacy',
+        ];
+        return $this->render('privacy/index.html.twig', $context);
+    }
+    
+    /**
      * @Route("/license", name="license")
      */
     public function license(): Response
