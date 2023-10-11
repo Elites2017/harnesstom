@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h3 class="m-0 font-weight-bold text-center tomato-color">License</h3>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="row">
+                            <div class="col-xl-8 col-lg-7 text-justify">
+                                <h1 class="tomato-color">MIT License</h1><br/>
+                                <h4>
+                                    Copyright 2021 Institut National Polytechnique de Toulouse (INPT) - 
+                                    Instituto de Biología Molecular y Celular de Plantas (IBMCP, CSIC-UPV)
+                                    </br></br>
+
+                                    <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+                                    and associated documentation files (the “Software”), to deal in the Software without restriction,
+                                    including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense,
+                                    and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+                                    subject to the following conditions: The above copyright notice and this permission notice shall be included
+                                    in all copies or substantial portions of the Software.</p>
+                                    THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+                                    TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+                                    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+                                    WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+                                    OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+                                </h4>
+                            </div>
+                            <div class="col-xl-4 col-lg-3">
+                                <ul class="list-group list-group-flush">
+                                    <h3><span class="badge badge-pill badge-primary">See also</span></h3>
+                                    <li class="list-group-item"><a href="{{ path('privacy_terms_of_use' )}}">Terms & conditions of use</a></li>
+                                    <li class="list-group-item"><a href="{{ path('privacy_citation' )}}">Citing harnesstom</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- .row -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
