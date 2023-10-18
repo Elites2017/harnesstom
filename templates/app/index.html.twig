@@ -940,8 +940,9 @@
       .color(d => color(d.name))
       .showLabels(true)
       .maxLevels(8)
+      .centerRadius(0.3)
       .showTooltip(()=> true)
-      .radiusScaleExponent(1)
+      .radiusScaleExponent(0.5)
       .tooltipContent((d, node) => `Size: <i>${node.value}</i>`)
       (document.getElementById('chart'));
   </script>
