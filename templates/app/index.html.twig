@@ -496,9 +496,7 @@
                                 </div>
                                 <!-- Card Body -->
                                 <div class="card-body">
-                                    
-                                    <div style="my-auto;" id="sunburstchart" ></div>
-                                    
+                                    <div id="chart" ></div>
                                 </div>
                             </div>
                         </div>
@@ -753,6 +751,197 @@
       <!-- mdbosstrap scripts -->
 
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+      <script src="https://unpkg.com/d3@7.8.5/dist/d3.min.js"></script>
+      <script src="https://unpkg.com/sunburst-chart@1.19.0/dist/sunburst-chart.min.js"></script>
+
+      <script>
+        function getData() {
+            return {
+                name: 'Accession',
+                children: [
+                {
+                    name: "Wild",
+                    children: [
+                        {
+                            name: "Natural",
+                            {% if accessionQtyByBS['Natural'] is defined %}
+                                size: {{ accessionQtyByBS['Natural'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Semi-natural/wild",
+                            {% if accessionQtyByBS['Semi-natural/wild'] is defined %}
+                                size: {{ accessionQtyByBS['Semi-natural/wild'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Semi-natural/sown",
+                            {% if accessionQtyByBS['Semi-natural/sown'] is defined %}
+                                size: {{ accessionQtyByBS['Semi-natural/sown'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                    ],
+                },
+                {
+                    name: "Weedy",
+                    {% if accessionQtyByBS['Weedy'] is defined %}
+                        size: {{ accessionQtyByBS['Weedy'] }},
+                    {% else %}
+                        size: 0
+                    {% endif %}
+                },
+                {
+                    name: "Traditional cultivar/landrace",
+                    {% if accessionQtyByBS['Traditional cultivar/landrace'] is defined %}
+                        size: {{ accessionQtyByBS['Traditional cultivar/landrace'] }},
+                    {% else %}
+                        size: 0
+                    {% endif %}
+                },
+                {
+                    name: "Breeding/research material",
+                    children: [
+                        {
+                            name: "Breeder's line",
+                            {% if accessionQtyByBS["Breeder's line"] is defined %}
+                                size: {{ accessionQtyByBS["Breeder's line"] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Synthetic population",
+                            {% if accessionQtyByBS['Synthetic population'] is defined %}
+                                size: {{ accessionQtyByBS['Synthetic population'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Hybrid",
+                            {% if accessionQtyByBS['Hybrid'] is defined %}
+                                size: {{ accessionQtyByBS['Hybrid'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Founder stock/base population",
+                            {% if accessionQtyByBS['Founder stock/base population'] is defined %}
+                                size: {{ accessionQtyByBS['Founder stock/base population'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Inbred line (parent of hybrid cultivar)",
+                            {% if accessionQtyByBS['Inbred line (parent of hybrid cultivar)'] is defined %}
+                                size: {{ accessionQtyByBS['Inbred line (parent of hybrid cultivar)'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Segregating population",
+                            {% if accessionQtyByBS['Segregating population'] is defined %}
+                                size: {{ accessionQtyByBS['Segregating population'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Clonal selection",
+                            {% if accessionQtyByBS['Clonal selection'] is defined %}
+                                size: {{ accessionQtyByBS['Clonal selection'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Genetic stock",
+                            {% if accessionQtyByBS['Genetic stock'] is defined %}
+                                size: {{ accessionQtyByBS['Genetic stock'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Mutant (e.g. induced/insertion mutants)",
+                            {% if accessionQtyByBS['Mutant (e.g. induced/insertion mutants)'] is defined %}
+                                size: {{ accessionQtyByBS['Mutant (e.g. induced/insertion mutants)'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Cytogenetic stocks (e.g. chromosome addition/substitution)",
+                            {% if accessionQtyByBS['Cytogenetic stocks (e.g. chromosome addition/substitution)'] is defined %}
+                                size: {{ accessionQtyByBS['Cytogenetic stocks (e.g. chromosome addition/substitution)'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                        {
+                            name: "Other genetic stocks (e.g. mapping populations)",
+                            {% if accessionQtyByBS['Other genetic stocks (e.g. mapping populations)'] is defined %}
+                                size: {{ accessionQtyByBS['Other genetic stocks (e.g. mapping populations)'] }},
+                            {% else %}
+                                size: 0
+                            {% endif %}
+                        },
+                    ],
+                },
+                {
+                    name: "Advanced or improved cultivar (conventional breeding methods)",
+                    {% if accessionQtyByBS['Advanced or improved cultivar (conventional breeding methods)'] is defined %}
+                        size: {{ accessionQtyByBS['Advanced or improved cultivar (conventional breeding methods)'] }},
+                    {% else %}
+                        size: 0
+                    {% endif %}
+                },
+                {
+                    name: "GMO (by genetic engineering)",
+                    {% if accessionQtyByBS['GMO (by genetic engineering)'] is defined %}
+                        size: {{ accessionQtyByBS['GMO (by genetic engineering)'] }},
+                    {% else %}
+                        size: 0
+                    {% endif %}
+                },
+                {
+                    name: "Other (Elaborate in REMARKS field)",
+                    {% if accessionQtyByBS['Other (Elaborate in REMARKS field)'] is defined %}
+                        size: {{ accessionQtyByBS['Other (Elaborate in REMARKS field)'] }},
+                    {% else %}
+                        size: 0
+                    {% endif %}
+                },  
+            ]
+            }
+            }
+
+    const data = getData();
+
+    Sunburst()
+      .data(data)
+      .size('size')
+      .width(350)
+      .height(300)
+      .color(d => color(d.name))
+      .showLabels(true)
+      .maxLevels(8)
+      .showTooltip(()=> true)
+      .radiusScaleExponent(1)
+      .tooltipContent((d, node) => `Size: <i>${node.value}</i>`)
+      (document.getElementById('chart'));
+  </script>
+  
   
  
       <script >
