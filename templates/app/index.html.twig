@@ -927,11 +927,15 @@
             }
 
     const data = getData();
+    
+    // width of div element
+    var chartEl = document.getElementById('chart');
+    var divWidth = chartEl.clientWidth;
 
     Sunburst()
       .data(data)
       .size('size')
-      .width(350)
+      .width(divWidth)
       .height(300)
       .color(d => color(d.name))
       .showLabels(true)
