@@ -33,6 +33,7 @@ class InquiryController extends AbstractController
 
             // // get the file (name from the InquiryType form)
             $file = $request->files->get('inquiry')['file'];
+            //dd($file->getPathname());
             // // set the folder to send the file to
             // $fileFolder = __DIR__ . '/../../public/uploads/datasubmission/';
             // // apply md5 function to generate a unique id for the file and concat it with the original file name
@@ -49,8 +50,6 @@ class InquiryController extends AbstractController
             //     $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
             // }
 
-            //dd("Uploaded file ", $file);
-
             $inquiry->setCreatedAt(new \DateTime());
             $entmanager->persist($inquiry);
             $entmanager->flush();
@@ -62,6 +61,7 @@ class InquiryController extends AbstractController
                 ->subject('Inquiry Confirmation')
                 // path to your Twig template
                 ->htmlTemplate('inquiry/reception.html.twig')
+                ->attach(fopen($file->getPathname(), 'r'), $file->getClientOriginalName())
             ;
             $mailer->send($email);
 
@@ -74,7 +74,7 @@ class InquiryController extends AbstractController
                     <h3>" .$inquiry->getMessage(). "</h3>");
 
                 if ($file) {
-                    $email->embed(fopen($file->getPathname(), 'r'), 'Screenshot');
+                    $email_teamHDB->attach(fopen($file->getPathname(), 'r'), $file->getClientOriginalName());
                 }
 
                 if ($inquiry->getType() == 'Data Curation') {
