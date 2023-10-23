@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\File;
 use Symfony\Component\Routing\Annotation\Route;
 
 // set a class level route
@@ -29,8 +31,8 @@ class InquiryController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // // get the file (name from the CountryUploadFromExcelType form)
-            // $file = $request->files->get('data_submission')['file'];
+            // // get the file (name from the InquiryType form)
+            $file = $request->files->get('inquiry')['file'];
             // // set the folder to send the file to
             // $fileFolder = __DIR__ . '/../../public/uploads/datasubmission/';
             // // apply md5 function to generate a unique id for the file and concat it with the original file name
@@ -46,6 +48,8 @@ class InquiryController extends AbstractController
             // } else {
             //     $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
             // }
+
+            //dd("Uploaded file ", $file);
 
             $inquiry->setCreatedAt(new \DateTime());
             $entmanager->persist($inquiry);
@@ -68,6 +72,10 @@ class InquiryController extends AbstractController
                 ->html(
                     "<h4>" .$inquiry->getEmail(). " wrote </h4>
                     <h3>" .$inquiry->getMessage(). "</h3>");
+
+                if ($file) {
+                    $email->embed(fopen($file->getPathname(), 'r'), 'Screenshot');
+                }
 
                 if ($inquiry->getType() == 'Data Curation') {
                     $email_teamHDB->to('cpons@upvnet.upv.es')
