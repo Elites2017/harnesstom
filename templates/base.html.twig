@@ -4,7 +4,6 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="description" content="">
-		<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 		<meta name="generator" content="Hugo 0.88.1">
 		
 		<title>{% block title %} Welcome! {% endblock %}</title>
@@ -70,7 +69,13 @@
 			}
 			.carousel .carousel-indicators li {background-color: #d01c44;}
 			.carousel .carousel-indicators li.active {background-color: blue;}
+			
+			{# for the sunburst chart, tooltip was hidden due to bootstrap override #}
+			 .tooltip {
+				opacity: 1 !important;
+			}
 		</style>
+		<meta name="google-site-verification" content="fZSfb6p7AJhaAheJh7Z0bhFRr5DUEYxP0-RJszPJZKI" />
 	</head>
 	<body id="page-top">
 
@@ -2124,13 +2129,19 @@
 											<a class="text-muted" href="http://harnesstom.eu/en/network.html" target="blank">Project Partners</a>
 										</li>
 										<li>
-											<a class="text-muted" href="#">Contact us</a>
+											<a class="text-muted" href="{{ path('inquiry_new') }}">Contact us</a>
 										</li>
 										<li>
-											<a class="text-muted" href="#">Terms of use</a>
+											<a class="text-muted" href="{{ path('privacy_index' )}}">Privacy</a>
 										</li>
 										<li>
-											<a class="text-muted" href="#">Citing HarnessTom</a>
+											<a class="text-muted" href="{{ path('privacy_terms_of_use' )}}">Terms of use</a>
+										</li>
+										<li>
+											<a class="text-muted" href="{{ path('privacy_citation' )}}">Citing HarnessTom</a>
+										</li>
+										<li>
+											<a class="text-muted" href="{{ path('privacy_license' )}}">License</a>
 										</li>
 									</ul>
 								</div>
