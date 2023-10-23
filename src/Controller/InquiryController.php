@@ -31,24 +31,8 @@ class InquiryController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // // get the file (name from the InquiryType form)
+            // get the file (name from the InquiryType form)
             $file = $request->files->get('inquiry')['file'];
-            //dd($file->getPathname());
-            // // set the folder to send the file to
-            // $fileFolder = __DIR__ . '/../../public/uploads/datasubmission/';
-            // // apply md5 function to generate a unique id for the file and concat it with the original file name
-            // if ($file->getClientOriginalName()) {
-            //     $filePathName = md5(uniqid()) . $file->getClientOriginalName();
-            //     try {
-            //         $file->move($fileFolder, $filePathName);
-            //         $dataSubmission->setFile($filePathName);
-            //     } catch (\Throwable $th) {
-            //         //throw $th;
-            //         $this->addFlash('danger', "Fail to upload the file, try again ");
-            //     }
-            // } else {
-            //     $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
-            // }
 
             $inquiry->setCreatedAt(new \DateTime());
             $entmanager->persist($inquiry);
@@ -61,7 +45,6 @@ class InquiryController extends AbstractController
                 ->subject('Inquiry Confirmation')
                 // path to your Twig template
                 ->htmlTemplate('inquiry/reception.html.twig')
-                ->attach(fopen($file->getPathname(), 'r'), $file->getClientOriginalName())
             ;
             $mailer->send($email);
 
