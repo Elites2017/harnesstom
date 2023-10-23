@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h3 class="m-0 font-weight-bold text-center tomato-color">Privacy Policy</h3>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						<div class="row">
+                            <div class="col-xl-8 col-lg-7 text-justify">
+								<h4>
+									We intend only to process personal information fairly and transparently as required by personal data protection 
+									law including the EU General Data Protection Regulation 2016/679 (<a href="https://gdpr.eu" target="_blank">GDPR</a>). 
+									HarnesstomDB collects the following data.
+								</h4></br>
+									
+								<h3>Computers accessing to the web page</h3>
+								<h4>
+									You may visit parts of HarnesstomDB without providing any personal information about yourself. 
+									HarnesstomDB does not collect any technical data of computers accessing to the web page 
+									nor uses cookies to track your user session on the server. 
+									HarnesstomDB never collects personal information for commercial marketing or any purposes not related 
+									to scientific discussions and collaborations.
+								</h4></br>
+
+								<h3>Registered users</h3>
+								<h4>
+									A HarnesstomDB user account is required if you wish to access advanced functionalities, manage your data 
+									or give access to other users. When you create a HarnesstomDB user account you must provide personal identification 
+									information (name, last name, country and a valid e-mail). All other personal information supplied by you on a voluntary basis. 
+									By providing your email address on the HarnesstomDB, you consent to your name and email address being added to the HarnesstomDB 
+									user directory, and your name and email address being freely searchable by and viewable to other registered users. 
+									If you choose to include other details in your contact information profile (e.g. phone number, address), 
+									these details will also be included in the HarnesstomDB user directory. HarnesstomDB administrators and registered users 
+									may use this email address to contact you for issues related to your data in HarnesstomDB. 
+								</h4></br>
+
+								<h3>Public contacts</h3>
+								<h4>
+									Program leaders or coordinators are considered Public contacts in HarnesstomDB. Their personal 
+									and professional data (name, e-mail address, organization and ORCID) is the unique personal data available for non-registered users. 
+									Personal and professional data will be public and provided exclusively for the purpose of furthering scientific discussions and collaborations. 
+								</h4></br>
+
+								<h3>Your data protection rights</h3>
+								<h4>
+									According to the EU General Data Protection Regulation 2016/679 (<a href="https://gdpr.eu" target="_blank">GDPR</a>), you have the right to access, rectify, 
+									oppose and delete information about yourself. If you wish to exercise this right and obtain information about yourself, 
+									please fill the <a href="{{ asset('todownload/pdf/RIGHT-TO-ERASURE-REQUEST-FORM.pdf') }}" download="">Erasure Request format</a> and contact us via our <a href="{{ path('inquiry_new') }}">contact form</a>. 
+								</h4></br>
+
+								<h3>Personal data Transfer</h3>
+								<h4>
+									HarnesstomDB may share knowledge with third-parties  by prior signed written agreement. 
+									Data sharing will be in compliance with intellectual property rights. HarnesstomDB does not transfer any personally identifiable 
+									information about visitors or users. The only exception will be public contacts and submitters so that the recipients of the shared 
+									data can contact them for questions related to their data. Public contacts will be shared ensuring that the personal data are 
+									adequately protected. To achieve this, the parties shall, unless agreed otherwise, rely on EU approved standard contractual clauses 
+									for the transfer of personal data.
+									</br></br>
+									Personal data held by HarnesstomDB will only be released in exceptional circumstances when required by law or judicial or regulatory order. 
+								</h4></br>
+
+								<h3>Privacy policies of other websites</h3>
+								<h4>
+									The HarnesstomDB gateway contains links to other websites that provide more information about research data stored in the database. 
+									Our privacy policy applies only to our website, so if you click on a link to another website, you should read their privacy policy.
+								</h4></br>
+
+								<h3>HarnesstomDB on social media sites</h3>
+								<h4>
+									<a href="/">Harnesstom consortium</a> maintains accounts on third-party websites, such as social media sites, as tools to better interact with the public. 
+									The security and privacy policies of third-party websites apply to your activity on those sites. 
+									HarnesstomDB publications on those sites will concern only to scientific works submitted to the database or to new improvements. 
+									In the case, scientific actors’ information will be published in those sites HarnesstomDB it should be to identify and acknowledge 
+									the authors of the scientific works submitted to our database.
+								</h4></br>
+
+								<h3>Changes to our privacy policy</h3>
+								<h4>
+									HarnesstomDB keeps its privacy policy under regular review and places any updates on this web page. 
+									This privacy policy was last updated on 8 March 2023..
+								</h4></br>
+
+								<h3>How to contact us</h3>
+								<h4>
+									If you have any questions about Harnesstom privacy policy, the data we hold on you, 
+									or you would like to exercise one of your data protection rights, please do not hesitate to <a href="{{ path('inquiry_new') }}">contact us</a>.
+								</h4></br>
+                            </div>
+
+                            <div class="col-xl-4 col-lg-3">
+                                <ul class="list-group list-group-flush">
+                                    <h3><span class="badge badge-pill badge-primary">See also</span></h3>
+									<li class="list-group-item"><a href="{{ path('privacy_license' )}}">License</a></li>
+									<li class="list-group-item"><a href="{{ path('privacy_terms_of_use' )}}">Terms & conditions of use</a></li>
+                                    <li class="list-group-item"><a href="{{ path('privacy_citation' )}}">Citing harnesstom</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- .row -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
