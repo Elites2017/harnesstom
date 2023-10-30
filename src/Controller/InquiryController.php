@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\File;
 use Symfony\Component\Routing\Annotation\Route;
 
 // set a class level route
@@ -29,23 +31,8 @@ class InquiryController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // // get the file (name from the CountryUploadFromExcelType form)
-            // $file = $request->files->get('data_submission')['file'];
-            // // set the folder to send the file to
-            // $fileFolder = __DIR__ . '/../../public/uploads/datasubmission/';
-            // // apply md5 function to generate a unique id for the file and concat it with the original file name
-            // if ($file->getClientOriginalName()) {
-            //     $filePathName = md5(uniqid()) . $file->getClientOriginalName();
-            //     try {
-            //         $file->move($fileFolder, $filePathName);
-            //         $dataSubmission->setFile($filePathName);
-            //     } catch (\Throwable $th) {
-            //         //throw $th;
-            //         $this->addFlash('danger', "Fail to upload the file, try again ");
-            //     }
-            // } else {
-            //     $this->addFlash('danger', "Error in the file name, try to rename the file and try again");
-            // }
+            // get the file (name from the InquiryType form)
+            $file = $request->files->get('inquiry')['file'];
 
             $inquiry->setCreatedAt(new \DateTime());
             $entmanager->persist($inquiry);
@@ -68,6 +55,10 @@ class InquiryController extends AbstractController
                 ->html(
                     "<h4>" .$inquiry->getEmail(). " wrote </h4>
                     <h3>" .$inquiry->getMessage(). "</h3>");
+
+                if ($file) {
+                    $email_teamHDB->attach(fopen($file->getPathname(), 'r'), $file->getClientOriginalName());
+                }
 
                 if ($inquiry->getType() == 'Data Curation') {
                     $email_teamHDB->to('cpons@upvnet.upv.es')

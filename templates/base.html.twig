@@ -1260,19 +1260,6 @@
 										<a class="nav-link dropdown-toggle text-uppercase font-weight-bold" href="#" id="dropdown01" data-toggle="dropdown" aria-expanded="false">Germplasm</a>
 										<ul class="dropdown-menu shadow animated--grow-in" aria-labelledby="navbarDropdownMenuLink">
 											<li>
-												<a class="dropdown-item" href="#">
-													Species &raquo;
-												</a>
-												<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu">
-													<li>
-														<a class="dropdown-item" href="#">Create</a>
-													</li>
-													<li>
-														<a class="dropdown-item" href="#">Search</a>
-													</li>
-												</ul>
-											</li>
-											<li>
 												<a class="dropdown-item" href="{{ path('germplasm_index') }}">
 													Germplasm &raquo;
 												</a>
@@ -1887,7 +1874,236 @@
 							<div class="bg-white py-2 collapse-inner rounded">
 								<h6 class="collapse-header">Overview:</h6>
 								<a class="collapse-item" href="{{path('data_submission_index')}}">Guide</a>
-								<a class="collapse-item" href="{{path('data_submission_new')}}">Request</a>
+								<a class="collapse-item" href="{{path('data_submission_new')}}">Bulk Data Request</a>
+								
+								<ul class="collapse-item dropdown-menu shadow animated--grow-in dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+									
+									<li>
+										<a class="collapse-item" href="#">
+											Create &raquo;
+										</a>
+										<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+											
+											<!-- start experimental -->
+											<li>
+												<a class="dropdown-item" href="#">
+													Experimental &raquo;
+												</a>
+												<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+													<li>
+														<a class="dropdown-item" href="{{path('program_create')}}">
+															Program
+														</a>
+													</li>
+
+													<li>
+														<a class="dropdown-item" href="{{path('trial_create')}}">
+															Trial
+														</a>
+													</li>
+
+													<li>
+														<a class="dropdown-item" href="{{path('study_create')}}">
+															Study
+														</a>
+													</li>
+
+													<li>
+														<a class="dropdown-item" href="{{path('sample_create')}}">
+															Sample
+														</a>
+													</li>
+
+													<li>
+														<a class="dropdown-item" href="{{path('observation_level_create')}}">
+															Observation Level
+														</a>
+													</li>
+
+												</ul>
+											</li>
+											<!-- end experimental -->
+
+											<!-- start germplasm -->
+											<li>
+												<a class="dropdown-item" href="#">
+													Germplasm &raquo;
+												</a>
+												<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+													<li>
+														<a class="dropdown-item" href="{{ path('germplasm_create') }}">
+															Germplasm
+														</a>
+													</li>
+													
+													<li>
+														<a class="dropdown-item" href="{{ path('cross_create') }}">
+															Cross
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('collection_create') }}">
+															Collection
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('collecting_mission_create') }}">
+															Collecting Mission
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{path('accession_create')}}">
+															Accession
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{path('attribute_create')}}">
+															Attribute
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{path('attribute_trait_value_create')}}">
+															Attribute Trait Value
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('pedigree_create') }}">
+															Pedigree
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('mapping_population_create') }}">
+															Mapping Population
+														</a>
+													</li>
+												</ul>
+											</li>
+											<!-- end germplasm -->
+
+											<!-- start phenotyping -->
+											<li>
+												<a class="dropdown-item" href="#">
+													Phenotyping &raquo;
+												</a>
+												<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+													<li>
+														<a class="dropdown-item" href="{{ path('metabolite_create') }}">
+															Metabolite
+														</a>
+													</li>
+													
+													<li>
+														<a class="dropdown-item" href="{{ path('analyte_create') }}">
+															Analyte
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('trait_class_create') }}">
+															Traits
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('observation_value_create') }}">
+															Observation Value
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{path('observation_variable_method_create')}}">
+															Observation Variable Method
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('observation_variable_create') }}">
+															Observation Variable
+														</a>
+													</li>
+												</ul>
+											</li>
+											<!-- end phenotyping -->
+
+											<!-- start genotyping -->
+											<li>
+												<a class="dropdown-item" href="#">
+													Genotyping &raquo;
+												</a>
+												<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+													<li>
+														<a class="dropdown-item" href="{{ path('marker_create') }}">
+															Markers
+														</a>
+													</li>
+													
+													<li>
+														<a class="dropdown-item" href="{{ path('genotyping_platform_create') }}">
+															Genotyping Platform
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item">
+															Variants &raquo;
+														</a>
+														<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu">
+															<li>
+																<a class="dropdown-item" href="{{path('variant_set_metadata_index')}}">Metadata &raquo;</a>
+																<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('variant_set_metadata_create')}}">Create</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="{{path('variant_set_metadata_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+															<li>
+																<a class="dropdown-item" href="{{path('variant_set_index')}}">Variant Set &raquo;</a>
+																<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu">
+																	<li>
+																		<a class="dropdown-item" href="{{path('variant_set_create')}}">Create</a>
+																	</li>
+																	<li>
+																		<a class="dropdown-item" href="{{path('variant_set_index')}}">Search</a>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+											</li>
+											<!-- end genotyping -->
+
+											<!-- start variant calatalogue -->
+											<li>
+												<a class="dropdown-item" href="#">
+													Variant Catalogue &raquo;
+												</a>
+												<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
+													<li>
+														<a class="dropdown-item" href="{{ path('qtl_study_create') }}">
+															QTL Study
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('gwas_create') }}">
+															GWAS
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('gwas_variant_create') }}">
+															GWAS Variant
+														</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('qtl_variant_create') }}">
+															QTL Variant
+														</a>
+													</li>
+												</ul>
+											</li>
+											<!-- end variant calatalogue -->
+
+										</ul>								
+									</li>
+								</ul>
 							</div>
 						</div>
 					</li>
