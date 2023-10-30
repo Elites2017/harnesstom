@@ -30,13 +30,18 @@ class TrialType extends AbstractType
         $builder
             ->add('name')
             ->add('description', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '5')])
+                'attr' => array('cols' => '5', 'rows' => '5'),
+                'required' => false ])
             ->add('abbreviation')
             ->add('startDate', DateType::class, array(
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false,
+                'by_reference' => true
             ))
             ->add('endDate', DateType::class, array(
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false,
+                'by_reference' => true,
             ))
             ->add('publicReleaseDate', DateType::class, array(
                 'widget' => 'single_text'
