@@ -59,7 +59,9 @@
 											{{ contact.orcid }}</a>
 										</td>
 										<td>
-											{{ contact.person.firstName ~ " " ~ contact.person.lastName | upper}}
+											{% if contact.person %}
+												{{ contact.person.firstName ~ " " ~ contact.person.lastName | upper}}
+											{% endif %}
 										</td>
 										<td>
 											{% if contact.institute %}
