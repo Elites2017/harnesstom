@@ -33,7 +33,7 @@ class InstituteType extends AbstractType
             ->add('country', DatalistType::class, [
                 'class' => Country::class,
                 'help_html' => true,
-                'required' => false,
+                'required' => true,
                 'placeholder' => '',
                 'choice_value' => 'iso3',
                 'help' => 'Add a new <a href="' . $toUrlCountry .'" target="_blank">Country</a>'
