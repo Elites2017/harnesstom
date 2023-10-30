@@ -45,6 +45,9 @@
 							{{ form_row(inquiryForm.email, {label: "Email", 'attr': {'placeholder': "Please, enter your email" }}) }}
 						</div>
 						<div>
+							{{ form_row(inquiryForm.file) }}
+						</div>
+						<div>
 							{{ form_row(inquiryForm.message, {label: "Message", 'attr': {'placeholder': "Please, enter / write any specific request related to your data submission request" }}) }}
 						</div>
 
@@ -80,4 +83,11 @@
 
 	<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
 	<script src="{{ asset('assets/nl/js/main.js') }}"></script>
+
+	<script>
+		$('.custom-file-input').on('change', function(event) {
+		let inputFile = event.currentTarget;
+		$(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+		});
+	</script>
 {% endblock %}
