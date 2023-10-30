@@ -35,7 +35,7 @@ class Contact
     private $orcid;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"contact:read", "program:read", "institute:read", "crop:read", "study:read"})
      */
     private $type;
