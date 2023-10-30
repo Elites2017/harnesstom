@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Contact;
 use App\Entity\Institute;
+use App\Entity\Person;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -25,7 +26,10 @@ class ContactType extends AbstractType
 
         $builder
             ->add('orcid')
-            ->add('person')
+            ->add('person', EntityType::class, [
+                'class' => Person::class,
+                'required' => true
+            ])
             ->add('institute', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
@@ -36,7 +40,6 @@ class ContactType extends AbstractType
             ])
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    '' => null,
                     'Program Leader' => 'Program Leader',
                     'Coordinator' => 'Coordinator',
                     'Adviser' => 'Adviser',
