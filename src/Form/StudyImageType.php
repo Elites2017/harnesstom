@@ -36,8 +36,9 @@ class StudyImageType extends AbstractType
                 'class' => Study::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
-                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Trial</a>'
+                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>'
             ])
         ;
     }
