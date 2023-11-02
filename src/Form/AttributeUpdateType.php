@@ -29,8 +29,9 @@ class AttributeUpdateType extends AbstractType
             ->add('name')
             ->add('abbreviation')
             ->add('description', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '5')])
-                ->add('publicationReference', CollectionType::class, [
+                'attr' => array('cols' => '5', 'rows' => '5'),
+                'required' => false])
+            ->add('publicationReference', CollectionType::class, [
                     'entry_type' => TextType::class,
                     'allow_add' => true,
                     'prototype' => true,

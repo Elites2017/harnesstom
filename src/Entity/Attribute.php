@@ -29,14 +29,14 @@ class Attribute
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"attribute:read"})
      * @SerializedName("attributeName")
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"attribute:read"})
      */
     private $abbreviation;
