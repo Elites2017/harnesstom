@@ -30,7 +30,8 @@ class ScaleType extends AbstractType
         $builder
             ->add('name')
             ->add('description', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '5')])
+                'attr' => array('cols' => '5', 'rows' => '5'),
+                'required' => false])
             ->add('dataType', EntityType::class, [
                 'class' => DataType::class,
                 'help_html' => true,
