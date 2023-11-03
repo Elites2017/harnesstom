@@ -15,7 +15,9 @@ class CollectionUpdateType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '7'),
+                'required' => false])
             ->add('publicationReference', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
