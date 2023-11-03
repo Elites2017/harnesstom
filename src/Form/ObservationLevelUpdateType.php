@@ -25,6 +25,7 @@ class ObservationLevelUpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $toUrlStudy = $this->router->generate('study_create');
+        $toUrlGermplasm = $this->router->generate('germplasm_create');
 
         $builder
             ->add('unitname')
@@ -39,7 +40,12 @@ class ObservationLevelUpdateType extends AbstractType
             ->add('unitCoordinateY')
             ->add('unitCoordinateXType')
             ->add('unitCoordinateYType')
-            ->add('germaplasm')
+            ->add('germaplasm', EntityType::class, [
+                'class' => Germplasm::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $toUrlGermplasm .'" target="_blank">Germplasm</a>'
+            ])
             ->add('study', EntityType::class, [
                 'class' => Study::class,
                 'help_html' => true,
