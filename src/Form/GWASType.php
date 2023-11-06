@@ -90,6 +90,7 @@ class GWASType extends AbstractType
                 'class' => GeneticTestingModel::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlGeneticTestingModel .'" target="_blank">Genetic Testing Model</a>'
                 
             ])
@@ -97,6 +98,7 @@ class GWASType extends AbstractType
                 'class' => AllelicEffectEstimator::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlAllelicEffectEstimator .'" target="_blank">Allelic Effect Estimator</a>'
                 
             ])
@@ -104,6 +106,7 @@ class GWASType extends AbstractType
                 'class' => GWASStatTest::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlGWASStatTest .'" target="_blank">GWAS Stat Test</a>'
                 
             ])
@@ -118,6 +121,7 @@ class GWASType extends AbstractType
                 'class' => Software::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlSoftware .'" target="_blank">Software</a>'
                 
             ])
