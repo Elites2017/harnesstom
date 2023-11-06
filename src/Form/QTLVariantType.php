@@ -77,7 +77,7 @@ class QTLVariantType extends AbstractType
                 'class' => Metabolite::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'choice_value' => 'name',
+                'choice_value' => 'analyte',
                 'help' => 'Add a new <a href="' . $urlMetabolite .'" target="_blank">Metabolite</a>',
                 'required' => false
                 
@@ -95,6 +95,7 @@ class QTLVariantType extends AbstractType
                 'class' => Marker::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $urlMarker .'" target="_blank">Marker</a>'
                 
@@ -103,6 +104,7 @@ class QTLVariantType extends AbstractType
                 'class' => Marker::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $urlMarker .'" target="_blank">Marker</a>'
                 
