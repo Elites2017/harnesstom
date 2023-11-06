@@ -27,6 +27,8 @@ class GWASVariantType extends AbstractType
         $toUrlMetabolite = $this->router->generate('metabolite_create');
         $toUrlTraitPreprocessing = $this->router->generate('trait_processing_create');
         $toUrlObservationVariable = $this->router->generate('observation_variable_create');
+        $toUrlMarker = $this->router->generate('marker_create');
+        $toUrlGwas = $this->router->generate('gwas_create');
 
         $builder
             ->add('name')
@@ -48,19 +50,33 @@ class GWASVariantType extends AbstractType
             ->add('rSquareOfModeWithSNP')
             ->add('rSquareOfModeWithoutSNP')
             ->add('refAllele')
-            ->add('marker')
+            ->add('marker', EntityType::class, [
+                'class' => Marker::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $toUrlMarker .'" target="_blank">Marker</a>'
+                
+            ])
             ->add('metabolite', EntityType::class, [
                 'class' => Metabolite::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlMetabolite .'" target="_blank">Metabolite</a>'
                 
             ])
-            ->add('gwas')
+            ->add('gwas', EntityType::class, [
+                'class' => GWAS::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $toUrlGwas .'" target="_blank">GWAS</a>'
+                
+            ])
             ->add('traitPreprocessing', EntityType::class, [
                 'class' => TraitProcessing::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlTraitPreprocessing .'" target="_blank">Trait Preprocessing</a>'
                 
             ])
@@ -68,6 +84,7 @@ class GWASVariantType extends AbstractType
                 'class' => ObservationVariable::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlObservationVariable .'" target="_blank">Observation Variable</a>'
                 
             ])
