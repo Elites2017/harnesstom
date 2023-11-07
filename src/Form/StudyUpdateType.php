@@ -48,7 +48,8 @@ class StudyUpdateType extends AbstractType
             ->add('name')
             ->add('abbreviation')
             ->add('description', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '7')])
+                'attr' => array('cols' => '5', 'rows' => '7'),
+                'required' => false])
             ->add('startDate', DateType::class, array(
                 'widget' => 'single_text',
                 'required' => false
@@ -68,6 +69,7 @@ class StudyUpdateType extends AbstractType
             ->add('factor', EntityType::class, [
                 'class' => FactorType::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlFactor .'" target="_blank">Factor Type</a>'
                 
@@ -75,6 +77,7 @@ class StudyUpdateType extends AbstractType
             ->add('season', EntityType::class, [
                 'class' => Season::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlSeason .'" target="_blank">Season</a>'
                 
@@ -90,6 +93,7 @@ class StudyUpdateType extends AbstractType
             ->add('location', EntityType::class, [
                 'class' => Location::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlLocation .'" target="_blank">Location</a>'
                 
@@ -98,12 +102,14 @@ class StudyUpdateType extends AbstractType
                 'class' => GrowthFacilityType::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlGrowthFaciliType .'" target="_blank">Growth Facility Type</a>'
                 
             ])
             ->add('experimentalDesignType', EntityType::class, [
                 'class' => ExperimentalDesignType::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlExperimentalDesignType .'" target="_blank">Experimental Design Type</a>'
                 

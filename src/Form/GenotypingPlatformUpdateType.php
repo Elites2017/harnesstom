@@ -37,7 +37,9 @@ class GenotypingPlatformUpdateType extends AbstractType
             ->add('methodDescription')
             ->add('refSetName')
             ->add('publishedDate', DateType::class, array(
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false,
+                'by_reference' => true,
             ))
             ->add('bioProjectID')
             ->add('markerCount')

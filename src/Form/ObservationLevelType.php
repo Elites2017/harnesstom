@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Germplasm;
 use App\Entity\ObservationLevel;
 use App\Entity\Study;
 use Symfony\Component\Form\AbstractType;
@@ -25,6 +26,7 @@ class ObservationLevelType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $toUrlStudy = $this->router->generate('study_create');
+        $toUrlGermplasm = $this->router->generate('germplasm_create');
 
         $builder
             ->add('unitname')
@@ -39,7 +41,12 @@ class ObservationLevelType extends AbstractType
             ->add('unitCoordinateY')
             ->add('unitCoordinateXType')
             ->add('unitCoordinateYType')
-            ->add('germaplasm')
+            ->add('germaplasm', EntityType::class, [
+                'class' => Germplasm::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $toUrlGermplasm .'" target="_blank">Germplasm</a>'
+            ])
             ->add('study', EntityType::class, [
                 'class' => Study::class,
                 'help_html' => true,

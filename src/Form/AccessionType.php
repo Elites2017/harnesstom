@@ -120,6 +120,7 @@ class AccessionType extends AbstractType
             ->add('collsrc', EntityType::class, [
                 'class' => CollectingSource::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlCollectingSource .'" target="_blank">Collecting Source</a>'
                 
@@ -127,6 +128,7 @@ class AccessionType extends AbstractType
             ->add('sampstat', EntityType::class, [
                 'class' => BiologicalStatus::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlBiologicalStatus .'" target="_blank">Biological Status</a>'
                 
@@ -141,6 +143,7 @@ class AccessionType extends AbstractType
             ->add('storage', EntityType::class, [
                 'class' => StorageType::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlStorageType .'" target="_blank">Storage Type</a>'
                 
@@ -148,6 +151,7 @@ class AccessionType extends AbstractType
             ->add('donorcode', Datalist1Type::class, [
                 'class' => Institute::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
@@ -156,6 +160,7 @@ class AccessionType extends AbstractType
             ->add('collcode', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
@@ -164,6 +169,7 @@ class AccessionType extends AbstractType
             ->add('collmissid', EntityType::class, [
                 'class' => CollectingMission::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlCollectingMissionIdentifier .'" target="_blank">Collecting Mission</a>'
                 
@@ -171,6 +177,7 @@ class AccessionType extends AbstractType
             ->add('bredcode', Datalist2Type::class, [
                 'class' => Institute::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
@@ -179,6 +186,7 @@ class AccessionType extends AbstractType
             ->add('mlsStatus', EntityType::class, [
                 'class' => MLSStatus::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlMLSStatus .'" target="_blank">MLS Status</a>'
                 

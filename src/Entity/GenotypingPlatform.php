@@ -46,7 +46,7 @@ class GenotypingPlatform
     private $methodDescription;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $refSetName;
@@ -64,7 +64,7 @@ class GenotypingPlatform
     private $bioProjectID;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      * @Groups({"genotyping_platform:read", "marker:read"})
      */
     private $markerCount;

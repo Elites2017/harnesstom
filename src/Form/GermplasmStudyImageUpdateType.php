@@ -33,21 +33,25 @@ class GermplasmStudyImageUpdateType extends AbstractType
         $toUrlStudy = $this->router->generate('study_create');
         $toUrlDevelopmentalStage = $this->router->generate('developmental_stage_create');
         $toUrlAnatomicalEntity = $this->router->generate('anatomical_entity_create');
+        $toUrlGermplasm = $this->router->generate('germplasm_create');
 
         $builder
             ->add('filename', FileType::class)
             ->add('description', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '5')])
+                'attr' => array('cols' => '5', 'rows' => '5'),
+                'required' => false])
             ->add('factor', EntityType::class, [
                 'class' => FactorType::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlFactorType .'" target="_blank">Factor</a>'
             ])
             ->add('developmentStage', EntityType::class, [
                 'class' => DevelopmentalStage::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlDevelopmentalStage .'" target="_blank">Devlopmental Stage</a>'
             ])
             ->add('plantAnatomicalEntity', EntityType::class, [
@@ -56,7 +60,12 @@ class GermplasmStudyImageUpdateType extends AbstractType
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlAnatomicalEntity .'" target="_blank">Anatomical Entity</a>'
             ])
-            ->add('GermplasmID')
+            ->add('GermplasmID', EntityType::class, [
+                'class' => Germplasm::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $toUrlGermplasm .'" target="_blank">Germplasm</a>'
+            ])
             ->add('StudyID', EntityType::class, [
                 'class' => Study::class,
                 'help_html' => true,

@@ -28,7 +28,8 @@ class ObservationVariableMethodUpdateType extends AbstractType
         $builder
             ->add('name')
             ->add('description', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '5')])
+                'attr' => array('cols' => '5', 'rows' => '5'),
+                'required' => false ])
             ->add('instrument')
             ->add('software')
             ->add('publicationReference', CollectionType::class, [

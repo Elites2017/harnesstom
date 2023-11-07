@@ -38,7 +38,8 @@ class CrossUpdateType extends AbstractType
         $builder
             ->add('name')
             ->add('description', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '7')])
+                'attr' => array('cols' => '5', 'rows' => '7'),
+                'required' => false])
             ->add('parent1Type')
             ->add('parent2Type')
             ->add('year')
@@ -59,6 +60,7 @@ class CrossUpdateType extends AbstractType
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
@@ -66,6 +68,7 @@ class CrossUpdateType extends AbstractType
             ->add('breedingMethod', EntityType::class, [
                 'class' => BreedingMethod::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlBreedingMethod .'" target="_blank">Breeding Method</a>'
                 

@@ -22,7 +22,10 @@ class PersonType extends AbstractType
             ->add('streetNumber')
             ->add('postalCode')
             ->add('city')
-            ->add('country')
+            ->add('country', EntityType::class, [
+                'class' => Country::class,
+                'required' => true
+            ])
         ;
     }
 

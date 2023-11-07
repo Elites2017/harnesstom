@@ -25,10 +25,16 @@ class PedigreeUpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $tosUrlCross = $this->router->generate('cross_create');
+        $tosUrlGeneration = $this->router->generate('generation_create');
 
         $builder
             ->add('pedigreeEntryID')
-            ->add('generation')
+            ->add('generation', EntityType::class, [
+                'class' => Generation::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'help' => 'Add a new <a href="' . $tosUrlGeneration .'" target="_blank">Generation</a>'
+            ])
             ->add('pedigreeAncestorEntryId')
             ->add('pedigreeCross', EntityType::class, [
                 'class' => Cross::class,
