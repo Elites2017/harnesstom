@@ -13,30 +13,31 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th scope="col">ID</th>
 								<th scope="col">Name</th>
-								<th scope="col">MAF</th>
-								<th scope="col">Sample Size</th>
-								<th scope="col">SNP P Value</th>
-								<th scope="col">Adjusted PValue</th>
-								<th scope="col">Allelic Effect</th>
-								<th scope="col">Allelic Effect Stat</th>
-								<th scope="col">Allelic Effect DF</th>
-								<th scope="col">Allelic Effect StdE</th>
-								<th scope="col">Beta</th>
-								<th scope="col">Beta StdE</th>
-								<th scope="col">Odds Ratio</th>
-								<th scope="col">Ci Lower</th>
-								<th scope="col">Ci Upper</th>
-								<th scope="col">rSquareOfMode</th>
-								<th scope="col">rSquareOfModeWithSNP</th>
-								<th scope="col">rSquareOfModeWithoutSNP</th>
-								<th scope="col">refAllele</th>
-								<th scope="col">Marker</th>
-								<th scope="col">Metabolite</th>
-								<th scope="col">qtl</th>
-								<th scope="col">Trait Preprocessing</th>
+								<th scope="col">QTL Study</th>
 								<th scope="col">Observation Variable</th>
+								<th scope="col">Metabolite</th>
+								<th scope="col">Closest Marker</th>
+								<th scope="col">Flanking Marker Start</th>
+								<th scope="col">Flanking Marker End</th>
+								<th scope="col">Positive Allele Parent</th>
+								<th scope="col">Locus Name</th>
+								<th scope="col">Locus</th>
+								<th scope="col">R2 QTLXE</th>
+								<th scope="col">R2 Global</th>
+								<th scope="col">Stat QTLXE Value</th>
+								<th scope="col">R2</th>
+								<th scope="col">DA</th>
+								<th scope="col">Dominance</th>
+								<th scope="col">Additive</th>
+								<th scope="col">QTL Stats Value</th>
+								<th scope="col">Positive Allele</th>
+								<th scope="col">Ci Start</th>
+								<th scope="col">Ci End</th>
+								<th scope="col">Detectname</th>
+								<th scope="col">Original Trait Name</th>
+								<th scope="col">Peak Position</th>
+								<th scope="col">Linkage Group</th>
 								{% if is_granted("ROLE_ADMIN") %}
 									<th scope="col">Created By</th>
 									<th scope="col">Creation Date</th>
@@ -49,28 +50,11 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>{{ qtlVariant.id }}</td>
 								<td>{{ qtlVariant.name }}</td>
-								<td>{{ qtlVariant.maf }}</td>
-								<td>{{ qtlVariant.sampleSize }}</td>
-								<td>{{ qtlVariant.snppValue }}</td>
-								<td>{{ qtlVariant.adjustedPValue }}</td>
-								<td>{{ qtlVariant.allelicEffect }}</td>
-								<td>{{ qtlVariant.allelicEffectStat }}</td>
-								<td>{{ qtlVariant.allelicEffectdf }}</td>
-								<td>{{ qtlVariant.allelicEffStdE }}</td>
-								<td>{{ qtlVariant.beta }}</td>
-								<td>{{ qtlVariant.betaStdE }}</td>
-								<td>{{ qtlVariant.oddsRatio }}</td>
-								<td>{{ qtlVariant.ciLower }}</td>
-								<td>{{ qtlVariant.ciUpper }}</td>
-								<td>{{ qtlVariant.rSquareOfMode }}</td>
-								<td>{{ qtlVariant.rSquareOfModeWithSNP }}</td>
-								<td>{{ qtlVariant.rSquareOfModeWithoutSNP }}</td>
-								<td>{{ qtlVariant.refAllele }}</td>
+								<td>{{ qtlVariant.qtlStudy }}</td>
 								<td>
-									{% if qtlVariant.marker %}
-										<a href="{{ path('marker_details', {id: qtlVariant.marker.id}) }}">{{ qtlVariant.marker }}</a>
+									{% if qtlVariant.observationVariable %}
+										<a href="{{ path('observation_variable_details', {id: qtlVariant.observationVariable.id}) }}">{{ qtlVariant.observationVariable }}</a>
 									{% endif %}
 								</td>
 								<td>
@@ -79,20 +63,30 @@
 									{% endif %}
 								</td>
 								<td>
-									{% if qtlVariant.qtl %}
-										<a href="{{ path('qtl_details', {id: qtlVariant.qtl.id}) }}">{{ qtlVariant.qtl }}</a>
+									{% if qtlVariant.closestMarker %}
+										<a href="{{ path('marker_details', {id: qtlVariant.closestMarker.id}) }}">{{ qtlVariant.closestMarker }}</a>
 									{% endif %}
 								</td>
-								<td>
-									{% if qtlVariant.traitPreprocessing %}
-										<a href="{{ path('trait_processing_details', {id: qtlVariant.traitPreprocessing.id}) }}">{{ qtlVariant.traitPreprocessing }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if qtlVariant.observationVariable %}
-										<a href="{{ path('observation_variable_details', {id: qtlVariant.observationVariable.id}) }}">{{ qtlVariant.observationVariable }}</a>
-									{% endif %}
-								</td>
+								<td>{{ qtlVariant.flankingMarkerStart }}</td>
+								<td>{{ qtlVariant.flankingMarkerEnd }}</td>
+								<td>{{ qtlVariant.positiveAlleleParent }}</td>
+								<td>{{ qtlVariant.locusName }}</td>
+								<td>{{ qtlVariant.locus }}</td>
+								<td>{{ qtlVariant.r2QtlxE }}</td>
+								<td>{{ qtlVariant.r2Global }}</td>
+								<td>{{ qtlVariant.statisticQtlxEvalue }}</td>
+								<td>{{ qtlVariant.r2 }}</td>
+								<td>{{ qtlVariant.dA }}</td>
+								<td>{{ qtlVariant.dominance }}</td>
+								<td>{{ qtlVariant.additive }}</td>
+								<td>{{ qtlVariant.qtlStatsValue }}</td>
+								<td>{{ qtlVariant.positiveAllele }}</td>
+								<td>{{ qtlVariant.ciStart }}</td>
+								<td>{{ qtlVariant.ciEnd }}</td>
+								<td>{{ qtlVariant.detectName }}</td>
+								<td>{{ qtlVariant.originalTraitName }}</td>
+								<td>{{ qtlVariant.peakPosition }}</td>
+								<td>{{ qtlVariant.linkageGroupName }}</td>
 								{% if is_granted("ROLE_ADMIN") %}
 									<td>
 										{% if qtlVariant.createdBy %}
