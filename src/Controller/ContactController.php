@@ -86,9 +86,13 @@ class ContactController extends AbstractController
         $form = $this->createForm(ContactUpdateType::class, $contact);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entmanager->persist($contact);
-            $entmanager->flush();
-            return $this->redirect($this->generateUrl('contact_index'));
+            if ($contact->getInstitute() != null) {
+                $entmanager->persist($contact);
+                $entmanager->flush();
+                return $this->redirect($this->generateUrl('contact_index'));
+            } else {
+                $this->addFlash('danger', "Error in the form, you must select an institute");
+            }
         }
 
         $context = [

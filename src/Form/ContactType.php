@@ -34,6 +34,7 @@ class ContactType extends AbstractType
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => true,
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
