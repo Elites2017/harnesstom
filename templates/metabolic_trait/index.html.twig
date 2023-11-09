@@ -145,7 +145,7 @@
                       {% for metabolicTrait in metabolicTraits %}
                         <tr>
                           <td>
-                            {{ metabolicTrait.ontologyID }}
+                            <a href="https://www.ebi.ac.uk/chebi/searchId.do?chebiId={{ metabolicTrait.ontologyID }}" target="_blank">{{ metabolicTrait.ontologyID }}</a>
                           </td>
                           <td>
                             {{ metabolicTrait.name }}
