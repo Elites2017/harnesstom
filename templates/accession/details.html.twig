@@ -354,7 +354,12 @@
                             <td>
                                         <table>
                                             <tr>
-                                                <td><img src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ oneS.filename ) }}" width="20%" alt="" class="logo" /></td>
+                                                {# <td><img src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ oneS.filename ) }}" width="20%" alt="" class="logo" /></td> #}
+                                                <td>
+                                                    <img class="img-thumbnail" src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ oneS.filename ) }}" width="auto" height="auto" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                        <rect width="auto" height="auto" fill="#55595c"/>
+                                                    </img>
+                                                </td>
                                             </tr>
                                         </table>
                             </td>
