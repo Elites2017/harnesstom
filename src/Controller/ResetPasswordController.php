@@ -20,6 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 /**
  * @Route("/reset-password")
@@ -175,7 +176,15 @@ class ResetPasswordController extends AbstractController
             ])
         ;
 
-        $mailer->send($email);
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // some error prevented the email sending; display an
+            // error message or try to resend the message
+            $this->addFlash('danger', 'Something went wrong.' .$e);
+        }
+
+        //$mailer->send($email);
 
         // Store the token object in session for retrieval in check-email route.
         $this->setTokenObjectInSession($resetToken);
