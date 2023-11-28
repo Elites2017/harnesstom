@@ -29,474 +29,464 @@
         <div class="row">
             
             <div class="col-xl-12 col-lg-11 mb-3">
-            <h2 class="mb-3 text-center tomato-color font-weight-bold">Accession Details</h2>
-            <div class="row">
-                <div class="col-xl-3 col-lg-2 mb-3">
-                    <div class="card">
-                            <div class="card-header">
-                                <h3 class="tomato-color">Accession basic information</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Accession Number: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].accenumb}}</span>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Accession Name: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].accename}}</span>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Country of Origin: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].origcty}}</span>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Municipality: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].origmuni}}</span>
-                            </div>
-                            
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Municipality 1: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].origadmin1}}</span>
-                            </div>
-                            
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Municipality 2: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].origadmin2}}</span>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Collecting Source: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].collsrc}}</span>
-                            </div>
-                            
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Biological Status: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].sampstat}}</span>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">MLS Status: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].mlsStatus}}</span>
-                            </div>
-                            
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ accessions[0].taxon.taxonid }}" target="_blank">
-                                    <label for="validationTooltip01">Taxon: </label>
-                                    <span class="tomato-color font-weight-bold">{{ accessions[0].taxon}}</span>
-                                </a>
-                            </div>
-                                
-                            </div>
-                            <div class="card-footer text-muted">
-                                
-                            </div>
-                        </div>
-                </div>
-
-                <div class="col-xl-3 col-lg-2 mb-3">
-                    <div class="card">
-                            <div class="card-header">
-                                <h3 class="tomato-color">Collecting site information</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="col-xl-12 col-lg-11 mb-1">
-                                    <label for="validationTooltip01">Collecting Number: </label>
-                                    <span class="tomato-color font-weight-bold">{{ accessions[0].collnumb}}</span>
+                <h2 class="mb-3 text-center tomato-color font-weight-bold">Accession Details</h2>
+                <div class="row">
+                    <div class="col-xl-3 col-lg-2 mb-3">
+                        <div class="card">
+                                <div class="card-header">
+                                    <h3 class="tomato-color">Accession basic information</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Accession Number: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].accenumb}}</span>
                                 </div>
 
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Collecting institute Code: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].collcode}}</span>
-                            </div>
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Accession Name: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].accename}}</span>
+                                </div>
 
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Collecting mission identifier: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].collmissid}}</span>
-                            </div>
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Country of Origin: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].origcty}}</span>
+                                </div>
 
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Collecting date: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].colldate }}</span>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Collecting site latitude: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].declatitude}}</span>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Collecting site longitude: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].declongitude}}</span>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Collecting site elevation: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].elevation}}</span>
-                            </div>
-
-                            <div class="col-xl-12 col-lg-11 mb-1">
-                                <label for="validationTooltip01">Collecting site: </label>
-                                <span class="tomato-color font-weight-bold">{{ accessions[0].collsite}}</span>
-                            </div>
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Municipality: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].origmuni}}</span>
+                                </div>
                                 
-                            </div>
-                            <div class="card-footer text-muted">
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Municipality 1: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].origadmin1}}</span>
+                                </div>
                                 
-                            </div>
-                        </div>
-                </div>
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Municipality 2: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].origadmin2}}</span>
+                                </div>
 
-                    <div class="col-xl-3 col-lg-2 mb-3">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="tomato-color">Maintaining institute information</h3>
-                            </div>
-                            <div class="card-body">
-                                {% for oneAccession in accessions %}
-                                    <div class="col-xl-12 col-lg-11 mb-1">
-                                        <label for="validationTooltip01">Maintaining institute Code: </label>
-                                        <span class="tomato-color font-weight-bold">{{ oneAccession.instcode.acronym}}</span>
-                                    </div>
-
-                                    <div class="col-xl-12 col-lg-11 mb-1">
-                                        <label for="validationTooltip01">Accession PUID: </label>
-                                        <span class="tomato-color font-weight-bold">{{ oneAccession.puid}}</span>
-                                    </div>
-
-                                    <div class="col-xl-12 col-lg-11 mb-1">
-                                        <label for="validationTooltip01">Maintaining Accession Number: </label>
-                                        <span class="tomato-color font-weight-bold">{{ oneAccession.maintainerNumb}}</span>
-                                    </div>
-
-                                    <div class="col-xl-12 col-lg-11 mb-1">
-                                        <label for="validationTooltip01">Acquisition date: </label>
-                                        <span class="tomato-color font-weight-bold">{{ oneAccession.acqdate }}</span>
-                                    </div>
-
-                                    <div class="col-xl-12 col-lg-11 mb-1">
-                                        <label for="validationTooltip01">Storage type: </label>
-                                        <span class="tomato-color font-weight-bold">{{ oneAccession.storage}}</span>
-                                    </div>
-
-                                    <div class="col-xl-12 col-lg-11 mb-1">
-                                        <label for="validationTooltip01">Donnor institute code: </label>
-                                        <span class="tomato-color font-weight-bold">
-                                            {{ oneAccession.donorcode }}
-                                        </span>
-                                    </div>
-
-                                    <div class="col-xl-12 col-lg-11 mb-3">
-                                        <label for="validationTooltip01">Donnor number: </label>
-                                        <span class="tomato-color font-weight-bold">{{ oneAccession.donornumb}}</span>
-                                    </div>
-
-                                    {% if loop.index != accessions | length %}
-                                        <hr>
-                                    {% endif %}
-                                {% endfor %}
-
-                            </div>
-                            <div class="card-footer text-muted">
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Collecting Source: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].collsrc}}</span>
+                                </div>
                                 
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Biological Status: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].sampstat}}</span>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">MLS Status: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].mlsStatus}}</span>
+                                </div>
+                                
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id={{ accessions[0].taxon.taxonid }}" target="_blank">
+                                        <label for="validationTooltip01">Taxon: </label>
+                                        <span class="tomato-color font-weight-bold">{{ accessions[0].taxon}}</span>
+                                    </a>
+                                </div>
+                                    
+                                </div>
+                                <div class="card-footer text-muted">
+                                    
+                                </div>
                             </div>
-                        </div>
                     </div>
-                    
+
                     <div class="col-xl-3 col-lg-2 mb-3">
                         <div class="card">
-                            <div class="card-header">
-                                <h3 class="tomato-color">Breeding information</h3>
-                            </div>
-                            <div class="card-body">
-                                {% for oneAccession in accessions %}
-                                    {% if oneAccession.bredcode %}
-                                        <div class="col-xl-12 col-lg-11 mb-1">
-                                            <label for="validationTooltip01">Breeding institute code: </label>
-                                            <span class="tomato-color font-weight-bold">{{ oneAccession.bredcode}}</span>
-                                        </div>
-                                    {% endif %}
+                                <div class="card-header">
+                                    <h3 class="tomato-color">Collecting site information</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-xl-12 col-lg-11 mb-1">
+                                        <label for="validationTooltip01">Collecting Number: </label>
+                                        <span class="tomato-color font-weight-bold">{{ accessions[0].collnumb}}</span>
+                                    </div>
 
-                                    {% if oneAccession.breedingInfo %}
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Collecting institute Code: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].collcode}}</span>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Collecting mission identifier: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].collmissid}}</span>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Collecting date: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].colldate }}</span>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Collecting site latitude: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].declatitude}}</span>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Collecting site longitude: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].declongitude}}</span>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Collecting site elevation: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].elevation}}</span>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+                                    <label for="validationTooltip01">Collecting site: </label>
+                                    <span class="tomato-color font-weight-bold">{{ accessions[0].collsite}}</span>
+                                </div>
+                                    
+                                </div>
+                                <div class="card-footer text-muted">
+                                    
+                                </div>
+                            </div>
+                    </div>
+
+                        <div class="col-xl-3 col-lg-2 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="tomato-color">Maintaining institute information</h3>
+                                </div>
+                                <div class="card-body">
+                                    {% for oneAccession in accessions %}
                                         <div class="col-xl-12 col-lg-11 mb-1">
-                                            <label for="validationTooltip01">Pedigree: </label>
+                                            <label for="validationTooltip01">Maintaining institute Code: </label>
+                                            <span class="tomato-color font-weight-bold">{{ oneAccession.instcode.acronym}}</span>
+                                        </div>
+
+                                        <div class="col-xl-12 col-lg-11 mb-1">
+                                            <label for="validationTooltip01">Accession PUID: </label>
+                                            <span class="tomato-color font-weight-bold">{{ oneAccession.puid}}</span>
+                                        </div>
+
+                                        <div class="col-xl-12 col-lg-11 mb-1">
+                                            <label for="validationTooltip01">Maintaining Accession Number: </label>
+                                            <span class="tomato-color font-weight-bold">{{ oneAccession.maintainerNumb}}</span>
+                                        </div>
+
+                                        <div class="col-xl-12 col-lg-11 mb-1">
+                                            <label for="validationTooltip01">Acquisition date: </label>
+                                            <span class="tomato-color font-weight-bold">{{ oneAccession.acqdate }}</span>
+                                        </div>
+
+                                        <div class="col-xl-12 col-lg-11 mb-1">
+                                            <label for="validationTooltip01">Storage type: </label>
+                                            <span class="tomato-color font-weight-bold">{{ oneAccession.storage}}</span>
+                                        </div>
+
+                                        <div class="col-xl-12 col-lg-11 mb-1">
+                                            <label for="validationTooltip01">Donnor institute code: </label>
                                             <span class="tomato-color font-weight-bold">
-                                                {{ oneAccession.breedingInfo }}
+                                                {{ oneAccession.donorcode }}
                                             </span>
                                         </div>
-                                    {% endif %}
-                                    {% if loop.index != accessions | length and (oneAccession.bredcode or oneAccession.breedingInfo) %}
-                                        <hr>
-                                    {% endif %}
-                                {% endfor %}
-                            
-                            </div>
-                            <div class="card-footer text-muted">
-                                
+
+                                        <div class="col-xl-12 col-lg-11 mb-3">
+                                            <label for="validationTooltip01">Donnor number: </label>
+                                            <span class="tomato-color font-weight-bold">{{ oneAccession.donornumb}}</span>
+                                        </div>
+
+                                        {% if loop.index != accessions | length %}
+                                            <hr>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                </div>
+                                <div class="card-footer text-muted">
+                                    
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        
+                        <div class="col-xl-3 col-lg-2 mb-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="tomato-color">Breeding information</h3>
+                                </div>
+                                <div class="card-body">
+                                    {% for oneAccession in accessions %}
+                                        {% if oneAccession.bredcode %}
+                                            <div class="col-xl-12 col-lg-11 mb-1">
+                                                <label for="validationTooltip01">Breeding institute code: </label>
+                                                <span class="tomato-color font-weight-bold">{{ oneAccession.bredcode}}</span>
+                                            </div>
+                                        {% endif %}
 
-                <div class="col-xl-12 col-lg-11">
-                {# Attribute trait value #}
-            {% if accessions[0].attributeTraitValues | length > 0 %}
-                <div class="col-xl-4 col-lg-3 mb-4">
-					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">{{ accessions[0].attributeTraitValues | length == 1 ? 'Attribute Summary' : 'Attributes Summary' }}</span>
-						<span class="badge badge-danger badge-pill">{{ accessions[0].attributeTraitValues | length }}</span>
-					</h4>
-					<ul class="list-group mb-3">
-						{% for attTraitValue in accessions[0].attributeTraitValues %}
-							<a href="{{ path('germplasm_details', {id: attTraitValue.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
-							<div>
-								<h6 class="my-0">Attribute Name</h6>
-								<strong class="text-muted">{{ attTraitValue.attribute }}</strong>
-							</div></a>
-							<div>
-								<a href="{{ path('program_details', {id: attTraitValue.id}) }}">
-                                <h6 class="my-0">Attribute Class</h6>
-								<strong class="text-muted">{{ attTraitValue.attribute.category }}</strong></a>
-							</div>
-							<div>
-                                <a href="{{ path('trial_details', {id: attTraitValue.id}) }}">
-								<h6 class="my-0">Trait</h6>
-								<strong class="text-muted">{{ attTraitValue.trait }}</strong></a>
-							</div>
-							<div>
-								<a href="{{ path('germplasm_details', {id: attTraitValue.id}) }}">
-                                <h6 class="my-0">Value</h6>
-								<strong class="text-muted">{{ attTraitValue.value }}</strong></a>
-							</div>
-							{# <span class="text-muted">$12</span> #}
-							</li>
-                            
-						{% endfor %}
-					</ul>
-				</div>
-            {% endif %}
-            </div>                
+                                        {% if oneAccession.breedingInfo %}
+                                            <div class="col-xl-12 col-lg-11 mb-1">
+                                                <label for="validationTooltip01">Pedigree: </label>
+                                                <span class="tomato-color font-weight-bold">
+                                                    {{ oneAccession.breedingInfo }}
+                                                </span>
+                                            </div>
+                                        {% endif %}
+                                        {% if loop.index != accessions | length and (oneAccession.bredcode or oneAccession.breedingInfo) %}
+                                            <hr>
+                                        {% endif %}
+                                    {% endfor %}
+                                
+                                </div>
+                                <div class="card-footer text-muted">
+                                    
+                                </div>
+                            </div>
+                        </div>
 
-
-            </div>
-
-            <div class="row">
-            </div>
-
-
-            </div>
-
-            <div class="col-xl-12 col-lg-11 order-md-1 mb-3">
-                <h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-                <div class="col-xl-6 col-lg-5 mb-3">
-                    <form>
-  
                 </div>
 
-            </div>
-        </div> <!-- .row -->
-        {# Start of row #}
-		<div class="row">
-			<div class="col-xl-8 col-lg-7 mb-4">
-            {% if accessions[0].germplasms | length > 0 %}
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                        <th scope="col">Germplasm</th>
-                        <th scope="col">Factor</th>
-                        <th scope="col">Anatomical Entity</th>
-                        <th scope="col">Developmental Stage</th>
-                        <th scope="col">Study</th>
-                        <th scope="col">Image</th>
-                        <th scope="col">Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                        {# <td colspan="3"></td> #}
-                        <td>
-                            {# {% for dats in accession.germplasms %}
-                                {% for onedat in dats.germplasmStudyImages %}
-                                    {{ onedat.studyId.abbreviation }}
-                                {% endfor %}
-                            {% endfor %} #}
-                        </td>
-                        </tr>
-                        
-                {% for oneG in accessions[0].germplasms %}
-                    {% if oneG.germplasmStudyImages | length > 0 %}
-                        {% for oneS in oneG.germplasmStudyImages %}
-                        <tr>
-                            <td>{{ oneS.germplasmID }}</td>
-                            <td>
-                                <table>
-                                            <tr>
-                                                <td>{{ oneS.factor ? oneS.factor : "No data" }}</td>
-                                            </tr>
-                                        </table>
-                            </td>
-                            <td>
-                                        <table>
-                                            <tr>
-                                                <td>{{ oneS.plantAnatomicalEntity ? oneS.plantAnatomicalEntity : "No data" }}</td>
-                                            </tr>
-                                        </table>
-                            </td>
-                            <td>
-                                        <table>
-                                            <tr>
-                                                <td>{{ oneS.developmentStage ? oneS.developmentStage : "No data" }}</td>
-                                            </tr>
-                                        </table>
-                            </td>
-                            <td>{{ oneS.studyId.abbreviation }}</td>
-                            <td>
-                                <img class="img-thumbnail" style="object-fit: cover; width:100px;" src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ oneS.filename ) }}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                                    <rect width="auto" height="auto" fill="#55595c"/>
-                                </img>              
-                            </td>
-                            <td>{{ oneS.description }}</td>
+                <div class="row">
+                    <div class="col-xl-4 col-lg-3">
+                        {# Attribute trait value #}
+                        {% if accessions[0].attributeTraitValues | length > 0 %}
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <strong class="tomato-color">{{ accessions[0].attributeTraitValues | length == 1 ? 'Attribute Summary' : 'Attributes Summary' }}</strong>
+                                <span class="badge badge-danger badge-pill">{{ accessions[0].attributeTraitValues | length }}</span>
+                            </h4>
 
-                            {# <td>{{ oneG.germplasmStudyImages[0].plantAnatomicalEntity }}</td>
-                            <td>{{ oneG.germplasmStudyImages[0].developmentStage }}</td>
-                            <td><img src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ oneG.germplasmStudyImages[0].filename ) }}" width="10%" alt="" class="logo" /></td> #}
-                        </tr>
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-                    </tbody>
-                </table>
-			</div>
+                            <table id="datatable_attr" class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Attribute Name</th> 
+                                        <th>Attribute Class</th>
+                                        <th>Trait</th>
+                                        <th>Value</th>
+                                    </tr>
+                                <thead>
+                                <tbody>
+                                    {% for attTraitValue in accessions[0].attributeTraitValues %}
+                                        <tr>
+                                            <td>
+                                                {% if attTraitValue.attribute %}
+                                                    <strong class="text-muted">
+                                                        <a href="{{ path('attribute_details', {id: attTraitValue.attribute.id}) }}">{{ attTraitValue.attribute }}</a>
+                                                    </strong>
+                                                {% endif %}
+                                            </td>
+                                            
+                                            <td>
+                                                {% if attTraitValue.attribute.category %}
+                                                    <strong class="text-muted">
+                                                        <a href="{{ path('attribute_category_details', {id: attTraitValue.attribute.category.id}) }}">
+                                                            {{ attTraitValue.attribute.category }}
+                                                        </a>
+                                                    </strong>
+                                                {% endif %}
+                                            </td>
+
+                                            <td>
+                                                {% if attTraitValue.trait %}
+                                                    <strong class="text-muted">
+                                                        <a href="{{ path('trait_details', {id: attTraitValue.trait.id}) }}">
+                                                            {{ attTraitValue.trait }}
+                                                        </a>
+                                                    </strong>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if attTraitValue.value %}
+                                                    <strong class="text-muted">
+                                                        {{ attTraitValue.value }}
+                                                    </strong>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        {% endif %}
+                    </div>
+                    
+                    <div class="col-xl-2 col-lg-1"></div>
+
+                    <div class="col-xl-6 col-lg-5 mb-4">
+                        {% if accessions[0].germplasms | length > 0 %}
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <strong class="tomato-color">{{ accessions[0].germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
+                                <span class="badge badge-danger badge-pill">{{ accessions[0].germplasms | length }}</span>
+                            </h4>
+                            <table id="datatable_germ" class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Germplasm ID</th> 
+                                        <th>Maintaining Number</th>
+                                        <th>Program</th>
+                                        <th>Trial</th>
+                                        {# <th>External Ref</th> #}
+                                    </tr>
+                                <thead>
+                                <tbody>
+                                    {% for oneGermplasm in accessions[0].germplasms %}
+                                        <tr>
+                                            <td>
+                                                {% if oneGermplasm.germplasmID %}
+                                                    <strong class="text-muted">
+                                                        <a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
+                                                    </strong>
+                                                {% endif %}
+                                            </td>
+                                            
+                                            <td>
+                                                {% if oneGermplasm %}
+                                                    <strong class="text-muted">
+                                                        {{ oneGermplasm.maintainernumb }}
+                                                    </strong>
+                                                {% endif %}
+                                            </td>
+
+                                            <td>
+                                                {% if oneGermplasm.program %}
+                                                    <strong class="text-muted">
+                                                        <a href="{{ path('program_details', {id: oneGermplasm.program.id}) }}">
+                                                            {{ oneGermplasm.program.abbreviation }}
+                                                        </a>
+                                                    </strong>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if oneGermplasm.study[0].trial %}
+                                                    <strong class="text-muted">
+                                                        <a href="{{ path('trial_details', {id: oneGermplasm.study[0].trial.id}) }}">
+                                                            {{ oneGermplasm.study[0].trial.abbreviation }}
+                                                        </a>
+                                                    </strong>
+                                                {% endif %}
+                                            </td>
+                                            {# <td>
+                                                {% if oneGermplasm.program %}
+                                                    <strong class="text-muted">
+                                                        <a href="{{ path('program_details', {id: oneGermplasm.program.id}) }}">
+                                                            {{ oneGermplasm.program.externalRef }}
+                                                        </a>
+                                                    </strong>
+                                                {% endif %}
+                                            </td> #}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>  
+                </div>
+            </div>
 
             
+        </div> <!-- .row -->
+        
+        {# Start of row #}
+        <div class="row mt-3 mb-3">
+            <div class="col-xl-12 col-lg-11">
+                <h2 class="text-center tomato-color font-weight-bold">Details</h2>
+            </div>
+        </div>
+        
+		<div class="row">
+			<div class="col-xl-12 col-lg-11 mb-4">
+                {% if accessions[0].germplasms | length > 0 %}
+                    <table class="table" id="datatable_more_details">
+                        <thead class="thead-dark">
+                            <tr>
+                            <th scope="col">Germplasm</th>
+                            <th scope="col">Factor</th>
+                            <th scope="col">Anatomical Entity</th>
+                            <th scope="col">Developmental Stage</th>
+                            <th scope="col">Study</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for oneG in accessions[0].germplasms %}
+                                {% if oneG.germplasmStudyImages | length > 0 %}
+                                    {% for oneS in oneG.germplasmStudyImages %}
+                                    <tr>
+                                        <td>{{ oneS.germplasmID }}</td>
+                                        <td>{{ oneS.factor ? oneS.factor : "No data" }}</td>
+                                        <td>{{ oneS.plantAnatomicalEntity ? oneS.plantAnatomicalEntity : "No data" }}</td>
+                                        <td>{{ oneS.developmentStage ? oneS.developmentStage : "No data" }}</td>
+                                        <td>{{ oneS.studyId.abbreviation }}</td>
+                                        <td>
+                                            <img class="img-thumbnail" style="object-fit: cover; width:100px;" src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ oneS.filename ) }}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                                <rect width="auto" height="auto" fill="#55595c"/>
+                                            </img>              
+                                        </td>
+                                        <td>{{ oneS.description }}</td>
 
-			{% if accessions[0].germplasms | length > 0 %}
-				<div class="col-xl-4 col-lg-3 mb-4">
-					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">{{ accessions[0].germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</span>
-						<span class="badge badge-danger badge-pill">{{ accessions[0].germplasms | length }}</span>
-					</h4>
-                    <table id="datatable_germ" class="table table-hover text-nowrap">
-						<thead>
-							<tr>
-								<th>Germplasm ID</th> 
-                                <th>Maintaining Number</th>
-								<th>Program</th>
-								<th>Trial</th>
-								{# <th>External Ref</th> #}
-							</tr>
-						<thead>
-						<tbody>
-							{% for oneGermplasm in accessions[0].germplasms %}
-								<tr>
-									<td>
-										{% if oneGermplasm.germplasmID %}
-											<strong class="text-muted">
-												<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
-											</strong>
-										{% endif %}
-									</td>
-									
-                                    <td>
-										{% if oneGermplasm %}
-											<strong class="text-muted">
-												{{ oneGermplasm.maintainernumb }}
-											</strong>
-										{% endif %}
-									</td>
-
-                                    <td>
-										{% if oneGermplasm.program %}
-											<strong class="text-muted">
-												<a href="{{ path('program_details', {id: oneGermplasm.program.id}) }}">
-													{{ oneGermplasm.program.abbreviation }}
-												</a>
-											</strong>
-										{% endif %}
-									</td>
-                                    <td>
-										{% if oneGermplasm.study[0].trial %}
-											<strong class="text-muted">
-												<a href="{{ path('trial_details', {id: oneGermplasm.study[0].trial.id}) }}">
-													{{ oneGermplasm.study[0].trial.abbreviation }}
-												</a>
-											</strong>
-										{% endif %}
-									</td>
-                                    {# <td>
-										{% if oneGermplasm.program %}
-											<strong class="text-muted">
-												<a href="{{ path('program_details', {id: oneGermplasm.program.id}) }}">
-													{{ oneGermplasm.program.externalRef }}
-												</a>
-											</strong>
-										{% endif %}
-									</td> #}
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-
-				</div>
-			{% endif %}
+                                        {# <td>{{ oneG.germplasmStudyImages[0].plantAnatomicalEntity }}</td>
+                                        <td>{{ oneG.germplasmStudyImages[0].developmentStage }}</td>
+                                        <td><img src="{{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ oneG.germplasmStudyImages[0].filename ) }}" width="10%" alt="" class="logo" /></td> #}
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %} 
+			</div>
 		</div>
 		{# End of row #}
+
     </div> <!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- Custom scripts for all pages-->
-<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
-<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+    <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('assets/axios/axios.min.js') }}"></script>
 
 	<!-- DataTables JavaScript -->
 	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 
-<script>
-    /*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
+    <script>
+        /*
+            This function is to change the status of the object.
+            It is called each time the corresponding link is clicked (the event happened).
+            1. It prevents the default behavior (behavior of showing the json response) of the function
+            in the controller class.
 
-        2. It gets the url of the link
+            2. It gets the url of the link
 
-        3. It get the html document of the span which is the checkbox to change the object status 
+            3. It get the html document of the span which is the checkbox to change the object status 
 
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-    function changeStatus(event){
-        event.preventDefault();
-        const url = this.href;
-        const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+            4. It passes the url to axios which returns a response which is the message of the json
+                coming from the function in the controller.
+                4.1 set the checked property of the checkbox based on the response value.
+        */
+        function changeStatus(event){
+            event.preventDefault();
+            const url = this.href;
+            const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+            
+            axios.get(url).then(function(res){
+                const jsonResponse = res.data.message;
+                if(jsonResponse) {
+                    statusCheckbox.checked = true;
+                }
+                else {
+                    statusCheckbox.checked = false;
+                }
+            })
+        }
         
-        axios.get(url).then(function(res){
-            const jsonResponse = res.data.message;
-            if(jsonResponse) {
-                statusCheckbox.checked = true;
-            }
-            else {
-                statusCheckbox.checked = false;
-            }
+        document.querySelectorAll('a.changeStatusLink').forEach(function(link){
+            link.addEventListener('click', changeStatus);  
         })
-    }
-    
-    document.querySelectorAll('a.changeStatusLink').forEach(function(link){
-        link.addEventListener('click', changeStatus);  
-    })
-</script>
+    </script>
 
-<script>
-    $(document).ready(function() {
-        $('#datatable_germ').DataTable();
-    } );
-</script>
+    <script>
+        $(document).ready(function() {
+            $('#datatable_germ, #datatable_more_details').DataTable();
+        } );
+    </script>
 {% endblock %}
