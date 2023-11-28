@@ -5,3 +5,13 @@
     /* position:absolute; */
     /* width: 100%; */
   }
+
+.acc-details-img {
+  object-fit: cover;
+  width:100px;
+}
+
+.acc-details-img:hover {
+  object-fit: cover;
+  width:80%;
+}
