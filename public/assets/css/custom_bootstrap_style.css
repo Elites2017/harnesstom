@@ -1,5 +1,7 @@
 /* In the search/accession */
 .objects_list_scroll_bar {
-    height:200px;
+    height:150px;
     overflow-y: scroll;
+    /* position:absolute; */
+    /* width: 100%; */
   }
