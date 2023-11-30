@@ -45,6 +45,11 @@ class ResetPasswordController extends AbstractController
      */
     public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
     {
+        // redirect the logged in user to the home page 
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
 
@@ -68,6 +73,11 @@ class ResetPasswordController extends AbstractController
      */
     public function checkEmail(): Response
     {
+        // redirect the logged in user to the home page 
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+
         // Generate a fake token if the user does not exist or someone hit this page directly.
         // This prevents exposing whether or not a user was found with the given email address or not
         if (null === ($resetToken = $this->getTokenObjectFromSession())) {
@@ -86,6 +96,11 @@ class ResetPasswordController extends AbstractController
      */
     public function reset(Request $request, UserPasswordHasherInterface $userPasswordHasher, TranslatorInterface $translator, string $token = null): Response
     {
+        // redirect the logged in user to the home page 
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         if ($token) {
             // We store the token in session and remove it from the URL, to avoid the URL being
             // loaded in a browser and potentially leaking the token to 3rd party JavaScript.
