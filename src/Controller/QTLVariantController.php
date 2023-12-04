@@ -52,9 +52,19 @@ class QTLVariantController extends AbstractController
         $form = $this->createForm(QTLVariantType::class, $qtlVariant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (($qtlVariant->getObservationVariable() == null) && ($qtlVariant->getMetabolite() == null)) {
-                $this->addFlash('danger', "You need to specify the type of phenotyping data you're submitting. Observation Variable or Metabolite");
-            } else {
+            if (($form->get('typeOfData')->getData() == "obsVarData") && ($qtlVariant->getObservationVariable() == null)) {
+                $this->addFlash('danger', "You need to provide the observation variable name");
+            } 
+            else if (($form->get('typeOfData')->getData() == "obsVarData") && ($qtlVariant->getMetabolite() != null)) {
+                $this->addFlash('danger', "If you have selected observation variable data, the metabolite name should be empty");
+            }
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($qtlVariant->getMetabolite() == null)) {
+                $this->addFlash('danger', "You need to provide the metabolite name");
+            }
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($qtlVariant->getObservationVariable() != null)) {
+                $this->addFlash('danger', "If you have selected metabolite data, the observation variable name should be empty");
+            } 
+            else {
                 if ($this->getUser()) {
                     $qtlVariant->setCreatedBy($this->getUser());
                 }
@@ -62,7 +72,7 @@ class QTLVariantController extends AbstractController
                 $qtlVariant->setCreatedAt(new \DateTime());
                 $entmanager->persist($qtlVariant);
                 $entmanager->flush();
-                $this->addFlash('success', "new qtl variant successfully added");
+                $this->addFlash('success', "New qtl variant successfully added");
                 return $this->redirect($this->generateUrl('qtl_variant_index'));
             }
         }
@@ -96,12 +106,27 @@ class QTLVariantController extends AbstractController
         $form = $this->createForm(QTLVariantUpdateType::class, $qtlVariant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (($qtlVariant->getObservationVariable() == null) && ($qtlVariant->getMetabolite() == null)) {
-                $this->addFlash('danger', "You need to specify the type of phenotyping data you're submitting. Observation Variable or Metabolite");
-            } else {
+            if (($form->get('typeOfData')->getData() == "obsVarData") && ($qtlVariant->getObservationVariable() == null)) {
+                $this->addFlash('danger', "You need to provide the observation variable name");
+            } 
+            else if (($form->get('typeOfData')->getData() == "obsVarData") && ($qtlVariant->getMetabolite() != null)) {
+                $this->addFlash('danger', "If you have selected observation variable data, the metabolite name should be empty");
+            }
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($qtlVariant->getMetabolite() == null)) {
+                $this->addFlash('danger', "You need to provide the metabolite name");
+            }
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($qtlVariant->getObservationVariable() != null)) {
+                $this->addFlash('danger', "If you have selected metabolite data, the observation variable name should be empty");
+            } 
+            else {
+                if ($this->getUser()) {
+                    $qtlVariant->setCreatedBy($this->getUser());
+                }
+                $qtlVariant->setIsActive(true);
+                $qtlVariant->setCreatedAt(new \DateTime());
                 $entmanager->persist($qtlVariant);
                 $entmanager->flush();
-                $this->addFlash('success', "new qtl variant successfully edited");
+                $this->addFlash('success', "New qtl variant successfully edited");
                 return $this->redirect($this->generateUrl('qtl_variant_index'));
             }
         }
