@@ -8,6 +8,7 @@ use App\Entity\GWAS;
 use App\Entity\Metabolite;
 use App\Entity\TraitPreprocessing;
 use App\Entity\ObservationVariable;
+use App\Entity\TraitClass;
 use App\Entity\TraitProcessing;
 use App\Form\GWASVariantType;
 use App\Form\GWASVariantUpdateType;
@@ -294,15 +295,26 @@ class GWASVariantController extends AbstractController
                             $this->addFlash('danger', " there is a problem with the metabolite code " .$metaboliteCode);
                         }
                         
-                        try {
-                            //code...
-                            $gwasVariantObsVar = $entmanager->getRepository(ObservationVariable::class)->findOneBy(['name' => $observationVarName]);
-                            if (($gwasVariantObsVar != null) && ($gwasVariantObsVar instanceof \App\Entity\ObservationVariable)) {
-                                $gwasVariant->setObservationVariable($gwasVariantObsVar);
+                        if ($observationVarId) {
+                            try {
+                                //code...
+                                $traitOnId = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $observationVarId]);
+                                if ($traitOnId != null) {
+                                    try {
+                                        //code...
+                                        $gwasVariantObservationVariable = $entmanager->getRepository(ObservationVariable::class)->findOneBy(['variable' => $traitOnId->getId()]);
+                                        if ($gwasVariantObservationVariable) {
+                                            $gwasVariant->setObservationVariable($gwasVariantObservationVariable);
+                                        }
+                                    } catch (\Throwable $th) {
+                                        //throw $th;
+                                        $this->addFlash('danger', " observation variable not found for the trait ontology id " .$observationVarId);
+                                    }
+                                }
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the given trait ontology id " .$observationVarId);
                             }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the observation variable " .$observationVarName);
                         }
 
 
