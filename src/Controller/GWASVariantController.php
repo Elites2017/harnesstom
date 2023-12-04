@@ -51,14 +51,29 @@ class GWASVariantController extends AbstractController
         $form = $this->createForm(GWASVariantType::class, $gwasVariant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->getUser()) {
-                $gwasVariant->setCreatedBy($this->getUser());
+            if (($form->get('typeOfData')->getData() == "obsVarData") && ($gwasVariant->getObservationVariable() == null)) {
+                $this->addFlash('danger', "You need to provide the observation variable name");
+            } 
+            else if (($form->get('typeOfData')->getData() == "obsVarData") && ($gwasVariant->getMetabolite() != null)) {
+                $this->addFlash('danger', "If you have selected observation variable data, the metabolite name should be empty");
             }
-            $gwasVariant->setIsActive(true);
-            $gwasVariant->setCreatedAt(new \DateTime());
-            $entmanager->persist($gwasVariant);
-            $entmanager->flush();
-            return $this->redirect($this->generateUrl('gwas_variant_index'));
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($gwasVariant->getMetabolite() == null)) {
+                $this->addFlash('danger', "You need to provide the metabolite name");
+            }
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($gwasVariant->getObservationVariable() != null)) {
+                $this->addFlash('danger', "If you have selected metabolite data, the observation variable name should be empty");
+            } 
+            else {
+                if ($this->getUser()) {
+                    $gwasVariant->setCreatedBy($this->getUser());
+                }
+                $gwasVariant->setIsActive(true);
+                $gwasVariant->setCreatedAt(new \DateTime());
+                $entmanager->persist($gwasVariant);
+                $entmanager->flush();
+                $this->addFlash('success', "New gwas variant successfully added");
+                return $this->redirect($this->generateUrl('gwas_variant_index'));
+            }
         }
 
         $context = [
@@ -90,9 +105,29 @@ class GWASVariantController extends AbstractController
         $form = $this->createForm(GWASVariantUpdateType::class, $gwasVariant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entmanager->persist($gwasVariant);
-            $entmanager->flush();
-            return $this->redirect($this->generateUrl('gwas_variant_index'));
+            if (($form->get('typeOfData')->getData() == "obsVarData") && ($gwasVariant->getObservationVariable() == null)) {
+                $this->addFlash('danger', "You need to provide the observation variable name");
+            } 
+            else if (($form->get('typeOfData')->getData() == "obsVarData") && ($gwasVariant->getMetabolite() != null)) {
+                $this->addFlash('danger', "If you have selected observation variable data, the metabolite name should be empty");
+            }
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($gwasVariant->getMetabolite() == null)) {
+                $this->addFlash('danger', "You need to provide the metabolite name");
+            }
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($gwasVariant->getObservationVariable() != null)) {
+                $this->addFlash('danger', "If you have selected metabolite data, the observation variable name should be empty");
+            } 
+            else {
+                if ($this->getUser()) {
+                    $gwasVariant->setCreatedBy($this->getUser());
+                }
+                $gwasVariant->setIsActive(true);
+                $gwasVariant->setCreatedAt(new \DateTime());
+                $entmanager->persist($gwasVariant);
+                $entmanager->flush();
+                $this->addFlash('success', "New gwas variant successfully edited");
+                return $this->redirect($this->generateUrl('gwas_variant_index'));
+            }
         }
 
         $context = [

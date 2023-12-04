@@ -10,6 +10,7 @@ use App\Entity\ObservationVariable;
 use App\Entity\TraitProcessing;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
@@ -50,10 +51,11 @@ class GWASVariantType extends AbstractType
             ->add('rSquareOfModeWithSNP')
             ->add('rSquareOfModeWithoutSNP')
             ->add('refAllele')
-            ->add('marker', EntityType::class, [
+            ->add('marker', DatalistType::class, [
                 'class' => Marker::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlMarker .'" target="_blank">Marker</a>'
                 
             ])
@@ -88,6 +90,18 @@ class GWASVariantType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlObservationVariable .'" target="_blank">Observation Variable</a>'
                 
             ])
+            ->add(
+                'typeOfData', 
+                ChoiceType::class, 
+                [
+                    'choices' => [
+                        'Observation Variable Data ' => 'obsVarData',
+                        'Metabolite Data ' => 'metaboliteData',
+                    ],
+                'expanded' => true,
+                'mapped' => false,
+                ]
+            )
         ;
     }
 
