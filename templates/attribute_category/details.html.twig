@@ -12,7 +12,6 @@
 						<thead>
 							<tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Abbreviation</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Description</th>
                                 {% if is_granted("ROLE_ADMIN") %}
@@ -28,7 +27,6 @@
                             <tbody>
                                 <tr>
                                     <td>{{ attributeCategory.id }}</td>
-                                    <td>{{ attributeCategory.abbreviation }}</td>
                                     <td>{{ attributeCategory.name }}</td>
                                     <td>{{ attributeCategory.description }}</td>
                                     {% if is_granted("ROLE_ADMIN") %}

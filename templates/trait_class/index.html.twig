@@ -59,7 +59,7 @@
           </div>
           <!-- Card Body -->
           <div class="card-body">
-            <div class="treeview-animated treeView">
+            {# <div class="treeview-animated treeView">
               {% macro treeView(traitClasses) %}
                 {% import _self as macros %}
                 {% for oneChild in traitClasses %}
@@ -92,7 +92,7 @@
               <ul class="treeview-animated-list">
                 {{ _self.treeView(traitClasses) }}
               </ul>
-            </div>
+            </div> #}
 
             <div class="listView">
               {% if (traitClasses|length) > 0 %}
@@ -129,14 +129,15 @@
                             {{ traitClass.description }}
                           </td>
                           <td>
-                            <a href="{{
+                            {# <a href="{{
                               path(
                                 'trait_class_details',
                                 {
                                   id: traitClass.id
                                 }
                               )
-                              }}">
+                              }}"></a> #}
+                            <a href="#">
                               <button class="btn btn-outline-primary">
                                 Details
                               </button>
@@ -174,8 +175,8 @@
 	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
 	</script>
 	
-	<script src="{{ asset('assets/js/show_hide_panels.js') }}"></script>
-	<script src="{{ asset('assets/treeview/js/mdbootstrap_treeview.js') }}"></script>
+	{# <script src="{{ asset('assets/js/show_hide_panels.js') }}"></script> #}
+	{# <script src="{{ asset('assets/treeview/js/mdbootstrap_treeview.js') }}"></script>
 	
     <script>
 		// Treeview Initialization
@@ -184,7 +185,7 @@
 			$('.treeview-animated').mdbTreeview();
 			$('.treeview').mdbTreeview();
 		});
-	</script>
+	</script> #}
 	<!-- DataTables JavaScript -->
 	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>

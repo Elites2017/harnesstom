@@ -60,6 +60,7 @@ class QTLStudyType extends AbstractType
                 'class' => CiCriteria::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlCicriteria .'" target="_blank">Ci Crriteria</a>'
                 
             ])
@@ -74,6 +75,7 @@ class QTLStudyType extends AbstractType
                 'class' => Software::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlSoftware .'" target="_blank">Software</a>'
                 
             ])
@@ -81,6 +83,7 @@ class QTLStudyType extends AbstractType
                 'class' => QTLStatistic::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlMultiEnvStat .'" target="_blank">Multi Environment Stat</a>'
                 
             ])
@@ -88,6 +91,7 @@ class QTLStudyType extends AbstractType
                 'class' => QTLMethod::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'help' => 'Add a new <a href="' . $toUrlMethod .'" target="_blank">QTL Method</a>'
                 
             ])
@@ -128,6 +132,15 @@ class QTLStudyType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>',
                 'multiple' => true
             ])
+            ->add('epistasisStatistic', EntityType::class, [
+                'class' => QTLStatistic::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'required' => false,
+                'help' => 'Add a new <a href="' . $toUrlStatistic .'" target="_blank">QTL Statistic</a>'
+                
+            ])
+
         ;
     }
 

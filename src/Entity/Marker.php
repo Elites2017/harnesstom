@@ -34,7 +34,7 @@ class Marker
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $type;
@@ -64,13 +64,13 @@ class Marker
     private $end;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $refAllele;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="array")
      * @Groups({"marker:read", "mapping_population:read", "country:read", "contact:read", "study:read"})
      */
     private $altAllele = [];

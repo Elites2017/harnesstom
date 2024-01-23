@@ -61,7 +61,7 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            $this->addFlash('success', "You have been successfuly registered, an email has been sent to you. Confirm your email please so that you can log in");
+            $this->addFlash('success', "You have been successfuly registered, an email has been sent to you. Confirm your email please so that you can log in. Check your inbox, junk or spam folder");
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,

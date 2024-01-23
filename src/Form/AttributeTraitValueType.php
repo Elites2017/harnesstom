@@ -42,6 +42,7 @@ class AttributeTraitValueType extends AbstractType
             ->add('trait', EntityType::class, [
                 'class' => TraitClass::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlTrait .'" target="_blank">Trait</a>'
                 
@@ -49,6 +50,7 @@ class AttributeTraitValueType extends AbstractType
             ->add('metabolicTrait', EntityType::class, [
                 'class' => MetabolicTrait::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlMetabolicTrait .'" target="_blank">Metabolic Trait</a>'
                 

@@ -27,6 +27,7 @@ class CollectingMissionType extends AbstractType
             ->add('institute', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
