@@ -4,15 +4,16 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\QTLEpistatisticEffectRepository;
+use App\Repository\QTLEpistasisEffectRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
+
 /**
- * @ORM\Entity(repositoryClass=QTLEpistatisticEffectRepository::class)
+ * @ORM\Entity(repositoryClass=QTLEpistasisEffectRepository::class)
  * @ApiResource
  */
-class QTLEpistatisticEffect
+class QTLEpistasisEffect
 {
     /**
      * @ORM\Id
@@ -39,6 +40,11 @@ class QTLEpistatisticEffect
     /**
      * @ORM\Column(type="float", nullable=true)
      */
+    private $epistatisticAdd;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
     private $r2Add;
 
     /**
@@ -52,17 +58,17 @@ class QTLEpistatisticEffect
     private $epistatisticEpi;
 
     /**
-     * @ORM\ManyToOne(targetEntity=QTLVariant::class, inversedBy="qTLEpistatisticEffects")
+     * @ORM\ManyToOne(targetEntity=QTLVariant::class, inversedBy="qTLEpistasisEffects")
      */
     private $qtlVariant1;
 
     /**
-     * @ORM\ManyToOne(targetEntity=QTLVariant::class, inversedBy="qTLEpistatisticEffects")
+     * @ORM\ManyToOne(targetEntity=QTLVariant::class, inversedBy="qTLEpistasisEffects")
      */
     private $qtlVariant2;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="qTLEpistatisticEffects")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="qTLEpistasisEffects")
      */
     private $createdBy;
 
@@ -103,6 +109,18 @@ class QTLEpistatisticEffect
     public function setAddEpi(?float $addEpi): self
     {
         $this->addEpi = $addEpi;
+
+        return $this;
+    }
+
+    public function getEpistatisticAdd(): ?float
+    {
+        return $this->epistatisticAdd;
+    }
+
+    public function setEpistatisticAdd(?float $epistatisticAdd): self
+    {
+        $this->epistatisticAdd = $epistatisticAdd;
 
         return $this;
     }

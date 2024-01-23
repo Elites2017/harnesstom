@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div
+						class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">New QTL Epistasis</h4>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(qtlEpistasisEffectForm) }}
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								{{ form_row(qtlEpistasisEffectForm.qtlVariant1, {'attr': {'placeholder' : 'Select the qtl variant 1', 'class': "custom-select d-block w-100"}}) }}
+							</div>
+
+							<div class="col-md-6 mb-3">
+								{{ form_row(qtlEpistasisEffectForm.qtlVariant2, {'attr': {'placeholder' : 'Select the qtl variant 2', 'class': "custom-select d-block w-100"}}) }}
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								{{ form_row(qtlEpistasisEffectForm.epistatisticEpi, {'attr': {'placeholder' : 'Enter the Epistatistic epi'}}) }}
+							</div>
+
+							<div class="col-md-6 mb-3">
+								{{ form_row(qtlEpistasisEffectForm.r2Epi, {'attr': {'placeholder' : 'Enter the R2 epi'}}) }}
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row(qtlEpistasisEffectForm.addEpi, {'attr': {'placeholder' : 'Enter the Add epi'}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(qtlEpistasisEffectForm.r2Add, {'attr': {'placeholder' : 'Enter the R2 add'}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(qtlEpistasisEffectForm.epistatisticAdd, {'attr': {'placeholder' : 'Enter the Epistatistic add'}}) }}
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
+							</div>
+						</div>
+						{{ form_end(qtlEpistasisEffectForm) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}

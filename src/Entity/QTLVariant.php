@@ -164,9 +164,9 @@ class QTLVariant
     private $positiveAlleleParent;
 
     /**
-     * @ORM\OneToMany(targetEntity=QTLEpistatisticEffect::class, mappedBy="qtlVariant1")
+     * @ORM\OneToMany(targetEntity=QTLEpistasisEffect::class, mappedBy="qtlVariant1")
      */
-    private $qTLEpistatisticEffects;
+    private $qTLEpistasisEffects;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="qTLVariants")
@@ -175,7 +175,7 @@ class QTLVariant
 
     public function __construct()
     {
-        $this->qTLEpistatisticEffects = new ArrayCollection();
+        $this->qTLEpistasisEffects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -520,29 +520,29 @@ class QTLVariant
     }
 
     /**
-     * @return Collection<int, QTLEpistatisticEffect>
+     * @return Collection<int, QTLEpistasisEffect>
      */
-    public function getQTLEpistatisticEffects(): Collection
+    public function getQTLEpistasisEffects(): Collection
     {
-        return $this->qTLEpistatisticEffects;
+        return $this->qTLEpistasisEffects;
     }
 
-    public function addQTLEpistatisticEffect(QTLEpistatisticEffect $qTLEpistatisticEffect): self
+    public function addQTLEpistasisEffect(QTLEpistasisEffect $qTLEpistasisEffects): self
     {
-        if (!$this->qTLEpistatisticEffects->contains($qTLEpistatisticEffect)) {
-            $this->qTLEpistatisticEffects[] = $qTLEpistatisticEffect;
-            $qTLEpistatisticEffect->setQtlVariant1($this);
+        if (!$this->qTLEpistasisEffects->contains($qTLEpistasisEffects)) {
+            $this->qTLEpistasisEffects[] = $qTLEpistasisEffects;
+            $qTLEpistasisEffects->setQtlVariant1($this);
         }
 
         return $this;
     }
 
-    public function removeQTLEpistatisticEffect(QTLEpistatisticEffect $qTLEpistatisticEffect): self
+    public function removeQTLEpistasisEffect(QTLEpistasisEffect $qTLEpistasisEffects): self
     {
-        if ($this->qTLEpistatisticEffects->removeElement($qTLEpistatisticEffect)) {
+        if ($this->qTLEpistasisEffects->removeElement($qTLEpistasisEffects)) {
             // set the owning side to null (unless already changed)
-            if ($qTLEpistatisticEffect->getQtlVariant1() === $this) {
-                $qTLEpistatisticEffect->setQtlVariant1(null);
+            if ($qTLEpistasisEffects->getQtlVariant1() === $this) {
+                $qTLEpistasisEffects->setQtlVariant1(null);
             }
         }
 

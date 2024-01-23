@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\QTLEpistatisticEffect;
+use App\Entity\QTLEpistasisEffect;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method QTLEpistatisticEffect|null find($id, $lockMode = null, $lockVersion = null)
- * @method QTLEpistatisticEffect|null findOneBy(array $criteria, array $orderBy = null)
- * @method QTLEpistatisticEffect[]    findAll()
- * @method QTLEpistatisticEffect[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method QTLEpistasisEffect|null find($id, $lockMode = null, $lockVersion = null)
+ * @method QTLEpistasisEffect|null findOneBy(array $criteria, array $orderBy = null)
+ * @method QTLEpistasisEffect[]    findAll()
+ * @method QTLEpistasisEffect[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class QTLEpistatisticEffectRepository extends ServiceEntityRepository
+class QTLEpistasisEffectRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, QTLEpistatisticEffect::class);
+        parent::__construct($registry, QTLEpistasisEffect::class);
     }
 
     // /**
-    //  * @return QTLEpistatisticEffect[] Returns an array of QTLEpistatisticEffect objects
+    //  * @return QTLEpistasisEffect[] Returns an array of QTLEpistasisEffect objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class QTLEpistatisticEffectRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?QTLEpistatisticEffect
+    public function findOneBySomeField($value): ?QTLEpistasisEffect
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.exampleField = :val')
