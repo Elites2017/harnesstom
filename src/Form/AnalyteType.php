@@ -38,6 +38,7 @@ class AnalyteType extends AbstractType
             ->add('annotationLevel', EntityType::class, [
                 'class' => AnnotationLevel::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlAnnotationLevel .'" target="_blank">Annotation Level</a>'
                 
@@ -45,6 +46,7 @@ class AnalyteType extends AbstractType
             ->add('identificationLevel', EntityType::class, [
                 'class' => IdentificationLevel::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlIdentificationLevel .'" target="_blank">Identification Level</a>'
                 
@@ -59,6 +61,7 @@ class AnalyteType extends AbstractType
             ->add('metaboliteClass', EntityType::class, [
                 'class' => MetaboliteClass::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlMetaboliteClass .'" target="_blank">Metabolite Class</a>'
                 
@@ -66,6 +69,7 @@ class AnalyteType extends AbstractType
             ->add('healthAndFlavor', EntityType::class, [
                 'class' => AnalyteFlavorHealth::class,
                 'help_html' => true,
+                'required' => false,
                 'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlHealthFlavor .'" target="_blank">Health & Flavor</a>'
                 

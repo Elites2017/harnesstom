@@ -8,6 +8,7 @@ use App\Entity\GWAS;
 use App\Entity\Metabolite;
 use App\Entity\TraitPreprocessing;
 use App\Entity\ObservationVariable;
+use App\Entity\TraitClass;
 use App\Entity\TraitProcessing;
 use App\Form\GWASVariantType;
 use App\Form\GWASVariantUpdateType;
@@ -51,14 +52,29 @@ class GWASVariantController extends AbstractController
         $form = $this->createForm(GWASVariantType::class, $gwasVariant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($this->getUser()) {
-                $gwasVariant->setCreatedBy($this->getUser());
+            if (($form->get('typeOfData')->getData() == "obsVarData") && ($gwasVariant->getObservationVariable() == null)) {
+                $this->addFlash('danger', "You need to provide the observation variable name");
+            } 
+            else if (($form->get('typeOfData')->getData() == "obsVarData") && ($gwasVariant->getMetabolite() != null)) {
+                $this->addFlash('danger', "If you have selected observation variable data, the metabolite name should be empty");
             }
-            $gwasVariant->setIsActive(true);
-            $gwasVariant->setCreatedAt(new \DateTime());
-            $entmanager->persist($gwasVariant);
-            $entmanager->flush();
-            return $this->redirect($this->generateUrl('gwas_variant_index'));
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($gwasVariant->getMetabolite() == null)) {
+                $this->addFlash('danger', "You need to provide the metabolite name");
+            }
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($gwasVariant->getObservationVariable() != null)) {
+                $this->addFlash('danger', "If you have selected metabolite data, the observation variable name should be empty");
+            } 
+            else {
+                if ($this->getUser()) {
+                    $gwasVariant->setCreatedBy($this->getUser());
+                }
+                $gwasVariant->setIsActive(true);
+                $gwasVariant->setCreatedAt(new \DateTime());
+                $entmanager->persist($gwasVariant);
+                $entmanager->flush();
+                $this->addFlash('success', "New gwas variant successfully added");
+                return $this->redirect($this->generateUrl('gwas_variant_index'));
+            }
         }
 
         $context = [
@@ -90,9 +106,29 @@ class GWASVariantController extends AbstractController
         $form = $this->createForm(GWASVariantUpdateType::class, $gwasVariant);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entmanager->persist($gwasVariant);
-            $entmanager->flush();
-            return $this->redirect($this->generateUrl('gwas_variant_index'));
+            if (($form->get('typeOfData')->getData() == "obsVarData") && ($gwasVariant->getObservationVariable() == null)) {
+                $this->addFlash('danger', "You need to provide the observation variable name");
+            } 
+            else if (($form->get('typeOfData')->getData() == "obsVarData") && ($gwasVariant->getMetabolite() != null)) {
+                $this->addFlash('danger', "If you have selected observation variable data, the metabolite name should be empty");
+            }
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($gwasVariant->getMetabolite() == null)) {
+                $this->addFlash('danger', "You need to provide the metabolite name");
+            }
+            else if (($form->get('typeOfData')->getData() == "metaboliteData") && ($gwasVariant->getObservationVariable() != null)) {
+                $this->addFlash('danger', "If you have selected metabolite data, the observation variable name should be empty");
+            } 
+            else {
+                if ($this->getUser()) {
+                    $gwasVariant->setCreatedBy($this->getUser());
+                }
+                $gwasVariant->setIsActive(true);
+                $gwasVariant->setCreatedAt(new \DateTime());
+                $entmanager->persist($gwasVariant);
+                $entmanager->flush();
+                $this->addFlash('success', "New gwas variant successfully edited");
+                return $this->redirect($this->generateUrl('gwas_variant_index'));
+            }
         }
 
         $context = [
@@ -259,15 +295,26 @@ class GWASVariantController extends AbstractController
                             $this->addFlash('danger', " there is a problem with the metabolite code " .$metaboliteCode);
                         }
                         
-                        try {
-                            //code...
-                            $gwasVariantObsVar = $entmanager->getRepository(ObservationVariable::class)->findOneBy(['name' => $observationVarName]);
-                            if (($gwasVariantObsVar != null) && ($gwasVariantObsVar instanceof \App\Entity\ObservationVariable)) {
-                                $gwasVariant->setObservationVariable($gwasVariantObsVar);
+                        if ($observationVarId) {
+                            try {
+                                //code...
+                                $traitOnId = $entmanager->getRepository(TraitClass::class)->findOneBy(['ontology_id' => $observationVarId]);
+                                if ($traitOnId != null) {
+                                    try {
+                                        //code...
+                                        $gwasVariantObservationVariable = $entmanager->getRepository(ObservationVariable::class)->findOneBy(['variable' => $traitOnId->getId()]);
+                                        if ($gwasVariantObservationVariable) {
+                                            $gwasVariant->setObservationVariable($gwasVariantObservationVariable);
+                                        }
+                                    } catch (\Throwable $th) {
+                                        //throw $th;
+                                        $this->addFlash('danger', " observation variable not found for the trait ontology id " .$observationVarId);
+                                    }
+                                }
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the given trait ontology id " .$observationVarId);
                             }
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', " there is a problem with the observation variable " .$observationVarName);
                         }
 
 

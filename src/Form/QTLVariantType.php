@@ -8,6 +8,7 @@ use App\Entity\ObservationVariable;
 use App\Entity\QTLStudy;
 use App\Entity\QTLVariant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -77,7 +78,7 @@ class QTLVariantType extends AbstractType
                 'class' => Metabolite::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'choice_value' => 'name',
+                'choice_value' => 'analyte',
                 'help' => 'Add a new <a href="' . $urlMetabolite .'" target="_blank">Metabolite</a>',
                 'required' => false
                 
@@ -95,6 +96,7 @@ class QTLVariantType extends AbstractType
                 'class' => Marker::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $urlMarker .'" target="_blank">Marker</a>'
                 
@@ -103,10 +105,23 @@ class QTLVariantType extends AbstractType
                 'class' => Marker::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'required' => false,
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $urlMarker .'" target="_blank">Marker</a>'
                 
             ])
+            ->add(
+                'typeOfData', 
+                ChoiceType::class, 
+                [
+                    'choices' => [
+                        'Observation Variable Data ' => 'obsVarData',
+                        'Metabolite Data ' => 'metaboliteData',
+                    ],
+                'expanded' => true,
+                'mapped' => false,
+                ]
+            );
         ;
     }
 

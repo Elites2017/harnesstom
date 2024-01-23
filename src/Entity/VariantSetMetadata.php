@@ -280,7 +280,7 @@ class VariantSetMetadata
     {
         if (!$this->gWAS->contains($gWA)) {
             $this->gWAS[] = $gWA;
-            $gWA->setVariantSetMetada($this);
+            $gWA->setVariantSetMetadata($this);
         }
 
         return $this;
@@ -290,8 +290,8 @@ class VariantSetMetadata
     {
         if ($this->gWAS->removeElement($gWA)) {
             // set the owning side to null (unless already changed)
-            if ($gWA->getVariantSetMetada() === $this) {
-                $gWA->setVariantSetMetada(null);
+            if ($gWA->getVariantSetMetadata() === $this) {
+                $gWA->setVariantSetMetadata(null);
             }
         }
 

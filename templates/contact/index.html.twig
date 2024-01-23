@@ -56,10 +56,12 @@
 								{% for contact in contacts %}
 									<tr>
 										<td>
-											{{ contact.orcid }}</a>
+											<a href="https://orcid.org/{{ contact.orcid }}" target="_blank">{{ contact.orcid }}</a>
 										</td>
 										<td>
-											{{ contact.person.firstName ~ " " ~ contact.person.lastName | upper}}
+											{% if contact.person %}
+												{{ contact.person.firstName ~ " " ~ contact.person.lastName | upper}}
+											{% endif %}
 										</td>
 										<td>
 											{% if contact.institute %}

@@ -29,7 +29,8 @@ class ProgramType extends AbstractType
                 'attr' => array('cols' => '5', 'rows' => '5')])
             ->add('abbreviation')
             ->add('objective', TextareaType::class, [
-                'attr' => array('cols' => '5', 'rows' => '7')])
+                'attr' => array('cols' => '5', 'rows' => '7'),
+                'required' => false])
             ->add('externalRef')
             ->add('crop', EntityType::class, [
                 'class' => Crop::class,

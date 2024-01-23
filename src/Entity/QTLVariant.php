@@ -69,7 +69,7 @@ class QTLVariant
     private $statisticQTLxEValue;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float")
      */
     private $r2;
 
@@ -89,7 +89,7 @@ class QTLVariant
     private $additive;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="float")
      */
     private $qtlStatsValue;
 
@@ -119,7 +119,7 @@ class QTLVariant
     private $originalTraitName;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $peakPosition;
 
@@ -154,7 +154,7 @@ class QTLVariant
     private $flankingMarkerEnd;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $linkageGroupName;
 

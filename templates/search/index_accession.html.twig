@@ -16,6 +16,8 @@
 	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
 	<link
 	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+    <link
+	href="{{ asset('assets/css/custom_bootstrap_style.css') }}" rel="stylesheet">
 	<!-- DataTables CSS -->
 	<link
 	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
@@ -45,7 +47,7 @@
                                     <li class="list-group-item card-header" data-toggle="collapse" href="#countryCollapse" role="button" aria-expanded="true" aria-controls="countryCollapse">
                                         <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#countryCollapse">Country</span>
                                     </li>
-                                    <ul class="list-group collapse" id="countryCollapse">
+                                    <ul class="list-group collapse objects_list_scroll_bar" id="countryCollapse">
                                         {% for oneObj in accessionsByCountry %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
@@ -66,7 +68,7 @@
                                     <li class="list-group-item card-header" data-toggle="collapse" href="#biologicalStatusCollapse" role="button" aria-expanded="true" aria-controls="biologicalStatusCollapse">
                                         <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#biologicalStatusCollapse">Biological Status</span>
                                     </li>
-                                    <ul class="list-group collapse" id="biologicalStatusCollapse">
+                                    <ul class="list-group collapse objects_list_scroll_bar" id="biologicalStatusCollapse">
                                         {% for oneObj in accessionsByBiologicalStatus %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
@@ -87,7 +89,7 @@
                                     <li class="list-group-item card-header" data-toggle="collapse" href="#mlsStatusCollapse" role="button" aria-expanded="true" aria-controls="mlsStatusCollapse">
                                         <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#mlsStatusCollapse">MLS Status</span>
                                     </li>
-                                    <ul class="list-group collapse" id="mlsStatusCollapse">
+                                    <ul class="list-group collapse objects_list_scroll_bar" id="mlsStatusCollapse">
                                         {% for oneObj in accessionsByMLSStatus %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
@@ -108,7 +110,7 @@
                                     <li class="list-group-item card-header" data-toggle="collapse" href="#taxonomyCollapse" role="button" aria-expanded="true" aria-controls="taxonomyCollapse">
                                         <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#taxonomyCollapse">Taxonomy</span>
                                     </li>
-                                    <ul class="list-group collapse" id="taxonomyCollapse">
+                                    <ul class="list-group collapse objects_list_scroll_bar" id="taxonomyCollapse">
                                         {% for oneObj in accessionsByTaxonomy %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
@@ -129,7 +131,7 @@
                                     <li class="list-group-item card-header" data-toggle="collapse" href="#collectingMissionCollapse" role="button" aria-expanded="true" aria-controls="collectingMissionCollapse">
                                         <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collectingMissionCollapse">Collecting Mission</span>
                                     </li>
-                                    <ul class="list-group collapse" id="collectingMissionCollapse">
+                                    <ul class="list-group collapse objects_list_scroll_bar" id="collectingMissionCollapse">
                                         {% for oneObj in accessionsByCollectingMission %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
@@ -150,7 +152,7 @@
                                     <li class="list-group-item card-header" data-toggle="collapse" href="#collectingSourceCollapse" role="button" aria-expanded="true" aria-controls="collectingSourceCollapse">
                                         <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#collectingSourceCollapse">Collecting Source</span>
                                     </li>
-                                    <ul class="list-group collapse" id="collectingSourceCollapse">
+                                    <ul class="list-group collapse objects_list_scroll_bar" id="collectingSourceCollapse">
                                         {% for oneObj in accessionsByCollectingSource %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
@@ -171,7 +173,7 @@
                                     <li class="list-group-item card-header" data-toggle="collapse" href="#maintainingInstituteCollapse" role="button" aria-expanded="true" aria-controls="maintainingInstituteCollapse">
                                         <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#maintainingInstituteCollapse">Maintaining Institute</span>
                                     </li>
-                                    <ul class="list-group collapse" id="maintainingInstituteCollapse">
+                                    <ul class="list-group collapse objects_list_scroll_bar" id="maintainingInstituteCollapse">
                                         {% for oneObj in accessionsByMaintainingInstitute %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
@@ -192,7 +194,7 @@
                                     <li class="list-group-item card-header" data-toggle="collapse" href="#donorInstituteCollapse" role="button" aria-expanded="true" aria-controls="donorInstituteCollapse">
                                         <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#donorInstituteCollapse">Donor Institute</span>
                                     </li>
-                                    <ul class="list-group collapse" id="donorInstituteCollapse">
+                                    <ul class="list-group collapse objects_list_scroll_bar" id="donorInstituteCollapse">
                                         {% for oneObj in accessionsByDonorInstitute %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>
@@ -213,7 +215,7 @@
                                     <li class="list-group-item card-header" data-toggle="collapse" href="#breedingInstituteCollapse" role="button" aria-expanded="true" aria-controls="breedingInstituteCollapse">
                                         <span id="headingOne" class="font-weight-bold" data-toggle="collapse" data-target="#breedingInstituteCollapse">Breeding Institute</span>
                                     </li>
-                                    <ul class="list-group collapse" id="breedingInstituteCollapse">
+                                    <ul class="list-group collapse objects_list_scroll_bar" id="breedingInstituteCollapse">
                                         {% for oneObj in accessionsByBreedingInstitute %}
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <div>

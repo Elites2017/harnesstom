@@ -31,7 +31,7 @@
 						<tbody>
 							<tr>
 								<td>{{ contact.id }}</td>
-								<td>{{ contact.orcid }}</td>
+								<td><a href="https://orcid.org/{{ contact.orcid }}" target="_blank">{{ contact.orcid }}</a></td>
 								<td>
 									<a href="{{ path('person_details', {id: contact.person.id}) }}">{{ contact.person }}</td>
 								</td>
