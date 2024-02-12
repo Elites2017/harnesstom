@@ -4,84 +4,116 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+    <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+
+    <link href="{{ asset('assets/css/custom_bootstrap_style.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/animate.min.css') }}" rel="stylesheet" />
+
+    
+    <link href="{{ asset('assets/sunburstchart/css/style.css') }}" rel="stylesheet" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <link href="{{ asset('assets/vmap/css/jquery-jvectormap-2.0.2.css') }}" rel="stylesheet" />
+    
+    
+    {% if not app.user %}
+        <!-- Guided Tour LH-->
+        <link href="{{ asset('guidedtour/dist/css/hopscotch.min.css') }}" rel="stylesheet"></link>
+        <link href="{{ asset('guidedtour/css/flat-ui.css') }}" rel="stylesheet"></link>
+        <link href="{{ asset('guidedtour/css/demo.css') }}" rel="stylesheet"></link>
+    {% endif %}
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
-		<div
-			class="row">
-			<!-- tutorial aria -->
-			<div class="col-xl-8 col-lg-7">
-				<div
-					class="card shadow mb-4">
-					<!-- Card Header - Dropdown -->
-					<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-						<h6 class="m-0 font-weight-bold text-primary">Videos tutorials</h6>
-						{# <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">Dropdown Header:</div>
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-						</div> #}
-					</div>
-					<!-- Card Body -->
-					<div class="card-body">
-						<video width="100%" controls="controls" id="videoPlayer" preload="metadata">
-							Your browser does not support the video tag.
-						</video>
-					</br>
-					<button type="button" id="prev" class="btn btn-dark btn-sm">&laquo Prev</button>
-					<button type="button" id="next" class="btn btn-dark btn-sm">Next &raquo</button>
-				</div>
-			</div>
-		</div>
+		
+        <div class="row">
+            <!-- tutorial aria -->
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header bg-dark text-white py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold">Videos tutorials</h6>
+                    {# <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                            aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">Dropdown Header:</div>
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </div> #}
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-7">
+                            <video width="100%" controls="controls" id="videoPlayer" preload="metadata">
+                                Your browser does not support the video tag.
+                            </video>
+                            </br>
+                            <button type="button" id="prev" class="btn btn-dark btn-sm">&laquo Prev</button>
+                            <button type="button" id="next" class="btn btn-dark btn-sm">Next &raquo</button>
+                        </div>
 
+                        <div class="col-xl-4 col-lg-3">
+                            <ul id="playlist" class="list-group-flush video_list_scroll_bar">
+                                <li class="list-group-item">
+                                    <a href="{{ asset('assets/videos/tutorials/harnesstom_user_intro_tutorial.mp4') }}">
+                                        Introduction to HarnessTom
+                                    </a>
+                                </li>
 
-		<div class="col-xl-4 col-lg-3">
+                                <li class="list-group-item">
+                                    <a href="http://www.w3schools.com/html/movie.mp4">
+                                        3 School Movie
+                                    </a>
+                                </li>
 
-			<ul id="playlist" class="list-group">
-				<li class="list-group-item">
-					<a href="{{ asset('assets/videos/tutorials/harnesstom_user_intro_tutorial.mp4') }}">
-						Introduction to HarnessTom
-					</a>
-				</li>
+                                <li class="list-group-item">
+                                    <a href="http://www.w3schools.com/html/mov_bbb.mp4">
+                                        Mov 3B
+                                    </a>
+                                </li>
 
-				<li class="list-group-item">
-					<a href="http://www.w3schools.com/html/movie.mp4">
-						3 School Movie
-					</a>
-				</li>
+                                <li class="list-group-item">
+                                    <a href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+                                        ElephantsDream
+                                    </a>
+                                </li>
 
-				<li class="list-group-item">
-					<a href="http://www.w3schools.com/html/mov_bbb.mp4">
-						Mov 3B
-					</a>
-				</li>
-
-				<li class="list-group-item">
-					<a href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
-						ElephantsDream
-					</a>
-				</li>
-
-				<li class="list-group-item">
-					<a href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4">
-						ForBiggerBlazes
-					</a>
-				</li>
-			</ul>
-		</div>
-
-	</div>
-	<!-- .row -->
-</div>
-<!-- .container -->
+                                <li class="list-group-item">
+                                    <a href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4">
+                                        ForBiggerBlazes
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end tutorial area -->
+        </div>
+	    <!-- .row -->
+    </div>
+    <!-- .container -->
 {% endblock %}
 
 
@@ -135,10 +167,6 @@
                 e.preventDefault();
                 // clicked source
                 videoPlayer.src = this.getAttribute('href');
-                //$(this).parent().addClass("list-group-item disabled");
-                //console.log($(this).parent());
-                this.style.color = "red";
-                console.log(this);
                 videoPlayer.play();
                 i = index;
             });
