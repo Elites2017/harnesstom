@@ -85,22 +85,22 @@
                                                     {% if study.trial %}
                                                         <a href="{{ path('trial_details', {id: study.trial.id}) }}">{{ study.trial.abbreviation }}</a>
                                                     {% endif %}
-                                                    </td>
+                                                </td>
                                                 <td>
                                                     {% if study.factor %}
                                                         <a href="{{ path('factor_type_details', {id: study.factor.id}) }}">{{ study.factor }}</a>
                                                     {% endif %}
-                                                    </td>
+                                                </td>
                                                 <td>
                                                     {% if study.growthFacility %}
                                                         <a href="{{ path('growth_facility_type_details', {id: study.growthFacility.id}) }}">{{ study.growthFacility }}</a>
                                                     {% endif %}
-                                                    </td>
+                                                </td>
                                                 <td>
                                                     {% if study.experimentalDesignType %}
                                                         <a href="{{ path('experimental_design_details', {id: study.experimentalDesignType.id}) }}">{{ study.experimentalDesignType }}</a>
                                                     {% endif %}
-                                                    </td>
+                                                </td>
                                                 <td>
                                                     <a href="{{ path('study_details', {id: study.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
                                                 </td>
