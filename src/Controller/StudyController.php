@@ -221,11 +221,12 @@ class StudyController extends AbstractController
                 $endDate = $row['H'];
                 $instituteId = $row['I'];
                 $locationAbbreviation = $row['J'];
-                $grothFacilityType = $row['K'];
-                $culturalPratices = $row['L'];
-                $experimentalDesignId = $row['M'];
-                $experimentalDesignDescription = $row['N'];
-                $observationUnitDescription = $row['O'];
+                $growthFacilityType = $row['K'];
+                $growthFacilityDesc = $row['L'];
+                $culturalPratices = $row['M'];
+                $experimentalDesignId = $row['N'];
+                $experimentalDesignDescription = $row['O'];
+                $observationUnitDescription = $row['P'];
                 // check if the file doesn't have empty columns
                 if ($studyName != null && $studyAbbreviation != null && $trialAbbreviation) {
                     // check if the data is upload in the database
@@ -282,13 +283,25 @@ class StudyController extends AbstractController
 
                         try {
                             //code...
-                            $studyGrowthFacilityType = $entmanager->getRepository(GrowthFacilityType::class)->findOneBy(['ontology_id' => $grothFacilityType]);
+                            $studyGrowthFacilityType = $entmanager->getRepository(GrowthFacilityType::class)->findOneBy(['ontology_id' => $growthFacilityType]);
                             if (($studyGrowthFacilityType != null) && ($studyGrowthFacilityType instanceof \App\Entity\GrowthFacilityType)) {
                                 $study->setGrowthFacility($studyGrowthFacilityType);
                             }
                         } catch (\Throwable $th) {
                             //throw $th;
-                            $this->addFlash('danger', " there is a problem with the growth facility type " .$grothFacilityType);
+                            $this->addFlash('danger', " there is a problem with the growth facility type " .$growthFacilityType);
+                        }
+
+                        
+
+                        try {
+                            //code...
+                            if ($growthFacilityDesc) {
+                                $study->setGrowthFacilityDescription($growthFacilityDesc);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the growth facility description of the study" .$growthFacilityDesc);
                         }
 
                         try {
