@@ -62,7 +62,7 @@ class Study
     private $endDate;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"study:read"})
      * @SerializedName("culturalPractices")
      */

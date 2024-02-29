@@ -162,6 +162,16 @@
                                 </div>
                             </div>
 
+                            <div>
+                                {{ form_row
+                                    (studyForm.growthFacilityDescription,
+                                        { label: "Growth Facility Description",
+                                        'attr': {'placeholder': "Enter the growth facility description"}
+                                        }
+                                    )
+                                }}
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     {{ form_row
@@ -198,6 +208,26 @@
                                         )
                                     }}
                                 </div>
+                            </div>
+
+                            <div>
+                                {{ form_row
+                                    (studyForm.experimentalDesignDescription,
+                                        { label: "Experimental Design Description",
+                                        'attr': {'placeholder': "Enter the experimental design description"}
+                                        }
+                                    )
+                                }}
+                            </div>
+
+                            <div>
+                                {{ form_row
+                                    (studyForm.observationUnitsDescription,
+                                        { label: "Observation Unit Description",
+                                        'attr': {'placeholder': "Enter the observation unit description"}
+                                        }
+                                    )
+                                }}
                             </div>
 
                             <div class="row">
