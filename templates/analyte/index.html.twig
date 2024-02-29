@@ -43,20 +43,28 @@
                         <table id="datatable" class="table table-hover text-nowrap" width="100%">
                             <thead class="table-dark">
                                 <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Code</th>
-                                <th scope="col">Retention Time</th>
-                                <th scope="col">Mass To Charage Ratio Time</th>
-                                <th scope="col">Action</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Metabolic Class</th>
+                                    <th scope="col">Health And Flavor Related</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {% for analyte in analytes %}
                                 <tr>
-                                    <td>{{ analyte.name }}</td>
                                     <td>{{ analyte.analyteCode }}</td>
-                                    <td>{{ analyte.retentionTime }}</td>
-                                    <td>{{ analyte.massToChargeRatio }}</td>
+                                    <td>{{ analyte.name }}</td>
+                                    <td>
+									    {% if analyte.metaboliteClass %}
+										    <a href="{{ path('metabolite_class_details', {id: analyte.metaboliteClass.id}) }}">{{ analyte.metaboliteClass }}
+										{% endif %}
+									</td>
+                                    <td>
+                                        {% if analyte.healthAndFlavor %}
+                                            <a href="{{ path('flavor_health_details', {id: analyte.healthAndFlavor.id}) }}">{{ analyte.healthAndFlavor }}</a>
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <a href="{{ path('analyte_details', {id: analyte.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
                                     </td>
