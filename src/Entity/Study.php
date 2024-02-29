@@ -204,6 +204,11 @@ class Study
      */
     private $parameterValue;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $growthFacilityDescription;
+
     public function __construct()
     {
         $this->germplasms = new ArrayCollection();
@@ -883,5 +888,17 @@ class Study
             "version" => "N/A"
         ];
         return $lastUpdate;
+    }
+
+    public function getGrowthFacilityDescription(): ?string
+    {
+        return $this->growthFacilityDescription;
+    }
+
+    public function setGrowthFacilityDescription(?string $growthFacilityDescription): self
+    {
+        $this->growthFacilityDescription = $growthFacilityDescription;
+
+        return $this;
     }
 }
