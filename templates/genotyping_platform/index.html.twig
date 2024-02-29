@@ -47,7 +47,6 @@
 								<tr>
 									<th scope="col">Sequencing Type</th>
 									<th scope="col">Name</th>
-									<th scope="col">Description</th>
 									<th scope="col">Ref Set Name</th>
 									<th scope="col">Marker Count</th>
 									<th scope="col">Sequencing Instrument</th>
@@ -63,10 +62,8 @@
 											{% endif %}
 										</td>
 										<td>{{ genotypingPlatform.name }}</td>
-										<td>{{ genotypingPlatform.description|length > 50 ? genotypingPlatform.description|slice(0, 50) ~ '...' : genotypingPlatform.description  }}</td>
 										<td>{{ genotypingPlatform.refSetName }}</td>
 										<td>{{ genotypingPlatform.markerCount }}</td>
-										
 										<td>
 											{% if genotypingPlatform.sequencingInstrument %}
 												<a href="{{ path('sequencing_instrument_details', {id: genotypingPlatform.sequencingInstrument.id}) }}">{{ genotypingPlatform.sequencingInstrument }}</a>
