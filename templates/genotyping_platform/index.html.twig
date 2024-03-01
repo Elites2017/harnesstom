@@ -47,15 +47,9 @@
 								<tr>
 									<th scope="col">Sequencing Type</th>
 									<th scope="col">Name</th>
-									<th scope="col">Description</th>
 									<th scope="col">Ref Set Name</th>
 									<th scope="col">Marker Count</th>
-									<th scope="col">Method Description</th>
 									<th scope="col">Sequencing Instrument</th>
-									<th scope="col">Var Call Software</th>
-									<th scope="col">Reference Set Assembly PUI</th>
-									<th scope="col">Reference Set Published Date</th>
-									<th scope="col">Bio Project ID</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -68,26 +62,11 @@
 											{% endif %}
 										</td>
 										<td>{{ genotypingPlatform.name }}</td>
-										<td>{{ genotypingPlatform.description|length > 50 ? genotypingPlatform.description|slice(0, 50) ~ '...' : genotypingPlatform.description  }}</td>
 										<td>{{ genotypingPlatform.refSetName }}</td>
 										<td>{{ genotypingPlatform.markerCount }}</td>
-										<td>{{ genotypingPlatform.methodDescription|length > 50 ? genotypingPlatform.methodDescription|slice(0, 50) ~ '...' : genotypingPlatform.methodDescription  }}</td>
-										
 										<td>
 											{% if genotypingPlatform.sequencingInstrument %}
 												<a href="{{ path('sequencing_instrument_details', {id: genotypingPlatform.sequencingInstrument.id}) }}">{{ genotypingPlatform.sequencingInstrument }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{% if genotypingPlatform.varCallSoftware %}
-												<a href="{{ path('var_call_software_details', {id: genotypingPlatform.varCallSoftware.id}) }}">{{ genotypingPlatform.varCallSoftware }}</a>
-											{% endif %}
-										</td>
-										<td><a href="{{ genotypingPlatform.assemblyPUI }}" target="_blank">{{ genotypingPlatform.assemblyPUI }}</a></td>
-										<td>{{ genotypingPlatform.publishedDate | date('d/m/Y') }}</td>
-										<td>
-											{% if genotypingPlatform.bioProjectID %}
-												<a href="https://www.ncbi.nlm.nih.gov/sra/?term={{ genotypingPlatform.bioProjectID }}" target="_blank">{{ genotypingPlatform.bioProjectID }}</a>
 											{% endif %}
 										</td>
 										<td>

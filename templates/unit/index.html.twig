@@ -76,8 +76,8 @@
 												<tr>
 													<th scope="col">Ontology ID</th>
 													<th scope="col">Name</th>
-													<th scope="col">Description</th>
 													<th scope="col">Parent</th>
+													<th scope="col">Description</th>
 													<th scope="col">Action</th>
 												</tr>
 											</thead>
@@ -90,11 +90,12 @@
 														<td>
 															{{ unit.name }}
 														</td>
+
 														<td>
-															{{ unit.description }}
+															{{ unit.parOnt }}
 														</td>
 														<td>
-															{{ unit.parentTerm }}
+															{{ unit.description }}
 														</td>
 														<td>
 															<a href="{{ path('unit_details', {id: unit.id}) }}">

@@ -122,6 +122,15 @@ class StudyUpdateType extends AbstractType
                 'label' => false,
                 'mapped' => false
             ])
+            ->add('growthFacilityDescription', TextareaType::class, [
+                'attr' => array('cols' => '5', 'rows' => '7'),
+                'required' => false])
+            ->add('observationUnitsDescription', TextareaType::class, [
+                    'attr' => array('cols' => '5', 'rows' => '7'),
+                    'required' => false])
+            ->add('experimentalDesignDescription', TextareaType::class, [
+                        'attr' => array('cols' => '5', 'rows' => '7'),
+                        'required' => false])
         ;
     }
 

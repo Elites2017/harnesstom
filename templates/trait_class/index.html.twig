@@ -109,6 +109,12 @@
                           Name
                         </th>
                         <th scope="col">
+                          Parent Term
+                        </th>
+                        <th scope="col">
+                          Variable of
+                        </th>
+                        <th scope="col">
                           Description
                         </th>
                         <th scope="col">
@@ -124,6 +130,16 @@
                           </td>
                           <td>
                             {{ traitClass.name }}
+                          </td>
+                          <td>
+                            {% for one in traitClass.traitClasses %}
+                              {{ one }} - {{ one.ontologyId }}
+                            {% endfor %}
+                          </td>
+                          <td>
+                            {% for one in traitClass.varOf %}
+                              {{ one }} - {{ one.ontologyId }}
+                            {% endfor %}
                           </td>
                           <td>
                             {{ traitClass.description }}

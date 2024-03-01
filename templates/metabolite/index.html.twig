@@ -47,6 +47,7 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col">DB ID</th>
 									<th scope="col">Analyte</th>
 									<th scope="col">Metabolic Trait</th>
 									<th scope="col">Scale</th>
@@ -57,10 +58,13 @@
 								{% for metabolite in metabolites %}
 									<tr>
 										<td>
+											{{ metabolite.id }}
+										</td>
+										<td>
 											{{ metabolite.analyte }}
 										</td>
 										<td>
-											{{ metabolite.metabolicTrait ? metabolite.metabolicTrait : 'Unasigned' }}
+											{{ metabolite.metabolicTrait ? metabolite.metabolicTrait : 'Unassigned' }}
 										</td>
 										<td>
 											{{ metabolite.scale }}

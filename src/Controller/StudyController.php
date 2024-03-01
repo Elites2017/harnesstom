@@ -87,6 +87,7 @@ class StudyController extends AbstractController
                     }
                 }
                 $entmanager->flush();
+                $this->addFlash('success', " One study has been successfuly added");
                 return $this->redirect($this->generateUrl('study_index'));
             }
         }
@@ -134,6 +135,7 @@ class StudyController extends AbstractController
                 $study->setLastUpdated(new \DateTime());
                 $entmanager->persist($study);
                 $entmanager->flush();
+                $this->addFlash('success', " One study has been successfuly updated");
                 return $this->redirect($this->generateUrl('study_index'));
             }
         }
@@ -221,11 +223,12 @@ class StudyController extends AbstractController
                 $endDate = $row['H'];
                 $instituteId = $row['I'];
                 $locationAbbreviation = $row['J'];
-                $grothFacilityType = $row['K'];
-                $culturalPratices = $row['L'];
-                $experimentalDesignId = $row['M'];
-                $experimentalDesignDescription = $row['N'];
-                $observationUnitDescription = $row['O'];
+                $growthFacilityType = $row['K'];
+                $growthFacilityDesc = $row['L'];
+                $culturalPratices = $row['M'];
+                $experimentalDesignId = $row['N'];
+                $experimentalDesignDescription = $row['O'];
+                $observationUnitDescription = $row['P'];
                 // check if the file doesn't have empty columns
                 if ($studyName != null && $studyAbbreviation != null && $trialAbbreviation) {
                     // check if the data is upload in the database
@@ -282,13 +285,25 @@ class StudyController extends AbstractController
 
                         try {
                             //code...
-                            $studyGrowthFacilityType = $entmanager->getRepository(GrowthFacilityType::class)->findOneBy(['ontology_id' => $grothFacilityType]);
+                            $studyGrowthFacilityType = $entmanager->getRepository(GrowthFacilityType::class)->findOneBy(['ontology_id' => $growthFacilityType]);
                             if (($studyGrowthFacilityType != null) && ($studyGrowthFacilityType instanceof \App\Entity\GrowthFacilityType)) {
                                 $study->setGrowthFacility($studyGrowthFacilityType);
                             }
                         } catch (\Throwable $th) {
                             //throw $th;
-                            $this->addFlash('danger', " there is a problem with the growth facility type " .$grothFacilityType);
+                            $this->addFlash('danger', " there is a problem with the growth facility type " .$growthFacilityType);
+                        }
+
+                        
+
+                        try {
+                            //code...
+                            if ($growthFacilityDesc) {
+                                $study->setGrowthFacilityDescription($growthFacilityDesc);
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                            $this->addFlash('danger', " there is a problem with the growth facility description of the study" .$growthFacilityDesc);
                         }
 
                         try {
@@ -402,6 +417,189 @@ class StudyController extends AbstractController
                             $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
                         }
                     }
+                    // exceptional for study to update the database without impacting the uppe layers
+                    // else {
+                    //     if ($this->getUser()) {
+                    //         $existingStudy->setCreatedBy($this->getUser());
+                    //     }
+                    //     try {
+                    //         //code...
+                    //         $studyInstitute = $entmanager->getRepository(Institute::class)->findOneBy(['instcode' => $instituteId]);
+                    //         if (($studyInstitute != null) && ($studyInstitute instanceof \App\Entity\Institute)) {
+                    //             $existingStudy->setInstitute($studyInstitute);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the instcode / institute ID " .$instituteId);
+                    //     }
+                        
+                    //     try {
+                    //         //code...
+                    //         $studyTrial = $entmanager->getRepository(Trial::class)->findOneBy(['abbreviation' => $trialAbbreviation]);
+                    //         if (($studyTrial != null) && ($studyTrial instanceof \App\Entity\Trial)) {
+                    //             $existingStudy->setTrial($studyTrial);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the trial abbreaviation " .$trialAbbreviation);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         $studyFactorOntId = $entmanager->getRepository(FactorType::class)->findOneBy(['ontology_id' => $factorOntologyId]);
+                    //         if (($studyFactorOntId != null) && ($studyFactorOntId instanceof \App\Entity\FactorType)) {
+                    //             $existingStudy->setFactor($studyFactorOntId);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the factor ontology Id " .$factorOntologyId);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         $studyLocation = $entmanager->getRepository(Location::class)->findOneBy(['abbreviation' => $locationAbbreviation]);
+                    //         if (($studyLocation != null) && ($studyLocation instanceof \App\Entity\Location)) {
+                    //             $existingStudy->setLocation($studyLocation);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the location " .$locationAbbreviation);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         $studyGrowthFacilityType = $entmanager->getRepository(GrowthFacilityType::class)->findOneBy(['ontology_id' => $growthFacilityType]);
+                    //         if (($studyGrowthFacilityType != null) && ($studyGrowthFacilityType instanceof \App\Entity\GrowthFacilityType)) {
+                    //             $existingStudy->setGrowthFacility($studyGrowthFacilityType);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the growth facility type " .$growthFacilityType);
+                    //     }
+
+                        
+
+                    //     try {
+                    //         //code...
+                    //         if ($growthFacilityDesc) {
+                    //             $existingStudy->setGrowthFacilityDescription($growthFacilityDesc);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the growth facility description of the study" .$growthFacilityDesc);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         $studyExperimentalDesignType = $entmanager->getRepository(ExperimentalDesignType::class)->findOneBy(['ontology_id' => $experimentalDesignId]);
+                    //         if (($studyExperimentalDesignType != null) && ($studyExperimentalDesignType instanceof \App\Entity\ExperimentalDesignType)) {
+                    //             $existingStudy->setExperimentalDesignType($studyExperimentalDesignType);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the experimental design type " .$experimentalDesignId);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         $studySeason = $entmanager->getRepository(Season::class)->findOneBy(['ontology_id' => $season]);
+                    //         if (($studySeason != null) && ($studySeason instanceof \App\Entity\Season)) {
+                    //             $existingStudy->setSeason($studySeason);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the season " .$season);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         $existingStudy->setAbbreviation($studyAbbreviation);
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the study abbreviation " .$studyAbbreviation);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         if ($studyName) {
+                    //             $existingStudy->setName($studyName);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the study name " .$studyName);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         if ($studyDescription) {
+                    //             $existingStudy->setDescription($studyDescription);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the study description " .$studyDescription);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         if ($startDate) {
+                    //             $existingStudy->setStartDate($startDate);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the start date " .$startDate);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         if ($endDate) {
+                    //             $existingStudy->setEndDate($endDate);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the end date " .$endDate);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         if ($culturalPratices) {
+                    //             $existingStudy->setCulturalPractice($culturalPratices);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the cultural practices " .$culturalPratices);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         if ($experimentalDesignDescription) {
+                    //             $existingStudy->setExperimentalDesignDescription($experimentalDesignDescription);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the experimental description " .$experimentalDesignDescription);
+                    //     }
+
+                    //     try {
+                    //         //code...
+                    //         if ($observationUnitDescription) {
+                    //             $existingStudy->setObservationUnitsDescription($observationUnitDescription);
+                    //         }
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', " there is a problem with the observation unit description " .$observationUnitDescription);
+                    //     }
+
+                    //     $existingStudy->setIsActive(true);
+                    //     $existingStudy->setLastUpdated(new \DateTime());
+                    //     try {
+                    //         //code...
+                    //         $entmanager->persist($existingStudy);
+                    //         $entmanager->flush();
+                    //     } catch (\Throwable $th) {
+                    //         //throw $th;
+                    //         $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                    //     }
+                    // }
                 }
             }
             
