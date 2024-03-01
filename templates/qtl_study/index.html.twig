@@ -48,14 +48,11 @@
 							<thead class="table-dark">
 								<tr>
 									<th scope="col">Name</th>
-									<th scope="col">Software</th>
-									<th scope="col">QTL Count</th>
-									<th scope="col">Ci Criteria</th>
-									<th scope="col">Method</th>
+									<th scope="col">Studies</th>
+									<th scope="col">Variant Set Name</th>
 									<th scope="col">Mapping Population</th>
 									<th scope="col">Genome Map Unit</th>
-									<th scope="col">Threshold Method</th>
-									<th scope="col">Threshold Value</th>
+									<th scope="col">QTL Count</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -66,23 +63,14 @@
 											{{ qtlStudy.name }}
 										</td>
 										<td>
-											{% if qtlStudy.software %}
-												<a href="{{ path('software_details', {id: qtlStudy.software.id}) }}">{{ qtlStudy.software }}</a>
-											{% endif %}
+											{% for one in qtlStudy.studyList %}
+												<b>{{ loop.index }})</b> <a href="{{ path('study_details', {id:one.id}) }}">{{ one.abbreviation }}</a></br>
+											{% endfor %}
 										</td>
 										<td>
-											{{ qtlStudy.qtlCount }}
+											<a href="{{ path('variant_set_metadata_details', {id:qtlStudy.variantSetMetadata.id}) }}">{{ qtlStudy.variantSetMetadata }}</a>
 										</td>
-										<td>
-											{% if qtlStudy.ciCriteria %}
-												<a href="{{ path('ci_criteria_details', {id: qtlStudy.ciCriteria.id}) }}">{{ qtlStudy.ciCriteria }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{% if qtlStudy.method %}
-												<a href="{{ path('qtl_method_details', {id: qtlStudy.method.id}) }}">{{ qtlStudy.method }}</a>
-											{% endif %}
-										</td>
+
 										<td>
 											{% if qtlStudy.mappingPopulation %}
 												<a href="{{ path('mapping_population_details', {id: qtlStudy.mappingPopulation.id}) }}">{{ qtlStudy.mappingPopulation }}</a>
@@ -92,12 +80,7 @@
 											{{ qtlStudy.genomeMapUnit }}
 										</td>
 										<td>
-											{% if qtlStudy.thresholdMethod %}
-												<a href="{{ path('threshold_method_details', {id: qtlStudy.thresholdMethod.id}) }}">{{ qtlStudy.thresholdMethod }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{{ qtlStudy.thresholdValue }}
+											{{ qtlStudy.qtlCount }}
 										</td>
 										<td>
 											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">
