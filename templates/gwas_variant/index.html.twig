@@ -47,25 +47,17 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
-									<th scope="col">Name</th>
+									<th scope="col">GWAS Variant Name</th>
+									<th scope="col">Associated Phenotype</th>
+									<th scope="col">Linkage Group Name</th>
+									<th scope="col">Marker Position</th>
+									<th scope="col">Marker</th>
 									<th scope="col">MAF</th>
 									<th scope="col">Sample Size</th>
 									<th scope="col">SNP P Value</th>
 									<th scope="col">Adjusted PValue</th>
 									<th scope="col">Allelic Effect</th>
-									<th scope="col">Allelic Effect Stat</th>
-									<th scope="col">Allelic Effect DF</th>
-									<th scope="col">Allelic Effect StdE</th>
-                                    <th scope="col">Beta</th>
-                                    <th scope="col">Beta StdE</th>
-                                    <th scope="col">Odds Ratio</th>
-                                    <th scope="col">Ci Lower</th>
-                                    <th scope="col">Ci Upper</th>
-                                    <th scope="col">Marker</th>
-                                    <th scope="col">Metabolite</th>
                                     <th scope="col">GWAS</th>
-                                    <th scope="col">Trait Preprocessing</th>
-                                    <th scope="col">Observation Variable</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -74,6 +66,30 @@
 									<tr>
 										<td>
 											{{ gwasVariant.name }}
+										</td>
+										<td>
+											{% if gwasVariant.observationVariable %}
+												<a href="{{ path('observation_variable_details', {id: gwasVariant.observationVariable.id}) }}">{{ gwasVariant.observationVariable }}</a>	
+											{% endif %}
+
+											{% if gwasVariant.metabolite %}
+												<a href="{{ path('metabolite_details', {id: gwasVariant.metabolite.id}) }}">{{ gwasVariant.metabolite }}</a>	
+											{% endif %}
+										</td>
+										<td>
+											{% if gwasVariant.marker %}
+												{{ gwasVariant.marker.linkageGroupName }}
+											{% endif %}
+										</td>
+										<td>
+											{% if gwasVariant.marker %}
+												{{ gwasVariant.marker.position }}
+											{% endif %}
+										</td>
+										<td>
+											{% if gwasVariant.marker %}
+												<a href="{{ path('marker_details', {id: gwasVariant.marker.id}) }}">{{ gwasVariant.marker }}</a>
+											{% endif %}
 										</td>
 										<td>
 											{{ gwasVariant.maf }}
@@ -90,44 +106,8 @@
 										<td>
 											{{ gwasVariant.allelicEffect }}
 										</td>
-										<td>
-											{{ gwasVariant.allelicEffectStat }}
-										</td>
-                                        <td>
-											{{ gwasVariant.allelicEffStdE }}
-										</td>
-										<td>
-											{{ gwasVariant.allelicEffectdf }}
-										</td>
-										<td>
-											{{ gwasVariant.beta }}
-										</td>
-                                        <td>
-											{{ gwasVariant.betaStdE }}
-										</td>
-                                        <td>
-											{{ gwasVariant.oddsRatio }}
-										</td>
-                                        <td>
-											{{ gwasVariant.ciLower }}
-										</td>
-                                        <td>
-											{{ gwasVariant.ciUpper }}
-										</td>
-                                        <td>
-											{{ gwasVariant.marker }}
-										</td>
-                                        <td>
-											{{ gwasVariant.metabolite }}
-										</td>
                                         <td>
 											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.gwas }}</a>
-										</td>
-                                        <td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.traitPreprocessing }}</a>
-										</td>
-                                        <td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.observationVariable }}</a>
 										</td>
 										<td>
 											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">
