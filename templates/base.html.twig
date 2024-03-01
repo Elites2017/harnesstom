@@ -1136,24 +1136,7 @@
 														</ul>
 													</li>
 
-													<li>
-														<a class="dropdown-item" href="{{path('location_index')}}">
-															Location &raquo;
-														</a>
-														<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu">
-															<li>
-																<a class="dropdown-item" href="{{path('location_create')}}">Create</a>
-															</li>
-															{% if is_granted("ROLE_ADMIN") %}
-																<li>
-																	<a class="dropdown-item" href="{{path('location_upload_from_excel')}}">Upload From Excel</a>
-																</li>
-															{% endif %}
-															<li>
-																<a class="dropdown-item" href="{{path('location_index')}}">Search</a>
-															</li>
-														</ul>
-													</li>
+													
 
 												</ul>								
 											</li>
@@ -1215,6 +1198,24 @@
 													{% endif %}
 													<li>
 														<a class="dropdown-item" href="{{path('study_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('location_index')}}">
+													Location &raquo;
+												</a>
+												<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('location_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('location_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('location_index')}}">Search</a>
 													</li>
 												</ul>
 											</li>
@@ -1738,6 +1739,19 @@
 													</li>
 												</ul>
 											</li>
+											<li>
+												<a class="dropdown-item" href="{{ path('qtl_epistasis_effect_index') }}">
+													QTL Epistasis &raquo;
+												</a>
+												<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{ path('qtl_epistasis_effect_create') }}">Create</a>
+													</li>
+													<li>
+														<a class="dropdown-item" href="{{ path('qtl_epistasis_effect_index') }}">Search</a>
+													</li>
+												</ul>
+											</li>
 										</ul>
 									</li>
 								</ul>
@@ -2125,7 +2139,7 @@
 					</li>
 
 					<!-- Nav Item - Utilities Collapse Menu -->
-					<li class="nav-item">
+					{# <li class="nav-item">
 						<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
 							aria-expanded="true" aria-controls="collapseUtilities">
 							<i class="fas fa-fw fa-wrench"></i>
@@ -2141,7 +2155,7 @@
 								<a class="collapse-item" href="#">Other</a>
 							</div>
 						</div>
-					</li>
+					</li> #}
 
 					<!-- start api -->
 					<li class="nav-item">
@@ -2156,7 +2170,7 @@
 
 					<!-- Heading -->
 					<div class="sidebar-heading">
-						Addons
+						More
 					</div>
 
 					<!-- Nav Item - Pages Collapse Menu -->
@@ -2205,12 +2219,32 @@
 							<span>Gourmetom</span></a>
 					</li>
 
-					<!-- Nav Item - Tables -->
+					<!-- Nav Item - Utilities Collapse Menu -->
 					<li class="nav-item">
+						<a class="nav-link collapsed" href="http://www.gateway.harnesstom.eu:8080/easy_gdb/" target="_blank" data-toggle="collapse" data-target="#collapseUtilities"
+							aria-expanded="true" aria-controls="collapseUtilities">
+							<i class="fas fa fa-dna"></i>
+							<span>Easy GDB</span>
+						</a>
+						<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+							data-parent="#accordionSidebar">
+							<div class="bg-white py-2 collapse-inner rounded">
+								<h6 class="collapse-header">Tools:</h6>
+								<a class="collapse-item" href="http://www.gateway.harnesstom.eu:8080/easy_gdb/tools/search/search_input.php" target="_blank">Search</a>
+								<a class="collapse-item" href="http://www.gateway.harnesstom.eu:8080/easy_gdb/tools/blast/blast_input.php" target="_blank">BLAST</a>
+								<a class="collapse-item" href="http://www.gateway.harnesstom.eu:8080/jbrowse/" target="_blank">Genome Browser</a>
+								<a class="collapse-item" href="http://www.gateway.harnesstom.eu:8080/easy_gdb/tools/fasta_download.php" target="_blank">Sequence Extraction</a>
+								<a class="collapse-item" href="http://www.gateway.harnesstom.eu:8080/easy_gdb/tools/annot_input_list.php" target="_blank">Annotation Extraction</a>
+							</div>
+						</div>
+					</li>
+
+					<!-- Nav Item - Tables -->
+					{# <li class="nav-item">
 						<a class="nav-link disabled" href="#">
 							<i class="fas fa-fw fa-table"></i>
 							<span>New tool</span></a>
-					</li>
+					</li> #}
 
 					<div class="sidebar-heading">
 						BRAPPS <i class="fas fa-2x fa-gears"></i>
@@ -2333,7 +2367,7 @@
 									<a href="{{path('app_home')}}">
 									<img class="mb-2" src="{{ asset('assets/images/harnesstomlogo.png') }}" width="auto" alt="" class="logo">
 									</a>
-									<small class="d-block mb-3 text-muted">&copy; 2020-2023</small>
+									<small class="d-block mb-3 text-muted">&copy; 2020-2024</small>
 								</div>
 								<div class="col-6 col-md">
 									<h5>Abou us</h5>
@@ -2374,7 +2408,7 @@
 											<a class="text-muted" href="#">Downloading data</a>
 										</li>
 										<li>
-											<a class="text-muted" href="#">Videos tutorials</a>
+											<a class="text-muted" href="{{path('tutorial_index')}}">Videos tutorials</a>
 										</li>
 									</ul>
 								</div>
@@ -2411,11 +2445,10 @@
 							</div>
 							<div class="dropdown-divider"></div>
 							<div class="text-center text-lg-start bg-light text-muted">
-								<p class="colophon tomato-color"  id="dev-team">© 2023 HarnessTom. Developed by
+								<p class="colophon tomato-color"  id="dev-team">© 2024 HarnessTom. Developed by
 									<a href="https://fr.linkedin.com/in/david-pierre-932847160" title="David PIERRE, R&D Engineer" target="_blank">David PIERRE * </a> / 
 									<a href="mailto:mohamed.zouine@toulouse-inp.fr?subject=Mail from HarnessTom DB">Mohamed Zouine </a> /
-									<a href="mailto:cpons@upvnet.upv.es?subject=Mail from HarnessTom DB">Clara PONS </a> /
-									<a href="https://www.linkedin.com/in/eden-darnige-260142a5" target="_blank">Eden DARNIDGE</a>. For HarnessTom - All rights reserved</p>
+									<a href="mailto:cpons@upvnet.upv.es?subject=Mail from HarnessTom DB">Clara PONS </a> . For HarnessTom - All rights reserved</p>
 							</div>
 						</div>
 					</div>

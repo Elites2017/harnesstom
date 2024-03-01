@@ -460,9 +460,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $metaboliteValues;
 
     /**
-     * @ORM\OneToMany(targetEntity=QTLEpistatisticEffect::class, mappedBy="createdBy")
+     * @ORM\OneToMany(targetEntity=QTLEpistasisEffect::class, mappedBy="createdBy")
      */
-    private $qTLEpistatisticEffects;
+    private $qTLEpistasisEffects;
 
     /**
      * @ORM\OneToMany(targetEntity=QTLStudy::class, mappedBy="createdBy")
@@ -574,7 +574,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->gWASVariants = new ArrayCollection();
         $this->mappingPopulations = new ArrayCollection();
         $this->metaboliteValues = new ArrayCollection();
-        $this->qTLEpistatisticEffects = new ArrayCollection();
+        $this->qTLEpistasisEffects = new ArrayCollection();
         $this->qTLStudies = new ArrayCollection();
         $this->qTLVariants = new ArrayCollection();
         $this->variantSets = new ArrayCollection();
@@ -3066,29 +3066,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, QTLEpistatisticEffect>
+     * @return Collection<int, QTLEpistasisEffect>
      */
-    public function getQTLEpistatisticEffects(): Collection
+    public function getQTLEpistasisEffects(): Collection
     {
-        return $this->qTLEpistatisticEffects;
+        return $this->qTLEpistasisEffects;
     }
 
-    public function addQTLEpistatisticEffect(QTLEpistatisticEffect $qTLEpistatisticEffect): self
+    public function addQTLEpistasisEffect(QTLEpistasisEffect $qTLEpistasisEffect): self
     {
-        if (!$this->qTLEpistatisticEffects->contains($qTLEpistatisticEffect)) {
-            $this->qTLEpistatisticEffects[] = $qTLEpistatisticEffect;
-            $qTLEpistatisticEffect->setCreatedBy($this);
+        if (!$this->qTLEpistasisEffects->contains($qTLEpistasisEffect)) {
+            $this->qTLEpistasisEffects[] = $qTLEpistasisEffect;
+            $qTLEpistasisEffect->setCreatedBy($this);
         }
 
         return $this;
     }
 
-    public function removeQTLEpistatisticEffect(QTLEpistatisticEffect $qTLEpistatisticEffect): self
+    public function removeQTLEpistasisEffect(QTLEpistasisEffect $qTLEpistasisEffect): self
     {
-        if ($this->qTLEpistatisticEffects->removeElement($qTLEpistatisticEffect)) {
+        if ($this->qTLEpistasisEffects->removeElement($qTLEpistasisEffect)) {
             // set the owning side to null (unless already changed)
-            if ($qTLEpistatisticEffect->getCreatedBy() === $this) {
-                $qTLEpistatisticEffect->setCreatedBy(null);
+            if ($qTLEpistasisEffect->getCreatedBy() === $this) {
+                $qTLEpistasisEffect->setCreatedBy(null);
             }
         }
 

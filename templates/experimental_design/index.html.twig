@@ -128,7 +128,13 @@
                     <thead class="table-dark">
                       <tr>
                         <th scope="col">
+                          Ontology ID
+                        </th>
+                        <th scope="col">
                           Name
+                        </th>
+                        <th scope="col">
+                          Parent
                         </th>
                         <th scope="col">
                           Description
@@ -142,7 +148,13 @@
                       {% for experimentalDesign in experimentalDesigns %}
                         <tr>
                           <td>
+                            {{ experimentalDesign.ontologyId }}
+                          </td>
+                          <td>
                             {{ experimentalDesign.name }}
+                          </td>
+                          <td>
+                            {{ experimentalDesign.parOnt }}
                           </td>
                           <td>
                             {{ experimentalDesign.description }}

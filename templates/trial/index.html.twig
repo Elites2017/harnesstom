@@ -70,7 +70,6 @@
 										<tr>
 											<th scope="col">Abbreviation</th>
 											<th scope="col">Name</th>
-											<th scope="col">Description</th>
 											<th scope="col">Program</th>
 											<th scope="col">Trial Type</th>
 											<th scope="col">PUI</th>
@@ -86,9 +85,6 @@
 												</td>
 												<td>
 													{{ trial.name }}
-												</td>
-												<td>
-													{{ trial.description|length > 50 ? trial.description|slice(0, 50) ~ '...' : trial.description }}
 												</td>
 												<td>
 													{% if trial.program %}

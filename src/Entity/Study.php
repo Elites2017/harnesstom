@@ -62,7 +62,7 @@ class Study
     private $endDate;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      * @Groups({"study:read"})
      * @SerializedName("culturalPractices")
      */
@@ -203,6 +203,11 @@ class Study
      * @ORM\ManyToMany(targetEntity=ParameterValue::class, inversedBy="studies")
      */
     private $parameterValue;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $growthFacilityDescription;
 
     public function __construct()
     {
@@ -883,5 +888,17 @@ class Study
             "version" => "N/A"
         ];
         return $lastUpdate;
+    }
+
+    public function getGrowthFacilityDescription(): ?string
+    {
+        return $this->growthFacilityDescription;
+    }
+
+    public function setGrowthFacilityDescription(?string $growthFacilityDescription): self
+    {
+        $this->growthFacilityDescription = $growthFacilityDescription;
+
+        return $this;
     }
 }
