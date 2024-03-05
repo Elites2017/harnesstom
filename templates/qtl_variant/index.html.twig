@@ -55,6 +55,7 @@
 									<th scope="col">Selected Statistic</th>
 									<th scope="col">QTL Stat Value</th>
 									<th scope="col">R2</th>
+									<th scope="col">QTL Study</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -92,6 +93,9 @@
 										</td>
 										<td>
 											{{ qtlVariant.r2 }}
+										</td>
+										<td>
+											<a href="{{ path('qtl_study_details', {id: qtlVariant.qtlStudy.id}) }}">{{ qtlVariant.qtlStudy }}</a>
 										</td>
                                         <td>
 											<a href="{{ path('qtl_variant_details', {id: qtlVariant.id}) }}">

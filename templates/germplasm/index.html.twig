@@ -47,7 +47,6 @@
                                 <th scope="col">INSTCODE</th>
                                 <th scope="col">Maintainer Number</th>
                                 <th scope="col">Program</th>
-                                <th scope="col">Preprocessing</th>
                                 <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -89,7 +88,6 @@
                     instcode: "{% if germplasm.maintainerInstituteCode %}<a href={{ path('institute_details', {id: germplasm.maintainerInstituteCode.id}) }}>{{ germplasm.maintainerInstituteCode }}</a>{% endif %}",
                     maintainerNumb: "{% if germplasm.accession %}<a href={{ path('accession_details', {id: germplasm.accession.id}) }}>{{ germplasm.maintainerNumb }}</a>{% endif %}",
                     progAbbreviation: "{% if germplasm.program %}<a href={{ path('program_details', {id: germplasm.program.id}) }}>{{ germplasm.program.abbreviation }}</a>{% endif %}",
-                    preprocessing: "{{ germplasm.preprocessing }}",
                     action: "<a href={{ path('germplasm_details', {id: germplasm.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
                     },
                 {% endfor %}
@@ -104,7 +102,6 @@
                     { data: 'instcode'},
                     { data: 'maintainerNumb'},
                     { data: 'progAbbreviation'},
-                    { data: 'preprocessing'},
                     { data: 'action'}
                 ]
             } );

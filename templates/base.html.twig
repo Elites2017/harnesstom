@@ -1136,24 +1136,7 @@
 														</ul>
 													</li>
 
-													<li>
-														<a class="dropdown-item" href="{{path('location_index')}}">
-															Location &raquo;
-														</a>
-														<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu">
-															<li>
-																<a class="dropdown-item" href="{{path('location_create')}}">Create</a>
-															</li>
-															{% if is_granted("ROLE_ADMIN") %}
-																<li>
-																	<a class="dropdown-item" href="{{path('location_upload_from_excel')}}">Upload From Excel</a>
-																</li>
-															{% endif %}
-															<li>
-																<a class="dropdown-item" href="{{path('location_index')}}">Search</a>
-															</li>
-														</ul>
-													</li>
+													
 
 												</ul>								
 											</li>
@@ -1215,6 +1198,24 @@
 													{% endif %}
 													<li>
 														<a class="dropdown-item" href="{{path('study_index')}}">Search</a>
+													</li>
+												</ul>
+											</li>
+											<li>
+												<a class="dropdown-item" href="{{path('location_index')}}">
+													Location &raquo;
+												</a>
+												<ul class="dropdown-menu shadow animated--grow-in dropdown-submenu">
+													<li>
+														<a class="dropdown-item" href="{{path('location_create')}}">Create</a>
+													</li>
+													{% if is_granted("ROLE_ADMIN") %}
+														<li>
+															<a class="dropdown-item" href="{{path('location_upload_from_excel')}}">Upload From Excel</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item" href="{{path('location_index')}}">Search</a>
 													</li>
 												</ul>
 											</li>
@@ -2447,8 +2448,7 @@
 								<p class="colophon tomato-color"  id="dev-team">© 2024 HarnessTom. Developed by
 									<a href="https://fr.linkedin.com/in/david-pierre-932847160" title="David PIERRE, R&D Engineer" target="_blank">David PIERRE * </a> / 
 									<a href="mailto:mohamed.zouine@toulouse-inp.fr?subject=Mail from HarnessTom DB">Mohamed Zouine </a> /
-									<a href="mailto:cpons@upvnet.upv.es?subject=Mail from HarnessTom DB">Clara PONS </a> /
-									<a href="https://www.linkedin.com/in/eden-darnige-260142a5" target="_blank">Eden DARNIDGE</a>. For HarnessTom - All rights reserved</p>
+									<a href="mailto:cpons@upvnet.upv.es?subject=Mail from HarnessTom DB">Clara PONS </a> . For HarnessTom - All rights reserved</p>
 							</div>
 						</div>
 					</div>

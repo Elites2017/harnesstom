@@ -57,13 +57,13 @@
 									{% endif %}
 								</td>
 								<td>
-									{% if analyte.analyteClass %}
-										<a href="{{ path('analyte_class_details', {id: analyte.analyteClass.id}) }}">{{ analyte.analyteClass }}
+									{% if analyte.metaboliteClass %}
+										<a href="{{ path('metabolite_class_details', {id: analyte.metaboliteClass.id}) }}">{{ analyte.metaboliteClass }}
 										{% endif %}
 									</td>
 								</td>
 								<td>
-									{% if analyte.analyteClass %}
+									{% if analyte.healthAndFlavor %}
 										<a href="{{ path('flavor_health_details', {id: analyte.healthAndFlavor.id}) }}">{{ analyte.healthAndFlavor }}</a>
 									{% endif %}
 								</td>

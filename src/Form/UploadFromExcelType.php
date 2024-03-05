@@ -16,7 +16,7 @@ class UploadFromExcelType extends AbstractType
             ->add('file', FileType::class, [
                 'constraints' => [
                     new File([
-                        'maxSize' => '5M',
+                        'maxSize' => '10M',
                     ])
                 ],
         ])

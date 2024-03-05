@@ -48,14 +48,8 @@
 							<thead class="table-dark">
 								<tr>
 									<th scope="col">Name</th>
-									<th scope="col">Software</th>
-									<th scope="col">GWAS Model</th>
-									<th scope="col">Structure Method</th>
-									<th scope="col">Kinship Algorithm</th>
-									<th scope="col">GWAS Stat Test</th>
-									<th scope="col">Threshold Method</th>
-									<th scope="col">Threshold Value</th>
-									<th scope="col">Preprocessing</th>
+									<th scope="col">Studies</th>
+									<th scope="col">Variant Set Name</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -66,40 +60,12 @@
 											{{ gwas.name }}
 										</td>
 										<td>
-											{% if gwas.software %}
-												<a href="{{ path('software_details', {id: gwas.software.id}) }}">{{ gwas.software }}</a>
-											{% endif %}
+											{% for one in gwas.studyList %}
+												<b>{{ loop.index }})</b> <a href="{{ path('study_details', {id:one.id}) }}">{{ one.abbreviation }}</a></br>
+											{% endfor %}
 										</td>
 										<td>
-											{% if gwas.gwasModel %}
-												<a href="{{ path('gwas_model_details', {id: gwas.gwasModel.id}) }}">{{ gwas.gwasModel }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{% if gwas.structureMethod %}
-												<a href="{{ path('structure_method_details', {id: gwas.structureMethod.id}) }}">{{ gwas.structureMethod }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{% if gwas.kinshipAlgorithm %}
-												<a href="{{ path('kinship_algorithm_details', {id: gwas.kinshipAlgorithm.id}) }}">{{ gwas.kinshipAlgorithm }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{% if gwas.gwasStatTest %}
-												<a href="{{ path('gwas_stat_test_details', {id: gwas.gwasStatTest.id}) }}">{{ gwas.gwasStatTest }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{% if gwas.thresholdMethod %}
-												<a href="{{ path('threshold_method_details', {id: gwas.thresholdMethod.id}) }}">{{ gwas.thresholdMethod }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{{ gwas.thresholdValue }}
-										</td>
-										<td>
-											{{ gwas.preprocessing }}
+											<a href="{{ path('variant_set_metadata_details', {id:gwas.variantSetMetadata.id}) }}">{{ gwas.variantSetMetadata }}</a>
 										</td>
 										<td>
 											<a href="{{ path('gwas_details', {id: gwas.id}) }}">

@@ -48,12 +48,10 @@
 							<thead class="table-dark">
 								<tr>
 									<th scope="col">Name</th>
-									<th scope="col">Replicate</th>
-									<th scope="col">Description</th>
-									<th scope="col">Study</th>
                                     <th scope="col">Germplasm</th>
+									<th scope="col">Study</th>
                                     <th scope="col">Developmental Stage</th>
-                                    <th scope="col">Observation Level</th>
+                                    <th scope="col">Anatomical Entity</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -63,20 +61,14 @@
 										<td>
 											{{ sample.name }}
 										</td>
-										<td>
-											{{ sample.replicate }}
-										</td>
-										<td>
-											{{ sample.description }}
+                                        <td>
+											{% if sample.germplasm %}
+												<a href="{{ path('germplasm_details', {id: sample.germplasm.id}) }}">{{ sample.germplasm }}</a>
+											{% endif %}
 										</td>
 										<td>
 											{% if sample.study %}
 												<a href="{{ path('study_details', {id: sample.study.id}) }}">{{ sample.study.abbreviation }}</a>
-											{% endif %}
-										</td>
-                                        <td>
-											{% if sample.germplasm %}
-												<a href="{{ path('germplasm_details', {id: sample.germplasm.id}) }}">{{ sample.germplasm }}</a>
 											{% endif %}
 										</td>
                                         <td>
@@ -85,8 +77,8 @@
 											{% endif %}
 										</td>
                                         <td>
-											{% if sample.observationLevel %}
-												<a href="{{ path('observation_level_details', {id: sample.observationLevel.id}) }}">{{ sample.observationLevel }}</a>
+											{% if sample.anatomicalEntity %}
+												<a href="{{ path('anatomical_entity_details', {id: sample.anatomicalEntity.id}) }}">{{ sample.anatomicalEntity }}</a>
 											{% endif %}
 										</td>
 										<td>

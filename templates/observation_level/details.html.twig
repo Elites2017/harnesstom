@@ -12,20 +12,20 @@
 						<thead>
 							<tr>
 								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-									<th scope="col">Block Number</th>
-									<th scope="col">Sub Number</th>
-									<th scope="col">Plot Number</th>
-									<th scope="col">Plant Number</th>
-									<th scope="col">Unit Position</th>
-									<th scope="col">Coordinate X</th>
-									<th scope="col">Coordinate Y</th>
-									<th scope="col">Coordinate X Type</th>
-									<th scope="col">Coordinate Y Type</th>
-									<th scope="col">Replicate</th>
-									<th scope="col">Unit Name</th>
-									<th scope="col">Germplasm</th>
-									<th scope="col">Study</th>
+								<th scope="col">Germplasm</th>
+								<th scope="col">Observation Unit Name</th>
+								<th scope="col">Observation Level</th>
+								<th scope="col">Block Number</th>
+								<th scope="col">Sub Block Number</th>
+								<th scope="col">Plot Number</th>
+								<th scope="col">Plant Number</th>
+								<th scope="col">Replicate</th>
+								<th scope="col">Unit Position</th>
+								<th scope="col">Coordinate X</th>
+								<th scope="col">Coordinate X Type</th>
+								<th scope="col">Coordinate Y</th>
+								<th scope="col">Coordinate Y Type</th>
+								<th scope="col">Study</th>
 								{% if is_granted("ROLE_ADMIN") %}
 									<th scope="col">Created By</th>
 									<th scope="col">Creation Date</th>
@@ -39,6 +39,8 @@
 						<tbody>
 							<tr>
 								<td>{{ observationLevel.id }}</td>
+								<td>{{ observationLevel.germaplasm }}</td>
+								<td>{{ observationLevel.unitname }}</td>
 								<td>{{ observationLevel.name }}</td>
 								<td>{{ observationLevel.blockNumber }}</td>
 								<td>{{ observationLevel.subBlockNumber }}</td>
@@ -47,11 +49,9 @@
 								<td>{{ observationLevel.replicate }}</td>
 								<td>{{ observationLevel.unitPosition }}</td>
 								<td>{{ observationLevel.unitCoordinateX }}</td>
-								<td>{{ observationLevel.unitCoordinateY }}</td>
-								<td>{{ observationLevel.unitname }}</td>
 								<td>{{ observationLevel.unitCoordinateXType }}</td>
+								<td>{{ observationLevel.unitCoordinateY }}</td>
 								<td>{{ observationLevel.unitCoordinateYType }}</td>
-								<td>{{ observationLevel.germaplasm }}</td>
 								<td>{{ observationLevel.study }}</td>
 								{% if is_granted("ROLE_ADMIN") %}
 									<td>

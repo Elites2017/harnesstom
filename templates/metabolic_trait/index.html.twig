@@ -66,7 +66,7 @@
           </div>
           <!-- Card Body -->
           <div class="card-body">
-            <div class="treeview-animated treeView">
+            {# <div class="treeview-animated treeView">
               {% macro treeView(metabolicTraits) %}
                 {% import _self as macros %}
                 {% for oneChild in metabolicTraits %}
@@ -99,9 +99,9 @@
               <ul class="treeview-animated-list">
                 {{ _self.treeView(metabolicTraits) }}
               </ul>
-            </div>
+            </div> #}
 
-            <div class="listView">
+            <div class="old_listView">
               {% if (metabolicTraits|length) > 0 %}
                 {% for category, messages in app.flashes(
                   ['success', 'warning', 'danger']
@@ -134,7 +134,7 @@
                           Name
                         </th>
                         <th scope="col">
-                          Description
+                          Parent Term
                         </th>
                         <th scope="col">
                           Action
@@ -151,7 +151,9 @@
                             {{ metabolicTrait.name }}
                           </td>
                           <td>
-                            {{ metabolicTrait.description }}
+                            {% for one in metabolicTrait.parentTerm %}
+                              {{ one.ontologyID }} - {{ one.name }}
+                            {% endfor %}
                           </td>
                           <td>
                             <a href="{{
