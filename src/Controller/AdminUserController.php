@@ -21,6 +21,7 @@ class AdminUserController extends AbstractController
      */
     public function index(PersonRepository $personRepo): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $persons = $personRepo->findAll();
         //dd($persons);
         $context = [
