@@ -59,20 +59,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
-
-	<!-- DataTables animate JavaScript -->
-	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-	<!-- DataTables JavaScript -->
-	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-	
-	<!-- Load data table server side processing -->
-	<script src="{{ asset('assets/datatables/js/datatable_server_side_processing.js') }}"></script>
+    {% include 'resource/list_js.html.twig' %}
 	<script>
 		let dataTableId = "#datatable";
 		let linkId = "";

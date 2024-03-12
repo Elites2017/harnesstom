@@ -57,20 +57,7 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
-
-	<!-- DataTables JavaScript -->
-	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-
-	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
-	</script>
+	{% include 'resource/list_js.html.twig' %}
 
 <script>
 	let data = [
