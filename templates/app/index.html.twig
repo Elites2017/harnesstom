@@ -43,7 +43,7 @@
         <div class="container-fluid">
         <!-- Main Content -->
         <div id="content">
-      {% for category, messages in app.flashes(['success', 'warning']) %}
+      {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
           {% for message in messages %}
             <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -54,28 +54,28 @@
       {% endfor %}
       
     <div class="row">
-    <div
-        class="bg-image p-1 text-center shadow-1-strong rounded m-2 text-white"
-        style="
-          background-image: url('assets/images/headerimg.jpg');
-          margin-top: 28px;
-          height: auto;
-          width: 100%;
-          background-size: cover;
-            background-repeat: no-repeat;
-          "
-        >
-        
-        <h1 class="mb-3 animate__animated animate__bounceInDown">HarnessTom Database</h1>
+        <div
+            class="bg-image p-1 text-center shadow-1-strong rounded m-2 text-white"
+            style="
+            background-image: url('assets/images/headerimg.jpg');
+            margin-top: 28px;
+            height: auto;
+            width: 100%;
+            background-size: cover;
+                background-repeat: no-repeat;
+            "
+            >
+            
+            <h1 class="mb-3 animate__animated animate__bounceInDown">HarnessTom Database</h1>
 
-        <p class="h4 aimate animate__animated animate__bounceInUp">
-          HarnesstomDB is a comprehensive publicly available open-source multi-omics database
-          for facilitating the use of the potential of tomato germplasm collections for breeding.
-          HarnesstomDB V1.0 (March 2022) enables to store, integrate and interconnect curated
-          omics data and metadata from different projects, trials and experiments including
-          images using a controlled vocabulary and accepted standards.
-        </p>
-    </div>
+            <p class="h4 aimate animate__animated animate__bounceInUp">
+            HarnesstomDB is a comprehensive publicly available open-source multi-omics database
+            for facilitating the use of the potential of tomato germplasm collections for breeding.
+            HarnesstomDB V1.0 (March 2022) enables to store, integrate and interconnect curated
+            omics data and metadata from different projects, trials and experiments including
+            images using a controlled vocabulary and accepted standards.
+            </p>
+        </div>
     </div>
         
 
@@ -288,7 +288,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Overview | The database is being used for training from March 4th to March 5th included</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Overview</h1>
                         {# <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> #}
                     </div>
