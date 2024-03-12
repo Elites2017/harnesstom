@@ -43,7 +43,7 @@
         <div class="container-fluid">
         <!-- Main Content -->
         <div id="content">
-      {% for category, messages in app.flashes(['success', 'warning']) %}
+      {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
           {% for message in messages %}
             <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">

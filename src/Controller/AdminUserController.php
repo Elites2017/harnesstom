@@ -22,8 +22,15 @@ class AdminUserController extends AbstractController
     public function index(PersonRepository $personRepo): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        // redirect the logged in user to the home page is he is not admin
+        $userRoles = $this->getUser()->getRoles();
+        $adm = "ROLE_ADMIN";
+        $res = array_search($adm, $userRoles);
+        if ($res === false) {
+            $this->addFlash("danger", "You do not have the privileges to see the requested page");
+            return $this->redirectToRoute('app_home');
+        }
         $persons = $personRepo->findAll();
-        //dd($persons);
         $context = [
             'title' => 'Admin User',
             'persons' => $persons
