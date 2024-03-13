@@ -5,25 +5,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<!-- Bootstrap core CSS -->
-	<link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-	<link
-		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-
-	<!-- Custom styles for this template -->
-	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
-	<link
-	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
-	<!-- DataTables CSS -->
-	<link
-	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
-	<!-- DataTables Responsive CSS -->
-	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	{% include 'resource/list_style.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -71,20 +53,8 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
-
-	<!-- DataTables JavaScript -->
-	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-
-	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
-	</script>
+	{% include 'resource/list_js.html.twig' %}
+	
 <script>
 		$(document).ready(function () {
 $('#datatable').DataTable();
