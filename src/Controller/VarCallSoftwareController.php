@@ -90,6 +90,7 @@ class VarCallSoftwareController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($varCallSoftware);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('var_call_software_index'));
         }
 

@@ -90,6 +90,7 @@ class ContactController extends AbstractController
             if ($contact->getInstitute() != null) {
                 $entmanager->persist($contact);
                 $entmanager->flush();
+                $this->addFlash('success', " one element has been successfuly updated");
                 return $this->redirect($this->generateUrl('contact_index'));
             } else {
                 $this->addFlash('danger', "Error in the form, you must select an institute");

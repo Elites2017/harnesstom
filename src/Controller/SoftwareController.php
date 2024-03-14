@@ -89,6 +89,7 @@ class SoftwareController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($software);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('software_index'));
         }
 

@@ -112,6 +112,7 @@ class GermplasmController extends AbstractController
                 $germplasm->setAccession($form->get('accession')->getData());
                 $entmanager->persist($germplasm);
                 $entmanager->flush();
+                $this->addFlash('success', " one element has been successfuly updated");
                 return $this->redirect($this->generateUrl('germplasm_index'));
             } else {
                 $this->addFlash('danger', "Error in the form, you must select an institute");   

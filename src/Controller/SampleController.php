@@ -105,6 +105,7 @@ class SampleController extends AbstractController
             $sample->setLastUpdated(new \DateTime());
             $entmanager->persist($sample);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('sample_index'));
         }
 

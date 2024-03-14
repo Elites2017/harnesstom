@@ -89,6 +89,7 @@ class MarkerSynonymController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($markerSynonym);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('marker_synonym_index'));
         }
 

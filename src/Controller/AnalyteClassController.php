@@ -83,6 +83,7 @@ class AnalyteClassController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($analyteClass);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('analyte_class_index'));
         }
 

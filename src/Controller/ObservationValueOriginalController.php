@@ -102,6 +102,7 @@ class ObservationValueOriginalController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($observationValue);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('observation_value_index'));
         }
 

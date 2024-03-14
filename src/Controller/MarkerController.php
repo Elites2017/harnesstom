@@ -101,6 +101,7 @@ class MarkerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($marker);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('marker_index'));
         }
 

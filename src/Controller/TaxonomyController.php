@@ -87,6 +87,7 @@ class TaxonomyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($taxonomy);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('taxonomy_index'));
         }
 

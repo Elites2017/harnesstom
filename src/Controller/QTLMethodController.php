@@ -89,6 +89,7 @@ class QTLMethodController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($qtlMethod);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('qtl_method_index'));
         }
 

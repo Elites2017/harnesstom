@@ -90,6 +90,7 @@ class AttributeCategoryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($attributeCategory);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('attribute_category_index'));
         }
 

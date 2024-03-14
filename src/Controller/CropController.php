@@ -87,6 +87,7 @@ class CropController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($crop);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('crop_index'));
         }
 

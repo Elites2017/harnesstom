@@ -100,6 +100,7 @@ class InstituteController extends AbstractController
             if ($institute->getCountry() != null) {
                 $entmanager->persist($institute);
                 $entmanager->flush();
+                $this->addFlash('success', " one element has been successfuly updated");
                 return $this->redirect($this->generateUrl('institute_index'));
             } else {
                 $this->addFlash('danger', "Error in the form, you must select a country");

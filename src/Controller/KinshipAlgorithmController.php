@@ -89,6 +89,7 @@ class KinshipAlgorithmController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($kinshipAlgorithm);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('kinship_algorithm_index'));
         }
 

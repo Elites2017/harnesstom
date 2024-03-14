@@ -89,6 +89,7 @@ class AnnotationLevelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($annotationLevel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('annotation_level_index'));
         }
 

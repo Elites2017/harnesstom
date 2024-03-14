@@ -103,6 +103,7 @@ class SynonymController extends AbstractController
             } else {
                 $entmanager->persist($synonym);
                 $entmanager->flush();
+                $this->addFlash('success', " one element has been successfuly updated");
                 return $this->redirect($this->generateUrl('synonym_index'));
             }
         }

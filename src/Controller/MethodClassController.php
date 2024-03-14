@@ -89,6 +89,7 @@ class MethodClassController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($methodClass);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('method_class_index'));
         }
 

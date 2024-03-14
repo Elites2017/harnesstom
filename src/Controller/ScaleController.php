@@ -89,6 +89,7 @@ class ScaleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($scale);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('scale_index'));
         }
 

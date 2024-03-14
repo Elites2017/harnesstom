@@ -156,6 +156,7 @@ class PedigreeController extends AbstractController
             }
             $entmanager->persist($pedigree);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('pedigree_index'));
         }
 
