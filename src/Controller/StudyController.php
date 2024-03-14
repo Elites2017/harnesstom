@@ -129,11 +129,20 @@ class StudyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $startDate = $form->get('startDate')->getData();
             $endDate = $form->get('endDate')->getData();
+            $parameterValues = $form->get('extra')->getData();
             if ($startDate > $endDate) {
                 $this->addFlash('danger', "The end date must be greater than the start date");
             } else {
                 $study->setLastUpdated(new \DateTime());
                 $entmanager->persist($study);
+                // study parameter value
+                if ($parameterValues) {
+                    foreach ($parameterValues as $key => $parameterValue) {
+                        # code...
+                        $entmanager->persist($parameterValue);
+                        $study->addParameterValue($parameterValue);
+                    }
+                }
                 $entmanager->flush();
                 $this->addFlash('success', " One study has been successfuly updated");
                 return $this->redirect($this->generateUrl('study_index'));

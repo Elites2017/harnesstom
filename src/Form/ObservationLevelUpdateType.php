@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Germplasm;
 use App\Entity\ObservationLevel;
 use App\Entity\Study;
 use Symfony\Component\Form\AbstractType;

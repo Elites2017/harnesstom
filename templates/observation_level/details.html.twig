@@ -12,20 +12,20 @@
 						<thead>
 							<tr>
 								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-									<th scope="col">Block Number</th>
-									<th scope="col">Sub Number</th>
-									<th scope="col">Plot Number</th>
-									<th scope="col">Plant Number</th>
-									<th scope="col">Unit Position</th>
-									<th scope="col">Coordinate X</th>
-									<th scope="col">Coordinate Y</th>
-									<th scope="col">Coordinate X Type</th>
-									<th scope="col">Coordinate Y Type</th>
-									<th scope="col">Replicate</th>
-									<th scope="col">Unit Name</th>
-									<th scope="col">Germplasm</th>
-									<th scope="col">Study</th>
+								<th scope="col">Germplasm</th>
+								<th scope="col">Observation Unit Name</th>
+								<th scope="col">Observation Level</th>
+								<th scope="col">Block Number</th>
+								<th scope="col">Sub Block Number</th>
+								<th scope="col">Plot Number</th>
+								<th scope="col">Plant Number</th>
+								<th scope="col">Replicate</th>
+								<th scope="col">Unit Position</th>
+								<th scope="col">Coordinate X</th>
+								<th scope="col">Coordinate X Type</th>
+								<th scope="col">Coordinate Y</th>
+								<th scope="col">Coordinate Y Type</th>
+								<th scope="col">Study</th>
 								{% if is_granted("ROLE_ADMIN") %}
 									<th scope="col">Created By</th>
 									<th scope="col">Creation Date</th>
@@ -39,6 +39,8 @@
 						<tbody>
 							<tr>
 								<td>{{ observationLevel.id }}</td>
+								<td>{{ observationLevel.germaplasm }}</td>
+								<td>{{ observationLevel.unitname }}</td>
 								<td>{{ observationLevel.name }}</td>
 								<td>{{ observationLevel.blockNumber }}</td>
 								<td>{{ observationLevel.subBlockNumber }}</td>
@@ -47,11 +49,9 @@
 								<td>{{ observationLevel.replicate }}</td>
 								<td>{{ observationLevel.unitPosition }}</td>
 								<td>{{ observationLevel.unitCoordinateX }}</td>
-								<td>{{ observationLevel.unitCoordinateY }}</td>
-								<td>{{ observationLevel.unitname }}</td>
 								<td>{{ observationLevel.unitCoordinateXType }}</td>
+								<td>{{ observationLevel.unitCoordinateY }}</td>
 								<td>{{ observationLevel.unitCoordinateYType }}</td>
-								<td>{{ observationLevel.germaplasm }}</td>
 								<td>{{ observationLevel.study }}</td>
 								{% if is_granted("ROLE_ADMIN") %}
 									<td>
@@ -87,7 +87,7 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
 <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
 <script src="{{ asset('assets/axios/axios.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
