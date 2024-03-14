@@ -54,6 +54,7 @@ class UnitController extends AbstractController
             $unit->setCreatedAt(new \DateTime());
             $entmanager->persist($unit);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('unit_index'));
         }
 

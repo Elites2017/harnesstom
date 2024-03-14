@@ -54,6 +54,7 @@ class TraitProcessingController extends AbstractController
             $traitProcessing->setCreatedAt(new \DateTime());
             $entmanager->persist($traitProcessing);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('trait_processing_index'));
         }
 

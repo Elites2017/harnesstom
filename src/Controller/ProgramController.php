@@ -54,6 +54,7 @@ class ProgramController extends AbstractController
             $program->setCreatedAt(new \DateTime());
             $entmanager->persist($program);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('program_index'));
         }
 

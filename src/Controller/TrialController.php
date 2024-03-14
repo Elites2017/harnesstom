@@ -71,6 +71,7 @@ class TrialController extends AbstractController
             $trial->setCreatedAt(new \DateTime());
             $entmanager->persist($trial);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('trial_index'));
         }
 

@@ -55,6 +55,7 @@ class VarCallSoftwareController extends AbstractController
             $varCallSoftware->setCreatedAt(new \DateTime());
             $entmanager->persist($varCallSoftware);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('var_call_software_index'));
         }
 

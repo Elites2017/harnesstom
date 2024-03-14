@@ -53,6 +53,7 @@ class CountryController extends AbstractController
             $country->setCreatedAt(new \DateTime());
             $entmanager->persist($country);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('country_index'));
         }
 

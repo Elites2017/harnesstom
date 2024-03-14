@@ -54,6 +54,7 @@ class QTLMethodController extends AbstractController
             $qtlMethod->setCreatedAt(new \DateTime());
             $entmanager->persist($qtlMethod);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('qtl_method_index'));
         }
 

@@ -53,6 +53,7 @@ class AttributeController extends AbstractController
             $attribute->setCreatedAt(new \DateTime());
             $entmanager->persist($attribute);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('attribute_index'));
         }
 

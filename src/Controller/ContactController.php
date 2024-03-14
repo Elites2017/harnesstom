@@ -54,6 +54,7 @@ class ContactController extends AbstractController
             $contact->setCreatedAt(new \DateTime());
             $entmanager->persist($contact);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('contact_index'));
         }
 

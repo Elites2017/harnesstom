@@ -66,6 +66,7 @@ class MappingPopulationController extends AbstractController
             $mappingPopulation->setCreatedAt(new \DateTime());
             $entmanager->persist($mappingPopulation);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('mapping_population_index'));
         }
 

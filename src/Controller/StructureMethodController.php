@@ -54,6 +54,7 @@ class StructureMethodController extends AbstractController
             $structureMethod->setCreatedAt(new \DateTime());
             $entmanager->persist($structureMethod);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('structure_method_index'));
         }
 

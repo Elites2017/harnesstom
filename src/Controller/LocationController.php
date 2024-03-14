@@ -53,6 +53,7 @@ class LocationController extends AbstractController
             $location->setCreatedAt(new \DateTime());
             $entmanager->persist($location);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('location_index'));
         }
 

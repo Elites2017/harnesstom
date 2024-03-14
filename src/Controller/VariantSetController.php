@@ -60,6 +60,7 @@ class VariantSetController extends AbstractController
             $variantSet->setCreatedAt(new \DateTime());
             $entmanager->persist($variantSet);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('variant_set_index'));
         }
 

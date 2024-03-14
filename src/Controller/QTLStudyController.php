@@ -73,6 +73,7 @@ class QTLStudyController extends AbstractController
             $qtlStudy->setCreatedAt(new \DateTime());
             $entmanager->persist($qtlStudy);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('qtl_study_index'));
         }
 

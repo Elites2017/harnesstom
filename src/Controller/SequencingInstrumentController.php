@@ -54,6 +54,7 @@ class SequencingInstrumentController extends AbstractController
             $sequencingInstrument->setCreatedAt(new \DateTime());
             $entmanager->persist($sequencingInstrument);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('sequencing_instrument_index'));
         }
 

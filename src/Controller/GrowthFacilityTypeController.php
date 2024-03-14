@@ -54,6 +54,7 @@ class GrowthFacilityTypeController extends AbstractController
             $growthFacilityType->setCreatedAt(new \DateTime());
             $entmanager->persist($growthFacilityType);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('growth_facility_type_index'));
         }
 

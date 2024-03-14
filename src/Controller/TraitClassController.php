@@ -52,6 +52,7 @@ class TraitClassController extends AbstractController
             $traitClass->setCreatedAt(new \DateTime());
             $entmanager->persist($traitClass);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('trait_class_index'));
         }
 

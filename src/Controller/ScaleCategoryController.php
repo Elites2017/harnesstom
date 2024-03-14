@@ -53,6 +53,7 @@ class ScaleCategoryController extends AbstractController
             $scaleCategory->setCreatedAt(new \DateTime());
             $entmanager->persist($scaleCategory);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('scale_category_index'));
         }
 

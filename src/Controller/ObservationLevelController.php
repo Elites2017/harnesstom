@@ -66,6 +66,7 @@ class ObservationLevelController extends AbstractController
             $observationLevel->setCreatedAt(new \DateTime());
             $entmanager->persist($observationLevel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('observation_level_index'));
         }
 

@@ -76,6 +76,7 @@ class FactorTypeController extends AbstractController
             $factorType->setCreatedAt(new \DateTime());
             $entmanager->persist($factorType);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('factor_type_index'));
         }
 

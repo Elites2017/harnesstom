@@ -55,6 +55,7 @@ class AttributeCategoryController extends AbstractController
             $attributeCategory->setCreatedAt(new \DateTime());
             $entmanager->persist($attributeCategory);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('attribute_category_index'));
         }
 

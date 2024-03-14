@@ -67,6 +67,7 @@ class ObservationValueOriginalController extends AbstractController
             $observationValue->setCreatedAt(new \DateTime());
             $entmanager->persist($observationValue);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('observation_value_index'));
         }
 

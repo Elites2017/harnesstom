@@ -54,6 +54,7 @@ class SequencingTypeController extends AbstractController
             $sequencingType->setCreatedAt(new \DateTime());
             $entmanager->persist($sequencingType);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('sequencing_type_index'));
         }
 

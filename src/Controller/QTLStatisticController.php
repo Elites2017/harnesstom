@@ -54,6 +54,7 @@ class QTLStatisticController extends AbstractController
             $qtlStatistic->setCreatedAt(new \DateTime());
             $entmanager->persist($qtlStatistic);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('qtl_statistic_index'));
         }
 

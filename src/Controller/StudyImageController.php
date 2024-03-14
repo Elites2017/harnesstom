@@ -60,6 +60,7 @@ class StudyImageController extends AbstractController
             $studyImage->setCreatedAt(new \DateTime());
             $entmanager->persist($studyImage);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('study_image_index'));
         }
 

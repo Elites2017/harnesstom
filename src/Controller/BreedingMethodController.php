@@ -54,6 +54,7 @@ class BreedingMethodController extends AbstractController
             $breedingMethod->setCreatedAt(new \DateTime());
             $entmanager->persist($breedingMethod);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('breeding_method_index'));
         }
 

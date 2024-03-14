@@ -54,6 +54,7 @@ class CollectingSourceController extends AbstractController
             $collectingSource->setCreatedAt(new \DateTime());
             $entmanager->persist($collectingSource);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('collecting_source_index'));
         }
 

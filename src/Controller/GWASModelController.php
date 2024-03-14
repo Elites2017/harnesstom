@@ -54,6 +54,7 @@ class GWASModelController extends AbstractController
             $gwasModel->setCreatedAt(new \DateTime());
             $entmanager->persist($gwasModel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('gwas_model_index'));
         }
 

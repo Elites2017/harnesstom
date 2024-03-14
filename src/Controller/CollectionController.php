@@ -53,6 +53,7 @@ class CollectionController extends AbstractController
             $collection->setCreatedAt(new \DateTime());
             $entmanager->persist($collection);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('collection_index'));
         }
 

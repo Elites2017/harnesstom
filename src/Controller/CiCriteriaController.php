@@ -54,6 +54,7 @@ class CiCriteriaController extends AbstractController
             $ciCriteria->setCreatedAt(new \DateTime());
             $entmanager->persist($ciCriteria);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('ci_criteria_index'));
         }
 

@@ -54,6 +54,7 @@ class MethodClassController extends AbstractController
             $methodClass->setCreatedAt(new \DateTime());
             $entmanager->persist($methodClass);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('method_class_index'));
         }
 

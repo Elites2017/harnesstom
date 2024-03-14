@@ -55,6 +55,7 @@ class GenotypingPlatformController extends AbstractController
             $genotypingPlatform->setCreatedAt(new \DateTime());
             $entmanager->persist($genotypingPlatform);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('genotyping_platform_index'));
         }
 

@@ -69,6 +69,7 @@ class GermplasmStudyImageController extends AbstractController
             $germplasmStudyImage->setCreatedAt(new \DateTime());
             $entmanager->persist($germplasmStudyImage);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('germplasm_study_image_index'));
         }
 
