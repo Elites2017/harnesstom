@@ -5,25 +5,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<!-- Bootstrap core CSS -->
-	<link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-	<link
-		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-
-	<!-- Custom styles for this template -->
-	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
-	<link
-	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
-	<!-- DataTables CSS -->
-	<link
-	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
-	<!-- DataTables Responsive CSS -->
-	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	{% include 'resource/list_style.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -48,14 +30,11 @@
 							<thead class="table-dark">
 								<tr>
 									<th scope="col">Name</th>
-									<th scope="col">Software</th>
-									<th scope="col">QTL Count</th>
-									<th scope="col">Ci Criteria</th>
-									<th scope="col">Method</th>
+									<th scope="col">Studies</th>
+									<th scope="col">Variant Set Name</th>
 									<th scope="col">Mapping Population</th>
 									<th scope="col">Genome Map Unit</th>
-									<th scope="col">Threshold Method</th>
-									<th scope="col">Threshold Value</th>
+									<th scope="col">QTL Count</th>
 									<th scope="col">Action</th>
 								</tr>
 							</thead>
@@ -66,23 +45,14 @@
 											{{ qtlStudy.name }}
 										</td>
 										<td>
-											{% if qtlStudy.software %}
-												<a href="{{ path('software_details', {id: qtlStudy.software.id}) }}">{{ qtlStudy.software }}</a>
-											{% endif %}
+											{% for one in qtlStudy.studyList %}
+												<b>{{ loop.index }})</b> <a href="{{ path('study_details', {id:one.id}) }}">{{ one.abbreviation }}</a></br>
+											{% endfor %}
 										</td>
 										<td>
-											{{ qtlStudy.qtlCount }}
+											<a href="{{ path('variant_set_metadata_details', {id:qtlStudy.variantSetMetadata.id}) }}">{{ qtlStudy.variantSetMetadata }}</a>
 										</td>
-										<td>
-											{% if qtlStudy.ciCriteria %}
-												<a href="{{ path('ci_criteria_details', {id: qtlStudy.ciCriteria.id}) }}">{{ qtlStudy.ciCriteria }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{% if qtlStudy.method %}
-												<a href="{{ path('qtl_method_details', {id: qtlStudy.method.id}) }}">{{ qtlStudy.method }}</a>
-											{% endif %}
-										</td>
+
 										<td>
 											{% if qtlStudy.mappingPopulation %}
 												<a href="{{ path('mapping_population_details', {id: qtlStudy.mappingPopulation.id}) }}">{{ qtlStudy.mappingPopulation }}</a>
@@ -92,12 +62,7 @@
 											{{ qtlStudy.genomeMapUnit }}
 										</td>
 										<td>
-											{% if qtlStudy.thresholdMethod %}
-												<a href="{{ path('threshold_method_details', {id: qtlStudy.thresholdMethod.id}) }}">{{ qtlStudy.thresholdMethod }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{{ qtlStudy.thresholdValue }}
+											{{ qtlStudy.qtlCount }}
 										</td>
 										<td>
 											<a href="{{ path('qtl_study_details', {id: qtlStudy.id}) }}">
@@ -120,20 +85,8 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
-
-	<!-- DataTables JavaScript -->
-	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-
-	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-	<script src="{{ asset('assets/datatables/js/custom_page_entry_showing.js') }}">
-	</script>
+	{% include 'resource/list_js.html.twig' %}
+	
 <script>
 		$(document).ready(function () {
 $('#datatable').DataTable();

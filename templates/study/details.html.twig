@@ -31,7 +31,205 @@
 		<div class="row">
 			<div class="col-md-12 order-md-1 mb-3">
 				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
+				<div class="row">
+                    <div class="col-xl-3 col-lg-2 mb-3">
+                        <div class="card">
+							<div class="card-header">
+								<h3 class="font-weight-bold tomato-color">Study Basic Information</h3>
+							</div>
+							<div class="card-body">
+								<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Abbreviation: </label>
+								<span class="tomato-color font-weight-bold">{{ study.abbreviation}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Name: </label>
+								<span class="tomato-color font-weight-bold">{{ study.name}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Description: </label>
+								<span class="tomato-color font-weight-bold">{{ study.description}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Start Date: </label>
+								<span class="tomato-color font-weight-bold">{{ study.startDate | date('m/d/Y') }}</span>
+							</div>
+							
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">End Date </label>
+								<span class="tomato-color font-weight-bold">{{ study.endDate | date('m/d/Y') }}</span>
+							</div>
+							
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Trial: </label>
+								<a href="{{ path('trial_details', {id:study.trial.id}) }}"><span class="tomato-color font-weight-bold">{{ study.trial}}</span></a>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Factor: </label>
+								<span class="tomato-color font-weight-bold">{{ study.factor}}</span>
+							</div>
+							
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Season: </label>
+								<span class="tomato-color font-weight-bold">{{ study.season}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Institute: </label>
+								<a href="{{ path('institute_details', {id:study.institute.id}) }}"><span class="tomato-color font-weight-bold">{{ study.institute}}</span></a>
+							</div>
+								
+							</div>
+							<div class="card-footer text-muted">
+								
+							</div>
+						</div>
+                    </div>
+
+					<div class="col-xl-3 col-lg-2 mb-3">
+                        <div class="card">
+							<div class="card-header">
+								<h3 class="font-weight-bold tomato-color">Study Location Information</h3>
+							</div>
+							<div class="card-body">
+								<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Abbreviation: </label>
+								<span class="tomato-color font-weight-bold">{{ study.location.abbreviation}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Name: </label>
+								<span class="tomato-color font-weight-bold">{{ study.location}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Country: </label>
+								<span class="tomato-color font-weight-bold">{{ study.location.country}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Longitude: </label>
+								<span class="tomato-color font-weight-bold">{{ study.location.longitudeCo}}</span>
+							</div>
+							
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Latitude </label>
+								<span class="tomato-color font-weight-bold">{{ study.location.latitudeCo}}</span>
+							</div>
+							
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Altitude: </label>
+								<span class="tomato-color font-weight-bold">{{ study.location.latitudeCo}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Site Status: </label>
+								<span class="tomato-color font-weight-bold">{{ study.location.siteStatus}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Growth Facility Type: </label>
+								<span class="tomato-color font-weight-bold">{{ study.growthFacility}}</span>
+							</div>
+							
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Growth Facility Description: </label>
+								<span class="tomato-color font-weight-bold">{{ study.GrowthFacilityDescription}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Cultural Practices: </label>
+								<span class="tomato-color font-weight-bold">{{ study.CulturalPractice }}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Parameters: </label></br>
+								<span class="tomato-color font-weight-bold">
+								{% for one in study.parameterValue %}
+									<b>{{ loop.index }})</b> {{ one.paramter.name }} = {{ one.value }} </br>
+								{% endfor %}
+								</span>
+							</div>
+								
+							</div>
+							<div class="card-footer text-muted">
+								
+							</div>
+						</div>
+                    </div>
+
+					<div class="col-xl-3 col-lg-2 mb-3">
+                        <div class="card">
+							<div class="card-header">
+								<h3 class="font-weight-bold tomato-color">Experimental Design Information</h3>
+							</div>
+							<div class="card-body">
+								<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Experimental Design: </label>
+								<span class="tomato-color font-weight-bold">{{ study.experimentalDesignType }}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Experimental Design Description: </label>
+								<span class="tomato-color font-weight-bold">{{ study.experimentalDesignDescription }}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Observation Unit Description: </label>
+								<span class="tomato-color font-weight-bold">{{ study.observationUnitsDescription}}</span>
+							</div>
+
+							</div>
+							<div class="card-footer text-muted">
+								
+							</div>
+						</div>
+                    </div>
+
+					{% if is_granted("study_edit", study) %}
+						<div class="col-xl-2 col-lg-1 mb-3">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="font-weight-bold tomato-color">Admin</h3>
+								</div>
+								{% if is_granted("ROLE_ADMIN") %}
+									<div class="card-body">
+										<div class="col-xl-12 col-lg-11 mb-1">
+										<label for="validationTooltip01">Status: </label>
+										<span class="tomato-color font-weight-bold">
+											<a href="{{ path('study_delete', {id: study.id}) }}" class="changeStatusLink" id="{{ study.id }}">
+												<span class="changeStatusSpan">
+													<input type="checkbox" {{ study.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+												</span>
+											</a>
+										</span>
+									</div>
+								{% endif %}
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Edit: </label>
+									<span class="tomato-color font-weight-bold">
+										<a href="{{ path('study_edit', {id: study.id}) }}">
+											<button class="btn btn-outline-warning">Edit</button>
+										</a>
+									</span>
+								</div>
+
+								</div>
+								<div class="card-footer text-muted">
+									
+								</div>
+							</div>
+						</div>
+					{% endif %}
+
+                </div>
+
+				{# <div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -124,7 +322,8 @@
 							</tr>
 						</tbody>
 					</table>
-				</div>
+				</div> #}
+
 			</div>
 		</div>
 		<!-- .row -->
@@ -218,7 +417,7 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
 	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
 	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>

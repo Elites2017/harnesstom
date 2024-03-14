@@ -71,32 +71,33 @@ class AccessionType extends AbstractType
             'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
         ])
         ;
-            $formModifier = function (FormInterface $form, Institute $institute = null) {
-                $maintainerNumbers = null === $institute ? [] : $this->myChoices($institute);
-                $form->add('maintainernumb', ChoiceType::class, [
-                    'choices' => $maintainerNumbers ?? null,
-                    'placeholder' => 'Please choose an accession number',
-                    'disabled' => $maintainerNumbers === []
-                ]);
-            };
+        //     $formModifier = function (FormInterface $form, Institute $institute = null) {
+        //         $maintainerNumbers = null === $institute ? [] : $this->myChoices($institute);
+        //         $form->add('maintainernumb', ChoiceType::class, [
+        //             'choices' => $maintainerNumbers ?? null,
+        //             'placeholder' => 'Please choose an accession number',
+        //             'disabled' => $maintainerNumbers === []
+        //         ]);
+        //     };
 
-        $builder
-            ->addEventListener(
-                FormEvents::PRE_SET_DATA,
-                function(FormEvent $event) use ($formModifier) {
-                $data  = $event->getData();
-                $formModifier($event->getForm(), $data->getInstcode());
-            });
+        // $builder
+        //     ->addEventListener(
+        //         FormEvents::PRE_SET_DATA,
+        //         function(FormEvent $event) use ($formModifier) {
+        //         $data  = $event->getData();
+        //         $formModifier($event->getForm(), $data->getInstcode());
+        //     });
 
-            $builder->get('instcode')->addEventListener(
-                FormEvents::POST_SUBMIT,
-                function(FormEvent $event) use ($formModifier) {
-                    $institute = $event->getForm()->getData();
-                    $formModifier($event->getForm()->getParent(), $institute);
-                }
-            );
+        //     $builder->get('instcode')->addEventListener(
+        //         FormEvents::POST_SUBMIT,
+        //         function(FormEvent $event) use ($formModifier) {
+        //             $institute = $event->getForm()->getData();
+        //             $formModifier($event->getForm()->getParent(), $institute);
+        //         }
+        //     );
         $builder
             ->add('accenumb')
+            ->add('maintainernumb')
             ->add('accename')
             ->add('puid')
             ->add('origmuni')
