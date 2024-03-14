@@ -120,13 +120,12 @@
 {% endblock %}
 
 {% block javascripts %}
-	{% include 'resource/list_js.html.twig' %}
-
 	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
 	<!-- DataTables JavaScript -->
 	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
 
+	{% include 'resource/list_js.html.twig' %}
 <script>
 		$(document).ready(function () {
 $('#datatable').DataTable();
