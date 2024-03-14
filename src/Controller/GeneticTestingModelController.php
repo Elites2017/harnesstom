@@ -55,6 +55,7 @@ class GeneticTestingModelController extends AbstractController
             $geneticTestingModel->setCreatedAt(new \DateTime());
             $entmanager->persist($geneticTestingModel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('genetic_testing_model_index'));
         }
 
@@ -89,6 +90,7 @@ class GeneticTestingModelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($geneticTestingModel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('genetic_testing_model_index'));
         }
 

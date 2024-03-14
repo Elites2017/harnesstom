@@ -47,6 +47,7 @@ class QTLEpistatisEffectController extends AbstractController
             $qtlEpistasisEffect->setCreatedAt(new \DateTime());
             $entmanager->persist($qtlEpistasisEffect);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('qtl_epistasis_effect_index'));
         }
 

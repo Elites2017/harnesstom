@@ -55,6 +55,7 @@ class AllelicEffectEstimatorController extends AbstractController
             $allelicEffectEstimator->setCreatedAt(new \DateTime());
             $entmanager->persist($allelicEffectEstimator);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('allelic_effect_estimator_index'));
         }
 
@@ -89,6 +90,7 @@ class AllelicEffectEstimatorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($allelicEffectEstimator);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('allelic_effect_estimator_index'));
         }
 

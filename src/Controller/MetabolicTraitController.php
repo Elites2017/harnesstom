@@ -52,6 +52,7 @@ class MetabolicTraitController extends AbstractController
             $metabolicTrait->setCreatedAt(new \DateTime());
             $entmanager->persist($metabolicTrait);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('metabolic_trait_index'));
         }
 
@@ -86,6 +87,7 @@ class MetabolicTraitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($metabolicTrait);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('metabolic_trait_index'));
         }
 

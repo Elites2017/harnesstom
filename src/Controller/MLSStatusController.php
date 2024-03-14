@@ -54,6 +54,7 @@ class MLSStatusController extends AbstractController
             $mlsStatus->setCreatedAt(new \DateTime());
             $entmanager->persist($mlsStatus);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('mls_status_index'));
         }
 
@@ -88,6 +89,7 @@ class MLSStatusController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($mlsStatus);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('mls_status_index'));
         }
 

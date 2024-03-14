@@ -63,6 +63,7 @@ class AccessionController extends AbstractController
             $accession->setCreatedAt(new \DateTime());
             $entmanager->persist($accession);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('accession_index'));
         }
 
@@ -98,6 +99,7 @@ class AccessionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($accession);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('accession_index'));
         }
 

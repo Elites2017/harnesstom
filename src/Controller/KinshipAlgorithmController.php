@@ -54,6 +54,7 @@ class KinshipAlgorithmController extends AbstractController
             $kinshipAlgorithm->setCreatedAt(new \DateTime());
             $entmanager->persist($kinshipAlgorithm);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('kinship_algorithm_index'));
         }
 
@@ -88,6 +89,7 @@ class KinshipAlgorithmController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($kinshipAlgorithm);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('kinship_algorithm_index'));
         }
 

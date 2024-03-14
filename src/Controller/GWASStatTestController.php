@@ -54,6 +54,7 @@ class GWASStatTestController extends AbstractController
             $gwasStatTest->setCreatedAt(new \DateTime());
             $entmanager->persist($gwasStatTest);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('gwas_stat_test_index'));
         }
 
@@ -88,6 +89,7 @@ class GWASStatTestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($gwasStatTest);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('gwas_stat_test_index'));
         }
 

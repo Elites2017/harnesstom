@@ -54,6 +54,7 @@ class SoftwareController extends AbstractController
             $software->setCreatedAt(new \DateTime());
             $entmanager->persist($software);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('software_index'));
         }
 
@@ -88,6 +89,7 @@ class SoftwareController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($software);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('software_index'));
         }
 

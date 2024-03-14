@@ -74,6 +74,7 @@ class GwasController extends AbstractController
             $gwas->setCreatedAt(new \DateTime());
             $entmanager->persist($gwas);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('gwas_index'));
         }
 
@@ -108,6 +109,7 @@ class GwasController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($gwas);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('gwas_index'));
         }
 

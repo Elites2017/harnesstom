@@ -52,6 +52,7 @@ class ExperimentalDesignController extends AbstractController
             $experimentalDesign->setCreatedAt(new \DateTime());
             $entmanager->persist($experimentalDesign);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('experimental_design_index'));
         }
 
@@ -86,6 +87,7 @@ class ExperimentalDesignController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($experimentalDesign);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('experimental_design_index'));
         }
 

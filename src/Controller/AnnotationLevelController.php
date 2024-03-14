@@ -54,6 +54,7 @@ class AnnotationLevelController extends AbstractController
             $annotationLevel->setCreatedAt(new \DateTime());
             $entmanager->persist($annotationLevel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('annotation_level_index'));
         }
 
@@ -88,6 +89,7 @@ class AnnotationLevelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($annotationLevel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('annotation_level_index'));
         }
 

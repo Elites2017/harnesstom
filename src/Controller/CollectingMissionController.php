@@ -53,6 +53,7 @@ class CollectingMissionController extends AbstractController
             $collectingMission->setCreatedAt(new \DateTime());
             $entmanager->persist($collectingMission);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('collecting_mission_index'));
         }
 
@@ -87,6 +88,7 @@ class CollectingMissionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($collectingMission);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('collecting_mission_index'));
         }
 

@@ -54,6 +54,7 @@ class UnitController extends AbstractController
             $unit->setCreatedAt(new \DateTime());
             $entmanager->persist($unit);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('unit_index'));
         }
 
@@ -88,6 +89,7 @@ class UnitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($unit);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('unit_index'));
         }
 

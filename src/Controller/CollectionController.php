@@ -53,6 +53,7 @@ class CollectionController extends AbstractController
             $collection->setCreatedAt(new \DateTime());
             $entmanager->persist($collection);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('collection_index'));
         }
 
@@ -87,6 +88,7 @@ class CollectionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($collection);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('collection_index'));
         }
 

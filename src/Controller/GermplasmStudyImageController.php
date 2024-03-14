@@ -69,6 +69,7 @@ class GermplasmStudyImageController extends AbstractController
             $germplasmStudyImage->setCreatedAt(new \DateTime());
             $entmanager->persist($germplasmStudyImage);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('germplasm_study_image_index'));
         }
 
@@ -103,6 +104,7 @@ class GermplasmStudyImageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($germplasmStudyImage);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('germplasm_study_image_index'));
         }
 

@@ -69,6 +69,7 @@ class SampleController extends AbstractController
             $sample->setCreatedAt(new \DateTime());
             $entmanager->persist($sample);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('sample_index'));
         }
 
@@ -104,6 +105,7 @@ class SampleController extends AbstractController
             $sample->setLastUpdated(new \DateTime());
             $entmanager->persist($sample);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('sample_index'));
         }
 
