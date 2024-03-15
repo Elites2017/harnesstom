@@ -43,17 +43,21 @@
                                 <table id="datatable" class="table table-hover text-nowrap" width="100%">
                                     <thead class="table-dark">
                                         <tr>
+                                        <th scope="col" data-orderable="false"></th>
                                         <th scope="col">Taxon</th>
                                         <th scope="col">Accession Number</th>
                                         <th scope="col">Accession Name</th>
                                         <th scope="col">Accession PUID</th>
+                                        <th scope="col" data-orderable="false"></th>
                                         <th scope="col">Country of Origin</th>
-                                        <th scope="col">Collecting Source</th>
+                                        <th scope="col" data-orderable="false"></th>
                                         <th scope="col">Biological Status</th>
+                                        <th scope="col" data-orderable="false"></th>
                                         <th scope="col">MLS Status</th>
+                                        <th scope="col" data-orderable="false"></th>
                                         <th scope="col">Maintaining Institute</th>
                                         <th scope="col">Maintainer Number</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col" data-orderable="false">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -75,7 +79,7 @@
 {% block javascripts %}
 	{% include 'resource/list_js.html.twig' %}
 	
-    <script>
+    {# <script>
         let data = [
                 {% for accession in accessions %}
                     {
@@ -104,7 +108,6 @@
                     { data: 'accename'},
                     { data: 'puid'},
                     { data: 'origcty'},
-                    { data: 'collsrc'},
                     { data: 'sampstat'},
                     { data: 'mlsStatus'},
                     { data: 'instcode'},
@@ -113,5 +116,114 @@
                 ]
             } );
         } );
+    </script> #}
+
+    <script>
+		let dataTableId = "#datatable";
+		let linkTxId = "";
+        let linkCtryId = "";
+        let linkBsId = "";
+        let linkMlsId = "";
+        let linkInstId = "";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{
+				"data": "taxon_id", "targets": 0,
+					"render": function(data, type, row, meta) {
+						linkTxId = data;
+						return null;
+					}
+				},
+                {
+				"data": "taxonid", "targets": 1,
+					"render": function(data, type, row, meta) {
+						let url = "https://www.ncbi.nlm.nih.gov/search/all/?term="+data; 
+						//url = url.replace("dataId", linkTxId);
+						let actionlink = "<a href="+ url +" target='_blank'>"+data+"</a>";
+						return actionlink;
+					}
+				},
+				{ "data": "accenumb", "targets": 2 },
+				{ "data": "accename", "targets": 3 },
+                { "data": "puid", "targets": 4 },
+				{
+				"data": "country_id", "targets": 5,
+					"render": function(data, type, row, meta) {
+						linkCtryId = data;
+						return null;
+					}
+				},
+				{
+				"data": "country_iso3", "targets": 6,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("country_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", linkCtryId);
+						let actionlink = "<a href="+ url +">"+data+"</a>";
+						return actionlink;
+					}
+				},
+                {
+				"data": "bs_id", "targets": 7,
+					"render": function(data, type, row, meta) {
+						linkBsId = data;
+						return null;
+					}
+				},
+				{
+				"data": "bs_name", "targets": 8,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("biological_status_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", linkBsId);
+						let actionlink = "<a href="+ url +">"+data+"</a>";
+						return actionlink;
+					}
+				},
+                {
+				"data": "mls_id", "targets": 9,
+					"render": function(data, type, row, meta) {
+						linkMlsId = data;
+						return null;
+					}
+				},
+				{
+				"data": "mls_name", "targets": 10,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("mls_status_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", linkMlsId);
+						let actionlink = "<a href="+ url +">"+data+"</a>";
+						return actionlink;
+					}
+				},
+                {
+				"data": "inst_id", "targets": 11,
+					"render": function(data, type, row, meta) {
+						linkInstId = data;
+						return null;
+					}
+				},
+				{
+				"data": "inst_instcode", "targets": 12,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("institute_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", linkInstId);
+						let actionlink = "<a href="+ url +">"+data+"</a>";
+						return actionlink;
+					}
+				},
+                { "data": "maintainernumb", "targets": 13 },
+				{
+				"data": "id", "targets": 14,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("accession_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('accession_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
     </script>
 {% endblock %}
+

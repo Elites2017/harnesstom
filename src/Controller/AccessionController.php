@@ -16,6 +16,7 @@ use App\Form\AccessionUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\AccessionRepository;
 use App\Repository\CountryRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpParser\Node\Stmt\TryCatch;
@@ -44,6 +45,15 @@ class AccessionController extends AbstractController
             'accessions' => $accessions,
         ];
         return $this->render('accession/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, AccessionRepository $accessionRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($accessionRepo, $request);
+        return $datatableRes;
     }
 
     /**
