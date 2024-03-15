@@ -78,10 +78,14 @@
 				{
 				"data": "country_iso3", "targets": 4,
 					"render": function(data, type, row, meta) {
-						let url = '{{ path("country_details", {'id': 'dataId'}) }}'; 
-						url = url.replace("dataId", linkId);
-						let actionlink = "<a href="+ url +">"+data+"</a>";
-						return actionlink;
+						if (data) {
+							let url = '{{ path("country_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
 					}
 				},
 				{
