@@ -68,10 +68,14 @@
 				{
 				"data": "inst_instcode", "targets": 12,
 					"render": function(data, type, row, meta) {
-						let url = '{{ path("institute_details", {'id': 'dataId'}) }}'; 
-						url = url.replace("dataId", linkInstId);
-						let actionlink = "<a href="+ url +">"+data+"</a>";
-						return actionlink;
+						if (data) {
+							let url = '{{ path("institute_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkInstId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
 					}
 				},
                 { "data": "maintainerNumb", "targets": 3 },
@@ -85,10 +89,14 @@
 				{
 				"data": "prog_abbreviation", "targets": 12,
 					"render": function(data, type, row, meta) {
-						let url = '{{ path("program_details", {'id': 'dataId'}) }}'; 
-						url = url.replace("dataId", linkProgId);
-						let actionlink = "<a href="+ url +">"+data+"</a>";
-						return actionlink;
+						if (data) {
+							let url = '{{ path("program_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkProgId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
 					}
 				},
 				{
