@@ -12,6 +12,7 @@ use App\Form\GermplasmStudyImageType;
 use App\Form\GermplasmStudyImageUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\GermplasmStudyImageRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,6 +51,15 @@ class GermplasmStudyImageController extends AbstractController
             'germplasmStudyImages' => $germplasmStudyImages
         ];
         return $this->render('germplasm_study_image/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, GermplasmStudyImageRepository $germplasmStudyImageRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($germplasmStudyImageRepo, $request);
+        return $datatableRes;
     }
 
     /**
