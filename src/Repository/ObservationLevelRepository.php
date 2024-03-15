@@ -79,6 +79,148 @@ class ObservationLevelRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function totalRows() {
+        return $this->createQueryBuilder('tab')
+            ->select('count(tab.id)')
+            ->where('tab.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    // for bootstrap datatable server-side processing
+    public function getObjectsList($start, $length, $orders, $search, $columns)
+    {
+        // Create Main Query
+        $query = $this->createQueryBuilder('obsL')
+            ->select("
+                germ.id as germ_id, germ.germplasmID, obsL.id, obsL.unitname, obsL.name, obsL.blockNumber, obsL.subBlockNumber, obsL.plotNumber,
+                obsL.plantNumber, obsL.replicate, tr.id as tr_id, tr.abbreviation as tr_abbreviation, st.id as st_id, st.abbreviation as st_abbreviation"
+                )
+            ->join('App\Entity\Germplasm', 'germ')
+            ->join('App\Entity\Trial', 'tr')
+            ->join('App\Entity\Study', 'st')
+            ->where('germ.isActive = 1')
+            ->andWhere('obsL.germaplasm = germ.id')
+            ->andWhere('obsL.study = st.id')
+            ->andWhere('st.trial = tr.id');
+        
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('obsL');
+        $countQuery->select('COUNT(obsL.id)')
+            ->join('App\Entity\Germplasm', 'germ')
+            ->join('App\Entity\Trial', 'tr')
+            ->join('App\Entity\Study', 'st')
+            ->where('germ.isActive = 1')
+            ->andWhere('obsL.germaplasm = germ.id')
+            ->andWhere('obsL.study = st.id')
+            ->andWhere('st.trial = tr.id');
+        
+        if ($search["filter"] != null) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    "germ.germplasmID like :filter",
+                    "obsL.unitname like :filter",
+                    "obsL.name like :filter",
+                    "obsL.blockNumber like :filter",
+                    "obsL.subBlockNumber like :filter",
+                    "obsL.plotNumber like :filter",
+                    "obsL.plantNumber like :filter",
+                    "obsL.replicate like :filter",
+                    "tr.abbreviation like :filter",
+                    "st.abbreviation like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+
+            $countQuery->andWhere(
+                $countQuery->expr()->orX(
+                    "germ.germplasmID like :filter",
+                    "obsL.unitname like :filter",
+                    "obsL.name like :filter",
+                    "obsL.blockNumber like :filter",
+                    "obsL.subBlockNumber like :filter",
+                    "obsL.plotNumber like :filter",
+                    "obsL.plantNumber like :filter",
+                    "obsL.replicate like :filter",
+                    "tr.abbreviation like :filter",
+                    "st.abbreviation like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+        }
+                
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+        
+        // Order
+        foreach ($orders as $key => $order)
+        {
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+                if ($order['name'] == 'germplasmID') {
+                    $orderColumn = 'germ.germplasmID';
+                }
+
+                if ($order['name'] == 'unitname') {
+                    $orderColumn = 'obsL.unitname';
+                }
+
+                if ($order['name'] == 'name') {
+                    $orderColumn = 'obsL.name';
+                }
+
+                if ($order['name'] == 'blockNumber') {
+                    $orderColumn = 'obsL.blockNumber';
+                }
+
+                if ($order['name'] == 'subBlockNumber') {
+                    $orderColumn = 'obsL.subBlockNumber';
+                }
+
+                if ($order['name'] == 'plotNumber') {
+                    $orderColumn = 'obsL.plotNumber';
+                }
+
+                if ($order['name'] == 'plantNumber') {
+                    $orderColumn = 'obsL.plantNumber';
+                }
+
+                if ($order['name'] == 'replicate') {
+                    $orderColumn = 'obsL.replicate';
+                }
+
+                if ($order['name'] == 'tr_abbreviation') {
+                    $orderColumn = 'tr.abbreviation';
+                }
+
+                if ($order['name'] == 'st_abbreviation') {
+                    $orderColumn = 'st.abbreviation';
+                }
+
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+        
+        // Execute
+        $results = $query->getQuery()->getArrayResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+        
+        // data returned
+        $rawDatatable = [];
+        $rawDatatable = [
+            "results" => $results,
+            "countResult" => $countResult
+        ];
+        return $rawDatatable;
+    }
+
     // /**
     //  * @return ObservationLevel[] Returns an array of ObservationLevel objects
     //  */

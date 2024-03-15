@@ -29,6 +29,7 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Germplasm</th>
 									<th scope="col">Unit Name</th>
 									<th scope="col">Observation Level</th>
@@ -37,9 +38,11 @@
 									<th scope="col">Plot Number</th>
 									<th scope="col">Plant Number</th>
 									<th scope="col">Replicate</th>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Trial</th>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Study</th>
-									<th scope="col">Action</th>
+									<th scope="col" data-orderable="false">Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -59,43 +62,94 @@
 {% block javascripts %}
 	{% include 'resource/list_js.html.twig' %}
 
-<script>
-	let data = [
-			{% for observationLevel in observationLevels %}
+	<script>
+		let dataTableId = "#datatable";
+		let linkGermId = "";
+		let linkTrId = "";
+		let linkStId = "";
+        let colsDef = [
+				// These are the column name variables that will be sent to the server
 				{
-				germaplasm: "{% if observationLevel.germaplasm %}<a href={{ path('germplasm_details', {id: observationLevel.germaplasm.id}) }}>{{ observationLevel.germaplasm }}</a>{% endif %}",
-				unitname: "{{ observationLevel.unitname }}",
-				name: "{{ observationLevel.name }}",
-				blockNumber: "{{ observationLevel.blockNumber }}",
-				subBlockNumber: "{{ observationLevel.subBlockNumber }}",
-				plotNumber: "{{ observationLevel.plotNumber }}",
-				plantNumber: "{{ observationLevel.plantNumber }}",
-				replicate: "{{ observationLevel.replicate }}",
-				trial: "{% if observationLevel.study.trial %}<a href={{ path('trial_details', {id: observationLevel.study.trial.id}) }}>{{ observationLevel.study.trial.abbreviation }}</a>{% endif %}",
-				study: "{% if observationLevel.study %}<a href={{ path('study_details', {id: observationLevel.study.id}) }}>{{ observationLevel.study.abbreviation }}</a>{% endif %}",
-				action: "<a href={{ path('observation_level_details', {id: observationLevel.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
+				"data": "germ_id", "targets": 0,
+					"render": function(data, type, row, meta) {
+						linkGermId = data;
+						return null;
+					}
 				},
-			{% endfor %}
-		];
-    $(document).ready(function() {
-		$('#datatable').DataTable( {
-            "bDestroy": true,
-            "pageLength": 25,
-            data: data,
-            columns: [
-                { data: 'germaplasm'},
-                { data: 'unitname'},
-                { data: 'name'},
-				{ data: 'blockNumber'},
-                { data: 'subBlockNumber'},
-				{ data: 'plotNumber'},
-				{ data: 'plantNumber'},
-				{ data: 'replicate'},
-				{ data: 'trial'},
-				{ data: 'study'},
-				{ data: 'action'}
-            ]
-        } );
-    } );
-</script>
+				{
+				"data": "germplasmID", "targets": 1,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("germplasm_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkTrId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{ "data": "unitname", "targets": 2 },
+				{ "data": "name", "targets": 3 },
+				{ "data": "blockNumber", "targets": 4 },
+				{ "data": "subBlockNumber", "targets": 5 },
+				{ "data": "plotNumber", "targets": 6 },
+				{ "data": "plantNumber", "targets": 7 },
+				{ "data": "replicate", "targets": 8 },
+				{
+				"data": "tr_id", "targets": 9,
+					"render": function(data, type, row, meta) {
+						linkTrId = data;
+						return null;
+					}
+				},
+				{
+				"data": "tr_abbreviation", "targets": 10,
+					"render": function(data, type, row, meta) {
+						if  (data) {
+							let url = '{{ path("trial_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkTrId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "st_id", "targets": 11,
+					"render": function(data, type, row, meta) {
+						linkStId = data;
+						return null;
+					}
+				},
+				{
+				"data": "st_abbreviation", "targets": 12,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("study_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkStId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "id", "targets": 13,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("observation_level_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('observation_level_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
+    </script>
 {% endblock %}

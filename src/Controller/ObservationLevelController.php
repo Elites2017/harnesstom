@@ -9,6 +9,7 @@ use App\Form\ObservationLevelType;
 use App\Form\ObservationLevelUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\ObservationLevelRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,6 +48,15 @@ class ObservationLevelController extends AbstractController
             'observationLevels' => $observationLevels
         ];
         return $this->render('observation_level/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, ObservationLevelRepository $observationLevelRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($observationLevelRepo, $request);
+        return $datatableRes;
     }
 
     /**
