@@ -137,10 +137,13 @@
                 {
 				"data": "taxonid", "targets": 1,
 					"render": function(data, type, row, meta) {
-						let url = "https://www.ncbi.nlm.nih.gov/search/all/?term="+data; 
-						//url = url.replace("dataId", linkTxId);
-						let actionlink = "<a href="+ url +" target='_blank'>"+data+"</a>";
-						return actionlink;
+						if (data) {
+                            let url = "https://www.ncbi.nlm.nih.gov/search/all/?term="+data; 
+                            let actionlink = "<a href="+ url +" target='_blank'>"+data+"</a>";
+                            return actionlink;
+                        } else {
+                            return null;
+                        }
 					}
 				},
 				{ "data": "accenumb", "targets": 2 },
@@ -156,10 +159,14 @@
 				{
 				"data": "country_iso3", "targets": 6,
 					"render": function(data, type, row, meta) {
-						let url = '{{ path("country_details", {'id': 'dataId'}) }}'; 
-						url = url.replace("dataId", linkCtryId);
-						let actionlink = "<a href="+ url +">"+data+"</a>";
-						return actionlink;
+						if (data) {
+                            let url = '{{ path("country_details", {'id': 'dataId'}) }}'; 
+                            url = url.replace("dataId", linkCtryId);
+                            let actionlink = "<a href="+ url +">"+data+"</a>";
+                            return actionlink;
+                        } else {
+                            return null;
+                        }
 					}
 				},
                 {
@@ -172,10 +179,14 @@
 				{
 				"data": "bs_name", "targets": 8,
 					"render": function(data, type, row, meta) {
-						let url = '{{ path("biological_status_details", {'id': 'dataId'}) }}'; 
-						url = url.replace("dataId", linkBsId);
-						let actionlink = "<a href="+ url +">"+data+"</a>";
-						return actionlink;
+						if (data) {
+                            let url = '{{ path("biological_status_details", {'id': 'dataId'}) }}'; 
+                            url = url.replace("dataId", linkBsId);
+                            let actionlink = "<a href="+ url +">"+data+"</a>";
+                            return actionlink;
+                        } else {
+                            return null;
+                        }
 					}
 				},
                 {
@@ -188,10 +199,14 @@
 				{
 				"data": "mls_name", "targets": 10,
 					"render": function(data, type, row, meta) {
-						let url = '{{ path("mls_status_details", {'id': 'dataId'}) }}'; 
-						url = url.replace("dataId", linkMlsId);
-						let actionlink = "<a href="+ url +">"+data+"</a>";
-						return actionlink;
+						if (data) {
+                            let url = '{{ path("mls_status_details", {'id': 'dataId'}) }}'; 
+                            url = url.replace("dataId", linkMlsId);
+                            let actionlink = "<a href="+ url +">"+data+"</a>";
+                            return actionlink;
+                        } else {
+                            return null;
+                        }
 					}
 				},
                 {
@@ -204,10 +219,14 @@
 				{
 				"data": "inst_instcode", "targets": 12,
 					"render": function(data, type, row, meta) {
-						let url = '{{ path("institute_details", {'id': 'dataId'}) }}'; 
-						url = url.replace("dataId", linkInstId);
-						let actionlink = "<a href="+ url +">"+data+"</a>";
-						return actionlink;
+						if (data) {
+                            let url = '{{ path("institute_details", {'id': 'dataId'}) }}'; 
+                            url = url.replace("dataId", linkInstId);
+                            let actionlink = "<a href="+ url +">"+data+"</a>";
+                            return actionlink;
+                        } else {
+                            return null;
+                        }
 					}
 				},
                 { "data": "maintainernumb", "targets": 13 },
