@@ -10,6 +10,7 @@ use App\Form\GermplasmType;
 use App\Form\GermplasmUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\GermplasmRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Integer;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -39,6 +40,14 @@ class GermplasmController extends AbstractController
         return $this->render('germplasm/index.html.twig', $context);
     }
 
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, GermplasmRepository $germplasmRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($germplasmRepo, $request);
+        return $datatableRes;
+    }
 
     public function findAccessionMaintainerNumb($numb = 1){
         $accessionRepo = $this->getDoctrine()->getRepository(Accession::class);

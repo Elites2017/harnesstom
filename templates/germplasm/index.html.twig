@@ -26,10 +26,12 @@
                             <thead class="table-dark">
                                 <tr>
                                 <th scope="col">Germplasm ID</th>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">INSTCODE</th>
                                 <th scope="col">Maintainer Number</th>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Program</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" data-orderable="false">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,30 +52,57 @@
     {% include 'resource/list_js.html.twig' %}
 
     <script>
-        let data = [
-                {% for germplasm in germplasms %}
-                    {
-                    germplasmID: "{{ germplasm.germplasmID }}</a>",
-                    instcode: "{% if germplasm.maintainerInstituteCode %}<a href={{ path('institute_details', {id: germplasm.maintainerInstituteCode.id}) }}>{{ germplasm.maintainerInstituteCode }}</a>{% endif %}",
-                    maintainerNumb: "{% if germplasm.accession %}<a href={{ path('accession_details', {id: germplasm.accession.id}) }}>{{ germplasm.maintainerNumb }}</a>{% endif %}",
-                    progAbbreviation: "{% if germplasm.program %}<a href={{ path('program_details', {id: germplasm.program.id}) }}>{{ germplasm.program.abbreviation }}</a>{% endif %}",
-                    action: "<a href={{ path('germplasm_details', {id: germplasm.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
-                    },
-                {% endfor %}
-            ];
-        $(document).ready(function() {
-            $('#datatable').DataTable( {
-                "bDestroy": true,
-                "pageLength": 25,
-                data: data,
-                columns: [
-                    { data: 'germplasmID'},
-                    { data: 'instcode'},
-                    { data: 'maintainerNumb'},
-                    { data: 'progAbbreviation'},
-                    { data: 'action'}
-                ]
-            } );
-        } );
+		let dataTableId = "#datatable";
+		let linkInstId = "";
+		let linkProgId = "";
+        let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{ "data": "germplasmID", "targets": 2 },
+                {
+				"data": "inst_id", "targets": 11,
+					"render": function(data, type, row, meta) {
+						linkInstId = data;
+						return null;
+					}
+				},
+				{
+				"data": "inst_instcode", "targets": 12,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("institute_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", linkInstId);
+						let actionlink = "<a href="+ url +">"+data+"</a>";
+						return actionlink;
+					}
+				},
+                { "data": "maintainerNumb", "targets": 3 },
+                {
+				"data": "prog_id", "targets": 11,
+					"render": function(data, type, row, meta) {
+						linkProgId = data;
+						return null;
+					}
+				},
+				{
+				"data": "prog_abbreviation", "targets": 12,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("program_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", linkProgId);
+						let actionlink = "<a href="+ url +">"+data+"</a>";
+						return actionlink;
+					}
+				},
+				{
+				"data": "id", "targets": 14,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("germplasm_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('germplasm_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
     </script>
 {% endblock %}
