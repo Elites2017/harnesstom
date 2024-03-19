@@ -103,18 +103,16 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('gsti')
             ->select("
                 gsti.id, germ.id as germ_id, germ.germplasmID as germplasmID, st.id as study_id, st.abbreviation as study_abbreviation, gsti.description,
-                ft.id as factor_id, ft.name as factor_name, ds.id as dev_stage_id, ds.name as dev_stage_name, ae.id as ae_id, ae.name as ae_name, gsti.filename"
+                ae.id as ae_id, ae.name as ae_name, gsti.filename"
                 )
             ->join('App\Entity\Germplasm', 'germ')
             ->join('App\Entity\Study', 'st')
-            ->join('App\Entity\FactorType', 'ft')
-            ->join('App\Entity\DevelopmentalStage', 'ds')
             ->join('App\Entity\AnatomicalEntity', 'ae')
             ->where('gsti.isActive = 1')
             ->andWhere('gsti.GermplasmID = germ.id')
             ->andWhere('gsti.StudyID = st.id')
-            ->andWhere('gsti.factor = ft.id')
-            ->andWhere('gsti.developmentStage = ds.id')
+            // ->andWhere('gsti.factor = ft.id')
+            // ->andWhere('gsti.developmentStage = ds.id')
             ->andWhere('gsti.plantAnatomicalEntity = ae.id');
         
         // Create Count Query
@@ -122,14 +120,12 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
         $countQuery->select('COUNT(gsti.id)')
             ->join('App\Entity\Germplasm', 'germ')
             ->join('App\Entity\Study', 'st')
-            ->join('App\Entity\FactorType', 'ft')
-            ->join('App\Entity\DevelopmentalStage', 'ds')
             ->join('App\Entity\AnatomicalEntity', 'ae')
             ->where('gsti.isActive = 1')
             ->andWhere('gsti.GermplasmID = germ.id')
             ->andWhere('gsti.StudyID = st.id')
-            ->andWhere('gsti.factor = ft.id')
-            ->andWhere('gsti.developmentStage = ds.id')
+            // ->andWhere('gsti.factor = ft.id')
+            // ->andWhere('gsti.developmentStage = ds.id')
             ->andWhere('gsti.plantAnatomicalEntity = ae.id');
         
         if ($search["filter"] != null) {
@@ -137,8 +133,9 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
                 $query->expr()->orX(
                     "germ.germplasmID like :filter",
                     "st.abbreviation like :filter",
-                    "ft.name like :filter",
-                    "ds.name like :filter",
+                    "gsti.description like :filter",
+                    // "ft.name like :filter",
+                    // "ds.name like :filter",
                     "ae.name like :filter"
                     )
             )
@@ -149,8 +146,9 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
                 $countQuery->expr()->orX(
                     "germ.germplasmID like :filter",
                     "st.abbreviation like :filter",
-                    "ft.name like :filter",
-                    "ds.name like :filter",
+                    "gsti.description like :filter",
+                    // "ft.name like :filter",
+                    // "ds.name like :filter",
                     "ae.name like :filter"
                     )
             )
@@ -176,13 +174,13 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
                     $orderColumn = 'st.abbreviation';
                 }
 
-                if ($order['name'] == 'factor_name') {
-                    $orderColumn = 'ft.name';
-                }
+                // if ($order['name'] == 'factor_name') {
+                //     $orderColumn = 'ft.name';
+                // }
 
-                if ($order['name'] == 'dev_stage_name') {
-                    $orderColumn = 'ds.name';
-                }
+                // if ($order['name'] == 'dev_stage_name') {
+                //     $orderColumn = 'ds.name';
+                // }
 
                 if ($order['name'] == 'ae_name') {
                     $orderColumn = 'ae.name';

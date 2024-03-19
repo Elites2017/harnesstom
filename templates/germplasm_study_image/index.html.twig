@@ -30,10 +30,10 @@
                                 <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Study ID</th>
                                 <th scope="col" data-orderable="false">Description</th>
-                                <th scope="col" data-orderable="false"></th>
+                                {# <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Factor Type</th>
                                 <th scope="col" data-orderable="false"></th>
-                                <th scope="col">Development Stage</th>
+                                <th scope="col">Development Stage</th> #}
                                 <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Plant Anatomical Entity</th>
                                 <th scope="col" data-orderable="false">Image(s)</th>
@@ -108,7 +108,7 @@
 					}
 				},
 				{ "data": "description", "targets": 4 },
-                {
+                {# {
 				"data": "factor_id", "targets": 5,
 					"render": function(data, type, row, meta) {
 						linkFtId = data;
@@ -147,7 +147,7 @@
 							return null;
 						}
 					}
-				},
+				}, #}
                 {
 				"data": "ae_id", "targets": 9,
 					"render": function(data, type, row, meta) {
