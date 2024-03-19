@@ -56,7 +56,7 @@
 
 {% block javascripts %}
     {% include 'resource/list_js.html.twig' %}
-
+               
 	<script>
 		let dataTableId = "#datatable";
 		let linkId = "";
@@ -95,7 +95,7 @@
 					}
 				},
                 {
-				"data": "study_name", "targets": 3,
+				"data": "study_abbreviation", "targets": 3,
 					"render": function(data, type, row, meta) {
 						if (data) {
 							let url = '{{ path("study_details", {'id': 'dataId'}) }}'; 
