@@ -106,7 +106,7 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
             ->andWhere('gsti.StudyID = st.id')
             ->andWhere('gsti.factor = ft.id')
             ->andWhere('gsti.developmentStage = ds.id')
-            ->andWhere('gsti.pnatomicalEntity = ae.id');
+            ->andWhere('gsti.plantAnatomicalEntity = ae.id');
         
         // Create Count Query
         $countQuery = $this->createQueryBuilder('obsL');
@@ -121,7 +121,7 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
             ->andWhere('gsti.StudyID = st.id')
             ->andWhere('gsti.factor = ft.id')
             ->andWhere('gsti.developmentStage = ds.id')
-            ->andWhere('gsti.pnatomicalEntity = ae.id');
+            ->andWhere('gsti.plantAnatomicalEntity = ae.id');
         
         if ($search["filter"] != null) {
             $query->andWhere(
