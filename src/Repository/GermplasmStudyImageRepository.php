@@ -31,7 +31,7 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
             ->from('App\Entity\Study', 'st')    
             ->from('App\Entity\Trial', 'tr')
             ->Where('gmpStImg.isActive = 1')
-            ->Where('gmpStImg.study = st.id')
+            ->Where('gmpStImg.StudyID = st.id')
             ->andWhere('st.trial = tr.id')
             ->andWhere('tr.publicReleaseDate <= :currentDate')
             ->setParameter(':currentDate', $currentDate)
@@ -46,7 +46,7 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
                 $query->orWhere(
                         $query->expr()->andX(
                             'tr.createdBy = :user',
-                            'gmpStImg.study = st.id',
+                            'gmpStImg.StudyID = st.id',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate'))
                         ->setParameter(':user', $user->getId())
@@ -59,7 +59,7 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
                 $query->from('App\Entity\SharedWith', 'sw')
                     ->orWhere(
                         $query->expr()->andX(
-                            'gmpStImg.study = st.id',
+                            'gmpStImg.StudyID = st.id',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate',
                             'sw.user = :user',
@@ -68,7 +68,7 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
                     ->orWhere(
                         $query->expr()->andX(
                             'tr.createdBy = :user',
-                            'gmpStImg.study = st.id',
+                            'gmpStImg.StudyID = st.id',
                             'st.trial = tr.id',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate'))
@@ -88,141 +88,116 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
     }
 
     // for bootstrap datatable server-side processing
-    // public function getObjectsList($start, $length, $orders, $search, $columns)
-    // {
-    //     // Create Main Query
-    //     $query = $this->createQueryBuilder('gsti')
-    //         ->select("
-    //             germ.id as germ_id, germ.germplasmID, obsL.id, obsL.unitname, obsL.name, obsL.blockNumber, obsL.subBlockNumber, obsL.plotNumber,
-    //             obsL.plantNumber, obsL.replicate, tr.id as tr_id, tr.abbreviation as tr_abbreviation, st.id as st_id, st.abbreviation as st_abbreviation"
-    //             )
-    //         ->join('App\Entity\Germplasm', 'germ')
-    //         ->join('App\Entity\Study', 'st')
-    //         ->join('App\Entity\Trial', 'tr')
-    //         ->join('App\Entity\Trial', 'tr')
-    //         ->join('App\Entity\Trial', 'tr')
-    //         ->join('App\Entity\Trial', 'tr')
-    //         ->where('germ.isActive = 1')
-    //         ->andWhere('obsL.germaplasm = germ.id')
-    //         ->andWhere('obsL.study = st.id')
-    //         ->andWhere('st.trial = tr.id');
+    public function getObjectsList($start, $length, $orders, $search, $columns)
+    {
+        // Create Main Query
+        $query = $this->createQueryBuilder('gsti')
+            ->select("
+                gsti.id, germ.id as germ_id, germ.germplasmID as germplasmID, st.id as study_id, st.abbreviation as study_abbreviation, description,
+                ft.id as factor_id, ft.name as factor_name, ds.id as dev_stage_id, ds.name as dev_stage_name, ae.id as ae_id, ae.name as ae_name, filename"
+                )
+            ->join('App\Entity\Germplasm', 'germ')
+            ->join('App\Entity\Study', 'st')
+            ->join('App\Entity\FactorType', 'ft')
+            ->join('App\Entity\DevelomentalStage', 'ds')
+            ->join('App\Entity\AnatomicalEntity', 'ae')
+            ->where('gsti.isActive = 1')
+            ->andWhere('gsti.GermplasmID = germ.id')
+            ->andWhere('gsti.StudyID = st.id')
+            ->andWhere('gsti.factor = ft.id')
+            ->andWhere('gsti.developmentStage = ds.id')
+            ->andWhere('gsti.pnatomicalEntity = ae.id');
         
-    //     // Create Count Query
-    //     $countQuery = $this->createQueryBuilder('obsL');
-    //     $countQuery->select('COUNT(obsL.id)')
-    //         ->join('App\Entity\Germplasm', 'germ')
-    //         ->join('App\Entity\Trial', 'tr')
-    //         ->join('App\Entity\Study', 'st')
-    //         ->where('germ.isActive = 1')
-    //         ->andWhere('obsL.germaplasm = germ.id')
-    //         ->andWhere('obsL.study = st.id')
-    //         ->andWhere('st.trial = tr.id');
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('obsL');
+        $countQuery->select('COUNT(obsL.id)')
+            ->join('App\Entity\Germplasm', 'germ')
+            ->join('App\Entity\Study', 'st')
+            ->join('App\Entity\FactorType', 'ft')
+            ->join('App\Entity\DevelomentalStage', 'ds')
+            ->join('App\Entity\AnatomicalEntity', 'ae')
+            ->where('gsti.isActive = 1')
+            ->andWhere('gsti.GermplasmID = germ.id')
+            ->andWhere('gsti.StudyID = st.id')
+            ->andWhere('gsti.factor = ft.id')
+            ->andWhere('gsti.developmentStage = ds.id')
+            ->andWhere('gsti.pnatomicalEntity = ae.id');
         
-    //     if ($search["filter"] != null) {
-    //         $query->andWhere(
-    //             $query->expr()->orX(
-    //                 "germ.germplasmID like :filter",
-    //                 "obsL.unitname like :filter",
-    //                 "obsL.name like :filter",
-    //                 "obsL.blockNumber like :filter",
-    //                 "obsL.subBlockNumber like :filter",
-    //                 "obsL.plotNumber like :filter",
-    //                 "obsL.plantNumber like :filter",
-    //                 "obsL.replicate like :filter",
-    //                 "tr.abbreviation like :filter",
-    //                 "st.abbreviation like :filter"
-    //                 )
-    //         )
-    //         ->setParameter('filter', "%".$search['filter']."%")
-    //         ;
+        if ($search["filter"] != null) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    "germ.germplasmID like :filter",
+                    "st.abbreviation like :filter",
+                    "ft.name like :filter",
+                    "ds.name like :filter",
+                    "ae.name like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
 
-    //         $countQuery->andWhere(
-    //             $countQuery->expr()->orX(
-    //                 "germ.germplasmID like :filter",
-    //                 "obsL.unitname like :filter",
-    //                 "obsL.name like :filter",
-    //                 "obsL.blockNumber like :filter",
-    //                 "obsL.subBlockNumber like :filter",
-    //                 "obsL.plotNumber like :filter",
-    //                 "obsL.plantNumber like :filter",
-    //                 "obsL.replicate like :filter",
-    //                 "tr.abbreviation like :filter",
-    //                 "st.abbreviation like :filter"
-    //                 )
-    //         )
-    //         ->setParameter('filter', "%".$search['filter']."%")
-    //         ;
-    //     }
+            $countQuery->andWhere(
+                $countQuery->expr()->orX(
+                    "germ.germplasmID like :filter",
+                    "st.abbreviation like :filter",
+                    "ft.name like :filter",
+                    "ds.name like :filter",
+                    "ae.name like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+        }
                 
-    //     // Limit
-    //     $query->setFirstResult($start)->setMaxResults($length);
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
         
-    //     // Order
-    //     foreach ($orders as $key => $order)
-    //     {
-    //         // $order['name'] is the name of the order column as sent by the JS
-    //         if ($order['name'] != '')
-    //         {
-    //             $orderColumn = null;
-    //             if ($order['name'] == 'germplasmID') {
-    //                 $orderColumn = 'germ.germplasmID';
-    //             }
+        // Order
+        foreach ($orders as $key => $order)
+        {
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+                if ($order['name'] == 'germplasmID') {
+                    $orderColumn = 'germ.germplasmID';
+                }
 
-    //             if ($order['name'] == 'unitname') {
-    //                 $orderColumn = 'obsL.unitname';
-    //             }
+                if ($order['name'] == 'study_abbreviation') {
+                    $orderColumn = 'st.abbreviation';
+                }
 
-    //             if ($order['name'] == 'name') {
-    //                 $orderColumn = 'obsL.name';
-    //             }
+                if ($order['name'] == 'factor_name') {
+                    $orderColumn = 'ft.name';
+                }
 
-    //             if ($order['name'] == 'blockNumber') {
-    //                 $orderColumn = 'obsL.blockNumber';
-    //             }
+                if ($order['name'] == 'dev_stage_name') {
+                    $orderColumn = 'ds.name';
+                }
 
-    //             if ($order['name'] == 'subBlockNumber') {
-    //                 $orderColumn = 'obsL.subBlockNumber';
-    //             }
+                if ($order['name'] == 'ae_name') {
+                    $orderColumn = 'ae.name';
+                }
 
-    //             if ($order['name'] == 'plotNumber') {
-    //                 $orderColumn = 'obsL.plotNumber';
-    //             }
-
-    //             if ($order['name'] == 'plantNumber') {
-    //                 $orderColumn = 'obsL.plantNumber';
-    //             }
-
-    //             if ($order['name'] == 'replicate') {
-    //                 $orderColumn = 'obsL.replicate';
-    //             }
-
-    //             if ($order['name'] == 'tr_abbreviation') {
-    //                 $orderColumn = 'tr.abbreviation';
-    //             }
-
-    //             if ($order['name'] == 'st_abbreviation') {
-    //                 $orderColumn = 'st.abbreviation';
-    //             }
-
-    //             if ($orderColumn !== null)
-    //             {
-    //                 $query->orderBy($orderColumn, $order['dir']);
-    //             }
-    //         }
-    //     }
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
         
-    //     // Execute
-    //     $results = $query->getQuery()->getArrayResult();
-    //     $countResult = $countQuery->getQuery()->getSingleScalarResult();
+        // Execute
+        $results = $query->getQuery()->getArrayResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
         
-    //     // data returned
-    //     $rawDatatable = [];
-    //     $rawDatatable = [
-    //         "results" => $results,
-    //         "countResult" => $countResult
-    //     ];
-    //     return $rawDatatable;
-    // }
+        // data returned
+        $rawDatatable = [];
+        $rawDatatable = [
+            "results" => $results,
+            "countResult" => $countResult
+        ];
+        return $rawDatatable;
+    }
 
     // /**
     //  * @return GermplasmStudyImage[] Returns an array of GermplasmStudyImage objects

@@ -25,14 +25,19 @@
                         <table id="datatable" class="table table-hover text-nowrap" width="100%">
                             <thead class="table-dark">
                                 <tr>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Germplasm ID</th>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Study ID</th>
-                                <th scope="col">Description</th>
+                                <th scope="col" data-orderable="false">Description</th>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Factor Type</th>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Development Stage</th>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Plant Anatomical Entity</th>
-                                <th scope="col">Image(s)</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" data-orderable="false">Image(s)</th>
+                                <th scope="col" data-orderable="false">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,38 +57,131 @@
 {% block javascripts %}
     {% include 'resource/list_js.html.twig' %}
 
-    <script>
-        let data = [
-                {% for germplasmStudyImage in germplasmStudyImages %}
-                    {
-                    germplasmID: "{{ germplasmStudyImage.germplasmID }}</a>",
-                    StudyID: "{% if germplasmStudyImage.StudyID %}<a href={{ path('study_details', {id: germplasmStudyImage.StudyID.id}) }}>{{ germplasmStudyImage.StudyID.abbreviation }}</a>{% endif %}",
-                    description: "{{ germplasmStudyImage.description }}</a>",
-                    factor: "{% if germplasmStudyImage.factor %}<a href={{ path('factor_type_details', {id: germplasmStudyImage.factor.id}) }}>{{ germplasmStudyImage.factor }}</a>{% endif %}",
-                    developmentStage: "{% if germplasmStudyImage.developmentStage %}<a href={{ path('developmental_stage_details', {id: germplasmStudyImage.developmentStage.id}) }}>{{ germplasmStudyImage.developmentStage }}</a>{% endif %}",
-                    plantAnatomicalEntity: "{% if germplasmStudyImage.plantAnatomicalEntity %}<a href={{ path('anatomical_entity_details', {id: germplasmStudyImage.plantAnatomicalEntity.id}) }}>{{ germplasmStudyImage.plantAnatomicalEntity }}</a>{% endif %}",
-                    filename: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}><img src={{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ germplasmStudyImage.filename ) }} width='50%' alt='' class='logo' /></a>",
-                    action: "<a href={{ path('germplasm_study_image_details', {id: germplasmStudyImage.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
-                    },
-                {% endfor %}
-            ];
-        $(document).ready(function() {
-            $('#datatable').DataTable( {
-                "bDestroy": true,
-                "pageLength": 25,
-                data: data,
-                columns: [
-                    { data: 'germplasmID'},
-                    { data: 'StudyID'},
-                    { data: 'description'},
-                    { data: 'factor'},
-                    { data: 'developmentStage'},
-                    { data: 'plantAnatomicalEntity'},
-                    { data: 'filename'},
-                    { data: 'action'}
-                ]
-            } );
-        } );
+	<script>
+		let dataTableId = "#datatable";
+		let linkId = "";
+        let linkGermId = "";
+        let linkStId = "";
+        let linkFtId = "";
+        let linkDvId = "";
+        let linkPaeId = "";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{
+				"data": "germ_id", "targets": 0,
+					"render": function(data, type, row, meta) {
+						linkGermId = data;
+						return null;
+					}
+				},
+                {
+				"data": "germplasmID", "targets": 1,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("germplasm_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkGermId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+                {
+				"data": "study_id", "targets": 2,
+					"render": function(data, type, row, meta) {
+						linkStId = data;
+						return null;
+					}
+				},
+                {
+				"data": "study_name", "targets": 3,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("study_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkStId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+				{ "data": "description", "targets": 4 },
+                {
+				"data": "factor_id", "targets": 5,
+					"render": function(data, type, row, meta) {
+						linkFtId = data;
+						return null;
+					}
+				},
+                {
+				"data": "factor_name", "targets": 6,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("factor_type_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkFtId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+                {
+				"data": "dev_stage_id", "targets": 7,
+					"render": function(data, type, row, meta) {
+						linkDvId = data;
+						return null;
+					}
+				},
+                {
+				"data": "dev_stage_name", "targets": 8,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("developmental_stage_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkDvId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+                {
+				"data": "ae_id", "targets": 9,
+					"render": function(data, type, row, meta) {
+						linkPaeId = data;
+						return null;
+					}
+				},
+                {
+				"data": "ae_name", "targets": 10,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("anatomical_entity_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkPaeId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+                { "data": "filename", "targets": 11 },
+				{
+				"data": "id", "targets": 12,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("germplasm_study_image_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('germplasm_study_image_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
     </script>
 {% endblock %}
 
