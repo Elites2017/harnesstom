@@ -87,19 +87,28 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    // not to override some code, but it's the same as the getTotalRows
+    public function totalRows() {
+        return $this->createQueryBuilder('tab')
+            ->select('count(tab.id)')
+            ->where('tab.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     // for bootstrap datatable server-side processing
     public function getObjectsList($start, $length, $orders, $search, $columns)
     {
         // Create Main Query
         $query = $this->createQueryBuilder('gsti')
             ->select("
-                gsti.id, germ.id as germ_id, germ.germplasmID as germplasmID, st.id as study_id, st.abbreviation as study_abbreviation, description,
-                ft.id as factor_id, ft.name as factor_name, ds.id as dev_stage_id, ds.name as dev_stage_name, ae.id as ae_id, ae.name as ae_name, filename"
+                gsti.id, germ.id as germ_id, germ.germplasmID as germplasmID, st.id as study_id, st.abbreviation as study_abbreviation, gsti.description,
+                ft.id as factor_id, ft.name as factor_name, ds.id as dev_stage_id, ds.name as dev_stage_name, ae.id as ae_id, ae.name as ae_name, gsti.filename"
                 )
             ->join('App\Entity\Germplasm', 'germ')
             ->join('App\Entity\Study', 'st')
             ->join('App\Entity\FactorType', 'ft')
-            ->join('App\Entity\DevelomentalStage', 'ds')
+            ->join('App\Entity\DevelopmentalStage', 'ds')
             ->join('App\Entity\AnatomicalEntity', 'ae')
             ->where('gsti.isActive = 1')
             ->andWhere('gsti.GermplasmID = germ.id')
@@ -109,12 +118,12 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
             ->andWhere('gsti.plantAnatomicalEntity = ae.id');
         
         // Create Count Query
-        $countQuery = $this->createQueryBuilder('obsL');
-        $countQuery->select('COUNT(obsL.id)')
+        $countQuery = $this->createQueryBuilder('gsti');
+        $countQuery->select('COUNT(gsti.id)')
             ->join('App\Entity\Germplasm', 'germ')
             ->join('App\Entity\Study', 'st')
             ->join('App\Entity\FactorType', 'ft')
-            ->join('App\Entity\DevelomentalStage', 'ds')
+            ->join('App\Entity\DevelopmentalStage', 'ds')
             ->join('App\Entity\AnatomicalEntity', 'ae')
             ->where('gsti.isActive = 1')
             ->andWhere('gsti.GermplasmID = germ.id')
