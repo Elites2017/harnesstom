@@ -25,14 +25,17 @@
                         <table id="datatable" class="table table-hover text-nowrap" width="100%">
                             <thead class="table-dark">
                                 <tr>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Accession</th>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Attribute</th>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Attribute Category</th>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Trait</th>
-                                <th scope="col">Metabolic Trait</th>
                                 <th scope="col">Value</th>
                                 <th scope="col">Publication Reference</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" data-orderable="false">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,36 +56,108 @@
     {% include 'resource/list_js.html.twig' %}
 
     <script>
-        let data = [
-                {% for attributeTraitValue in attributeTraitValues %}
-                    {
-                    accession: "{% if attributeTraitValue.accession %}<a href={{ path('accession_details', {id: attributeTraitValue.accession.id}) }}>{{ attributeTraitValue.accession }}</a>{% endif %}",
-                    attribute: "{% if attributeTraitValue.attribute %}<a href={{ path('attribute_details', {id: attributeTraitValue.attribute.id}) }}>{{ attributeTraitValue.attribute }}</a>{% endif %}",
-                    attributeCategory: "{% if attributeTraitValue.attribute.category %}<a href={{ path('attribute_category_details', {id: attributeTraitValue.attribute.category.id}) }}>{{ attributeTraitValue.attribute.category }}</a>{% endif %}",
-                    trait: "{% if attributeTraitValue.trait %}<a href={{ path('trait_class_details', {id: attributeTraitValue.trait.id}) }}>{{ attributeTraitValue.trait }}</a>{% endif %}",
-                    metabolicTrait: "{% if attributeTraitValue.metabolicTrait %}<a href={{ path('metabolic_trait_value_details', {id: attributeTraitValue.metabolicTrait.id}) }}>{{ attributeTraitValue.metabolicTrait }}</a>{% endif %}",
-                    value: "{{ attributeTraitValue.value }}",
-                    publicationReferences: "{% if attributeTraitValue.publicationReference | length > 0 %}{% for onePubRef in attributeTraitValue.publicationReference %}{{ onePubRef }}{% endfor %}{% endif %}",
-                    action: "<a href={{ path('attribute_trait_value_details', {id: attributeTraitValue.id}) }}><button class='btn btn-outline-primary'>Details</button></a>"
-                    },
-                {% endfor %}
-            ];
-        $(document).ready(function() {
-            $('#datatable').DataTable( {
-                "bDestroy": true,
-                "pageLength": 25,
-                data: data,
-                columns: [
-                    { data: 'accession'},
-                    { data: 'attribute'},
-                    { data: 'attributeCategory'},
-                    { data: 'trait'},
-                    { data: 'metabolicTrait'},
-                    { data: 'value'},
-                    { data: 'publicationReferences'},
-                    { data: 'action'}
-                ]
-            } );
-        } );
+		let dataTableId = "#datatable";
+		let linkId = "";
+        let linkAccId = "";
+        let linkAttId = "";
+        let linkAtcId = "";
+        let linkTrId = "";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{
+				"data": "acc_id", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkAccId = data;
+						return null;
+					}
+				},
+				{
+				"data": "acc_name", "targets": 4,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("accession_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkAccId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+                {
+				"data": "att_id", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkAttId = data;
+						return null;
+					}
+				},
+				{
+				"data": "att_name", "targets": 4,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("attribute_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkAttId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+                {
+				"data": "atc_id", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkAtcId = data;
+						return null;
+					}
+				},
+				{
+				"data": "atc_name", "targets": 4,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("attribute_category_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkAtcId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+                {
+				"data": "tr_id", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkTrId = data;
+						return null;
+					}
+				},
+				{
+				"data": "tr_name", "targets": 4,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("trait_class_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkTrId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+                { "data": "value", "targets": 0 },
+				{ "data": "pub_ref", "targets": 1 },
+				{
+				"data": "id", "targets": 5,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("attribute_trait_value_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('attribute_trait_value_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
     </script>
 {% endblock %}

@@ -10,6 +10,7 @@ use App\Form\AttributeTraitValueType;
 use App\Form\AttributeTraitValueUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\AttributeTraitValueRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,6 +37,15 @@ class AttributeTraitValueController extends AbstractController
             'attributeTraitValues' => $attributeTraitValues
         ];
         return $this->render('attribute_trait_value/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, AttributeTraitValueRepository $attributeTraitValueRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($attributeTraitValueRepo, $request);
+        return $datatableRes;
     }
 
     /**
