@@ -41,7 +41,7 @@ class ObservationLevelUpdateType extends AbstractType
             ->add('unitCoordinateY')
             ->add('unitCoordinateXType')
             ->add('unitCoordinateYType')
-            ->add('germaplasm', EntityType::class, [
+            ->add('germplasm', EntityType::class, [
                 'class' => Germplasm::class,
                 'help_html' => true,
                 'placeholder' => '',

@@ -49,7 +49,7 @@ class AccessionRepository extends ServiceEntityRepository
             ->andWhere('sc.id = scC.scale')
             ->andWhere('obsVar.id = obsVal.observationVariable')
             ->andWhere('obsL.id = obsVal.observationLevel')
-            ->andWhere('germ.id = obsL.germaplasm')
+            ->andWhere('germ.id = obsL.germplasm')
             ->andWhere('acc.id = germ.accession')
             ->andWhere('trait.ontology_id IN(:traitOntIds)')
         ->setParameter(':traitOntIds', array_values($traitOntIds));

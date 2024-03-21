@@ -63,7 +63,7 @@
 	let data = [
 			{% for observationLevel in observationLevels %}
 				{
-				germaplasm: "{% if observationLevel.germaplasm %}<a href={{ path('germplasm_details', {id: observationLevel.germaplasm.id}) }}>{{ observationLevel.germaplasm }}</a>{% endif %}",
+				germplasm: "{% if observationLevel.germplasm %}<a href={{ path('germplasm_details', {id: observationLevel.germplasm.id}) }}>{{ observationLevel.germplasm }}</a>{% endif %}",
 				unitname: "{{ observationLevel.unitname }}",
 				name: "{{ observationLevel.name }}",
 				blockNumber: "{{ observationLevel.blockNumber }}",
@@ -83,7 +83,7 @@
             "pageLength": 25,
             data: data,
             columns: [
-                { data: 'germaplasm'},
+                { data: 'germplasm'},
                 { data: 'unitname'},
                 { data: 'name'},
 				{ data: 'blockNumber'},
