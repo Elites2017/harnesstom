@@ -65,14 +65,14 @@
 		let colsDef = [
 				// These are the column name variables that will be sent to the server
 				{
-				"data": "acc_id", "targets": 3,
+				"data": "acc_id", "targets": 0,
 					"render": function(data, type, row, meta) {
 						linkAccId = data;
 						return null;
 					}
 				},
 				{
-				"data": "acc_name", "targets": 4,
+				"data": "acc_name", "targets": 1,
 					"render": function(data, type, row, meta) {
 						if (data) {
 							let url = '{{ path("accession_details", {'id': 'dataId'}) }}'; 
@@ -85,14 +85,14 @@
 					}
 				},
                 {
-				"data": "att_id", "targets": 3,
+				"data": "att_id", "targets": 2,
 					"render": function(data, type, row, meta) {
 						linkAttId = data;
 						return null;
 					}
 				},
 				{
-				"data": "att_name", "targets": 4,
+				"data": "att_name", "targets": 3,
 					"render": function(data, type, row, meta) {
 						if (data) {
 							let url = '{{ path("attribute_details", {'id': 'dataId'}) }}'; 
@@ -105,14 +105,14 @@
 					}
 				},
                 {
-				"data": "atc_id", "targets": 3,
+				"data": "atc_id", "targets": 4,
 					"render": function(data, type, row, meta) {
 						linkAtcId = data;
 						return null;
 					}
 				},
 				{
-				"data": "atc_name", "targets": 4,
+				"data": "atc_name", "targets": 5,
 					"render": function(data, type, row, meta) {
 						if (data) {
 							let url = '{{ path("attribute_category_details", {'id': 'dataId'}) }}'; 
@@ -125,14 +125,14 @@
 					}
 				},
                 {
-				"data": "tr_id", "targets": 3,
+				"data": "tr_id", "targets": 6,
 					"render": function(data, type, row, meta) {
 						linkTrId = data;
 						return null;
 					}
 				},
 				{
-				"data": "tr_name", "targets": 4,
+				"data": "tr_name", "targets": 7,
 					"render": function(data, type, row, meta) {
 						if (data) {
 							let url = '{{ path("trait_class_details", {'id': 'dataId'}) }}'; 
@@ -144,10 +144,10 @@
 						}
 					}
 				},
-                { "data": "value", "targets": 0 },
-				{ "data": "pub_ref", "targets": 1 },
+                { "data": "value", "targets": 8 },
+				{ "data": "pub_ref", "targets": 9 },
 				{
-				"data": "id", "targets": 5,
+				"data": "id", "targets": 10,
 					"render": function(data, type, row, meta) {
 						let url = '{{ path("attribute_trait_value_details", {'id': 'dataId'}) }}'; 
 						url = url.replace("dataId", data);
