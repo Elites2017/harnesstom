@@ -172,9 +172,7 @@
 				"data": "filename", "targets": 11,
 					"render": function(data, type, row, meta) {
 						if (data) {
-							
-							console.log("data ", data);
-							let imgSrc = "<img src={{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ 'data' ) }} width='50%' alt='' class='logo' />";
+							let imgSrc = "<img src={{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ 'data' ) }} width='20%' alt='' class='logo' />";
 							imgSrc = imgSrc.replace('data', data);
 							return imgSrc;
 						} else {
