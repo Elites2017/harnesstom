@@ -168,8 +168,21 @@
 						}
 					}
 				},
-                { "data": "filename", "targets": 11 },
 				{
+				"data": "filename", "targets": 11,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							
+							console.log("data ", data);
+							let imgSrc = "<img src={{ asset('uploads/images/traditom_exp_photos/exp_photos/' ~ 'data' ) }} width='50%' alt='' class='logo' />";
+							imgSrc = imgSrc.replace('data', data);
+							return imgSrc;
+						} else {
+							return null;
+						}
+					}
+				},
+				{   
 				"data": "id", "targets": 12,
 					"render": function(data, type, row, meta) {
 						let url = '{{ path("germplasm_study_image_details", {'id': 'dataId'}) }}'; 
