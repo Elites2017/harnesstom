@@ -27,10 +27,12 @@
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Observation Variable Name</th>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Observation Level Name</th>
 									<th scope="col">Value</th>
-									<th scope="col">Action</th>
+									<th scope="col" data-orderable="false">Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -50,7 +52,7 @@
 {% block javascripts %}
 	{% include 'resource/list_js.html.twig' %}
 
-<script>
+{# <script>
 	let data = [
 			{% for observationValue in observationValues %}
 				{
@@ -75,5 +77,68 @@
             ]
         } );
     } );
-</script>
+</script> #}
+
+<script>
+		let dataTableId = "#datatable";
+		let linkId = "";
+        let linkObsLId = "";
+        let linkObsVarId = "";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{
+				"data": "obsV_id", "targets": 0,
+					"render": function(data, type, row, meta) {
+						linkObsVarId = data;
+						return null;
+					}
+				},
+				{
+				"data": "obsV_name", "targets": 1,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("observation_variable_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkObsVarId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "obsL_id", "targets": 2,
+					"render": function(data, type, row, meta) {
+						linkObsLId = data;
+						return null;
+					}
+				},
+				{
+				"data": "obsL_unitname", "targets": 3,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("observation_level_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkObsLId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+                { "data": "value", "targets": 4 },
+				{
+				"data": "id", "targets": 5,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("observation_value_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('observation_value_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
+    </script>
 {% endblock %}
