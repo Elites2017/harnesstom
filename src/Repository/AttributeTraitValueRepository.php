@@ -64,7 +64,7 @@ class AttributeTraitValueRepository extends ServiceEntityRepository
         if ($search["filter"] != null) {
             $query->andWhere(
                 $query->expr()->orX(
-                    "acc.name like :filter",
+                    "acc.accename like :filter",
                     "att.name like :filter",
                     "atc.name like :filter",
                     "tr.name like :filter",
@@ -77,7 +77,7 @@ class AttributeTraitValueRepository extends ServiceEntityRepository
 
             $countQuery->andWhere(
                 $countQuery->expr()->orX(
-                    "acc.name like :filter",
+                    "acc.accename like :filter",
                     "att.name like :filter",
                     "atc.name like :filter",
                     "tr.name like :filter",
@@ -100,7 +100,7 @@ class AttributeTraitValueRepository extends ServiceEntityRepository
             {
                 $orderColumn = null;
                 if ($order['name'] == 'acc_name') {
-                    $orderColumn = 'acc.name';
+                    $orderColumn = 'acc.accename';
                 }
 
                 if ($order['name'] == 'att_name') {
