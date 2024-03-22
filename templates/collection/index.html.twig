@@ -29,25 +29,10 @@
 								<tr>
 									<th scope="col">Name</th>
 									<th scope="col">Description</th>
-									<th scope="col">Action</th>
+									<th scope="col" data-orderable="false">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for collection in collections %}
-									<tr>
-										<td>
-											{{ collection.name }}
-										</td>
-										<td>
-											{{ collection.description }}
-										</td>
-										<td>
-											<a href="{{ path('collection_details', {id: collection.id}) }}">
-												<button class="btn btn-outline-primary">Details</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -64,10 +49,25 @@
 {% block javascripts %}
     {% include 'resource/list_js.html.twig' %}
 
-<!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-        $(document).ready(function() {
-            $('#datatable').DataTable();
-        } );
+	<script>
+		let dataTableId = "#datatable";
+		let linkId = "";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{ "data": "name", "targets": 0 },
+				{ "data": "description", "targets": 1 },
+				{
+				"data": "id", "targets": 2,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("collection_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('collection_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
     </script>
 {% endblock %}
