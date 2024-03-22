@@ -8,6 +8,7 @@ use App\Form\CollectingMissionType;
 use App\Form\CollectingMissionUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\CollectingMissionRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,6 +35,15 @@ class CollectingMissionController extends AbstractController
             'collectingMissions' => $collectingMissions
         ];
         return $this->render('collecting_mission/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, CollectingMissionRepository $collectingMissionRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($collectingMissionRepo, $request);
+        return $datatableRes;
     }
 
     /**

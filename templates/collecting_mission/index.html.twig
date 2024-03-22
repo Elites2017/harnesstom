@@ -34,25 +34,6 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% for collectingMission in collectingMissions %}
-									<tr>
-										<td>
-											{{ collectingMission.name }}
-										</td>
-										<td>
-											{{ collectingMission.species }}
-										</td>
-										<td>
-											{{ collectingMission.institute }}
-										</td>
-										<td>
-											<a href="{{ path('collecting_mission_details', {id: collectingMission.id}) }}">
-												<button class="btn btn-outline-primary">Details</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
-
 							</tbody>
 						</table>
 					</div>
@@ -68,9 +49,62 @@
 
 {% block javascripts %}
 	{% include 'resource/list_js.html.twig' %}
-<script>
-		$(document).ready(function () {
-$('#datatable').DataTable();
-});
-	</script>
+
+	<script>
+		let dataTableId = "#datatable";
+		let linkId = "";
+		let linkInstcode = "";
+		let linkInstAcro = "";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{ "data": "coll_name", "targets": 0 },
+				{ "data": "species", "targets": 1 },
+				{# {
+				"data": "instcode", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkInstcode = data;
+						return null;
+					}
+				},
+				{
+				"data": "inst_acronym", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkInstAcro = data;
+						return null;
+					}
+				},
+				{
+				"data": "inst_id", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkId = data;
+						return null;
+					}
+				}, #}
+				{
+				"data": "instcode", "targets": 4,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("institute_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "id", "targets": 5,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("collecting_mission_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('collecting_mission_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
+    </script>
 {% endblock %}
