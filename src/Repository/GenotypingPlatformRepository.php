@@ -19,6 +19,113 @@ class GenotypingPlatformRepository extends ServiceEntityRepository
         parent::__construct($registry, GenotypingPlatform::class);
     }
 
+    // Get the total number of elements
+    public function totalRows() {
+        return $this->createQueryBuilder('gpf')
+            ->select('count(gpf.id)')
+            ->where('gpf.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    // for bootstrap datatable server-side processing
+    public function getObjectsList($start, $length, $orders, $search, $columns)
+    {
+        // Create Main Query
+        $query = $this->createQueryBuilder('gpf')
+            ->select('sqt.id as sqt_id, sqt.name as sqt_name, gpf.id, gpf.name, gpf.refSetName as ref_set_name,
+                    gpf.markerCount as marker_count, sqinst.id as sqinst_id, sqinst.name as sqinst_name')
+            ->join('App\Entity\SequencingType', 'sqt')
+            ->join('App\Entity\SequencingInstrument', 'sqinst')
+            ->where('gpf.isActive = 1')
+            ->andWhere('gpf.sequencingType = sqt.id')
+            ->andWhere('gpf.sequencingInstrument = sqinst.id');
+        
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('gpf');
+        $countQuery->select('COUNT(gpf.id)')
+            ->join('App\Entity\SequencingType', 'sqt')
+            ->join('App\Entity\SequencingInstrument', 'sqinst')
+            ->where('gpf.isActive = 1')
+            ->andWhere('gpf.sequencingType = sqt.id')
+            ->andWhere('gpf.sequencingInstrument = sqinst.id');
+        
+        if ($search["filter"] != null) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    "gpf.name like :filter",
+                    "gpf.refSetName like :filter",
+                    "gpf.markerCount like :filter",
+                    "sqt.name like :filter",
+                    "sqinst.name like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+
+            $countQuery->andWhere(
+                $countQuery->expr()->orX(
+                    "gpf.name like :filter",
+                    "gpf.refSetName like :filter",
+                    "gpf.markerCount like :filter",
+                    "sqt.name like :filter",
+                    "sqinst.name like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+        }
+                
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+        
+        // Order
+        foreach ($orders as $key => $order)
+        {
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+                if ($order['name'] == 'sqt_name') {
+                    $orderColumn = 'sqt.name';
+                }
+
+                if ($order['name'] == 'name') {
+                    $orderColumn = 'gpf.name';
+                }
+
+                if ($order['name'] == 'ref_set_name') {
+                    $orderColumn = 'gpf.refSetName';
+                }
+
+                if ($order['name'] == 'marker_count') {
+                    $orderColumn = 'gpf.markerCount';
+                }
+
+                if ($order['name'] == 'sqinst_name') {
+                    $orderColumn = 'sqinst.name';
+                }
+
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+        
+        // Execute
+        $results = $query->getQuery()->getArrayResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+        
+        // data returned
+        $rawDatatable = [];
+        $rawDatatable = [
+            "results" => $results,
+            "countResult" => $countResult
+        ];
+        return $rawDatatable;
+    }
+
     // /**
     //  * @return GenotypingPlatform[] Returns an array of GenotypingPlatform objects
     //  */
