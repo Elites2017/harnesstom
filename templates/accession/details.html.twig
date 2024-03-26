@@ -29,9 +29,32 @@
         <div class="row">
             
             <div class="col-xl-12 col-lg-11 mb-3">
-                <h2 class="mb-3 text-center tomato-color font-weight-bold">Accession Details</h2>
                 <div class="row">
-                    <div class="col-xl-3 col-lg-2 mb-3">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Accession Details</h2>
+                    </div>
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+                                <span>Created By: 
+                                    <a href="{{ path('person_details', {id: accessions[0].createdBy.id}) }}">{{ accessions[0].createdBy }}</a>
+                                </span>
+                                <span>On: {{ accessions[0].createdAt | date('d/m/Y h:m:s') }} </span>
+                                </br><a href="{{ path('accession_delete', {id: accessions[0].id}) }}" class="changeStatusLink" id="{{ accessions[0].id }}">
+                                    <span class="changeStatusSpan">
+                                        <input type="checkbox" {{ accessions[0].isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+                                    </span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("accession_edit", accessions[0]) %}
+                        
+                                <a href="{{ path('accession_edit', {id: accessions[0].id}) }}">
+                                    <button class="btn btn-outline-warning">Edit</button>
+                                </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-3 col-lg-2 mb-3 mt-1">
                         <div class="card">
                                 <div class="card-header">
                                     <h3 class="tomato-color">Accession basic information</h3>
@@ -96,7 +119,7 @@
                             </div>
                     </div>
 
-                    <div class="col-xl-3 col-lg-2 mb-3">
+                    <div class="col-xl-3 col-lg-2 mb-3 mt-1">
                         <div class="card">
                                 <div class="card-header">
                                     <h3 class="tomato-color">Collecting site information</h3>
@@ -149,7 +172,7 @@
                             </div>
                     </div>
 
-                        <div class="col-xl-3 col-lg-2 mb-3">
+                        <div class="col-xl-3 col-lg-2 mb-3 mt-1">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="tomato-color">Maintaining institute information</h3>
@@ -205,7 +228,7 @@
                             </div>
                         </div>
                         
-                        <div class="col-xl-3 col-lg-2 mb-3">
+                        <div class="col-xl-3 col-lg-2 mb-3 mt-1">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="tomato-color">Breeding information</h3>
@@ -437,11 +460,10 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
+    <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
     <script src="{{ asset('assets/axios/axios.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
 	<!-- DataTables JavaScript -->
 	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
