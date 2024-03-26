@@ -81,7 +81,7 @@
 					"render": function(data, type, row, meta) {
 						if (data) {
 							let url = '{{ path("germplasm_details", {'id': 'dataId'}) }}'; 
-							url = url.replace("dataId", linkTrId);
+							url = url.replace("dataId", linkGermId);
 							let actionlink = "<a href="+ url +">"+data+"</a>";
 							return actionlink;
 						}
