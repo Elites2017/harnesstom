@@ -12,6 +12,7 @@ use App\Form\SampleType;
 use App\Form\SampleUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\SampleRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,6 +51,15 @@ class SampleController extends AbstractController
             'samples' => $samples
         ];
         return $this->render('sample/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, SampleRepository $sampleRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($sampleRepo, $request);
+        return $datatableRes;
     }
 
     /**
