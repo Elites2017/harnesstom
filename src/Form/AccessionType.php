@@ -12,6 +12,7 @@ use App\Entity\MLSStatus;
 use App\Entity\StorageType;
 use App\Entity\Taxonomy;
 use App\Repository\AccessionRepository;
+use App\Repository\CountryRepository;
 use App\Repository\InstituteRepository;
 use Doctrine\DBAL\Types\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -31,11 +32,13 @@ class AccessionType extends AbstractType
     private $router;
     private $instituteRepo;
     private $acceRepo;
+    private $countryRepo;
 
-    function __construct(RouterInterface $router, InstituteRepository $instituteRepo, AccessionRepository $acceRepo){
+    function __construct(RouterInterface $router, InstituteRepository $instituteRepo, AccessionRepository $acceRepo, CountryRepository $countryRepo){
         $this->router = $router;
         $this->instituteRepo = $instituteRepo;
         $this->acceRepo = $acceRepo;
+        $this->countryRepo = $countryRepo;
     }
 
     private function myChoices($institute) {
@@ -113,10 +116,11 @@ class AccessionType extends AbstractType
             ->add('collsite')
             ->add('origcty', EntityType::class, [
                 'class' => Country::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlCountry .'" target="_blank">Country</a>'
-                
+                'placeholder' => 'Select a country',
+                'help' => 'Add a new <a href="' . $toUrlCountry .'" target="_blank">Country</a>',
+                'query_builder' => function() {
+                    return $this->countryRepo->createQueryBuilder('country')->orderBy('country.iso3', 'ASC');
+                }
             ])
             ->add('collsrc', EntityType::class, [
                 'class' => CollectingSource::class,
