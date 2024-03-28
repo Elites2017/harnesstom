@@ -47,47 +47,14 @@
                                         <tr>
                                         <th scope="col">Abbreviation</th>
                                         <th scope="col">Name</th>
+                                        <th scope="col" data-orderable="false"></th>
                                         <th scope="col">Trial</th>
-                                        <th scope="col">Experimental Factor</th>
+                                        <th scope="col" data-orderable="false"></th>
                                         <th scope="col">GrowthFacility</th>
-                                        <th scope="col">Experimental Design</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col" data-orderable="false">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for study in studies %}
-                                            <tr>
-                                                <td>
-                                                    {{ study.abbreviation }}
-                                                </td>
-                                                <td>
-                                                    {{ study.name }}
-                                                </td>
-                                                <td>
-                                                    {% if study.trial %}
-                                                        <a href="{{ path('trial_details', {id: study.trial.id}) }}">{{ study.trial.abbreviation }}</a>
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    {% if study.factor %}
-                                                        <a href="{{ path('factor_type_details', {id: study.factor.id}) }}">{{ study.factor }}</a>
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    {% if study.growthFacility %}
-                                                        <a href="{{ path('growth_facility_type_details', {id: study.growthFacility.id}) }}">{{ study.growthFacility }}</a>
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    {% if study.experimentalDesignType %}
-                                                        <a href="{{ path('experimental_design_details', {id: study.experimentalDesignType.id}) }}">{{ study.experimentalDesignType }}</a>
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    <a href="{{ path('study_details', {id: study.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -107,8 +74,68 @@
     {% include 'resource/list_js.html.twig' %}
 
     <script>
-        $(document).ready(function() {
-            $('#datatable').DataTable();
-        } );
+		let dataTableId = "#datatable";
+		let linkGfId = "";
+		let linkTrId = "";
+		let linkId = "";
+        let colsDef = [
+				// These are the column name variables that will be sent to the server
+                { "data": "st_abbreviation", "targets": 0 },
+                { "data": "st_name", "targets": 1 },
+                {
+				"data": "tr_id", "targets": 2,
+					"render": function(data, type, row, meta) {
+						linkTrId = data;
+						return null;
+					}
+				},
+				{
+				"data": "tr_abbreviation", "targets": 3,
+					"render": function(data, type, row, meta) {
+						if  (data) {
+							let url = '{{ path("trial_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkTrId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "gf_id", "targets": 4,
+					"render": function(data, type, row, meta) {
+						linkGfId = data;
+						return null;
+					}
+				},
+				{
+				"data": "gf_name", "targets": 5,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("growth_facility_type_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkGfId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "st_id", "targets": 6,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("study_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('study_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
     </script>
 {% endblock %}

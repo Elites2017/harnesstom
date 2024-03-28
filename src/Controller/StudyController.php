@@ -16,6 +16,7 @@ use App\Form\StudyUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\StudyRepository;
 use App\Repository\TrialRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,6 +55,15 @@ class StudyController extends AbstractController
             'studies' => $studies
         ];
         return $this->render('study/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, StudyRepository $studyRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($studyRepo, $request);
+        return $datatableRes;
     }
 
     /**
