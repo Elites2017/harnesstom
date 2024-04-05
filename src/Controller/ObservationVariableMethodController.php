@@ -53,6 +53,7 @@ class ObservationVariableMethodController extends AbstractController
             $observationVariableMethod->setCreatedAt(new \DateTime());
             $entmanager->persist($observationVariableMethod);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('observation_variable_method_index'));
         }
 
@@ -87,6 +88,7 @@ class ObservationVariableMethodController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($observationVariableMethod);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('observation_variable_method_index'));
         }
 

@@ -54,6 +54,7 @@ class TrialTypeController extends AbstractController
             $trialType->setCreatedAt(new \DateTime());
             $entmanager->persist($trialType);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('trial_type_index'));
         }
 
@@ -88,6 +89,7 @@ class TrialTypeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($trialType);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('trial_type_index'));
         }
 

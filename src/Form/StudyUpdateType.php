@@ -117,6 +117,7 @@ class StudyUpdateType extends AbstractType
             ->add('extra', CollectionType::class, [
                 'entry_type' => ParameterValueType::class,
                 'allow_add' => true,
+                'allow_delete' => true,
                 'prototype' => true,
                 'required' => false,
                 'label' => false,

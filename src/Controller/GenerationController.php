@@ -54,6 +54,7 @@ class GenerationController extends AbstractController
             $generation->setCreatedAt(new \DateTime());
             $entmanager->persist($generation);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('generation_index'));
         }
 
@@ -88,6 +89,7 @@ class GenerationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($generation);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('generation_index'));
         }
 

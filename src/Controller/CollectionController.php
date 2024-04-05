@@ -8,6 +8,7 @@ use App\Form\CollectionType;
 use App\Form\CollectionUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\CollectionClassRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +38,15 @@ class CollectionController extends AbstractController
     }
 
     /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, CollectionClassRepository $collectionRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($collectionRepo, $request);
+        return $datatableRes;
+    }
+
+    /**
      * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
@@ -53,6 +63,7 @@ class CollectionController extends AbstractController
             $collection->setCreatedAt(new \DateTime());
             $entmanager->persist($collection);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('collection_index'));
         }
 
@@ -87,6 +98,7 @@ class CollectionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($collection);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('collection_index'));
         }
 

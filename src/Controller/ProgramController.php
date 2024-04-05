@@ -9,6 +9,7 @@ use App\Form\ProgramType;
 use App\Form\ProgramUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\ProgramRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,6 +39,15 @@ class ProgramController extends AbstractController
     }
 
     /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, ProgramRepository $programRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($programRepo, $request);
+        return $datatableRes;
+    }
+
+    /**
      * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
@@ -54,6 +64,7 @@ class ProgramController extends AbstractController
             $program->setCreatedAt(new \DateTime());
             $entmanager->persist($program);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('program_index'));
         }
 
@@ -88,6 +99,7 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($program);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('program_index'));
         }
 

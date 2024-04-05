@@ -10,6 +10,7 @@ use App\Form\GenotypingPlatformType;
 use App\Form\GenotypingPlatformUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\GenotypingPlatformRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,6 +40,15 @@ class GenotypingPlatformController extends AbstractController
     }
 
     /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, GenotypingPlatformRepository $genotypingPlatformRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($genotypingPlatformRepo, $request);
+        return $datatableRes;
+    }
+
+    /**
      * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
@@ -55,6 +65,7 @@ class GenotypingPlatformController extends AbstractController
             $genotypingPlatform->setCreatedAt(new \DateTime());
             $entmanager->persist($genotypingPlatform);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('genotyping_platform_index'));
         }
 
@@ -89,6 +100,7 @@ class GenotypingPlatformController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($genotypingPlatform);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('genotyping_platform_index'));
         }
 

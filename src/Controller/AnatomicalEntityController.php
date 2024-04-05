@@ -52,6 +52,7 @@ class AnatomicalEntityController extends AbstractController
             $anatomicalEntity->setCreatedAt(new \DateTime());
             $entmanager->persist($anatomicalEntity);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('anatomical_entity_index'));
         }
 
@@ -86,6 +87,7 @@ class AnatomicalEntityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($anatomicalEntity);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('anatomical_entity_index'));
         }
 

@@ -12,6 +12,7 @@ use App\Form\SampleType;
 use App\Form\SampleUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\SampleRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,6 +54,15 @@ class SampleController extends AbstractController
     }
 
     /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, SampleRepository $sampleRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($sampleRepo, $request);
+        return $datatableRes;
+    }
+
+    /**
      * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
@@ -69,6 +79,7 @@ class SampleController extends AbstractController
             $sample->setCreatedAt(new \DateTime());
             $entmanager->persist($sample);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('sample_index'));
         }
 
@@ -104,6 +115,7 @@ class SampleController extends AbstractController
             $sample->setLastUpdated(new \DateTime());
             $entmanager->persist($sample);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('sample_index'));
         }
 

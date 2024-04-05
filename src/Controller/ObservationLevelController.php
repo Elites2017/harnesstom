@@ -9,6 +9,7 @@ use App\Form\ObservationLevelType;
 use App\Form\ObservationLevelUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\ObservationLevelRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,6 +51,15 @@ class ObservationLevelController extends AbstractController
     }
 
     /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, ObservationLevelRepository $observationLevelRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($observationLevelRepo, $request);
+        return $datatableRes;
+    }
+
+    /**
      * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
@@ -66,6 +76,7 @@ class ObservationLevelController extends AbstractController
             $observationLevel->setCreatedAt(new \DateTime());
             $entmanager->persist($observationLevel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('observation_level_index'));
         }
 
@@ -101,6 +112,7 @@ class ObservationLevelController extends AbstractController
             $observationLevel->setLastUpdated(new \DateTime());
             $entmanager->persist($observationLevel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('observation_level_index'));
         }
 

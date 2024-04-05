@@ -54,6 +54,7 @@ class ThresholdMethodController extends AbstractController
             $thresholdMethod->setCreatedAt(new \DateTime());
             $entmanager->persist($thresholdMethod);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('threshold_method_index'));
         }
 
@@ -88,6 +89,7 @@ class ThresholdMethodController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($thresholdMethod);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('threshold_method_index'));
         }
 

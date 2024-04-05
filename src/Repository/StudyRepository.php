@@ -94,6 +94,108 @@ class StudyRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function totalRows() {
+        return $this->createQueryBuilder('tab')
+            ->select('count(tab.id)')
+            ->where('tab.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    // for bootstrap datatable server-side processing
+    public function getObjectsList($start, $length, $orders, $search, $columns)
+    {
+        // Create Main Query
+        $query = $this->createQueryBuilder('st')
+            ->select("
+                st.id as st_id, st.abbreviation as st_abbreviation, st.name as st_name, tr.id as tr_id,
+                tr.abbreviation as tr_abbreviation, gf.id as gf_id, gf.name as gf_name"
+                )
+            ->join('App\Entity\Trial', 'tr')
+            ->join('App\Entity\GrowthFacilityType', 'gf')
+            ->where('st.isActive = 1')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('st.growthFacility = gf.id');
+
+        
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('st');
+        $countQuery->select('COUNT(st.id)')
+            ->join('App\Entity\Trial', 'tr')
+            ->join('App\Entity\GrowthFacilityType', 'gf')
+            ->where('st.isActive = 1')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('st.growthFacility = gf.id');
+        
+        if ($search["filter"] != null) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    "st.name like :filter",
+                    "st.abbreviation like :filter",
+                    "tr.abbreviation like :filter",
+                    "gf.name like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+
+            $countQuery->andWhere(
+                $countQuery->expr()->orX(
+                    "st.name like :filter",
+                    "st.abbreviation like :filter",
+                    "tr.abbreviation like :filter",
+                    "gf.name like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+        }
+                
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+        
+        // Order
+        foreach ($orders as $key => $order)
+        {
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+                if ($order['name'] == 'st_name') {
+                    $orderColumn = 'st.name';
+                }
+
+                if ($order['name'] == 'st_abbreviation') {
+                    $orderColumn = 'st.abbreviation';
+                }
+
+                if ($order['name'] == 'tr_abbreviation') {
+                    $orderColumn = 'tr.abbreviation';
+                }
+
+                if ($order['name'] == 'gf_name') {
+                    $orderColumn = 'gf.name';
+                }
+
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+        
+        // Execute
+        $results = $query->getQuery()->getArrayResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+        
+        // data returned
+        $rawDatatable = [];
+        $rawDatatable = [
+            "results" => $results,
+            "countResult" => $countResult
+        ];
+        return $rawDatatable;
+    }
     // /**
     //  * @return Study[] Returns an array of Study objects
     //  */

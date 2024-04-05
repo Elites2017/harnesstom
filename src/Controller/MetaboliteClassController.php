@@ -54,6 +54,7 @@ class MetaboliteClassController extends AbstractController
             $metaboliteClass->setCreatedAt(new \DateTime());
             $entmanager->persist($metaboliteClass);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('metabolite_class_index'));
         }
 
@@ -88,6 +89,7 @@ class MetaboliteClassController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($metaboliteClass);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('metabolite_class_index'));
         }
 

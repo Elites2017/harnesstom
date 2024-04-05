@@ -54,6 +54,7 @@ class StorageTypeController extends AbstractController
             $storageType->setCreatedAt(new \DateTime());
             $entmanager->persist($storageType);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('storage_type_index'));
         }
 
@@ -88,6 +89,7 @@ class StorageTypeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($storageType);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('storage_type_index'));
         }
 

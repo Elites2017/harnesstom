@@ -10,6 +10,7 @@ use App\Form\ObservationValueOriginalType;
 use App\Form\ObservationValueOriginalUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\ObservationValueOriginalRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,6 +52,15 @@ class ObservationValueOriginalController extends AbstractController
     }
 
     /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, ObservationValueOriginalRepository $observationValueRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($observationValueRepo, $request);
+        return $datatableRes;
+    }
+
+    /**
      * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
@@ -67,6 +77,7 @@ class ObservationValueOriginalController extends AbstractController
             $observationValue->setCreatedAt(new \DateTime());
             $entmanager->persist($observationValue);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('observation_value_index'));
         }
 
@@ -101,6 +112,7 @@ class ObservationValueOriginalController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($observationValue);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('observation_value_index'));
         }
 

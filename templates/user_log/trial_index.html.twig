@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+                {% if trials | length > 0 %}
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h5 class="m-0 font-weight-bold tomato-color">User Created Trial List</br>
+							</h5>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Graph View:</div>
+                                    <a class="dropdown-item" href="#">Most Trial By Country</a>
+                                    <a class="dropdown-item" href="#">Most Trial By Institute</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Most Trial By ...</a>
+                                </div>
+                            </div>
+                        </div>
+					    <div class="card-body">
+                            <div class="table-responsive"> 
+                                <table id="datatable" class="table table-hover text-nowrap" width="100%">
+									<thead class="table-dark">
+										<tr>
+											<th scope="col">Abbreviation</th>
+											<th scope="col">Name</th>
+											<th scope="col">Program</th>
+											<th scope="col">Trial Type</th>
+											<th scope="col">PUI</th>
+											<th scope="col">Public Release Date</th>
+											<th scope="col" data-orderable="false">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for trial in trials %}
+											<tr>
+												<td>
+													{{ trial.abbreviation }}
+												</td>
+												<td>
+													{{ trial.name }}
+												</td>
+												<td>
+													{% if trial.program %}
+														<a href="{{ path('program_details', {id: trial.program.id}) }}">{{ trial.program.abbreviation }}</a>
+													{% endif %}
+												</td>
+												<td>
+													{% if trial.trialType %}
+														<a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">{{ trial.trialType }}</a>
+													{% endif %}
+												</td>
+												<td>
+													{{ trial.pui }}
+												</td>
+												<td>
+													{{ trial.publicReleaseDate | date('d/m/Y') }}
+												</td>
+												<td>
+													{% if trial.createdBy == app.user and trial.publicReleaseDate | date('Y-m-d') >= 'now' | date('Y-m-d')  %}
+														<a href="{{ path('trial_share_with', {id: trial.id}) }}">
+															<button class="btn btn-outline-primary">Share With</button>
+														</a>
+													{% endif %}
+													<a href="{{ path('trial_details', {id: trial.id}) }}">
+														<button class="btn btn-outline-primary">Details</button>
+													</a>
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+                            </div>
+                        </div>
+                    </div>
+                {% else %} 
+                    <h5 class="mb-3 text-center tomato-color font-weight-bold">No trial has been provided in our system</h5>
+                {% endif %}
+		    </div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	{% include 'resource/list_js.html.twig' %}
+	<script>
+		$(document).ready(function () {
+            $('#datatable').DataTable();
+        });
+    </script>
+{% endblock %}

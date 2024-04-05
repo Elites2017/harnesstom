@@ -73,6 +73,7 @@ class VariantSetMetadataController extends AbstractController
             $variantSetMetadata->setCreatedAt(new \DateTime());
             $entmanager->persist($variantSetMetadata);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('variant_set_metadata_index'));
         }
 
@@ -141,6 +142,7 @@ class VariantSetMetadataController extends AbstractController
             }
             $entmanager->persist($variantSetMetadata);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('variant_set_metadata_index'));
         }
 

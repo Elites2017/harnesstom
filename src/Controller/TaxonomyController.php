@@ -52,6 +52,7 @@ class TaxonomyController extends AbstractController
             $taxonomy->setCreatedAt(new \DateTime());
             $entmanager->persist($taxonomy);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('taxonomy_index'));
         }
 
@@ -86,6 +87,7 @@ class TaxonomyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($taxonomy);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('taxonomy_index'));
         }
 

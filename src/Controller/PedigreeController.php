@@ -103,7 +103,7 @@ class PedigreeController extends AbstractController
 
             // to fill the many to many to many pedigree_pedigree tables
             $this->fillPedigreePedigree($pedigree, $pedRepo, $entmanager);
-
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('pedigree_index'));
         }
 
@@ -156,6 +156,7 @@ class PedigreeController extends AbstractController
             }
             $entmanager->persist($pedigree);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('pedigree_index'));
         }
 

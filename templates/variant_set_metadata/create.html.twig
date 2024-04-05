@@ -101,17 +101,24 @@
 											}}
 							</div>
 						</div>
-						
+
 						<div>
-							<div id="email-fields-list" data-prototype="{{ form_widget(variantSetMetadataForm.publicationRef.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3"> </div>'|e }}" data-widget-counter="{{ variantSetMetadataForm.publicationRef|length }}">
+							<div>
+								{# the data-index attribute is required for the JavaScript code below #}
+								<ul class="tags" data-index="{{ variantSetMetadataForm.publicationRef|length > 0 ? variantSetMetadataForm.publicationRef|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(variantSetMetadataForm.publicationRef.vars.prototype)|e('html_attr') }}">
 								{% for pubRef in variantSetMetadataForm.publicationRef %}
 									<li>
-										{{ form_errors(pubRef) }}
-										{{ form_widget(pubRef) }}
+									{{ form_errors(pubRef) }}
+									{{ form_widget(pubRef) }}
 									</li>
 								{% endfor %}
+								</ul>
 							</div>
-							<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#email-fields-list">Add publication reference</button>
+							<button type="button"
+								class="btn btn-outline-info mb-3 add_item_link"
+								data-collection-holder-class="tags">
+								Add publication reference
+							</button>
 						</div>
 
 						<div class="row">
@@ -136,7 +143,7 @@
 {% block javascripts %}
 	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
 	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-	<script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
 

@@ -16,6 +16,7 @@ use App\Form\AccessionUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\AccessionRepository;
 use App\Repository\CountryRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpParser\Node\Stmt\TryCatch;
@@ -47,6 +48,15 @@ class AccessionController extends AbstractController
     }
 
     /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, AccessionRepository $accessionRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($accessionRepo, $request);
+        return $datatableRes;
+    }
+
+    /**
      * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
@@ -63,6 +73,7 @@ class AccessionController extends AbstractController
             $accession->setCreatedAt(new \DateTime());
             $entmanager->persist($accession);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('accession_index'));
         }
 
@@ -98,6 +109,7 @@ class AccessionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($accession);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('accession_index'));
         }
 
