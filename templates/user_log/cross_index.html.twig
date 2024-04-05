@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 order-md-1">
+				{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				{% if crosses | length > 0 %}
+					<h5 class="m-0 font-weight-bold tomato-color">User Created Cross List</br>
+					</h5>
+					<div class="table-responsive">
+						<table id="datatable" class="table table-hover text-nowrap" width="100%">
+							<thead class="table-dark">
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">Description</th>
+									<th scope="col">Parent 1</th>
+									<th scope="col">Parent 1 Type</th>
+									<th scope="col">Parent 2</th>
+									<th scope="col">Parent 2 Type</th>
+									<th scope="col">Study</th>
+									<th scope="col">Institute</th>
+									<th scope="col">Year</th>
+									<th scope="col">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for cross in crosses %}
+									<tr>
+										<td>
+											{{ cross.name }}
+										</td>
+										<td>
+											{{ cross.description }}
+										</td>
+										<td>
+											{% if cross.parent1 %}
+												<a href="{{ path('germplasm_details', {id: cross.parent1.id}) }}">{{ cross.parent1 }}</a>
+											{% endif %}
+										</td>
+										<td>
+											{{ cross.parent1Type }}
+										</td>
+										<td>
+											{% if cross.parent2 %}
+												<a href="{{ path('germplasm_details', {id: cross.parent2.id}) }}">{{ cross.parent2 }}</a>
+											{% endif %}
+										</td>
+										<td>
+											{{ cross.parent2Type }}
+										</td>
+										<td>
+											{% if cross.study %}
+												<a href="{{ path('study_details', {id: cross.study.id}) }}">{{ cross.study.abbreviation }}</a>
+											{% endif %}
+										</td>
+										<td>
+											{% if cross.institute %}
+												<a href="{{ path('institute_details', {id: cross.institute.id}) }}">{{ cross.institute.acronym }}</a>
+											{% endif %}
+										</td>
+										<td>
+											{{ cross.year }}
+										</td>
+										<td>
+											<a href="{{ path('cross_details', {id: cross.id}) }}">
+												<button class="btn btn-outline-primary">Details</button>
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				{% else %}
+					<h5 class="mb-3 text-center tomato-color font-weight-bold">No cross has been provided in our system</h5>
+				{% endif %}
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	{% include 'resource/list_js.html.twig' %}
+    <script>
+		$(document).ready(function () {
+            $('#datatable').DataTable();
+        });
+	</script>
+{% endblock %}

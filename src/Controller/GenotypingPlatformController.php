@@ -10,6 +10,7 @@ use App\Form\GenotypingPlatformType;
 use App\Form\GenotypingPlatformUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\GenotypingPlatformRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,6 +37,15 @@ class GenotypingPlatformController extends AbstractController
             'genotypingPlatforms' => $genotypingPlatforms
         ];
         return $this->render('genotyping_platform/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, GenotypingPlatformRepository $genotypingPlatformRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($genotypingPlatformRepo, $request);
+        return $datatableRes;
     }
 
     /**

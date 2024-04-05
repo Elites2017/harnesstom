@@ -30,62 +30,20 @@
 							<thead class="table-dark">
 								<tr>
 									<th scope="col">QTL Variant Name</th>
-									<th scope="col2">Associated Phenotype</th>
 									<th scope="col">Linkage Group</th>
 									<th scope="col">Peak Position</th>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Closest Marker</th>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Selected Statistic</th>
 									<th scope="col">QTL Stat Value</th>
 									<th scope="col">R2</th>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">QTL Study</th>
-									<th scope="col">Action</th>
+									<th scope="col" data-orderable="false">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for qtlVariant in qtlVariants %}
-									<tr>
-										<td>
-											{{ qtlVariant.name }}
-										</td>
-										<td>
-											{% if qtlVariant.observationVariable %}
-												<a href="{{ path('observation_variable_details', {id: qtlVariant.observationVariable.id}) }}">{{ qtlVariant.observationVariable }}</a>	
-											{% endif %}
-
-											{% if qtlVariant.metabolite %}
-												<a href="{{ path('metabolite_details', {id: qtlVariant.metabolite.id}) }}">{{ qtlVariant.metabolite }}</a>	
-											{% endif %}
-										</td>
-										<td>
-											{{ qtlVariant.linkageGroupName }}
-										</td>
-										<td>
-											{{ qtlVariant.peakPosition }}
-										</td>
-										<td>
-											{% if qtlVariant.closestMarker %}
-												<a href="{{ path('marker_details', {id: qtlVariant.closestMarker.id}) }}">{{ qtlVariant.closestMarker }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{{ qtlVariant.qtlStudy.statistic }}
-										</td>
-										<td>
-											{{ qtlVariant.qtlStatsValue }}
-										</td>
-										<td>
-											{{ qtlVariant.r2 }}
-										</td>
-										<td>
-											<a href="{{ path('qtl_study_details', {id: qtlVariant.qtlStudy.id}) }}">{{ qtlVariant.qtlStudy }}</a>
-										</td>
-                                        <td>
-											<a href="{{ path('qtl_variant_details', {id: qtlVariant.id}) }}">
-												<button class="btn btn-outline-primary">Details</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -101,10 +59,94 @@
 
 {% block javascripts %}
 	{% include 'resource/list_js.html.twig' %}
-	
-<script>
-		$(document).ready(function () {
-$('#datatable').DataTable();
-});
-	</script>
+	            
+    <script>
+		let dataTableId = "#datatable";
+		let linkMkId = "";
+		let linkQsId = "";
+		let linkQstatId = "";
+        let colsDef = [
+				// These are the column name variables that will be sent to the server
+                { "data": "qv_name", "targets": 0 },
+                { "data": "qv_linkage_group_name", "targets": 1 },
+				{ "data": "qv_peak_position", "targets": 2 },
+                {
+				"data": "mk_closest_id", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkMkId = data;
+						return null;
+					}
+				},
+				{
+				"data": "mk_closest_name", "targets": 4,
+					"render": function(data, type, row, meta) {
+						if  (data) {
+							let url = '{{ path("marker_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkMkId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "qstat_id", "targets": 5,
+					"render": function(data, type, row, meta) {
+						linkQstatId = data;
+						return null;
+					}
+				},
+				{
+				"data": "qstat_name", "targets": 6,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("qtl_statistic_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkQstatId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{ "data": "qv_qtl_stats_value", "targets": 7 },
+				{ "data": "qv_r2", "targets": 8 },
+				{
+				"data": "qs_id", "targets": 9,
+					"render": function(data, type, row, meta) {
+						linkQsId = data;
+						return null;
+					}
+				},
+				{
+				"data": "qs_name", "targets": 10,
+					"render": function(data, type, row, meta) {
+						if  (data) {
+							let url = '{{ path("qtl_study_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkQsId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "id", "targets": 11,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("qtl_variant_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('qtl_variant_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
+    </script>
 {% endblock %}

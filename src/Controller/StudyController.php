@@ -16,6 +16,7 @@ use App\Form\StudyUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\StudyRepository;
 use App\Repository\TrialRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,6 +58,15 @@ class StudyController extends AbstractController
     }
 
     /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, StudyRepository $studyRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($studyRepo, $request);
+        return $datatableRes;
+    }
+
+    /**
      * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
@@ -81,14 +91,28 @@ class StudyController extends AbstractController
                 // study parameter value
                 if ($parameterValues) {
                     foreach ($parameterValues as $key => $parameterValue) {
-                        # code...
-                        $entmanager->persist($parameterValue);
-                        $study->addParameterValue($parameterValue);
+                        if ($parameterValue === null) {
+                            $this->addFlash('danger', "The paramater and its value can not be empty, you must fill / provide them");
+                        } else {
+                            if ($parameterValue->getValue() === null) {
+                                $this->addFlash('danger', "The value of the parameter can not be empty, you must fill / provide it");
+                            } else if ($parameterValue->getParamter() === null) {
+                                $this->addFlash('danger', "The parameter can not be empty, you must fill / provide it");
+                            } else {
+                                # code...
+                                $entmanager->persist($parameterValue);
+                                $study->addParameterValue($parameterValue);
+                                $entmanager->flush();
+                                $this->addFlash('success', " One study has been successfuly added");
+                                return $this->redirect($this->generateUrl('study_index'));
+                            }
+                        }
                     }
+                } else {
+                    $entmanager->flush();
+                    $this->addFlash('success', " One study has been successfuly added");
+                    return $this->redirect($this->generateUrl('study_index'));
                 }
-                $entmanager->flush();
-                $this->addFlash('success', " One study has been successfuly added");
-                return $this->redirect($this->generateUrl('study_index'));
             }
         }
 
@@ -133,19 +157,32 @@ class StudyController extends AbstractController
             if ($startDate > $endDate) {
                 $this->addFlash('danger', "The end date must be greater than the start date");
             } else {
-                $study->setLastUpdated(new \DateTime());
                 $entmanager->persist($study);
                 // study parameter value
                 if ($parameterValues) {
                     foreach ($parameterValues as $key => $parameterValue) {
-                        # code...
-                        $entmanager->persist($parameterValue);
-                        $study->addParameterValue($parameterValue);
+                        if ($parameterValue === null) {
+                            $this->addFlash('danger', "The paramater and its value can not be empty, you must fill / provide them");
+                        } else {
+                            if ($parameterValue->getValue() === null) {
+                                $this->addFlash('danger', "The value of the parameter can not be empty, you must fill / provide it");
+                            } else if ($parameterValue->getParamter() === null) {
+                                $this->addFlash('danger', "The parameter can not be empty, you must fill / provide it");
+                            } else {
+                                # code...
+                                $entmanager->persist($parameterValue);
+                                $study->addParameterValue($parameterValue);
+                                $entmanager->flush();
+                                $this->addFlash('success', " One study has been successfuly added");
+                                return $this->redirect($this->generateUrl('study_index'));
+                            }
+                        }
                     }
+                } else {
+                    $entmanager->flush();
+                    $this->addFlash('success', " One study has been successfuly added");
+                    return $this->redirect($this->generateUrl('study_index'));
                 }
-                $entmanager->flush();
-                $this->addFlash('success', " One study has been successfuly updated");
-                return $this->redirect($this->generateUrl('study_index'));
             }
         }
 

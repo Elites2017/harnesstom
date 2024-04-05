@@ -9,6 +9,7 @@ use App\Form\ProgramType;
 use App\Form\ProgramUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\ProgramRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,6 +36,15 @@ class ProgramController extends AbstractController
             'programs' => $programs
         ];
         return $this->render('program/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, ProgramRepository $programRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($programRepo, $request);
+        return $datatableRes;
     }
 
     /**

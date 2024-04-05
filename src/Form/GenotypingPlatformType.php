@@ -47,6 +47,7 @@ class GenotypingPlatformType extends AbstractType
             ->add('publicationRef', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
+                'allow_delete' => true,
                 'prototype' => true,
                 'label' => false,
                 'prototype_data' => ''

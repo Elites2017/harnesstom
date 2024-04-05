@@ -1,42 +1,39 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  {{ title }}
+	{{ title }}
 {% endblock %}
 
 {% block body %}
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xl-12 col-lg-11">
-        {% for category, messages in app.flashes(
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xl-12 col-lg-11">
+				{% for category, messages in app.flashes(
           ['success', 'warning', 'danger']
         ) %}
-          {% for message in messages %}
-            <div class="alert alert-{{ category }} alert-dismissible fade show"
-              role="alert">
-              {{ message }}
-              <button type="button"
-                class="close"
-                data-dismiss="alert"
-                aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-          {% endfor %}
-        {% endfor %}
-        <div class="card shadow mb-4">
-          <!-- Card Header - Dropdown -->
-          <div class="card-header py-3 flex-row align-items-center justify-content-between">
-            <h4 class="m-0 font-weight-bold text-center tomato-color">
-              Trial Edition
-            </h4>
-          </div>
-          <!-- Card Body -->
-          <div class="card-body">
-            {{ form_start(trialForm) }}
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                {{
+					{% for message in messages %}
+						<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+							{{ message }}
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+				<div
+					class="card shadow mb-4">
+					<!-- Card Header - Dropdown -->
+					<div class="card-header py-3 flex-row align-items-center justify-content-between">
+						<h4 class="m-0 font-weight-bold text-center tomato-color">
+							Trial Edition
+						</h4>
+					</div>
+					<!-- Card Body -->
+					<div class="card-body">
+						{{ form_start(trialForm) }}
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								{{
                   form_row(
                     trialForm.name,
                     {
@@ -47,10 +44,10 @@
                     }
                   )
                 }}
-              </div>
+							</div>
 
-              <div class="col-md-6 mb-3">
-                {{
+							<div class="col-md-6 mb-3">
+								{{
                   form_row(
                     trialForm.abbreviation,
                     {
@@ -61,10 +58,10 @@
                     }
                   )
                 }}
-              </div>
-            </div>
-            <div>
-              {{
+							</div>
+						</div>
+						<div>
+							{{
                 form_row(
                   trialForm.description,
                   {
@@ -75,11 +72,11 @@
                   }
                 )
               }}
-            </div>
+						</div>
 
-            <div class="row">
-              <div class="col-md-4 mb-3">
-                {{
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{
                   form_row(
                     trialForm.startDate,
                     {
@@ -90,10 +87,10 @@
                     }
                   )
                 }}
-              </div>
+							</div>
 
-              <div class="col-md-4 mb-3">
-                {{
+							<div class="col-md-4 mb-3">
+								{{
                   form_row(
                     trialForm.endDate,
                     {
@@ -104,9 +101,9 @@
                     }
                   )
                 }}
-              </div>
-              <div class="col-md-4 mb-3">
-                {{
+							</div>
+							<div class="col-md-4 mb-3">
+								{{
                   form_row(
                     trialForm.publicReleaseDate,
                     {
@@ -117,12 +114,12 @@
                     }
                   )
                 }}
-              </div>
-            </div>
+							</div>
+						</div>
 
-            <div class="row">
-              <div class="col-md-4 mb-3">
-                {{
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{
                   form_row(
                     trialForm.license,
                     {
@@ -133,10 +130,10 @@
                     }
                   )
                 }}
-              </div>
+							</div>
 
-              <div class="col-md-4 mb-3">
-                {{
+							<div class="col-md-4 mb-3">
+								{{
                   form_row(
                     trialForm.pui,
                     {
@@ -147,12 +144,12 @@
                     }
                   )
                 }}
-              </div>
-            </div>
+							</div>
+						</div>
 
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                {{
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								{{
                   form_row(
                     trialForm.program,
                     {
@@ -164,10 +161,10 @@
                     }
                   )
                 }}
-              </div>
+							</div>
 
-              <div class="col-md-6 mb-3">
-                {{
+							<div class="col-md-6 mb-3">
+								{{
                   form_row(
                     trialForm.trialType,
                     {
@@ -179,65 +176,52 @@
                     }
                   )
                 }}
-              </div>
-            </div>
+							</div>
+						</div>
 
-            <div>
-              <div id="pubRef-fields-list"
-                data-prototype="{{ form_widget(
-                  trialForm.publicationReference.vars.prototype
-                )|e }}"
-                data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}"
-                data-widget-counter="{{ trialForm.publicationReference|length }}">
-                {% for pubRef in trialForm.publicationReference %}
-                  <li>
-                    {{ form_errors(pubRef) }}
-                    {{ form_widget(pubRef) }}
-                  </li>
-                {% endfor %}
-              </div>
-              <button type="button"
-                class="btn btn-outline-info mb-3 add-another-collection-widget"
-                data-list-selector="#pubRef-fields-list">
-                Add publication reference
-              </button>
-            </div>
+						<div>
+							<div>
+								{# the data-index attribute is required for the JavaScript code below #}
+								<ul class="tags" data-index="{{ trialForm.publicationReference|length > 0 ? trialForm.publicationReference|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(trialForm.publicationReference.vars.prototype)|e('html_attr') }}">
+                  {% for pubRef in trialForm.publicationReference %}
+                    <li>
+                      {{ form_errors(pubRef) }}
+                      {{ form_widget(pubRef) }}
+                    </li>
+                  {% endfor %}
+                </ul>
+							</div>
+							<button type="button" class="btn btn-outline-info mb-3 add_item_link" data-collection-holder-class="tags">
+								Add publication reference
+							</button>
+						</div>
 
-            <div class="row">
-              <div class="col-md-6 mb-3">
-                <button class="btn btn-outline-primary btn-lg btn-block"
-                  type="submit">
-                  Update
-                </button>
-              </div>
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">
+									Update
+								</button>
+							</div>
 
-              <div class="col-md-6 mb-3">
-                <button class="btn btn-outline-secondary btn-lg btn-block"
-                  type="reset">
-                  Cancel
-                </button>
-              </div>
-            </div>
-            {{ form_end(trialForm) }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- .row -->
-  </div>
-  <!-- .container -->
+							<div class="col-md-6 mb-3">
+								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">
+									Cancel
+								</button>
+							</div>
+						</div>
+						{{ form_end(trialForm) }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-  <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"
-     + + +OrCXaRkfj"
-    crossorigin="anonymous"></script>
-  <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-  <script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
-  <script src="{{
-    asset(
-      'assets/js/add-study-collecting-widget.js'
-    )
-    }}"></script>
-  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+	<script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 {% endblock %}

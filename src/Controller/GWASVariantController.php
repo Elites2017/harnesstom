@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\UploadFromExcelType;
+use App\Service\Datatable;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -40,6 +41,15 @@ class GWASVariantController extends AbstractController
             'gwasVariants' => $gwasVariants
         ];
         return $this->render('gwas_variant/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, GWASVariantRepository $gwasVariantRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($gwasVariantRepo, $request);
+        return $datatableRes;
     }
 
     /**

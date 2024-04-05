@@ -10,6 +10,7 @@ use App\Form\ObservationValueOriginalType;
 use App\Form\ObservationValueOriginalUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\ObservationValueOriginalRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,6 +49,15 @@ class ObservationValueOriginalController extends AbstractController
             'observationValues' => $observationValues
         ];
         return $this->render('observation_value/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, ObservationValueOriginalRepository $observationValueRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($observationValueRepo, $request);
+        return $datatableRes;
     }
 
     /**

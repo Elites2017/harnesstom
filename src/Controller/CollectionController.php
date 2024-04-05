@@ -8,6 +8,7 @@ use App\Form\CollectionType;
 use App\Form\CollectionUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\CollectionClassRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,6 +35,15 @@ class CollectionController extends AbstractController
             'collections' => $collections
         ];
         return $this->render('collection/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, CollectionClassRepository $collectionRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($collectionRepo, $request);
+        return $datatableRes;
     }
 
     /**

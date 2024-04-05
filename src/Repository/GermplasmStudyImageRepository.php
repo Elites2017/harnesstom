@@ -31,7 +31,7 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
             ->from('App\Entity\Study', 'st')    
             ->from('App\Entity\Trial', 'tr')
             ->Where('gmpStImg.isActive = 1')
-            ->Where('gmpStImg.study = st.id')
+            ->Where('gmpStImg.StudyID = st.id')
             ->andWhere('st.trial = tr.id')
             ->andWhere('tr.publicReleaseDate <= :currentDate')
             ->setParameter(':currentDate', $currentDate)
@@ -46,7 +46,7 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
                 $query->orWhere(
                         $query->expr()->andX(
                             'tr.createdBy = :user',
-                            'gmpStImg.study = st.id',
+                            'gmpStImg.StudyID = st.id',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate'))
                         ->setParameter(':user', $user->getId())
@@ -59,7 +59,7 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
                 $query->from('App\Entity\SharedWith', 'sw')
                     ->orWhere(
                         $query->expr()->andX(
-                            'gmpStImg.study = st.id',
+                            'gmpStImg.StudyID = st.id',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate',
                             'sw.user = :user',
@@ -68,7 +68,7 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
                     ->orWhere(
                         $query->expr()->andX(
                             'tr.createdBy = :user',
-                            'gmpStImg.study = st.id',
+                            'gmpStImg.StudyID = st.id',
                             'st.trial = tr.id',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate'))
@@ -85,6 +85,125 @@ class GermplasmStudyImageRepository extends ServiceEntityRepository
             ->where('tab.isActive = 1')
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    // not to override some code, but it's the same as the getTotalRows
+    public function totalRows() {
+        return $this->createQueryBuilder('tab')
+            ->select('count(tab.id)')
+            ->where('tab.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    // for bootstrap datatable server-side processing
+    public function getObjectsList($start, $length, $orders, $search, $columns)
+    {
+        // Create Main Query
+        $query = $this->createQueryBuilder('gsti')
+            ->select("
+                gsti.id, germ.id as germ_id, germ.germplasmID as germplasmID, st.id as study_id, st.abbreviation as study_abbreviation, gsti.description,
+                ae.id as ae_id, ae.name as ae_name, gsti.filename"
+                )
+            ->join('App\Entity\Germplasm', 'germ')
+            ->join('App\Entity\Study', 'st')
+            ->join('App\Entity\AnatomicalEntity', 'ae')
+            ->where('gsti.isActive = 1')
+            ->andWhere('gsti.GermplasmID = germ.id')
+            ->andWhere('gsti.StudyID = st.id')
+            // ->andWhere('gsti.factor = ft.id')
+            // ->andWhere('gsti.developmentStage = ds.id')
+            ->andWhere('gsti.plantAnatomicalEntity = ae.id');
+        
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('gsti');
+        $countQuery->select('COUNT(gsti.id)')
+            ->join('App\Entity\Germplasm', 'germ')
+            ->join('App\Entity\Study', 'st')
+            ->join('App\Entity\AnatomicalEntity', 'ae')
+            ->where('gsti.isActive = 1')
+            ->andWhere('gsti.GermplasmID = germ.id')
+            ->andWhere('gsti.StudyID = st.id')
+            // ->andWhere('gsti.factor = ft.id')
+            // ->andWhere('gsti.developmentStage = ds.id')
+            ->andWhere('gsti.plantAnatomicalEntity = ae.id');
+        
+        if ($search["filter"] != null) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    "germ.germplasmID like :filter",
+                    "st.abbreviation like :filter",
+                    "gsti.description like :filter",
+                    // "ft.name like :filter",
+                    // "ds.name like :filter",
+                    "ae.name like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+
+            $countQuery->andWhere(
+                $countQuery->expr()->orX(
+                    "germ.germplasmID like :filter",
+                    "st.abbreviation like :filter",
+                    "gsti.description like :filter",
+                    // "ft.name like :filter",
+                    // "ds.name like :filter",
+                    "ae.name like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+        }
+                
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+        
+        // Order
+        foreach ($orders as $key => $order)
+        {
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+                if ($order['name'] == 'germplasmID') {
+                    $orderColumn = 'germ.germplasmID';
+                }
+
+                if ($order['name'] == 'study_abbreviation') {
+                    $orderColumn = 'st.abbreviation';
+                }
+
+                // if ($order['name'] == 'factor_name') {
+                //     $orderColumn = 'ft.name';
+                // }
+
+                // if ($order['name'] == 'dev_stage_name') {
+                //     $orderColumn = 'ds.name';
+                // }
+
+                if ($order['name'] == 'ae_name') {
+                    $orderColumn = 'ae.name';
+                }
+
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+        
+        // Execute
+        $results = $query->getQuery()->getArrayResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+        
+        // data returned
+        $rawDatatable = [];
+        $rawDatatable = [
+            "results" => $results,
+            "countResult" => $countResult
+        ];
+        return $rawDatatable;
     }
 
     // /**

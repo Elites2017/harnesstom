@@ -108,11 +108,15 @@
 							</div>
 							<div>
 								<h6 class="my-0">Start Date</h6>
-								<strong class="text-muted">{{ oneStudy.startDate | date('d/m/Y') }}</strong>
+								{% if oneStudy.startDate %}
+									<strong class="text-muted">{{ oneStudy.startDate | date('d/m/Y') }}</strong>
+								{% endif %}
 							</div>
 							<div>
 								<h6 class="my-0">End Date</h6>
-								<strong class="text-muted">{{ oneStudy.endDate | date('d/m/Y') }}</strong>
+								{% if oneStudy.startDate %}
+									<strong class="text-muted">{{ oneStudy.endDate | date('d/m/Y') }}</strong>
+								{% endif %}
 							</div>
 							<div>
 								<h6 class="my-0">Location</h6>

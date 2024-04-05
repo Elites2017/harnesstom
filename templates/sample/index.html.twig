@@ -30,46 +30,18 @@
 							<thead class="table-dark">
 								<tr>
 									<th scope="col">Name</th>
+									<th scope="col" data-orderable="false"></th>
                                     <th scope="col">Germplasm</th>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Study</th>
+									<th scope="col" data-orderable="false"></th>
                                     <th scope="col">Developmental Stage</th>
+									<th scope="col" data-orderable="false"></th>
                                     <th scope="col">Anatomical Entity</th>
-									<th scope="col">Action</th>
+									<th scope="col" data-orderable="false">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for sample in samples %}
-									<tr>
-										<td>
-											{{ sample.name }}
-										</td>
-                                        <td>
-											{% if sample.germplasm %}
-												<a href="{{ path('germplasm_details', {id: sample.germplasm.id}) }}">{{ sample.germplasm }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{% if sample.study %}
-												<a href="{{ path('study_details', {id: sample.study.id}) }}">{{ sample.study.abbreviation }}</a>
-											{% endif %}
-										</td>
-                                        <td>
-											{% if sample.developmentalStage %}
-												<a href="{{ path('developmental_stage_details', {id: sample.developmentalStage.id}) }}">{{ sample.developmentalStage }}</a>
-											{% endif %}
-										</td>
-                                        <td>
-											{% if sample.anatomicalEntity %}
-												<a href="{{ path('anatomical_entity_details', {id: sample.anatomicalEntity.id}) }}">{{ sample.anatomicalEntity }}</a>
-											{% endif %}
-										</td>
-										<td>
-											<a href="{{ path('sample_details', {id: sample.id}) }}">
-												<button class="btn btn-outline-primary">Details</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -86,9 +58,110 @@
 {% block javascripts %}
 	{% include 'resource/list_js.html.twig' %}
 	
-<script>
-		$(document).ready(function () {
-$('#datatable').DataTable();
-});
-	</script>
+	<script>
+		let dataTableId = "#datatable";
+		let linkGermId = "";
+		let linkStId = "";
+        let linkDsId = "";
+		let linkAeId = "";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{ "data": "spl_name", "targets": 0 },
+				{
+				"data": "germ_id", "targets": 1,
+					"render": function(data, type, row, meta) {
+						linkGermId = data;
+						return null;
+					}
+				},
+				{
+				"data": "germplasmID", "targets": 2,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("germplasm_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkGermId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "st_id", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkStId = data;
+						return null;
+					}
+				},
+				{
+				"data": "st_abbreviation", "targets": 4,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("study_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkStId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "ds_id", "targets": 5,
+					"render": function(data, type, row, meta) {
+						linkDsId = data;
+						return null;
+					}
+				},
+				{
+				"data": "ds_name", "targets": 6,
+					"render": function(data, type, row, meta) {
+						if  (data) {
+							let url = '{{ path("developmental_stage_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkDsId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "ae_id", "targets": 7,
+					"render": function(data, type, row, meta) {
+						linkAeId = data;
+						return null;
+					}
+				},
+				{
+				"data": "ae_name", "targets": 8,
+					"render": function(data, type, row, meta) {
+						if  (data) {
+							let url = '{{ path("anatomical_entity_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkAeId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "id", "targets": 9,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("sample_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('sample_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
+    </script>
 {% endblock %}

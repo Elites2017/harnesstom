@@ -55,12 +55,16 @@
 
 							<div class="col-xl-12 col-lg-11 mb-1">
 								<label for="validationTooltip01">Start Date: </label>
-								<span class="tomato-color font-weight-bold">{{ study.startDate | date('m/d/Y') }}</span>
+								{% if study.startDate %}
+									<span class="tomato-color font-weight-bold">{{ study.startDate | date('m/d/Y') }}</span>
+								{% endif %}
 							</div>
 							
 							<div class="col-xl-12 col-lg-11 mb-1">
 								<label for="validationTooltip01">End Date </label>
-								<span class="tomato-color font-weight-bold">{{ study.endDate | date('m/d/Y') }}</span>
+								{% if study.endDate %}
+									<span class="tomato-color font-weight-bold">{{ study.endDate | date('m/d/Y') }}</span>
+								{% endif %}
 							</div>
 							
 							<div class="col-xl-12 col-lg-11 mb-1">
@@ -98,7 +102,9 @@
 							<div class="card-body">
 								<div class="col-xl-12 col-lg-11 mb-1">
 								<label for="validationTooltip01">Abbreviation: </label>
-								<span class="tomato-color font-weight-bold">{{ study.location.abbreviation}}</span>
+								{% if study.location %}
+									<span class="tomato-color font-weight-bold">{{ study.location.abbreviation}}</span>
+								{% endif %}
 							</div>
 
 							<div class="col-xl-12 col-lg-11 mb-1">
@@ -108,27 +114,37 @@
 
 							<div class="col-xl-12 col-lg-11 mb-1">
 								<label for="validationTooltip01">Country: </label>
-								<span class="tomato-color font-weight-bold">{{ study.location.country}}</span>
+								{% if study.location %}
+									<span class="tomato-color font-weight-bold">{{ study.location.country}}</span>
+								{% endif %}
 							</div>
 
 							<div class="col-xl-12 col-lg-11 mb-1">
 								<label for="validationTooltip01">Longitude: </label>
-								<span class="tomato-color font-weight-bold">{{ study.location.longitudeCo}}</span>
+								{% if study.location %}
+									<span class="tomato-color font-weight-bold">{{ study.location.longitudeCo}}</span>
+								{% endif %}
 							</div>
 							
 							<div class="col-xl-12 col-lg-11 mb-1">
 								<label for="validationTooltip01">Latitude </label>
-								<span class="tomato-color font-weight-bold">{{ study.location.latitudeCo}}</span>
+								{% if study.location %}
+									<span class="tomato-color font-weight-bold">{{ study.location.latitudeCo}}</span>
+								{% endif %}
 							</div>
 							
 							<div class="col-xl-12 col-lg-11 mb-1">
 								<label for="validationTooltip01">Altitude: </label>
-								<span class="tomato-color font-weight-bold">{{ study.location.latitudeCo}}</span>
+								{% if study.location %}
+									<span class="tomato-color font-weight-bold">{{ study.location.latitudeCo}}</span>
+								{% endif %}
 							</div>
 
 							<div class="col-xl-12 col-lg-11 mb-1">
 								<label for="validationTooltip01">Site Status: </label>
-								<span class="tomato-color font-weight-bold">{{ study.location.siteStatus}}</span>
+								{% if study.location %}
+									<span class="tomato-color font-weight-bold">{{ study.location.siteStatus}}</span>
+								{% endif %}
 							</div>
 
 							<div class="col-xl-12 col-lg-11 mb-1">

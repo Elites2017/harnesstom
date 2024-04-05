@@ -30,74 +30,21 @@
 							<thead class="table-dark">
 								<tr>
 									<th scope="col">GWAS Variant Name</th>
-									<th scope="col">Associated Phenotype</th>
 									<th scope="col">Linkage Group Name</th>
 									<th scope="col">Marker Position</th>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Marker</th>
 									<th scope="col">MAF</th>
 									<th scope="col">Sample Size</th>
 									<th scope="col">SNP P Value</th>
 									<th scope="col">Adjusted PValue</th>
 									<th scope="col">Allelic Effect</th>
+									<th scope="col" data-orderable="false"></th>
                                     <th scope="col">GWAS</th>
-									<th scope="col">Action</th>
+									<th scope="col" data-orderable="false">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for gwasVariant in gwasVariants %}
-									<tr>
-										<td>
-											{{ gwasVariant.name }}
-										</td>
-										<td>
-											{% if gwasVariant.observationVariable %}
-												<a href="{{ path('observation_variable_details', {id: gwasVariant.observationVariable.id}) }}">{{ gwasVariant.observationVariable }}</a>	
-											{% endif %}
-
-											{% if gwasVariant.metabolite %}
-												<a href="{{ path('metabolite_details', {id: gwasVariant.metabolite.id}) }}">{{ gwasVariant.metabolite }}</a>	
-											{% endif %}
-										</td>
-										<td>
-											{% if gwasVariant.marker %}
-												{{ gwasVariant.marker.linkageGroupName }}
-											{% endif %}
-										</td>
-										<td>
-											{% if gwasVariant.marker %}
-												{{ gwasVariant.marker.position }}
-											{% endif %}
-										</td>
-										<td>
-											{% if gwasVariant.marker %}
-												<a href="{{ path('marker_details', {id: gwasVariant.marker.id}) }}">{{ gwasVariant.marker }}</a>
-											{% endif %}
-										</td>
-										<td>
-											{{ gwasVariant.maf }}
-										</td>
-										<td>
-											{{ gwasVariant.sampleSize }}
-										</td>
-										<td>
-											{{ gwasVariant.snppValue }}
-										</td>
-										<td>
-											{{ gwasVariant.adjustedPValue }}
-										</td>
-										<td>
-											{{ gwasVariant.allelicEffect }}
-										</td>
-                                        <td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.gwas }}</a>
-										</td>
-										<td>
-											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">
-												<button class="btn btn-outline-primary">Details</button>
-											</a>
-										</td>
-									</tr>
-								{% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -113,9 +60,75 @@
 
 {% block javascripts %}
 	{% include 'resource/list_js.html.twig' %}
-<script>
-		$(document).ready(function () {
-$('#datatable').DataTable();
-});
-	</script>
+
+	<script>
+		let dataTableId = "#datatable";
+		let linkMkId = "";
+		let linkGsId = "";
+        let colsDef = [
+				// These are the column name variables that will be sent to the server
+                { "data": "gv_name", "targets": 0 },
+                { "data": "mk_linkage_group_name", "targets": 1 },
+				{ "data": "mk_position", "targets": 2 },
+                {
+				"data": "mk_id", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkMkId = data;
+						return null;
+					}
+				},
+				{
+				"data": "mk_name", "targets": 4,
+					"render": function(data, type, row, meta) {
+						if  (data) {
+							let url = '{{ path("marker_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkMkId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{ "data": "gv_maf", "targets": 5 },
+				{ "data": "gv_sample_size", "targets": 6 },
+				{ "data": "gv_snpp_value", "targets": 7 },
+				{ "data": "gv_adjusted_pvalue", "targets": 8 },
+				{ "data": "gv_allelic_effect", "targets": 9 },
+				{
+				"data": "gs_id", "targets": 10,
+					"render": function(data, type, row, meta) {
+						linkGsId = data;
+						return null;
+					}
+				},
+				{
+				"data": "gs_name", "targets": 11,
+					"render": function(data, type, row, meta) {
+						if  (data) {
+							let url = '{{ path("gwas_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkGsId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						}
+						else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "id", "targets": 12,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("gwas_variant_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('gwas_variant_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
+    </script>
 {% endblock %}
