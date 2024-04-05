@@ -14,6 +14,7 @@ use App\Form\QTLVariantType;
 use App\Form\QTLVariantUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\QTLVariantRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,6 +41,15 @@ class QTLVariantController extends AbstractController
             'qtlVariants' => $qtlVariants
         ];
         return $this->render('qtl_variant/index.html.twig', $context);
+    }
+
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, QTLVariantRepository $qtlVariantRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($qtlVariantRepo, $request);
+        return $datatableRes;
     }
 
     /**

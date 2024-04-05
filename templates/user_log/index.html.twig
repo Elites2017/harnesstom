@@ -1,0 +1,740 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+		<div class="row">
+        {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+			<div class="col-md-12 order-md-1">
+				<h2 class="mb-3 text-center tomato-color font-weight-bold">User Log List</h2>
+                <div class="table-responsive">
+                    <table id="datatable" class="table table-hover text-nowrap" width="100%">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Objects</th>
+                                <th scope="col" data-orderable="false">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {# accession #}
+                            {% if user.accessions | length > 0 %}
+                                <tr>
+                                    <td>Accession</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# allelic effect estimator #}
+                            {% if user.allelicEffectEstimators | length > 0 %}
+                                <tr>
+                                    <td>Allelic Effect Estimator</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# analyte #}
+                            {% if user.analytes | length > 0 %}
+                                <tr>
+                                    <td>Analyte</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# analyte class #}
+                            {% if user.analyteClasses | length > 0 %}
+                                <tr>
+                                    <td>Analyte Class</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# anatomical entity #}
+                            {% if user.anatomicalEntities | length > 0 %}
+                                <tr>
+                                    <td>Anatomical Entity</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# annotation level #}
+                            {% if user.annotationLevels | length > 0 %}
+                                <tr>
+                                    <td>Annotation Level</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# attribute #}
+                            {% if user.attributes | length > 0 %}
+                                <tr>
+                                    <td>Attribute</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# attribute category #}
+                            {% if user.attributeCategories | length > 0 %}
+                                <tr>
+                                    <td>Attribute Category</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# attribute trait value #}
+                            {% if user.attributeTraitValues | length > 0 %}
+                                <tr>
+                                    <td>Attribute Trait Value</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# biological status #}
+                            {% if user.biologicalStatuses | length > 0 %}
+                                <tr>
+                                    <td>Biological Status</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# breeding method #}
+                            {% if user.breedingMethods | length > 0 %}
+                                <tr>
+                                    <td>Breeding Method</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# ci criteria #}
+                            {% if user.ciCriterias | length > 0 %}
+                                <tr>
+                                    <td>Ci Criteria</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# collecting mission #}
+                            {% if user.collectingMissions | length > 0 %}
+                                <tr>
+                                    <td>Collecting Mission</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# collecting source #}
+                            {% if user.collectingSources | length > 0 %}
+                                <tr>
+                                    <td>Collecting Source</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# collection #}
+                            {% if user.collectionClasses | length > 0 %}
+                                <tr>
+                                    <td>Collections</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# contact #}
+                            {% if user.contacts | length > 0 %}
+                                <tr>
+                                    <td>Contacts</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# country #}
+                            {% if user.countries | length > 0 %}
+                                <tr>
+                                    <td>Country</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# crop #}
+                            {% if user.crops | length > 0 %}
+                                <tr>
+                                    <td>Crops</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# cross #}
+                            {% if user.crosses | length > 0 %}
+                                <tr>
+                                    <td>Cross</td>
+                                    <td><a href="{{ path('user_log_cross_index') }}">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# data type #}
+                            {% if user.dataTypes | length > 0 %}
+                                <tr>
+                                    <td>Data Type</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# developmental stage #}
+                            {% if user.developmentalStages | length > 0 %}
+                                <tr>
+                                    <td>Developmental Stage</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# enzyme #}
+                            {% if user.enzymes | length > 0 %}
+                                <tr>
+                                    <td>Enzyme</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# experimental design #}
+                            {% if user.experimentalDesignTypes | length > 0 %}
+                                <tr>
+                                    <td>Experimental Design</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# factor type #}
+                            {% if user.factorTypes | length > 0 %}
+                                <tr>
+                                    <td>Factor Type</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# generation #}
+                            {% if user.generations | length > 0 %}
+                                <tr>
+                                    <td>Generation</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# genetic testing model #}
+                            {% if user.geneticTestingModels | length > 0 %}
+                                <tr>
+                                    <td>Genetic Testing Model</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# genotyping platform #}
+                            {% if user.genotypingPlatforms | length > 0 %}
+                                <tr>
+                                    <td>Genotyping Platform</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# germplasm #}
+                            {% if user.germplasms | length > 0 %}
+                                <tr>
+                                    <td>Germplasm</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# germplasm study image #}
+                            {% if user.germplasmStudyImages | length > 0 %}
+                                <tr>
+                                    <td>Germplasm Study Image</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# growth facility type #}
+                            {% if user.growthFacilityTypes | length > 0 %}
+                                <tr>
+                                    <td>Growth Facility Type</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# gwas #}
+                            {% if user.gwas | length > 0 %}
+                                <tr>
+                                    <td>Gwas</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# gwas model #}
+                            {% if user.gwasModels | length > 0 %}
+                                <tr>
+                                    <td>Gwas Model</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# gwas stat test #}
+                            {% if user.gwasStatTests | length > 0 %}
+                                <tr>
+                                    <td>Gwas Stat Test</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# gwas variant #}
+                            {% if user.gwasVariants | length > 0 %}
+                                <tr>
+                                    <td>Gwas Variant</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# identification level #}
+                            {% if user.identificationLevels | length > 0 %}
+                                <tr>
+                                    <td>Identification Level</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# institute #}
+                            {% if user.institutes | length > 0 %}
+                                <tr>
+                                    <td>Institute</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# kinship algorithm #}
+                            {% if user.kinshipAlgorithms | length > 0 %}
+                                <tr>
+                                    <td>Kinship Algorithm</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# location #}
+                            {% if user.locations | length > 0 %}
+                                <tr>
+                                    <td>Location</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# mapping population #}
+                            {% if user.mappingPopulations | length > 0 %}
+                                <tr>
+                                    <td>Mapping Population</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# marker #}
+                            {% if user.markers | length > 0 %}
+                                <tr>
+                                    <td>Marker</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# marker synonym #}
+                            {% if user.markerSynonyms | length > 0 %}
+                                <tr>
+                                    <td>Marker Synonym</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# metabolic trait #}
+                            {% if user.metabolicTraits | length > 0 %}
+                                <tr>
+                                    <td>Metabolic Trait</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# metabolite #}
+                            {% if user.metabolites | length > 0 %}
+                                <tr>
+                                    <td>Metabolite</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# metabolite class #}
+                            {% if user.metaboliteClasses | length > 0 %}
+                                <tr>
+                                    <td>Metabolite Class</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# metabolite value #}
+                            {% if user.metaboliteValues | length > 0 %}
+                                <tr>
+                                    <td>Metabolite Value</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# method class #}
+                            {% if user.methodClasses | length > 0 %}
+                                <tr>
+                                    <td>Method Class</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# mls status #}
+                            {% if user.mlsStatuses | length > 0 %}
+                                <tr>
+                                    <td>MLS Status</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# observation level #}
+                            {% if user.observationLevels | length > 0 %}
+                                <tr>
+                                    <td>Observation Level</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# observation value #}
+                            {% if user.observationValues | length > 0 %}
+                                <tr>
+                                    <td>Observation Value</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# observation value original #}
+                            {% if user.observationValueOriginals | length > 0 %}
+                                <tr>
+                                    <td>Observation Value Original</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# observation variable #}
+                            {% if user.observationVariables | length > 0 %}
+                                <tr>
+                                    <td>Observation Variable</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# observation variable method #}
+                            {% if user.observationVariableMethods | length > 0 %}
+                                <tr>
+                                    <td>Observation Variable Method</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# parameter #}
+                            {% if user.parameters | length > 0 %}
+                                <tr>
+                                    <td>Parameter</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# parameter value #}
+                            {# {% if user.paramterValues | length > 0 %}
+                                <tr>
+                                    <td>Paramter Value</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %} #}
+
+                            {# pedigree #}
+                            {% if user.pedigrees | length > 0 %}
+                                <tr>
+                                    <td>Pedigree</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# person #}
+                            {% if user.people | length > 0 %}
+                                <tr>
+                                    <td>Person</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# progeny #}
+                            {# {% if user.progenies | length > 0 %}
+                                <tr>
+                                    <td>Progeny</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %} #}
+
+                            {# program #}
+                            {% if user.programs | length > 0 %}
+                                <tr>
+                                    <td>Program</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# qtl epistasis effect #}
+                            {% if user.qtlEpistasisEffects | length > 0 %}
+                                <tr>
+                                    <td>QTL Epistasis Effect</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# qtl method #}
+                            {% if user.qtlMethods | length > 0 %}
+                                <tr>
+                                    <td>QTL Method</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# qtl statistic #}
+                            {% if user.qtlStatistics | length > 0 %}
+                                <tr>
+                                    <td>QTL Statistic</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# qtl study #}
+                            {% if user.qtlStudies | length > 0 %}
+                                <tr>
+                                    <td>QTL Study</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# qtl variant #}
+                            {% if user.qtlVariants | length > 0 %}
+                                <tr>
+                                    <td>QTL Variant</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# sample #}
+                            {% if user.samples | length > 0 %}
+                                <tr>
+                                    <td>Sample</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# scale #}
+                            {% if user.scales | length > 0 %}
+                                <tr>
+                                    <td>Scale</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# scale category #}
+                            {% if user.scaleCategories | length > 0 %}
+                                <tr>
+                                    <td>Scale Category</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# season #}
+                            {% if user.seasons | length > 0 %}
+                                <tr>
+                                    <td>Season</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# sequencing instrument #}
+                            {% if user.sequencingInstruments | length > 0 %}
+                                <tr>
+                                    <td>Sequencing Instrument</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# sequencing type #}
+                            {% if user.sequencingTypes | length > 0 %}
+                                <tr>
+                                    <td>Sequencing Type</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# shared with #}
+                            {% if user.sharedWiths | length > 0 %}
+                                <tr>
+                                    <td>Shared With</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# software #}
+                            {% if user.software | length > 0 %}
+                                <tr>
+                                    <td>Software</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# storage type #}
+                            {% if user.storageTypes | length > 0 %}
+                                <tr>
+                                    <td>Storage Type</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# structure method #}
+                            {% if user.structureMethods | length > 0 %}
+                                <tr>
+                                    <td>Structure Method</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# study #}
+                            {% if user.studies | length > 0 %}
+                                <tr>
+                                    <td>Study</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# study image #}
+                            {% if user.studyImages | length > 0 %}
+                                <tr>
+                                    <td>Study Image</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# synonym #}
+                            {% if user.synonyms | length > 0 %}
+                                <tr>
+                                    <td>Synonym</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# taxonomy #}
+                            {% if user.taxonomies | length > 0 %}
+                                <tr>
+                                    <td>Taxonomy</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# threshold method #}
+                            {% if user.thresholdMethods | length > 0 %}
+                                <tr>
+                                    <td>Threshold Method</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# trait class #}
+                            {% if user.traitClasses | length > 0 %}
+                                <tr>
+                                    <td>Trait</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# trait processing #}
+                            {% if user.traitProcessings | length > 0 %}
+                                <tr>
+                                    <td>Trait Processing</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# trial #}
+                            {% if user.trials | length > 0 %}
+                                <tr>
+                                    <td>Trials</td>
+                                    <td><a href="{{ path('user_log_trial_index') }}">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# trial type #}
+                            {% if user.trialTypes | length > 0 %}
+                                <a href="#">
+                                    <tr>
+                                        <td>Trial Type</td>
+                                        <td>List</td>
+                                    </tr>
+                                </a>
+                            {% endif %}
+
+                            {# unit #}
+                            {% if user.units | length > 0 %}
+                                <tr>
+                                    <td>Unit</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# var call software #}
+                            {% if user.varCallSoftware | length > 0 %}
+                                <tr>
+                                    <td>Var Call Software</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# variant set #}
+                            {% if user.variantSets | length > 0 %}
+                                <tr>
+                                    <td>Variant Set</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+
+                            {# variant set metadata #}
+                            {% if user.variantSetMetadata | length > 0 %}
+                                <tr>
+                                    <td>Variant Set Metadata</td>
+                                    <td><a href="#">List</a></td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>    
+			</div>
+		</div>
+		<!-- .row -->
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/list_js.html.twig' %}
+    <script>
+		$(document).ready(function () {
+            $('#datatable').DataTable();
+        });
+	</script>
+{% endblock %}

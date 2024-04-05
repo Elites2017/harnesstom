@@ -1657,6 +1657,143 @@ class AccessionRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // for bootstrap datatable server-side processing
+    public function getObjectsList($start, $length, $orders, $search, $columns)
+    {
+        // Create Main Query
+        $query = $this->createQueryBuilder('acc')
+            ->select('
+                acc.id, acc.accenumb, acc.accename, acc.puid, ctry.id as country_id, ctry.iso3 as country_iso3,
+                bs.id as bs_id, bs.name as bs_name, mls.id as mls_id, mls.name as mls_name, inst.id as inst_id,
+                inst.instcode as inst_instcode, acc.maintainernumb, tx.id as tx_id, tx.taxonid as taxonid'
+                )
+            ->join('App\Entity\Country', 'ctry')
+            ->join('App\Entity\BiologicalStatus', 'bs')
+            ->join('App\Entity\MLSStatus', 'mls')
+            ->join('App\Entity\Institute', 'inst')
+            ->join('App\Entity\Taxonomy', 'tx')
+            ->where('acc.isActive = 1')
+            ->andWhere('acc.sampstat = bs.id')
+            ->andWhere('acc.mlsStatus = mls.id')
+            ->andWhere('acc.origcty = ctry.id')
+            ->andWhere('acc.taxon = tx.id')
+            ->andWhere('acc.instcode = inst.id');
+        
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('acc');
+        $countQuery->select('COUNT(acc.id)')
+                ->join('App\Entity\Country', 'ctry')
+                ->join('App\Entity\BiologicalStatus', 'bs')
+                ->join('App\Entity\MLSStatus', 'mls')
+                ->join('App\Entity\Institute', 'inst')
+                ->join('App\Entity\Taxonomy', 'tx')
+                ->where('acc.isActive = 1')
+                ->andWhere('acc.sampstat = bs.id')
+                ->andWhere('acc.mlsStatus = mls.id')
+                ->andWhere('acc.origcty = ctry.id')
+                ->andWhere('acc.taxon = tx.id')
+                ->andWhere('acc.instcode = inst.id');
+        
+        if ($search["filter"] != null) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    "tx.taxonid like :filter",
+                    "acc.accenumb like :filter",
+                    "acc.accename like :filter",
+                    "acc.puid like :filter",
+                    "ctry.iso3 like :filter",
+                    "bs.name like :filter",
+                    "mls.name like :filter",
+                    "inst.instcode like :filter",
+                    "acc.maintainernumb like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+
+            $countQuery->andWhere(
+                $countQuery->expr()->orX(
+                        "tx.taxonid like :filter",
+                        "acc.accenumb like :filter",
+                        "acc.accename like :filter",
+                        "acc.puid like :filter",
+                        "ctry.iso3 like :filter",
+                        "bs.name like :filter",
+                        "mls.name like :filter",
+                        "inst.instcode like :filter",
+                        "acc.maintainernumb like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+        }
+                
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+        
+        // Order
+        foreach ($orders as $key => $order)
+        {
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+                if ($order['name'] == 'taxonid') {
+                    $orderColumn = 'tx.taxonid';
+                }
+
+                if ($order['name'] == 'accenumb') {
+                    $orderColumn = 'acc.accenumb';
+                }
+
+                if ($order['name'] == 'accename') {
+                    $orderColumn = 'acc.accename';
+                }
+
+                if ($order['name'] == 'puid') {
+                    $orderColumn = 'acc.puid';
+                }
+
+                if ($order['name'] == 'country_iso3') {
+                    $orderColumn = 'ctry.iso3';
+                }
+
+                if ($order['name'] == 'bs_name') {
+                    $orderColumn = 'bs.name';
+                }
+
+                if ($order['name'] == 'mls_name') {
+                    $orderColumn = 'mls.name';
+                }
+
+                if ($order['name'] == 'inst_instcode') {
+                    $orderColumn = 'inst.instcode';
+                }
+
+                if ($order['name'] == 'maintainernumb') {
+                    $orderColumn = 'acc.maintainernumb';
+                }
+
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+        
+        // Execute
+        $results = $query->getQuery()->getArrayResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+        
+        // data returned
+        $rawDatatable = [];
+        $rawDatatable = [
+            "results" => $results,
+            "countResult" => $countResult
+        ];
+        return $rawDatatable;
+    }
+
     // /**
     //  * @return Accession[] Returns an array of Accession objects
     //  */

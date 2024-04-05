@@ -231,6 +231,7 @@ class InstituteRepository extends ServiceEntityRepository
                 $query->expr()->orX(
                     "inst.instcode like :filter",
                     "inst.name like :filter",
+                    "ctry.iso3 like :filter",
                     "inst.acronym like :filter"
                     )
             )
@@ -241,6 +242,7 @@ class InstituteRepository extends ServiceEntityRepository
                 $countQuery->expr()->orX(
                     "inst.instcode like :filter",
                     "inst.name like :filter",
+                    "ctry.iso3 like :filter",
                     "inst.acronym like :filter"
                     )
             )

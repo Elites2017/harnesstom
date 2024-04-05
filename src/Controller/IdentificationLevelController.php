@@ -54,6 +54,7 @@ class IdentificationLevelController extends AbstractController
             $identificationLevel->setCreatedAt(new \DateTime());
             $entmanager->persist($identificationLevel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('identification_level_index'));
         }
 
@@ -88,6 +89,7 @@ class IdentificationLevelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($identificationLevel);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('identification_level_index'));
         }
 

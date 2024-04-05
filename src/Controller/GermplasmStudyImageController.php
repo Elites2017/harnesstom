@@ -12,6 +12,7 @@ use App\Form\GermplasmStudyImageType;
 use App\Form\GermplasmStudyImageUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\GermplasmStudyImageRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,6 +54,15 @@ class GermplasmStudyImageController extends AbstractController
     }
 
     /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, GermplasmStudyImageRepository $germplasmStudyImageRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($germplasmStudyImageRepo, $request);
+        return $datatableRes;
+    }
+
+    /**
      * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
@@ -69,6 +79,7 @@ class GermplasmStudyImageController extends AbstractController
             $germplasmStudyImage->setCreatedAt(new \DateTime());
             $entmanager->persist($germplasmStudyImage);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('germplasm_study_image_index'));
         }
 
@@ -103,6 +114,7 @@ class GermplasmStudyImageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($germplasmStudyImage);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('germplasm_study_image_index'));
         }
 

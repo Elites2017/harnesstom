@@ -11,51 +11,33 @@
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
+		{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+			{% for message in messages %}
+				<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			{% endfor %}
+		{% endfor %}
 			<div class="col-md-12 order-md-1">
 				{% if genotypingPlatforms | length > 0 %}
 					<h2 class="mb-3 text-center tomato-color font-weight-bold">Genotyping Platform List</h2>
-					{% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-						{% for message in messages %}
-							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-						{% endfor %}
-					{% endfor %}
 					<div class="table-responsive">
 						<table id="datatable" class="table table-hover text-nowrap" width="100%">
 							<thead class="table-dark">
 								<tr>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Sequencing Type</th>
 									<th scope="col">Name</th>
 									<th scope="col">Ref Set Name</th>
 									<th scope="col">Marker Count</th>
+									<th scope="col" data-orderable="false"></th>
 									<th scope="col">Sequencing Instrument</th>
-									<th scope="col">Action</th>
+									<th scope="col" data-orderable="false">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for genotypingPlatform in genotypingPlatforms %}
-									<tr>
-										<td>
-											{% if genotypingPlatform.sequencingType %}
-												<a href="{{ path('sequencing_type_details', {id: genotypingPlatform.sequencingType.id}) }}">{{ genotypingPlatform.sequencingType }}</a>
-											{% endif %}
-										</td>
-										<td>{{ genotypingPlatform.name }}</td>
-										<td>{{ genotypingPlatform.refSetName }}</td>
-										<td>{{ genotypingPlatform.markerCount }}</td>
-										<td>
-											{% if genotypingPlatform.sequencingInstrument %}
-												<a href="{{ path('sequencing_instrument_details', {id: genotypingPlatform.sequencingInstrument.id}) }}">{{ genotypingPlatform.sequencingInstrument }}</a>
-											{% endif %}
-										</td>
-										<td>
-                                            <a href="{{ path('genotyping_platform_details', {id: genotypingPlatform.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
-                                        </td>
-									</tr>
-								{% endfor %}
 							</tbody>
 						</table>
 					</div>
@@ -71,9 +53,68 @@
 
 {% block javascripts %}
 	{% include 'resource/list_js.html.twig' %}
-<script>
-		$(document).ready(function () {
-$('#datatable').DataTable();
-});
-	</script>
+	
+	<script>
+		let dataTableId = "#datatable";
+		let linkSqtId = "";
+		let linkSqinsId = "";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{
+				"data": "sqt_id", "targets": 0,
+					"render": function(data, type, row, meta) {
+						linkSqtId = data;
+						return null;
+					}
+				},
+				{
+				"data": "sqt_name", "targets": 1,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("sequencing_type_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkSqtId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+				{ "data": "name", "targets": 2 },
+				{ "data": "ref_set_name", "targets": 3 },
+				{ "data": "marker_count", "targets": 4 },
+				{
+				"data": "sqinst_id", "targets": 3,
+					"render": function(data, type, row, meta) {
+						linkSqinsId = data;
+						return null;
+					}
+				},
+				{
+				"data": "sqinst_name", "targets": 4,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("sequencing_instrument_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkSqinsId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "id", "targets": 5,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("genotyping_platform_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('genotyping_platform_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
+    </script>
 {% endblock %}

@@ -41,6 +41,7 @@ class VariantSetMetadataType extends AbstractType
             ->add('publicationRef', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
+                'allow_delete' => true,
                 'prototype' => true,
                 'required' => false,
                 'label' => false

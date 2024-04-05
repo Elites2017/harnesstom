@@ -150,15 +150,28 @@
                                 </div>
 
                                 <div class="col-md-4 mb-3">
-                                    <div id="paramValue-fields-list" data-prototype="{{ form_widget(studyForm.extra.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ studyForm.extra|length }}">
-                                        {% for paramValue in studyForm.extra %}
-                                            <li>
+                                    <div>
+                                        <div>
+                                            {# the data-index attribute is required for the JavaScript code below #}
+                                            <ul class="tags" data-index="{{ studyForm.extra|length > 0 ? studyForm.extra|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(studyForm.extra.vars.prototype)|e('html_attr') }}">
+                                            
+                                            {# {{ studyForm[0] }} #}
+                                            
+                                            {% for paramValue in studyForm.extra %}
+                                                <li>
                                                 {{ form_errors(paramValue) }}
                                                 {{ form_widget(paramValue) }}
-                                            </li>
-                                        {% endfor %}
+                                                </li>
+                                            {% endfor %}
+                                            </ul>
+                                        </div>
+                                        <button type="button"
+                                            class="btn btn-outline-info mb-3 add_item_link"
+                                            data-collection-holder-class="tags">
+                                            Add Parameter Value
+                                        </button>
                                     </div>
-                                    <button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#paramValue-fields-list">Add Parameter Value</button>
+
                                 </div>
                             </div>
 
@@ -253,7 +266,8 @@
     <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
     <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
+    
+    <script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
 
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>

@@ -3,50 +3,50 @@
 {% form_theme accessionForm _self %}
 
 {% block datalist_widget %}
-    <input {{ block('widget_attributes') }} list="accession_collcode_list" value="{{ form.vars.value }}" />
-    <datalist id="accession_collcode_list">
+    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
+    <datalist id="{{ form.vars.id }}_list">
         {% for choice in choices %}
             <option data-value="{{ choice.value }}">
                 {{ choice.label }}
             </option>
         {% endfor %}
-    <input type="hidden" name="accession[collcode]" id="accession_collcode_hidden">
+	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
     </datalist>
 {% endblock %}
 
 {% block datalist1_widget %}
-    <input {{ block('widget_attributes') }} list="accession_donorcode_list" value="{{ form.vars.value }}" />
-    <datalist id="accession_donorcode_list">
+    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
+    <datalist id="{{ form.vars.id }}_list">
         {% for choice in choices %}
             <option data-value="{{ choice.value }}">
                 {{ choice.label }}
             </option>
         {% endfor %}
-    <input type="hidden" name="accession[donorcode]" id="accession_donorcode_hidden">
+	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
     </datalist>
 {% endblock %}
 
 {% block datalist2_widget %}
-    <input {{ block('widget_attributes') }} list="accession_bredcode_list" value="{{ form.vars.value }}" />
-    <datalist id="accession_bredcode_list">
+    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
+    <datalist id="{{ form.vars.id }}_list">
         {% for choice in choices %}
             <option data-value="{{ choice.value }}">
                 {{ choice.label }}
             </option>
         {% endfor %}
-    <input type="hidden" name="accession[bredcode]" id="accession_bredcode_hidden">
+	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
     </datalist>
 {% endblock %}
 
 {% block datalist3_widget %}
-    <input {{ block('widget_attributes') }} list="accession_instcode_list" value="{{ form.vars.value }}" />
-    <datalist id="accession_instcode_list">
+    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
+    <datalist id="{{ form.vars.id }}_list">
         {% for choice in choices %}
             <option data-value="{{ choice.value }}">
                 {{ choice.label }}
             </option>
         {% endfor %}
-    <input type="hidden" name="accession[instcode]" id="accession_instcode_hidden">
+	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
     </datalist>
 {% endblock %}
 
@@ -74,7 +74,7 @@
 					<!-- Card Body -->
 					<div class="card-body">
 						{{ form_start(accessionForm) }}
-                        <h3 class="tomato-color">Accession basic information</h3>
+                        <h3 class="tomato-color">Accession basic information {{ accessionForm.vars.value }} </h3>
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     {{ form_row

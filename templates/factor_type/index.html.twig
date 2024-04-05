@@ -11,6 +11,15 @@
 {% block body %}
   <div class="container-fluid">
     <div class="row">
+    {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+						{% for message in messages %}
+							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endfor %}
+					{% endfor %}
       <div class="col-xl-10 col-lg-11">
         <div class="card shadow mb-4">
           <!-- Card Header - Dropdown -->

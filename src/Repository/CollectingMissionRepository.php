@@ -79,6 +79,108 @@ class CollectingMissionRepository extends ServiceEntityRepository
         return $query->getQuery()->getArrayResult();
     }
 
+    // Get the total number of elements
+    public function totalRows() {
+        return $this->createQueryBuilder('coll')
+            ->select('count(coll.id)')
+            ->where('coll.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    // for bootstrap datatable server-side processing
+    public function getObjectsList($start, $length, $orders, $search, $columns)
+    {
+        // Create Main Query
+        $query = $this->createQueryBuilder('coll');
+        $query
+            ->select('coll.id, coll.name as coll_name, coll.species, inst.id as inst_id, inst.instcode as instcode,
+                    inst.acronym as inst_acronym, inst.name as inst_name')
+            ->from('App\Entity\Institute', 'inst');
+        $query->where(
+            $query->expr()->orX(
+                "coll.institute = ''",
+                "coll.institute = inst.id"
+                )
+            );
+        
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('coll');
+        $countQuery->select('COUNT(coll.id)')
+            ->from('App\Entity\Institute', 'inst');
+        $countQuery->where(
+            $countQuery->expr()->orX(
+                "coll.institute = ''",
+                "coll.institute = inst.id"
+                )
+            );
+        
+        if ($search["filter"] != null) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    "coll.name like :filter",
+                    "coll.species like :filter",
+                    "inst.instcode like :filter",
+                    "inst.acronym like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+
+            $countQuery->andWhere(
+                $countQuery->expr()->orX(
+                    "coll.name like :filter",
+                    "coll.species like :filter",
+                    "inst.instcode like :filter",
+                    "inst.acronym like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+        }
+                
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+        
+        // Order
+        foreach ($orders as $key => $order)
+        {
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+                if ($order['name'] == 'name') {
+                    $orderColumn = 'coll.name';
+                }
+
+                if ($order['name'] == 'species') {
+                    $orderColumn = 'coll.species';
+                }
+
+                if ($order['name'] == 'inst_name') {
+                    $orderColumn = 'inst.name';
+                }
+
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+        
+        // Execute
+        $results = $query->getQuery()->getArrayResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+        
+        // data returned
+        $rawDatatable = [];
+        $rawDatatable = [
+            "results" => $results,
+            "countResult" => $countResult
+        ];
+        return $rawDatatable;
+    }
+
     // /**
     //  * @return CollectingMission[] Returns an array of CollectingMission objects
     //  */

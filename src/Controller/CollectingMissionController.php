@@ -8,6 +8,7 @@ use App\Form\CollectingMissionType;
 use App\Form\CollectingMissionUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\CollectingMissionRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +38,15 @@ class CollectingMissionController extends AbstractController
     }
 
     /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, CollectingMissionRepository $collectingMissionRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($collectingMissionRepo, $request);
+        return $datatableRes;
+    }
+
+    /**
      * @Route("/create", name="create")
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
@@ -53,6 +63,7 @@ class CollectingMissionController extends AbstractController
             $collectingMission->setCreatedAt(new \DateTime());
             $entmanager->persist($collectingMission);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('collecting_mission_index'));
         }
 
@@ -87,6 +98,7 @@ class CollectingMissionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($collectingMission);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('collecting_mission_index'));
         }
 

@@ -54,6 +54,7 @@ class MarkerSynonymController extends AbstractController
             $this->addFlash('success', "A new synonym has been successfuly added");
             $entmanager->persist($markerSynonym);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('marker_synonym_index'));
         }
 
@@ -88,6 +89,7 @@ class MarkerSynonymController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($markerSynonym);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('marker_synonym_index'));
         }
 

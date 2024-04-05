@@ -80,6 +80,7 @@ class SeasonController extends AbstractController
             $season->setCreatedAt(new \DateTime());
             $entmanager->persist($season);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('season_index'));
         }
 
@@ -114,6 +115,7 @@ class SeasonController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($season);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('season_index'));
         }
 

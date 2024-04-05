@@ -9,40 +9,30 @@
 {% block body %}
     <div class="container-fluid">
 		<div class="row">
+        {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
+            {% for message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endfor %}
 			<div class="col-md-12 order-md-1">
 				{% if programs | length > 0 %}
                     <h2 class="mb-3 text-center tomato-color font-weight-bold">Program List</h2>
-                    {% for category, messages in app.flashes(['success', 'warning', 'danger']) %}
-						{% for message in messages %}
-							<div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">{{ message }}
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-						{% endfor %}
-					{% endfor %}
                     <div class="table-responsive">
                         <table id="datatable" class="table table-hover text-nowrap" width="100%">
                             <thead class="table-dark">
                                 <tr>
                                 <th scope="col">Abbreviation</th>
                                 <th scope="col">Name</th>
+                                <th scope="col" data-orderable="false"></th>
                                 <th scope="col">Crop</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" data-orderable="false">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for program in programs %}
-                                    <tr>
-                                        <td>{{ program.abbreviation }}</td>
-                                        <td>{{ program.name }}</td>
-                                        <td>{{ program.crop }}</td>
-                                        {# <td>{{ program.objective|length > 50 ? program.objective|slice(0, 50) ~ '...' : program.objective }}</td> #}
-                                        <td>
-                                            <a href="{{ path('program_details', {id: program.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -60,8 +50,44 @@
     {% include 'resource/list_js.html.twig' %}
 
     <script>
-        $(document).ready(function() {
-            $('#datatable').DataTable();
-        } );
+		let dataTableId = "#datatable";
+		let linkId = "";
+		let colsDef = [
+				// These are the column name variables that will be sent to the server
+				{ "data": "abbreviation", "targets": 0 },
+				{ "data": "name", "targets": 1 },
+				{
+				"data": "crop_id", "targets": 2,
+					"render": function(data, type, row, meta) {
+						linkId = data;
+						return null;
+					}
+				},
+				{
+				"data": "crop_name", "targets": 3,
+					"render": function(data, type, row, meta) {
+						if (data) {
+							let url = '{{ path("crop_details", {'id': 'dataId'}) }}'; 
+							url = url.replace("dataId", linkId);
+							let actionlink = "<a href="+ url +">"+data+"</a>";
+							return actionlink;
+						} else {
+							return null;
+						}
+					}
+				},
+				{
+				"data": "id", "targets": 4,
+					"render": function(data, type, row, meta) {
+						let url = '{{ path("program_details", {'id': 'dataId'}) }}'; 
+						url = url.replace("dataId", data);
+						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						return actionlink;
+					}
+				}
+			];
+		let url = "{{ path('program_datatable') }}";
+		// call the function with data table id, columns & ajax url args
+		dataTable(dataTableId, colsDef, url);
     </script>
 {% endblock %}

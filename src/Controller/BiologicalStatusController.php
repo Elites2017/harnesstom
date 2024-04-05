@@ -54,6 +54,7 @@ class BiologicalStatusController extends AbstractController
             $biologicalStatus->setCreatedAt(new \DateTime());
             $entmanager->persist($biologicalStatus);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('biological_status_index'));
         }
 
@@ -88,6 +89,7 @@ class BiologicalStatusController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entmanager->persist($biologicalStatus);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
             return $this->redirect($this->generateUrl('biological_status_index'));
         }
 

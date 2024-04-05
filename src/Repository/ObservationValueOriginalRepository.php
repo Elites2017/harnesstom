@@ -84,6 +84,103 @@ class ObservationValueOriginalRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // Get the total number of elements
+    public function totalRows() {
+        return $this->createQueryBuilder('obsVO')
+            ->select('count(obsVO.id)')
+            ->where('obsVO.isActive = 1')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    // for bootstrap datatable server-side processing
+    public function getObjectsList($start, $length, $orders, $search, $columns)
+    {
+        // Create Main Query
+        $query = $this->createQueryBuilder('obsVO')
+            ->select("
+                obsVO.id, obsL.id as obsL_id, obsL.unitname as obsL_unitname, obsV.id as obsV_id, obsV.name as obsV_name, obsVO.value as value"
+                )
+            ->join('App\Entity\ObservationLevel', 'obsL')
+            ->join('App\Entity\ObservationVariable', 'obsV')
+            ->where('obsVO.isActive = 1')
+            ->andWhere('obsVO.unitName = obsL.id')
+            ->andWhere('obsVO.observationVariableOriginal = obsV.id');
+            
+        
+        // Create Count Query
+        $countQuery = $this->createQueryBuilder('obsVO');
+        $countQuery->select('COUNT(obsVO.id)')
+            ->join('App\Entity\ObservationLevel', 'obsL')
+            ->join('App\Entity\ObservationVariable', 'obsV')
+            ->where('obsVO.isActive = 1')
+            ->andWhere('obsVO.unitName = obsL.id')
+            ->andWhere('obsVO.observationVariableOriginal = obsV.id');
+        
+        if ($search["filter"] != null) {
+            $query->andWhere(
+                $query->expr()->orX(
+                    "obsL.unitname like :filter",
+                    "obsV.name like :filter",
+                    "obsVO.value like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+
+            $countQuery->andWhere(
+                $countQuery->expr()->orX(
+                    "obsL.unitname like :filter",
+                    "obsV.name like :filter",
+                    "obsVO.value like :filter"
+                    )
+            )
+            ->setParameter('filter', "%".$search['filter']."%")
+            ;
+        }
+                
+        // Limit
+        $query->setFirstResult($start)->setMaxResults($length);
+        
+        // Order
+        foreach ($orders as $key => $order)
+        {
+            // $order['name'] is the name of the order column as sent by the JS
+            if ($order['name'] != '')
+            {
+                $orderColumn = null;
+                if ($order['name'] == 'obsL_unitname') {
+                    $orderColumn = 'obsL.unitname';
+                }
+
+                if ($order['name'] == 'obsV_name') {
+                    $orderColumn = 'obsV.name';
+                }
+
+                if ($order['name'] == 'value') {
+                    $orderColumn = 'obsVO.value';
+                }
+
+                if ($orderColumn !== null)
+                {
+                    $query->orderBy($orderColumn, $order['dir']);
+                }
+            }
+        }
+        
+        // Execute
+        $results = $query->getQuery()->getArrayResult();
+        $countResult = $countQuery->getQuery()->getSingleScalarResult();
+        
+        // data returned
+        $rawDatatable = [];
+        $rawDatatable = [
+            "results" => $results,
+            "countResult" => $countResult
+        ];
+        return $rawDatatable;
+    }
+
     // /**
     //  * @return ObservationValueOriginal[] Returns an array of ObservationValueOriginal objects
     //  */

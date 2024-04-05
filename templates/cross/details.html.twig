@@ -51,7 +51,7 @@
 								<td>
 									{% if cross.publicationReference | length >= 0 %}
 										{% for oneRef in cross.publicationReference %}
-											{{ loop.index ~ " - " ~ oneRef }}
+											<b>{{ loop.index }})</b> <a href="https://{{ oneRef }}" target="_blank">{{ oneRef }}</a>
 										</br>
 										{% endfor %}
 									{% endif %}

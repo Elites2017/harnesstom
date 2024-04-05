@@ -10,6 +10,7 @@ use App\Form\GermplasmType;
 use App\Form\GermplasmUpdateType;
 use App\Form\UploadFromExcelType;
 use App\Repository\GermplasmRepository;
+use App\Service\Datatable;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Integer;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -39,6 +40,14 @@ class GermplasmController extends AbstractController
         return $this->render('germplasm/index.html.twig', $context);
     }
 
+    /**
+     * @Route("/datatable", name="datatable")
+     */
+    public function datatable(Datatable $datatableService, GermplasmRepository $germplasmRepo, Request $request)
+    {
+        $datatableRes = $datatableService->getDatatable($germplasmRepo, $request);
+        return $datatableRes;
+    }
 
     public function findAccessionMaintainerNumb($numb = 1){
         $accessionRepo = $this->getDoctrine()->getRepository(Accession::class);
@@ -72,6 +81,7 @@ class GermplasmController extends AbstractController
             $germplasm->setCreatedAt(new \DateTime());
             $entmanager->persist($germplasm);
             $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly added");
             return $this->redirect($this->generateUrl('germplasm_index'));
         }
 
@@ -111,6 +121,7 @@ class GermplasmController extends AbstractController
                 $germplasm->setAccession($form->get('accession')->getData());
                 $entmanager->persist($germplasm);
                 $entmanager->flush();
+                $this->addFlash('success', " one element has been successfuly updated");
                 return $this->redirect($this->generateUrl('germplasm_index'));
             } else {
                 $this->addFlash('danger', "Error in the form, you must select an institute");   
