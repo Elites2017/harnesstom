@@ -225,7 +225,7 @@ class ParameterController extends AbstractController
                                 //code...
                                 $parameterStudy = $entmanager->getRepository(Study::class)->findOneBy(['abbreviation' => $studyAbbreviation]);
                                 if (($parameterStudy != null) && ($parameterStudy instanceof \App\Entity\Study)) {
-                                    // create new study paramter value only if the study exists, because we already have the parameter
+                                    // create new study parameter value only if the study exists, because we already have the parameter
                                     $studyParameterVal = new StudyParameterValue();
                                     $studyParameterVal->setParameter($parameter);
                                     $studyParameterVal->setStudy($parameterStudy);

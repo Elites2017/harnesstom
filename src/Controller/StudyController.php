@@ -96,7 +96,7 @@ class StudyController extends AbstractController
                         } else {
                             if ($parameterValue->getValue() === null) {
                                 $this->addFlash('danger', "The value of the parameter can not be empty, you must fill / provide it");
-                            } else if ($parameterValue->getParamter() === null) {
+                            } else if ($parameterValue->getParameter() === null) {
                                 $this->addFlash('danger', "The parameter can not be empty, you must fill / provide it");
                             } else {
                                 # code...
@@ -166,7 +166,7 @@ class StudyController extends AbstractController
                         } else {
                             if ($parameterValue->getValue() === null) {
                                 $this->addFlash('danger', "The value of the parameter can not be empty, you must fill / provide it");
-                            } else if ($parameterValue->getParamter() === null) {
+                            } else if ($parameterValue->getParameter() === null) {
                                 $this->addFlash('danger', "The parameter can not be empty, you must fill / provide it");
                             } else {
                                 # code...
