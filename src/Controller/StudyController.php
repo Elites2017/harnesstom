@@ -164,8 +164,6 @@ class StudyController extends AbstractController
                 if ($this->getUser()) {
                     $study->setCreatedBy($this->getUser());
                 }
-                $study->setIsActive(true);
-                $study->setCreatedAt(new \DateTime());
                 $entmanager->persist($study);
                 // study parameter value
                 if ($parameterValues) {
