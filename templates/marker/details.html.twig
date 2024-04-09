@@ -4,100 +4,326 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+	<link
+		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
+
+	<!-- Custom styles for this template -->
+	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
+	<link
+	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
+	<!-- DataTables CSS -->
+	<link
+	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+
+	<!-- DataTables Responsive CSS -->
+	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12 order-md-1 mb-3">
 				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-								<th scope="col">Type</th>
-								<th scope="col">Linkage G. Name</th>
-								<th scope="col">Position</th>
-								<th scope="col">Start</th>
-								<th scope="col">End</th>
-								<th scope="col">Ref Allele</th>
-								<th scope="col">Alternative Allele</th>
-								<th scope="col">Primer Name 1</th>
-								<th scope="col">Primer Seq 1</th>
-								<th scope="col">Primer Name 2</th>
-								<th scope="col">Primer Seq 2</th>
-								<th scope="col">Genotyping Platform</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("marker_edit", marker) %}
-									<th scope="col">Action</th>
-								{% endif %}
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{{ marker.id }}</td>
-								<td>{{ marker.name }}</td>
-								<td>{{ marker.type }}</td>
-								<td>{{ marker.linkageGroupName }}</td>
-								<td>{{ marker.position }}</td>
-								<td>{{ marker.start }}</td>
-								<td>{{ marker.end }}</td>
-								<td>{{ marker.refAllele }}</td>
-								<td>
-									{% for oneAllele in marker.altAllele %}
-										{{ oneAllele }}
-									{% endfor %}
-								</td>
-								<td>{{ marker.primerName1 }}</td>
-								<td>{{ marker.primerSeq1 }}</td>
-								<td>{{ marker.primerName2 }}</td>
-								<td>{{ marker.primerSeq2 }}</td>
-								<td>
-									{% if marker.genotypingPlatform %}
-										<a href="{{ path('genotyping_platform_details', {id: marker.genotypingPlatform.id}) }}">{{ marker.genotypingPlatform }}</a>
+				<div class="row">
+                    <div class="col-xl-3 col-lg-2 mb-3">
+                        <div class="card">
+							<div class="card-header">
+								<h3 class="font-weight-bold tomato-color">Basic Information</h3>
+							</div>
+							<div class="card-body">
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">ID: </label>
+									<span class="tomato-color font-weight-bold">{{ marker.id}}</span>
+								</div>
+								
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Name: </label>
+									<span class="tomato-color font-weight-bold">{{ marker.name}}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Type: </label>
+									<span class="tomato-color font-weight-bold">{{ marker.type}}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Linkage Group Name: </label>
+									{% if marker.linkageGroupName %}
+										<span class="tomato-color font-weight-bold">{{ marker.linkageGroupName }}</span>
 									{% endif %}
-								</td>
+								</div>
+									
+								</div>
+								<div class="card-footer text-muted">
+									
+							</div>
+						</div>
+                    </div>
+
+					<div class="col-xl-3 col-lg-2 mb-3">
+                        <div class="card">
+							<div class="card-header">
+								<h3 class="font-weight-bold tomato-color">Position Information</h3>
+							</div>
+							<div class="card-body">
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Position: </label>
+									<span class="tomato-color font-weight-bold">{{ marker.position }}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Start: </label>
+									<span class="tomato-color font-weight-bold">{{ marker.start}}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">End: </label>
+										<span class="tomato-color font-weight-bold">{{ marker.end}}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Ref Allele: </label>
+									<span class="tomato-color font-weight-bold">{{ marker.refAllele }}</span>
+								</div>
+									
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Alt Allele </label>
+									{% for one in marker.altAllele %}
+										<b>{{ loop.index }})</b> {{ one }} </br>
+									{% endfor %}
+								</div>
+										
+								</div>
+								<div class="card-footer text-muted">
+									
+							</div>
+						</div>
+                    </div>
+
+					<div class="col-xl-3 col-lg-2 mb-3">
+                        <div class="card">
+							<div class="card-header">
+								<h3 class="font-weight-bold tomato-color">Primer Information</h3>
+							</div>
+
+							<div class="card-body">
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Primer Name 1: </label>
+									<span class="tomato-color font-weight-bold">{{ marker.primerName1 }}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Primer Seq 1: </label>
+									<span class="tomato-color font-weight-bold">{{ marker.primerSeq1 }}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Primer Name 2: </label>
+									<span class="tomato-color font-weight-bold">{{ marker.primerName2}}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Primer Seq 2: </label>
+									<span class="tomato-color font-weight-bold">{{ marker.primerSeq2}}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Genotyping Platform: </label>
+									{% if marker.genotypingPlatform %}
+										<a href="{{ path('genotyping_platform_details', {id: marker.genotypingPlatform.id}) }}">
+										<span class="tomato-color font-weight-bold">{{ marker.genotypingPlatform }}</span></a>
+									{% endif %}
+								</div>
+							</div>
+
+							<div class="card-footer text-muted">
+							</div>
+						</div>
+                    </div>
+
+					{% if is_granted("marker_edit", marker) %}
+						<div class="col-xl-2 col-lg-1 mb-3">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="font-weight-bold tomato-color">Admin</h3>
+								</div>
 								{% if is_granted("ROLE_ADMIN") %}
-									<td>
-										<a href="{{ path('person_details', {id: marker.createdBy.id}) }}">{{ marker.createdBy }}</a>
-									</td>
-									<td>{{ marker.createdAt | date('d/m/Y h:m:s') }}</td>
-									<td>
-										<a href="{{ path('marker_delete', {id: marker.id}) }}" class="changeStatusLink" id="{{ marker.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ marker.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
-									</td>
+									<div class="card-body">
+										<div class="col-xl-12 col-lg-11 mb-1">
+										<label for="validationTooltip01">Status: </label>
+										<span class="tomato-color font-weight-bold">
+											<a href="{{ path('marker_delete', {id: marker.id}) }}" class="changeStatusLink" id="{{ marker.id }}">
+												<span class="changeStatusSpan">
+													<input type="checkbox" {{ marker.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+												</span>
+											</a>
+										</span>
+									</div>
 								{% endif %}
-								{% if is_granted("marker_edit", marker) %}
-									<td>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Edit: </label>
+									<span class="tomato-color font-weight-bold">
 										<a href="{{ path('marker_edit', {id: marker.id}) }}">
 											<button class="btn btn-outline-warning">Edit</button>
 										</a>
-									</td>
-								{% endif %}
-							</tr>
-						</tbody>
-					</table>
-				</div>
+									</span>
+								</div>
+
+								</div>
+								<div class="card-footer text-muted">
+									
+								</div>
+							</div>
+						</div>
+					{% endif %}
+
+                </div>
 			</div>
 		</div>
 		<!-- .row -->
+
+		{# Start of row #}
+		<div class="row">
+			{% if marker.markerSynonyms | length > 0 %}
+				<div class="col-md-3 mb-4">
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<span class="tomato-color">Related Synonym Summary</span>
+						<span class="badge badge-danger badge-pill">{{ marker.markerSynonyms | length }}</span>
+					</h4>
+					<table id="datatable_synonym" class="table table-hover text-nowrap">
+						<thead>
+							<tr>
+								<th>Synonym Name</th> 
+								<th>Source</th>
+							</tr>
+						<thead>
+						<tbody>
+							{% for oneSynonym in marker.markerSynonyms %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('marker_synonym_details', {id: oneSynonym.id}) }}" target="_blank">{{ oneSynonym.markerSynonymId }}</a>
+										</strong>
+									</td>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ oneSynonym.synonymSource }}" target="_blank">{{ oneSynonym.synonymSource }}</a>
+										</strong>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% endif %}
+			
+			{# GWAS Variant #}
+			{% if marker.gWASVariants | length > 0 %}
+				<div class="col-md-3 mb-4">
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<span class="tomato-color">Related GWAS Variant Summary</span>
+						<span class="badge badge-danger badge-pill">{{ marker.gWASVariants | length }}</span>
+					</h4>
+					<table id="datatable_gwasV" class="table table-hover text-nowrap">
+						<thead>
+							<tr>
+								<th>GWAS Variant Name</th> 
+								<th>Sample Size</th>
+								<th>SNP P Value</th>
+							</tr>
+						<thead>
+						<tbody>
+							{% for oneGVariant in marker.gWASVariants %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('gwas_variant_details', {id: oneGVariant.id}) }}" target="_blank">{{ oneGVariant.name }}</a>
+										</strong>
+									</td>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('gwas_variant_details', {id: oneGVariant.id}) }}" target="_blank">{{ oneGVariant.sampleSize }}</a>
+										</strong>
+									</td>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('gwas_variant_details', {id: oneGVariant.id}) }}" target="_blank">{{ oneGVariant.snppValue }}</a>
+										</strong>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% endif %}
+
+			<div class="col-md-1 mb-4"></div>
+
+			{# QTL Variant #}
+			{% if marker.qTLVariants | length > 0 %}
+				<div class="col-md-3 mb-4">
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<span class="tomato-color">Related GWAS Variant Summary</span>
+						<span class="badge badge-danger badge-pill">{{ marker.qTLVariants | length }}</span>
+					</h4>
+					<table id="datatable_qtlV" class="table table-hover text-nowrap">
+						<thead>
+							<tr>
+								<th>QTL Variant Name</th>
+								<th>QTL Study</th> 
+								<th>Peak Position</th>
+							</tr>
+						<thead>
+						<tbody>
+							{% for oneQVariant in marker.qTLVariants %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('qtl_variant_details', {id: oneQVariant.id}) }}" target="_blank">{{ oneQVariant.name }}</a>
+										</strong>
+									</td>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('qtl_study_details', {id: oneQVariant.qtlStudy.id}) }}" target="_blank">{{ oneQVariant.qtlStudy }}</a>
+										</strong>
+									</td>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('qtl_variant_details', {id: oneQVariant.id}) }}" target="_blank">{{ oneQVariant.peakPosition }}</a>
+										</strong>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			{% endif %}
+
+
+		</div>
+		{# End of row #}
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 
 {% block javascripts %}
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
 	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
 	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- DataTables JavaScript -->
+	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
 	<script>
 		/*
         This function is to change the status of the object.
@@ -112,24 +338,42 @@
         4. It passes the url to axios which returns a response which is the message of the json
             coming from the function in the controller.
             4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
+    	*/
+		function changeStatus(event) {
+			event.preventDefault();
+			const url = this.href;
+			const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
 
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
+			axios.get(url).then(function (res) {
+			const jsonResponse = res.data.message;
+			if (jsonResponse) {
+			statusCheckbox.checked = true;
+			} else {
+			statusCheckbox.checked = false;
+			}
+			})
+			}
 
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
+		document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
+		link.addEventListener('click', changeStatus);
+		})
 	</script>
+
+	<script>
+        $(document).ready(function() {
+            $('#datatable_synonym').DataTable();
+        } );
+    </script>
+
+	<script>
+        $(document).ready(function() {
+            $('#datatable_gwasV').DataTable();
+        } );
+    </script>
+
+	<script>
+        $(document).ready(function() {
+            $('#datatable_qtlV').DataTable();
+        } );
+    </script>
 {% endblock %}
