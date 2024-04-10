@@ -26,39 +26,17 @@
                             <thead class="table-dark">
                                 <tr>
                                 <th scope="col">Accession</th>
-                                <th scope="col">USDA</th>
-                                <th scope="col">COMAV</th>
-                                <th scope="col">FMA01/th>
-                                <th scope="col">UIB</th>
-                                <th scope="col">PGR</th>
-                                <th scope="col">EUSOL</th>
-                                <th scope="col">CCCODE</th>
-                                <th scope="col">NDL</th>
-                                <th scope="col">AVRC</th>
-                                <th scope="col">INRA</th>
-                                <th scope="col">UNITUS</th>
-                                <th scope="col">RESQPROJECT360</th>
-                                <th scope="col">RESEQ150</th>
+                                <th scope="col">Synonym Source</th>
+                                <th scope="col">Synonym ID</th>
                                 <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for synonym in synonyms %}
                                     <tr>
-                                        <td>{{ synonym.accession }}</td>
-                                        <td>{{ synonym.usda }}</td>
-                                        <td>{{ synonym.comav }}</td>
-                                        <td>{{ synonym.fma01 }}</td>
-                                        <td>{{ synonym.uib }}</td>
-                                        <td>{{ synonym.pgr }}</td>
-                                        <td>{{ synonym.eusol }}</td>
-                                        <td>{{ synonym.cccode }}</td>
-                                        <td>{{ synonym.ndl }}</td>
-                                        <td>{{ synonym.avrc }}</td>
-                                        <td>{{ synonym.inra }}</td>
-                                        <td>{{ synonym.unitus }}</td>
-                                        <td>{{ synonym.resqProject360 }}</td>
-                                        <td>{{ synonym.reseq150 }}</td>
+                                        <td><a href="{{ path('accession_details', {id: synonym.accession.id}) }}">{{ synonym.accession }}<a></td>
+                                        <td>{{ synonym.synonymSource }}</td>
+                                        <td>{{ synonym.SynonymId }}</td>
                                         <td>
                                             <a href="{{ path('synonym_details', {id: synonym.id}) }}"><button class="btn btn-outline-primary">Details</button></a>
                                         </td>
