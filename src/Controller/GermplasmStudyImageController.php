@@ -33,19 +33,22 @@ class GermplasmStudyImageController extends AbstractController
      */
     public function index(GermplasmStudyImageRepository $germplasmStudyImageRepo): Response
     {
-        $germplasmStudyImages = [];
-        if($this->getUser()) {
-            $userRoles = $this->getUser()->getRoles();
-            $adm = "ROLE_ADMIN";
-            $res = array_search($adm, $userRoles);
-            if ($res !== false) {
-                $germplasmStudyImages = $germplasmStudyImageRepo->findAll();
-            } else {
-                $germplasmStudyImages = $germplasmStudyImageRepo->findReleasedTrialStudyGermplasmStudyImage($this->getUser());
-            }
-        } else {
-            $germplasmStudyImages = $germplasmStudyImageRepo->findReleasedTrialStudyGermplasmStudyImage();
-        }
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        // old code
+        // $germplasmStudyImages = [];
+        // if($this->getUser()) {
+        //     $userRoles = $this->getUser()->getRoles();
+        //     $adm = "ROLE_ADMIN";
+        //     $res = array_search($adm, $userRoles);
+        //     if ($res !== false) {
+        //         $germplasmStudyImages = $germplasmStudyImageRepo->findAll();
+        //     } else {
+        //         $germplasmStudyImages = $germplasmStudyImageRepo->findReleasedTrialStudyGermplasmStudyImage($this->getUser());
+        //     }
+        // } else {
+        //     $germplasmStudyImages = $germplasmStudyImageRepo->findReleasedTrialStudyGermplasmStudyImage();
+        // }
+        $germplasmStudyImages = $germplasmStudyImageRepo->findAll();
         $context = [
             'title' => 'Germplasm Study Image List',
             'germplasmStudyImages' => $germplasmStudyImages
@@ -67,7 +70,7 @@ class GermplasmStudyImageController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $germplasmStudyImage = new GermplasmStudyImage();
         $form = $this->createForm(GermplasmStudyImageType::class, $germplasmStudyImage);
         $form->handleRequest($request);
@@ -95,7 +98,7 @@ class GermplasmStudyImageController extends AbstractController
      */
     public function details(GermplasmStudyImage $studieSelected): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $context = [
             'title' => 'Germplasm Study Image Details',
             'study' => $studieSelected
@@ -108,7 +111,7 @@ class GermplasmStudyImageController extends AbstractController
      */
     public function edit(GermplasmStudyImage $germplasmStudyImage, Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('study_edit', $germplasmStudyImage);
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(GermplasmStudyImageUpdateType::class, $germplasmStudyImage);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -130,7 +133,7 @@ class GermplasmStudyImageController extends AbstractController
      */
     public function changeStatus(GermplasmStudyImage $germplasmStudyImage, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($germplasmStudyImage->getId()) {
             $germplasmStudyImage->setIsActive(!$germplasmStudyImage->getIsActive());
         }
@@ -149,7 +152,7 @@ class GermplasmStudyImageController extends AbstractController
      */
     public function germplasmStudyUploadFromExcel(Request $request, GermplasmStudyImageRepository $gsImageRepo, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(UploadFromExcelType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
