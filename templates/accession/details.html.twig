@@ -479,56 +479,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
-
-    <script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-    <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-    <script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-	<!-- DataTables JavaScript -->
-	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-
-    <script>
-        /*
-            This function is to change the status of the object.
-            It is called each time the corresponding link is clicked (the event happened).
-            1. It prevents the default behavior (behavior of showing the json response) of the function
-            in the controller class.
-
-            2. It gets the url of the link
-
-            3. It get the html document of the span which is the checkbox to change the object status 
-
-            4. It passes the url to axios which returns a response which is the message of the json
-                coming from the function in the controller.
-                4.1 set the checked property of the checkbox based on the response value.
-        */
-        function changeStatus(event){
-            event.preventDefault();
-            const url = this.href;
-            const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-            
-            axios.get(url).then(function(res){
-                const jsonResponse = res.data.message;
-                if(jsonResponse) {
-                    statusCheckbox.checked = true;
-                }
-                else {
-                    statusCheckbox.checked = false;
-                }
-            })
-        }
-        
-        document.querySelectorAll('a.changeStatusLink').forEach(function(link){
-            link.addEventListener('click', changeStatus);  
-        })
-    </script>
-
+    {% include 'resource/details_js.html.twig' %}
     <script>
         $(document).ready(function() {
             $('#datatable_attr, #datatable_acc_synonym, #datatable_germ, #datatable_more_details').DataTable();
