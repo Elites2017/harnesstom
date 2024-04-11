@@ -4,115 +4,203 @@
 	{{ title }}
 {% endblock %}
 
-{% block body %}
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th scope="col">ID</th>
-							<th scope="col">Name</th>
-							<th scope="col">Abbreviation</th>
-							<th scope="col">Objective</th>
-							<th scope="col">External Reference</th>
-							<th scope="col">Crop</th>
-							<th scope="col">Contact ORCID</th>
-							{% if is_granted("ROLE_ADMIN") %}
-								<th scope="col">Created By</th>
-								<th scope="col">Creation Date</th>
-								<th scope="col">Status</th>
-							{% endif %}
-							{% if is_granted("program_edit", program) %}
-									<th scope="col">Action</th>
-							{% endif %}
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>{{ program.id }}</td>
-							<td>{{ program.name }}</td>
-							<td>{{ program.abbreviation }}</td>
-							<td>{{ program.objective }}</td>
-							<td><a href="{{ program.externalRef }}" target="_blank">{{ program.externalRef }}</a></td>
-							<td>
-								<a href="{{ path('crop_details', {id: program.crop.id}) }}">{{ program.crop }}</td>
-							</td>
-							<td>
-								{% if program.contact %}
-									<a href="{{ path('contact_details', {id: program.contact.id}) }}">{{ program.contact }}</a>
-								{% endif %}
-							</td>
-							{% if is_granted("ROLE_ADMIN") %}
-								<td>
-									<a href="{{ path('person_details', {id: program.createdBy.id}) }}">{{ program.createdBy }}</a>
-								</td>
-								<td>{{ program.createdAt | date('d/m/Y h:m:s') }}</td>
-								<td>
-									<a href="{{ path('program_delete', {id: program.id}) }}" class="changeStatusLink" id="{{ program.id }}">
-										<span class="changeStatusSpan">
-											<input type="checkbox" {{ program.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-										</span>
-									</a>
-								</td>
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
 
-								{% if is_granted("program_edit", program) %}
-									<td>
-										<a href="{{ path('program_edit', {id: program.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</td>
-								{% endif %}
-							{% endif %}
-						</tr>
-					</tbody>
-				</table>
+{% block body %}
+	<!-- .container -->
+	<div class="container-fluid">
+		<!-- .row container -->
+		<div class="row">
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Program Details</h2>
+                    </div>
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+                                <span>Created By: 
+                                    <a href="{{ path('person_details', {id: program.createdBy.id}) }}">{{ program.createdBy }}</a>
+                                </span>
+                                <span>On: {{ program.createdAt | date('d/m/Y h:m:s') }} </span>
+                                </br><a href="{{ path('program_delete', {id: program.id}) }}" class="changeStatusLink" id="{{ program.id }}">
+                                    <span class="changeStatusSpan">
+                                        <input type="checkbox" {{ program.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+                                    </span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("program_edit", program) %}
+                        
+                                <a href="{{ path('program_edit', {id: program.id}) }}">
+                                    <button class="btn btn-outline-warning">Edit</button>
+                                </a>
+                        {% endif %}
+                    </div>
+				</div>
 			</div>
-		</div>
-		<!-- .row -->
+			{# object related row #}
+			<div>	
+				<div class="row mb-3">
+					<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="tomato-color">Program & Crop Basic Information</h3>
+							</div>
+
+							<div class="card-body">
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Program Abbreviation: </label>
+									<span class="tomato-color font-weight-bold">{{ program.abbreviation}}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Program Name: </label>
+									<span class="tomato-color font-weight-bold">{{ program.name}}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1"><a href="{{ path('crop_details', {id: program.crop.id}) }}">
+									<label for="validationTooltip01">Crop Name: </label>
+									<span class="tomato-color font-weight-bold">{{ program.crop}}</span></a>
+								</div>
+							</div>
+
+							<div class="card-footer text-muted">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="tomato-color">Program Contact & Objective</h3>
+							</div>
+							<div class="card-body">
+								<div class="col-xl-12 col-lg-11 mb-1"><a href="https://orcid.org/{{program.contact.orcid}}" target="_blank">
+								<label for="validationTooltip01">Contact ORCID: </label>
+								<span class="tomato-color font-weight-bold">{{ program.contact.orcid }}</span></a>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Program Objective: </label>
+								<span class="tomato-color font-weight-bold">{{ program.objective}}</span>
+							</div>
+
+							<div class="col-xl-12 col-lg-11 mb-1"><a href="{{program.externalRef}}" target="_blank">
+								<label for="validationTooltip01">External Reference: </label>
+								<span class="tomato-color font-weight-bold">{{ program.externalRef}}</span></a>
+							</div>
+								
+							</div>
+							<div class="card-footer text-muted">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<div class="col-xl-5 col-lg-4 mr-auto">
+						{# Trial #}
+						{% if program.trials | length > 0 %}
+							<h4 class="d-flex justify-content-between align-items-center mb-3">
+								<strong class="tomato-color">{{ program.trials | length == 1 ? 'Related Trial Summary' : 'Related Trials Summary' }}</strong>
+								<span class="badge badge-danger badge-pill">{{ program.trials | length }}</span>
+							</h4>
+
+							<table id="datatable_trial" class="table table-hover text-nowrap">
+								<thead class="table-dark">
+									<tr>
+										<th>Trial Abbreviation</th>
+										<th>Type</th>
+										<th>Public Release Date</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for trial in program.trials %}
+										<tr>
+											<td>
+												<strong class="text-muted">
+													<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.abbreviation }}</a>
+												</strong>
+											</td>
+
+											<td>
+												<strong class="text-muted">
+													<a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">{{ trial.trialType }}</a>
+												</strong>
+											</td>
+
+											<td>
+												<strong class="text-muted">
+													{{ trial.publicReleaseDate | date('d-m-Y') }}
+												</strong>
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+
+						{% endif %}
+					</div>
+
+					<div class="col-xl-6 col-lg-5 ">
+					{# germplasm #}
+						{% if program.germplasms | length > 0 %}
+							<h4 class="d-flex justify-content-between align-items-center mb-3">
+								<strong class="tomato-color">{{ program.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
+								<span class="badge badge-danger badge-pill">{{ program.germplasms | length }}</span>
+							</h4>
+							<table id="datatable_germ" class="table table-hover text-nowrap">
+								<thead class="table-dark">
+									<tr>
+										<th>Germplasm ID</th> 
+										<th>Maintaining Number</th>
+										<th>INSTCODE</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for oneGermplasm in program.germplasms %}
+										<tr>
+											<td>
+												<strong class="text-muted">
+													<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
+												</strong>
+											</td>
+											
+											<td>
+												<strong class="text-muted">
+													<a href="{{ path('accession_details', {id: oneGermplasm.accession.id}) }}">
+														{{ oneGermplasm.maintainernumb }}
+													</a>
+												</strong>
+											</td>
+
+											<td>
+												<strong class="text-muted">
+													<a href="{{ path('institute_details', {id: oneGermplasm.maintainerInstituteCode.id}) }}">
+														{{ oneGermplasm.maintainerInstituteCode }}
+													</a>
+												</strong>
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						{% endif %}
+					</div>  
+				</div>
+			</div>
+        </div> <!-- .row -->
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_trial, #datatable_germ').DataTable();
+        } );
+    </script>
 {% endblock %}
