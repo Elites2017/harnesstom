@@ -2,125 +2,202 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 order-md-1">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<table class="table table-striped">
-                        <thead>
-                            <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Abbreviation</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Start Date</th>
-                            <th scope="col">End Date</th>
-                            <th scope="col">Licence</th>
-                            <th scope="col">Program</th>
-                            <th scope="col">Trial Type</th>
-                            <th scope="col">PUI</th>
-                            <th scope="col">Public Release Date</th>
-                            {% if is_granted("ROLE_ADMIN") %}
-                                <th scope="col">Created By</th>
-                                <th scope="col">Creation Date</th>
-                                <th scope="col">Status</th>
-                            {% endif %}
-                            {% if is_granted("trial_edit", trial) %}
-                                <th scope="col">Action</th>
-                            {% endif %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{ trial.id }}</td>
-                                <td>{{ trial.abbreviation }}</td>
-                                <td>{{ trial.name }}</td>
-                                <td>{{ trial.description }}</td>                          
-                                <td>
-                                    {% if trial.startDate %}
-                                        <a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.startDate | date('d/m/Y') }}</a>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if trial.endDate %}
-                                        <a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.endDate | date('d/m/Y') }}</a>
-                                    {% endif %}
-                                </td>
-                                <td>{{ trial.license }}</td>
-                                <td><a href="{{ path('program_details', {id: trial.program.id}) }}">{{ trial.program.abbreviation }}</td>
-                                <td><a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">{{ trial.trialType }}</a></td>
-                                <td>{{ trial.pui }}</td>
-                                <td>{{ trial.publicReleaseDate | date('d/m/Y') }}</td>
-                                {% if is_granted("ROLE_ADMIN") %}
-                                <td>
+        <div class="row">
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Trial Details</h2>
+                    </div>
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+                                <span>Created By: 
                                     <a href="{{ path('person_details', {id: trial.createdBy.id}) }}">{{ trial.createdBy }}</a>
-                                </td>
-                                <td>{{ trial.createdAt | date('d/m/Y h:m:s') }}</td>
-                                <td>
-                                    <a href="{{ path('trial_delete', {id: trial.id}) }}" class="changeStatusLink" id="{{ trial.id }}">
-                                        <span class="changeStatusSpan">
-                                            <input type="checkbox" {{ trial.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-                                        </span>
-                                    </a>
-                                </td>
-                            {% endif %}
-                            {% if is_granted("trial_edit", trial) %}
-                                <td>
-                                    <a href="{{ path('trial_edit', {id: trial.id}) }}">
-                                        <button class="btn btn-outline-warning">Edit</button>
-                                    </a>
-                                </td>
-                            {% endif %}
-                            </tr>
-                        </tbody>
-                    </table>
+                                </span>
+                                <span>On: {{ trial.createdAt | date('d/m/Y h:m:s') }} </span>
+                                </br><a href="{{ path('trial_delete', {id: trial.id}) }}" class="changeStatusLink" id="{{ trial.id }}">
+                                    <span class="changeStatusSpan">
+                                        <input type="checkbox" {{ trial.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+                                    </span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("trial_edit", trial) %}
+                        
+                                <a href="{{ path('trial_edit', {id: trial.id}) }}">
+                                    <button class="btn btn-outline-warning">Edit</button>
+                                </a>
+                        {% endif %}
+                    </div>
+				</div>
 			</div>
-		</div>
-		<!-- .row -->
+			{# object related row #}
+			<div>	
+				<div class="row mb-3 ms-auto">
+					<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="tomato-color">Trial Basic Information</h3>
+							</div>
+
+							<div class="card-body">
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Trial Abbreviation: </label>
+									<span class="tomato-color font-weight-bold">{{ trial.abbreviation}}</span>
+								</div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Trial Name: </label>
+									<span class="tomato-color font-weight-bold">{{ trial.name}}</span>
+								</div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">PUI: </label>
+									<span class="tomato-color font-weight-bold">{{ trial.pui}}</span>
+								</div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1"><a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">
+                                    <label for="validationTooltip01">Trial Type: </label>
+                                    <span class="tomato-color font-weight-bold">{{ trial.trialType }}</span></a>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Description: </label>
+									<span class="tomato-color font-weight-bold">{{ trial.description}}</span>
+								</div>
+                                <div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Start Date: </label>
+									{% if trial.startDate %}
+                                        <span class="tomato-color font-weight-bold">{{ trial.startDate | date('d/m/Y') }}</span>
+                                    {% endif %}
+								</div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">End Date: </label>
+									{% if trial.endDate %}
+                                        <span class="tomato-color font-weight-bold">{{ trial.endDate | date('d/m/Y') }}</span>
+                                    {% endif %}
+								</div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Public Release Date: </label>
+									{% if trial.publicReleaseDate %}
+                                        <span class="tomato-color font-weight-bold">{{ trial.publicReleaseDate | date('d/m/Y') }}</span>
+                                    {% endif %}
+								</div>
+							</div>
+
+							<div class="card-footer text-muted">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="tomato-color">Trial Program & License</h3>
+							</div>
+							<div class="card-body">
+                                <div class="col-xl-12 col-lg-11 mb-1"><a href="{{ path('program_details', {id: trial.program.id}) }}">
+                                    <label for="validationTooltip01">Program: </label>
+                                    <span class="tomato-color font-weight-bold">{{ trial.program }}</span></a>
+                                </div>
+
+								<div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">License: </label>
+									<span class="tomato-color font-weight-bold">{{ trial.license}}</span>
+								</div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+									<a href="https://orcid.org/{{trial.contacts["orcid"]}}" target="_blank">
+                                        <label for="validationTooltip01">Contact ORCID: </label>
+                                        <span class="tomato-color font-weight-bold">{{ trial.contacts["orcid"] }}</span> 
+                                        |
+                                        <label for="validationTooltip01">Contact Type: </label>
+                                        <span class="tomato-color font-weight-bold">{{ trial.contacts["type"] }}</span>
+                                    </a>
+								</div>
+
+                                <div class="col-xl-12 col-lg-11 mb-1">
+									<label for="validationTooltip01">Publication Reference: </label>
+                                    {% if trial.publicationReference %}
+                                        {% for one in trial.publicationReference %}
+                                            </br><span class="tomato-color font-weight-bold">{{ loop.index }}) - {{ one }}</span> 
+                                        {% endfor %}
+                                    {% endif %}
+								</div>
+
+                                </div>
+                                <div class="card-footer text-muted">
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-3">
+					<div class="col-xl-5 col-lg-4 mr-auto">
+						{# study #}
+						{% if trial.studies | length > 0 %}
+							<h4 class="d-flex justify-content-between align-items-center mb-3">
+								<strong class="tomato-color">{{ trial.studies | length == 1 ? 'Related Study Summary' : 'Related Studies Summary' }}</strong>
+								<span class="badge badge-danger badge-pill">{{ trial.studies | length }}</span>
+							</h4>
+
+							<table id="datatable_study" class="table table-hover text-nowrap">
+								<thead class="table-dark">
+									<tr>
+										<th>Study Abbreviation</th>
+										<th>Name</th>
+										<th>Growth Facility</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for study in trial.studies %}
+										<tr>
+											<td>
+												<strong class="text-muted">
+													<a href="{{ path('study_details', {id: study.id}) }}">{{ study.abbreviation }}</a>
+												</strong>
+											</td>
+
+											<td>
+												<strong class="text-muted">
+													{{ study.name }}
+												</strong>
+											</td>
+
+											<td>
+												{% if study.growthFacility %}
+                                                    <strong class="text-muted">
+                                                        <a href="{{ path('growth_facility_type_details', {id: study.growthFacility.id}) }}">{{ study.growthFacility }}</a>
+                                                    </strong>
+                                                {% endif %}
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+
+						{% endif %}
+					</div>
+
+				</div>
+			</div>
+        </div> <!-- .row -->
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-<script>
-    /*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-    function changeStatus(event){
-        event.preventDefault();
-        const url = this.href;
-        const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-        
-        axios.get(url).then(function(res){
-            const jsonResponse = res.data.message;
-            if(jsonResponse) {
-                statusCheckbox.checked = true;
-            }
-            else {
-                statusCheckbox.checked = false;
-            }
-        })
-    }
-    
-    document.querySelectorAll('a.changeStatusLink').forEach(function(link){
-        link.addEventListener('click', changeStatus);  
-    })
-</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_study, #datatable_germ').DataTable();
+        } );
+    </script>
 {% endblock %}
