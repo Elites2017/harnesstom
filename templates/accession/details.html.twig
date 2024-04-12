@@ -423,15 +423,13 @@
         </div> <!-- .row -->
         
         {# Start of row #}
-        <div class="row mt-3 mb-1">
-            <div class="col-xl-12 col-lg-11">
-                <h2 class="text-center tomato-color font-weight-bold">Germplasm Details</h2>
-            </div>
-        </div>
-        
 		<div class="row">
-			<div class="col-xl-12 col-lg-11 mb-4">
-                {% if accessions[0].germplasms | length > 0 %}
+            {% if accessions[0].germplasms | length > 0 %}
+                <div class="col-xl-12 col-lg-11 mt-3">
+                    <h2 class="text-center tomato-color font-weight-bold">Germplasm Details</h2>
+                </div>
+
+                <div class="col-xl-12 col-lg-11 mb-4">
                     <table class="table" id="datatable_more_details">
                         <thead class="thead-dark">
                             <tr>
@@ -470,8 +468,8 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                {% endif %} 
-			</div>
+                </div>
+            {% endif %}
 		</div>
 		{# End of row #}
 
