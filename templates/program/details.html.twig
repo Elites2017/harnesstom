@@ -40,158 +40,155 @@
 				</div>
 			</div>
 			{# object related row #}
-			<div>	
-				<div class="row mb-3">
-					<div class="col-xl-6 col-lg-5 mb-3 mt-1">
-						<div class="card">
-							<div class="card-header">
-								<h3 class="tomato-color">Program & Crop Basic Information</h3>
-							</div>
-
-							<div class="card-body">
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Program Abbreviation: </label>
-									<span class="tomato-color font-weight-bold">{{ program.abbreviation}}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Program Name: </label>
-									<span class="tomato-color font-weight-bold">{{ program.name}}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1"><a href="{{ path('crop_details', {id: program.crop.id}) }}">
-									<label for="validationTooltip01">Crop Name: </label>
-									<span class="tomato-color font-weight-bold">{{ program.crop}}</span></a>
-								</div>
-							</div>
-
-							<div class="card-footer text-muted">
-							</div>
+			<div class="row mb-3">
+				<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="tomato-color">Program & Crop Basic Information</h3>
 						</div>
-					</div>
 
-					<div class="col-xl-6 col-lg-5 mb-3 mt-1">
-						<div class="card">
-							<div class="card-header">
-								<h3 class="tomato-color">Program Contact & Objective</h3>
-							</div>
-							<div class="card-body">
-								<div class="col-xl-12 col-lg-11 mb-1"><a href="https://orcid.org/{{program.contact.orcid}}" target="_blank">
-								<label for="validationTooltip01">Contact ORCID: </label>
-								<span class="tomato-color font-weight-bold">{{ program.contact.orcid }}</span></a>
+						<div class="card-body">
+							<div class="col-xl-12 col-lg-11 mb-1">
+								<label for="validationTooltip01">Program Abbreviation: </label>
+								<span class="tomato-color font-weight-bold">{{ program.abbreviation}}</span>
 							</div>
 
 							<div class="col-xl-12 col-lg-11 mb-1">
-								<label for="validationTooltip01">Program Objective: </label>
-								<span class="tomato-color font-weight-bold">{{ program.objective}}</span>
+								<label for="validationTooltip01">Program Name: </label>
+								<span class="tomato-color font-weight-bold">{{ program.name}}</span>
 							</div>
 
-							<div class="col-xl-12 col-lg-11 mb-1"><a href="{{program.externalRef}}" target="_blank">
-								<label for="validationTooltip01">External Reference: </label>
-								<span class="tomato-color font-weight-bold">{{ program.externalRef}}</span></a>
+							<div class="col-xl-12 col-lg-11 mb-1"><a href="{{ path('crop_details', {id: program.crop.id}) }}">
+								<label for="validationTooltip01">Crop Name: </label>
+								<span class="tomato-color font-weight-bold">{{ program.crop}}</span></a>
 							</div>
-								
-							</div>
-							<div class="card-footer text-muted">
-								
-							</div>
+						</div>
+
+						<div class="card-footer text-muted">
 						</div>
 					</div>
 				</div>
 
-				<div class="row mt-3">
-					<div class="col-xl-5 col-lg-4 mr-auto">
-						{# Trial #}
-						{% if program.trials | length > 0 %}
-							<h4 class="d-flex justify-content-between align-items-center mb-3">
-								<strong class="tomato-color">{{ program.trials | length == 1 ? 'Related Trial Summary' : 'Related Trials Summary' }}</strong>
-								<span class="badge badge-danger badge-pill">{{ program.trials | length }}</span>
-							</h4>
+				<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="tomato-color">Program Contact & Objective</h3>
+						</div>
+						<div class="card-body">
+							<div class="col-xl-12 col-lg-11 mb-1"><a href="https://orcid.org/{{program.contact.orcid}}" target="_blank">
+							<label for="validationTooltip01">Contact ORCID: </label>
+							<span class="tomato-color font-weight-bold">{{ program.contact.orcid }}</span></a>
+						</div>
 
-							<table id="datatable_trial" class="table table-hover text-nowrap">
-								<thead class="table-dark">
-									<tr>
-										<th>Trial Abbreviation</th>
-										<th>Type</th>
-										<th>Public Release Date</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for trial in program.trials %}
-										<tr>
-											<td>
-												<strong class="text-muted">
-													<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.abbreviation }}</a>
-												</strong>
-											</td>
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Program Objective: </label>
+							<span class="tomato-color font-weight-bold">{{ program.objective}}</span>
+						</div>
 
-											<td>
-												<strong class="text-muted">
-													<a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">{{ trial.trialType }}</a>
-												</strong>
-											</td>
-
-											<td>
-												<strong class="text-muted">
-													{{ trial.publicReleaseDate | date('d-m-Y') }}
-												</strong>
-											</td>
-										</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-
-						{% endif %}
+						<div class="col-xl-12 col-lg-11 mb-1"><a href="{{program.externalRef}}" target="_blank">
+							<label for="validationTooltip01">External Reference: </label>
+							<span class="tomato-color font-weight-bold">{{ program.externalRef}}</span></a>
+						</div>
+							
+						</div>
+						<div class="card-footer text-muted">
+							
+						</div>
 					</div>
-
-					<div class="col-xl-6 col-lg-5 ">
-					{# germplasm #}
-						{% if program.germplasms | length > 0 %}
-							<h4 class="d-flex justify-content-between align-items-center mb-3">
-								<strong class="tomato-color">{{ program.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
-								<span class="badge badge-danger badge-pill">{{ program.germplasms | length }}</span>
-							</h4>
-							<table id="datatable_germ" class="table table-hover text-nowrap">
-								<thead class="table-dark">
-									<tr>
-										<th>Germplasm ID</th> 
-										<th>Maintaining Number</th>
-										<th>INSTCODE</th>
-									</tr>
-								</thead>
-								<tbody>
-									{% for oneGermplasm in program.germplasms %}
-										<tr>
-											<td>
-												<strong class="text-muted">
-													<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
-												</strong>
-											</td>
-											
-											<td>
-												<strong class="text-muted">
-													<a href="{{ path('accession_details', {id: oneGermplasm.accession.id}) }}">
-														{{ oneGermplasm.maintainernumb }}
-													</a>
-												</strong>
-											</td>
-
-											<td>
-												<strong class="text-muted">
-													<a href="{{ path('institute_details', {id: oneGermplasm.maintainerInstituteCode.id}) }}">
-														{{ oneGermplasm.maintainerInstituteCode }}
-													</a>
-												</strong>
-											</td>
-										</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-						{% endif %}
-					</div>  
 				</div>
 			</div>
         </div> <!-- .row -->
+		<div class="row mt-3">
+			<div class="col-xl-5 col-lg-4 mr-auto">
+				{# Trial #}
+				{% if program.trials | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ program.trials | length == 1 ? 'Related Trial Summary' : 'Related Trials Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ program.trials | length }}</span>
+					</h4>
+
+					<table id="datatable_trial" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Trial Abbreviation</th>
+								<th>Type</th>
+								<th>Public Release Date</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for trial in program.trials %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.abbreviation }}</a>
+										</strong>
+									</td>
+
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">{{ trial.trialType }}</a>
+										</strong>
+									</td>
+
+									<td>
+										<strong class="text-muted">
+											{{ trial.publicReleaseDate | date('d-m-Y') }}
+										</strong>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+
+				{% endif %}
+			</div>
+
+			<div class="col-xl-6 col-lg-5 ">
+			{# germplasm #}
+				{% if program.germplasms | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ program.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ program.germplasms | length }}</span>
+					</h4>
+					<table id="datatable_germ" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Germplasm ID</th> 
+								<th>Maintaining Number</th>
+								<th>INSTCODE</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for oneGermplasm in program.germplasms %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
+										</strong>
+									</td>
+									
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('accession_details', {id: oneGermplasm.accession.id}) }}">
+												{{ oneGermplasm.maintainernumb }}
+											</a>
+										</strong>
+									</td>
+
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('institute_details', {id: oneGermplasm.maintainerInstituteCode.id}) }}">
+												{{ oneGermplasm.maintainerInstituteCode }}
+											</a>
+										</strong>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>  
+		</div>
 	</div>
 	<!-- .container -->
 {% endblock %}
