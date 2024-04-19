@@ -5,104 +5,220 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<!-- Bootstrap core CSS -->
-	<link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-	<link
-		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-
-	<!-- Custom styles for this template -->
-	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
-	<link
-	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
-	<!-- DataTables CSS -->
-	<link
-	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
-	<!-- DataTables Responsive CSS -->
-	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	{% include 'resource/list_style.html.twig' %}
 {% endblock %}
 
 {% block body %}
 	<div class="container-fluid">
+		
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th scope="col">DBID</th>
-								<th scope="col">Germplasm ID</th>
-								<th scope="col">INSTCODE</th>
-								<th scope="col">Maintainer Number</th>
-								<th scope="col">Program</th>
-								<th scope="col">Preprocessing</th>
-								
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("germplasm_edit", germplasm) %}
-									<th scope="col">Action</th>
-								{% endif %}
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{{ germplasm.id }}</td>
-								<td>{{ germplasm.germplasmID }}</td>
-								<td>{{ germplasm.instcode }}</td>
-								<td>
-									{% if germplasm.maintainerNumb %}
-										<a href="{{ path('accession_details', {id: germplasm.accession.id}) }}">{{ germplasm.maintainerNumb }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if germplasm.program %}
-										<a href="{{ path('program_details', {id: germplasm.program.id}) }}">{{ germplasm.program }}</a>
-									{% endif %}
-								</td>
-								<td>{{ germplasm.preprocessing }}</td>
-								{% if is_granted("ROLE_ADMIN") %}
-									<td>
-										<a href="{{ path('person_details', {id: germplasm.createdBy.id}) }}">{{ germplasm.createdBy }}</a>
-									</td>
-									<td>{{ germplasm.createdAt | date('d/m/Y h:m:s') }}</td>
-									<td>
-										<a href="{{ path('germplasm_delete', {id: germplasm.id}) }}" class="changeStatusLink" id="{{ germplasm.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ germplasm.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
-									</td>
-								{% endif %}
-								{% if is_granted("germplasm_edit", germplasm) %}
-									<td>
-										<a href="{{ path('germplasm_edit', {id: germplasm.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</td>
-								{% endif %}
-							</tr>
-						</tbody>
-					</table>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Germplasm Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: germplasm.createdBy.id}) }}">{{ germplasm.createdBy }}</a>
+							</span>
+							<span>On: {{ germplasm.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('germplasm_delete', {id: germplasm.id}) }}" class="changeStatusLink" id="{{ germplasm.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ germplasm.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("germplasm_edit", germplasm) %}
+							<a href="{{ path('germplasm_edit', {id: germplasm.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
 				</div>
 			</div>
 		</div>
-		<!-- .row -->
-		{# Start of row #}
-		<div class="row">
-			<div class="col-md-6 mb-4">
+
+		{# object related row #}
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Germplasm, INSTCODE & Accession</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Germplasm ID: </label>
+							<span class="tomato-color font-weight-bold">{{ germplasm.germplasmID}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">INSTCODE: </label>
+							{% if germplasm.maintainerInstituteCode %}
+								<a href="{{ path('institute_details', {id: germplasm.maintainerInstituteCode.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ germplasm.maintainerInstituteCode }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Maintainer Number: </label>
+							{% if germplasm.accession %}
+								<a href="{{ path('accession_details', {id: germplasm.accession.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ germplasm.maintainerNumb }}</span>
+								</a>
+							{% endif %}
+						</div>
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
 			</div>
 
-			{% if germplasm.study | length > 0 %}
-				<div class="col-md-6 mt-4">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Program & Preprocessing</h3>
+					</div>
 
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Program: </label>
+						{% if germplasm.program %}
+							<a href="{{ path('program_details', {id: germplasm.program.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ germplasm.program }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Preprocessing: </label>
+						<span class="tomato-color font-weight-bold">{{ germplasm.preprocessing}}</span>
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-xl-3 col-lg-2 mr-auto">
+				{# Progeny #}
+				{% if germplasm.Progenies | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ germplasm.Progenies | length == 1 ? 'Related Progeny Summary' : 'Related Progenies Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ germplasm.Progenies | length }}</span>
+					</h4>
+
+					<table id="datatable_progeny" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Progeny ID</th>
+								<th>Cross</th>
+								<th>Parent 1</th>
+								<th>Parent 2</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for progeny in germplasm.progenies %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											{{ progeny.progenyId }}
+										</strong>
+									</td>
+
+									<td>
+										{% if progeny.progenyCross %}
+											<strong class="text-muted">
+												<a href="{{ path('cross_details', {id: progeny.progenyCross.id}) }}">{{ progeny.progenyCross }}</a>
+											</strong>
+										{% endif %}
+									</td>
+
+									<td>
+										{% if progeny.progenyParent1 %}
+											<strong class="text-muted">
+												<a href="{{ path('germplasm_details', {id: progeny.progenyParent1.id}) }}">{{ progeny.progenyParent1 }}</a>
+											</strong>
+										{% endif %}
+									</td>
+
+									<td>
+										{% if progeny.progenyParent2 %}
+											<strong class="text-muted">
+												<a href="{{ path('germplasm_details', {id: progeny.progenyParent2.id}) }}">{{ progeny.progenyParent2 }}</a>
+											</strong>
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+
+			<div class="col-xl-6 col-lg-5">
+				{# Pedigree #}
+				{% if germplasm.pedigrees | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ germplasm.pedigrees | length == 1 ? 'Related Pedigree Summary' : 'Related Pedigrees Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ germplasm.pedigrees | length }}</span>
+					</h4>
+
+					<table id="datatable_pedigree" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Pedigree ID</th>
+								<th>Cross</th>
+								<th>Ancestor Entry ID</th>
+								<th>Generation</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for pedigree in germplasm.pedigrees %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											{{ pedigree.pedigreeEntryID }}
+										</strong>
+									</td>
+
+									<td>
+										{% if pedigree.pedigreeCross %}
+											<strong class="text-muted">
+												<a href="{{ path('cross_details', {id: pedigree.pedigreeCross.id}) }}">{{ pedigree.pedigreeCross }}</a>
+											</strong>
+										{% endif %}
+									</td>
+
+									<td>
+										{% if pedigree.pedigreeAncestorEntryId %}
+											<strong class="text-muted">
+												<a href="{{ path('pedigree_details', {id: pedigree.pedigreeAncestorEntryId.id}) }}">{{ pedigree.pedigreeAncestorEntryId }}</a>
+											</strong>
+										{% endif %}
+									</td>
+									
+									<td>
+										{% if pedigree.generation %}
+											<strong class="text-muted">
+												<a href="{{ path('generation_details', {id: pedigree.generation.id}) }}">{{ pedigree.generation }}</a>
+											</strong>
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+
+			{# <div class="col-xl-5 col-lg-4 mr-auto">
+				{% if germplasm.study | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<span class="tomato-color">{{ germplasm.study | length == 1 ? 'Related Study Summary' : 'Related Studies Summary' }}</span>
 						<span class="badge badge-danger badge-pill">{{ germplasm.study | length }}</span>
@@ -137,64 +253,21 @@
 							{% endfor %}
 						</tbody>
 					</table>
-				</div>
-			{% endif %}
-
+				{% endif %} 
+			</div>	 #}
 		</div>
-		{# End of row #}
+
+		<!-- .row -->
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-	<!-- DataTables JavaScript -->
-	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
-
-	<script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
         $(document).ready(function() {
-            $('#datatable_study').DataTable();
+            $('#datatable_studyq, #datatable_study').DataTable();
         } );
     </script>
 {% endblock %}
+	
