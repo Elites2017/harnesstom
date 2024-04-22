@@ -107,10 +107,10 @@
 		<div class="row mt-3">
 			<div class="col-xl-3 col-lg-2 mr-auto">
 				{# Progeny #}
-				{% if germplasm.Progenies | length > 0 %}
+				{% if germplasm.progenies | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<strong class="tomato-color">{{ germplasm.Progenies | length == 1 ? 'Related Progeny Summary' : 'Related Progenies Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ germplasm.Progenies | length }}</span>
+						<strong class="tomato-color">{{ germplasm.progenies | length == 1 ? 'Related Progeny Summary' : 'Related Progenies Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ germplasm.progenies | length }}</span>
 					</h4>
 
 					<table id="datatable_progeny" class="table table-hover text-nowrap">
