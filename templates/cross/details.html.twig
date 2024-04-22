@@ -4,126 +4,274 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
+
 {% block body %}
 	<div class="container-fluid">
+		
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Cross Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: cross.createdBy.id}) }}">{{ cross.createdBy }}</a>
+							</span>
+							<span>On: {{ cross.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('cross_delete', {id: cross.id}) }}" class="changeStatusLink" id="{{ cross.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ cross.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("cross_edit", cross) %}
+							<a href="{{ path('cross_edit', {id: cross.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
+				</div>
+			</div>
+		</div>
+
+		{# object related row #}
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Cross Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Cross Name: </label>
+							<span class="tomato-color font-weight-bold">{{ cross.name}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Cross Description: </label>
+							<span class="tomato-color font-weight-bold">{{ cross.description}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Parent 1: </label>
+							{% if cross.parent1 %}
+								<a href="{{ path('germplasm_details', {id: cross.parent1.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ cross.parent1 }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Parent 1 Type: </label>
+							<span class="tomato-color font-weight-bold">{{ cross.parent1Type}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Parent 2: </label>
+							{% if cross.parent2 %}
+								<a href="{{ path('germplasm_details', {id: cross.parent2.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ cross.parent2 }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Parent 2 Type: </label>
+							<span class="tomato-color font-weight-bold">{{ cross.parent2Type}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Cross Year: </label>
+							<span class="tomato-color font-weight-bold">{{ cross.year}}</span>
+						</div>
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Institute, Breeding Method & Publication Reference</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Institute: </label>
+						{% if cross.institute %}
+							<a href="{{ path('institute_details', {id: cross.institute.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ cross.institute }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Breeding Method: </label>
+						{% if cross.breedingMethod %}
+							<a href="{{ path('breeding_method_details', {id: cross.breedingMethod.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ cross.breedingMethod }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Study: </label>
+						{% if cross.study %}
+							<a href="{{ path('study_details', {id: cross.study.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ cross.study }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Publication Reference: </label>
+						{% if cross.publicationReference %}
+							{% for one in cross.publicationReference %}
+								</br><span class="tomato-color font-weight-bold">{{ loop.index }}) - {{ one }}</span> 
+							{% endfor %}
+						{% endif %}
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-xl-3 col-lg-2 mr-auto">
+				{# Progeny #}
+				{% if cross.progenies | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ cross.progenies | length == 1 ? 'Related Progeny Summary' : 'Relatpd Progenies Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ cross.progenies | length }}</span>
+					</h4>
+
+					<table id="datatable_progeny" class="table table-hover text-nowrap">
+						<thead class="table-dark">
 							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-								<th scope="col">Description</th>
-								<th scope="col">Parent 1</th>
-								<th scope="col">Parent 1 Type</th>
-								<th scope="col">Parent 2</th>
-								<th scope="col">Parent 2 Type</th>
-								<th scope="col">Study</th>
-								<th scope="col">Institute</th>
-								<th scope="col">Year</th>
-								<th scope="col">Breeding Method</th>
-								<th scope="col">Publication Reference</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("cross_edit", cross) %}
-									<th scope="col">Action</th>
-								{% endif %}
+								<th>Progeny ID</th>
+								<th>Cross</th>
+								<th>Parent 1</th>
+								<th>Parent 2</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>{{ cross.id }}</td>
-								<td>{{ cross.name }}</td>
-								<td>{{ cross.description }}</td>
-								<td>{{ cross.parent1 }}</td>
-								<td>{{ cross.parent1Type }}</td>
-								<td>{{ cross.parent2 }}</td>
-								<td>{{ cross.parent2Type }}</td>
-								<td>{{ cross.study }}</td>
-								<td>{{ cross.institute }}</td>
-								<td>{{ cross.year }}</td>
-								<td>{{ cross.breedingMethod }}</td>
-								<td>
-									{% if cross.publicationReference | length >= 0 %}
-										{% for oneRef in cross.publicationReference %}
-											<b>{{ loop.index }})</b> <a href="https://{{ oneRef }}" target="_blank">{{ oneRef }}</a>
-										</br>
-										{% endfor %}
-									{% endif %}
-								</td>
-								{% if is_granted("ROLE_ADMIN") %}
+							{% for progeny in cross.progenies %}
+								<tr>
 									<td>
-										{% if cross.createdBy %}
-											<a href="{{ path('person_details', {id: cross.createdBy.id}) }}">{{ cross.createdBy }}</a>
+										<strong class="text-muted">
+											{{ progeny.progenyId }}
+										</strong>
+									</td>
+
+									<td>
+										{% if progeny.progenyCross %}
+											<strong class="text-muted">
+												<a href="{{ path('cross_details', {id: progeny.progenyCross.id}) }}">{{ progeny.progenyCross }}</a>
+											</strong>
 										{% endif %}
 									</td>
-									<td>{{ cross.createdAt | date('d/m/Y h:m:s') }}</td>
+
 									<td>
-										<a href="{{ path('cross_delete', {id: cross.id}) }}" class="changeStatusLink" id="{{ cross.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ cross.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
+										{% if progeny.progenyParent1 %}
+											<strong class="text-muted">
+												<a href="{{ path('germplasm_details', {id: progeny.progenyParent1.id}) }}">{{ progeny.progenyParent1 }}</a>
+											</strong>
+										{% endif %}
 									</td>
-								{% endif %}
-								{% if is_granted("cross_edit", cross) %}
+
 									<td>
-										<a href="{{ path('cross_edit', {id: cross.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
+										{% if progeny.progenyParent2 %}
+											<strong class="text-muted">
+												<a href="{{ path('germplasm_details', {id: progeny.progenyParent2.id}) }}">{{ progeny.progenyParent2 }}</a>
+											</strong>
+										{% endif %}
 									</td>
-								{% endif %}
-							</tr>
+								</tr>
+							{% endfor %}
 						</tbody>
 					</table>
-				</div>
+				{% endif %}
 			</div>
-		</div><!-- .row --></div>
+
+			<div class="col-xl-6 col-lg-5">
+				{# Pedigree #}
+				{% if cross.pedigrees | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ cross.pedigrees | length == 1 ? 'Related Pedigree Summary' : 'Related Pedigrees Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ cross.pedigrees | length }}</span>
+					</h4>
+
+					<table id="datatable_pedigree" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Pedigree ID</th>
+								<th>Cross</th>
+								<th>Ancestor Entry ID</th>
+								<th>Generation</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for pedigree in cross.pedigrees %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											{{ pedigree.pedigreeEntryID }}
+										</strong>
+									</td>
+
+									<td>
+										{% if pedigree.pedigreeCross %}
+											<strong class="text-muted">
+												<a href="{{ path('cross_details', {id: pedigree.pedigreeCross.id}) }}">{{ pedigree.pedigreeCross }}</a>
+											</strong>
+										{% endif %}
+									</td>
+
+									<td>
+										{% if pedigree.pedigreeAncestorEntryId %}
+											<strong class="text-muted">
+												<a href="{{ path('pedigree_details', {id: pedigree.pedigreeAncestorEntryId.id}) }}">{{ pedigree.pedigreeAncestorEntryId }}</a>
+											</strong>
+										{% endif %}
+									</td>
+									
+									<td>
+										{% if pedigree.generation %}
+											<strong class="text-muted">
+												<a href="{{ path('generation_details', {id: pedigree.generation.id}) }}">{{ pedigree.generation }}</a>
+											</strong>
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+		</div>
+
+
+
+	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_progeny, #datatable_pedigree').DataTable();
+        } );
+    </script>
 {% endblock %}
