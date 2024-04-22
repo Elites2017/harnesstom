@@ -163,7 +163,9 @@
                                     {% for oneAccession in accessions %}
                                         <div class="col-xl-12 col-lg-11 mb-1">
                                             <label for="validationTooltip01">Maintaining institute Code: </label>
-                                            <span class="tomato-color font-weight-bold">{{ oneAccession.instcode.acronym}}</span>
+                                            {% if oneAccession.instcode %}
+                                                <span class="tomato-color font-weight-bold">{{ oneAccession.instcode.acronym}}</span>
+                                            {% endif %}
                                         </div>
 
                                         <div class="col-xl-12 col-lg-11 mb-1">
