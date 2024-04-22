@@ -247,7 +247,7 @@
                 </div>
 
                 <div class="row mb-4">
-                    <div class="col-xl-4 col-lg-3 mr-auto">
+                    <div class="col-xl-3 col-lg-2 mr-auto">
                         {# Attribute trait value #}
                         {% if accessions[0].attributeTraitValues | length > 0 %}
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -259,7 +259,6 @@
                                 <thead>
                                     <tr>
                                         <th>Attribute Name</th> 
-                                        <th>Attribute Class</th>
                                         <th>Trait</th>
                                         <th>Value</th>
                                     </tr>
@@ -275,16 +274,6 @@
                                                 {% endif %}
                                             </td>
                                             
-                                            <td>
-                                                {% if attTraitValue.attribute.category %}
-                                                    <strong class="text-muted">
-                                                        <a href="{{ path('attribute_category_details', {id: attTraitValue.attribute.category.id}) }}">
-                                                            {{ attTraitValue.attribute.category }}
-                                                        </a>
-                                                    </strong>
-                                                {% endif %}
-                                            </td>
-
                                             <td>
                                                 {% if attTraitValue.trait %}
                                                     <strong class="text-muted">
@@ -310,7 +299,7 @@
                     </div>
 
 
-                    <div class="col-xl-3 col-lg-2 mr-auto">
+                    <div class="col-xl-3 col-lg-2 mx-auto">
                         {# Synonym #}
                         {% if accession.synonyms | length > 0 %}
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -348,7 +337,7 @@
                     </div>
 
 
-                    <div class="col-xl-4 col-lg-3 ">
+                    <div class="col-xl-3 col-lg-2 ">
                         {% if accessions[0].germplasms | length > 0 %}
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
                                 <strong class="tomato-color">{{ accessions[0].germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
