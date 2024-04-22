@@ -136,7 +136,7 @@
 						<label for="validationTooltip01">Publication Reference: </label>
 						{% if cross.publicationReference %}
 							{% for one in cross.publicationReference %}
-								</br><span class="tomato-color font-weight-bold">{{ loop.index }}) - {{ one }}</span> 
+								</br><span class="tomato-color font-weight-bold">{{ loop.index }}) {{ one }}</span> 
 							{% endfor %}
 						{% endif %}
 					</div>
