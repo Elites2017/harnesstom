@@ -56,7 +56,7 @@ class CrossType extends AbstractType
                 'help_html' => true,
                 'placeholder' => '',
                 'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
-                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Trial</a>'
+                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>'
             ])
             ->add('institute', DatalistType::class, [
                 'class' => Institute::class,
