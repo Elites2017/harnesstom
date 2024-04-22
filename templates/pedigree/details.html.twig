@@ -4,152 +4,152 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
+
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Pedigree Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: pedigree.createdBy.id}) }}">{{ pedigree.createdBy }}</a>
+							</span>
+							<span>On: {{ pedigree.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('pedigree_delete', {id: pedigree.id}) }}" class="changeStatusLink" id="{{ pedigree.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ pedigree.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("pedigree_edit", pedigree) %}
+							<a href="{{ path('pedigree_edit', {id: pedigree.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Pedigree Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Pedigree Entry ID: </label>
+							<span class="tomato-color font-weight-bold">{{ pedigree.pedigreeEntryID}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Ancestor Entry ID: </label>
+							<span class="tomato-color font-weight-bold">{{ pedigree.pedigreeAncestorEntryId}}</span>
+						</div>
+
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Generation & Cross</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Generation: </label>
+						<a href="{{ path('generation_details', {id: pedigree.generation.id}) }}">
+							<span class="tomato-color font-weight-bold">{{ pedigree.generation.name }}</span>
+						</a>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Name: </label>
+						<a href="{{ path('cross_details', {id: pedigree.pedigreeCross.id}) }}">
+							<span class="tomato-color font-weight-bold">{{ pedigree.pedigreeCross.name }}</span>
+						</a>
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>	
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-xl-6 col-lg-5 mr-auto">
+				{# germplasm #}
+				{% if pedigree.germplasm | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ pedigree.germplasm | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ pedigree.germplasm | length }}</span>
+					</h4>
+
+					<table id="datatable_germplasm" class="table table-hover text-nowrap">
+						<thead class="table-dark">
 							<tr>
-								<th scope="col">DBID</th>
-								<th scope="col">Pedigree Entry ID</th>
-                                <th scope="col">Generation</th>
-                                <th scope="col">Ancestor Entry ID</th>
-                                <th scope="col">Cross</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("pedigree_edit", pedigree) %}
-									<th scope="col">Action</th>
-								{% endif %}
+								<th>Germplas ID</th>
+								<th>Maintainer Numb</th>
+								<th>Program</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>{{ pedigree.id }}</td>
-								<td>{{ pedigree.pedigreeEntryID }}</td>
-								<td>{{ pedigree.generation }}</td>
-								<td>
-									{% if pedigree.pedigreeAncestorEntryId %}
-										{{ pedigree.pedigreeAncestorEntryId }}
-									{% endif %}
-								</td>
-								<td>
-									{% if pedigree.pedigreeCross %}
-										<a href="{{ path('cross_details', {id: pedigree.pedigreeCross.id}) }}">{{ pedigree.pedigreeCross }}</a>
-									{% endif %}
-								</td>
-								{% if is_granted("ROLE_ADMIN") %}
+							{% for germplasm in pedigree.germplasm %}
+								<tr>
 									<td>
-										<a href="{{ path('person_details', {id: pedigree.createdBy.id}) }}">{{ pedigree.createdBy }}</a>
+										<strong class="text-muted">
+											<a href="{{ path('germplasm_details', {id: germplasm.id}) }}">{{ germplasm.germplasmID }}</a>
+										</strong>
 									</td>
-									<td>{{ pedigree.createdAt | date('d/m/Y h:m:s') }}</td>
+
 									<td>
-										<a href="{{ path('pedigree_delete', {id: pedigree.id}) }}" class="changeStatusLink" id="{{ pedigree.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ pedigree.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
+										{% if germplasm.accession %}
+											<strong class="text-muted">
+												<a href="{{ path('accession_details', {id: germplasm.accession.id}) }}">{{ germplasm.maintainerNumb }}</a>
+											</strong>
+										{% endif %}
 									</td>
-								{% endif %}
-								{% if is_granted("pedigree_edit", pedigree) %}
+
 									<td>
-										<a href="{{ path('pedigree_edit', {id: pedigree.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
+										<strong class="text-muted">
+											{% if germplasm.program %}
+												<a href="{{ path('program_details', {id: germplasm.program.id}) }}"><span class="tomato-color font-weight-bold">{{ germplasm.program.abbreviation }} </span></a>
+											{% endif %}
+										</strong>
 									</td>
-								{% endif %}
-							</tr>
+								</tr>
+							{% endfor %}
 						</tbody>
 					</table>
-				</div>
+				{% endif %}
 			</div>
+			
 		</div>
-		<!-- .row -->
-		{# Start of row #}
-		<div class="row">
-			<div class="col-md-6 mb-4">
-			</div>
 
-			{% if pedigree.germplasm | length > 0 %}
-				<div class="col-md-6 mb-4">
-					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">{{ pedigree.germplasm | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</span>
-						<span class="badge badge-danger badge-pill">{{ pedigree.germplasm | length }}</span>
-					</h4>
-					<ul class="list-group mb-3">
-						{% for oneGermplasm in pedigree.germplasm %}
-							<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
-							<div>
-								<h6 class="my-0">Germplasm ID</h6>
-								<strong class="text-muted">{{ oneGermplasm.germplasmID }}</strong>
-							</div>
-							<div>
-								<h6 class="my-0">INSTCODE</h6>
-								<strong class="text-muted">{{ oneGermplasm.instcode }}</strong>
-							</div>
-							<div>
-								<h6 class="my-0">Maintainer Number</h6>
-								<strong class="text-muted">{{ oneGermplasm.maintainerNumb }}</strong>
-							</div>
-							<div>
-								<h6 class="my-0">Accession</h6>
-								<strong class="text-muted">{{ oneGermplasm.accession }}</strong>
-							</div>
-							{# <span class="text-muted">$12</span> #}
-							</li></a>
-						{% endfor %}
-					</ul>
-				</div>
-			{% endif %}
-		</div>
-		{# End of row #}
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_germplasm').DataTable();
+        } );
+    </script>
 {% endblock %}
