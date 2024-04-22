@@ -4,106 +4,171 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Attribute Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: attribute.createdBy.id}) }}">{{ attribute.createdBy }}</a>
+							</span>
+							<span>On: {{ attribute.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('attribute_delete', {id: attribute.id}) }}" class="changeStatusLink" id="{{ attribute.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ attribute.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("attribute_edit", attribute) %}
+							<a href="{{ path('attribute_edit', {id: attribute.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
+				</div>
+			</div>
+		</div>
+
+		{# object related row #}
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Attribute Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Attribute Name: </label>
+							<span class="tomato-color font-weight-bold">{{ attribute.name}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Attribute Abbreviation: </label>
+							<span class="tomato-color font-weight-bold">{{ attribute.abbreviation}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Attribute Abbreviation: </label>
+							<span class="tomato-color font-weight-bold">{{ attribute.description}}</span>
+						</div>
+
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Category & Trait Value</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Category: </label>
+						{% if attribute.category %}
+							<a href="{{ path('attribute_category_details', {id: attribute.category.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ attribute.category }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Publication Reference: </label>
+						{% if attribute.publicationReference %}
+							{% for one in attribute.publicationReference %}
+								</br><span class="tomato-color font-weight-bold">{{ loop.index }}) {{ one }}</span> 
+							{% endfor %}
+						{% endif %}
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-xl-6 col-lg-5 mr-auto">
+				{# attribute trait value #}
+				{% if attribute.attributeTraitValues | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ attribute.attributeTraitValues | length == 1 ? 'Related Attribute Trait Value Summary' : 'Related Attribute Trait Values Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ attribute.attributeTraitValues | length }}</span>
+					</h4>
+
+					<table id="datatable_att_tr_val" class="table table-hover text-nowrap">
+						<thead class="table-dark">
 							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-								<th scope="col">Abbreviation</th>
-								<th scope="col">Description</th>
-								<th scope="col">Category</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("attribute_edit", attribute) %}
-									<th scope="col">Action</th>
-								{% endif %}
+								<th>Accession</th>
+								<th>Trait</th>
+								<th>Value</th>
+								<th>Publication Reference</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>{{ attribute.id }}</td>
-								<td>{{ attribute.name }}</td>
-								<td>{{ attribute.abbreviation }}</td>
-								<td>{{ attribute.description }}</td>
-								<td>{{ attribute.category }}</td>
+							{% for attTrVal in attribute.attributeTraitValues %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											{% if attTrVal.accession %}
+												<a href="{{ path('accession_details', {id: attTrVal.accession.id}) }}">{{ attTrVal.accession }}</a>
+											{% endif %}
+										</strong>
+									</td>
 
-								{% if is_granted("ROLE_ADMIN") %}
 									<td>
-										<a href="{{ path('person_details', {id: attribute.createdBy.id}) }}">{{ attribute.createdBy }}</a>
+										{% if attTrVal.trait %}
+											<strong class="text-muted">
+												<a href="{{ path('trait_class_details', {id: attTrVal.trait.id}) }}">{{ attTrVal.trait }}</a>
+											</strong>
+										{% endif %}
 									</td>
-									<td>{{ attribute.createdAt | date('d/m/Y h:m:s') }}</td>
+
 									<td>
-										<a href="{{ path('attribute_delete', {id: attribute.id}) }}" class="changeStatusLink" id="{{ attribute.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ attribute.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
+										<strong class="text-muted">
+											{{ attTrVal.value }}
+										</strong>
 									</td>
-								{% endif %}
-								{% if is_granted("attribute_edit", attribute) %}
+
 									<td>
-										<a href="{{ path('attribute_edit', {id: attribute.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
+										<strong class="text-muted">
+											{% if attTrVal.publicationReference | length > 0 %}
+												{% for one in attTrVal.publicationReference %}
+													<span class="tomato-color font-weight-bold">{{ loop.index }}) <a href="{{ one }}" target="_blank">{{ one }} </a></span> </br>
+												{% endfor %}
+											{% endif %}
+										</strong>
 									</td>
-								{% endif %}
-							</tr>
+								</tr>
+							{% endfor %}
 						</tbody>
 					</table>
-				</div>
+				{% endif %}
 			</div>
-			<!-- .row -->
+
 		</div>
+		
 		<!-- .container -->
 	{% endblock %}
 
-	{% block javascripts %}
-		<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-		<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-		<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-		<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-		<script>
-			/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-		</script>
-	{% endblock %}
+{% block javascripts %}
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_att_tr_val, #datatable_pedigree').DataTable();
+        } );
+    </script>
+{% endblock %}
