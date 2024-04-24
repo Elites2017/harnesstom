@@ -4,122 +4,230 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
+
+		<!-- .row -->
+
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-								<th scope="col">Main Abbreviation</th>
-								<th scope="col">Description</th>
-								<th scope="col">Trait</th>
-								<th scope="col">Scale</th>
-								<th scope="col">Obs Var. Method</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("observation_variable_edit", observationVariable) %}
-									<th scope="col">Action</th>
-								{% endif %}
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{{ observationVariable.id }}</td>
-								<td>{{ observationVariable.name }}</td>
-								<td>{{ observationVariable.mainAbbreviaition }}</td>
-								<td>{{ observationVariable.description }}</td>
-								<td>
-									{% if observationVariable.trait %}
-										<a href="{{ path('trait_class_details', {id: observationVariable.trait.id}) }}">{{ observationVariable.trait }}</td>
-									{% endif %}
-								</td>
-								<td>
-									{% if observationVariable.scale %}
-										<a href="{{ path('scale_details', {id: observationVariable.scale.id}) }}">{{ observationVariable.scale }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if observationVariable.observationVariableMethod %}
-										<a href="{{ path('observation_variable_method_details', {id: observationVariable.observationVariableMethod.id}) }}">{{ observationVariable.observationVariableMethod }}</a>
-									{% endif %}
-								</td>
-								{% if is_granted("ROLE_ADMIN") %}
-									<td>
-										<a href="{{ path('person_details', {id: observationVariable.createdBy.id}) }}">{{ observationVariable.createdBy }}</a>
-									</td>
-									<td>{{ observationVariable.createdAt | date('d/m/Y h:m:s') }}</td>
-									<td>
-										<a href="{{ path('observation_variable_delete', {id: observationVariable.id}) }}" class="changeStatusLink" id="{{ observationVariable.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ observationVariable.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
-									</td>
-								{% endif %}
-								{% if is_granted("observation_variable_edit", observationVariable) %}
-									<td>
-										<a href="{{ path('observation_variable_edit', {id: observationVariable.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</td>
-								{% endif %}
-							</tr>
-						</tbody>
-					</table>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Observation Variable Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: observationVariable.createdBy.id}) }}">{{ observationVariable.createdBy }}</a>
+							</span>
+							<span>On: {{ observationVariable.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('observation_variable_delete', {id: observationVariable.id}) }}" class="changeStatusLink" id="{{ observationVariable.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ observationVariable.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("observation_variable_edit", observationVariable) %}
+							<a href="{{ path('observation_variable_edit', {id: observationVariable.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
 				</div>
 			</div>
 		</div>
-		<!-- .row -->
+
+		{# object related row #}
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Observation Variable Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Name: </label>
+							<span class="tomato-color font-weight-bold">{{ observationVariable.name}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Main Abbreviation: </label>
+							<span class="tomato-color font-weight-bold">{{ observationVariable.mainAbbreviaition}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Description: </label>
+							<span class="tomato-color font-weight-bold">{{ observationVariable.description}}</span>
+						</div>
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Trait, Scale & Observation Variable Method</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Trait: </label>
+						{% if observationVariable.trait %}
+							<a href="{{ path('trait_class_details', {id: observationVariable.trait.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ observationVariable.trait }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Scale: </label>
+						{% if observationVariable.scale %}
+							<a href="{{ path('scale_details', {id: observationVariable.scale.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ observationVariable.scale }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Observation Variable Method: </label>
+						{% if observationVariable.observationVariableMethod %}
+							<a href="{{ path('observation_variable_method_details', {id: observationVariable.observationVariableMethod.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ observationVariable.observationVariableMethod }}</span>
+							</a>
+						{% endif %}
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-xl-5 col-lg-4 mr-auto">
+				{# Progeny #}
+				{% if observationVariable.gWASVariants | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ observationVariable.gWASVariants | length == 1 ? 'Related GWAS Variant Summary' : 'Related GWAS Variants Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ observationVariable.gWASVariants | length }}</span>
+					</h4>
+
+					<table id="datatable_gwas_var" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>GWAS Variant Name</th>
+								<th>Marker</th>
+								<th>MAF</th>
+								<th>Sample Size</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for gwasVariant in observationVariable.gWASVariants %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('gwas_variant_details', {id: gwasVariant.id}) }}">{{ gwasVariant.name }}</a>
+										</strong>
+									</td>
+
+									<td>
+										{% if gwasVariant.marker %}
+											<strong class="text-muted">
+												<a href="{{ path('marker_details', {id: gwasVariant.marker.id}) }}">{{ gwasVariant.marker }}</a>
+											</strong>
+										{% endif %}
+									</td>
+
+									<td>
+										<strong class="text-muted">
+											{{ gwasVariant.maf }}
+										</strong>
+									</td>
+
+									<td>
+										<strong class="text-muted">
+											{{ gwasVariant.sampleSize }}
+										</strong>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+
+
+			<div class="col-xl-5 col-lg-4">
+				{# qtl variant #}
+				{% if observationVariable.qTLVariants | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ observationVariable.qTLVariants | length == 1 ? 'Related QTL Variant Summary' : 'Related QTL Variants Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ observationVariable.qTLVariants | length }}</span>
+					</h4>
+
+					<table id="datatable_qtl_var" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>QTL Variant Name</th>
+								<th>Closest Marker</th>
+								<th>Peak Position</th>
+								<th>Linkage Group Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for qtlVariant in observationVariable.qTLVariants %}
+								<tr>
+									<td>
+										<strong class="text-muted">
+											<a href="{{ path('qtl_variant_details', {id: qtlVariant.id}) }}">{{ qtlVariant.name }}</a>
+										</strong>
+									</td>
+
+									<td>
+										{% if qtlVariant.closestMarker %}
+											<strong class="text-muted">
+												<a href="{{ path('marker_details', {id: qtlVariant.closestMarker.id}) }}">{{ qtlVariant.closestMarker }}</a>
+											</strong>
+										{% endif %}
+									</td>
+
+									<td>
+										<strong class="text-muted">
+											{{ qtlVariant.peakPosition }}
+										</strong>
+									</td>
+
+									<td>
+										<strong class="text-muted">
+											{{ qtlVariant.linkageGroupName }}
+										</strong>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+			
+		</div>
+
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_gwas_var, #datatable_qtl_var').DataTable();
+        } );
+    </script>
 {% endblock %}
