@@ -199,12 +199,12 @@
 						<span class="badge badge-danger badge-pill">{{ marker.markerSynonyms | length }}</span>
 					</h4>
 					<table id="datatable_synonym" class="table table-hover text-nowrap">
-						<thead>
+						<thead class="table-dark">
 							<tr>
 								<th>Synonym Name</th> 
 								<th>Source</th>
 							</tr>
-						<thead>
+						</thead>
 						<tbody>
 							{% for oneSynonym in marker.markerSynonyms %}
 								<tr>
@@ -233,13 +233,13 @@
 						<span class="badge badge-danger badge-pill">{{ marker.gWASVariants | length }}</span>
 					</h4>
 					<table id="datatable_gwasV" class="table table-hover text-nowrap">
-						<thead>
+						<thead class="table-dark">
 							<tr>
 								<th>GWAS Variant Name</th> 
 								<th>Sample Size</th>
 								<th>SNP P Value</th>
 							</tr>
-						<thead>
+						</thead>
 						<tbody>
 							{% for oneGVariant in marker.gWASVariants %}
 								<tr>
@@ -275,13 +275,13 @@
 						<span class="badge badge-danger badge-pill">{{ marker.qTLVariants | length }}</span>
 					</h4>
 					<table id="datatable_qtlV" class="table table-hover text-nowrap">
-						<thead>
+						<thead class="table-dark">
 							<tr>
 								<th>QTL Variant Name</th>
 								<th>QTL Study</th> 
 								<th>Peak Position</th>
 							</tr>
-						<thead>
+						</thead>
 						<tbody>
 							{% for oneQVariant in marker.qTLVariants %}
 								<tr>
