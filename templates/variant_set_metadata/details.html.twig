@@ -4,114 +4,228 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
+		<!-- .row -->
+
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-								<th scope="col">Description</th>
-								<th scope="col">Filters</th>
-								<th scope="col">Variant Count</th>
-								<th scope="col">Data Upload</th>
-								<th scope="col">File URL</th>
-								<th scope="col">Genotyping Platform</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("variant_set_metadata_edit", variantSetMetadata) %}
-									<th scope="col">Action</th>
-								{% endif %}
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{{ variantSetMetadata.id }}</td>
-								<td>{{ variantSetMetadata.name }}</td>
-								<td>{{ variantSetMetadata.description }}</td>
-								<td>{{ variantSetMetadata.filters }}</td>
-								<td>{{ variantSetMetadata.variantCount }}</td>
-								<td>{{ variantSetMetadata.dataUpload }}</td>
-								<td>{{ variantSetMetadata.fileUrl }}</td>
-								<td>
-									<a href="{{ path('genotyping_platform_details', {id: variantSetMetadata.genotypingPlatform.id}) }}">{{ variantSetMetadata.genotypingPlatform }}</a>
-								</td>
-								{% if is_granted("ROLE_ADMIN") %}
-									<td>
-										<a href="{{ path('person_details', {id: variantSetMetadata.createdBy.id}) }}">{{ variantSetMetadata.createdBy }}</a>
-									</td>
-									<td>{{ variantSetMetadata.createdAt | date('d/m/Y h:m:s') }}</td>
-									<td>
-										<a href="{{ path('variant_set_metadata_delete', {id: variantSetMetadata.id}) }}" class="changeStatusLink" id="{{ variantSetMetadata.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ variantSetMetadata.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
-									</td>
-								{% endif %}
-								{% if is_granted("variant_set_metadata_edit", variantSetMetadata) %}
-									<td>
-										<a href="{{ path('variant_set_metadata_edit', {id: variantSetMetadata.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</td>
-								{% endif %}
-							</tr>
-						</tbody>
-					</table>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Variant Set Metadata Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: variantSetMetadata.createdBy.id}) }}">{{ variantSetMetadata.createdBy }}</a>
+							</span>
+							<span>On: {{ variantSetMetadata.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('variant_set_metadata_delete', {id: variantSetMetadata.id}) }}" class="changeStatusLink" id="{{ variantSetMetadata.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ variantSetMetadata.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("variant_set_metadata_edit", variantSetMetadata) %}
+							<a href="{{ path('variant_set_metadata_edit', {id: variantSetMetadata.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
 				</div>
 			</div>
 		</div>
-		<!-- .row -->
+
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Variant Set Metadata Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Name: </label>
+							<span class="tomato-color font-weight-bold">{{ variantSetMetadata.name}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Description: </label>
+							<span class="tomato-color font-weight-bold">{{ variantSetMetadata.description}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Filters: </label>
+							<span class="tomato-color font-weight-bold">{{ variantSetMetadata.filters}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Variant Count: </label>
+							<span class="tomato-color font-weight-bold">{{ variantSetMetadata.variantCount}}</span>
+						</div>
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Data File & Genotyping Platform</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Data Upload: </label>
+						{% if variantSetMetadata.dataUpload %}
+							<span class="tomato-color font-weight-bold">{{ variantSetMetadata.dataUpload }}</span>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">File URL: </label>
+						{% if variantSetMetadata.fileUrl %}
+							<span class="tomato-color font-weight-bold">{{ variantSetMetadata.fileUrl }}</span>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Genotyping Platform: </label>
+						{% if variantSetMetadata.genotypingPlatform %}
+							<a href="{{ path('genotyping_platform_details', {id: variantSetMetadata.genotypingPlatform.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ variantSetMetadata.genotypingPlatform }}</span>
+							</a>
+						{% endif %}
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-xl-5 col-lg-4 mr-auto">
+				{# Progeny #}
+				{% if variantSetMetadata.gWAS | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ variantSetMetadata.gWAS | length == 1 ? 'Related GWAS Summary' : 'Related GWAS Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ variantSetMetadata.gWAS | length <= 500 ? variantSetMetadata.gWAS | length : '500' }}</span>
+					</h4>
+					{% if variantSetMetadata.gWAS | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
+					<table id="datatable_gwas" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>GWAS Name</th>
+								<th>Software</th>
+								<th>Threshold Value</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for one in variantSetMetadata.gWAS %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('gwas_details', {id: one.id}) }}">{{ one.name }}</a>
+											</strong>
+										</td>
+
+										<td>
+											{% if one.software %}
+												<strong class="text-muted">
+													<a href="{{ path('software_details', {id: one.software.id}) }}">{{ one.software }}</a>
+												</strong>
+											{% endif %}
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ one.thresholdValue }}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+
+
+			<div class="col-xl-5 col-lg-4">
+				{# qtl variant #}
+				{% if variantSetMetadata.variantSets | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ variantSetMetadata.variantSets | length == 1 ? 'Related Variant Set Summary' : 'Related Variant Sets Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ variantSetMetadata.variantSets | length <= 500 ? variantSetMetadata.variantSets | length : 500 }}</span>
+					</h4>
+					{% if variantSetMetadata.variantSets | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
+					<table id="datatable_variant_set" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Value</th>
+								<th>Sample</th>
+								<th>Marker</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for one in variantSetMetadata.variantSets %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('variant_set_details', {id: one.id}) }}">{{ one.value }}</a>
+											</strong>
+										</td>
+
+										<td>
+											{% if one.sample %}
+												<strong class="text-muted">
+													<a href="{{ path('sample_details', {id: one.sample.id}) }}">{{ one.sample }}</a>
+												</strong>
+											{% endif %}
+										</td>
+
+										<td>
+											{% if one.marker %}
+												<strong class="text-muted">
+													<a href="{{ path('marker_details', {id: one.marker.id}) }}">{{ one.marker }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+			
+		</div>
+
+
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_gwas, #datatable_variant_set').DataTable();
+        } );
+    </script>
 {% endblock %}
