@@ -196,8 +196,11 @@
 				<div class="col-md-3 mb-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<span class="tomato-color">Related Synonym Summary</span>
-						<span class="badge badge-danger badge-pill">{{ marker.markerSynonyms | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ marker.markerSynonyms | length <= 500 ? marker.markerSynonyms | length : '500' }}</span>
 					</h4>
+					{% if marker.markerSynonyms | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 					<table id="datatable_synonym" class="table table-hover text-nowrap">
 						<thead class="table-dark">
 							<tr>
@@ -207,18 +210,20 @@
 						</thead>
 						<tbody>
 							{% for oneSynonym in marker.markerSynonyms %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('marker_synonym_details', {id: oneSynonym.id}) }}" target="_blank">{{ oneSynonym.markerSynonymId }}</a>
-										</strong>
-									</td>
-									<td>
-										<strong class="text-muted">
-											{{ oneSynonym.synonymSource }}
-										</strong>
-									</td>
-								</tr>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('marker_synonym_details', {id: oneSynonym.id}) }}" target="_blank">{{ oneSynonym.markerSynonymId }}</a>
+											</strong>
+										</td>
+										<td>
+											<strong class="text-muted">
+												{{ oneSynonym.synonymSource }}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
@@ -230,8 +235,11 @@
 				<div class="col-md-3 mb-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<span class="tomato-color">Related GWAS Variant Summary</span>
-						<span class="badge badge-danger badge-pill">{{ marker.gWASVariants | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ marker.gWASVariants | length <= 500 ? marker.gWASVariants | length : '500' }}</span>
 					</h4>
+					{% if marker.gWASVariants | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 					<table id="datatable_gwasV" class="table table-hover text-nowrap">
 						<thead class="table-dark">
 							<tr>
@@ -242,23 +250,25 @@
 						</thead>
 						<tbody>
 							{% for oneGVariant in marker.gWASVariants %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('gwas_variant_details', {id: oneGVariant.id}) }}" target="_blank">{{ oneGVariant.name }}</a>
-										</strong>
-									</td>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('gwas_variant_details', {id: oneGVariant.id}) }}" target="_blank">{{ oneGVariant.sampleSize }}</a>
-										</strong>
-									</td>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('gwas_variant_details', {id: oneGVariant.id}) }}" target="_blank">{{ oneGVariant.snppValue }}</a>
-										</strong>
-									</td>
-								</tr>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('gwas_variant_details', {id: oneGVariant.id}) }}" target="_blank">{{ oneGVariant.name }}</a>
+											</strong>
+										</td>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('gwas_variant_details', {id: oneGVariant.id}) }}" target="_blank">{{ oneGVariant.sampleSize }}</a>
+											</strong>
+										</td>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('gwas_variant_details', {id: oneGVariant.id}) }}" target="_blank">{{ oneGVariant.snppValue }}</a>
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
@@ -272,8 +282,11 @@
 				<div class="col-md-3 mb-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<span class="tomato-color">Related GWAS Variant Summary</span>
-						<span class="badge badge-danger badge-pill">{{ marker.qTLVariants | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ marker.qTLVariants | length <= 500 ? marker.qTLVariants | length : '500' }}</span>
 					</h4>
+					{% if marker.qTLVariants | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 					<table id="datatable_qtlV" class="table table-hover text-nowrap">
 						<thead class="table-dark">
 							<tr>
@@ -284,23 +297,25 @@
 						</thead>
 						<tbody>
 							{% for oneQVariant in marker.qTLVariants %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('qtl_variant_details', {id: oneQVariant.id}) }}" target="_blank">{{ oneQVariant.name }}</a>
-										</strong>
-									</td>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('qtl_study_details', {id: oneQVariant.qtlStudy.id}) }}" target="_blank">{{ oneQVariant.qtlStudy }}</a>
-										</strong>
-									</td>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('qtl_variant_details', {id: oneQVariant.id}) }}" target="_blank">{{ oneQVariant.peakPosition }}</a>
-										</strong>
-									</td>
-								</tr>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('qtl_variant_details', {id: oneQVariant.id}) }}" target="_blank">{{ oneQVariant.name }}</a>
+											</strong>
+										</td>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('qtl_study_details', {id: oneQVariant.qtlStudy.id}) }}" target="_blank">{{ oneQVariant.qtlStudy }}</a>
+											</strong>
+										</td>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('qtl_variant_details', {id: oneQVariant.id}) }}" target="_blank">{{ oneQVariant.peakPosition }}</a>
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
