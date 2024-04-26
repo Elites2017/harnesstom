@@ -11,8 +11,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class QTLVariantVoter extends Voter
 {
-    public const EDIT = 'qtl_voter_edit';
-    public const DEL = 'qtl_voter_delete';
+    public const EDIT = 'qtl_variant_edit';
+    public const DEL = 'qtl_variant_delete';
     // to get the user role
     private $security;
 
