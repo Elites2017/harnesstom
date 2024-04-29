@@ -57,4 +57,58 @@ class QTLEpistatisEffectController extends AbstractController
         ];
         return $this->render('qtl_epistasis_effect/create.html.twig', $context);
     }
+
+    /**
+     * @Route("/details/{id}", name="details")
+     */
+    public function details(QTLEpistasisEffect $qtlEpistasisSelected): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $context = [
+            'title' => 'QTL Epistasis Effect Details',
+            'qtlEpistasisEffect' => $qtlEpistasisSelected
+        ];
+        return $this->render('qtl_epistasis_effect/details.html.twig', $context);
+    }
+
+    /**
+     * @Route("/edit/{id}", name="edit")
+     */
+    public function edit(QTLEpistasisEffect $qtlEpistasisEffect, Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $form = $this->createForm(QTLEpistasisEffectType::class, $qtlEpistasisEffect);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entmanager->persist($qtlEpistasisEffect);
+            $entmanager->flush();
+            $this->addFlash('success', " one element has been successfuly updated");
+            return $this->redirect($this->generateUrl('qtl_epistasis_effect_index'));
+        }
+
+        $context = [
+            'title' => 'QTL Epistasis Update',
+            'qtlEpistasisEffectForm' => $form->createView()
+        ];
+        return $this->render('qtl_epistasis_effect/edit.html.twig', $context);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="delete")
+     */
+    public function delete(QTLEpistasisEffect $qtlEpistasisEffect, Request $request, EntityManagerInterface $entmanager): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if ($qtlEpistasisEffect->getId()) {
+            $qtlEpistasisEffect->setIsActive(!$qtlEpistasisEffect->getIsActive());
+        }
+        $entmanager->persist($qtlEpistasisEffect);
+        $entmanager->flush();
+
+        return $this->json([
+            'code' => 200,
+            'message' => $qtlEpistasisEffect->getIsActive()
+        ], 200);
+        //return $this->redirect($this->generateUrl('season_home'));
+    }
 }

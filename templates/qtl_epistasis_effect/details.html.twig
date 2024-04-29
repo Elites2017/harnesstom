@@ -1,0 +1,216 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ title }}
+{% endblock %}
+
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+
+		<!-- .row -->
+		<div class="row">
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">QTL Epistasis Effect Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: qtlEpistasisEffect.createdBy.id}) }}">{{ qtlEpistasisEffect.createdBy }}</a>
+							</span>
+							<span>On: {{ qtlEpistasisEffect.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('qtl_epistasis_effect_delete', {id: qtlEpistasisEffect.id}) }}" class="changeStatusLink" id="{{ qtlEpistasisEffect.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ qtlEpistasisEffect.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("qtl_epistasis_effect_edit", qtlEpistasisEffect) %}
+							<a href="{{ path('qtl_epistasis_effect_edit', {id: qtlEpistasisEffect.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
+				</div>
+			</div>
+		</div>
+
+		<!-- .row -->
+		<div class="row mb-3">
+			<div class="col-xl-4 col-lg-3 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">QTL Epistasis Effect Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Epistatistic Epi: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.epistatisticEpi}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">R2 Epi: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.r2Epi}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Add Epi: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.addEpi}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">R2 Add: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.r2Add}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Epistatistic Add: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.epistatisticAdd}}</span>
+						</div>
+
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-4 col-lg-3 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">QTL Variant 1 Info</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Name: </label>
+						{% if qtlEpistasisEffect.qtlvariant1 %}
+							<a href="{{ path('qtl_variant_details', {id: qtlEpistasisEffect.qtlvariant1.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlvariant1 }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">QTL Study: </label>
+						{% if qtlEpistasisEffect.qtlVariant1.qtlStudy %}
+							<a href="{{ path('qtl_study_details', {id: qtlEpistasisEffect.qtlVariant1.qtlStudy.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant1.qtlStudy }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Detect Name: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant1.detectName}}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Original Trait Name: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant1.originalTraitName}}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Linkage Group Name: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant1.linkageGroupName }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Peak Position: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant1.peakPosition }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">R2: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant1.r2}}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Statistic QTL X Evalue: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant1.statisticQtlxEvalue}}</span>
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-4 col-lg-3 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">QTL Variant 2 Info</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Name: </label>
+						{% if qtlEpistasisEffect.qtlvariant2 %}
+							<a href="{{ path('qtl_variant_details', {id: qtlEpistasisEffect.qtlvariant2.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlvariant2 }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">QTL Study: </label>
+						{% if qtlEpistasisEffect.qtlVariant2.qtlStudy %}
+							<a href="{{ path('qtl_study_details', {id: qtlEpistasisEffect.qtlVariant2.qtlStudy.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant2.qtlStudy }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Detect Name: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant2.detectName}}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Original Trait Name: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant2.originalTraitName}}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Linkage Group Name: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant2.linkageGroupName }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Peak Position: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant2.peakPosition }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">R2: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant2.r2}}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Statistic QTL X Evalue: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlEpistasisEffect.qtlVariant2.statisticQtlxEvalue}}</span>
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_epistasis').DataTable();
+        } );
+    </script>
+{% endblock %}
