@@ -145,8 +145,11 @@
 				{% if observationLevel.samples | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ observationLevel.samples | length == 1 ? 'Related Sample Summary' : 'Related Samples Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ observationLevel.samples | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ observationLevel.samples | length <= 500 ? observationLevel.samples | length : '500 +'}}</span>
 					</h4>
+					{% if observationLevel.samples | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_sample" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -159,37 +162,39 @@
 						</thead>
 						<tbody>
 							{% for sample in observationLevel.samples %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											{{ sample.name }}
-										</strong>
-									</td>
-
-									<td>
-										{% if sample.study %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
 											<strong class="text-muted">
-												<a href="{{ path('study_details', {id: sample.study.id}) }}">{{ sample.study.abbreviation }}</a>
+												{{ sample.name }}
 											</strong>
-										{% endif %}
-									</td>
+										</td>
 
-									<td>
-										{% if sample.developmentalStage %}
-											<strong class="text-muted">
-												<a href="{{ path('developmental_stage_details', {id: sample.developmentalStage.id}) }}">{{ sample.developmentalStage }}</a>
-											</strong>
-										{% endif %}
-									</td>
+										<td>
+											{% if sample.study %}
+												<strong class="text-muted">
+													<a href="{{ path('study_details', {id: sample.study.id}) }}">{{ sample.study.abbreviation }}</a>
+												</strong>
+											{% endif %}
+										</td>
 
-									<td>
-										{% if sample.anatomicalEntity %}
-											<strong class="text-muted">
-												<a href="{{ path('anatomical_entity_details', {id: sample.anatomicalEntity.id}) }}">{{ sample.anatomicalEntity }}</a>
-											</strong>
-										{% endif %}
-									</td>
-								</tr>
+										<td>
+											{% if sample.developmentalStage %}
+												<strong class="text-muted">
+													<a href="{{ path('developmental_stage_details', {id: sample.developmentalStage.id}) }}">{{ sample.developmentalStage }}</a>
+												</strong>
+											{% endif %}
+										</td>
+
+										<td>
+											{% if sample.anatomicalEntity %}
+												<strong class="text-muted">
+													<a href="{{ path('anatomical_entity_details', {id: sample.anatomicalEntity.id}) }}">{{ sample.anatomicalEntity }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
@@ -200,9 +205,12 @@
 				{# Trial #}
 				{% if observationLevel.observationValueOriginals | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<strong class="tomato-color">{{ observationLevel.observationValueOriginals | length == 1 ? 'Related Related Observation Value Summary' : 'Related Observation Values Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ observationLevel.observationValueOriginals | length }}</span>
+						<strong class="tomato-color">{{ observationLevel.observationValueOriginals | length == 1 ? 'Related Observation Value Summary' : 'Related Observation Values Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ observationLevel.observationValueOriginals | length <= 500 ? observationLevel.observationValueOriginals | length : '500 +'}}</span>
 					</h4>
+					{% if observationLevel.observationValueOriginals | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_obsVal" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -213,19 +221,21 @@
 						</thead>
 						<tbody>
 							{% for obsVal in observationLevel.observationValueOriginals %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('observation_variable_details', {id: obsVal.observationVariableOriginal.id}) }}">{{ obsVal.observationVariableOriginal }}</a>
-										</strong>
-									</td>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('observation_variable_details', {id: obsVal.observationVariableOriginal.id}) }}">{{ obsVal.observationVariableOriginal }}</a>
+											</strong>
+										</td>
 
-									<td>
-										<strong class="text-muted">
-											{{ obsVal.value }}
-										</strong>
-									</td>
-								</tr>
+										<td>
+											<strong class="text-muted">
+												{{ obsVal.value }}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>

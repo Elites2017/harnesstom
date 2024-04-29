@@ -152,8 +152,11 @@
 				{% if sample.variantSets | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ sample.variantSets | length == 1 ? 'Related Variant Set Summary' : 'Related Variant Sets Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ sample.variantSets | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ sample.variantSets | length <= 500 ? sample.variantSets | length : '500 +'}}</span>
 					</h4>
+					{% if sample.variantSets | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_variantSet" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -164,19 +167,21 @@
 						</thead>
 						<tbody>
 							{% for variantSet in sample.variantSets %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('marker_details', {id: variantSet.marker.id}) }}">{{ variantSet.marker }}</a>
-										</strong>
-									</td>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('marker_details', {id: variantSet.marker.id}) }}">{{ variantSet.marker }}</a>
+											</strong>
+										</td>
 
-									<td>
-										<strong class="text-muted">
-											{{ variantSet.value }}
-										</strong>
-									</td>
-								</tr>
+										<td>
+											<strong class="text-muted">
+												{{ variantSet.value }}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
@@ -188,8 +193,11 @@
 				{% if sample.metaboliteValues | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ sample.metaboliteValues | length == 1 ? 'Related Metabolite Values Summary' : 'Related Metabolite Values Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ sample.metaboliteValues | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ sample.metaboliteValues | length <= 500 ? sample.metaboliteValues | length : '500 +'}}</span>
 					</h4>
+					{% if sample.metaboliteValues | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 					<table id="datatable_metaboliteValue" class="table table-hover text-nowrap">
 						<thead class="table-dark">
 							<tr>
@@ -199,19 +207,21 @@
 						</thead>
 						<tbody>
 							{% for metaboliteVal in sample.metaboliteValues %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('metabolite_value_details', {id: metaboliteVal.metabolite.id}) }}">{{ metaboliteVal.metabolite }}</a>
-										</strong>
-									</td>
-									
-									<td>
-										<strong class="text-muted">
-											{{ metaboliteVal.value }}
-										</strong>
-									</td>
-								</tr>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('metabolite_value_details', {id: metaboliteVal.metabolite.id}) }}">{{ metaboliteVal.metabolite }}</a>
+											</strong>
+										</td>
+										
+										<td>
+											<strong class="text-muted">
+												{{ metaboliteVal.value }}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>

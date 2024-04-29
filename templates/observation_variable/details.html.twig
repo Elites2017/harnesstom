@@ -170,8 +170,11 @@
 				{% if observationVariable.qTLVariants | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ observationVariable.qTLVariants | length == 1 ? 'Related QTL Variant Summary' : 'Related QTL Variants Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ observationVariable.qTLVariants | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ observationVariable.qTLVariants | length <= 500 ? observationVariable.qTLVariants | length : '500 +'}}</span>
 					</h4>
+					{% if observationVariable.qTLVariants | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_qtl_var" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -184,33 +187,35 @@
 						</thead>
 						<tbody>
 							{% for qtlVariant in observationVariable.qTLVariants %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('qtl_variant_details', {id: qtlVariant.id}) }}">{{ qtlVariant.name }}</a>
-										</strong>
-									</td>
-
-									<td>
-										{% if qtlVariant.closestMarker %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
 											<strong class="text-muted">
-												<a href="{{ path('marker_details', {id: qtlVariant.closestMarker.id}) }}">{{ qtlVariant.closestMarker }}</a>
+												<a href="{{ path('qtl_variant_details', {id: qtlVariant.id}) }}">{{ qtlVariant.name }}</a>
 											</strong>
-										{% endif %}
-									</td>
+										</td>
 
-									<td>
-										<strong class="text-muted">
-											{{ qtlVariant.peakPosition }}
-										</strong>
-									</td>
+										<td>
+											{% if qtlVariant.closestMarker %}
+												<strong class="text-muted">
+													<a href="{{ path('marker_details', {id: qtlVariant.closestMarker.id}) }}">{{ qtlVariant.closestMarker }}</a>
+												</strong>
+											{% endif %}
+										</td>
 
-									<td>
-										<strong class="text-muted">
-											{{ qtlVariant.linkageGroupName }}
-										</strong>
-									</td>
-								</tr>
+										<td>
+											<strong class="text-muted">
+												{{ qtlVariant.peakPosition }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ qtlVariant.linkageGroupName }}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>

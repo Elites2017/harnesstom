@@ -79,9 +79,12 @@
 				{# Accession #}
 				{% if collectingMission.accessions | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<strong class="tomato-color">{{ collectingMission.accessions | length == 1 ? 'Related Accession Summary' : 'Relatpd Accessions Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ collectingMission.accessions | length }}</span>
+						<strong class="tomato-color">{{ collectingMission.accessions | length == 1 ? 'Related Accession Summary' : 'Related Accessions Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ collectingMission.accessions | length <= 500 ? collectingMission.accessions | length : '500 +'}}</span>
 					</h4>
+					{% if collectingMission.accessions | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_accession" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -95,41 +98,43 @@
 						</thead>
 						<tbody>
 							{% for accession in collectingMission.accessions %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accenumb }}</a>
-										</strong>
-									</td>
-
-                                    <td>
-										<strong class="text-muted">
-											{{ accession.accename }}
-										</strong>
-									</td>
-
-									<td>
-										{% if accession.origcty %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
 											<strong class="text-muted">
-												<a href="{{ path('country_details', {id: accession.origcty.id}) }}">{{ accession.origcty }}</a>
+												<a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accenumb }}</a>
 											</strong>
-										{% endif %}
-									</td>
+										</td>
 
-                                    <td>
-										<strong class="text-muted">
-											{{ accession.maintainerNumb }}
-										</strong>
-									</td>
-
-									<td>
-										{% if accession.instcode %}
+										<td>
 											<strong class="text-muted">
-												<a href="{{ path('institute_details', {id: accession.instcode.id}) }}">{{ accession.instcode }}</a>
+												{{ accession.accename }}
 											</strong>
-										{% endif %}
-									</td>
-								</tr>
+										</td>
+
+										<td>
+											{% if accession.origcty %}
+												<strong class="text-muted">
+													<a href="{{ path('country_details', {id: accession.origcty.id}) }}">{{ accession.origcty }}</a>
+												</strong>
+											{% endif %}
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ accession.maintainerNumb }}
+											</strong>
+										</td>
+
+										<td>
+											{% if accession.instcode %}
+												<strong class="text-muted">
+													<a href="{{ path('institute_details', {id: accession.instcode.id}) }}">{{ accession.instcode }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>

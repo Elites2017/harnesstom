@@ -116,7 +116,7 @@
 				{% if variantSetMetadata.gWAS | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ variantSetMetadata.gWAS | length == 1 ? 'Related GWAS Summary' : 'Related GWAS Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ variantSetMetadata.gWAS | length <= 500 ? variantSetMetadata.gWAS | length : '500' }}</span>
+						<span class="badge badge-danger badge-pill">{{ variantSetMetadata.gWAS | length <= 500 ? variantSetMetadata.gWAS | length : '500 +' }}</span>
 					</h4>
 					{% if variantSetMetadata.gWAS | length > 500 %}
 						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>

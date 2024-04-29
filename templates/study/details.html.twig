@@ -240,9 +240,12 @@
 			{% if study.gwas | length > 0 %}
 				<div class="col-xl-5 col-lg-4 mb-3 mt-4 mr-auto">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">Related GWAS Summary</span>
-						<span class="badge badge-danger badge-pill">{{ study.gwas | length }}</span>
+						<strong class="tomato-color">{{ study.gwas | length == 1 ? 'Related GWAS Summary' : 'Related GWAS Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ study.gwas | length <= 500 ? study.gwas | length : '500 +'}}</span>
 					</h4>
+					{% if study.gwas | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_gwas" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -254,29 +257,31 @@
 						</thead>
 						<tbody>
 							{% for oneGWAS in study.gwas %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('gwas_details', {id: oneGWAS.id}) }}">{{ oneGWAS.name }}</a>
-										</strong>
-									</td>
-									<td>
-										{% if oneGWAS.software %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
 											<strong class="text-muted">
-												<a href="{{ path('software_details', {id: oneGWAS.software.id}) }}">
-													{{ oneGWAS.software }}
-												</a>
+												<a href="{{ path('gwas_details', {id: oneGWAS.id}) }}">{{ oneGWAS.name }}</a>
 											</strong>
-										{% endif %}
-									</td>
-									<td>
-										{% if oneGWAS.gwasModel %}
-											<strong class="text-muted">
-												<a href="{{ path('gwas_model_details', {id: oneGWAS.gwasModel.id}) }}">{{ oneGWAS.gwasModel }}</a>
-											</strong>
-										{% endif %}
-									</td>
-								</tr>
+										</td>
+										<td>
+											{% if oneGWAS.software %}
+												<strong class="text-muted">
+													<a href="{{ path('software_details', {id: oneGWAS.software.id}) }}">
+														{{ oneGWAS.software }}
+													</a>
+												</strong>
+											{% endif %}
+										</td>
+										<td>
+											{% if oneGWAS.gwasModel %}
+												<strong class="text-muted">
+													<a href="{{ path('gwas_model_details', {id: oneGWAS.gwasModel.id}) }}">{{ oneGWAS.gwasModel }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
@@ -286,9 +291,13 @@
 			{% if study.germplasms | length > 0 %}
 				<div class="col-xl-6 col-lg-5 mb-3 mt-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">{{ study.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</span>
-						<span class="badge badge-danger badge-pill">{{ study.germplasms | length }}</span>
+						<strong class="tomato-color">{{ study.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ study.germplasms | length <= 500 ? study.germplasms | length : '500 +'}}</span>
 					</h4>
+					{% if study.germplasms | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
 					<table id="datatable_germ" class="table table-hover text-nowrap">
 						<thead class="table-dark">
 							<tr>
@@ -299,31 +308,33 @@
 						</thead>
 						<tbody>
 							{% for oneGermplasm in study.germplasms %}
-								<tr>
-									<td>
-										{% if oneGermplasm.germplasmID %}
-											<strong class="text-muted">
-												<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
-											</strong>
-										{% endif %}
-									</td>
-									<td>
-										{% if oneGermplasm.accession.instcode %}
-											<strong class="text-muted">
-												<a href="{{ path('institute_details', {id: oneGermplasm.accession.instcode.id}) }}">
-													{{ oneGermplasm.accession.instcode.acronym }}
-												</a>
-											</strong>
-										{% endif %}
-									</td>
-									<td>
-										{% if oneGermplasm.accession %}
-											<strong class="text-muted">
-												<a href="{{ path('accession_details', {id: oneGermplasm.accession.id}) }}">{{ oneGermplasm.accession }}</a>
-											</strong>
-										{% endif %}
-									</td>
-								</tr>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											{% if oneGermplasm.germplasmID %}
+												<strong class="text-muted">
+													<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
+												</strong>
+											{% endif %}
+										</td>
+										<td>
+											{% if oneGermplasm.accession.instcode %}
+												<strong class="text-muted">
+													<a href="{{ path('institute_details', {id: oneGermplasm.accession.instcode.id}) }}">
+														{{ oneGermplasm.accession.instcode.acronym }}
+													</a>
+												</strong>
+											{% endif %}
+										</td>
+										<td>
+											{% if oneGermplasm.accession %}
+												<strong class="text-muted">
+													<a href="{{ path('accession_details', {id: oneGermplasm.accession.id}) }}">{{ oneGermplasm.accession }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>

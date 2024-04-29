@@ -104,8 +104,11 @@
 				{% if program.trials | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ program.trials | length == 1 ? 'Related Trial Summary' : 'Related Trials Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ program.trials | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ program.trials | length <= 500 ? program.trials | length : '500 +'}}</span>
 					</h4>
+					{% if program.trials | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_trial" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -117,25 +120,27 @@
 						</thead>
 						<tbody>
 							{% for trial in program.trials %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.abbreviation }}</a>
-										</strong>
-									</td>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('trial_details', {id: trial.id}) }}">{{ trial.abbreviation }}</a>
+											</strong>
+										</td>
 
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">{{ trial.trialType }}</a>
-										</strong>
-									</td>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('trial_type_details', {id: trial.trialType.id}) }}">{{ trial.trialType }}</a>
+											</strong>
+										</td>
 
-									<td>
-										<strong class="text-muted">
-											{{ trial.publicReleaseDate | date('d-m-Y') }}
-										</strong>
-									</td>
-								</tr>
+										<td>
+											<strong class="text-muted">
+												{{ trial.publicReleaseDate | date('d-m-Y') }}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
@@ -148,8 +153,11 @@
 				{% if program.germplasms | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ program.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ program.germplasms | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ program.germplasms | length <= 500 ? program.germplasms | length : '500 +'}}</span>
 					</h4>
+					{% if program.germplasms | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 					<table id="datatable_germ" class="table table-hover text-nowrap">
 						<thead class="table-dark">
 							<tr>
@@ -160,29 +168,31 @@
 						</thead>
 						<tbody>
 							{% for oneGermplasm in program.germplasms %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
-										</strong>
-									</td>
-									
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('accession_details', {id: oneGermplasm.accession.id}) }}">
-												{{ oneGermplasm.maintainernumb }}
-											</a>
-										</strong>
-									</td>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
+											</strong>
+										</td>
+										
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('accession_details', {id: oneGermplasm.accession.id}) }}">
+													{{ oneGermplasm.maintainernumb }}
+												</a>
+											</strong>
+										</td>
 
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('institute_details', {id: oneGermplasm.maintainerInstituteCode.id}) }}">
-												{{ oneGermplasm.maintainerInstituteCode }}
-											</a>
-										</strong>
-									</td>
-								</tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('institute_details', {id: oneGermplasm.maintainerInstituteCode.id}) }}">
+													{{ oneGermplasm.maintainerInstituteCode }}
+												</a>
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>

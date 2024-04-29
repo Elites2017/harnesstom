@@ -150,7 +150,7 @@
 				{% if genotypingPlatform.variantSetMetadata | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ genotypingPlatform.variantSetMetadata | length == 1 ? 'Related Variant Set Metadata Summary' : 'Related Variant Set Meta data Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ genotypingPlatform.variantSetMetadata | length <= 500 ? genotypingPlatform.variantSetMetadata | length : '500'}}</span>
+						<span class="badge badge-danger badge-pill">{{ genotypingPlatform.variantSetMetadata | length <= 500 ? genotypingPlatform.variantSetMetadata | length : '500 +'}}</span>
 					</h4>
 					{% if genotypingPlatform.variantSetMetadata | length > 500 %}
 						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>

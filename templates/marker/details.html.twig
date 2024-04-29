@@ -28,175 +28,163 @@
 
 {% block body %}
 	<div class="container-fluid">
+		<!-- .row -->
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="row">
-                    <div class="col-xl-3 col-lg-2 mb-3">
-                        <div class="card">
-							<div class="card-header">
-								<h3 class="font-weight-bold tomato-color">Basic Information</h3>
-							</div>
-							<div class="card-body">
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">ID: </label>
-									<span class="tomato-color font-weight-bold">{{ marker.id}}</span>
-								</div>
-								
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Name: </label>
-									<span class="tomato-color font-weight-bold">{{ marker.name}}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Type: </label>
-									<span class="tomato-color font-weight-bold">{{ marker.type}}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Linkage Group Name: </label>
-									{% if marker.linkageGroupName %}
-										<span class="tomato-color font-weight-bold">{{ marker.linkageGroupName }}</span>
-									{% endif %}
-								</div>
-									
-								</div>
-								<div class="card-footer text-muted">
-									
-							</div>
-						</div>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Marker Details</h2>
                     </div>
 
-					<div class="col-xl-3 col-lg-2 mb-3">
-                        <div class="card">
-							<div class="card-header">
-								<h3 class="font-weight-bold tomato-color">Position Information</h3>
-							</div>
-							<div class="card-body">
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Position: </label>
-									<span class="tomato-color font-weight-bold">{{ marker.position }}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Start: </label>
-									<span class="tomato-color font-weight-bold">{{ marker.start}}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">End: </label>
-										<span class="tomato-color font-weight-bold">{{ marker.end}}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Ref Allele: </label>
-									<span class="tomato-color font-weight-bold">{{ marker.refAllele }}</span>
-								</div>
-									
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Alt Allele </label>
-									{% for one in marker.altAllele %}
-										<b>{{ loop.index }})</b> {{ one }} </br>
-									{% endfor %}
-								</div>
-										
-								</div>
-								<div class="card-footer text-muted">
-									
-							</div>
-						</div>
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: marker.createdBy.id}) }}">{{ marker.createdBy }}</a>
+							</span>
+							<span>On: {{ marker.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('marker_delete', {id: marker.id}) }}" class="changeStatusLink" id="{{ marker.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ marker.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("marker_edit", marker) %}
+							<a href="{{ path('marker_edit', {id: marker.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
                     </div>
-
-					<div class="col-xl-3 col-lg-2 mb-3">
-                        <div class="card">
-							<div class="card-header">
-								<h3 class="font-weight-bold tomato-color">Primer Information</h3>
-							</div>
-
-							<div class="card-body">
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Primer Name 1: </label>
-									<span class="tomato-color font-weight-bold">{{ marker.primerName1 }}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Primer Seq 1: </label>
-									<span class="tomato-color font-weight-bold">{{ marker.primerSeq1 }}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Primer Name 2: </label>
-									<span class="tomato-color font-weight-bold">{{ marker.primerName2}}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Primer Seq 2: </label>
-									<span class="tomato-color font-weight-bold">{{ marker.primerSeq2}}</span>
-								</div>
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Genotyping Platform: </label>
-									{% if marker.genotypingPlatform %}
-										<a href="{{ path('genotyping_platform_details', {id: marker.genotypingPlatform.id}) }}">
-										<span class="tomato-color font-weight-bold">{{ marker.genotypingPlatform }}</span></a>
-									{% endif %}
-								</div>
-							</div>
-
-							<div class="card-footer text-muted">
-							</div>
-						</div>
-                    </div>
-
-					{% if is_granted("marker_edit", marker) %}
-						<div class="col-xl-2 col-lg-1 mb-3">
-							<div class="card">
-								<div class="card-header">
-									<h3 class="font-weight-bold tomato-color">Admin</h3>
-								</div>
-								{% if is_granted("ROLE_ADMIN") %}
-									<div class="card-body">
-										<div class="col-xl-12 col-lg-11 mb-1">
-										<label for="validationTooltip01">Status: </label>
-										<span class="tomato-color font-weight-bold">
-											<a href="{{ path('marker_delete', {id: marker.id}) }}" class="changeStatusLink" id="{{ marker.id }}">
-												<span class="changeStatusSpan">
-													<input type="checkbox" {{ marker.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-												</span>
-											</a>
-										</span>
-									</div>
-								{% endif %}
-
-								<div class="col-xl-12 col-lg-11 mb-1">
-									<label for="validationTooltip01">Edit: </label>
-									<span class="tomato-color font-weight-bold">
-										<a href="{{ path('marker_edit', {id: marker.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</span>
-								</div>
-
-								</div>
-								<div class="card-footer text-muted">
-									
-								</div>
-							</div>
-						</div>
-					{% endif %}
-
-                </div>
+				</div>
 			</div>
 		</div>
-		<!-- .row -->
 
+		<!-- .row -->
+		<div class="row">
+			<div class="col-xl-4 col-lg-3 mb-3">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="font-weight-bold tomato-color">Basic Information</h3>
+					</div>
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">ID: </label>
+							<span class="tomato-color font-weight-bold">{{ marker.id}}</span>
+						</div>
+						
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Name: </label>
+							<span class="tomato-color font-weight-bold">{{ marker.name}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Type: </label>
+							<span class="tomato-color font-weight-bold">{{ marker.type}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Linkage Group Name: </label>
+							{% if marker.linkageGroupName %}
+								<span class="tomato-color font-weight-bold">{{ marker.linkageGroupName }}</span>
+							{% endif %}
+						</div>
+							
+						</div>
+						<div class="card-footer text-muted">
+							
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-4 col-lg-3 mb-3">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="font-weight-bold tomato-color">Position Information</h3>
+					</div>
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Position: </label>
+							<span class="tomato-color font-weight-bold">{{ marker.position }}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Start: </label>
+							<span class="tomato-color font-weight-bold">{{ marker.start}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">End: </label>
+								<span class="tomato-color font-weight-bold">{{ marker.end}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Ref Allele: </label>
+							<span class="tomato-color font-weight-bold">{{ marker.refAllele }}</span>
+						</div>
+							
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Alt Allele </label>
+							{% for one in marker.altAllele %}
+								<b>{{ loop.index }})</b> {{ one }} </br>
+							{% endfor %}
+						</div>
+								
+						</div>
+						<div class="card-footer text-muted">
+							
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-4 col-lg-3 mb-3">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="font-weight-bold tomato-color">Primer Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Primer Name 1: </label>
+							<span class="tomato-color font-weight-bold">{{ marker.primerName1 }}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Primer Seq 1: </label>
+							<span class="tomato-color font-weight-bold">{{ marker.primerSeq1 }}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Primer Name 2: </label>
+							<span class="tomato-color font-weight-bold">{{ marker.primerName2}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Primer Seq 2: </label>
+							<span class="tomato-color font-weight-bold">{{ marker.primerSeq2}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Genotyping Platform: </label>
+							{% if marker.genotypingPlatform %}
+								<a href="{{ path('genotyping_platform_details', {id: marker.genotypingPlatform.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ marker.genotypingPlatform }}</span></a>
+							{% endif %}
+						</div>
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+		</div>
+		
 		{# Start of row #}
 		<div class="row">
 			{% if marker.markerSynonyms | length > 0 %}
 				<div class="col-md-3 mb-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<span class="tomato-color">Related Synonym Summary</span>
-						<span class="badge badge-danger badge-pill">{{ marker.markerSynonyms | length <= 500 ? marker.markerSynonyms | length : '500' }}</span>
+						<span class="badge badge-danger badge-pill">{{ marker.markerSynonyms | length <= 500 ? marker.markerSynonyms | length : '500 +' }}</span>
 					</h4>
 					{% if marker.markerSynonyms | length > 500 %}
 						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
@@ -235,7 +223,7 @@
 				<div class="col-md-3 mb-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<span class="tomato-color">Related GWAS Variant Summary</span>
-						<span class="badge badge-danger badge-pill">{{ marker.gWASVariants | length <= 500 ? marker.gWASVariants | length : '500' }}</span>
+						<span class="badge badge-danger badge-pill">{{ marker.gWASVariants | length <= 500 ? marker.gWASVariants | length : '500 +' }}</span>
 					</h4>
 					{% if marker.gWASVariants | length > 500 %}
 						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
@@ -282,7 +270,7 @@
 				<div class="col-md-3 mb-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<span class="tomato-color">Related GWAS Variant Summary</span>
-						<span class="badge badge-danger badge-pill">{{ marker.qTLVariants | length <= 500 ? marker.qTLVariants | length : '500' }}</span>
+						<span class="badge badge-danger badge-pill">{{ marker.qTLVariants | length <= 500 ? marker.qTLVariants | length : '500 +' }}</span>
 					</h4>
 					{% if marker.qTLVariants | length > 500 %}
 						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>

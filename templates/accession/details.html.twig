@@ -253,9 +253,12 @@
                         {# Attribute trait value #}
                         {% if accessions[0].attributeTraitValues | length > 0 %}
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                <strong class="tomato-color">{{ accessions[0].attributeTraitValues | length == 1 ? 'Attribute Summary' : 'Attributes Summary' }}</strong>
-                                <span class="badge badge-danger badge-pill">{{ accessions[0].attributeTraitValues | length }}</span>
+                                <strong class="tomato-color">{{ accessions[0].attributeTraitValues | length == 1 ? 'Related Attribute Summary' : 'Related Attributes Summary' }}</strong>
+                                <span class="badge badge-danger badge-pill">{{ accessions[0].attributeTraitValues | length <= 500 ? accessions[0].attributeTraitValues | length : '500 +'}}</span>
                             </h4>
+                            {% if accessions[0].attributeTraitValues | length > 500 %}
+                                <small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+                            {% endif %}
 
                             <table id="datatable_attr" class="table table-hover text-nowrap">
                                 <thead>
@@ -267,32 +270,34 @@
                                 <thead>
                                 <tbody>
                                     {% for attTraitValue in accessions[0].attributeTraitValues %}
-                                        <tr>
-                                            <td>
-                                                {% if attTraitValue.attribute %}
-                                                    <strong class="text-muted">
-                                                        <a href="{{ path('attribute_details', {id: attTraitValue.attribute.id}) }}">{{ attTraitValue.attribute }}</a>
-                                                    </strong>
-                                                {% endif %}
-                                            </td>
-                                            
-                                            <td>
-                                                {% if attTraitValue.trait %}
-                                                    <strong class="text-muted">
-                                                        <a href="{{ path('trait_class_details', {id: attTraitValue.trait.id}) }}">
-                                                            {{ attTraitValue.trait }}
-                                                        </a>
-                                                    </strong>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if attTraitValue.value %}
-                                                    <strong class="text-muted">
-                                                        {{ attTraitValue.value }}
-                                                    </strong>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
+                                        {% if loop.index <= 500 %}
+                                            <tr>
+                                                <td>
+                                                    {% if attTraitValue.attribute %}
+                                                        <strong class="text-muted">
+                                                            <a href="{{ path('attribute_details', {id: attTraitValue.attribute.id}) }}">{{ attTraitValue.attribute }}</a>
+                                                        </strong>
+                                                    {% endif %}
+                                                </td>
+                                                
+                                                <td>
+                                                    {% if attTraitValue.trait %}
+                                                        <strong class="text-muted">
+                                                            <a href="{{ path('trait_class_details', {id: attTraitValue.trait.id}) }}">
+                                                                {{ attTraitValue.trait }}
+                                                            </a>
+                                                        </strong>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if attTraitValue.value %}
+                                                        <strong class="text-muted">
+                                                            {{ attTraitValue.value }}
+                                                        </strong>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -305,9 +310,12 @@
                         {# Synonym #}
                         {% if accession.synonyms | length > 0 %}
                             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                <strong class="tomato-color">{{ accession.synonyms | length == 1 ? 'Synonym Summary' : 'Synonyms Summary' }}</strong>
-                                <span class="badge badge-danger badge-pill">{{ accession.synonyms | length }}</span>
+                                <strong class="tomato-color">{{ accession.synonyms | length == 1 ? 'Related Synonym Summary' : 'Related Synonyms Summary' }}</strong>
+                                <span class="badge badge-danger badge-pill">{{ accession.synonyms | length <= 500 ? accession.synonyms | length : '500 +'}}</span>
                             </h4>
+                            {% if accession.synonyms | length > 500 %}
+                                <small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+                            {% endif %}
 
                             <table id="datatable_acc_synonym" class="table table-hover text-nowrap">
                                 <thead>
@@ -318,19 +326,21 @@
                                 <thead>
                                 <tbody>
                                     {% for oneAccSynonym in accession.synonyms %}
-                                        <tr>
-                                            <td>
-                                                <strong class="text-muted">
-                                                    {{ oneAccSynonym.synonymSource }}
-                                                </strong>
-                                            </td>
-                                            
-                                            <td>
-                                                <strong class="text-muted">
-                                                    {{ oneAccSynonym.synonymId }}
-                                                </strong>
-                                            </td>
-                                        </tr>
+                                        {% if loop.index <= 500 %}
+                                            <tr>
+                                                <td>
+                                                    <strong class="text-muted">
+                                                        {{ oneAccSynonym.synonymSource }}
+                                                    </strong>
+                                                </td>
+                                                
+                                                <td>
+                                                    <strong class="text-muted">
+                                                        {{ oneAccSynonym.synonymId }}
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -341,10 +351,14 @@
 
                     <div class="col-xl-3 col-lg-2 ">
                         {% if accessions[0].germplasms | length > 0 %}
-                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                           <h4 class="d-flex justify-content-between align-items-center mb-3">
                                 <strong class="tomato-color">{{ accessions[0].germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
-                                <span class="badge badge-danger badge-pill">{{ accessions[0].germplasms | length }}</span>
+                                <span class="badge badge-danger badge-pill">{{ accessions[0].germplasms | length <= 500 ? accessions[0].germplasms | length : '500 +'}}</span>
                             </h4>
+                            {% if accessions[0].germplasms | length > 500 %}
+                                <small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+                            {% endif %}
+
                             <table id="datatable_germ" class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
@@ -357,51 +371,53 @@
                                 <thead>
                                 <tbody>
                                     {% for oneGermplasm in accessions[0].germplasms %}
-                                        <tr>
-                                            <td>
-                                                {% if oneGermplasm.germplasmID %}
-                                                    <strong class="text-muted">
-                                                        <a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
-                                                    </strong>
-                                                {% endif %}
-                                            </td>
-                                            
-                                            <td>
-                                                {% if oneGermplasm %}
-                                                    <strong class="text-muted">
-                                                        {{ oneGermplasm.maintainernumb }}
-                                                    </strong>
-                                                {% endif %}
-                                            </td>
+                                        {% if loop.index <= 500 %}
+                                            <tr>
+                                                <td>
+                                                    {% if oneGermplasm.germplasmID %}
+                                                        <strong class="text-muted">
+                                                            <a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
+                                                        </strong>
+                                                    {% endif %}
+                                                </td>
+                                                
+                                                <td>
+                                                    {% if oneGermplasm %}
+                                                        <strong class="text-muted">
+                                                            {{ oneGermplasm.maintainernumb }}
+                                                        </strong>
+                                                    {% endif %}
+                                                </td>
 
-                                            <td>
-                                                {% if oneGermplasm.program %}
-                                                    <strong class="text-muted">
-                                                        <a href="{{ path('program_details', {id: oneGermplasm.program.id}) }}">
-                                                            {{ oneGermplasm.program.abbreviation }}
-                                                        </a>
-                                                    </strong>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if oneGermplasm.study[0].trial %}
-                                                    <strong class="text-muted">
-                                                        <a href="{{ path('trial_details', {id: oneGermplasm.study[0].trial.id}) }}">
-                                                            {{ oneGermplasm.study[0].trial.abbreviation }}
-                                                        </a>
-                                                    </strong>
-                                                {% endif %}
-                                            </td>
-                                            {# <td>
-                                                {% if oneGermplasm.program %}
-                                                    <strong class="text-muted">
-                                                        <a href="{{ path('program_details', {id: oneGermplasm.program.id}) }}">
-                                                            {{ oneGermplasm.program.externalRef }}
-                                                        </a>
-                                                    </strong>
-                                                {% endif %}
-                                            </td> #}
-                                        </tr>
+                                                <td>
+                                                    {% if oneGermplasm.program %}
+                                                        <strong class="text-muted">
+                                                            <a href="{{ path('program_details', {id: oneGermplasm.program.id}) }}">
+                                                                {{ oneGermplasm.program.abbreviation }}
+                                                            </a>
+                                                        </strong>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if oneGermplasm.study[0].trial %}
+                                                        <strong class="text-muted">
+                                                            <a href="{{ path('trial_details', {id: oneGermplasm.study[0].trial.id}) }}">
+                                                                {{ oneGermplasm.study[0].trial.abbreviation }}
+                                                            </a>
+                                                        </strong>
+                                                    {% endif %}
+                                                </td>
+                                                {# <td>
+                                                    {% if oneGermplasm.program %}
+                                                        <strong class="text-muted">
+                                                            <a href="{{ path('program_details', {id: oneGermplasm.program.id}) }}">
+                                                                {{ oneGermplasm.program.externalRef }}
+                                                            </a>
+                                                        </strong>
+                                                    {% endif %}
+                                                </td> #}
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
                                 </tbody>
                             </table>

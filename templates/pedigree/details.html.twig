@@ -97,8 +97,11 @@
 				{% if pedigree.germplasm | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ pedigree.germplasm | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ pedigree.germplasm | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ pedigree.germplasm | length <= 500 ? pedigree.germplasm | length : '500 +'}}</span>
 					</h4>
+					{% if pedigree.germplasm | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_germplasm" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -110,6 +113,7 @@
 						</thead>
 						<tbody>
 							{% for germplasm in pedigree.germplasm %}
+								{% if loop.index <= 500 %}
 								<tr>
 									<td>
 										<strong class="text-muted">
@@ -133,6 +137,7 @@
 										</strong>
 									</td>
 								</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>

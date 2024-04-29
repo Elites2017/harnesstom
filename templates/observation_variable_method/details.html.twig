@@ -112,8 +112,11 @@
 				{% if observationVariableMethod.observationVariables | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ observationVariableMethod.observationVariables | length == 1 ? 'Related Observation Variable Summary' : 'Related Observation Variables Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ observationVariableMethod.observationVariables | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ observationVariableMethod.observationVariables | length <= 500 ? observationVariableMethod.observationVariables | length : '500 +'}}</span>
 					</h4>
+					{% if observationVariableMethod.observationVariables | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_obs_var" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -125,27 +128,29 @@
 						</thead>
 						<tbody>
 							{% for obsVar in observationVariableMethod.observationVariables %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('observation_variable_details', {id: obsVar.id}) }}">{{ obsVar.name }}</a>
-										</strong>
-									</td>
-
-									<td>
-										<strong class="text-muted">
-											{{ obsVar.description }}
-										</strong>
-									</td>
-
-									<td>
-										{% if obsVar.trait %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
 											<strong class="text-muted">
-												<a href="{{ path('trait_class_details', {id: obsVar.trait.id}) }}">{{ obsVar.trait }}</a>
+												<a href="{{ path('observation_variable_details', {id: obsVar.id}) }}">{{ obsVar.name }}</a>
 											</strong>
-										{% endif %}
-									</td>
-								</tr>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ obsVar.description }}
+											</strong>
+										</td>
+
+										<td>
+											{% if obsVar.trait %}
+												<strong class="text-muted">
+													<a href="{{ path('trait_class_details', {id: obsVar.trait.id}) }}">{{ obsVar.trait }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
@@ -157,8 +162,11 @@
 				{% if observationVariableMethod.analytes | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ observationVariableMethod.analytes | length == 1 ? 'Related Analyte Summary' : 'Related Analytes Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ observationVariableMethod.analytes | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ observationVariableMethod.analytes | length <= 500 ? observationVariableMethod.analytes | length : '500 +'}}</span>
 					</h4>
+					{% if observationVariableMethod.analytes | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_analyte" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -170,25 +178,27 @@
 						</thead>
 						<tbody>
 							{% for analyte in observationVariableMethod.analytes %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											<a href="{{ path('analyte_details', {id: analyte.id}) }}">{{ analyte.name }}</a>
-										</strong>
-									</td>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('analyte_details', {id: analyte.id}) }}">{{ analyte.name }}</a>
+											</strong>
+										</td>
 
-									<td>
-										<strong class="text-muted">
-											{{ analyte.analyteCode }}
-										</strong>
-									</td>
+										<td>
+											<strong class="text-muted">
+												{{ analyte.analyteCode }}
+											</strong>
+										</td>
 
-									<td>
-										<strong class="text-muted">
-											{{ analyte.retentionTime }}
-										</strong>
-									</td>
-								</tr>
+										<td>
+											<strong class="text-muted">
+												{{ analyte.retentionTime }}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>

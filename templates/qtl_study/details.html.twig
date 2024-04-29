@@ -175,7 +175,7 @@
 				{% if qtlStudy.studyList | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ qtlStudy.studyList | length == 1 ? 'Related Study Summary' : 'Related Studies Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ qtlStudy.studyList | length <= 500 ? qtlStudy.studyList | length : '500'}}</span>
+						<span class="badge badge-danger badge-pill">{{ qtlStudy.studyList | length <= 500 ? qtlStudy.studyList | length : '500 +'}}</span>
 					</h4>
 					{% if qtlStudy.studyList | length > 500 %}
 						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
@@ -237,7 +237,7 @@
 				{% if qtlStudy.qTLVariants | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ qtlStudy.qTLVariants | length == 1 ? 'Related QTL Variant Summary' : 'Related QTL Variants Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ qtlStudy.qTLVariants | length <= 500 ? qtlStudy.qTLVariants | length : '500'}}</span>
+						<span class="badge badge-danger badge-pill">{{ qtlStudy.qTLVariants | length <= 500 ? qtlStudy.qTLVariants | length : '500 +'}}</span>
 					</h4>
 					{% if qtlStudy.qTLVariants | length > 500 %}
 						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>

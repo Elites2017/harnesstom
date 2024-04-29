@@ -153,8 +153,11 @@
 				{% if cross.progenies | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ cross.progenies | length == 1 ? 'Related Progeny Summary' : 'Related Progenies Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ cross.progenies | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ cross.progenies | length <= 500 ? cross.progenies | length : '500 +'}}</span>
 					</h4>
+					{% if cross.progenies | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_progeny" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -167,37 +170,39 @@
 						</thead>
 						<tbody>
 							{% for progeny in cross.progenies %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											{{ progeny.progenyId }}
-										</strong>
-									</td>
-
-									<td>
-										{% if progeny.progenyCross %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
 											<strong class="text-muted">
-												<a href="{{ path('cross_details', {id: progeny.progenyCross.id}) }}">{{ progeny.progenyCross }}</a>
+												{{ progeny.progenyId }}
 											</strong>
-										{% endif %}
-									</td>
+										</td>
 
-									<td>
-										{% if progeny.progenyParent1 %}
-											<strong class="text-muted">
-												<a href="{{ path('germplasm_details', {id: progeny.progenyParent1.id}) }}">{{ progeny.progenyParent1 }}</a>
-											</strong>
-										{% endif %}
-									</td>
+										<td>
+											{% if progeny.progenyCross %}
+												<strong class="text-muted">
+													<a href="{{ path('cross_details', {id: progeny.progenyCross.id}) }}">{{ progeny.progenyCross }}</a>
+												</strong>
+											{% endif %}
+										</td>
 
-									<td>
-										{% if progeny.progenyParent2 %}
-											<strong class="text-muted">
-												<a href="{{ path('germplasm_details', {id: progeny.progenyParent2.id}) }}">{{ progeny.progenyParent2 }}</a>
-											</strong>
-										{% endif %}
-									</td>
-								</tr>
+										<td>
+											{% if progeny.progenyParent1 %}
+												<strong class="text-muted">
+													<a href="{{ path('germplasm_details', {id: progeny.progenyParent1.id}) }}">{{ progeny.progenyParent1 }}</a>
+												</strong>
+											{% endif %}
+										</td>
+
+										<td>
+											{% if progeny.progenyParent2 %}
+												<strong class="text-muted">
+													<a href="{{ path('germplasm_details', {id: progeny.progenyParent2.id}) }}">{{ progeny.progenyParent2 }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
@@ -209,8 +214,11 @@
 				{% if cross.pedigrees | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ cross.pedigrees | length == 1 ? 'Related Pedigree Summary' : 'Related Pedigrees Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ cross.pedigrees | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ cross.pedigrees | length <= 500 ? cross.pedigrees | length : '500 +'}}</span>
 					</h4>
+					{% if cross.pedigrees | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_pedigree" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -223,37 +231,39 @@
 						</thead>
 						<tbody>
 							{% for pedigree in cross.pedigrees %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											{{ pedigree.pedigreeEntryID }}
-										</strong>
-									</td>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												{{ pedigree.pedigreeEntryID }}
+											</strong>
+										</td>
 
-									<td>
-										{% if pedigree.pedigreeCross %}
-											<strong class="text-muted">
-												<a href="{{ path('cross_details', {id: pedigree.pedigreeCross.id}) }}">{{ pedigree.pedigreeCross }}</a>
-											</strong>
-										{% endif %}
-									</td>
+										<td>
+											{% if pedigree.pedigreeCross %}
+												<strong class="text-muted">
+													<a href="{{ path('cross_details', {id: pedigree.pedigreeCross.id}) }}">{{ pedigree.pedigreeCross }}</a>
+												</strong>
+											{% endif %}
+										</td>
 
-									<td>
-										{% if pedigree.pedigreeAncestorEntryId %}
-											<strong class="text-muted">
-												<a href="{{ path('pedigree_details', {id: pedigree.pedigreeAncestorEntryId.id}) }}">{{ pedigree.pedigreeAncestorEntryId }}</a>
-											</strong>
-										{% endif %}
-									</td>
-									
-									<td>
-										{% if pedigree.generation %}
-											<strong class="text-muted">
-												<a href="{{ path('generation_details', {id: pedigree.generation.id}) }}">{{ pedigree.generation }}</a>
-											</strong>
-										{% endif %}
-									</td>
-								</tr>
+										<td>
+											{% if pedigree.pedigreeAncestorEntryId %}
+												<strong class="text-muted">
+													<a href="{{ path('pedigree_details', {id: pedigree.pedigreeAncestorEntryId.id}) }}">{{ pedigree.pedigreeAncestorEntryId }}</a>
+												</strong>
+											{% endif %}
+										</td>
+										
+										<td>
+											{% if pedigree.generation %}
+												<strong class="text-muted">
+													<a href="{{ path('generation_details', {id: pedigree.generation.id}) }}">{{ pedigree.generation }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>

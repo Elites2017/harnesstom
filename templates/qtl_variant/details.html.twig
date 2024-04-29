@@ -239,7 +239,7 @@
 				{% if qtlVariant.qTLEpistasisEffects | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ qtlVariant.qTLEpistasisEffects | length == 1 ? 'Related QTL Epistasis Effect Summary' : 'Related QTL Epistasis Effects Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ qtlVariant.qTLEpistasisEffects | length <= 500 ? qtlVariant.qTLEpistasisEffects | length : '500'}}</span>
+						<span class="badge badge-danger badge-pill">{{ qtlVariant.qTLEpistasisEffects | length <= 500 ? qtlVariant.qTLEpistasisEffects | length : '500 +'}}</span>
 					</h4>
 					{% if qtlVariant.qTLEpistasisEffects | length > 500 %}
 						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>

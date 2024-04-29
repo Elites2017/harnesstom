@@ -106,8 +106,11 @@
 				{% if attribute.attributeTraitValues | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
 						<strong class="tomato-color">{{ attribute.attributeTraitValues | length == 1 ? 'Related Attribute Trait Value Summary' : 'Related Attribute Trait Values Summary' }}</strong>
-						<span class="badge badge-danger badge-pill">{{ attribute.attributeTraitValues | length }}</span>
+						<span class="badge badge-danger badge-pill">{{ attribute.attributeTraitValues | length <= 500 ? attribute.attributeTraitValues | length : '500 +'}}</span>
 					</h4>
+					{% if attribute.attributeTraitValues | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
 
 					<table id="datatable_att_tr_val" class="table table-hover text-nowrap">
 						<thead class="table-dark">
@@ -120,39 +123,41 @@
 						</thead>
 						<tbody>
 							{% for attTrVal in attribute.attributeTraitValues %}
-								<tr>
-									<td>
-										<strong class="text-muted">
-											{% if attTrVal.accession %}
-												<a href="{{ path('accession_details', {id: attTrVal.accession.id}) }}">{{ attTrVal.accession }}</a>
-											{% endif %}
-										</strong>
-									</td>
-
-									<td>
-										{% if attTrVal.trait %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
 											<strong class="text-muted">
-												<a href="{{ path('trait_class_details', {id: attTrVal.trait.id}) }}">{{ attTrVal.trait }}</a>
+												{% if attTrVal.accession %}
+													<a href="{{ path('accession_details', {id: attTrVal.accession.id}) }}">{{ attTrVal.accession }}</a>
+												{% endif %}
 											</strong>
-										{% endif %}
-									</td>
+										</td>
 
-									<td>
-										<strong class="text-muted">
-											{{ attTrVal.value }}
-										</strong>
-									</td>
-
-									<td>
-										<strong class="text-muted">
-											{% if attTrVal.publicationReference | length > 0 %}
-												{% for one in attTrVal.publicationReference %}
-													<span class="tomato-color font-weight-bold">{{ loop.index }}) <a href="{{ one }}" target="_blank">{{ one }} </a></span> </br>
-												{% endfor %}
+										<td>
+											{% if attTrVal.trait %}
+												<strong class="text-muted">
+													<a href="{{ path('trait_class_details', {id: attTrVal.trait.id}) }}">{{ attTrVal.trait }}</a>
+												</strong>
 											{% endif %}
-										</strong>
-									</td>
-								</tr>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ attTrVal.value }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{% if attTrVal.publicationReference | length > 0 %}
+													{% for one in attTrVal.publicationReference %}
+														<span class="tomato-color font-weight-bold">{{ loop.index }}) <a href="{{ one }}" target="_blank">{{ one }} </a></span> </br>
+													{% endfor %}
+												{% endif %}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
