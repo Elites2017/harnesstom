@@ -219,7 +219,7 @@
 										<td>
 											{% if study.location %}
 												<strong class="text-muted">
-													<a href="{{ path('location_details', {id: study.location.id}) }}">{{ study.location }}</a>
+													<a href="{{ path('location_details', {id: study.location.id}) }}">{{ study.location.abbreviation }}</a>
 												</strong>
 											{% endif %}
 										</td>
