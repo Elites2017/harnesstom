@@ -59,7 +59,7 @@ class Parameter
     private $createdBy;
 
     /**
-     * @ORM\OneToMany(targetEntity=ParameterValue::class, mappedBy="paramter")
+     * @ORM\OneToMany(targetEntity=ParameterValue::class, mappedBy="parameter")
      */
     private $parameterValues;
 
@@ -164,7 +164,7 @@ class Parameter
     {
         if (!$this->parameterValues->contains($parameterValue)) {
             $this->parameterValues[] = $parameterValue;
-            $parameterValue->setParamter($this);
+            $parameterValue->setParameter($this);
         }
 
         return $this;
@@ -174,8 +174,8 @@ class Parameter
     {
         if ($this->parameterValues->removeElement($parameterValue)) {
             // set the owning side to null (unless already changed)
-            if ($parameterValue->getParamter() === $this) {
-                $parameterValue->setParamter(null);
+            if ($parameterValue->getParameter() === $this) {
+                $parameterValue->setParameter(null);
             }
         }
 

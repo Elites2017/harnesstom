@@ -93,10 +93,14 @@ class VariantSetController extends AbstractController
         $form = $this->createForm(VariantSetUpdateType::class, $variantSet);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entmanager->persist($variantSet);
-            $entmanager->flush();
-            $this->addFlash('success', " one element has been successfuly updated");
-            return $this->redirect($this->generateUrl('variant_set_index'));
+            if ($variantSet->getMarker() == null) {
+                $this->addFlash('danger', "You must select a marker");
+            } else {
+                $entmanager->persist($variantSet);
+                $entmanager->flush();
+                $this->addFlash('success', " one element has been successfuly updated");
+                return $this->redirect($this->generateUrl('variant_set_index'));
+            }
         }
 
         $context = [

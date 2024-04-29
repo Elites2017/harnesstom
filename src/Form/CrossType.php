@@ -46,15 +46,17 @@ class CrossType extends AbstractType
             ->add('publicationReference', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
+                'allow_delete' => true,
                 'prototype' => true,
-                'label' => false
+                'label' => false,
+                'prototype_data' => ''
             ])
             ->add('study', EntityType::class, [
                 'class' => Study::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
-                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Trial</a>'
+                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>'
             ])
             ->add('institute', DatalistType::class, [
                 'class' => Institute::class,

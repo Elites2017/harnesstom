@@ -2,100 +2,156 @@
 
 {% block title %}{{ title }}{% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
 {% block body %}
-<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Species</th>
-                                <th scope="col">Institue</th>
-                                {% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("collecting_mission_edit", collectingMission) %}
-									<th scope="col">Action</th>
-								{% endif %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{ collectingMission.id }}</td>
-                                    <td>{{ collectingMission.name }}</td>
-                                    <td>{{ collectingMission.species }}</td>
-                                    <td><a href="{{ path('institute_details', {id: collectingMission.institute.id}) }}">{{ collectingMission.institute }}</a></td>
-                                    {% if is_granted("ROLE_ADMIN") %}
-									<td>
-										<a href="{{ path('person_details', {id: collectingMission.createdBy.id}) }}">{{ collectingMission.createdBy }}</a>
-									</td>
-									<td>{{ collectingMission.createdAt | date('d/m/Y h:m:s') }}</td>
-									<td>
-										<a href="{{ path('collecting_mission_delete', {id: collectingMission.id}) }}" class="changeStatusLink" id="{{ collectingMission.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ collectingMission.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
-									</td>
-								{% endif %}
-								{% if is_granted("collecting_mission_edit", collectingMission) %}
-									<td>
-										<a href="{{ path('collecting_mission_edit', {id: collectingMission.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</td>
-								{% endif %}
-                                </tr>
-                            </tbody>
-                        </table>
+    <div class="container-fluid">
+		
+		<div class="row">
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">Collecting Mission Details</h2>
                     </div>
-                </div> <!-- .row -->
-            </div> <!-- .container -->
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: collectingMission.createdBy.id}) }}">{{ collectingMission.createdBy }}</a>
+							</span>
+							<span>On: {{ collectingMission.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('collecting_mission_delete', {id: collectingMission.id}) }}" class="changeStatusLink" id="{{ collectingMission.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ collectingMission.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("collecting_mission_edit", collectingMission) %}
+							<a href="{{ path('collecting_mission_edit', {id: collectingMission.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
+				</div>
+			</div>
+		</div>
+
+		{# object related row #}
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Collecting Mission Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Name: </label>
+							<span class="tomato-color font-weight-bold">{{ collectingMission.name}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Species: </label>
+							<span class="tomato-color font-weight-bold">{{ collectingMission.species}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Institute: </label>
+							{% if collectingMission.institute %}
+								<a href="{{ path('institute_details', {id: collectingMission.institute.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ collectingMission.institute }}</span>
+								</a>
+							{% endif %}
+						</div>
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-xl-3 col-lg-2 mr-auto">
+				{# Accession #}
+				{% if collectingMission.accessions | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ collectingMission.accessions | length == 1 ? 'Related Accession Summary' : 'Related Accessions Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ collectingMission.accessions | length <= 500 ? collectingMission.accessions | length : '500 +'}}</span>
+					</h4>
+					{% if collectingMission.accessions | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
+					<table id="datatable_accession" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Accession Number</th>
+								<th>Accession Name</th>
+								<th>Country Of Origin</th>
+                                <th>Maintainer Number</th>
+                                <th>Maintaining Institute</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for accession in collectingMission.accessions %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('accession_details', {id: accession.id}) }}">{{ accession.accenumb }}</a>
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ accession.accename }}
+											</strong>
+										</td>
+
+										<td>
+											{% if accession.origcty %}
+												<strong class="text-muted">
+													<a href="{{ path('country_details', {id: accession.origcty.id}) }}">{{ accession.origcty }}</a>
+												</strong>
+											{% endif %}
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ accession.maintainerNumb }}
+											</strong>
+										</td>
+
+										<td>
+											{% if accession.instcode %}
+												<strong class="text-muted">
+													<a href="{{ path('institute_details', {id: accession.instcode.id}) }}">{{ accession.instcode }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+
+		</div>
+
+	</div>
+	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-<script>
-    /*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-    function changeStatus(event){
-        event.preventDefault();
-        const url = this.href;
-        const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-        
-        axios.get(url).then(function(res){
-            const jsonResponse = res.data.message;
-            if(jsonResponse) {
-                statusCheckbox.checked = true;
-            }
-            else {
-                statusCheckbox.checked = false;
-            }
-        })
-    }
-    
-    document.querySelectorAll('a.changeStatusLink').forEach(function(link){
-        link.addEventListener('click', changeStatus);  
-    })
-</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_accession').DataTable();
+        } );
+    </script>
 {% endblock %}

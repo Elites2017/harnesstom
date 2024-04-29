@@ -4,173 +4,312 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
+
+		<!-- .row -->
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">GWAS Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: gwas.createdBy.id}) }}">{{ gwas.createdBy }}</a>
+							</span>
+							<span>On: {{ gwas.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('gwas_delete', {id: gwas.id}) }}" class="changeStatusLink" id="{{ gwas.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ gwas.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("gwas_edit", gwas) %}
+							<a href="{{ path('gwas_edit', {id: gwas.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
+				</div>
+			</div>
+		</div>
+
+		<!-- .row -->
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">GWAS Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Name: </label>
+							<span class="tomato-color font-weight-bold">{{ gwas.name}}</span>
+						</div>
+						
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Threshold Method: </label>
+							{% if gwas.thresholdMethod %}
+								<a href="{{ path('threshold_method_details', {id: gwas.thresholdMethod.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ gwas.thresholdMethod }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Threshold Value: </label>
+							<span class="tomato-color font-weight-bold">{{ gwas.thresholdValue}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">GWAS Model: </label>
+							{% if gwas.gwasModel %}
+								<a href="{{ path('gwas_model_details', {id: gwas.gwasModel.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ gwas.gwasModel }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Software: </label>
+							{% if gwas.software %}
+								<a href="{{ path('software_details', {id: gwas.software.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ gwas.software }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Structure Method: </label>
+							{% if gwas.structureMethod %}
+								<a href="{{ path('structure_method_details', {id: gwas.structureMethod.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ gwas.structureMethod }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Preprocessing: </label>
+							<span class="tomato-color font-weight-bold">{{ gwas.preprocessing}}</span>
+						</div>
+
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">GWAS Stat Test, Kinship Algorithm & Reference</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">GWAS Stat Test: </label>
+						{% if gwas.gwasStatTest %}
+							<a href="{{ path('gwas_stat_test_details', {id: gwas.gwasStatTest.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ gwas.gwasStatTest }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Kinship Algorithm: </label>
+						{% if gwas.kinshipAlgorithm %}
+							<a href="{{ path('kinship_algorithm_details', {id: gwas.kinshipAlgorithm.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ gwas.kinshipAlgorithm }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Variant Set Metadata: </label>
+						{% if gwas.variantSetMetadata %}
+							<a href="{{ path('variant_set_metadata_details', {id: gwas.variantSetMetadata.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ gwas.variantSetMetadata }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Allelic Effect Estimator: </label>
+						{% if gwas.allelicEffectEstimator %}
+							<a href="{{ path('allelic_effect_estimator_details', {id: gwas.allelicEffectEstimator.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ gwas.allelicEffectEstimator }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Publication Reference: </label></br>
+						{% if gwas.publicationReference %}
+							{% for one in gwas.publicationReference %}
+								<a href="{{ one }}" target="_blank"><span class="tomato-color font-weight-bold">{{ loop.index }}) {{ one }}</span></a> </br>
+							{% endfor %}
+						{% endif %}
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{# Start of row #}
+		<div class="row mt-3">
+			{# study #}
+			<div class="col-xl-5 col-lg-4 mr-auto">
+				
+				{% if gwas.studyList | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ gwas.studyList | length == 1 ? 'Related Study Summary' : 'Related Studies Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ gwas.studyList | length <= 500 ? gwas.studyList | length : '500 +'}}</span>
+					</h4>
+					{% if gwas.studyList | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
+					<table id="datatable_study" class="table table-hover text-nowrap">
+						<thead class="table-dark">
 							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-								<th scope="col">Software</th>
-								<th scope="col">GWAS Model</th>
-								<th scope="col">Structure Method</th>
-								<th scope="col">Kinship Algorithm</th>
-								<th scope="col">GWAS Stat Test</th>
-								<th scope="col">Threshold Method</th>
-								<th scope="col">Threshold Value</th>
-								<th scope="col">Preprocessing</th>
-								<th scope="col">Variant Set Metadata</th>
-								<th scope="col">Allelic Effect Estimator</th>
-								<th scope="col">Publication Reference</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("gwas_edit", gwas) %}
-									<th scope="col">Action</th>
-								{% endif %}
+								<th>Abbreviation</th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Location</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>{{ gwas.id }}</td>
-								<td>{{ gwas.name }}</td>
-								<td>{{ gwas.software }}</td>
-								<td>{{ gwas.gwasModel }}</td>
-								<td>{{ gwas.structureMethod }}</td>
-								<td>{{ gwas.kinshipAlgorithm }}</td>
-								<td>{{ gwas.gwasStatTest }}</td>
-								<td>{{ gwas.thresholdMethod }}</td>
-								<td>{{ gwas.thresholdValue }}</td>
-								<td>{{ gwas.preprocessing }}</td>
-								<td>{{ gwas.variantSetMetadata }}</td>
-								<td>{{ gwas.allelicEffectEstimator }}</td>
-								<td>
-									{% if gwas.publicationReference | length >= 0 %}
-										{% for oneRef in gwas.publicationReference %}
-											{{ loop.index ~ " - " ~ oneRef }}
-											</br>
-										{% endfor %}
-									{% endif %}
-								</td>
-								{% if is_granted("ROLE_ADMIN") %}
-									<td>
-										{% if gwas.createdBy %}
-											<a href="{{ path('person_details', {id: gwas.createdBy.id}) }}">{{ gwas.createdBy }}</a>
-										{% endif %}
-									</td>
-									<td>{{ gwas.createdAt | date('d/m/Y h:m:s') }}</td>
-									<td>
-										<a href="{{ path('gwas_delete', {id: gwas.id}) }}" class="changeStatusLink" id="{{ gwas.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ gwas.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
-									</td>
+							{% for study in gwas.studyList %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('study_details', {id: study.id}) }}">{{ study.abbreviation }}</a>
+											</strong>
+										</td>
+
+										<td>
+											{% if study.startDate %}
+												<strong class="text-muted">
+													{{ study.startDate | date('d/m/Y') }}
+												</strong>
+											{% endif %}
+										</td>
+
+										<td>
+											{% if study.endDate %}
+												<strong class="text-muted">
+													{{ study.endDate | date('d/m/Y') }}
+												</strong>
+											{% endif %}
+										</td>
+
+										<td>
+											{% if study.location %}
+												<strong class="text-muted">
+													<a href="{{ path('location_details', {id: study.location.id}) }}">{{ study.location }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
 								{% endif %}
-								{% if is_granted("gwas_edit", gwas) %}
-									<td>
-										<a href="{{ path('gwas_edit', {id: gwas.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</td>
-								{% endif %}
-							</tr>
+							{% endfor %}
 						</tbody>
 					</table>
-				</div>
-			</div>
-		</div>
-		<!-- .row -->
-		<!-- .row -->
-		{# Start of row #}
-		<div class="row">
-			<div class="col-md-6">
+				{% endif %}
 			</div>
 
-			{% if gwas.studyList | length > 0 %}
-				<div class="col-md-6 mb-4">
+			{# gwas variant #}
+			<div class="col-xl-5 col-lg-4 mr-auto">
+				{% if gwas.gWASVariants | length > 0 %}
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">{{ gwas.studyList | length == 1 ? 'Related Study Summary' : 'Related Studies Summary' }}</span>
-						<span class="badge badge-danger badge-pill">{{ gwas.studyList | length }}</span>
+						<strong class="tomato-color">{{ gwas.gWASVariants | length == 1 ? 'Related GWAS Variant Summary' : 'Related GWAS Variants Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ gwas.gWASVariants | length <= 500 ? gwas.gWASVariants | length : '500 +'}}</span>
 					</h4>
-					<ul class="list-group mb-3">
-						{% for oneStudy in gwas.studyList %}
-							<a href="{{ path('study_details', {id: oneStudy.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
-							<div>
-								<h6 class="my-0">Abbreviation</h6>
-								<strong class="text-muted">{{ oneStudy.abbreviation }}</strong>
-							</div>
-							<div>
-								<h6 class="my-0">Start Date</h6>
-								{% if oneStudy.startDate %}
-									<strong class="text-muted">{{ oneStudy.startDate | date('d/m/Y') }}</strong>
+					{% if gwas.gWASVariants | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
+					<table id="datatable_gwas_variant" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Variant Name</th>
+								<th>Alternative Allele</th>
+								<th>MAF</th>
+								<th>Sample Size</th>
+								<th>SNP P Value</th>
+								<th>Adjusted P Value</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for variant in gwas.gWASVariants %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('qtl_variant_details', {id: variant.id}) }}">{{ variant.name }}</a>
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ variant.alternativeAllele }}
+											</strong>
+										</td>
+
+
+										<td>
+											<strong class="text-muted">
+												{{ variant.maf }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ variant.sampleSize }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ variant.snppValue }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ variant.adjustedPValue }}
+											</strong>
+										</td>
+									</tr>
 								{% endif %}
-							</div>
-							<div>
-								<h6 class="my-0">End Date</h6>
-								{% if oneStudy.startDate %}
-									<strong class="text-muted">{{ oneStudy.endDate | date('d/m/Y') }}</strong>
-								{% endif %}
-							</div>
-							<div>
-								<h6 class="my-0">Location</h6>
-								<strong class="text-muted">{{ oneStudy.location }}</strong>
-							</div>
-							{# <span class="text-muted">$12</span> #}
-							</li></a>
-						{% endfor %}
-					</ul>
-				</div>
-			{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+
 		</div>
-		{# End of row #}
+
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_study, #datatable_gwas_variant').DataTable();
+        } );
+    </script>
 {% endblock %}

@@ -1510,6 +1510,25 @@
 																</li>
 															</ul>
 														</li>
+
+														<li>
+															<a class="dropdown-item" href="{{path('synonym_index')}}">
+																Synonym &raquo;
+															</a>
+															<ul class="dropdown-menu dropdown-submenu">
+																<li>
+																	<a class="dropdown-item" href="{{path('synonym_create')}}">Create</a>
+																</li>
+																{% if is_granted("ROLE_ADMIN") %}
+																	<li>
+																		<a class="dropdown-item" href="{{path('synonym_upload_from_excel')}}">Upload From Excel</a>
+																	</li>
+																{% endif %}
+																<li>
+																	<a class="dropdown-item" href="{{path('synonym_index')}}">Search</a>
+																</li>
+															</ul>
+														</li>
 													</ul>
 												</li>
 
@@ -2104,6 +2123,19 @@
 														</li>
 														<li>
 															<a class="dropdown-item" href="{{ path('qtl_variant_index') }}">Search</a>
+														</li>
+													</ul>
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path('qtl_epistasis_effect_index') }}">
+														QTL Epistatis &raquo;
+													</a>
+													<ul class="dropdown-menu dropdown-submenu">
+														<li>
+															<a class="dropdown-item" href="{{ path('qtl_epistasis_effect_create') }}">Create</a>
+														</li>
+														<li>
+															<a class="dropdown-item" href="{{ path('qtl_epistasis_effect_index') }}">Search</a>
 														</li>
 													</ul>
 												</li>

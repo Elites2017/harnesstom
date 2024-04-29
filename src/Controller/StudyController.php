@@ -81,6 +81,8 @@ class StudyController extends AbstractController
             $parameterValues = $form->get('extra')->getData();
             if ($startDate > $endDate) {
                 $this->addFlash('danger', "The end date must be greater than the start date");
+            } else if ($study->getInstitute() == null) {
+                $this->addFlash('danger', "You must select an institute");
             } else {
                 if ($this->getUser()) {
                     $study->setCreatedBy($this->getUser());
@@ -96,18 +98,18 @@ class StudyController extends AbstractController
                         } else {
                             if ($parameterValue->getValue() === null) {
                                 $this->addFlash('danger', "The value of the parameter can not be empty, you must fill / provide it");
-                            } else if ($parameterValue->getParamter() === null) {
+                            } else if ($parameterValue->getParameter() === null) {
                                 $this->addFlash('danger', "The parameter can not be empty, you must fill / provide it");
                             } else {
                                 # code...
-                                $entmanager->persist($parameterValue);
                                 $study->addParameterValue($parameterValue);
-                                $entmanager->flush();
-                                $this->addFlash('success', " One study has been successfuly added");
-                                return $this->redirect($this->generateUrl('study_index'));
+                                $entmanager->persist($parameterValue);
                             }
                         }
                     }
+                    $entmanager->flush();
+                    $this->addFlash('success', " One study has been successfuly added with parameter");
+                    return $this->redirect($this->generateUrl('study_index'));
                 } else {
                     $entmanager->flush();
                     $this->addFlash('success', " One study has been successfuly added");
@@ -156,7 +158,12 @@ class StudyController extends AbstractController
             $parameterValues = $form->get('extra')->getData();
             if ($startDate > $endDate) {
                 $this->addFlash('danger', "The end date must be greater than the start date");
+            } else if ($study->getInstitute() == null) {
+                $this->addFlash('danger', "You must select an institute");
             } else {
+                if ($this->getUser()) {
+                    $study->setCreatedBy($this->getUser());
+                }
                 $entmanager->persist($study);
                 // study parameter value
                 if ($parameterValues) {
@@ -166,21 +173,21 @@ class StudyController extends AbstractController
                         } else {
                             if ($parameterValue->getValue() === null) {
                                 $this->addFlash('danger', "The value of the parameter can not be empty, you must fill / provide it");
-                            } else if ($parameterValue->getParamter() === null) {
+                            } else if ($parameterValue->getParameter() === null) {
                                 $this->addFlash('danger', "The parameter can not be empty, you must fill / provide it");
                             } else {
                                 # code...
-                                $entmanager->persist($parameterValue);
                                 $study->addParameterValue($parameterValue);
-                                $entmanager->flush();
-                                $this->addFlash('success', " One study has been successfuly added");
-                                return $this->redirect($this->generateUrl('study_index'));
+                                $entmanager->persist($parameterValue);
                             }
                         }
                     }
+                    $entmanager->flush();
+                    $this->addFlash('success', " One study has been successfuly updated with parameter");
+                    return $this->redirect($this->generateUrl('study_index'));
                 } else {
                     $entmanager->flush();
-                    $this->addFlash('success', " One study has been successfuly added");
+                    $this->addFlash('success', " One study has been successfuly updated");
                     return $this->redirect($this->generateUrl('study_index'));
                 }
             }

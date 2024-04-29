@@ -34,7 +34,9 @@
 									<a href="{{ path('analyte_details', {id: metabolite.analyte.id}) }}">{{ metabolite.analyte }}</a>
 								</td>
 								<td>
-									<a href="{{ path('metabolic_trait_details', {id: metabolite.metabolicTrait.id}) }}">{{ metabolite.metabolicTrait }}</a>
+									{% if metabolite.metabolicTrait %}
+										<a href="{{ path('metabolic_trait_details', {id: metabolite.metabolicTrait.id}) }}">{{ metabolite.metabolicTrait }}</a>
+									{% endif %}
 								</td>
 								<td>
 									<a href="{{ path('scale_details', {id: metabolite.scale.id}) }}">{{ metabolite.scale }}</a>
