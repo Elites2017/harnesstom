@@ -4,159 +4,309 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
+
+		<!-- .row -->
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th scope="col">Name</th>
-								<th scope="col">QTL Study</th>
-								<th scope="col">Observation Variable</th>
-								<th scope="col">Metabolite</th>
-								<th scope="col">Closest Marker</th>
-								<th scope="col">Flanking Marker Start</th>
-								<th scope="col">Flanking Marker End</th>
-								<th scope="col">Positive Allele Parent</th>
-								<th scope="col">Locus Name</th>
-								<th scope="col">Locus</th>
-								<th scope="col">R2 QTLXE</th>
-								<th scope="col">R2 Global</th>
-								<th scope="col">Stat QTLXE Value</th>
-								<th scope="col">R2</th>
-								<th scope="col">DA</th>
-								<th scope="col">Dominance</th>
-								<th scope="col">Additive</th>
-								<th scope="col">QTL Stats Value</th>
-								<th scope="col">Positive Allele</th>
-								<th scope="col">Ci Start</th>
-								<th scope="col">Ci End</th>
-								<th scope="col">Detectname</th>
-								<th scope="col">Original Trait Name</th>
-								<th scope="col">Peak Position</th>
-								<th scope="col">Linkage Group</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("qtl_variant_edit", qtlVariant) %}
-									<th scope="col">Action</th>
-								{% endif %}
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{{ qtlVariant.name }}</td>
-								<td>{{ qtlVariant.qtlStudy }}</td>
-								<td>
-									{% if qtlVariant.observationVariable %}
-										<a href="{{ path('observation_variable_details', {id: qtlVariant.observationVariable.id}) }}">{{ qtlVariant.observationVariable }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if qtlVariant.metabolite %}
-										<a href="{{ path('metabolite_details', {id: qtlVariant.metabolite.id}) }}">{{ qtlVariant.metabolite }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if qtlVariant.closestMarker %}
-										<a href="{{ path('marker_details', {id: qtlVariant.closestMarker.id}) }}">{{ qtlVariant.closestMarker }}</a>
-									{% endif %}
-								</td>
-								<td>{{ qtlVariant.flankingMarkerStart }}</td>
-								<td>{{ qtlVariant.flankingMarkerEnd }}</td>
-								<td>{{ qtlVariant.positiveAlleleParent }}</td>
-								<td>{{ qtlVariant.locusName }}</td>
-								<td>{{ qtlVariant.locus }}</td>
-								<td>{{ qtlVariant.r2QtlxE }}</td>
-								<td>{{ qtlVariant.r2Global }}</td>
-								<td>{{ qtlVariant.statisticQtlxEvalue }}</td>
-								<td>{{ qtlVariant.r2 }}</td>
-								<td>{{ qtlVariant.dA }}</td>
-								<td>{{ qtlVariant.dominance }}</td>
-								<td>{{ qtlVariant.additive }}</td>
-								<td>{{ qtlVariant.qtlStatsValue }}</td>
-								<td>{{ qtlVariant.positiveAllele }}</td>
-								<td>{{ qtlVariant.ciStart }}</td>
-								<td>{{ qtlVariant.ciEnd }}</td>
-								<td>{{ qtlVariant.detectName }}</td>
-								<td>{{ qtlVariant.originalTraitName }}</td>
-								<td>{{ qtlVariant.peakPosition }}</td>
-								<td>{{ qtlVariant.linkageGroupName }}</td>
-								{% if is_granted("ROLE_ADMIN") %}
-									<td>
-										{% if qtlVariant.createdBy %}
-											<a href="{{ path('person_details', {id: qtlVariant.createdBy.id}) }}">{{ qtlVariant.createdBy }}</a>
-										{% endif %}
-									</td>
-									<td>{{ qtlVariant.createdAt | date('d/m/Y h:m:s') }}</td>
-									<td>
-										<a href="{{ path('qtl_variant_delete', {id: qtlVariant.id}) }}" class="changeStatusLink" id="{{ qtlVariant.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ qtlVariant.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
-									</td>
-								{% endif %}
-								{% if is_granted("qtl_variant_edit", qtlVariant) %}
-									<td>
-										<a href="{{ path('qtl_variant_edit', {id: qtlVariant.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</td>
-								{% endif %}
-							</tr>
-						</tbody>
-					</table>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">QTL Variant Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: qtlVariant.createdBy.id}) }}">{{ qtlVariant.createdBy }}</a>
+							</span>
+							<span>On: {{ qtlVariant.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('qtl_variant_delete', {id: qtlVariant.id}) }}" class="changeStatusLink" id="{{ qtlVariant.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ qtlVariant.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("qtl_variant_edit", qtlVariant) %}
+							<a href="{{ path('qtl_variant_edit', {id: qtlVariant.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
 				</div>
 			</div>
 		</div>
+
 		<!-- .row -->
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">QTL Variant Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Name: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.name}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">QTL Study: </label>
+							{% if qtlVariant.qtlStudy %}
+								<a href="{{ path('qtl_study_details', {id: qtlVariant.qtlStudy.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ qtlVariant.qtlStudy }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Detect Name: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.detectName}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Original Trait Name: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.originalTraitName}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Locus: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.locus}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Locus Name: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.locusName}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">R2: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.r2}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">R2 Global: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.r2Global}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">R2 QTL XE: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.r2QtlxE}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Statistic QTL X Evalue: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.statisticQtlxEvalue}}</span>
+						</div>
+						
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">DA: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.dA}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Dominance: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.dominance}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">QTL Stat Value: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.qtlStatsValue }}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Additive: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlVariant.additive }}</span>
+						</div>
+
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Closest Marker, Allele & Position</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Metabolite: </label>
+						{% if qtlVariant.metabolite %}
+							<a href="{{ path('metabolite_details', {id: qtlVariant.metabolite.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlVariant.metabolite }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Observation Variable: </label>
+						{% if qtlVariant.observationVariable %}
+							<a href="{{ path('observation_variable_details', {id: qtlVariant.observationVariable.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlVariant.observationVariable }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Closest Marker: </label>
+						{% if qtlVariant.closestMarker %}
+							<a href="{{ path('marker_details', {id: qtlVariant.closestMarker.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlVariant.closestMarker }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Flanking Marker Start: </label>
+						{% if qtlVariant.flankingMarkerStart %}
+							<a href="{{ path('marker_details', {id: qtlVariant.flankingMarkerStart.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlVariant.flankingMarkerStart }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Flanking Marker End: </label>
+						{% if qtlVariant.flankingMarkerEnd %}
+							<a href="{{ path('marker_details', {id: qtlVariant.flankingMarkerEnd.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlVariant.flankingMarkerEnd }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Position Allele: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlVariant.positiveAllele }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Positive Allele Parent: </label>
+						{% if qtlVariant.positiveAlleleParent %}
+							<a href="{{ path('germplasm_details', {id: qtlVariant.positiveAlleleParent.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlVariant.positiveAlleleParent }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Ci Start: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlVariant.ciStart }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Ci End: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlVariant.ciEnd }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Linkage Group Name: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlVariant.linkageGroupName }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Peak Position: </label>
+						<span class="tomato-color font-weight-bold">{{ qtlVariant.peakPosition }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Publication Reference: </label></br>
+						{% if qtlVariant.publicationReference %}
+							{% for one in qtlVariant.publicationReference %}
+								<a href="{{ one }}" target="_blank"><span class="tomato-color font-weight-bold">{{ loop.index }}) {{ one }}</span></a> </br>
+							{% endfor %}
+						{% endif %}
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{# Start of row #}
+		<div class="row mt-3">
+			
+			<div class="col-xl-5 col-lg-4 mr-auto">
+				{# qtl epistasiss effect #}
+				{% if qtlVariant.qTLEpistasisEffects | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ qtlVariant.qTLEpistasisEffects | length == 1 ? 'Related QTL Epistasis Effect Summary' : 'Related QTL Epistasis Effects Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ qtlVariant.qTLEpistasisEffects | length <= 500 ? qtlVariant.qTLEpistasisEffects | length : '500 +'}}</span>
+					</h4>
+					{% if qtlVariant.qTLEpistasisEffects | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
+					<table id="datatable_epistasis" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Epistasis Epi</th>
+								<th>R2 Epi</th>
+								<th>Add Epi</th>
+								<th>R2 Add</th>
+								<th>Epistasis Add</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for qtlEpi in qtlVariant.qTLEpistasisEffects %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('qtl_epistasis_effect_details', {id: qtlEpi.id}) }}">{{ qtlEpi.epistatisticEpi }}</a>
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ qtlEpi.r2Epi }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ qtlEpi.addEpi }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ qtlEpi.r2Add }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ qtlEpi.epistatisticAdd }}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+
+		</div>
+
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_epistasis').DataTable();
+        } );
+    </script>
 {% endblock %}

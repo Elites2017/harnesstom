@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Marker;
 use App\Entity\Sample;
 use App\Entity\VariantSet;
 use App\Service\PublicReleaseTrial;
@@ -24,6 +25,7 @@ class VariantSetUpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $toUrlSample = $this->router->generate('sample_create');
+        $toUrlMarker = $this->router->generate('marker_create');
         
         $builder
             ->add('value')
@@ -35,7 +37,15 @@ class VariantSetUpdateType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlSample .'" target="_blank">Sample</a>'
                 
             ])
-            ->add('marker')
+            ->add('marker', DatalistType::class, [
+                'class' => Marker::class,
+                'help_html' => true,
+                'required' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlMarker .'" target="_blank">Institute</a>'
+                
+            ])
             ->add('variantSetMetadata')
         ;
     }

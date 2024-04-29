@@ -81,13 +81,19 @@ class TrialRepository extends ServiceEntityRepository
         ;
 
         $foundTrial = $query->getQuery()->getResult();
+        // to let admin be able to see the private / not yet released data
+        $adm = "ROLE_ADMIN";
+        $userRoles = $user->getRoles();
         if($foundTrial[0]) {
             $foundTrial = $foundTrial[0];
             if ($foundTrial->getPublicReleaseDate() <= $currentDate) {
                 return true;
             } else if ($foundTrial->getCreatedBy() === $user) {
                 return true;
-            } else if (count($this->swRepo->findBy(["trial" => $trial, "user" => $user])) === 1) {
+            } else if (array_search($adm, $userRoles) === 1){
+                return true;
+            }
+            else if (count($this->swRepo->findBy(["trial" => $trial, "user" => $user])) === 1) {
                 return true;
             } else {
                 return false;

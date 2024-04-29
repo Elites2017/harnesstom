@@ -4,165 +4,207 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
+
+		<!-- .row -->
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-								<th scope="col">MAF</th>
-								<th scope="col">Sample Size</th>
-								<th scope="col">SNP P Value</th>
-								<th scope="col">Adjusted PValue</th>
-								<th scope="col">Allelic Effect</th>
-								<th scope="col">Allelic Effect Stat</th>
-								<th scope="col">Allelic Effect DF</th>
-								<th scope="col">Allelic Effect StdE</th>
-								<th scope="col">Beta</th>
-								<th scope="col">Beta StdE</th>
-								<th scope="col">Odds Ratio</th>
-								<th scope="col">Ci Lower</th>
-								<th scope="col">Ci Upper</th>
-								<th scope="col">rSquareOfMode</th>
-								<th scope="col">rSquareOfModeWithSNP</th>
-								<th scope="col">rSquareOfModeWithoutSNP</th>
-								<th scope="col">refAllele</th>
-								<th scope="col">Marker</th>
-								<th scope="col">Metabolite</th>
-								<th scope="col">GWAS</th>
-								<th scope="col">Trait Preprocessing</th>
-								<th scope="col">Observation Variable</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("gwas_variant_edit", gwasVariant) %}
-									<th scope="col">Action</th>
-								{% endif %}
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{{ gwasVariant.id }}</td>
-								<td>{{ gwasVariant.name }}</td>
-								<td>{{ gwasVariant.maf }}</td>
-								<td>{{ gwasVariant.sampleSize }}</td>
-								<td>{{ gwasVariant.snppValue }}</td>
-								<td>{{ gwasVariant.adjustedPValue }}</td>
-								<td>{{ gwasVariant.allelicEffect }}</td>
-								<td>{{ gwasVariant.allelicEffectStat }}</td>
-								<td>{{ gwasVariant.allelicEffectdf }}</td>
-								<td>{{ gwasVariant.allelicEffStdE }}</td>
-								<td>{{ gwasVariant.beta }}</td>
-								<td>{{ gwasVariant.betaStdE }}</td>
-								<td>{{ gwasVariant.oddsRatio }}</td>
-								<td>{{ gwasVariant.ciLower }}</td>
-								<td>{{ gwasVariant.ciUpper }}</td>
-								<td>{{ gwasVariant.rSquareOfMode }}</td>
-								<td>{{ gwasVariant.rSquareOfModeWithSNP }}</td>
-								<td>{{ gwasVariant.rSquareOfModeWithoutSNP }}</td>
-								<td>{{ gwasVariant.refAllele }}</td>
-								<td>
-									{% if gwasVariant.marker %}
-										<a href="{{ path('marker_details', {id: gwasVariant.marker.id}) }}">{{ gwasVariant.marker }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if gwasVariant.metabolite %}
-										<a href="{{ path('metabolite_details', {id: gwasVariant.metabolite.id}) }}">{{ gwasVariant.metabolite }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if gwasVariant.gwas %}
-										<a href="{{ path('gwas_details', {id: gwasVariant.gwas.id}) }}">{{ gwasVariant.gwas }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if gwasVariant.traitPreprocessing %}
-										<a href="{{ path('trait_processing_details', {id: gwasVariant.traitPreprocessing.id}) }}">{{ gwasVariant.traitPreprocessing }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if gwasVariant.observationVariable %}
-										<a href="{{ path('observation_variable_details', {id: gwasVariant.observationVariable.id}) }}">{{ gwasVariant.observationVariable }}</a>
-									{% endif %}
-								</td>
-								{% if is_granted("ROLE_ADMIN") %}
-									<td>
-										{% if gwasVariant.createdBy %}
-											<a href="{{ path('person_details', {id: gwasVariant.createdBy.id}) }}">{{ gwasVariant.createdBy }}</a>
-										{% endif %}
-									</td>
-									<td>{{ gwasVariant.createdAt | date('d/m/Y h:m:s') }}</td>
-									<td>
-										<a href="{{ path('gwas_variant_delete', {id: gwasVariant.id}) }}" class="changeStatusLink" id="{{ gwasVariant.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ gwasVariant.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
-									</td>
-								{% endif %}
-								{% if is_granted("gwas_variant_edit", gwasVariant) %}
-									<td>
-										<a href="{{ path('gwas_variant_edit', {id: gwasVariant.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</td>
-								{% endif %}
-							</tr>
-						</tbody>
-					</table>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">GWAS Variant Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: gwasVariant.createdBy.id}) }}">{{ gwasVariant.createdBy }}</a>
+							</span>
+							<span>On: {{ gwasVariant.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('gwas_variant_delete', {id: gwasVariant.id}) }}" class="changeStatusLink" id="{{ gwasVariant.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ gwasVariant.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("gwas_variant_edit", gwasVariant) %}
+							<a href="{{ path('gwas_variant_edit', {id: gwasVariant.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
 				</div>
 			</div>
 		</div>
+
 		<!-- .row -->
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">GWAS Variant Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Name: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.name}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">gwas Study: </label>
+							{% if gwasVariant.gwas %}
+								<a href="{{ path('gwas_details', {id: gwasVariant.gwas.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ gwasVariant.gwas }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">MAF: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.maf}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Sample Size: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.sampleSize}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">SNP P Value: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.snppValue}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Adjusted P Value: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.adjustedPValue}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Allelic Effect: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.allelicEffect}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Allelic Effect Stat: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.allelicEffectStat}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Allelic Effect DF: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.allelicEffectdf}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Allelic Effect StdE: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.allelicEffStdE}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Beta: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.beta}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Beta StdE: </label>
+							<span class="tomato-color font-weight-bold">{{ gwasVariant.betaStdE}}</span>
+						</div>
+
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Marker, Trait Preprocessing & More</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Metabolite: </label>
+						{% if gwasVariant.metabolite %}
+							<a href="{{ path('metabolite_details', {id: gwasVariant.metabolite.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ gwasVariant.metabolite }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Observation Variable: </label>
+						{% if gwasVariant.observationVariable %}
+							<a href="{{ path('observation_variable_details', {id: gwasVariant.observationVariable.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ gwasVariant.observationVariable }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Marker: </label>
+						{% if gwasVariant.marker %}
+							<a href="{{ path('marker_details', {id: gwasVariant.marker.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ gwasVariant.marker }}</span>
+							</a>
+						{% endif %}
+					</div>
+						
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Odds Ratio: </label>
+						<span class="tomato-color font-weight-bold">{{ gwasVariant.oddsRatio}}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">R Square Of Mode: </label>
+						<span class="tomato-color font-weight-bold">{{ gwasVariant.rSquareOfMode }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">R Square Of Mode With SNP: </label>
+						<span class="tomato-color font-weight-bold">{{ gwasVariant.rSquareOfModeWithSNP }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">R Square Of Mode Without SNP: </label>
+						<span class="tomato-color font-weight-bold">{{ gwasVariant.rSquareOfModeWithoutSNP }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Reference Allele: </label>
+						<span class="tomato-color font-weight-bold">{{ gwasVariant.refAllele }}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Ci Lower: </label>
+						<span class="tomato-color font-weight-bold">{{ gwasVariant.ciLower}}</span>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Ci Upper: </label>
+						<span class="tomato-color font-weight-bold">{{ gwasVariant.ciUpper }}</span>
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 	<!-- .container -->
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_epistasis').DataTable();
+        } );
+    </script>
 {% endblock %}
+

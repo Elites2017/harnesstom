@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Accession;
 use App\Entity\Synonym;
 use App\Form\SynonymType;
 use App\Form\SynonymUpdateType;
@@ -188,63 +189,66 @@ class SynonymController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $programAbbreviation = $row['A'];
-                $synonymAbbreviation = $row['B'];
-                $synonymName = $row['C'];
-                $synonymDescription = $row['D'];
-                $ontIdSynonymType = $row['E'];
-                $synonymPUI = $row['F'];
-                $startDate = $row['G'];
-                $endDate = $row['H'];
-                $publicReleaseDate = $row['I'];
-                $licence = $row['J'];
-                $publicationRef = $row['K'];
+                $accessionMaintainerNumber = $row['A'];
+                $synonymSource = $row['B'];
+                $synonymId = $row['C'];
                 // check if the file doesn't have empty columns
-                if ($synonymAbbreviation != null && $synonymName != null) {
-                    // check if the data is upload in the database
-                    $existingSynonym = $entmanager->getRepository(Synonym::class)->findOneBy(['abbreviation' => $synonymAbbreviation]);
-                    // upload data only for objects that haven't been saved in the database
-                    if (!$existingSynonym) {
-                        $synonym = new Synonym();
-                        if ($this->getUser()) {
-                            $synonym->setCreatedBy($this->getUser());
+                if ($accessionMaintainerNumber != null && $synonymSource != null && $synonymId != null) {
+                    // check if the given accession matches any accession in the db
+                    $synonymAccession = $entmanager->getRepository(Accession::class)->findOneBy(['maintainernumb' => $accessionMaintainerNumber]);
+                    if (($synonymAccession != null) && ($synonymAccession instanceof \App\Entity\Accession)) {
+                       
+                        // check if the data is upload in the database
+                        $existingSynonym = $entmanager->getRepository(Synonym::class)->findOneBy(['accession' => $synonymAccession, 'synonymSource' => $synonymSource, 'synonymId' => $synonymId]);
+                        // upload data only for objects that haven't been saved in the database
+                        if (!$existingSynonym) {
+                            $synonym = new Synonym();
+                            if ($this->getUser()) {
+                                $synonym->setCreatedBy($this->getUser());
+                            }
+                            
+                            try {
+                                //code...
+                                $synonym->setAccession($synonymAccession);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the accession number " .$accessionMaintainerNumber);
+                            }
+
+                            try {
+                                //code...
+                                $synonym->setSynonymSource($synonymSource);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the synonym source " .$synonymSource);
+                            }
+
+                            try {
+                                //code...
+                                $synonym->setSynonymId($synonymId);
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', " there is a problem with the synonym ID " .$synonymId);
+                            }
+
+                            $synonym->setIsActive(true);
+                            $synonym->setCreatedAt(new \DateTime());
+                            
+                            try {
+                                //code...
+                                $entmanager->persist($synonym);
+                                $entmanager->flush();
+                            } catch (\Throwable $th) {
+                                //throw $th;
+                                $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
+                            }
                         }
-                        $synonymProgram = $entmanager->getRepository(Program::class)->findOneBy(['abbreviation' => $programAbbreviation]);
-                        if (($synonymProgram != null) && ($synonymProgram instanceof \App\Entity\Program)) {
-                            $synonym->setProgram($synonymProgram);
-                        }
-                        $synonymType = $entmanager->getRepository(EntitySynonymType::class)->findOneBy(['ontology_id' => $ontIdSynonymType]);
-                        if (($synonymType != null) && ($synonymType instanceof \App\Entity\SynonymType)) {
-                            $synonym->setSynonymType($synonymType);
-                        }
-                        $synonym->setDescription($synonymDescription);
-                        if ($startDate !=null) {
-                            $synonym->setStartDate(\DateTime::createFromFormat('Y-m-d', $startDate));
-                        }
-                        if ($endDate !=null) {
-                            $synonym->setEndDate(\DateTime::createFromFormat('Y-m-d', $endDate));
-                        }
-                        if ($publicReleaseDate !=null) {
-                            $synonym->setPublicReleaseDate(\DateTime::createFromFormat('Y-m-d', $publicReleaseDate));
-                        }
-                        $synonym->setName($synonymName);
-                        $synonym->setPui($synonymPUI);
-                        $synonym->setAbbreviation($synonymAbbreviation);
-                        $publicationRef = explode("|", $publicationRef);
-                        $synonym->setPublicationReference($publicationRef);
-                        $synonym->setLicense($licence);
-                        $synonym->setIsActive(true);
-                        $synonym->setCreatedAt(new \DateTime());
-                        
-                        try {
-                            //code...
-                            $entmanager->persist($synonym);
-                            $entmanager->flush();
-                        } catch (\Throwable $th) {
-                            //throw $th;
-                            $this->addFlash('danger', "A problem happened, we can not save your data now due to: " .strtoupper($th->getMessage()));
-                        }
+
+                    } else {
+                        $this->addFlash('danger', " the accession maintainer number ".$accessionMaintainerNumber." does not match any accession in our database");
                     }
+
+                    
                 }
             }
             // Query how many rows are there in the table

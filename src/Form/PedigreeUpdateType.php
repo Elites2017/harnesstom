@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Cross;
+use App\Entity\Generation;
 use App\Entity\Pedigree;
 use App\Service\PublicReleaseTrial;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

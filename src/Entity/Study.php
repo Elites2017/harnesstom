@@ -855,11 +855,11 @@ class Study
         foreach ($this->parameterValue as $key => $oneParameterValue) {
             # code...
             $param[$key] = [
-                "parameterName" => $oneParameterValue->getParamter()->getName(),
-                "parameterPUI" => $oneParameterValue->getParamter()->getFactorType()->getOntologyId(),
-                "description" => $oneParameterValue->getParamter()->getFactorType()->getDescription(),
-                "unit" => $oneParameterValue->getParamter()->getUnit()->getName(),
-                "unitPUI" => $oneParameterValue->getParamter()->getUnit()->getOntologyId(),
+                "parameterName" => $oneParameterValue->getParameter()->getName(),
+                "parameterPUI" => $oneParameterValue->getParameter()->getFactorType()->getOntologyId(),
+                "description" => $oneParameterValue->getParameter()->getFactorType()->getDescription(),
+                "unit" => $oneParameterValue->getParameter()->getUnit()->getName(),
+                "unitPUI" => $oneParameterValue->getParameter()->getUnit()->getOntologyId(),
                 "value" => $oneParameterValue->getValue(),
             ];
             $paramValues [] = $param[$key];

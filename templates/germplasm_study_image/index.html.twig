@@ -185,7 +185,8 @@
 					"render": function(data, type, row, meta) {
 						let url = '{{ path("germplasm_study_image_details", {'id': 'dataId'}) }}'; 
 						url = url.replace("dataId", data);
-						let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						//let actionlink = "<a href="+ url +"><button class='btn btn-outline-primary'>Details</button></a>";
+						let actionlink = "<a href=#><button class='btn btn-outline-primary'>Details</button></a>";
 						return actionlink;
 					}
 				}

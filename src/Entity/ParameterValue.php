@@ -24,7 +24,7 @@ class ParameterValue
     /**
      * @ORM\ManyToOne(targetEntity=Parameter::class, inversedBy="parameterValues")
      */
-    private $paramter;
+    private $parameter;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -46,14 +46,14 @@ class ParameterValue
         return $this->id;
     }
 
-    public function getParamter(): ?Parameter
+    public function getParameter(): ?Parameter
     {
-        return $this->paramter;
+        return $this->parameter;
     }
 
-    public function setParamter(?Parameter $paramter): self
+    public function setParameter(?Parameter $parameter): self
     {
-        $this->paramter = $paramter;
+        $this->parameter = $parameter;
 
         return $this;
     }
