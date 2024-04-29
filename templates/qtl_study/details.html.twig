@@ -4,170 +4,316 @@
 	{{ title }}
 {% endblock %}
 
+{% block stylesheets %}
+	{% include 'resource/list_style.html.twig' %}
+{% endblock %}
+
 {% block body %}
 	<div class="container-fluid">
+
+		<!-- .row -->
 		<div class="row">
-			<div class="col-md-12 order-md-1 mb-3">
-				<h2 class="mb-3 text-center tomato-color font-weight-bold">Details</h2>
-				<div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-								<th scope="col">Software</th>
-								<th scope="col">QTL Count</th>
-								<th scope="col">Ci Criteria</th>
-								<th scope="col">Method</th>
-								<th scope="col">Mapping Population</th>
-								<th scope="col">Genome Map Unit</th>
-								<th scope="col">Threshold Method</th>
-								<th scope="col">Threshold Value</th>
-								<th scope="col">Multi Environment Stat</th>
-								<th scope="col">Variant Set Metadata</th>
-								<th scope="col">Statistic</th>
-								<th scope="col">Publication Reference</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("qtl_study_edit", qtlStudy) %}
-									<th scope="col">Action</th>
-								{% endif %}
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{{ qtlStudy.id }}</td>
-								<td>{{ qtlStudy.name }}</td>
-								<td>{{ qtlStudy.software }}</td>
-								<td>{{ qtlStudy.qtlCount }}</td>
-								<td>{{ qtlStudy.ciCriteria }}</td>
-								<td>{{ qtlStudy.method }}</td>
-								<td>{{ qtlStudy.mappingPopulation }}</td>
-								<td>{{ qtlStudy.genomeMapUnit }}</td>
-								<td>{{ qtlStudy.thresholdMethod }}</td>
-								<td>{{ qtlStudy.thresholdValue }}</td>
-								<td>{{ qtlStudy.multiEnvironmentStat }}</td>
-								<td>{{ qtlStudy.variantSetMetadata }}</td>
-								<td>{{ qtlStudy.statistic }}</td>
-								<td>
-									{% if qtlStudy.publicationReference | length >= 0 %}
-										{% for oneRef in qtlStudy.publicationReference %}
-											{{ loop.index ~ " - " ~ oneRef }}
-											</br>
-										{% endfor %}
-									{% endif %}
-								</td>
-								{% if is_granted("ROLE_ADMIN") %}
-									<td>
-										{% if qtlStudy.createdBy %}
-											<a href="{{ path('person_details', {id: qtlStudy.createdBy.id}) }}">{{ qtlStudy.createdBy }}</a>
-										{% endif %}
-									</td>
-									<td>{{ qtlStudy.createdAt | date('d/m/Y h:m:s') }}</td>
-									<td>
-										<a href="{{ path('qtl_study_delete', {id: qtlStudy.id}) }}" class="changeStatusLink" id="{{ qtlStudy.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ qtlStudy.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
-									</td>
-								{% endif %}
-								{% if is_granted("qtl_study_edit", qtlStudy) %}
-									<td>
-										<a href="{{ path('qtl_study_edit', {id: qtlStudy.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</td>
-								{% endif %}
-							</tr>
-						</tbody>
-					</table>
+            <div class="col-xl-12 col-lg-11 mb-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h2 class="mb-3 text-center tomato-color font-weight-bold">QTL Study Details</h2>
+                    </div>
+
+                    <div class="col-3">
+                        {% if is_granted("ROLE_ADMIN") %}
+							<span>Created By: 
+								<a href="{{ path('person_details', {id: qtlStudy.createdBy.id}) }}">{{ qtlStudy.createdBy }}</a>
+							</span>
+							<span>On: {{ qtlStudy.createdAt | date('d/m/Y h:m:s') }} </span>
+							</br><a href="{{ path('qtl_study_delete', {id: qtlStudy.id}) }}" class="changeStatusLink" id="{{ qtlStudy.id }}">
+								<span class="changeStatusSpan">
+									<input type="checkbox" {{ qtlStudy.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
+								</span>
+                                </a>
+                        {% endif %}
+                        {% if is_granted("qtl_study_edit", qtlStudy) %}
+							<a href="{{ path('qtl_study_edit', {id: qtlStudy.id}) }}">
+								<button class="btn btn-outline-warning">Edit</button>
+							</a>
+                        {% endif %}
+                    </div>
 				</div>
 			</div>
 		</div>
-		<!-- .row -->
-		{# Start of row #}
-		<div class="row">
-			<div class="col-md-6"></div>
 
-			{% if qtlStudy.studyList | length > 0 %}
-				<div class="col-md-6 mb-4">
-					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">{{ qtlStudy.studyList | length == 1 ? 'Related Study Summary' : 'Related Studies Summary' }}</span>
-						<span class="badge badge-danger badge-pill">{{ qtlStudy.studyList | length }}</span>
-					</h4>
-					<ul class="list-group mb-3">
-						{% for oneStudy in qtlStudy.studyList %}
-							<a href="{{ path('study_details', {id: oneStudy.id}) }}">
-								<li class="list-group-item d-flex justify-content-between lh-condensed">
-									<div>
-										<h6 class="my-0">Abbreviation</h6>
-										<strong class="text-muted">{{ oneStudy.abbreviation }}</strong>
-									</div>
-									<div>
-										<h6 class="my-0">Start Date</h6>
-										<strong class="text-muted">{{ oneStudy.startDate | date('d/m/Y') }}</strong>
-									</div>
-									<div>
-										<h6 class="my-0">End Date</h6>
-										<strong class="text-muted">{{ oneStudy.endDate | date('d/m/Y') }}</strong>
-									</div>
-									<div>
-										<h6 class="my-0">Location</h6>
-										<strong class="text-muted">{{ oneStudy.location }}</strong>
-									</div>
-									{# <span class="text-muted">$12</span> #}
-								</li>
-							</a>
-						{% endfor %}
-					</ul>
+		<!-- .row -->
+		<div class="row mb-3">
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">QTL Study Basic Information</h3>
+					</div>
+
+					<div class="card-body">
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Name: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlStudy.name}}</span>
+						</div>
+						
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Method: </label>
+							{% if qtlStudy.method %}
+								<a href="{{ path('qtl_method_details', {id: qtlStudy.method.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ qtlStudy.method }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">QTL Count: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlStudy.qtlCount}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Ci Criteria: </label>
+							{% if qtlStudy.ciCriteria %}
+								<a href="{{ path('ci_criteria_details', {id: qtlStudy.ciCriteria.id}) }}">
+									<span class="tomato-color font-weight-bold">{{ qtlStudy.ciCriteria }}</span>
+								</a>
+							{% endif %}
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Genome Map Unit: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlStudy.genomeMapUnit}}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Threshold Method: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlStudy.thresholdMethod }}</span>
+						</div>
+
+						<div class="col-xl-12 col-lg-11 mb-1">
+							<label for="validationTooltip01">Threshold Value: </label>
+							<span class="tomato-color font-weight-bold">{{ qtlStudy.thresholdValue }}</span>
+						</div>
+
+					</div>
+
+					<div class="card-footer text-muted">
+					</div>
 				</div>
-			{% endif %}
+			</div>
+
+			<div class="col-xl-6 col-lg-5 mb-3 mt-1">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="tomato-color">Mapping Population, Variant Set & Reference</h3>
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Software: </label>
+						{% if qtlStudy.software %}
+							<a href="{{ path('software_details', {id: qtlStudy.software.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlStudy.software }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Mapping Population: </label>
+						{% if qtlStudy.mappingPopulation %}
+							<a href="{{ path('mapping_population_details', {id: qtlStudy.mappingPopulation.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlStudy.mappingPopulation }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Variant Set Metadata: </label>
+						{% if qtlStudy.variantSetMetadata %}
+							<a href="{{ path('variant_set_metadata_details', {id: qtlStudy.variantSetMetadata.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlStudy.variantSetMetadata }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Multi Environment Statistic: </label>
+						{% if qtlStudy.multiEnvironmentStat %}
+							<a href="{{ path('qtl_statistic_details', {id: qtlStudy.multiEnvironmentStat.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlStudy.multiEnvironmentStat }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Statistic: </label>
+						{% if qtlStudy.statistic %}
+							<a href="{{ path('qtl_statistic_details', {id: qtlStudy.statistic.id}) }}">
+								<span class="tomato-color font-weight-bold">{{ qtlStudy.statistic }}</span>
+							</a>
+						{% endif %}
+					</div>
+
+					<div class="col-xl-12 col-lg-11 mb-1">
+						<label for="validationTooltip01">Publication Reference: </label></br>
+						{% if qtlStudy.publicationReference %}
+							{% for one in qtlStudy.publicationReference %}
+								<a href="{{ one }}" target="_blank"><span class="tomato-color font-weight-bold">{{ loop.index }}) {{ one }}</span></a> </br>
+							{% endfor %}
+						{% endif %}
+					</div>
+						
+					<div class="card-footer text-muted">
+					</div>
+				</div>
+			</div>
 		</div>
+
+
+		{# Start of row #}
+		<div class="row mt-3">
+			{# study #}
+			<div class="col-xl-5 col-lg-4 mr-auto">
+				{# marker #}
+				{% if qtlStudy.studyList | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ qtlStudy.studyList | length == 1 ? 'Related Study Summary' : 'Related Studies Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ qtlStudy.studyList | length <= 500 ? qtlStudy.studyList | length : '500 +'}}</span>
+					</h4>
+					{% if qtlStudy.studyList | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
+					<table id="datatable_study" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Abbreviation</th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Location</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for study in qtlStudy.studyList %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('study_details', {id: study.id}) }}">{{ study.abbreviation }}</a>
+											</strong>
+										</td>
+
+										<td>
+											{% if study.startDate %}
+												<strong class="text-muted">
+													{{ study.startDate | date('d/m/Y') }}
+												</strong>
+											{% endif %}
+										</td>
+
+										<td>
+											{% if study.endDate %}
+												<strong class="text-muted">
+													{{ study.endDate | date('d/m/Y') }}
+												</strong>
+											{% endif %}
+										</td>
+
+										<td>
+											{% if study.location %}
+												<strong class="text-muted">
+													<a href="{{ path('location_details', {id: study.location.id}) }}">{{ study.location }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+
+			{# qtl variant #}
+			<div class="col-xl-5 col-lg-4 mr-auto">
+				{# marker #}
+				{% if qtlStudy.qTLVariants | length > 0 %}
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<strong class="tomato-color">{{ qtlStudy.qTLVariants | length == 1 ? 'Related QTL Variant Summary' : 'Related QTL Variants Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ qtlStudy.qTLVariants | length <= 500 ? qtlStudy.qTLVariants | length : '500 +'}}</span>
+					</h4>
+					{% if qtlStudy.qTLVariants | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
+					<table id="datatable_study" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>Variant Name</th>
+								<th>Linkage Group Name</th>
+								<th>Detect Name</th>
+								<th>Additive</th>
+								<th>Peak Position</th>
+								<th>Orignal Trait Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for variant in qtlStudy.qTLVariants %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('qtl_variant_details', {id: variant.id}) }}">{{ variant.name }}</a>
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ variant.linkageGroupName }}
+											</strong>
+										</td>
+
+
+										<td>
+											<strong class="text-muted">
+												{{ variant.detectName }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ variant.additive }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ variant.peakPosition }}
+											</strong>
+										</td>
+
+										<td>
+											<strong class="text-muted">
+												{{ variant.originalTraitName }}
+											</strong>
+										</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
+				{% endif %}
+			</div>
+
+		</div>
+		
 		{# End of row #}
 	</div>
 	<!-- .container -->
 {% endblock %}
+
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
+        $(document).ready(function() {
+            $('#datatable_study, #datatable_qtl_variant').DataTable();
+        } );
+    </script>
 {% endblock %}

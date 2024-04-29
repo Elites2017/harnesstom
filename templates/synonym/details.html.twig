@@ -13,21 +13,10 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th scope="col">ID</th>
+								<th scope="col">DB ID</th>
 								<th scope="col">Accession</th>
-                                <th scope="col">USDA</th>
-                                <th scope="col">COMAV</th>
-                                <th scope="col">FMA01</th>
-                                <th scope="col">UIB</th>
-                                <th scope="col">PGR</th>
-                                <th scope="col">EUSOL</th>
-                                <th scope="col">CCCODE</th>
-                                <th scope="col">NDL</th>
-                                <th scope="col">AVRC</th>
-                                <th scope="col">INRA</th>
-                                <th scope="col">UNITUS</th>
-                                <th scope="col">RESQPROJECT360</th>
-                                <th scope="col">RESEQ150</th>
+                                <th scope="col">Synonym Source</th>
+                                <th scope="col">Synonym ID</th>
 								{% if is_granted("ROLE_ADMIN") %}
 									<th scope="col">Created By</th>
 									<th scope="col">Creation Date</th>
@@ -40,21 +29,10 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.id }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.accession }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.usda }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.comav }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.fma01 }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.uib }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.pgr }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.eusol }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.cccode }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.ndl }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.avrc }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.inra }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.unitus }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.resqProject360 }}</a></td>
-								<td><a href="{{ path('synonym_details', {id: synonym.id}) }}">{{ synonym.reseq150 }}</a></td>
+								<td>{{ synonym.id }}</td>
+								<td>{{ synonym.accession }}</td>
+								<td>{{ synonym.synonymSource }}</td>
+								<td>{{ synonym.synonymId }}</td>
 								
 								{% if is_granted("ROLE_ADMIN") %}
 									<td>

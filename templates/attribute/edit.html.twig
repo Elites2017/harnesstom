@@ -77,25 +77,26 @@
 						</div>
 
 						<div>
-							<div id="pubRef-fields-list" data-prototype="{{ form_widget(attributeForm.publicationReference.vars.prototype)|e }}" data-widget-tags="{{ '<div class="row mx-auto mb-3">New</div>'|e }}" data-widget-counter="{{ attributeForm.publicationReference|length }}">
+							<div>
+								{# the data-index attribute is required for the JavaScript code below #}
+								<ul class="tags" data-index="{{ attributeForm.publicationReference|length > 0 ? attributeForm.publicationReference|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(attributeForm.publicationReference.vars.prototype)|e('html_attr') }}">
 								{% for pubRef in attributeForm.publicationReference %}
 									<li>
-										{{ form_errors(pubRef) }}
-										{{ form_widget(pubRef) }}
+									{{ form_errors(pubRef) }}
+									{{ form_widget(pubRef) }}
 									</li>
 								{% endfor %}
+								</ul>
 							</div>
-							<button type="button" class="btn btn-outline-info mb-3 add-another-collection-widget" data-list-selector="#pubRef-fields-list">Add publication reference</button>
+							<button type="button"
+								class="btn btn-outline-info mb-3 add_item_link"
+								data-collection-holder-class="tags">
+								Add publication reference
+							</button>
 						</div>
 
 						<div class="row">
-							<div class="col-md-6 mb-3">
-								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Update</button>
-							</div>
-
-							<div class="col-md-6 mb-3">
-								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-							</div>
+							{% include 'resource/btn_update.html.twig' %}
 						</div>
 						{{ form_end(attributeForm) }}
 					</div>
@@ -108,9 +109,8 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/js/add-collecting-widget.js') }}"></script>
-	<script src="{{ asset('assets/js/add-study-collecting-widget.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
+  <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
+  <script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
+  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 {% endblock %}

@@ -20,22 +20,22 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class GermplasmStudyController extends AbstractController
 {
-    /**
-     * @Route("/germplasm/study", name="germplasm_study_")
-     */
-    public function index(): Response
-    {
-        return $this->render('germplasm_study/index.html.twig', [
-            'controller_name' => 'GermplasmStudyController',
-        ]);
-    }
+    // /**
+    //  * @Route("/", name="germplasm_study_")
+    //  */
+    // public function index(): Response
+    // {
+    //     return $this->render('germplasm_study/index.html.twig', [
+    //         'controller_name' => 'GermplasmStudyController',
+    //     ]);
+    // }
     // this is to upload data in bulk using an excel file for germplasm x study
     /**
      * @Route("/upload-from-excel", name="upload_from_excel")
      */
     public function germplasmStudyUploadFromExcel(Request $request, EntityManagerInterface $entmanager): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(UploadFromExcelType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

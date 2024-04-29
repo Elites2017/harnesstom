@@ -56,12 +56,13 @@ class GermplasmUpdateType extends AbstractType
                 
             ])
             // this is the maintainer numb
-            ->add('accession', EntityType::class, [
+            ->add('accession', Datalist1Type::class, [
                 'class' => Accession::class,
-                'choice_label' => 'maintainerNumb',
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'maintainerNumb',
                 'help' => 'Add a new <a href="' . $toUrlAccession .'" target="_blank">Accession</a>'
+                
             ])
         ;
 

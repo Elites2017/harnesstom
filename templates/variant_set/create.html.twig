@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme variantSetForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
+    <datalist id="{{ form.vars.id }}_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{ title }}
 {% endblock %}
@@ -41,7 +55,7 @@
 								{{ form_row
 												(variantSetForm.marker,
 													{ label: "Marker",
-													'attr': {'placeholder': "Select the metabolite",
+													'attr': {'placeholder': "Select the marker",
 													'class': "custom-select d-block w-100"}
 													}
 												)
@@ -71,13 +85,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-6 mb-3">
-								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
-							</div>
-
-							<div class="col-md-6 mb-3">
-								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-							</div>
+							{% include 'resource/btn_create.html.twig' %}
 						</div>
 						{{ form_end(variantSetForm) }}
 					</div>
@@ -87,4 +95,14 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
+	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
+	<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+	<!-- Custom scripts for all pages-->
+	<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
+	<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
+	<script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
 {% endblock %}

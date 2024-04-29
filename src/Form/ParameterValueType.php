@@ -12,7 +12,7 @@ class ParameterValueType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('paramter')
+            ->add('parameter')
             ->add('value')
         ;
     }

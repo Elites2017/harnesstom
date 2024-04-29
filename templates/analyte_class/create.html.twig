@@ -30,13 +30,7 @@
 							{{ form_row(analyteClassForm.name, {'attr': {'placeholder': "Enter the name" }}) }}
 						</div>
 						<div class="row">
-							<div class="col-md-6 mb-3">
-								<button class="btn btn-outline-primary btn-lg btn-block" type="submit">Create</button>
-							</div>
-
-							<div class="col-md-6 mb-3">
-								<button class="btn btn-outline-secondary btn-lg btn-block" type="reset">Cancel</button>
-							</div>
+							{% include 'resource/btn_create.html.twig' %}
 						</div>
 						{{ form_end(analyteClassForm) }}
 					</div>

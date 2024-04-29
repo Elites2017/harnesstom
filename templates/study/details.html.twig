@@ -5,25 +5,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<!-- Bootstrap core CSS -->
-	<link href="{{ asset('assets/nl/css/sb-admin-2.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/css/bootstrap-toggle.min.css') }}" rel="stylesheet">
-	<link href="{{ asset('assets/nl/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
-	<link
-		href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-	rel="stylesheet">
-
-	<!-- Custom styles for this template -->
-	<link href="{{ asset('assets/css/jumbotron.css') }}" rel="stylesheet">
-	<link
-	href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
-	<!-- DataTables CSS -->
-	<link
-	href="{{ asset('assets/datatables/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-
-	<!-- DataTables Responsive CSS -->
-	<link href="{{ asset('assets/datatables/css/dataTables.responsive.css') }}" rel="stylesheet">
+	{% include 'resource/list_style.html.twig' %}
 {% endblock %}
 
 {% block body %}
@@ -84,7 +66,9 @@
 
 							<div class="col-xl-12 col-lg-11 mb-1">
 								<label for="validationTooltip01">Institute: </label>
-								<a href="{{ path('institute_details', {id:study.institute.id}) }}"><span class="tomato-color font-weight-bold">{{ study.institute}}</span></a>
+								{% if study.institute %}
+									<a href="{{ path('institute_details', {id:study.institute.id}) }}"><span class="tomato-color font-weight-bold">{{ study.institute}}</span></a>
+								{% endif %}
 							</div>
 								
 							</div>
@@ -165,9 +149,11 @@
 							<div class="col-xl-12 col-lg-11 mb-1">
 								<label for="validationTooltip01">Parameters: </label></br>
 								<span class="tomato-color font-weight-bold">
-								{% for one in study.parameterValue %}
-									<b>{{ loop.index }})</b> {{ one.paramter.name }} = {{ one.value }} </br>
-								{% endfor %}
+								{% if study.parameterValue %}
+									{% for one in study.parameterValue %}
+										<b>{{ loop.index }})</b> {{ one.parameter.name }} = {{ one.value }} </br>
+									{% endfor %}
+								{% endif %}
 								</span>
 							</div>
 								
@@ -245,182 +231,110 @@
 
                 </div>
 
-				{# <div class="table-responsive">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th scope="col">ID</th>
-								<th scope="col">Name</th>
-								<th scope="col">Abbreviation</th>
-								<th scope="col">Description</th>
-								<th scope="col">Start Date</th>
-								<th scope="col">End Date</th>
-								<th scope="col">Trial</th>
-								<th scope="col">Factor</th>
-								<th scope="col">Season</th>
-								<th scope="col">Institute</th>
-								<th scope="col">Location</th>
-								<th scope="col">GrowthFacility</th>
-								<th scope="col">Experimental Design</th>
-								{% if is_granted("ROLE_ADMIN") %}
-									<th scope="col">Created By</th>
-									<th scope="col">Creation Date</th>
-									<th scope="col">Status</th>
-								{% endif %}
-								{% if is_granted("study_edit", study) %}
-									<th scope="col">Action</th>
-								{% endif %}
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{{ study.id }}</td>
-								<td>{{ study.name }}</td>
-								<td>{{ study.abbreviation }}</td>
-								<td>{{ study.description }}</td>
-								<td>{{ study.startDate | date('m/d/Y')}}</td>
-								<td>{{ study.endDate | date('m/d/Y')}}</td>
-								<td>
-									{% if study.trial %}
-										<a href="{{ path('trial_details', {id: study.trial.id}) }}">{{ study.trial }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if study.factor %}
-										<a href="{{ path('factor_type_details', {id: study.factor.id}) }}">{{ study.factor }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if study.season %}
-										<a href="{{ path('season_details', {id: study.season.id}) }}">{{ study.season }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if study.institute %}
-										<a href="{{ path('institute_details', {id: study.institute.id}) }}">{{ study.institute }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if study.location %}
-										<a href="{{ path('location_details', {id: study.location.id}) }}">{{ study.location }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if study.growthFacility %}
-										<a href="{{ path('growth_facility_type_details', {id: study.growthFacility.id}) }}">{{ study.growthFacility }}</a>
-									{% endif %}
-								</td>
-								<td>
-									{% if study.experimentalDesignType %}
-										<a href="{{ path('experimental_design_details', {id: study.experimentalDesignType.id}) }}">{{ study.experimentalDesignType }}</a>
-									{% endif %}
-								</td>
-								{% if is_granted("ROLE_ADMIN") %}
-									<td>
-										<a href="{{ path('person_details', {id: study.createdBy.id}) }}">{{ study.createdBy }}</a>
-									</td>
-									<td>{{ study.createdAt | date('d/m/Y h:m:s') }}</td>
-									<td>
-										<a href="{{ path('study_delete', {id: study.id}) }}" class="changeStatusLink" id="{{ study.id }}">
-											<span class="changeStatusSpan">
-												<input type="checkbox" {{ study.isActive ? ' checked=true ' : 'unchecked = true' }} data-toggle="toggle" data-onstyle="outline-success" data-offstyle="outline-danger">
-											</span>
-										</a>
-									</td>
-								{% endif %}
-								{% if is_granted("study_edit", study) %}
-									<td>
-										<a href="{{ path('study_edit', {id: study.id}) }}">
-											<button class="btn btn-outline-warning">Edit</button>
-										</a>
-									</td>
-								{% endif %}
-							</tr>
-						</tbody>
-					</table>
-				</div> #}
-
 			</div>
+
 		</div>
 		<!-- .row -->
 		{# Start of row #}
 		<div class="row">
 			{% if study.gwas | length > 0 %}
-				<div class="col-md-6 mb-4">
+				<div class="col-xl-5 col-lg-4 mb-3 mt-4 mr-auto">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">Related GWAS Summary</span>
-						<span class="badge badge-danger badge-pill">{{ study.gwas | length }}</span>
+						<strong class="tomato-color">{{ study.gwas | length == 1 ? 'Related GWAS Summary' : 'Related GWAS Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ study.gwas | length <= 500 ? study.gwas | length : '500 +'}}</span>
 					</h4>
-					<ul class="list-group mb-3">
-						{% for oneGWAS in study.gwas %}
-							<a href="{{ path('gwas_details', {id: oneGWAS.id}) }}"><li class="list-group-item d-flex justify-content-between lh-condensed">
-							<div>
-								<h6 class="my-0">GWAS Name ID</h6>
-								<strong class="text-muted">{{ oneGWAS.name }}</strong>
-							</div>
-							<div>
-								<h6 class="my-0">Software</h6>
-								<strong class="text-muted">{{ oneGWAS.software }}</strong>
-							</div>
-							<div>
-								<h6 class="my-0">GWAS Model</h6>
-								<strong class="text-muted">{{ oneGWAS.gwasModel }}</strong>
-							</div>
-							<div>
-								<h6 class="my-0">Kinship Algorithm</h6>
-								<strong class="text-muted">{{ oneGWAS.kinshipAlgorithm }}</strong>
-							</div>
-							{# <span class="text-muted">$12</span> #}
-							</li></a>
-						{% endfor %}
-					</ul>
+					{% if study.gwas | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
+					<table id="datatable_gwas" class="table table-hover text-nowrap">
+						<thead class="table-dark">
+							<tr>
+								<th>GWAS Name ID</th> 
+								<th>Software</th>
+								<th>GWAS Model</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for oneGWAS in study.gwas %}
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											<strong class="text-muted">
+												<a href="{{ path('gwas_details', {id: oneGWAS.id}) }}">{{ oneGWAS.name }}</a>
+											</strong>
+										</td>
+										<td>
+											{% if oneGWAS.software %}
+												<strong class="text-muted">
+													<a href="{{ path('software_details', {id: oneGWAS.software.id}) }}">
+														{{ oneGWAS.software }}
+													</a>
+												</strong>
+											{% endif %}
+										</td>
+										<td>
+											{% if oneGWAS.gwasModel %}
+												<strong class="text-muted">
+													<a href="{{ path('gwas_model_details', {id: oneGWAS.gwasModel.id}) }}">{{ oneGWAS.gwasModel }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
 			{% endif %}
 
 			{% if study.germplasms | length > 0 %}
-				<div class="col-md-6 mt-4">
-
+				<div class="col-xl-6 col-lg-5 mb-3 mt-4">
 					<h4 class="d-flex justify-content-between align-items-center mb-3">
-						<span class="tomato-color">{{ study.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</span>
-						<span class="badge badge-danger badge-pill">{{ study.germplasms | length }}</span>
+						<strong class="tomato-color">{{ study.germplasms | length == 1 ? 'Related Germplasm Summary' : 'Related Germplasms Summary' }}</strong>
+						<span class="badge badge-danger badge-pill">{{ study.germplasms | length <= 500 ? study.germplasms | length : '500 +'}}</span>
 					</h4>
+					{% if study.germplasms | length > 500 %}
+						<small class="text-muted">Limited quantity of data is shown in order not to slow the system</small>
+					{% endif %}
+
 					<table id="datatable_germ" class="table table-hover text-nowrap">
-						<thead>
+						<thead class="table-dark">
 							<tr>
 								<th>Germplasm ID</th> 
 								<th>INSTCODE</th>
-								<th>Maintainer Number</th>
 								<th>Accession</th>
 							</tr>
-						<thead>
+						</thead>
 						<tbody>
 							{% for oneGermplasm in study.germplasms %}
-								<tr>
-									<td>
-										{% if oneGermplasm.germplasmID %}
-											<strong class="text-muted">
-												<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
-											</strong>
-										{% endif %}
-									</td>
-									<td>
-										{% if oneGermplasm.accession.instcode.acronym %}
-											<strong class="text-muted">
-												<a href="{{ path('institute_details', {id: oneGermplasm.accession.instcode.id}) }}">
-													{{ oneGermplasm.accession.instcode.acronym }}
-												</a>
-											</strong>
-										{% endif %}
-									</td>
-									<td><strong class="text-muted">{{ oneGermplasm.maintainerNumb }}</strong></td>
-									<td>
-										{% if oneGermplasm.accession %}
-											<strong class="text-muted">
-												<a href="{{ path('accession_details', {id: oneGermplasm.accession.id}) }}">{{ oneGermplasm.accession }}</a>
-											</strong>
-										{% endif %}
-									</td>
-								</tr>
+								{% if loop.index <= 500 %}
+									<tr>
+										<td>
+											{% if oneGermplasm.germplasmID %}
+												<strong class="text-muted">
+													<a href="{{ path('germplasm_details', {id: oneGermplasm.id}) }}">{{ oneGermplasm.germplasmID }}</a>
+												</strong>
+											{% endif %}
+										</td>
+										<td>
+											{% if oneGermplasm.accession.instcode %}
+												<strong class="text-muted">
+													<a href="{{ path('institute_details', {id: oneGermplasm.accession.instcode.id}) }}">
+														{{ oneGermplasm.accession.instcode.acronym }}
+													</a>
+												</strong>
+											{% endif %}
+										</td>
+										<td>
+											{% if oneGermplasm.accession %}
+												<strong class="text-muted">
+													<a href="{{ path('accession_details', {id: oneGermplasm.accession.id}) }}">{{ oneGermplasm.accession }}</a>
+												</strong>
+											{% endif %}
+										</td>
+									</tr>
+								{% endif %}
 							{% endfor %}
 						</tbody>
 					</table>
@@ -433,54 +347,10 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}" ></script>
-	<script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-	<script src="{{ asset('assets/axios/axios.min.js') }}"></script>
-	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-
-	<!-- DataTables JavaScript -->
-	<script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
-	<script src="{{ asset('assets/datatables/js/dataTables.responsive.js') }}"></script>
-
-	<script>
-		/*
-        This function is to change the status of the object.
-        It is called each time the corresponding link is clicked (the event happened).
-        1. It prevents the default behavior (behavior of showing the json response) of the function
-        in the controller class.
-
-        2. It gets the url of the link
-
-        3. It get the html document of the span which is the checkbox to change the object status 
-
-        4. It passes the url to axios which returns a response which is the message of the json
-            coming from the function in the controller.
-            4.1 set the checked property of the checkbox based on the response value.
-    */
-function changeStatus(event) {
-event.preventDefault();
-const url = this.href;
-const statusCheckbox = this.querySelector('span.changeStatusSpan').innerHTML;
-
-axios.get(url).then(function (res) {
-const jsonResponse = res.data.message;
-if (jsonResponse) {
-statusCheckbox.checked = true;
-} else {
-statusCheckbox.checked = false;
-}
-})
-}
-
-document.querySelectorAll('a.changeStatusLink').forEach(function (link) {
-link.addEventListener('click', changeStatus);
-})
-	</script>
-
-	<script>
+    {% include 'resource/details_js.html.twig' %}
+    <script>
         $(document).ready(function() {
-            $('#datatable_germ').DataTable();
+            $('#datatable_gwas, #datatable_germ').DataTable();
         } );
     </script>
 {% endblock %}

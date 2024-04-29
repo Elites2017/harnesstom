@@ -93,6 +93,7 @@ class AccessionController extends AbstractController
         $accessions = $acceRepo->findBy(["accenumb" => $accessionSelected->getAccenumb()]);
         $context = [
             'title' => 'Accession Details',
+            'accession' => $accessionSelected,
             'accessions' => $accessions
         ];
         return $this->render('accession/details.html.twig', $context);
