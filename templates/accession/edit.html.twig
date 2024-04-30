@@ -10,7 +10,7 @@
                 {{ choice.label }}
             </option>
         {% endfor %}
-	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
+	<input type="hidden" name="accession[collcode]" id="accession_collcode_hidden">
     </datalist>
 {% endblock %}
 
@@ -22,7 +22,7 @@
                 {{ choice.label }}
             </option>
         {% endfor %}
-	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
+	<input type="hidden" name="accession[donorcode]" id="accession_donorcode_hidden">
     </datalist>
 {% endblock %}
 
@@ -34,7 +34,7 @@
                 {{ choice.label }}
             </option>
         {% endfor %}
-	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
+	<input type="hidden" name="accession[bredcode]" id="accession_bredcode_hidden">
     </datalist>
 {% endblock %}
 
@@ -46,7 +46,7 @@
                 {{ choice.label }}
             </option>
         {% endfor %}
-	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
+	<input type="hidden" name="accession[instcode]" id="accession_instcode_hidden">
     </datalist>
 {% endblock %}
 

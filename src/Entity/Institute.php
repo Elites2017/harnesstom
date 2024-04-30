@@ -419,10 +419,12 @@ class Institute
     // in an upper level related form field from a foreign key
     public function __toString()
     {
-        if ($this->acronym) {
-            return (string) $this->instcode ." - ". $this->name . " ($this->acronym)";    
-        }
-        return (string) $this->instcode ." - ". $this->name;
+        // if ($this->acronym) {
+        //     return (string) $this->instcode ." - ". $this->name . " ($this->acronym)";    
+        // }
+        // return (string) $this->instcode ." - ". $this->name;
+        // return only the name as it is the choice label for the datalist widget
+        return (string) $this->name;
     }
 
     /**
