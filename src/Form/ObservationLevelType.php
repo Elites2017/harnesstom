@@ -41,18 +41,20 @@ class ObservationLevelType extends AbstractType
             ->add('unitCoordinateY')
             ->add('unitCoordinateXType')
             ->add('unitCoordinateYType')
-            ->add('germaplasm', EntityType::class, [
+            ->add('germaplasm', DatalistType::class, [
                 'class' => Germplasm::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'germplasmID',
                 'help' => 'Add a new <a href="' . $toUrlGermplasm .'" target="_blank">Germplasm</a>'
             ])
-            ->add('study', EntityType::class, [
+            ->add('study', Datalist1Type::class, [
                 'class' => Study::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
-                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Trial</a>'
+                'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>'
             ])
         ;
     }
