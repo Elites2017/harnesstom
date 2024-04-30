@@ -10,7 +10,7 @@
                 {{ choice.label }}
             </option>
         {% endfor %}
-	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
+	<input type="hidden" name="germplasm[maintainerInstituteCode]" id="germplasm_maintainerInstituteCode_hidden">
     </datalist>
 {% endblock %}
 
@@ -22,7 +22,7 @@
                 {{ choice.label }}
             </option>
         {% endfor %}
-	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
+    <input type="hidden" name="germplasm[accession]" id="germplasm_accession_hidden">
     </datalist>
 {% endblock %}
 
