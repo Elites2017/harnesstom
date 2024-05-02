@@ -39,7 +39,7 @@ class CrossUpdateType extends AbstractType
             ->add('name')
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '7'),
-                'required' => false])
+                'required' => false ])
             ->add('parent1Type')
             ->add('parent2Type')
             ->add('year')
@@ -51,43 +51,43 @@ class CrossUpdateType extends AbstractType
                 'label' => false,
                 'prototype_data' => ''
             ])
-            ->add('study', EntityType::class, [
+            ->add('study', DatalistType::class, [
                 'class' => Study::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'abbreviation',
                 'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
                 'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>'
             ])
-            ->add('institute', DatalistType::class, [
+            ->add('institute', Datalist1Type::class, [
                 'class' => Institute::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
-                
             ])
-            ->add('breedingMethod', EntityType::class, [
+            ->add('breedingMethod', Datalist4Type::class, [
                 'class' => BreedingMethod::class,
                 'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',
                 'required' => false,
-                'placeholder' => '',
                 'help' => 'Add a new <a href="' . $toUrlBreedingMethod .'" target="_blank">Breeding Method</a>'
-                
             ])
-            ->add('parent1', EntityType::class, [
+            ->add('parent1', Datalist2Type::class, [
                 'class' => Germplasm::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'germplasmID',
                 'help' => 'Add a new <a href="' . $toUrlGermplasm .'" target="_blank">Germplasm</a>'
-                
             ])
-            ->add('parent2', EntityType::class, [
+            ->add('parent2', Datalist3Type::class, [
                 'class' => Germplasm::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'germplasmID',
                 'help' => 'Add a new <a href="' . $toUrlGermplasm .'" target="_blank">Germplasm</a>'
-                
             ])
         ;
     }
