@@ -1,5 +1,43 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme pedigreeForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="pedigree_generation_list" value="{{ form.vars.value }}" />
+    <datalist id="pedigree_generation_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="pedigree[generation]" id="pedigree_generation_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="pedigree_pedigreeAncestorEntryId_list" value="{{ form.vars.value }}" />
+    <datalist id="pedigree_pedigreeAncestorEntryId_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="pedigree[pedigreeAncestorEntryId]" id="pedigree_pedigreeAncestorEntryId_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="pedigree_pedigreeCross_list" value="{{ form.vars.value }}" />
+    <datalist id="pedigree_pedigreeCross_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="pedigree[pedigreeCross]" id="pedigree_pedigreeCross_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
@@ -93,4 +131,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}
