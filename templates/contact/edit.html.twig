@@ -3,14 +3,14 @@
 {% form_theme contactForm _self %}
 
 {% block datalist_widget %}
-    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
-    <datalist id="{{ form.vars.id }}_list">
+    <input {{ block('widget_attributes') }} list="contact_institute_list" value="{{ form.vars.value }}" />
+    <datalist id="contact_institute_list">
         {% for choice in choices %}
             <option data-value="{{ choice.value }}">
                 {{ choice.label }}
             </option>
         {% endfor %}
-	<input type="hidden" name="contact[institute]" id="contact_institute_hidden">
+    <input type="hidden" name="contact[institute]" id="contact_institute_hidden">
     </datalist>
 {% endblock %}
 
@@ -101,17 +101,5 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-	<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-
-	<!-- Core plugin JavaScript-->
-	<script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-	<!-- Custom scripts for all pages-->
-	<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
-
-	<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
-	<script src="{{ asset('assets/nl/js/main.js') }}"></script>
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-	<script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}
