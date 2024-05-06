@@ -14,6 +14,18 @@
     </datalist>
 {% endblock %}
 
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="contact_person_list" value="{{ form.vars.value }}" />
+    <datalist id="contact_person_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="contact[person]" id="contact_person_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{ title }}
 {% endblock %}
