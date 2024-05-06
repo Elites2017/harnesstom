@@ -1,5 +1,31 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme qtlEpistasisEffectForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_epistasis_effect_qtlVariant1_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_epistasis_effect_qtlVariant1_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_epistasis_effect[qtlVariant1]" id="qtl_epistasis_effect_qtlVariant1_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_epistasis_effect_qtlVariant1_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_epistasis_effect_qtlVariant1_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_epistasis_effect[qtlVariant1]" id="qtl_epistasis_effect_qtlVariant1_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
@@ -72,4 +98,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}
