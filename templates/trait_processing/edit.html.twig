@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme traitProcessingForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="trait_processing_parentTerm_list" value="{{ form.vars.value }}" />
+    <datalist id="trait_processing_parentTerm_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="trait_processing[parentTerm]" id="trait_processing_parentTerm_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
@@ -24,8 +38,25 @@
 					<!-- Card Body -->
 					<div class="card-body">
 						{{ form_start(traitProcessingForm) }}
-						{{ form_row(traitProcessingForm.name, {'attr': {'placeholder': "Enter the name" }}) }}
-						{{ form_row(traitProcessingForm.description, {'attr': {'placeholder': "Enter the description" }}) }}
+						<div class="row">
+							<div class="col-md-4 mb-3">
+								{{ form_row(traitProcessingForm.ontology_id, {'attr': {'placeholder': "Enter the name" }}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(traitProcessingForm.parentTerm, {'attr': {'placeholder' : 'Enter the parent term', 'class': "custom-select d-block w-100"}}) }}
+							</div>
+
+							<div class="col-md-4 mb-3">
+								{{ form_row(traitProcessingForm.name, {'attr': {'placeholder' : 'Enter the gwas stat test name'}}) }}
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12 mb-3">
+								{{ form_row(traitProcessingForm.description, {'attr': {'placeholder' : 'Enter the gwas stat test description'}}) }}
+							</div>
+						</div>
 						<div class="row">
 							{% include 'resource/btn_update.html.twig' %}
 						</div>
@@ -37,4 +68,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}
