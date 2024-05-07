@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Germplasm;
 use App\Entity\Marker;
 use App\Entity\Metabolite;
 use App\Entity\ObservationVariable;
@@ -84,7 +85,14 @@ class QTLVariantUpdateType extends AbstractType
                 'required' => false
                 
             ])
-            ->add('positiveAlleleParent')
+            ->add('positiveAlleleParent', Datalist6Type::class, [
+                'class' => Germplasm::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'germplasmID',
+                'help' => 'Add a new <a href="' . $urlGermplasm .'" target="_blank">Germplasm</a>'
+                
+            ])
             ->add('closestMarker', Datalist3Type::class, [
                 'class' => Marker::class,
                 'help_html' => true,

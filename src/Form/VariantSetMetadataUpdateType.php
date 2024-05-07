@@ -49,18 +49,20 @@ class VariantSetMetadataUpdateType extends AbstractType
             ->add('dataUpload', FileType::class,[
                 'data_class' => null
             ])
-            ->add('software', EntityType::class, [
+            ->add('genotypingPlatform', DatalistType::class, [
+                'class' => GenotypingPlatform::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlGenotypingPlatform .'" target="_blank">Genotyping Platform</a>'
+            ])
+            ->add('software', Datalist1Type::class, [
                 'class' => Software::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlSoftware .'" target="_blank">Software</a>'
-            ])
-            ->add('genotypingPlatform', EntityType::class, [
-                'class' => GenotypingPlatform::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlGenotypingPlatform .'" target="_blank">Genotyping Platform</a>'
             ])
         ;
     }

@@ -1,5 +1,31 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme trialForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="trial_program_list" value="{{ form.vars.value }}" />
+    <datalist id="trial_program_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="trial[program]" id="trial_program_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="trial_trialType_list" value="{{ form.vars.value }}" />
+    <datalist id="trial_trialType_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="trial[trialType]" id="trial_trialType_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
   {{ title }}
 {% endblock %}
@@ -214,9 +240,7 @@
   <!-- .container -->
 {% endblock %}
 
+
 {% block javascripts %}
-  <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-  <script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

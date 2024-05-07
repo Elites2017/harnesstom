@@ -30,17 +30,24 @@ class PedigreeUpdateType extends AbstractType
 
         $builder
             ->add('pedigreeEntryID')
-            ->add('generation', EntityType::class, [
+            ->add('generation', DatalistType::class, [
                 'class' => Generation::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $tosUrlGeneration .'" target="_blank">Generation</a>'
             ])
-            ->add('pedigreeAncestorEntryId')
-            ->add('pedigreeCross', EntityType::class, [
+            ->add('pedigreeAncestorEntryId', Datalist1Type::class, [
+                'class' => Pedigree::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'pedigreeEntryID',
+            ])
+            ->add('pedigreeCross', Datalist2Type::class, [
                 'class' => Cross::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'query_builder' => $this->pubRelTrialService->getVisibleCrosses(),
                 'help' => 'Add a new <a href="' . $tosUrlCross .'" target="_blank">Cross</a>' 
             ])

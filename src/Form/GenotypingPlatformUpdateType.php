@@ -52,26 +52,26 @@ class GenotypingPlatformUpdateType extends AbstractType
                 'label' => false,
                 'prototype_data' => ''
             ])
-            ->add('sequencingType', EntityType::class, [
-                'class' => SequencingType::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlSequencingInstrument .'" target="_blank">Sequencing Type</a>'
-                
-            ])
-            ->add('sequencingInstrument', EntityType::class, [
+            ->add('sequencingInstrument', DatalistType::class, [
                 'class' => SequencingInstrument::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlSequencingType .'" target="_blank">Sequencing Instrument</a>'
-                
             ])
-            ->add('varCallSoftware', EntityType::class, [
+            ->add('sequencingType', Datalist1Type::class, [
+                'class' => SequencingType::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlSequencingInstrument .'" target="_blank">Sequencing Type</a>'
+            ])
+            ->add('varCallSoftware', Datalist2Type::class, [
                 'class' => VarCallSoftware::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlVarCallSoftware .'" target="_blank">Var Call Software</a>'
-                
             ])
         ;
     }

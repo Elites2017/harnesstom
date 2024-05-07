@@ -1,5 +1,67 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme sampleForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="sample_study_list" value="{{ form.vars.value }}" />
+    <datalist id="sample_study_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="sample[study]" id="sample_study_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="sample_germplasm_list" value="{{ form.vars.value }}" />
+    <datalist id="sample_germplasm_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="sample[germplasm]" id="sample_germplasm_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="sample_anatomicalEntity_list" value="{{ form.vars.value }}" />
+    <datalist id="sample_anatomicalEntity_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="sample[anatomicalEntity]" id="sample_anatomicalEntity_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist3_widget %}
+    <input {{ block('widget_attributes') }} list="sample_developmentalStage_list" value="{{ form.vars.value }}" />
+    <datalist id="sample_developmentalStage_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="sample[developmentalStage]" id="sample_developmentalStage_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist4_widget %}
+    <input {{ block('widget_attributes') }} list="sample_observationLevel_list" value="{{ form.vars.value }}" />
+    <datalist id="sample_observationLevel_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="sample[observationLevel]" id="sample_observationLevel_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{ title }}
 {% endblock %}
@@ -75,4 +137,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

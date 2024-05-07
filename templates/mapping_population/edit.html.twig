@@ -1,5 +1,31 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme mappingPopulationForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="mapping_population_mappingPopulationCross_list" value="{{ form.vars.value }}" />
+    <datalist id="mapping_population_mappingPopulationCross_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="mapping_population[mappingPopulationCross]" id="mapping_population_mappingPopulationCross_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="mapping_population_pedigreeGeneration_list" value="{{ form.vars.value }}" />
+    <datalist id="mapping_population_pedigreeGeneration_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="mapping_population[pedigreeGeneration]" id="mapping_population_pedigreeGeneration_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{ title }}
 {% endblock %}
@@ -70,4 +96,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

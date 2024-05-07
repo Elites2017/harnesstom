@@ -1,5 +1,43 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme genotypingPlatformForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="genotyping_platform_sequencingInstrument_list" value="{{ form.vars.value }}" />
+    <datalist id="genotyping_platform_sequencingInstrument_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="genotyping_platform[sequencingInstrument]" id="genotyping_platform_sequencingInstrument_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="genotyping_platform_sequencingType_list" value="{{ form.vars.value }}" />
+    <datalist id="genotyping_platform_sequencingType_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="genotyping_platform[sequencingType]" id="genotyping_platform_sequencingType_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="genotyping_platform_varCallSoftware_list" value="{{ form.vars.value }}" />
+    <datalist id="genotyping_platform_varCallSoftware_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="genotyping_platform[varCallSoftware]" id="genotyping_platform_varCallSoftware_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{ title }}
 {% endblock %}
@@ -173,8 +211,5 @@
 {% endblock %}
 
 {% block javascripts %}
-  <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-  <script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

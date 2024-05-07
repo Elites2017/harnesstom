@@ -114,95 +114,102 @@ class AccessionType extends AbstractType
             ->add('declongitude')
             ->add('elevation')
             ->add('collsite')
-            ->add('origcty', EntityType::class, [
+            ->add('origcty', DatalistType::class, [
                 'class' => Country::class,
                 'placeholder' => 'Select a country',
                 'help' => 'Add a new <a href="' . $toUrlCountry .'" target="_blank">Country</a>',
+                'choice_value' => 'iso3',
                 'query_builder' => function() {
                     return $this->countryRepo->createQueryBuilder('country')->orderBy('country.iso3', 'ASC');
                 }
             ])
-            ->add('collsrc', EntityType::class, [
+            ->add('collsrc', Datalist1Type::class, [
                 'class' => CollectingSource::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlCollectingSource .'" target="_blank">Collecting Source</a>'
                 
             ])
-            ->add('sampstat', EntityType::class, [
+            ->add('sampstat', Datalist2Type::class, [
                 'class' => BiologicalStatus::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlBiologicalStatus .'" target="_blank">Biological Status</a>'
                 
             ])
-            ->add('taxon', EntityType::class, [
-                'class' => Taxonomy::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlTaxon .'" target="_blank">Taxonomy</a>'
-                
-            ])
-            ->add('storage', EntityType::class, [
-                'class' => StorageType::class,
-                'help_html' => true,
-                'required' => false,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlStorageType .'" target="_blank">Storage Type</a>'
-                
-            ])
-            ->add('donorcode', Datalist1Type::class, [
-                'class' => Institute::class,
-                'help_html' => true,
-                'required' => false,
-                'placeholder' => '',
-                'choice_value' => 'name',
-                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
-                
-            ])
-            ->add('collcode', DatalistType::class, [
-                'class' => Institute::class,
-                'help_html' => true,
-                'required' => false,
-                'placeholder' => '',
-                'choice_value' => 'name',
-                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
-                
-            ])
-            ->add('collmissid', EntityType::class, [
-                'class' => CollectingMission::class,
-                'help_html' => true,
-                'required' => false,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlCollectingMissionIdentifier .'" target="_blank">Collecting Mission</a>'
-                
-            ])
-            ->add('bredcode', Datalist2Type::class, [
-                'class' => Institute::class,
-                'help_html' => true,
-                'required' => false,
-                'placeholder' => '',
-                'choice_value' => 'name',
-                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
-                
-            ])
-            ->add('instcode', Datalist3Type::class, [
-                'class' => Institute::class,
-                'help_html' => true,
-                'required' => false,
-                'placeholder' => '',
-                'choice_value' => 'name',
-                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
-                
-            ])
-            ->add('mlsStatus', EntityType::class, [
+            ->add('mlsStatus', Datalist3Type::class, [
                 'class' => MLSStatus::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlMLSStatus .'" target="_blank">MLS Status</a>'
+                
+            ])
+            ->add('taxon', Datalist4Type::class, [
+                'class' => Taxonomy::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'taxonId',
+                'help' => 'Add a new <a href="' . $toUrlTaxon .'" target="_blank">Taxonomy</a>'
+                
+            ])
+            ->add('storage', Datalist9Type::class, [
+                'class' => StorageType::class,
+                'help_html' => true,
+                'required' => false,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlStorageType .'" target="_blank">Storage Type</a>'
+                
+            ])
+            ->add('collcode', Datalist5Type::class, [
+                'class' => Institute::class,
+                'help_html' => true,
+                'required' => false,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
+                
+            ])
+            ->add('collmissid', Datalist6Type::class, [
+                'class' => CollectingMission::class,
+                'help_html' => true,
+                'required' => false,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlCollectingMissionIdentifier .'" target="_blank">Collecting Mission</a>'
+                
+            ])
+            ->add('bredcode', Datalist7Type::class, [
+                'class' => Institute::class,
+                'help_html' => true,
+                'required' => false,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
+                
+            ])
+            ->add('instcode', Datalist8Type::class, [
+                'class' => Institute::class,
+                'help_html' => true,
+                'required' => false,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
+                
+            ])
+            ->add('donorcode', Datalist10Type::class, [
+                'class' => Institute::class,
+                'help_html' => true,
+                'required' => false,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])
             ->add('breedingInfo')

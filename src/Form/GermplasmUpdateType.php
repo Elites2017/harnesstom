@@ -40,13 +40,6 @@ class GermplasmUpdateType extends AbstractType
             //     },
             //     'choice_label' => 'maintainerNumb'
             // ])
-            ->add('program', EntityType::class, [
-                'class' => Program::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlProgram .'" target="_blank">Program</a>'
-                
-            ])
             ->add('maintainerInstituteCode', DatalistType::class, [
                 'class' => Institute::class,
                 'help_html' => true,
@@ -62,6 +55,14 @@ class GermplasmUpdateType extends AbstractType
                 'placeholder' => '',
                 'choice_value' => 'maintainerNumb',
                 'help' => 'Add a new <a href="' . $toUrlAccession .'" target="_blank">Accession</a>'
+                
+            ])
+            ->add('program', Datalist2Type::class, [
+                'class' => Program::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'abbreviation',
+                'help' => 'Add a new <a href="' . $toUrlProgram .'" target="_blank">Program</a>'
                 
             ])
         ;

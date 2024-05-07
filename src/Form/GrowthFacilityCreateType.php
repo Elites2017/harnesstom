@@ -17,7 +17,12 @@ class GrowthFacilityCreateType extends AbstractType
             ->add('name')
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '5')])
-            ->add('parentTerm')
+            ->add('parentTerm', DatalistType::class, [
+                'class' => GrowthFacilityType::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',  
+            ])
         ;
     }
 

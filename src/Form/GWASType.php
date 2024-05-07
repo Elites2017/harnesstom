@@ -59,70 +59,79 @@ class GWASType extends AbstractType
                 'label' => false,
                 'prototype_data' => ''
             ])
-            ->add('variantSetMetadata', EntityType::class, [
+            ->add('variantSetMetadata', Datalist6Type::class, [
                 'class' => VariantSetMetadata::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlVariantSetMetadata .'" target="_blank">Variant Set Metadata</a>'
                 
             ])
-            ->add('gwasModel', EntityType::class, [
+            ->add('gwasModel', Datalist3Type::class, [
                 'class' => GWASModel::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlGWASModel .'" target="_blank">GWAS Model</a>'
                 
             ])
-            ->add('kinshipAlgorithm', EntityType::class, [
+            ->add('kinshipAlgorithm', Datalist1Type::class, [
                 'class' => KinshipAlgorithm::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlKinshipAlgo .'" target="_blank">Kinship Algorithm</a>'
                 
             ])
-            ->add('structureMethod', EntityType::class, [
+            ->add('structureMethod', Datalist4Type::class, [
                 'class' => StructureMethod::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlStructureMethod .'" target="_blank">Structure Method</a>'
                 
             ])
-            ->add('geneticTestingModel', EntityType::class, [
+            ->add('geneticTestingModel', Datalist2Type::class, [
                 'class' => GeneticTestingModel::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlGeneticTestingModel .'" target="_blank">Genetic Testing Model</a>'
                 
             ])
-            ->add('allelicEffectEstimator', EntityType::class, [
+            ->add('allelicEffectEstimator', Datalist5Type::class, [
                 'class' => AllelicEffectEstimator::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlAllelicEffectEstimator .'" target="_blank">Allelic Effect Estimator</a>'
                 
             ])
-            ->add('gwasStatTest', EntityType::class, [
+            ->add('gwasStatTest', Datalist8Type::class, [
                 'class' => GWASStatTest::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlGWASStatTest .'" target="_blank">GWAS Stat Test</a>'
                 
             ])
-            ->add('thresholdMethod', EntityType::class, [
+            ->add('thresholdMethod', DatalistType::class, [
                 'class' => ThresholdMethod::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlThresholdMethod .'" target="_blank">Threshold Method</a>'
                 
             ])
-            ->add('software', EntityType::class, [
+            ->add('software', Datalist7Type::class, [
                 'class' => Software::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlSoftware .'" target="_blank">Software</a>'
                 
             ])

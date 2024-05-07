@@ -1,5 +1,31 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme observationValueForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="observation_value_unitName_list" value="{{ form.vars.value }}" />
+    <datalist id="observation_value_unitName_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="observation_value[unitName]" id="observation_value_unitName_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="observation_value_observationVariableOriginal_list" value="{{ form.vars.value }}" />
+    <datalist id="observation_value_observationVariableOriginal_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="observation_value[observationVariableOriginal]" id="observation_value_observationVariableOriginal_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
@@ -50,4 +76,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

@@ -1,5 +1,31 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme programForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="program_crop_list" value="{{ form.vars.value }}" />
+    <datalist id="program_crop_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="program[crop]" id="program_crop_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="program_contact_list" value="{{ form.vars.value }}" />
+    <datalist id="program_contact_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="program[contact]" id="program_contact_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
   {{ title }}
 {% endblock %}
@@ -130,3 +156,8 @@
   </div>
   <!-- .container -->
 {% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
+{% endblock %}
+
