@@ -3,14 +3,74 @@
 {% form_theme studyForm _self %}
 
 {% block datalist_widget %}
-    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
-    <datalist id="{{ form.vars.id }}_list">
+    <input {{ block('widget_attributes') }} list="study_factor_list" value="{{ form.vars.value }}" />
+    <datalist id="study_factor_list">
         {% for choice in choices %}
             <option data-value="{{ choice.value }}">
                 {{ choice.label }}
             </option>
         {% endfor %}
-	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
+    <input type="hidden" name="study[factor]" id="study_factor_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="study_institute_list" value="{{ form.vars.value }}" />
+    <datalist id="study_institute_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="study[institute]" id="study_institute_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="study_location_list" value="{{ form.vars.value }}" />
+    <datalist id="study_location_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="study[location]" id="study_location_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist3_widget %}
+    <input {{ block('widget_attributes') }} list="study_growthFacility_list" value="{{ form.vars.value }}" />
+    <datalist id="study_growthFacility_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="study[growthFacility]" id="study_growthFacility_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist4_widget %}
+    <input {{ block('widget_attributes') }} list="study_experimentalDesignType_list" value="{{ form.vars.value }}" />
+    <datalist id="study_experimentalDesignType_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="study[experimentalDesignType]" id="study_experimentalDesignType_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist5_widget %}
+    <input {{ block('widget_attributes') }} list="study_trial_list" value="{{ form.vars.value }}" />
+    <datalist id="study_trial_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="study[trial]" id="study_trial_hidden">
     </datalist>
 {% endblock %}
 
@@ -254,20 +314,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-    <script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    
-    <script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('assets/nl/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
-
-    <script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
-    <script src="{{ asset('assets/nl/js/main.js') }}"></script>
-
-    <script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

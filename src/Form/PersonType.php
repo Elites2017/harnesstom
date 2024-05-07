@@ -10,18 +10,22 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 
 class PersonType extends AbstractType
 {
-
+    private $router;
     private $countryRepo;
 
-    function __construct(CountryRepository $countryRepo){
+    function __construct(RouterInterface $router, CountryRepository $countryRepo){
+        $this->router = $router;
         $this->countryRepo = $countryRepo;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $toUrlCountry = $this->router->generate('country_create');
+
         $builder
             ->add('firstName')
             ->add('middleName')
@@ -30,13 +34,15 @@ class PersonType extends AbstractType
             ->add('streetNumber')
             ->add('postalCode')
             ->add('city')
-            ->add('country', EntityType::class, [
+            ->add('country', DatalistType::class, [
                 'class' => Country::class,
-                'required' => true,
+                'help_html' => true,
                 'placeholder' => 'Select a country',
                 'query_builder' => function() {
                     return $this->countryRepo->createQueryBuilder('country')->orderBy('country.iso3', 'ASC');
-                }
+                },
+                'choice_value' => 'iso3',
+                'help' => 'Add a new <a href="' . $toUrlCountry .'" target="_blank">Country</a>'
             ])
         ;
     }

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\AnatomicalEntity;
 use App\Entity\DevelopmentalStage;
 use App\Entity\FactorType;
+use App\Entity\Germplasm;
 use App\Entity\GermplasmStudyImage;
 use App\Entity\Study;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -36,40 +37,45 @@ class GermplasmStudyImageUpdateType extends AbstractType
         $toUrlGermplasm = $this->router->generate('germplasm_create');
 
         $builder
-            ->add('filename', FileType::class)
+            ->add('filename', FileType::class, [
+                'data_class' => null
+            ])
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '5'),
                 'required' => false])
-            ->add('factor', EntityType::class, [
+            ->add('factor', DatalistType::class, [
                 'class' => FactorType::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlFactorType .'" target="_blank">Factor</a>'
             ])
-            ->add('developmentStage', EntityType::class, [
+            ->add('developmentStage', Datalist1Type::class, [
                 'class' => DevelopmentalStage::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlDevelopmentalStage .'" target="_blank">Devlopmental Stage</a>'
             ])
-            ->add('plantAnatomicalEntity', EntityType::class, [
+            ->add('plantAnatomicalEntity', Datalist2Type::class, [
                 'class' => AnatomicalEntity::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlAnatomicalEntity .'" target="_blank">Anatomical Entity</a>'
             ])
-            ->add('GermplasmID', EntityType::class, [
+            ->add('GermplasmID', Datalist3Type::class, [
                 'class' => Germplasm::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'GermplasmID',
                 'help' => 'Add a new <a href="' . $toUrlGermplasm .'" target="_blank">Germplasm</a>'
             ])
-            ->add('StudyID', EntityType::class, [
+            ->add('StudyID', Datalist4Type::class, [
                 'class' => Study::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'abbreviation',
                 'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
                 'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Trial</a>'
             ])

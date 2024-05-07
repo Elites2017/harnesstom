@@ -40,35 +40,35 @@ class AttributeTraitValueUpdateType extends AbstractType
                 'label' => false,
                 'prototype_data' => ''
             ])
-            ->add('trait', EntityType::class, [
+            ->add('trait', Datalist1Type::class, [
                 'class' => TraitClass::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlTrait .'" target="_blank">Trait</a>'
-                
             ])
-            ->add('metabolicTrait', EntityType::class, [
+            ->add('metabolicTrait', Datalist2Type::class, [
                 'class' => MetabolicTrait::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlMetabolicTrait .'" target="_blank">Metabolic Trait</a>'
-                
             ])
-            ->add('attribute', EntityType::class, [
+            ->add('attribute', DatalistType::class, [
                 'class' => Attribute::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlAttribute .'" target="_blank">Attribute</a>'
-                
             ])
-            ->add('accession', EntityType::class, [
+            ->add('accession', Datalist3Type::class, [
                 'class' => Accession::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'maintainernumb',
                 'help' => 'Add a new <a href="' . $toUrlAccession .'" target="_blank">Accession</a>'
-                
             ])
         ;
     }

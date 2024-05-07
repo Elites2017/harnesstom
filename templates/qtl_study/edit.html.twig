@@ -1,5 +1,127 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme qtlStudyForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_study_thresholdMethod_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_study_thresholdMethod_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_study[thresholdMethod]" id="qtl_study_thresholdMethod_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_study_ciCriteria_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_study_ciCriteria_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_study[ciCriteria]" id="qtl_study_ciCriteria_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_study_software_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_study_software_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_study[software]" id="qtl_study_software_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist3_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_study_multiEnvironmentStat_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_study_multiEnvironmentStat_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_study[multiEnvironmentStat]" id="qtl_study_multiEnvironmentStat_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist4_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_study_method_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_study_method_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_study[method]" id="qtl_study_method_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist5_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_study_variantSetMetadata_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_study_variantSetMetadata_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_study[variantSetMetadata]" id="qtl_study_variantSetMetadata_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist6_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_study_mappingPopulation_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_study_mappingPopulation_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_study[mappingPopulation]" id="qtl_study_mappingPopulation_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist7_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_study_genomeMapUnit_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_study_genomeMapUnit_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_study[genomeMapUnit]" id="qtl_study_genomeMapUnit_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist8_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_study_statistic_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_study_statistic_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_study[statistic]" id="qtl_study_statistic_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist9_widget %}
+    <input {{ block('widget_attributes') }} list="qtl_study_epistasisStatistic_list" value="{{ form.vars.value }}" />
+    <datalist id="qtl_study_epistasisStatistic_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="qtl_study[epistasisStatistic]" id="qtl_study_epistasisStatistic_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{title}}
 {% endblock %}
@@ -136,8 +258,5 @@
 {% endblock %}
 
 {% block javascripts %}
-  <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-  <script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

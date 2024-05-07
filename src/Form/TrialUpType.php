@@ -56,17 +56,19 @@ class TrialUpType extends AbstractType
                 'label' => false,
                 'prototype_data' => ''
             ])
-            ->add('program', EntityType::class, [
+            ->add('program', DatalistType::class, [
                 'class' => Program::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'abbreviation',
                 'help' => 'Add a new <a href="' . $toUrlProgram .'" target="_blank">Program</a>'
                 
             ])
-            ->add('trialType', EntityType::class, [
+            ->add('trialType', Datalist1Type::class, [
                 'class' => EntityTrialType::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlTrialType .'" target="_blank">Trial Type</a>'
                 
             ])

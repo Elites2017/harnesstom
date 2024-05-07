@@ -27,7 +27,7 @@ class ScaleCategoryType extends AbstractType
             ->add('score')
             ->add('min')
             ->add('max')
-            ->add('scale', EntityType::class, [
+            ->add('scale', DatalistType::class, [
                 'class' => Scale::class,
                 'help_html' => true,
                 'placeholder' => '',

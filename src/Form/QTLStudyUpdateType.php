@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\CiCriteria;
 use App\Entity\MappingPopulation;
+use App\Entity\QTLEpistasisEffect;
 use App\Entity\QTLMethod;
 use App\Entity\QTLStatistic;
 use App\Entity\QTLStudy;
@@ -57,73 +58,73 @@ class QTLStudyUpdateType extends AbstractType
                 'label' => false,
                 'prototype_data' => ''
             ])
-            ->add('ciCriteria', EntityType::class, [
+            ->add('thresholdMethod', DatalistType::class, [
+                'class' => ThresholdMethod::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlThresholdMethod .'" target="_blank">Threshold Method</a>'                
+            ])
+            ->add('ciCriteria', Datalist1Type::class, [
                 'class' => CiCriteria::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
-                'help' => 'Add a new <a href="' . $toUrlCicriteria .'" target="_blank">Ci Crriteria</a>'
-                
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlCicriteria .'" target="_blank">Ci Crriteria</a>'                
             ])
-            ->add('thresholdMethod', EntityType::class, [
-                'class' => ThresholdMethod::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlThresholdMethod .'" target="_blank">Threshold Method</a>'
-                
-            ])
-            ->add('software', EntityType::class, [
+            ->add('software', Datalist2Type::class, [
                 'class' => Software::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
-                'help' => 'Add a new <a href="' . $toUrlSoftware .'" target="_blank">Software</a>'
-                
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlSoftware .'" target="_blank">Software</a>'                
             ])
-            ->add('multiEnvironmentStat', EntityType::class, [
+            ->add('multiEnvironmentStat', Datalist3Type::class, [
                 'class' => QTLStatistic::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
-                'help' => 'Add a new <a href="' . $toUrlMultiEnvStat .'" target="_blank">Multi Environment Stat</a>'
-                
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlMultiEnvStat .'" target="_blank">Multi Environment Stat</a>'                
             ])
-            ->add('method', EntityType::class, [
+            ->add('method', Datalist4Type::class, [
                 'class' => QTLMethod::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
-                'help' => 'Add a new <a href="' . $toUrlMethod .'" target="_blank">QTL Method</a>'
-                
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlMethod .'" target="_blank">QTL Method</a>'                
             ])
-            ->add('variantSetMetadata', EntityType::class, [
+            ->add('variantSetMetadata', Datalist5Type::class, [
                 'class' => VariantSetMetadata::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlVariantSetMetadata .'" target="_blank">Variant Set Metadata</a>'
-                
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlVariantSetMetadata .'" target="_blank">Variant Set Metadata</a>'                
             ])
-            ->add('mappingPopulation', EntityType::class, [
+            ->add('mappingPopulation', Datalist6Type::class, [
                 'class' => MappingPopulation::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'query_builder' => $this->pubRelTrialService->getVisibleMappingPopulations(),
-                'help' => 'Add a new <a href="' . $toUrlMappingPopulation .'" target="_blank">Mapping Population</a>'
-                
+                'help' => 'Add a new <a href="' . $toUrlMappingPopulation .'" target="_blank">Mapping Population</a>'                
             ])
-            ->add('genomeMapUnit', EntityType::class, [
+            ->add('genomeMapUnit', Datalist7Type::class, [
                 'class' => Unit::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlGenomeMapUnit .'" target="_blank">Genome Map Unit</a>'
-                
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlGenomeMapUnit .'" target="_blank">Genome Map Unit</a>'                
             ])
-            ->add('statistic', EntityType::class, [
+            ->add('statistic', Datalist8Type::class, [
                 'class' => QTLStatistic::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlStatistic .'" target="_blank">QTL Statistic</a>'
-                
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlStatistic .'" target="_blank">QTL Statistic</a>'                
             ])
             ->add('studyList', EntityType::class, [
                 'class' => Study::class,
@@ -133,13 +134,13 @@ class QTLStudyUpdateType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>',
                 'multiple' => true
             ])
-            ->add('epistasisStatistic', EntityType::class, [
-                'class' => QTLStatistic::class,
+            ->add('epistasisStatistic', Datalist9Type::class, [
+                'class' => QTLEpistasisEffect::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
-                'help' => 'Add a new <a href="' . $toUrlStatistic .'" target="_blank">QTL Statistic</a>'
-                
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlStatistic .'" target="_blank">QTL Statistic</a>'                
             ])
 
         ;

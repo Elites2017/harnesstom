@@ -32,17 +32,23 @@ class ProgramUpdateType extends AbstractType
                 'attr' => array('cols' => '5', 'rows' => '7'),
                 'required' => false])
             ->add('externalRef')
-            ->add('crop', EntityType::class, [
+            ->add('crop', DatalistType::class, [
                 'class' => Crop::class,
                 'help_html' => true,
+                'required' => true,
                 'placeholder' => '',
+                'choice_value' => 'commonCropName',
                 'help' => 'Add a new <a href="' . $toUrlCrop .'" target="_blank">Crop</a>'
+                
             ])
-            ->add('contact', EntityType::class, [
+            ->add('contact', Datalist1Type::class, [
                 'class' => Contact::class,
                 'help_html' => true,
+                'required' => true,
                 'placeholder' => '',
+                'choice_value' => 'orcid',
                 'help' => 'Add a new <a href="' . $toUrlContact .'" target="_blank">Contact</a>'
+                
             ])
         ;
     }
