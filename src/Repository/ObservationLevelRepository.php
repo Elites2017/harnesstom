@@ -100,7 +100,7 @@ class ObservationLevelRepository extends ServiceEntityRepository
             ->join('App\Entity\Trial', 'tr')
             ->join('App\Entity\Study', 'st')
             ->where('germ.isActive = 1')
-            ->andWhere('obsL.germaplasm = germ.id')
+            ->andWhere('obsL.germplasm = germ.id')
             ->andWhere('obsL.study = st.id')
             ->andWhere('st.trial = tr.id');
         
@@ -111,7 +111,7 @@ class ObservationLevelRepository extends ServiceEntityRepository
             ->join('App\Entity\Trial', 'tr')
             ->join('App\Entity\Study', 'st')
             ->where('germ.isActive = 1')
-            ->andWhere('obsL.germaplasm = germ.id')
+            ->andWhere('obsL.germplasm = germ.id')
             ->andWhere('obsL.study = st.id')
             ->andWhere('st.trial = tr.id');
         

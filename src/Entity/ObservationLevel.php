@@ -140,7 +140,7 @@ class ObservationLevel
      * @Groups({"mls_status:read", "observation_level:read", "method_class:read", "marker:read", "mapping_population:read", "country:read", "contact:read", "study:read",
      * "metabolite:read"})
      */
-    private $germaplasm;
+    private $germplasm;
 
     /**
      * @ORM\ManyToOne(targetEntity=Study::class, inversedBy="observationLevels")
@@ -374,14 +374,14 @@ class ObservationLevel
         return $this;
     }
 
-    public function getGermaplasm(): ?Germplasm
+    public function getGermplasm(): ?Germplasm
     {
-        return $this->germaplasm;
+        return $this->germplasm;
     }
 
-    public function setGermaplasm(?Germplasm $germaplasm): self
+    public function setGermplasm(?Germplasm $germplasm): self
     {
-        $this->germaplasm = $germaplasm;
+        $this->germplasm = $germplasm;
 
         return $this;
     }
@@ -510,7 +510,7 @@ class ObservationLevel
      * "metabolite:read"})
      */
     public function getGermplasmDbId() {
-        return $this->germaplasm->getGermplasmID();
+        return $this->germplasm->getGermplasmID();
     }
 
     /**
@@ -518,7 +518,7 @@ class ObservationLevel
      * "metabolite:read"})
      */
     public function getGermplasmName() {
-        return $this->germaplasm->getAccession()->getAccename();
+        return $this->germplasm->getAccession()->getAccename();
     }
 
     /**
@@ -542,7 +542,7 @@ class ObservationLevel
      * "metabolite:read"})
      */
     public function getProgramDbId() {
-        return $this->germaplasm->getProgram() ? $this->germaplasm->getProgram()->getId() : null;
+        return $this->germplasm->getProgram() ? $this->germplasm->getProgram()->getId() : null;
     }
 
     /**
@@ -550,7 +550,7 @@ class ObservationLevel
      * "metabolite:read"})
      */
     public function getProgramName() {
-        return $this->germaplasm->getProgram() ? $this->germaplasm->getProgram()->getName() : null;
+        return $this->germplasm->getProgram() ? $this->germplasm->getProgram()->getName() : null;
     }
 
     /**
@@ -633,8 +633,8 @@ class ObservationLevel
             # code...
             $obs [] = [
                 "observationDbId" => $obsValueOri->getId(),
-                "germplasmDbId" => $obsValueOri->getUnitName()->getGermaplasm()->getGermplasmID(),
-                "germplasmName" => $obsValueOri->getUnitName()->getGermaplasm()->getGermplasmName(),
+                "germplasmDbId" => $obsValueOri->getUnitName()->getGermplasm()->getGermplasmID(),
+                "germplasmName" => $obsValueOri->getUnitName()->getGermplasm()->getGermplasmName(),
                 "observationUnitDbId" => $obsValueOri->getUnitName()->getUnitname(),
                 "observationUnitName" => $obsValueOri->getUnitName()->getUnitname(),
                 "observationVariableDbId" => $obsValueOri->getObservationVariableOriginal()->getVariable()->getOntologyId(),
