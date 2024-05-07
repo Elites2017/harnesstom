@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme annotationLevelForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="annotation_level_parentTerm_list" value="{{ form.vars.value }}" />
+    <datalist id="annotation_level_parentTerm_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="annotation_level[parentTerm]" id="annotation_level_parentTerm_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{ title }}
 {% endblock %}
@@ -53,4 +67,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}
