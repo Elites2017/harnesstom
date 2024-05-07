@@ -1,5 +1,55 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme attributeTraitValueForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="attribute_trait_value_attribute_list" value="{{ form.vars.value }}" />
+    <datalist id="attribute_trait_value_attribute_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="attribute_trait_value[attribute]" id="attribute_trait_value_attribute_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="attribute_trait_value_trait_list" value="{{ form.vars.value }}" />
+    <datalist id="attribute_trait_value_trait_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="attribute_trait_value[trait]" id="attribute_trait_value_trait_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="attribute_trait_value_metabolicTrait_list" value="{{ form.vars.value }}" />
+    <datalist id="attribute_trait_value_metabolicTrait_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="attribute_trait_value[metabolicTrait]" id="attribute_trait_value_metabolicTrait_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist3_widget %}
+    <input {{ block('widget_attributes') }} list="attribute_trait_value_accession_list" value="{{ form.vars.value }}" />
+    <datalist id="attribute_trait_value_accession_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="attribute_trait_value[accession]" id="attribute_trait_value_accession_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
@@ -112,8 +162,5 @@
 {% endblock %}
 
 {% block javascripts %}
-  <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-  <script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

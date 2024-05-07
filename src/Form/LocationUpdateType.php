@@ -20,7 +20,7 @@ class LocationUpdateType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $toUrlContry = $this->router->generate('country_create');
+        $toUrlCountry = $this->router->generate('country_create');
 
         $builder
             ->add('name')
@@ -29,12 +29,12 @@ class LocationUpdateType extends AbstractType
             ->add('altitudeCo')
             ->add('siteStatus')
             ->add('abbreviation')
-            ->add('country', EntityType::class, [
+            ->add('country', DatalistType::class, [
                 'class' => Country::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlContry .'" target="_blank">Country</a>'
-                
+                'choice_value' => 'iso3',
+                'help' => 'Add a new <a href="' . $toUrlCountry .'" target="_blank">Country</a>'
             ])
         ;
     }

@@ -3,14 +3,62 @@
 {% form_theme crossForm _self %}
 
 {% block datalist_widget %}
-    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
-    <datalist id="{{ form.vars.id }}_list">
+    <input {{ block('widget_attributes') }} list="cross_study_list" value="{{ form.vars.value }}" />
+    <datalist id="cross_study_list">
         {% for choice in choices %}
             <option data-value="{{ choice.value }}">
                 {{ choice.label }}
             </option>
         {% endfor %}
-	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
+    <input type="hidden" name="cross[study]" id="cross_study_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="cross_institute_list" value="{{ form.vars.value }}" />
+    <datalist id="cross_institute_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="cross[institute]" id="cross_institute_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="cross_parent1_list" value="{{ form.vars.value }}" />
+    <datalist id="cross_parent1_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="cross[parent1]" id="cross_parent1_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist3_widget %}
+    <input {{ block('widget_attributes') }} list="cross_parent2_list" value="{{ form.vars.value }}" />
+    <datalist id="cross_parent2_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="cross[parent2]" id="cross_parent2_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist4_widget %}
+    <input {{ block('widget_attributes') }} list="cross_breedingMethod_list" value="{{ form.vars.value }}" />
+    <datalist id="cross_breedingMethod_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="cross[breedingMethod]" id="cross_breedingMethod_hidden">
     </datalist>
 {% endblock %}
 
@@ -125,9 +173,5 @@
 {% endblock %}
 
 {% block javascripts %}
-  <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-  <script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

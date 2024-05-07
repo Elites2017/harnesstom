@@ -39,13 +39,13 @@ class AttributeUpdateType extends AbstractType
                     'label' => false,
                     'prototype_data' => ''
                 ])
-            ->add('category', EntityType::class, [
-                'class' => AttributeCategory::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'help' => 'Add a new <a href="' . $toUrlAttributeCategory .'" target="_blank">Category</a>'
-                
-            ])
+                ->add('category', DatalistType::class, [
+                    'class' => AttributeCategory::class,
+                    'help_html' => true,
+                    'placeholder' => '',
+                    'choice_value' => 'name',
+                    'help' => 'Add a new <a href="' . $toUrlAttributeCategory .'" target="_blank">Category</a>'
+                ])
         ;
     }
 

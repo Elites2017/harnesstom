@@ -30,20 +30,20 @@ class MappingPopulationType extends AbstractType
 
         $builder
             ->add('name')
-            ->add('mappingPopulationCross', EntityType::class, [
+            ->add('mappingPopulationCross', DatalistType::class, [
                 'class' => Cross::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'query_builder' => $this->pubRelTrialService->getVisibleCrosses(),
                 'help' => 'Add a new <a href="' . $toUrlCross .'" target="_blank">Cross</a>'
-                
             ])
-            ->add('pedigreeGeneration', EntityType::class, [
+            ->add('pedigreeGeneration', Datalist1Type::class, [
                 'class' => Generation::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlPedigree .'" target="_blank">Generation</a>'
-                
             ])
         ;
     }

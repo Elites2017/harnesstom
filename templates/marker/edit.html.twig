@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme markerForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="marker_genotypingPlatform_list" value="{{ form.vars.value }}" />
+    <datalist id="marker_genotypingPlatform_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="marker[genotypingPlatform]" id="marker_genotypingPlatform_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
   {{ title }}
 {% endblock %}
@@ -137,17 +151,22 @@
 
             <div class="row">
               <div class="col-md-4 mb-3">
-                {{
-                  form_row(
-                    markerForm.altAllele,
-                    {
-                      label: 'Alternative allele',
-                      attr: {
-                        placeholder: 'Enter the alternative allele'
-                      }
-                    }
-                  )
-                }}
+                <div>
+                  {# the data-index attribute is required for the JavaScript code below #}
+                  <ul class="tags" data-index="{{ markerForm.altAllele|length > 0 ? markerForm.altAllele|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(markerForm.altAllele.vars.prototype)|e('html_attr') }}">
+                  {% for oneAltAll in markerForm.altAllele %}
+                    <li>
+                    {{ form_errors(oneAltAll) }}
+                    {{ form_widget(oneAltAll) }}
+                    </li>
+                  {% endfor %}
+                  </ul>
+                </div>
+                <button type="button"
+                  class="btn btn-outline-info mb-3 add_item_link"
+                  data-collection-holder-class="tags">
+                  Add Alternative Allele
+                </button>
               </div>
 
               <div class="col-md-4 mb-3">
@@ -235,4 +254,8 @@
     <!-- .row -->
   </div>
   <!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

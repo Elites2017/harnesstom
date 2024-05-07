@@ -15,7 +15,12 @@ class GenerationType extends AbstractType
         $builder
             ->add('ontology_id')
             ->add('name')
-            ->add('parentTerm')
+            ->add('parentTerm', DatalistType::class, [
+                'class' => Generation::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',  
+            ])
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '5')])
         ;

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Marker;
 use App\Entity\Sample;
 use App\Entity\VariantSet;
+use App\Entity\VariantSetMetadata;
 use App\Service\PublicReleaseTrial;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -26,27 +27,34 @@ class VariantSetUpdateType extends AbstractType
     {
         $toUrlSample = $this->router->generate('sample_create');
         $toUrlMarker = $this->router->generate('marker_create');
+        $toUrlVariantSetMetadata = $this->router->generate('variant_set_metadata_create');
         
         $builder
             ->add('value')
-            ->add('sample', EntityType::class, [
+            ->add('sample', DatalistType::class, [
                 'class' => Sample::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'query_builder' => $this->pubRelTrialService->getVisibleSamples(),
                 'help' => 'Add a new <a href="' . $toUrlSample .'" target="_blank">Sample</a>'
-                
             ])
-            ->add('marker', DatalistType::class, [
+            ->add('marker', Datalist1Type::class, [
                 'class' => Marker::class,
                 'help_html' => true,
                 'required' => true,
                 'placeholder' => '',
                 'choice_value' => 'name',
-                'help' => 'Add a new <a href="' . $toUrlMarker .'" target="_blank">Institute</a>'
-                
+                'help' => 'Add a new <a href="' . $toUrlMarker .'" target="_blank">Marker</a>' 
             ])
-            ->add('variantSetMetadata')
+            ->add('variantSetMetadata', Datalist2Type::class, [
+                'class' => VariantSetMetadata::class,
+                'help_html' => true,
+                'required' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlVariantSetMetadata .'" target="_blank">Variant Set Metadata</a>' 
+            ])
         ;
     }
 

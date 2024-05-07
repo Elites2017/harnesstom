@@ -59,18 +59,12 @@ class StudyUpdateType extends AbstractType
                 'required' => false
             ))
             ->add('culturalPractice')
-            ->add('trial', EntityType::class, [
-                'class' => Trial::class,
-                'help_html' => true,
-                'placeholder' => '',
-                'query_builder' => $this->pubRelTrialService->getPublicReleaseTrials(),
-                'help' => 'Add a new <a href="' . $toUrlTrial .'" target="_blank">Trial</a>'
-            ])
-            ->add('factor', EntityType::class, [
+            ->add('factor', DatalistType::class, [
                 'class' => FactorType::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlFactor .'" target="_blank">Factor Type</a>'
                 
             ])
@@ -82,7 +76,7 @@ class StudyUpdateType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlSeason .'" target="_blank">Season</a>'
                 
             ])
-            ->add('institute', DatalistType::class, [
+            ->add('institute', Datalist1Type::class, [
                 'class' => Institute::class,
                 'help_html' => true,
                 'required' => true,
@@ -91,29 +85,40 @@ class StudyUpdateType extends AbstractType
                 'help' => 'Add a new <a href="' . $toUrlInstitute .'" target="_blank">Institute</a>'
                 
             ])
-            ->add('location', EntityType::class, [
+            ->add('location', Datalist2Type::class, [
                 'class' => Location::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlLocation .'" target="_blank">Location</a>'
                 
             ])
-            ->add('growthFacility', EntityType::class, [
+            ->add('growthFacility', Datalist3Type::class, [
                 'class' => GrowthFacilityType::class,
                 'help_html' => true,
+                'required' => true,
                 'placeholder' => '',
-                'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlGrowthFaciliType .'" target="_blank">Growth Facility Type</a>'
                 
             ])
-            ->add('experimentalDesignType', EntityType::class, [
+            ->add('experimentalDesignType', Datalist4Type::class, [
                 'class' => ExperimentalDesignType::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlExperimentalDesignType .'" target="_blank">Experimental Design Type</a>'
                 
+            ])
+            ->add('trial', Datalist5Type::class, [
+                'class' => Trial::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'abbreviation',
+                'query_builder' => $this->pubRelTrialService->getPublicReleaseTrials(),
+                'help' => 'Add a new <a href="' . $toUrlTrial .'" target="_blank">Trial</a>'
             ])
             ->add('extra', CollectionType::class, [
                 'entry_type' => ParameterValueType::class,

@@ -32,26 +32,26 @@ class ObservationVariableUpdateType extends AbstractType
             ->add('mainAbbreviaition')
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '5')])
-            ->add('trait', EntityType::class, [
+            ->add('trait', DatalistType::class, [
                 'class' => TraitClass::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlTrait .'" target="_blank">Trait</a>'
-                
             ])
-            ->add('scale', EntityType::class, [
+            ->add('scale', Datalist1Type::class, [
                 'class' => Scale::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlScale .'" target="_blank">Scale</a>'
-                
             ])
-            ->add('observationVariableMethod', EntityType::class, [
+            ->add('observationVariableMethod', Datalist2Type::class, [
                 'class' => ObservationVariableMethod::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlObservationVariableMethod .'" target="_blank">Observation Variable Method</a>'
-                
             ])
         ;
     }

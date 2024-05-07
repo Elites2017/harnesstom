@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme storageTypeForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="storage_type_parentTerm_list" value="{{ form.vars.value }}" />
+    <datalist id="storage_type_parentTerm_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="storage_type[parentTerm]" id="storage_type_parentTerm_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
@@ -53,4 +67,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

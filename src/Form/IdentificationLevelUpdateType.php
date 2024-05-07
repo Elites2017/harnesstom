@@ -17,7 +17,12 @@ class IdentificationLevelUpdateType extends AbstractType
             ->add('ontology_id')
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '7')])
-            ->add('parentTerm')
+            ->add('parentTerm', DatalistType::class, [
+                'class' => IdentificationLevel::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',  
+            ])
         ;
     }
 

@@ -26,7 +26,7 @@ class ContactType extends AbstractType
 
         $builder
             ->add('orcid')
-            ->add('person', EntityType::class, [
+            ->add('person', Datalist1Type::class, [
                 'class' => Person::class,
                 'required' => true
             ])
@@ -45,7 +45,8 @@ class ContactType extends AbstractType
                     'Coordinator' => 'Coordinator',
                     'Adviser' => 'Adviser',
                     'Submitter' => 'Submitter'
-                ]
+                ],
+                'placeholder' => 'Select an option'
             ])
         ;
     }

@@ -29,7 +29,7 @@ class ContactUpdateType extends AbstractType
             ->add('orcid', TextType::class, [
                 'disabled' => true
             ])
-            ->add('person', EntityType::class, [
+            ->add('person', Datalist1Type::class, [
                 'class' => Person::class,
                 'required' => true
             ])
@@ -48,7 +48,8 @@ class ContactUpdateType extends AbstractType
                     'Coordinator' => 'Coordinator',
                     'Adviser' => 'Adviser',
                     'Submitter' => 'Submitter'
-                ]
+                ],
+                'placeholder' => 'Select an option'
             ])
         ;
     }

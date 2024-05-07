@@ -24,16 +24,25 @@ class ObservationValueOriginalUpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $toUrlObsLevel = $this->router->generate('observation_level_create');
+        $toUrlObsValue = $this->router->generate('observation_value_create');
+
         $builder
             ->add('value')
-            ->add('unitName', EntityType::class, [
+            ->add('unitName', DatalistType::class, [
                 'class' => ObservationLevel::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'unitname',
                 'query_builder' => $this->pubRelTrialService->getVisibleObservationLevels(),
                 'help' => 'Add a new <a href="' . $toUrlObsLevel .'" target="_blank">Observation Level</a>'
             ])
-            ->add('observationVariableOriginal')
+            ->add('observationVariableOriginal', Datalist1Type::class, [
+                'class' => ObservationValueOriginal::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'observationVariableOriginal',
+                'help' => 'Add a new <a href="' . $toUrlObsValue .'" target="_blank">Observation Value</a>'
+            ])
         ;
     }
 

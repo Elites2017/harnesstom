@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme observationVariableMethodForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="observation_variable_method_methodClass_list" value="{{ form.vars.value }}" />
+    <datalist id="observation_variable_method_methodClass_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="observation_variable_method[methodClass]" id="observation_variable_method_methodClass_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{ title }}
 {% endblock %}
@@ -112,8 +126,5 @@
 {% endblock %}
 
 {% block javascripts %}
-  <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-  <script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

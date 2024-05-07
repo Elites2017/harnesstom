@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme attributeCategoryForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="attribute_category_parentTerm_list" value="{{ form.vars.value }}" />
+    <datalist id="attribute_category_parentTerm_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="attribute_category[parentTerm]" id="attribute_category_parentTerm_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
@@ -51,4 +65,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

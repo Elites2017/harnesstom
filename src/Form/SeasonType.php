@@ -22,7 +22,12 @@ class SeasonType extends AbstractType
             ->add('ontology_id')
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '7')])
-            ->add('parentTerm')
+            ->add('parentTerm', DatalistType::class, [
+                'class' => Season::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',  
+            ])
         ;
     }
 

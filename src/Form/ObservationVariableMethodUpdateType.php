@@ -40,10 +40,11 @@ class ObservationVariableMethodUpdateType extends AbstractType
                 'label' => false,
                 'prototype_data' => ''
             ])
-            ->add('methodClass', EntityType::class, [
+            ->add('methodClass', DatalistType::class, [
                 'class' => MethodClass::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlMethodClass .'" target="_blank">Method Class</a>'
                 
             ])

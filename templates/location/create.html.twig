@@ -1,5 +1,20 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme locationForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
+    <datalist id="{{ form.vars.id }}_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+	<input type="hidden" name="location[country]" id="location_country_hidden">
+    </datalist>
+{% endblock %}
+
+
 {% block title %}
 	{{ title }}
 {% endblock %}
@@ -112,4 +127,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

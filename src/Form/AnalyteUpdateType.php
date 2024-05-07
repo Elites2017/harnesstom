@@ -35,42 +35,47 @@ class AnalyteUpdateType extends AbstractType
             ->add('analyteCode')
             ->add('retentionTime')
             ->add('massToChargeRatio')
-            ->add('annotationLevel', EntityType::class, [
+            ->add('annotationLevel', DatalistType::class, [
                 'class' => AnnotationLevel::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlAnnotationLevel .'" target="_blank">Annotation Level</a>'
                 
             ])
-            ->add('identificationLevel', EntityType::class, [
+            ->add('identificationLevel', Datalist1Type::class, [
                 'class' => IdentificationLevel::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlIdentificationLevel .'" target="_blank">Identification Level</a>'
                 
             ])
-            ->add('observationVariableMethod', EntityType::class, [
+            ->add('observationVariableMethod', Datalist2Type::class, [
                 'class' => ObservationVariableMethod::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlObservationVariableMethod .'" target="_blank">ObservationVariable Method</a>'
                 
             ])
-            ->add('metaboliteClass', EntityType::class, [
+            ->add('metaboliteClass', Datalist3Type::class, [
                 'class' => MetaboliteClass::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlMetaboliteClass .'" target="_blank">Metabolite Class</a>'
                 
             ])
-            ->add('healthAndFlavor', EntityType::class, [
+            ->add('healthAndFlavor', Datalist4Type::class, [
                 'class' => AnalyteFlavorHealth::class,
                 'help_html' => true,
                 'required' => false,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlHealthFlavor .'" target="_blank">Health & Flavor</a>'
                 
             ])

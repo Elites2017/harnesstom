@@ -1,5 +1,67 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme analyteForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="analyte_annotationLevel_list" value="{{ form.vars.value }}" />
+    <datalist id="analyte_annotationLevel_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="analyte[annotationLevel]" id="analyte_annotationLevel_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="analyte_identificationLevel_list" value="{{ form.vars.value }}" />
+    <datalist id="analyte_identificationLevel_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="analyte[identificationLevel]" id="analyte_identificationLevel_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="analyte_observationVariableMethod_list" value="{{ form.vars.value }}" />
+    <datalist id="analyte_observationVariableMethod_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="analyte[observationVariableMethod]" id="analyte_observationVariableMethod_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist3_widget %}
+    <input {{ block('widget_attributes') }} list="analyte_metaboliteClass_list" value="{{ form.vars.value }}" />
+    <datalist id="analyte_metaboliteClass_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="analyte[metaboliteClass]" id="analyte_metaboliteClass_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist4_widget %}
+    <input {{ block('widget_attributes') }} list="analyte_healthAndFlavor_list" value="{{ form.vars.value }}" />
+    <datalist id="analyte_healthAndFlavor_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="analyte[healthAndFlavor]" id="analyte_healthAndFlavor_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{ title }}
 {% endblock %}
@@ -139,4 +201,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

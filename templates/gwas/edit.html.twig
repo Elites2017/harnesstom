@@ -1,5 +1,115 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme gwasForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="gwas_thresholdMethod_list" value="{{ form.vars.value }}" />
+    <datalist id="gwas_thresholdMethod_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="gwas[thresholdMethod]" id="gwas_thresholdMethod_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="gwas_kinshipAlgorithm_list" value="{{ form.vars.value }}" />
+    <datalist id="gwas_kinshipAlgorithm_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="gwas[kinshipAlgorithm]" id="gwas_kinshipAlgorithm_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="gwas_geneticTestingModel_list" value="{{ form.vars.value }}" />
+    <datalist id="gwas_geneticTestingModel_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="gwas[geneticTestingModel]" id="gwas_geneticTestingModel_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist3_widget %}
+    <input {{ block('widget_attributes') }} list="gwas_gwasModel_list" value="{{ form.vars.value }}" />
+    <datalist id="gwas_gwasModel_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="gwas[gwasModel]" id="gwas_gwasModel_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist4_widget %}
+    <input {{ block('widget_attributes') }} list="gwas_structureMethod_list" value="{{ form.vars.value }}" />
+    <datalist id="gwas_structureMethod_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="gwas[structureMethod]" id="gwas_structureMethod_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist5_widget %}
+    <input {{ block('widget_attributes') }} list="gwas_allelicEffectEstimator_list" value="{{ form.vars.value }}" />
+    <datalist id="gwas_allelicEffectEstimator_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="gwas[allelicEffectEstimator]" id="gwas_allelicEffectEstimator_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist6_widget %}
+    <input {{ block('widget_attributes') }} list="gwas_variantSetMetadata_list" value="{{ form.vars.value }}" />
+    <datalist id="gwas_variantSetMetadata_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="gwas[variantSetMetadata]" id="gwas_variantSetMetadata_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist7_widget %}
+    <input {{ block('widget_attributes') }} list="gwas_software_list" value="{{ form.vars.value }}" />
+    <datalist id="gwas_software_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="gwas[software]" id="gwas_software_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist8_widget %}
+    <input {{ block('widget_attributes') }} list="gwas_gwasStatTest_list" value="{{ form.vars.value }}" />
+    <datalist id="gwas_gwasStatTest_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="gwas[gwasStatTest]" id="gwas_gwasStatTest_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}
 	{{title}}
 {% endblock %}
@@ -131,9 +241,5 @@
 {% endblock %}
 
 {% block javascripts %}
-  <script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap4-toggle.min.js') }}"></script>
-  <script src="{{ asset('assets/js/add-remove-collection-tag-widget.js') }}"></script>
-  <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}
-

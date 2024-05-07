@@ -57,39 +57,38 @@ class GWASVariantType extends AbstractType
                 'placeholder' => '',
                 'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlMarker .'" target="_blank">Marker</a>'
-                
-            ])
-            ->add('metabolite', EntityType::class, [
+                ])
+            ->add('metabolite', Datalist1Type::class, [
                 'class' => Metabolite::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlMetabolite .'" target="_blank">Metabolite</a>'
-                
-            ])
-            ->add('gwas', EntityType::class, [
+                ])
+            ->add('gwas', Datalist2Type::class, [
                 'class' => GWAS::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlGwas .'" target="_blank">GWAS</a>'
-                
-            ])
-            ->add('traitPreprocessing', EntityType::class, [
+                ])
+            ->add('traitPreprocessing', Datalist3Type::class, [
                 'class' => TraitProcessing::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlTraitPreprocessing .'" target="_blank">Trait Preprocessing</a>'
-                
-            ])
-            ->add('observationVariable', EntityType::class, [
+                ])
+            ->add('observationVariable', Datalist4Type::class, [
                 'class' => ObservationVariable::class,
                 'help_html' => true,
                 'placeholder' => '',
                 'required' => false,
+                'choice_value' => 'name',
                 'help' => 'Add a new <a href="' . $toUrlObservationVariable .'" target="_blank">Observation Variable</a>'
-                
-            ])
+                ])
             ->add(
                 'typeOfData', 
                 ChoiceType::class, 

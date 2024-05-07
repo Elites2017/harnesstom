@@ -3,14 +3,38 @@
 {% form_theme variantSetForm _self %}
 
 {% block datalist_widget %}
-    <input {{ block('widget_attributes') }} list="{{ form.vars.id }}_list" value="{{ form.vars.value }}" />
-    <datalist id="{{ form.vars.id }}_list">
+    <input {{ block('widget_attributes') }} list="variant_set_sample_list" value="{{ form.vars.value }}" />
+    <datalist id="variant_set_sample_list">
         {% for choice in choices %}
             <option data-value="{{ choice.value }}">
                 {{ choice.label }}
             </option>
         {% endfor %}
-	<input type="hidden" name={{ form.vars.full_name }} id="{{ form.vars.id }}_hidden">
+    <input type="hidden" name="variant_set[sample]" id="variant_set_sample_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist1_widget %}
+    <input {{ block('widget_attributes') }} list="variant_set_marker_list" value="{{ form.vars.value }}" />
+    <datalist id="variant_set_marker_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="variant_set[marker]" id="variant_set_marker_hidden">
+    </datalist>
+{% endblock %}
+
+{% block datalist2_widget %}
+    <input {{ block('widget_attributes') }} list="variant_set_variantSetMetadata_list" value="{{ form.vars.value }}" />
+    <datalist id="variant_set_variantSetMetadata_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="variant_set[variantSetMetadata]" id="variant_set_variantSetMetadata_hidden">
     </datalist>
 {% endblock %}
 
@@ -98,11 +122,5 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('assets/nl/vendor/jquery/jquery.min.js') }}"></script>
-	<script src="{{ asset('assets/js/jquery-3.5.1.js') }}"></script>
-	<script src="{{ asset('assets/nl/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-	<!-- Custom scripts for all pages-->
-	<script src="{{ asset('assets/nl/js/sb-admin-2.min.js') }}"></script>
-	<script src="{{ asset('assets/nl/js/jquery-match-height-0.7.2.min.js') }}"></script>
-	<script src="{{ asset('assets/js/datalist_widget.js') }}"></script>
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}

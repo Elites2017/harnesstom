@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Entity\AnatomicalEntity;
+use App\Entity\DevelopmentalStage;
 use App\Entity\Germplasm;
 use App\Entity\ObservationLevel;
 use App\Entity\Sample;
@@ -30,6 +32,8 @@ class SampleUpdateType extends AbstractType
         $toUrlStudy = $this->router->generate('study_create');
         $toUrlObsLevel = $this->router->generate('observation_level_create');
         $toUrlGermplasm = $this->router->generate('germplasm_create');
+        $toUrlAnatomicalEntity = $this->router->generate('anatomical_entity_create');
+        $toUrlDevelopmentalStage = $this->router->generate('developmental_stage_create');
 
         $builder
             ->add('name')
@@ -37,26 +41,41 @@ class SampleUpdateType extends AbstractType
             ->add('description', TextareaType::class, [
                 'attr' => array('cols' => '5', 'rows' => '7'),
                 'required' => false])
-            ->add('study', EntityType::class, [
+            ->add('study', DatalistType::class, [
                 'class' => Study::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'name',
                 'query_builder' => $this->pubRelTrialService->getVisibleStudies(),
                 'help' => 'Add a new <a href="' . $toUrlStudy .'" target="_blank">Study</a>'
             ])
-            ->add('germplasm', EntityType::class, [
+            ->add('germplasm', Datalist1Type::class, [
                 'class' => Germplasm::class,
                 'help_html' => true,
                 'placeholder' => '',
+                'choice_value' => 'germplasmID',
                 'help' => 'Add a new <a href="' . $toUrlGermplasm .'" target="_blank">Germplasm</a>'
             ])
-            ->add('developmentalStage')
-            ->add('anatomicalEntity')
-            ->add('observationLevel', EntityType::class, [
+            ->add('anatomicalEntity', Datalist2Type::class, [
+                'class' => AnatomicalEntity::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlAnatomicalEntity .'" target="_blank">Anatomical Entity</a>'
+            ])
+            ->add('developmentalStage', Datalist3Type::class, [
+                'class' => DevelopmentalStage::class,
+                'help_html' => true,
+                'placeholder' => '',
+                'choice_value' => 'name',
+                'help' => 'Add a new <a href="' . $toUrlDevelopmentalStage .'" target="_blank">Experimental Design Type</a>'
+                
+            ])
+            ->add('observationLevel', Datalist4Type::class, [
                 'class' => ObservationLevel::class,
                 'help_html' => true,
                 'placeholder' => '',
-                'required' => false,
+                'choice_value' => 'unitname',
                 'query_builder' => $this->pubRelTrialService->getVisibleObservationLevels(),
                 'help' => 'Add a new <a href="' . $toUrlObsLevel .'" target="_blank">Observation Level</a>'
             ])
