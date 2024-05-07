@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme kinshipAlgorithmForm _self %}
+
+{% block datalist_widget %}
+    <input {{ block('widget_attributes') }} list="kinship_algorithm_parentTerm_list" value="{{ form.vars.value }}" />
+    <datalist id="kinship_algorithm_parentTerm_list">
+        {% for choice in choices %}
+            <option data-value="{{ choice.value }}">
+                {{ choice.label }}
+            </option>
+        {% endfor %}
+    <input type="hidden" name="kinship_algorithm[parentTerm]" id="kinship_algorithm_parentTerm_hidden">
+    </datalist>
+{% endblock %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
@@ -54,4 +68,8 @@
 		<!-- .row -->
 	</div>
 	<!-- .container -->
+{% endblock %}
+
+{% block javascripts %}
+    {% include 'resource/create_edit_js.html.twig' %}
 {% endblock %}
