@@ -709,26 +709,26 @@
                                             </li>
 
                                             <li class="list-group-item">
-                                                <a href="http://www.w3schools.com/html/movie.mp4">
-                                                    3 School Movie
+                                                <a href="{{ asset('assets/videos/tutorials/harnesstom_user_how_to_register.mp4') }}">
+                                                    How to register
                                                 </a>
                                             </li>
 
                                             <li class="list-group-item">
-                                                <a href="http://www.w3schools.com/html/mov_bbb.mp4">
-                                                    Mov 3B
+                                                <a href="{{ asset('assets/videos/tutorials/harnesstom_user_how_to_login.mp4') }}">
+                                                    How to login
                                                 </a>
                                             </li>
 
                                             <li class="list-group-item">
-                                                <a href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
-                                                    ElephantsDream
+                                                <a href="{{ asset('assets/videos/tutorials/harnesstom_user_how_to_change_password.mp4') }}">
+                                                    How to change your password
                                                 </a>
                                             </li>
 
                                             <li class="list-group-item">
-                                                <a href="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4">
-                                                    ForBiggerBlazes
+                                                <a href="{{ asset('assets/videos/tutorials/harnesstom_user_how_to_logout.mp4') }}">
+                                                    How to logout
                                                 </a>
                                             </li>
                                         </ul>
@@ -1074,9 +1074,10 @@
     <script>
         var myVids = [
             "{{ asset('assets/videos/tutorials/harnesstom_user_intro_tutorial.mp4') }}",
-            "http://www.w3schools.com/html/movie.mp4","http://www.w3schools.com/html/mov_bbb.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+            "{{ asset('assets/videos/tutorials/harnesstom_user_how_to_register.mp4') }}",
+            "{{ asset('assets/videos/tutorials/harnesstom_user_how_to_login.mp4') }}",
+            "{{ asset('assets/videos/tutorials/harnesstom_user_how_to_change_password.mp4') }}",
+            "{{ asset('assets/videos/tutorials/harnesstom_user_how_to_logout.mp4') }}"
             ];
 
         var i = 0;
