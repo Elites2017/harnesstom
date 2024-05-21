@@ -702,35 +702,7 @@
 
                                     <div class="col-xl-4 col-lg-3">
                                         <ul id="playlist" class="list-group-flush video_list_scroll_bar">
-                                            <li class="list-group-item">
-                                                <a href="{{ asset('assets/videos/tutorials/harnesstom_user_intro_tutorial.mp4') }}">
-                                                    Introduction to HarnessTom
-                                                </a>
-                                            </li>
-
-                                            <li class="list-group-item">
-                                                <a href="{{ asset('assets/videos/tutorials/harnesstom_user_how_to_register.mp4') }}">
-                                                    How to register
-                                                </a>
-                                            </li>
-
-                                            <li class="list-group-item">
-                                                <a href="{{ asset('assets/videos/tutorials/harnesstom_user_how_to_login.mp4') }}">
-                                                    How to login
-                                                </a>
-                                            </li>
-
-                                            <li class="list-group-item">
-                                                <a href="{{ asset('assets/videos/tutorials/harnesstom_user_how_to_change_password.mp4') }}">
-                                                    How to change your password
-                                                </a>
-                                            </li>
-
-                                            <li class="list-group-item">
-                                                <a href="{{ asset('assets/videos/tutorials/harnesstom_user_how_to_logout.mp4') }}">
-                                                    How to logout
-                                                </a>
-                                            </li>
+                                            
                                         </ul>
                                     </div>
                                 </div>
@@ -1072,6 +1044,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0-rc"></script>
 
     <script>
+        // to be called in the title of the li
+        var vidTitles = [
+            "Introduction to HarnessTom",
+            "How to register",
+            "How to login",
+            "How to change your password",
+            "How to logout"
+        ];
+
         var myVids = [
             "{{ asset('assets/videos/tutorials/harnesstom_user_intro_tutorial.mp4') }}",
             "{{ asset('assets/videos/tutorials/harnesstom_user_how_to_register.mp4') }}",
@@ -1080,71 +1061,113 @@
             "{{ asset('assets/videos/tutorials/harnesstom_user_how_to_logout.mp4') }}"
             ];
 
-        var i = 0;
-        var prevBtn = document.getElementById('prev');
-        var nextBtn = document.getElementById('next');
-        var videoPlayer = document.getElementById('videoPlayer');
-        videoPlayer.src = myVids[0]+"#t=0.7";
-
-        // for the ul li playlist. start of the ul li playlist tracks
-        var playlist = document.getElementById("playlist");
-        // get the tracks
-        var tracks = playlist.getElementsByTagName('a');
-        // have a loop on all the tracks to listen to the clicked one
-        Array.from(tracks).forEach((track, index) => {
-            track.addEventListener('click', function(e){
-                e.preventDefault();
-                // clicked source
-                videoPlayer.src = this.getAttribute('href');
-                videoPlayer.play();
-                i = index;
-            });
-        });
-        // end of the ul li playlist tracks
-
-        videoPlayer.onended = function(){
-            videoPlayer.src = myVids[i+1];
-            videoPlayer.play();
-            i++;
-            if (i >= myVids.length) {
-            i = 0;
-            videoPlayer.src = myVids[i];
-            videoPlayer.play();
-            i++;
-            }  
+        function fillPlaylist() {
+            var ulPlaylist = document.getElementById("playlist");
+            for (i = 0; i < myVids.length; i++) {
+                var li = document.createElement("li");
+                $(li).addClass('list-group-item');
+                li.innerHTML = '<a href='+myVids[i]+'>'+vidTitles[i]+'</a>';
+                ulPlaylist.appendChild(li);
+            }
+            
         }
 
-        // prev button 
-        prevBtn.addEventListener('click',function(){
-            if (i <= 0) {
-            videoPlayer.src = myVids[myVids.length-1];
-            videoPlayer.play();
-            i = myVids.length-1;
-            } 
-            else {
-            videoPlayer.src = myVids[i-1];
-            videoPlayer.play();
-            i--;
+        fillPlaylist();
+
+        function mediaPlayer() {
+            var i = 0;
+            var prevBtn = document.getElementById('prev');
+            var nextBtn = document.getElementById('next');
+            var videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = myVids[0]+"#t=0.7";
+
+            // for the ul li playlist. start of the ul li playlist tracks
+            var playlist = document.getElementById("playlist");
+            // get the tracks
+            var tracks = playlist.getElementsByTagName('a');
+            // have a loop on all the tracks to listen to the clicked one
+            Array.from(tracks).forEach((track, index) => {
+                track.addEventListener('click', function(e){
+                    e.preventDefault();
+                    // clicked source
+                    videoPlayer.src = this.getAttribute('href');
+                    // add a catch in case the play return an error
+                    videoPlayer.play().catch((e) => {
+                    /* error handler */
+                    })
+                    i = index;
+                });
+            });
+            // end of the ul li playlist tracks
+
+            videoPlayer.onended = function(){
+                videoPlayer.src = myVids[i+1];
+                // add a catch in case the play return an error
+                videoPlayer.play().catch((e) => {
+                    /* error handler */
+                    })
+                i++;
+                if (i >= myVids.length) {
+                i = 0;
+                videoPlayer.src = myVids[i];
+                // add a catch in case the play return an error
+                videoPlayer.play().catch((e) => {
+                    /* error handler */
+                    })
+                i++;
+                }  
             }
-        },false);
+
+            // prev button 
+            prevBtn.addEventListener('click',function(){
+                if (i <= 0) {
+                videoPlayer.src = myVids[myVids.length-1];
+                // add a catch in case the play return an error
+                videoPlayer.play().catch((e) => {
+                    /* error handler */
+                    })
+                i = myVids.length-1;
+                } 
+                else {
+                videoPlayer.src = myVids[i-1];
+                // add a catch in case the play return an error
+                videoPlayer.play().catch((e) => {
+                    /* error handler */
+                    })
+                i--;
+                }
+            },false);
+            
+            // next button 
+            nextBtn.addEventListener('click',function(){
+                if (i >= myVids.length) {
+                videoPlayer.src = myVids[1];
+                // add a catch in case the play return an error
+                videoPlayer.play().catch((e) => {
+                    /* error handler */
+                    })
+                i = 1;
+                } else if (i + 1 == myVids.length) {
+                videoPlayer.src = myVids[0];
+                // add a catch in case the play return an error
+                videoPlayer.play().catch((e) => {
+                    /* error handler */
+                    })
+                i++;
+                }
+                else {
+                videoPlayer.src = myVids[i+1];
+                // add a catch in case the play return an error
+                videoPlayer.play().catch((e) => {
+                    /* error handler */
+                    })
+                i++;
+                }
+            },false);
+        }
+
+        mediaPlayer();
         
-        // next button 
-        nextBtn.addEventListener('click',function(){
-            if (i >= myVids.length) {
-            videoPlayer.src = myVids[1];
-            videoPlayer.play();
-            i = 1;
-            } else if (i + 1 == myVids.length) {
-            videoPlayer.src = myVids[0];
-            videoPlayer.play();
-            i++;
-            }
-            else {
-            videoPlayer.src = myVids[i+1];
-            videoPlayer.play();
-            i++;
-            }
-        },false);
     </script>
     
       
