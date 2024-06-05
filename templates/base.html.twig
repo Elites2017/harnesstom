@@ -25,12 +25,6 @@
 			<link href="{{ asset('assets/css/custom_dropdown.css') }}" rel="stylesheet">
 			<link href="{{ asset('assets/css/animate.min.css') }}" rel="stylesheet" />
 			
-			{% if not app.user %}
-				<!-- Guided Tour LH-->
-				<link href="{{ asset('guidedtour/dist/css/hopscotch.min.css') }}" rel="stylesheet"></link>
-				<link href="{{ asset('guidedtour/css/flat-ui.css') }}" rel="stylesheet"></link>
-				<link href="{{ asset('guidedtour/css/demo.css') }}" rel="stylesheet"></link>
-			{% endif %}
 		{% endblock %}
 
 		<style>
@@ -2216,9 +2210,6 @@
 						</nav>
 						</h6>
 
-						{% if app.request.attributes.get('_route') == 'app_home' and not app.user %}
-							<p class="text-center"><button id="startTourBtn" class="btn btn-large btn-info">Take a tour</button></p>
-						{% endif %}
 						<!-- nav end -->
 					</div>
 					<!-- Navbar Content Wrapper -->
@@ -2734,14 +2725,6 @@
 				const div = d3.selectAll("div");
 
 			</script>
-
-
-			{% if not app.user %}
-				<!-- Guided Tour LH  -->
-				<script src="{{ asset('guidedtour/js/jquery-1.10.2.js') }}"></script>
-				<script src="{{ asset('guidedtour/dist/js/hopscotch.js') }}"></script>
-				<script src="{{ asset('guidedtour/js/demo.js') }}"></script>
-			{% endif %}
 		{% endblock %}
 	</body>
 </html>
