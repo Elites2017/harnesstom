@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="tree.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" id="theme" rel="stylesheet">
+
+  <title>BS5 Tree</title>
+</head>
+
+<body>
+    <div class="tree well">
+    <ul>
+        <li>
+            <span>  <input type="checkbox" id="test1" name="test1">  Parent</span> 
+            <ul>
+                <li>
+                	<span><input type="checkbox" id="test2" name="test2"> Child</span> 
+                    <ul>
+                        <li>
+	                        <span><input type="checkbox" id="test3" name="test3"> Grand Child</span> 
+                          <ul>
+                        <li>
+	                        <span><input type="checkbox" id="test3" name="test3"> Grand Grand Child</span> 
+                           <ul>
+                        <li>
+	                        <span><input type="checkbox" id="test3" name="test3"> Grand Grand Grand Child</span> 
+                        </li>
+                    </ul>
+                        </li>
+                    </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                	<span><input type="checkbox" id="test4" name="test4"> Child</span> 
+                    <ul>
+                        <li>
+	                        <span><input type="checkbox" id="test4" name="test4"> Grand Child</span> 
+                        </li>
+                        <li>
+                        	<span><input type="checkbox" id="test5" name="test5">Grand Child</span> 
+                            <ul>
+                                <li>
+	                                <span><input type="checkbox" id="test6" name="test6"> Great Grand Child</span> 
+		                            <ul>
+		                                <li>
+			                                <span><input type="checkbox" id="test7" name="test7">Great great Grand Child</span> 
+		                                </li>
+		                                <li>
+			                                <span><input type="checkbox" id="test8" name="test8"> Great great Grand Child</span> 
+		                                </li>
+		                             </ul>
+                                </li>
+                                <li>
+	                                <span><input type="checkbox" id="test9" name="test9">Great Grand Child</span> 
+                                </li>
+                                <li>
+	                                <span><input type="checkbox" id="test10" name="test10"> Great Grand Child</span> 
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+	                        <span><input type="checkbox" id="test11" name="test11"> Grand Child</span> 
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <span><input type="checkbox" id="test12" name="test12"> Parent2</span> 
+            <ul>
+                <li>
+                	<span><input type="checkbox" id="test13" name="test13"> Child</span> 
+		        </li>
+		    </ul>
+        </li>
+    </ul>
+</div>
+  <script src="tree.js"></script>
+  
+
+</body>
+
+</html>
+
