@@ -26,9 +26,36 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class DownloadExperimentalDataController extends AbstractController
 {
     private $progRepo;
+    private $trialRepo;
+    private $studyRepo;
 
-    public function __construct(ProgramRepository $progRepo) {
+    public function __construct(ProgramRepository $progRepo, TrialRepository $trialRepo, StudyRepository $studyRepo) {
         $this->progRepo = $progRepo;
+        $this->trialRepo = $trialRepo;
+        $this->studyRepo = $studyRepo;
+    }
+
+    // to fill the cell
+    public function cellFilling($objColValues, $objectSheet) {
+        $i = 2; // Beginning row for active sheet
+        foreach ($objColValues as $columnValue) {
+            $columnLetter = 'A';
+            foreach ($columnValue as $value) {
+                $objectSheet->setCellValue($columnLetter.$i, $value);
+                $columnLetter++;
+            }
+            $i++;
+        }
+    }
+
+    // to allow access to extra columns like AA column in needed
+    public function allowExtraColumn($objectColumnNames, $objectSheet) {
+        $columnLetter = 'A';
+        foreach ($objectColumnNames as $columnName) {
+            // Allow to access AA column if needed and more
+            $objectSheet->setCellValue($columnLetter.'1', $columnName);
+            $columnLetter++;
+        }
     }
 
     protected function createSpreadsheet()
@@ -46,76 +73,72 @@ class DownloadExperimentalDataController extends AbstractController
         //$programsSheet->setCellValue('A1', 'Browser characteristics')->mergeCells('A1:D1');
 
         // Set column names for 
-        $columnNames = [
-            'Program DBID',
+        $progColumnNames = [
             'Program Name',
             'Program Abbreviation',
             'Program Objective',
             'Program External Reference',
         ];
 
-        $columnLetter = 'A';
-        foreach ($columnNames as $columnName) {
-            // Allow to access AA column if needed and more
-            $programsSheet->setCellValue($columnLetter.'1', $columnName);
-            $columnLetter++;
-        }
+        // Allow extra columns call
+        $this->allowExtraColumn($progColumnNames, $programsSheet);
 
         // Add data for each column
         $progColValues = [];
         foreach ($programs as $key => $oneProg) {
             # code...
-            $progColValues [] = [$oneProg->getId(), $oneProg->getName(), $oneProg->getAbbreviation(), $oneProg->getObjective(), $oneProg->getExternalRef()]; 
+            $progColValues [] = [$oneProg->getName(), $oneProg->getAbbreviation(), $oneProg->getObjective(), $oneProg->getExternalRef()]; 
         }
         
-        $i = 2; // Beginning row for active sheet
-        foreach ($progColValues as $columnValue) {
-            $columnLetter = 'A';
-            foreach ($columnValue as $value) {
-                $programsSheet->setCellValue($columnLetter.$i, $value);
-                $columnLetter++;
-            }
-            $i++;
-        }
+        // cell filling program sheet call
+        $this->cellFilling($progColValues, $programsSheet);
 
-        // sheet 1
+        
+        // get the trials
+        $trials = $this->trialRepo->findAll();
+        // sheet 2
         $trialsSheet = $spreadsheet->createSheet(1)->setTitle("Trials");
 
-        // Set cell name and merge cells
-        //$trialsSheet->setCellValue('A1', 'Browser characteristics')->mergeCells('A1:D1');
-
         // Set column names for 
-        $columnNames = [
-            'Program DBID',
-            'Program Name',
-            'Program Abbreviation',
-            'Program Objective',
-            'Program External Reference',
+        $trialsColumnNames = [
+            'Trial Name',
+            'Trial Description',
+            'Trial Abbreviation',
+            'Trial Start Date',
+            'Trial End Date',
+            'Trial Public Release Date',
+            'Trial License',
+            'Trial PUI',
+            'Trial Publication Reference',
+            'Program Associated Name'
         ];
 
-        $columnLetter = 'A';
-        foreach ($columnNames as $columnName) {
-            // Allow to access AA column if needed and more
-            $trialsSheet->setCellValue($columnLetter.'2', $columnName);
-            $columnLetter++;
-        }
+        // Allow extra columns call
+        $this->allowExtraColumn($trialsColumnNames, $trialsSheet);
 
         // Add data for each column
-        $progColValues = [];
-        foreach ($programs as $key => $oneProg) {
+        $trialsColValues = [];
+        foreach ($trials as $key => $oneTrial) {
             # code...
-            $progColValues [] = [$oneProg->getId(), $oneProg->getName(), $oneProg->getAbbreviation(), $oneProg->getObjective(), $oneProg->getExternalRef()]; 
+            $trialsColValues [] = [
+                $oneTrial->getName(),
+                $oneTrial->getDescription(),
+                $oneTrial->getAbbreviation(),
+                $oneTrial->getStartDate(),
+                $oneTrial->getEndDate(),
+                $oneTrial->getPublicReleaseDate(),
+                $oneTrial->getLicense(),
+                $oneTrial->getPui(),
+                $oneTrial->getPublicationReference() ? $oneTrial->getPublicationReference()[0] : '',
+                $oneTrial->getProgram() ? $oneTrial->getProgram()->getAbbreviation() : ''
+            ]; 
         }
+
+        // cell filling trials sheet call
+        $this->cellFilling($trialsColValues, $trialsSheet);
+
+
         
-        $i = 3; // Beginning row for active sheet
-        foreach ($progColValues as $columnValue) {
-            $columnLetter = 'A';
-            foreach ($columnValue as $value) {
-                $trialsSheet->setCellValue($columnLetter.$i, $value);
-                $columnLetter++;
-            }
-            $i++;
-        }
 
         return $spreadsheet;
     }
