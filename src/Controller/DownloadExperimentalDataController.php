@@ -28,11 +28,14 @@ class DownloadExperimentalDataController extends AbstractController
     private $progRepo;
     private $trialRepo;
     private $studyRepo;
+    private $sampleRepo;
 
-    public function __construct(ProgramRepository $progRepo, TrialRepository $trialRepo, StudyRepository $studyRepo) {
+    public function __construct(ProgramRepository $progRepo, TrialRepository $trialRepo,
+                                StudyRepository $studyRepo, SampleRepository $sampleRepo) {
         $this->progRepo = $progRepo;
         $this->trialRepo = $trialRepo;
         $this->studyRepo = $studyRepo;
+        $this->sampleRepo = $sampleRepo;
     }
 
     // to fill the cell
@@ -110,7 +113,7 @@ class DownloadExperimentalDataController extends AbstractController
             'Trial License',
             'Trial PUI',
             'Trial Publication Reference',
-            'Program Associated Name'
+            'Program Associated Abbreviation'
         ];
 
         // Allow extra columns call
@@ -152,7 +155,7 @@ class DownloadExperimentalDataController extends AbstractController
             'Study End Date',
             'Study Cultural Practice',
             'Study Last Updated',
-            'Trial Associated Name',
+            'Trial Associated Abbreviation',
             'Factor Associated Name',
             'Season Associated Name',
             'Institute Associated Name',
@@ -174,7 +177,6 @@ class DownloadExperimentalDataController extends AbstractController
                 $oneStudy->getDescription(),
                 $oneStudy->getStartDate(),
                 $oneStudy->getEndDate(),
-                $oneStudy->getEndDate(),
                 $oneStudy->getCulturalPractice(),
                 $oneStudy->getLastUpdated(),
                 $oneStudy->getTrial() ? $oneStudy->getTrial()->getAbbreviation() : '',
@@ -189,6 +191,48 @@ class DownloadExperimentalDataController extends AbstractController
         
         // cell filling program sheet call
         $this->cellFilling($studiesColValues, $studiesSheet);
+
+
+        // get the samples
+        $samples = $this->sampleRepo->findAll();
+        // sheet 4
+        $samplesSheet = $spreadsheet->createSheet(3)->setTitle("Samples");
+
+        // Set column names for 
+        $samplesColumnNames = [
+            'Sample Name',
+            'Sample Replicate',
+            'Sample Description',
+            'Sample Last Updated',
+            'Study Associated Abbreviation',
+            'Germplasm Associated Name',
+            'Developmental Stage Associated Name',
+            'Anatomical Entity Associated Name',
+            'Observation Level Associated Name'
+        ];
+
+        // Allow extra columns call
+        $this->allowExtraColumn($samplesColumnNames, $samplesSheet);
+
+        // Add data for each column
+        $samplesColValues = [];
+        foreach ($samples as $key => $oneSample) {
+            # code...
+            $samplesColValues [] = [
+                $oneSample->getName(),
+                $oneSample->getReplicate(),
+                $oneSample->getDescription(),
+                $oneSample->getLastUpdated(),
+                $oneSample->getStudy() ? $oneSample->getStudy()->getAbbreviation() : '',
+                $oneSample->getGermplasm() ? $oneSample->getGermplasm()->getGermplasmName() : '',
+                $oneSample->getDevelopmentalStage() ? $oneSample->getDevelopmentalStage()->getName() : '',
+                $oneSample->getAnatomicalEntity() ? $oneSample->getAnatomicalEntity()->getName() : '',
+                $oneSample->getObservationLevel() ? $oneSample->getObservationLevel()->getName() : ''
+            ]; 
+        }
+        
+        // cell filling program sheet call
+        $this->cellFilling($samplesColValues, $samplesSheet);
 
         return $spreadsheet;
     }
