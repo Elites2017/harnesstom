@@ -29,13 +29,16 @@ class DownloadExperimentalDataController extends AbstractController
     private $trialRepo;
     private $studyRepo;
     private $sampleRepo;
+    private $observationLevelRepo;
 
     public function __construct(ProgramRepository $progRepo, TrialRepository $trialRepo,
-                                StudyRepository $studyRepo, SampleRepository $sampleRepo) {
+                                StudyRepository $studyRepo, SampleRepository $sampleRepo,
+                                ObservationLevelRepository $observationLevelRepo) {
         $this->progRepo = $progRepo;
         $this->trialRepo = $trialRepo;
         $this->studyRepo = $studyRepo;
         $this->sampleRepo = $sampleRepo;
+        $this->observationLevelRepo = $observationLevelRepo;
     }
 
     // to fill the cell
@@ -231,8 +234,62 @@ class DownloadExperimentalDataController extends AbstractController
             ]; 
         }
         
-        // cell filling program sheet call
+        // cell filling sample sheet call
         $this->cellFilling($samplesColValues, $samplesSheet);
+
+        
+        // get the observation levels
+        $observationLevels = $this->observationLevelRepo->findAll();
+        // sheet 5
+        $observationLevelsSheet = $spreadsheet->createSheet(4)->setTitle("Observation Levels");
+
+        // Set column names for 
+        $observationLevelsColumnNames = [
+            'Observation Level Unitname',
+            'Observation Level Name',
+            'Observation Level Block Number',
+            'Observation Level Sub Block Number',
+            'Observation Level Plot Number',
+            'Observation Level Plant Number',
+            'Observation Level Replicate',
+            'Observation Level Unit Position',
+            'Observation Level Coordinate X',
+            'Observation Level Coordinate Y',
+            'Observation Level Coordinate X Type',
+            'Observation Level Coordinate Y Type',
+            'Observation Level Last Updated',
+            'Germplasm Associated Name',
+            'Study Associated Abbreviation'
+        ];
+
+        // Allow extra columns call
+        $this->allowExtraColumn($observationLevelsColumnNames, $observationLevelsSheet);
+
+        // Add data for each column
+        $observationLevelsColValues = [];
+        foreach ($observationLevels as $key => $oneSample) {
+            # code...
+            $observationLevelsColValues [] = [
+                $oneSample->getUnitname(),
+                $oneSample->getName(),
+                $oneSample->getBlockNumber(),
+                $oneSample->getSubBlockNumber(),
+                $oneSample->getPlotNumber(),
+                $oneSample->getPlantNumber(),
+                $oneSample->getReplicate(),
+                $oneSample->getUnitPosition(),
+                $oneSample->getUnitCoordinateX(),
+                $oneSample->getUnitCoordinateY(),
+                $oneSample->getUnitCoordinateXType(),
+                $oneSample->getUnitCoordinateYType(),
+                $oneSample->getLastUpdated(),
+                $oneSample->getStudy() ? $oneSample->getStudy()->getAbbreviation() : '',
+                $oneSample->getGermplasm() ? $oneSample->getGermplasm()->getGermplasmName() : ''
+            ]; 
+        }
+        
+        // cell filling sample sheet call
+        $this->cellFilling($observationLevelsColValues, $observationLevelsSheet);
 
         return $spreadsheet;
     }
