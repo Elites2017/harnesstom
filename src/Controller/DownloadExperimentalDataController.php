@@ -138,7 +138,57 @@ class DownloadExperimentalDataController extends AbstractController
         $this->cellFilling($trialsColValues, $trialsSheet);
 
 
+        // get the studies
+        $studies = $this->studyRepo->findAll();
+        // sheet 3
+        $studiesSheet = $spreadsheet->createSheet(2)->setTitle("Studies");
+
+        // Set column names for 
+        $studiesColumnNames = [
+            'Study Name',
+            'Study Abbreviation',
+            'Study Description',
+            'Study Start Date',
+            'Study End Date',
+            'Study Cultural Practice',
+            'Study Last Updated',
+            'Trial Associated Name',
+            'Factor Associated Name',
+            'Season Associated Name',
+            'Institute Associated Name',
+            'Location Associated Name',
+            'Growth Facility Associated Name',
+            'Experimental Design Type Associated Name'
+        ];
+
+        // Allow extra columns call
+        $this->allowExtraColumn($studiesColumnNames, $studiesSheet);
+
+        // Add data for each column
+        $studiesColValues = [];
+        foreach ($studies as $key => $oneStudy) {
+            # code...
+            $studiesColValues [] = [
+                $oneStudy->getName(),
+                $oneStudy->getAbbreviation(),
+                $oneStudy->getDescription(),
+                $oneStudy->getStartDate(),
+                $oneStudy->getEndDate(),
+                $oneStudy->getEndDate(),
+                $oneStudy->getCulturalPractice(),
+                $oneStudy->getLastUpdated(),
+                $oneStudy->getTrial() ? $oneStudy->getTrial()->getAbbreviation() : '',
+                $oneStudy->getFactor() ? $oneStudy->getFactor()->getName() : '',
+                $oneStudy->getSeason() ? $oneStudy->getSeason()->getName() : '',
+                $oneStudy->getInstitute() ? $oneStudy->getInstitute()->getName() : '',
+                $oneStudy->getLocation() ? $oneStudy->getLocation()->getName() : '',
+                $oneStudy->getGrowthFacility() ? $oneStudy->getGrowthFacility()->getName() : '',
+                $oneStudy->getExperimentalDesignType() ? $oneStudy->getExperimentalDesignType()->getName() : '',
+            ]; 
+        }
         
+        // cell filling program sheet call
+        $this->cellFilling($studiesColValues, $studiesSheet);
 
         return $spreadsheet;
     }
