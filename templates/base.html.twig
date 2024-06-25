@@ -364,7 +364,7 @@
 					<div id="collapseDownload" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
 							<h6 class="collapse-header">Data:</h6>
-							<a class="collapse-item" href="{{ path('download_data_index') }}">Experimental</a>
+							<a class="collapse-item" href="{{ path('download_experimental_data_index') }}">Experimental</a>
 							<a class="collapse-item" href="#">Germplasm</a>
 							<a class="collapse-item" href="#">Phenotyping</a>
 							<a class="collapse-item" href="#">Genotyping</a>
@@ -566,10 +566,41 @@
 														</li>
 													</ul>
 												</li>
+
 												<li>
 													<a class="dropdown-item" href="#">
 														Download &raquo;
 													</a>
+													<ul class="dropdown-menu dropdown-submenu">
+														<li>
+															<a class="dropdown-item" href="">Data &raquo;</a>
+															<ul class="dropdown-menu dropdown-submenu">
+																<li>
+																	<a class="dropdown-item" href="{{ path('download_experimental_data_index') }}">Experimental</a>
+																</li>
+																<li>
+																	<a class="dropdown-item" href="">Germplasm</a>
+																</li>
+																<li>
+																	<a class="dropdown-item" href="">Phenotyping</a>
+																</li>
+																<li>
+																	<a class="dropdown-item" href="">Genotyping</a>
+																</li>
+															</ul>
+														</li>
+														{# <li>
+															<a class="dropdown-item" href="">Files &raquo;</a>
+															<ul class="dropdown-menu dropdown-submenu">
+																<li>
+																	<a class="dropdown-item" href="">...</a>
+																</li>
+																<li>
+																	<a class="dropdown-item" href="">...</a>
+																</li>
+															</ul>
+														</li> #}
+													</ul>
 												</li>
 
 												<li>

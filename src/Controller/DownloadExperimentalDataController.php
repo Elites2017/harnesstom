@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 // set a class level route
 /**
- * @Route("/download/data", name="download_data_")
+ * @Route("/download/experimental", name="download_experimental_data_")
  */
 class DownloadExperimentalDataController extends AbstractController
 {
@@ -361,9 +361,12 @@ class DownloadExperimentalDataController extends AbstractController
             return $response;
         }
 
-        return $this->render('download_experimental_data/index.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        $context = [
+            'title' => 'Experimental Data Download',
+            'form' => $form->createView()
+        ];
+
+        return $this->render('download_experimental_data/index.html.twig', $context);
     }
     
 }
