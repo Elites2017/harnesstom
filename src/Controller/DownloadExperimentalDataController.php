@@ -145,7 +145,7 @@ class DownloadExperimentalDataController extends AbstractController
 
 
         // get the studies
-        $studies = $this->studyRepo->findAll();
+        $studies = $this->studyRepo->getPublicReleasedData();
         // sheet 3
         $studiesSheet = $spreadsheet->createSheet(2)->setTitle("Studies");
 
@@ -197,7 +197,7 @@ class DownloadExperimentalDataController extends AbstractController
 
 
         // get the samples
-        $samples = $this->sampleRepo->findAll();
+        $samples = $this->sampleRepo->getPublicReleasedData();
         // sheet 4
         $samplesSheet = $spreadsheet->createSheet(3)->setTitle("Samples");
 
@@ -239,7 +239,7 @@ class DownloadExperimentalDataController extends AbstractController
 
         
         // get the observation levels
-        $observationLevels = $this->observationLevelRepo->findAll();
+        $observationLevels = $this->observationLevelRepo->getPublicReleasedData();
         // sheet 5
         $observationLevelsSheet = $spreadsheet->createSheet(4)->setTitle("Observation Levels");
 
