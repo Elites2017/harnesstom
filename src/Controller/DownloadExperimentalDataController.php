@@ -124,19 +124,19 @@ class DownloadExperimentalDataController extends AbstractController
 
         // Add data for each column
         $trialsColValues = [];
-        foreach ($trials as $key => $oneTrial) {
+        foreach ($trials as $key => $one) {
             # code...
             $trialsColValues [] = [
-                $oneTrial->getName(),
-                $oneTrial->getDescription(),
-                $oneTrial->getAbbreviation(),
-                $oneTrial->getStartDate(),
-                $oneTrial->getEndDate(),
-                $oneTrial->getPublicReleaseDate(),
-                $oneTrial->getLicense(),
-                $oneTrial->getPui(),
-                $oneTrial->getPublicationReference() ? $oneTrial->getPublicationReference()[0] : '',
-                $oneTrial->getProgram() ? $oneTrial->getProgram()->getAbbreviation() : ''
+                $one->getName(),
+                $one->getDescription(),
+                $one->getAbbreviation(),
+                $one->getStartDate(),
+                $one->getEndDate(),
+                $one->getPublicReleaseDate(),
+                $one->getLicense(),
+                $one->getPui(),
+                $one->getPublicationReference() ? implode('; ', $one->getPublicationReference()) : '',
+                $one->getProgram() ? $one->getProgram()->getAbbreviation() : ''
             ]; 
         }
 

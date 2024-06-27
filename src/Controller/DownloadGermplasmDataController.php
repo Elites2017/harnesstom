@@ -229,7 +229,7 @@ class DownloadGermplasmDataController extends AbstractController
                 $one->getInstitute() ? $one->getInstitute()->getAcronym() : '',
                 $one->getBreedingMethod() ? $one->getBreedingMethod()->getOntologyId() : '',
                 $one->getStudy() ? $one->getStudy()->getAbbreviation() : '',
-                $one->getPublicationReference() ? $one->getPublicationReference()[0] : ''
+                $one->getPublicationReference() ? implode('; ', $one->getPublicationReference()) : ''
             ]; 
         }
         
@@ -321,7 +321,7 @@ class DownloadGermplasmDataController extends AbstractController
                 $one->getAbbreviation(),
                 $one->getDescription(),
                 $one->getCategory() ? $one->getCategory()->getOntologyId() : '',
-                $one->getPublicationReference() ? $one->getPublicationReference()[0] : ''
+                $one->getPublicationReference() ? implode('; ', $one->getPublicationReference()) : ''
             ]; 
         }
         
@@ -359,7 +359,7 @@ class DownloadGermplasmDataController extends AbstractController
                 $one->getTrait() ? $one->getTrait()->getOntologyId() : '',
                 $one->getValue(),
                 $one->getMetabolicTrait() ? $one->getMetabolicTrait()->getOntologyId() : '',
-                $one->getPublicationReference() ? $one->getPublicationReference()[0] : ''
+                $one->getPublicationReference() ? implode('; ', $one->getPublicationReference()) : ''
             ]; 
         }
 
@@ -441,7 +441,7 @@ class DownloadGermplasmDataController extends AbstractController
                 $one->getMappingPopulationCross() ? $one->getMappingPopulationCross()->getName() : '',
                 $one->getMappingPopulationCross() ? $one->getMappingPopulationCross()->getYear() : '',
                 $one->getPedigreeGeneration() ? $one->getPedigreeGeneration()->getOntologyId() : '',
-                $one->getPublicationRef() ? $one->getPublicationRef()[0] : ''
+                $one->getPublicationRef() ? implode('; ', $one->getPublicationRef()) : ''
             ]; 
         }
         
