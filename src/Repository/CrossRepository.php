@@ -22,6 +22,23 @@ class CrossRepository extends ServiceEntityRepository
         parent::__construct($registry, Cross::class);
     }
 
+    // to download publicly release trial associated data
+    public function getPublicReleasedData()
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('cr')
+            ->from('App\Entity\Study', 'st')    
+            ->from('App\Entity\Trial', 'tr')
+            ->andWhere('cr.study = st.id')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     public function findReleasedTrialStudyCross($user = null)
     {
         // MySQL format

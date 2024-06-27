@@ -22,6 +22,25 @@ class MappingPopulationRepository extends ServiceEntityRepository
         parent::__construct($registry, MappingPopulation::class);
     }
 
+    // to download publicly release trial associated data
+    public function getPublicReleasedData()
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('mp')
+            ->from('App\Entity\Cross', 'cr')
+            ->from('App\Entity\Study', 'st')    
+            ->from('App\Entity\Trial', 'tr')
+            ->andWhere('mp.mappingPopulationCross = cr.id')
+            ->andWhere('cr.study = st.id')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     public function findReleasedTrialStudyCrossMappingPop($user = null)
     {
         // MySQL format

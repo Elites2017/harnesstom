@@ -192,7 +192,7 @@ class DownloadGermplasmDataController extends AbstractController
 
 
         // get the crosses
-        $crosses = $this->crossRepo->findAll();
+        $crosses = $this->crossRepo->getPublicReleasedData();
         // sheet 3
         $crossesSheet = $spreadsheet->createSheet(2)->setTitle("Crosses");
 
@@ -402,7 +402,7 @@ class DownloadGermplasmDataController extends AbstractController
 
 
         // get the collecting missions
-        $mappingPopulations = $this->mappingPopRepo->findAll();
+        $mappingPopulations = $this->mappingPopRepo->getPublicReleasedData();
         // sheet 8
         $mappingPopulationsSheet = $spreadsheet->createSheet(9)->setTitle("Mapping Populations");
 
