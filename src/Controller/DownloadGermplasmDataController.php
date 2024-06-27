@@ -389,7 +389,7 @@ class DownloadGermplasmDataController extends AbstractController
         foreach ($pedigrees as $key => $one) {
             # code...
             $pedigreesColValues [] = [
-                $one->getPedigreeAncestorEntryId() ? $one->getPedigreeAncestorEntryId() : '',
+                $one->getPedigreeEntryID(),
                 $one->getGermplasm()[0] ? $one->getGermplasm()[0]->getGermplasmID() : '',
                 $one->getGeneration() ? $one->getGeneration()->getOntologyId() : '',
                 $one->getPedigreeAncestorEntryId() ? $one->getPedigreeAncestorEntryId()->getPedigreeEntryID() : '',
