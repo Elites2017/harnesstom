@@ -177,7 +177,7 @@ class DownloadPhenotypicDataController extends AbstractController
 
 
         // get the observation values
-        $observationValues = $this->obsValOriginalRepo->findAll();
+        $observationValues = $this->obsValOriginalRepo->getPublicReleasedData();
         // sheet 4
         $observationValuesSheet = $spreadsheet->createSheet(3)->setTitle("Observation Values");
 

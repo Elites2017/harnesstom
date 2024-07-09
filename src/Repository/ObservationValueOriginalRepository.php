@@ -22,6 +22,25 @@ class ObservationValueOriginalRepository extends ServiceEntityRepository
         parent::__construct($registry, ObservationValueOriginal::class);
     }
 
+    // to download publicly release trial associated data
+    public function getPublicReleasedData()
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('obsValOri')
+            ->from('App\Entity\ObservationLevel', 'obsL')    
+            ->from('App\Entity\Study', 'st')    
+            ->from('App\Entity\Trial', 'tr')
+            ->andWhere('obsValOri.unitName = obsL.id')
+            ->andWhere('obsL.study = st.id')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     public function findReleasedTrialStudyObsLevelObsValues($user = null)
     {
         // MySQL format
