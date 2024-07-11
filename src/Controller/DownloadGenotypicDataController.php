@@ -91,10 +91,17 @@ class DownloadGenotypicDataController extends AbstractController
         // Allow extra columns call
         $this->allowExtraColumn($markersColumnNames, $markersSheet);
 
+        // for collection to array
+        $colToArr = [];
         // Add data for each column
         $markersColValues = [];
         foreach ($markers as $key => $one) {
             # code...
+            // for the collections to array
+            foreach ($one->getMarkerSynonyms() as $oneSynonym) {
+                # code...
+                $colToArr [] = $oneSynonym->getMarkerName();
+            }
             $markersColValues [] = [
                                 $one->getName(),
                                 $one->getType(),
@@ -109,8 +116,9 @@ class DownloadGenotypicDataController extends AbstractController
                                 $one->getPrimerName2(),
                                 $one->getPrimerSeq2(),
                                 $one->getGenotypingPlatform() ? $one->getGenotypingPlatform()->getName() : '',
-                                //$one->getMarkerSynonyms(),
-                            ]; 
+                                $colToArr ? implode('; ', $colToArr) : '',
+                            ];
+            $colToArr = []; 
         }
         
         // cell filling marker sheet call
