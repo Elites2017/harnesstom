@@ -22,6 +22,23 @@ class ObservationLevelRepository extends ServiceEntityRepository
         parent::__construct($registry, ObservationLevel::class);
     }
 
+    // to download publicly release trial associated data
+    public function getPublicReleasedData()
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('obsL')
+            ->from('App\Entity\Study', 'st')    
+            ->from('App\Entity\Trial', 'tr')
+            ->Where('obsL.study = st.id')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     public function findReleasedTrialStudyObsLevel($user = null)
     {
         // MySQL format
@@ -100,7 +117,7 @@ class ObservationLevelRepository extends ServiceEntityRepository
             ->join('App\Entity\Trial', 'tr')
             ->join('App\Entity\Study', 'st')
             ->where('germ.isActive = 1')
-            ->andWhere('obsL.germaplasm = germ.id')
+            ->andWhere('obsL.germplasm = germ.id')
             ->andWhere('obsL.study = st.id')
             ->andWhere('st.trial = tr.id');
         
@@ -111,7 +128,7 @@ class ObservationLevelRepository extends ServiceEntityRepository
             ->join('App\Entity\Trial', 'tr')
             ->join('App\Entity\Study', 'st')
             ->where('germ.isActive = 1')
-            ->andWhere('obsL.germaplasm = germ.id')
+            ->andWhere('obsL.germplasm = germ.id')
             ->andWhere('obsL.study = st.id')
             ->andWhere('st.trial = tr.id');
         

@@ -230,7 +230,7 @@ class ObservationLevelController extends AbstractController
                             //code...
                             $observationLevelGermplasm = $entmanager->getRepository(Germplasm::class)->findOneBy(['germplasmID' => $germplasmID]);
                             if (($observationLevelGermplasm != null) && ($observationLevelGermplasm instanceof \App\Entity\Germplasm)) {
-                                $observationLevel->setGermaplasm($observationLevelGermplasm);
+                                $observationLevel->setGermplasm($observationLevelGermplasm);
                             }
                         } catch (\Throwable $th) {
                             //throw $th;

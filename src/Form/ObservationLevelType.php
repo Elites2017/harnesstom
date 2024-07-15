@@ -41,7 +41,7 @@ class ObservationLevelType extends AbstractType
             ->add('unitCoordinateY')
             ->add('unitCoordinateXType')
             ->add('unitCoordinateYType')
-            ->add('germaplasm', DatalistType::class, [
+            ->add('germplasm', DatalistType::class, [
                 'class' => Germplasm::class,
                 'help_html' => true,
                 'placeholder' => '',

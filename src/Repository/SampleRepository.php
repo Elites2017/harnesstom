@@ -22,6 +22,23 @@ class SampleRepository extends ServiceEntityRepository
         parent::__construct($registry, Sample::class);
     }
 
+    // to download publicly release trial associated data
+    public function getPublicReleasedData()
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('spl')
+            ->from('App\Entity\Study', 'st')    
+            ->from('App\Entity\Trial', 'tr')
+            ->Where('spl.study = st.id')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     public function findReleasedTrialStudySample($user = null)
     {
         // MySQL format

@@ -111,8 +111,8 @@ class BrapiController extends AbstractController
                     } 
                     $obsUnitsAndValues[] = [
                         "obsValuesByUnit" => $obsValuesByUnit,
-                        "germplasmName" => $oneObsLevel->getGermaplasm()->getAccession()->getAccename(),
-                        "germplasmId" => $oneObsLevel->getGermaplasm()->getAccession()->getId(),
+                        "germplasmName" => $oneObsLevel->getGermplasm()->getAccession()->getAccename(),
+                        "germplasmId" => $oneObsLevel->getGermplasm()->getAccession()->getId(),
                         "unitName" => $oneObsLevel->getUnitname(),
                     ]; 
                 }
@@ -228,8 +228,8 @@ class BrapiController extends AbstractController
                         } 
                         $obsUnitsAndValues[] = [
                             "obsValuesByUnit" => $obsValuesByUnit,
-                            "germplasmName" => $oneObsLevel->getGermaplasm()->getAccession()->getAccename(),
-                            "germplasmId" => $oneObsLevel->getGermaplasm()->getAccession()->getId(),
+                            "germplasmName" => $oneObsLevel->getGermplasm()->getAccession()->getAccename(),
+                            "germplasmId" => $oneObsLevel->getGermplasm()->getAccession()->getId(),
                             "unitName" => $oneObsLevel->getUnitname(),
                             "studySelected" => $studySelected,
                         ]; 
