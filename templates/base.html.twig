@@ -121,7 +121,7 @@
 							<h6 class="collapse-header">Overview:</h6>
 							<a class="collapse-item" href="{{path('data_submission_index')}}">Guide</a>
 							<a class="collapse-item" href="{{path('data_submission_new')}}">Bulk Data Request</a>
-							
+							<a class="collapse-item" href="{{ path('data_submission_download_template') }}">Download Template</a>
 							<ul class="collapse-item dropdown-menu shadow animated--grow-in dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
 								
 								<li>
@@ -563,6 +563,9 @@
 													<ul class="dropdown-menu dropdown-submenu" aria-labelledby="navbarDropdownMenuLink">
 														<li>
 															<a class="dropdown-item" href="{{path('data_submission_new')}}">New Request</a>
+														</li>
+														<li>
+															<a class="dropdown-item" href="{{path('data_submission_download_template')}}">Download Template</a>
 														</li>
 													</ul>
 												</li>

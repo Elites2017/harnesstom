@@ -137,8 +137,8 @@ class DataSubmissionController extends AbstractController
      */
     public function downloadTemplate(): Response
     {
-        $response = new BinaryFileResponse('../public/todownload/harnesstom_database_templates_20221028.xlsx');
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'harnesstom_database_templates_20221028.xlsx');
+        $response = new BinaryFileResponse('../public/todownload/harnesstom_database_templates20230405.xlsx');
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'harnesstom_database_templates20230405.xlsx');
         return $response;
        
     }
