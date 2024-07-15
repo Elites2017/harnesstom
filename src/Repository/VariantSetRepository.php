@@ -22,6 +22,25 @@ class VariantSetRepository extends ServiceEntityRepository
         parent::__construct($registry, VariantSet::class);
     }
 
+    // to download publicly release trial associated data
+    public function getPublicReleasedData()
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('vs')
+            ->from('App\Entity\Sample', 'spl')
+            ->from('App\Entity\Study', 'st')    
+            ->from('App\Entity\Trial', 'tr')
+            ->andWhere('vs.sample = spl.id')
+            ->andWhere('spl.study = st.id')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     public function findReleasedTrialStudySampleVariantSet($user = null)
     {
         // MySQL format

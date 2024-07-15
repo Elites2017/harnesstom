@@ -21,6 +21,23 @@ class QTLStudyRepository extends ServiceEntityRepository
         $this->swRepo = $swRepo;
         parent::__construct($registry, QTLStudy::class);
     }
+    
+    // to download publicly release trial associated data
+    public function getPublicReleasedData()
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('qtlS')
+            ->from('App\Entity\Study', 'st')    
+            ->from('App\Entity\Trial', 'tr')
+            ->where('st MEMBER OF qtlS.studyList')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+        return $query->getQuery()->getResult();
+    }
 
     public function findReleasedTrialStudyQTLS($user = null)
     {

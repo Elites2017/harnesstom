@@ -363,9 +363,12 @@
 					</a>
 					<div id="collapseDownload" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 						<div class="bg-white py-2 collapse-inner rounded">
-							<h6 class="collapse-header">Overview:</h6>
-							<a class="collapse-item" href="#">1</a>
-							<a class="collapse-item" href="#">2</a>
+							<h6 class="collapse-header">Data:</h6>
+							<a class="collapse-item" href="{{ path('download_experimental_data_index') }}">Experimental</a>
+							<a class="collapse-item" href="{{ path('download_germplasm_data_index') }}">Germplasm</a>
+							<a class="collapse-item" href="{{ path('download_phenotypic_data_index') }}">Phenotyping</a>
+							<a class="collapse-item" href="{{ path('download_genotypic_data_index') }}">Genotyping</a>
+							<a class="collapse-item" href="{{ path('download_variant_data_index') }}">Variant</a>
 						</div>
 					</div>
 				</li>
@@ -563,10 +566,44 @@
 														</li>
 													</ul>
 												</li>
+
 												<li>
 													<a class="dropdown-item" href="#">
 														Download &raquo;
 													</a>
+													<ul class="dropdown-menu dropdown-submenu">
+														<li>
+															<a class="dropdown-item" href="">Data &raquo;</a>
+															<ul class="dropdown-menu dropdown-submenu">
+																<li>
+																	<a class="dropdown-item" href="{{ path('download_experimental_data_index') }}">Experimental</a>
+																</li>
+																<li>
+																	<a class="dropdown-item" href="{{ path('download_germplasm_data_index') }}">Germplasm</a>
+																</li>
+																<li>
+																	<a class="dropdown-item" href="{{ path('download_phenotypic_data_index') }}">Phenotyping</a>
+																</li>
+																<li>
+																	<a class="dropdown-item" href="{{ path('download_genotypic_data_index') }}">Genotyping</a>
+																</li>
+																<li>
+																	<a class="dropdown-item" href="{{ path('download_variant_data_index') }}">Variant</a>
+																</li>
+															</ul>
+														</li>
+														{# <li>
+															<a class="dropdown-item" href="">Files &raquo;</a>
+															<ul class="dropdown-menu dropdown-submenu">
+																<li>
+																	<a class="dropdown-item" href="">...</a>
+																</li>
+																<li>
+																	<a class="dropdown-item" href="">...</a>
+																</li>
+															</ul>
+														</li> #}
+													</ul>
 												</li>
 
 												<li>
