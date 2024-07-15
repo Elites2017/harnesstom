@@ -10,7 +10,7 @@
                 {{ choice.label }}
             </option>
         {% endfor %}
-    <input type="hidden" name="observation_level[germaplasm]" id="observation_level_germaplasm_hidden">
+    <input type="hidden" name="observation_level[germplasm]" id="observation_level_germaplasm_hidden">
     </datalist>
 {% endblock %}
 
@@ -108,7 +108,7 @@
 
 							<div class="row">
 								<div class="col-md-6 mb-3">
-									{{ form_row(observationLevelForm.germaplasm, {label: "Germplasm", 'attr': {'placeholder' : 'Select the germplasm',
+									{{ form_row(observationLevelForm.germplasm, {label: "Germplasm", 'attr': {'placeholder' : 'Select the germplasm',
 													'class': "custom-select d-block w-100"}}) }}
 								</div>
 

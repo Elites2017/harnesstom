@@ -93,7 +93,7 @@ class Germplasm
     private $crosses;
 
     /**
-     * @ORM\OneToMany(targetEntity=ObservationLevel::class, mappedBy="germaplasm")
+     * @ORM\OneToMany(targetEntity=ObservationLevel::class, mappedBy="germplasm")
      * @Groups({"study:read", "germplasm:read"})
      */
     private $observationLevels;
@@ -366,7 +366,7 @@ class Germplasm
     {
         if (!$this->observationLevels->contains($observationLevel)) {
             $this->observationLevels[] = $observationLevel;
-            $observationLevel->setGermaplasm($this);
+            $observationLevel->setGermplasm($this);
         }
 
         return $this;
@@ -376,8 +376,8 @@ class Germplasm
     {
         if ($this->observationLevels->removeElement($observationLevel)) {
             // set the owning side to null (unless already changed)
-            if ($observationLevel->getGermaplasm() === $this) {
-                $observationLevel->setGermaplasm(null);
+            if ($observationLevel->getGermplasm() === $this) {
+                $observationLevel->setGermplasm(null);
             }
         }
 
