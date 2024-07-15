@@ -48,7 +48,7 @@ class QTLStudyRepository extends ServiceEntityRepository
             ->from('App\Entity\Study', 'st')    
             ->from('App\Entity\Trial', 'tr')
             ->where('qtlS.isActive = 1')
-            ->andWhere('qtlS.studyList = st.id')
+            ->andWhere('st MEMBER OF qtlS.studyList')
             ->andWhere('st.trial = tr.id')
             ->andWhere('tr.publicReleaseDate <= :currentDate')
             ->setParameter(':currentDate', $currentDate)
@@ -63,7 +63,7 @@ class QTLStudyRepository extends ServiceEntityRepository
                 $query->orWhere(
                         $query->expr()->andX(
                             'tr.createdBy = :user',
-                            'qtlS.studyList = st.id',
+                            'st MEMBER OF qtlS.studyList',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate'))
                         ->setParameter(':user', $user->getId())
@@ -76,7 +76,7 @@ class QTLStudyRepository extends ServiceEntityRepository
                 $query->from('App\Entity\SharedWith', 'sw')
                     ->orWhere(
                         $query->expr()->andX(
-                            'qtlS.studyList = st.id',
+                            'st MEMBER OF qtlS.studyList',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate',
                             'sw.user = :user',
@@ -85,7 +85,7 @@ class QTLStudyRepository extends ServiceEntityRepository
                     ->orWhere(
                         $query->expr()->andX(
                             'tr.createdBy = :user',
-                            'qtlS.studyList = st.id',
+                            'st MEMBER OF qtlS.studyList',
                             'st.trial = tr.id',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate'))

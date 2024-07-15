@@ -36,19 +36,19 @@ class QTLStudyController extends AbstractController
      */
     public function index(QTLStudyRepository $qtlStudyRepo): Response
     {
-        $qtlStudies = $qtlStudyRepo->findAll();
-        // if($this->getUser()) {
-        //     $userRoles = $this->getUser()->getRoles();
-        //     $adm = "ROLE_ADMIN";
-        //     $res = array_search($adm, $userRoles);
-        //     if ($res !== false) {
-        //         $qtlStudies = $qtlStudyRepo->findAll();
-        //     } else {
-        //         $qtlStudies = $qtlStudyRepo->findReleasedTrialStudyQTLS($this->getUser());
-        //     }
-        // } else {
-        //     $qtlStudies = $qtlStudyRepo->findReleasedTrialStudyQTLS();
-        // }
+        $qtlStudies = [];
+        if($this->getUser()) {
+            $userRoles = $this->getUser()->getRoles();
+            $adm = "ROLE_ADMIN";
+            $res = array_search($adm, $userRoles);
+            if ($res !== false) {
+                $qtlStudies = $qtlStudyRepo->findAll();
+            } else {
+                $qtlStudies = $qtlStudyRepo->findReleasedTrialStudyQTLS($this->getUser());
+            }
+        } else {
+            $qtlStudies = $qtlStudyRepo->findReleasedTrialStudyQTLS();
+        }
         $context = [
             'title' => 'QTL Study',
             'qtlStudies' => $qtlStudies

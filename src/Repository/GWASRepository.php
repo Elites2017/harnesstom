@@ -48,7 +48,7 @@ class GWASRepository extends ServiceEntityRepository
             ->from('App\Entity\Study', 'st')    
             ->from('App\Entity\Trial', 'tr')
             ->where('gwas.isActive = 1')
-            ->andWhere('gwas.studyList = st.id')
+            ->andWhere('st MEMBER OF gwas.studyList')
             ->andWhere('st.trial = tr.id')
             ->andWhere('tr.publicReleaseDate <= :currentDate')
             ->setParameter(':currentDate', $currentDate)
@@ -63,7 +63,7 @@ class GWASRepository extends ServiceEntityRepository
                 $query->orWhere(
                         $query->expr()->andX(
                             'tr.createdBy = :user',
-                            'gwas.studyList = st.id',
+                            'st MEMBER OF gwas.studyList',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate'))
                         ->setParameter(':user', $user->getId())
@@ -76,7 +76,7 @@ class GWASRepository extends ServiceEntityRepository
                 $query->from('App\Entity\SharedWith', 'sw')
                     ->orWhere(
                         $query->expr()->andX(
-                            'gwas.studyList = st.id',
+                            'st MEMBER OF gwas.studyList',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate',
                             'sw.user = :user',
@@ -85,7 +85,7 @@ class GWASRepository extends ServiceEntityRepository
                     ->orWhere(
                         $query->expr()->andX(
                             'tr.createdBy = :user',
-                            'gwas.studyList = st.id',
+                            'st MEMBER OF gwas.studyList',
                             'st.trial = tr.id',
                             'st.trial = tr.id',
                             'tr.publicReleaseDate >= :currentDate'))
