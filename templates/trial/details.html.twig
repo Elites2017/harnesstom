@@ -126,7 +126,15 @@
 									<label for="validationTooltip01">Publication Reference: </label>
                                     {% if trial.publicationReference %}
                                         {% for one in trial.publicationReference %}
-                                            </br><span class="tomato-color font-weight-bold">{{ loop.index }}) - {{ one }}</span> 
+                                            </br>
+                                            <span class="tomato-color font-weight-bold">
+                                                {{ loop.index }}) - 
+                                                {% if one starts with 'http' %}
+                                                    <a href="{{ one }}" target="_blank"> {{ one }} </a>
+                                                {% else %}
+                                                    <a href="//{{ one }}" target="_blank"> {{ one }} </a>
+                                                {% endif %}
+                                            </span> 
                                         {% endfor %}
                                     {% endif %}
 								</div>
