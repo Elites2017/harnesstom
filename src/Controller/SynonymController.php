@@ -189,13 +189,13 @@ class SynonymController extends AbstractController
             $sheetData = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
             // loop over the array to get each row
             foreach ($sheetData as $key => $row) {
-                $accessionMaintainerNumber = $row['A'];
+                $accessionNumber = $row['A'];
                 $synonymSource = $row['B'];
                 $synonymId = $row['C'];
                 // check if the file doesn't have empty columns
-                if ($accessionMaintainerNumber != null && $synonymSource != null && $synonymId != null) {
+                if ($accessionNumber != null && $synonymSource != null && $synonymId != null) {
                     // check if the given accession matches any accession in the db
-                    $synonymAccession = $entmanager->getRepository(Accession::class)->findOneBy(['maintainernumb' => $accessionMaintainerNumber]);
+                    $synonymAccession = $entmanager->getRepository(Accession::class)->findOneBy(['accenumb' => $accessionNumber]);
                     if (($synonymAccession != null) && ($synonymAccession instanceof \App\Entity\Accession)) {
                        
                         // check if the data is upload in the database
@@ -212,7 +212,7 @@ class SynonymController extends AbstractController
                                 $synonym->setAccession($synonymAccession);
                             } catch (\Throwable $th) {
                                 //throw $th;
-                                $this->addFlash('danger', " there is a problem with the accession number " .$accessionMaintainerNumber);
+                                $this->addFlash('danger', " there is a problem with the accession number " .$accessionNumber);
                             }
 
                             try {
@@ -245,7 +245,7 @@ class SynonymController extends AbstractController
                         }
 
                     } else {
-                        $this->addFlash('danger', " the accession maintainer number ".$accessionMaintainerNumber." does not match any accession in our database");
+                        $this->addFlash('danger', " the accession maintainer number ".$accessionNumber." does not match any accession in our database");
                     }
 
                     
