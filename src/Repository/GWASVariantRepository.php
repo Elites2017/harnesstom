@@ -27,6 +27,25 @@ class GWASVariantRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    // to download publicly release trial associated data
+    public function getPublicReleasedData()
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('gwasV')
+            ->from('App\Entity\GWAS', 'gwas')
+            ->from('App\Entity\Study', 'st')    
+            ->from('App\Entity\Trial', 'tr')
+            ->where('gwasV.gwas = gwas.id')
+            ->andWhere('st MEMBER OF gwas.studyList')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // for bootstrap datatable server-side processing
     public function getObjectsList($start, $length, $orders, $search, $columns)
     {

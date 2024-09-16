@@ -187,7 +187,7 @@ class DownloadVariantDataController extends AbstractController
 
 
         // get the qtl variants
-        $qtlVariants = $this->qtlVariantRepo->findAll();
+        $qtlVariants = $this->qtlVariantRepo->getPublicReleasedData();
         // sheet 3
         $qtlVariantsSheet = $spreadsheet->createSheet(2)->setTitle("QTL Variants");
 
@@ -263,7 +263,7 @@ class DownloadVariantDataController extends AbstractController
 
 
         // get the gwas variant
-        $gwasVariant = $this->gwasVariantRepo->findAll();
+        $gwasVariant = $this->gwasVariantRepo->getPublicReleasedData();
         // sheet 4
         $gwasVariantSheet = $spreadsheet->createSheet(3)->setTitle("GWAS Variants");
 
@@ -331,7 +331,7 @@ class DownloadVariantDataController extends AbstractController
 
 
         // get the qtl epistasis effect
-        $qtlEpistasis = $this->qtlEpistasisRepo->findAll();
+        $qtlEpistasis = $this->qtlEpistasisRepo->getPublicReleasedData();
         // sheet 5
         $qtlEpistasisSheet = $spreadsheet->createSheet(4)->setTitle("QTL Epistasis Effect");
 

@@ -27,6 +27,25 @@ class QTLVariantRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    // to download publicly release trial associated data
+    public function getPublicReleasedData()
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('qtlV')
+            ->from('App\Entity\QTLStudy', 'qtlS')
+            ->from('App\Entity\Study', 'st')    
+            ->from('App\Entity\Trial', 'tr')
+            ->where('qtlV.qtlStudy = qtlS.id')
+            ->andWhere('st MEMBER OF qtlS.studyList')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // for bootstrap datatable server-side processing
     public function getObjectsList($start, $length, $orders, $search, $columns)
     {
