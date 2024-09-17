@@ -117,6 +117,7 @@ class AccessionType extends AbstractType
             ->add('origcty', DatalistType::class, [
                 'class' => Country::class,
                 'placeholder' => 'Select a country',
+                'help_html' => true,
                 'help' => 'Add a new <a href="' . $toUrlCountry .'" target="_blank">Country</a>',
                 'choice_value' => 'iso3',
                 'query_builder' => function() {
