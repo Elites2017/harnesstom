@@ -1798,7 +1798,7 @@ class AccessionRepository extends ServiceEntityRepository
     // species are taxon used in an accession
     public function getSpecies() {
         $query = $this->createQueryBuilder('acc')
-            ->select('DISTINCT tx.taxonid, tx.species, tx.genus, tx.subtaxa')
+            ->select('tx.taxonid, tx.species, tx.genus, tx.subtaxa')
             ->join('App\Entity\Taxonomy', 'tx')
             ->where('acc.taxon = tx.id')
             ->orderBy('tx.species', 'ASC')
