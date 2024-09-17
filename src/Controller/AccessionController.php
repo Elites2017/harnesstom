@@ -140,6 +140,19 @@ class AccessionController extends AbstractController
         //return $this->redirect($this->generateUrl('season_home'));
     }
 
+    /**
+     * @Route("/species/", name="species")
+     */
+    public function retrieveSpecies(AccessionRepository $accessionRepo): Response
+    {
+        $species =  $accessionRepo->getSpecies();
+        $context = [
+            'title' => 'Species',
+            'species' => $species,
+        ];
+        return $this->render('accession/species.html.twig', $context);
+    }
+
     // this is to upload data in bulk using an excel file
     /**
      * @Route("/upload-from-excel", name="upload_from_excel")

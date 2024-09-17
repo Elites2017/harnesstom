@@ -1667,17 +1667,17 @@ class AccessionRepository extends ServiceEntityRepository
                 bs.id as bs_id, bs.name as bs_name, mls.id as mls_id, mls.name as mls_name, inst.id as inst_id,
                 inst.instcode as inst_instcode, acc.maintainernumb, tx.id as tx_id, tx.taxonid as taxonid'
                 )
-            ->join('App\Entity\Country', 'ctry')
-            ->join('App\Entity\BiologicalStatus', 'bs')
-            ->join('App\Entity\MLSStatus', 'mls')
-            ->join('App\Entity\Institute', 'inst')
-            ->join('App\Entity\Taxonomy', 'tx')
-            ->where('acc.isActive = 1')
-            ->andWhere('acc.sampstat = bs.id')
-            ->andWhere('acc.mlsStatus = mls.id')
-            ->andWhere('acc.origcty = ctry.id')
-            ->andWhere('acc.taxon = tx.id')
-            ->andWhere('acc.instcode = inst.id');
+                ->join('App\Entity\Country', 'ctry')
+                ->join('App\Entity\BiologicalStatus', 'bs')
+                ->join('App\Entity\MLSStatus', 'mls')
+                ->join('App\Entity\Institute', 'inst')
+                ->join('App\Entity\Taxonomy', 'tx')
+                ->where('acc.isActive = 1')
+                ->andWhere('acc.sampstat = bs.id')
+                ->andWhere('acc.mlsStatus = mls.id')
+                ->andWhere('acc.origcty = ctry.id')
+                ->andWhere('acc.taxon = tx.id')
+                ->andWhere('acc.instcode = inst.id');
         
         // Create Count Query
         $countQuery = $this->createQueryBuilder('acc');
@@ -1792,6 +1792,18 @@ class AccessionRepository extends ServiceEntityRepository
             "countResult" => $countResult
         ];
         return $rawDatatable;
+    }
+
+    // to retrieve the species
+    // species are taxon used in an accession
+    public function getSpecies() {
+        $query = $this->createQueryBuilder('acc')
+            ->select('DISTINCT tx.taxonid, tx.species, tx.genus, tx.subtaxa')
+            ->join('App\Entity\Taxonomy', 'tx')
+            ->where('acc.taxon = tx.id')
+            ->orderBy('tx.species', 'ASC')
+        ;
+        return $query->getQuery()->getArrayResult();
     }
 
     // /**
