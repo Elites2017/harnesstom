@@ -19,6 +19,29 @@ class QTLEpistasisEffectRepository extends ServiceEntityRepository
         parent::__construct($registry, QTLEpistasisEffect::class);
     }
 
+    // to download publicly release trial associated data
+    public function getPublicReleasedData()
+    {
+        // MySQL format
+        $currentDate = date('Y-m-d');
+        $currentDate = new \DateTime($currentDate);
+        $query = $this->createQueryBuilder('qtlEpi')
+            ->from('App\Entity\QTLVariant', 'qtlV1')
+            ->from('App\Entity\QTLVariant', 'qtlV2')
+            ->from('App\Entity\QTLStudy', 'qtlS')
+            ->from('App\Entity\Study', 'st')    
+            ->from('App\Entity\Trial', 'tr')
+            ->where('qtlEpi.qtlVariant1 = qtlV1.id')
+            ->andWhere('qtlEpi.qtlVariant2 = qtlV2.id')
+            ->andWhere('qtlV1.qtlStudy = qtlS.id')
+            ->andWhere('st MEMBER OF qtlS.studyList')
+            ->andWhere('st.trial = tr.id')
+            ->andWhere('tr.publicReleaseDate <= :currentDate')
+            ->setParameter(':currentDate', $currentDate)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return QTLEpistasisEffect[] Returns an array of QTLEpistasisEffect objects
     //  */
