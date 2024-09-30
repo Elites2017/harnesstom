@@ -153,6 +153,28 @@ class AccessionController extends AbstractController
         return $this->render('accession/species.html.twig', $context);
     }
 
+    /**
+     * @Route("/statistics", name="statistics")
+     */
+    public function stats(AccessionRepository $accessionRepo): Response
+    {
+        $accessions =  $accessionRepo->findAll();
+        $arr = [];
+        foreach ($accessions as $one) {
+            # code...
+            $arr [] = [
+                "id" => $one->getId(),
+                "name" => $one->getAccename()
+            ];
+        }
+        return $this->json($arr);
+        // $context = [
+        //     'title' => 'Accession List',
+        //     'accessions' => $accessions,
+        // ];
+        // return $this->render('accession/index.html.twig', $context);
+    }
+
     // this is to upload data in bulk using an excel file
     /**
      * @Route("/upload-from-excel", name="upload_from_excel")
