@@ -163,7 +163,9 @@ class AccessionController extends AbstractController
         foreach ($accessions as $one) {
             # code...
             $accessionsData [] = [
-                "taxon" => $one->getTaxon(),
+                "taxonId" => $one->getTaxon() ? $one->getTaxon()->getTaxonid() : null,
+                "genus" => $one->getTaxon() ? $one->getTaxon()->getGenus() : null,
+                "species" => $one->getTaxon() ? $one->getTaxon()->getSpecies() : null,
                 "accessionNumber" => $one->getAccenumb(),
                 "accessionName" => $one->getAccename(),
                 "accessionPUI" => $one->getPuid(),
