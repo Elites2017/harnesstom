@@ -159,20 +159,26 @@ class AccessionController extends AbstractController
     public function stats(AccessionRepository $accessionRepo): Response
     {
         $accessions =  $accessionRepo->findAll();
-        $arr = [];
+        $accessionsData = [];
         foreach ($accessions as $one) {
             # code...
-            $arr [] = [
-                "id" => $one->getId(),
-                "name" => $one->getAccename()
+            $accessionsData [] = [
+                "taxon" => $one->getTaxon(),
+                "accessionNumber" => $one->getAccenumb(),
+                "accessionName" => $one->getAccename(),
+                "accessionPUI" => $one->getPuid(),
+                "maintainerNumber" => $one->getMaintainernumb(),
+                "contryOfOrigin" => $one->getOrigcty() ? $one->getOrigcty()->getName() : null,
+                "biologicalStatus" => $one->getSampstat() ? $one->getSampstat()->getName() : null,
+                "mlsStatus" => $one->getMlsStatus() ? $one->getMlsStatus()->getName() : null,
+                "maintainingInstitute" => $one->getInstcode() ? $one->getInstcode()->getAcronym() : null,
+                "donorInstitute" => $one->getDonorcode() ? $one->getDonorcode()->getAcronym() : null,
+                "breedingInstitute" => $one->getBredcode() ? $one->getBredcode()->getAcronym() : null,
+                "collectingMission" => $one->getCollmissid() ? $one->getCollmissid()->getName() : null,
+                "collectingSource" => $one->getCollsrc() ? $one->getCollsrc()->getName() : null,
             ];
         }
-        return $this->json($arr);
-        // $context = [
-        //     'title' => 'Accession List',
-        //     'accessions' => $accessions,
-        // ];
-        // return $this->render('accession/index.html.twig', $context);
+        return $this->json($accessionsData);
     }
 
     // this is to upload data in bulk using an excel file
