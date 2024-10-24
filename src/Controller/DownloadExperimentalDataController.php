@@ -31,9 +31,11 @@ class DownloadExperimentalDataController extends AbstractController
     private $sampleRepo;
     private $observationLevelRepo;
 
+
     public function __construct(ProgramRepository $progRepo, TrialRepository $trialRepo,
                                 StudyRepository $studyRepo, SampleRepository $sampleRepo,
                                 ObservationLevelRepository $observationLevelRepo) {
+
         $this->progRepo = $progRepo;
         $this->trialRepo = $trialRepo;
         $this->studyRepo = $studyRepo;
@@ -320,6 +322,7 @@ class DownloadExperimentalDataController extends AbstractController
      */
     public function exportAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(DownloadDataType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

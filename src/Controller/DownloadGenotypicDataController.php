@@ -269,6 +269,7 @@ class DownloadGenotypicDataController extends AbstractController
      */
     public function exportAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $form = $this->createForm(DownloadDataType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
