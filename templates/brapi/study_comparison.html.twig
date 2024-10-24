@@ -50,10 +50,10 @@
 
                                 <div class="row">
                                     <div class="form-group col-md-6">
-                                        <label for="brapi-study">Study</label>
+                                        <label for="brapi-study">Study (You can select multiple studies)</label>
                                         <select id="brapi-study" name="studies" class="custom-select mr-sm-2" multiple>
                                             {% for study in observedStudies %}
-                                                <option value="{{ study.id }}">{{ study.id }} - {{ study.abbreviation }}</option>
+                                                <option value="{{ study.id }}">{{ study.abbreviation }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
